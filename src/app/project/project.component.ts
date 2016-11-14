@@ -5,7 +5,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 export interface Project {
   location: string;
   name: string;
-  dropoff: Object<string>;
+  dropoff: Map<string, string>;
 }
 
 @Component({
