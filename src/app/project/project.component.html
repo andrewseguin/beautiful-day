@@ -1,0 +1,9 @@
+{{project | async | json}}
+
+{{(project | async)?.name}}
+
+<div class="detail">
+  <strong>Name: </strong>
+  <md-input [ngModel]="(project | async)?.name"
+            (ngModelChange)="project.update({name: $event})"></md-input>
+</div>

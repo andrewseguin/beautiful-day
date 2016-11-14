@@ -1,0 +1,30 @@
+md-sidenav-layout {
+  height: 100vh;
+}
+
+.app-title {
+  padding-left: 16px;
+}
+
+md-toolbar {
+  background-color: rgb(1,87,155);
+  color: rgba(255,255,255,0.87);
+}
+
+button.toolbar-menu {
+  min-width: 0;
+  padding: 0 8px;
+}
+
+button.toolbar-menu md-icon {
+  font-size: 32px;
+  line-height: 32px;
+  height: 32px;
+  display: block;
+  width: 32px;
+  padding: 4px;
+}
+
+md-sidenav {
+  width: 250px;
+}

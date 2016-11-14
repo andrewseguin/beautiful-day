@@ -1,0 +1,13 @@
+<div class="logo"></div>
+
+<div class="app-title">Beautiful Day</div>
+
+<div class="section-title">Projects</div>
+<button md-button
+        class="project-link"
+        (click)="sidenav.close()"
+        routerLink="/project/{{item.$key}}"
+        routerLinkActive="active"
+        *ngFor="let item of items | async">
+  {{item.name}}
+</button>
