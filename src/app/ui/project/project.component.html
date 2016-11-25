@@ -1,0 +1,36 @@
+<md-sidenav-layout>
+  <md-sidenav #sidenav>
+    <nav-content [sidenav]="sidenav"></nav-content>
+  </md-sidenav>
+
+  <md-toolbar class="md-elevation-z1 project-toolbar">
+    <button md-button class="toolbar-menu" (click)="sidenav.open()">
+      <md-icon>menu</md-icon>
+    </button>
+
+    <div class="name">{{(project | async)?.name || 'Loading...'}}</div>
+
+    <nav class="project-nav">
+      <div class="project-link"
+           [routerLink] ="['details']"
+           routerLinkActive="active">
+        <span class="text"> Details </span>
+      </div>
+      <div class="project-link"
+           [routerLink]="['notes']"
+           routerLinkActive="active">
+        <span class="text"> Notes </span>
+      </div>
+      <div class="project-link"
+           [routerLink]="['requests']"
+           routerLinkActive="active">
+        <span class="text"> Requests </span>
+      </div>
+    </nav>
+  </md-toolbar>
+
+  <div class="project-router-outlet">
+    <router-outlet></router-outlet>
+  </div>
+
+</md-sidenav-layout>

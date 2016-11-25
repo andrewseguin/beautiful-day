@@ -4,9 +4,19 @@
 body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   margin: 0;
+  background-color: #F5F5F5;
 }
 
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Project notes codemirror styles */
+project-notes .CodeMirror {
+  height: auto;
+}
+
+project-notes .CodeMirror-code {
+  min-height: 300px;
 }

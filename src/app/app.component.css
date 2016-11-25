@@ -6,11 +6,6 @@ md-sidenav-layout {
   padding-left: 16px;
 }
 
-md-toolbar {
-  background-color: rgb(1,87,155);
-  color: rgba(255,255,255,0.87);
-}
-
 button.toolbar-menu {
   min-width: 0;
   padding: 0 8px;

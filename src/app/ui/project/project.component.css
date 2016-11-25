@@ -1,0 +1,52 @@
+md-sidenav-layout {
+  height: 100vh;
+}
+
+md-toolbar.project-toolbar {
+  background: #015486;
+  color: rgba(255,255,255,.9);
+  padding: 0;
+  margin-bottom: 16px;
+}
+
+md-toolbar .toolbar-menu {
+  padding: 0;
+  margin: 8px;
+  min-width: 0;
+  height: 48px;
+  width: 48px;
+}
+
+md-toolbar .name {
+  padding-right: 40px;
+}
+
+md-toolbar .project-nav {
+  height: 100%;
+  display: flex;
+}
+
+md-toolbar .project-nav .project-link {
+  font-size: 15px;
+  padding: 0 16px;
+  align-items: center;
+  display: flex;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+md-toolbar .project-nav .project-link:hover {
+  background: rgba(255,255,255,.05);
+}
+md-toolbar .project-nav .project-link:active {
+  background: rgba(255,255,255,.08);
+}
+md-toolbar .project-nav .project-link.active {
+  border-color: rgba(255,255,255,.8);
+  background: rgba(255,255,255,.1);
+  pointer-events: none;
+  font-weight: bold;
+}
+
+md-toolbar .project-nav .project-link .text {
+  padding-top: 6px;
+}
