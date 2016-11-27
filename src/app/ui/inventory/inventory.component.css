@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  padding: 8px;
+}
+
+.item-container {
+}
+
+.name {
+  display: inline-block;
+  width: 200px;
+}
+
+.category {
+  display: inline-block;
+}

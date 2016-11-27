@@ -1,0 +1,4 @@
+<div *ngFor="let item of items | async" class="item-container">
+  <div class="name">{{item.name}}</div>
+  <div class="category">{{(getCategory(item.category) | async)?.name}}</div>
+</div>

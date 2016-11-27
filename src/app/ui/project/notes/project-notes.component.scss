@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  padding-top: 16px;
+  justify-content: center;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  margin: 8px;
+}
+
+.editor {
+  flex-grow: 1;
+  margin: 8px;
+  padding: 16px;
+  background: white;
+  overflow: hidden;
+  max-width: 550px;
+
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 16px;
+  }
+}
+

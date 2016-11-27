@@ -1,0 +1,19 @@
+<span class="category">
+  {{(category | async)?.name}}
+</span>
+
+<span class="name">
+  {{(item | async)?.name}}
+</span>
+
+<span class="quantity">
+  {{request.quantity}}
+</span>
+
+<span class="dropoff" *ngIf="(project | async).dropoff">
+  {{(project | async).dropoff[request.dropoff]}}
+</span>
+
+<span class="notes">
+  some notes
+</span>

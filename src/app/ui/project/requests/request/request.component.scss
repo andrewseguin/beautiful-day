@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  border-bottom: 1px solid #CCC;
+  padding: 8px 16px;
+  flex-direction: row;
+  font-size: 13px;
+  color: #444;
+}
+
+:host > * {
+  width: 200px;
+}
+

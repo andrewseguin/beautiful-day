@@ -1,0 +1,52 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+md-sidenav-layout {
+  height: 100%;
+  background: #CCC;
+}
+
+.requests {
+  margin: 16px;
+  background: white;
+  font-size: 14px;
+
+  .title {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: 1px solid #CCC;
+    background: rgba(187,187,187,0.2);
+  }
+}
+
+.requests-header {
+  display: flex;
+  padding: 0 24px;
+  font-size: 14px;
+  align-items: center;
+  background: rgba(21, 133, 199, 0.8);
+  color: #FAFAFA;
+  height: 48px;
+
+  button.grouping-menu-button {
+    padding: 0 8px;
+    margin: 4px;
+    text-transform: capitalize;
+    min-width: 0;
+    &:hover::after {
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+
+    md-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}

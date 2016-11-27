@@ -1,0 +1,33 @@
+<md-sidenav-layout>
+  <div class="requests-header md-elevation-z1">
+
+    <div class="grouping-title">Group By:</div>
+
+    <button md-button class="grouping-menu-button" [md-menu-trigger-for]="groupingMenu">
+      {{grouping}} <md-icon>keyboard_arrow_down</md-icon>
+    </button>
+    <md-menu #groupingMenu="mdMenu">
+      <button class="grouping-option" md-menu-item
+              (click)="grouping = 'all'"> All </button>
+      <button class="grouping-option" md-menu-item
+              (click)="grouping = 'category'"> Category </button>
+      <button class="grouping-option" md-menu-item
+              (click)="grouping = 'project'"> Project </button>
+      <button class="grouping-option" md-menu-item
+              (click)="grouping = 'date needed'"> Date Needed </button>
+      <button class="grouping-option" md-menu-item
+              (click)="grouping = 'dropoff location'"> Dropoff Location </button>
+    </md-menu>
+  </div>
+
+  <div class="requests md-elevation-z4" *ngFor="let requestGroup of requestGroups.get(grouping)">
+    <div class="title">{{requestGroup.title | async}}</div>
+    <request *ngFor="let request of requestGroup.requests; trackBy:getRequestKey"
+             [request]="request"></request>
+  </div>
+
+  <md-sidenav #sidenav opened="true" mode="side" align="end">
+    <inventory-panel (itemAdded)="showSnackbar($event)"></inventory-panel>
+  </md-sidenav>
+</md-sidenav-layout>
+

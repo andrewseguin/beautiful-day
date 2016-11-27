@@ -1,0 +1,9 @@
+<div class="heading">
+  Inventory
+</div>
+
+<div *ngFor="let item of items | async">
+  <button md-button (click)="addItem(item)">
+    {{item.name}}
+  </button>
+</div>
