@@ -17,10 +17,12 @@ import { InventoryComponent } from './ui/inventory/inventory.component';
 import {ItemsService} from "./service/items.service";
 import {CategoriesService} from "./service/categories.service";
 import {RequestsService} from "./service/requests.service";
-import { RequestComponent } from './ui/project/project-requests/request/request.component';
+import { RequestComponent } from './ui/project/requests/request/request.component';
 import { ProjectDetailsComponent } from './ui/project/details/project-details.component';
-import { ProjectNotesComponent } from './ui/project/project-notes/project-notes.component';
-import { ProjectRequestsComponent } from './ui/project/project-requests/project-requests.component';
+import { ProjectNotesComponent } from './ui/project/notes/project-notes.component';
+import { ProjectRequestsComponent } from './ui/project/requests/project-requests.component';
+import { InventoryPanelComponent } from './ui/project/requests/inventory-panel/inventory-panel.component';
+import { ProjectNavComponent } from './ui/project/nav/project-nav.component';
 
 @NgModule({
   declarations: [
@@ -31,13 +33,15 @@ import { ProjectRequestsComponent } from './ui/project/project-requests/project-
     RequestComponent,
     ProjectDetailsComponent,
     ProjectNotesComponent,
-    ProjectRequestsComponent
+    ProjectRequestsComponent,
+    InventoryPanelComponent,
+    ProjectNavComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule,
+    MaterialModule.forRoot(),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     RouterModule.forRoot(ROUTER_CONFIG)
   ],

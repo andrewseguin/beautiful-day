@@ -9,13 +9,12 @@ import {ItemsService} from "../../service/items.service";
 @Component({
   selector: 'project',
   templateUrl: 'project.component.html',
-  styleUrls: ['project.component.css'],
+  styleUrls: ['project.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class ProjectComponent implements OnInit {
   project: FirebaseObjectObservable<Project>;
   requests: FirebaseListObservable<any[]>;
-  projectId: string;
 
   constructor(private route: ActivatedRoute,
               private projectsService: ProjectsService,

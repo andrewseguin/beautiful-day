@@ -1,0 +1,54 @@
+@import '../../app.component';
+
+md-sidenav-layout.project {
+  height: 100vh;
+}
+
+md-toolbar {
+  &.project-toolbar {
+    position: absolute;
+    background: #015486;
+    color: rgba(255,255,255,.9);
+    padding: 0;
+    margin-bottom: 16px;
+    z-index: 1;
+  }
+
+  .toolbar-menu {
+    padding: 0;
+    margin: 8px;
+    min-width: 0;
+    height: 48px;
+    width: 48px;
+  }
+
+  .name {
+    padding-right: 40px;
+  }
+
+  project-nav.main {
+    @media (max-width: $mobile-width) {
+      display: none;
+    }
+  }
+
+  .sub-header {
+    display: none;
+    height: 40px;
+    @media (max-width: $mobile-width) {
+      display: block;
+    }
+  }
+}
+
+.project-router-outlet {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  @media (max-width: $mobile-width) {
+    top: 104px;
+  }
+}

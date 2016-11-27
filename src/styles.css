@@ -20,3 +20,9 @@ project-notes .CodeMirror {
 project-notes .CodeMirror-code {
   min-height: 300px;
 }
+
+/* Menu syles */
+button.grouping-option {
+  font-size: 15px;
+  height: 40px;
+}

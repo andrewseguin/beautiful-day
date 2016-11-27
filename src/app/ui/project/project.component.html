@@ -1,4 +1,4 @@
-<md-sidenav-layout>
+<md-sidenav-layout class="project">
   <md-sidenav #sidenav>
     <nav-content [sidenav]="sidenav"></nav-content>
   </md-sidenav>
@@ -10,23 +10,11 @@
 
     <div class="name">{{(project | async)?.name || 'Loading...'}}</div>
 
-    <nav class="project-nav">
-      <div class="project-link"
-           [routerLink] ="['details']"
-           routerLinkActive="active">
-        <span class="text"> Details </span>
-      </div>
-      <div class="project-link"
-           [routerLink]="['notes']"
-           routerLinkActive="active">
-        <span class="text"> Notes </span>
-      </div>
-      <div class="project-link"
-           [routerLink]="['requests']"
-           routerLinkActive="active">
-        <span class="text"> Requests </span>
-      </div>
-    </nav>
+    <project-nav class="main"></project-nav>
+
+    <md-toolbar-row class="sub-header">
+      <project-nav></project-nav>
+    </md-toolbar-row>
   </md-toolbar>
 
   <div class="project-router-outlet">
