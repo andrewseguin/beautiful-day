@@ -87,4 +87,8 @@ export class ProjectRequestsComponent implements OnInit {
   set grouping(group: Group) {
     this._grouping = group;
   }
+
+  showInventory(): boolean {
+    return window.matchMedia('(min-width: 700px)').matches;
+  }
 }

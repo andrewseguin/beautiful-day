@@ -26,7 +26,10 @@
              [request]="request"></request>
   </div>
 
-  <md-sidenav #sidenav opened="true" mode="side" align="end">
+  <md-sidenav #sidenav
+              [opened]="true"
+              [mode]="showInventory() ? 'side' : 'over'"
+              align="end">
     <inventory-panel (itemAdded)="showSnackbar($event)"></inventory-panel>
   </md-sidenav>
 </md-sidenav-layout>
