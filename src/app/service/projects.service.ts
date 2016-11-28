@@ -7,11 +7,11 @@ import {Project} from '../model/project';
 export class ProjectsService {
   constructor(private af: AngularFire) {}
 
-  getProjects(): FirebaseListObservable<any[]> {
+  getProjects(): FirebaseListObservable<Project[]> {
     return this.af.database.list('projects');
   }
 
-  getProject(id: string): FirebaseObjectObservable<any> {
+  getProject(id: string): FirebaseObjectObservable<Project> {
     return this.af.database.object(`projects/${id}`);
   }
 

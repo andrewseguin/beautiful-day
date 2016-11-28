@@ -1,13 +1,31 @@
 :host {
   display: flex;
   border-bottom: 1px solid #CCC;
-  padding: 8px 16px;
+  padding: 4px 16px;
   flex-direction: row;
   font-size: 13px;
   color: #444;
+  align-items: center;
+  justify-content: space-around;
 }
 
-:host > * {
+:host > span {
   width: 200px;
 }
 
+:host.heading {
+  background: #f1f1f1;
+  font-size: 15px;
+}
+
+button {
+  visibility: hidden;
+}
+
+:host:not(.heading):hover {
+  background: rgba(21, 133, 199, 0.1);
+
+  button {
+    visibility: visible;
+  }
+}

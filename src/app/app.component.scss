@@ -7,6 +7,9 @@ $mobile-width: 750px;
 button.toolbar-menu {
   min-width: 0;
   padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 button.toolbar-menu md-icon {

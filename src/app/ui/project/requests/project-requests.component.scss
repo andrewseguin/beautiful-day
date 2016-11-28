@@ -19,8 +19,7 @@ md-sidenav-layout {
     align-items: center;
     padding-left: 16px;
     font-weight: bold;
-    font-size: 16px;
-    border-bottom: 1px solid #CCC;
+    font-size: 18px;
     background: rgba(187,187,187,0.2);
   }
 }
@@ -48,5 +47,22 @@ md-sidenav-layout {
       width: 18px;
       height: 18px;
     }
+  }
+}
+
+button[md-fab] {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 16px;
+  background: #3a93c8;
+  color: white;
+  transition: 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: scale(1);
+  opacity: 1;
+
+  &.hide {
+    transform: scale(0);
+    opacity: 0;
   }
 }

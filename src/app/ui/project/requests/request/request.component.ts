@@ -1,38 +1,50 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {FirebaseObjectObservable} from "angularfire2";
 import {ItemsService} from "../../../../service/items.service";
 import {Request} from "../../../../model/request";
 import {ActivatedRoute, Params} from "@angular/router";
 import {ProjectsService} from "../../../../service/projects.service";
-import {Project} from "../../../../model/project";
-import {Item} from "../../../../model/item";
-import {Category} from "../../../../model/category";
 import {CategoriesService} from "../../../../service/categories.service";
+import {RequestsService} from "../../../../service/requests.service";
 
 @Component({
   selector: 'request',
   templateUrl: 'request.component.html',
   styleUrls: ['request.component.scss'],
+  host: {
+    '[class.heading]': 'isHeading'
+  }
 })
 export class RequestComponent implements OnInit {
-  project: FirebaseObjectObservable<Project>;
-  category: FirebaseObjectObservable<Category>;
-  item: FirebaseObjectObservable<Item>;
+  category: string;
+  item: string;
+  dropoff: string;
 
   @Input() request: Request;
+  @Input() isHeading: boolean;
 
   constructor(private route: ActivatedRoute,
               private projectsService: ProjectsService,
               private categoryService: CategoriesService,
+              private requestsService: RequestsService,
               private itemsService: ItemsService) { }
 
   ngOnInit() {
-    this.item = this.itemsService.getItem(this.request.item);
-    this.item.subscribe((item: Item) => {
-      this.category = this.categoryService.getCategory(item.category);
+    if (this.isHeading) { return; }
+
+    this.itemsService.getItem(this.request.item).subscribe(item => {
+      this.item = item.name;
+      this.categoryService.getCategory(item.category).subscribe(category => {
+        this.category = category.name;
+      });
     });
+
     this.route.parent.params.forEach((params: Params) => {
-      this.project = this.projectsService.getProject(params['id']);
+      this.projectsService.getDropoffLocation(params['id'], this.request.dropoff)
+          .subscribe(dropoff => this.dropoff = dropoff.$value);
     });
+  }
+
+  removeRequest() {
+    this.requestsService.removeRequest(this.request.$key);
   }
 }

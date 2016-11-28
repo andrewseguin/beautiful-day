@@ -20,17 +20,22 @@
     </md-menu>
   </div>
 
-  <div class="requests md-elevation-z4" *ngFor="let requestGroup of requestGroups.get(grouping)">
+  <div class="requests md-elevation-z4"
+       *ngFor="let requestGroup of requestGroups.get(grouping)"
+       [@groupTransition]="requestGroup.title">
     <div class="title">{{requestGroup.title | async}}</div>
+    <request [isHeading]="true"></request>
     <request *ngFor="let request of requestGroup.requests; trackBy:getRequestKey"
              [request]="request"></request>
   </div>
 
   <md-sidenav #sidenav
-              [opened]="true"
               [mode]="showInventory() ? 'side' : 'over'"
               align="end">
     <inventory-panel (itemAdded)="showSnackbar($event)"></inventory-panel>
   </md-sidenav>
 </md-sidenav-layout>
 
+<button md-fab
+        [class.hide]="sidenav.opened"
+        (click)="sidenav.open()"><md-icon>add</md-icon></button>

@@ -25,6 +25,10 @@ export class RequestsService {
     return this.af.database.object(`requests/${id}`);
   }
 
+  removeRequest(id: string): void {
+    this.getAllRequests().remove(id);
+  }
+
   addRequest(project: Project, item: Item) {
     console.log(project);
     const newRequest: Request = {
