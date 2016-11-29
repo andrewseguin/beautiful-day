@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ViewEncapsulation} from '@angular/core';
 import {ItemsService} from "../../../../service/items.service";
 import {Request} from "../../../../model/request";
 import {ActivatedRoute, Params} from "@angular/router";
@@ -12,7 +12,8 @@ import {RequestsService} from "../../../../service/requests.service";
   styleUrls: ['request.component.scss'],
   host: {
     '[class.heading]': 'isHeading'
-  }
+  },
+  encapsulation: ViewEncapsulation.None,
 })
 export class RequestComponent implements OnInit {
   category: string;

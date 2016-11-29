@@ -1,30 +1,24 @@
-<md-checkbox [style.visibility]="isHeading ? 'hidden' : 'visible'"></md-checkbox>
+<div class="request">
+  <div class="top-row">
+    <md-checkbox></md-checkbox>
 
-<span class="column item">
-  <div class="category">{{isHeading ? '' : category}}</div>
-  <div class="name">{{isHeading ? 'Item' : item}}</div>
-</span>
+    <div class="name">{{item}}</div>
 
-<span class="column quantity">
-  <div *ngIf="isHeading">Quantity</div>
-  <div *ngIf="!isHeading">
-    <md-input type="number"
-              [value]="request.quantity"
-              (keyup)="changeQuantity($event.target.value)"
-              (change)="changeQuantity($event.target.value)">
-      request.quantity
-    </md-input>
+    <div class="quantity">
+      <md-input type="number"
+                [value]="request.quantity"
+                (keyup)="changeQuantity($event.target.value)"
+                (change)="changeQuantity($event.target.value)">
+        request.quantity
+      </md-input>
+    </div>
+
+    <div class="cost">${{10*request.quantity}}.00</div>
   </div>
-</span>
 
-<span class="column cost">
-  {{isHeading ? 'Cost' : '$10.00'}}
-</span>
-
-<span class="column dropoff">
-  <div>{{isHeading ? 'Dropoff' : dropoff}}</div>
-  <div>{{isHeading ? '' : 'April 24, 2017'}}</div>
-</span>
-<span class="column notes">
-  {{isHeading ? 'Notes' : 'some notes'}}
-</span>
+  <div class="details">
+    <div class="dropoff">
+      Dropoff @ {{dropoff}}, {{'April 24, 2017'}}
+    </div>
+  </div>
+</div>

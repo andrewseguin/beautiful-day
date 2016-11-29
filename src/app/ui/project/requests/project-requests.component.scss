@@ -13,10 +13,19 @@ md-sidenav-layout {
   background: #CCC;
 }
 
+.requests-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .requests {
   margin: 16px;
   background: white;
   font-size: 14px;
+  display: inline-block;
+  width: 90%;
+  max-width: 650px;
 
   .title {
     height: 48px;
@@ -26,6 +35,7 @@ md-sidenav-layout {
     font-weight: bold;
     font-size: 18px;
     background: rgba(187,187,187,0.2);
+    border-bottom: 1px solid #CCC;
   }
 }
 

@@ -1,61 +1,68 @@
-:host {
+.request {
   display: flex;
   border-bottom: 1px solid #CCC;
-  padding: 4px 16px;
-  flex-direction: row;
+  flex-direction: column;
   font-size: 13px;
   color: #444;
-  align-items: center;
+  padding: 4px;
 
-  .column {
-    width: 200px;
-    padding: 0 16px;
+  .top-row {
+    display: flex;
+    align-items: center;
+
+    .name {
+      flex-grow: 1;
+      font-weight: bold;
+    }
+  }
+
+  .details {
+    padding-left: 36px;
+    font-size: 12px;
+  }
+
+  .name, .quantity, .cost {
+    padding-right: 16px;
   }
 
   .quantity {
-    width: 80px;
+    min-width: 50px;
+    width: 50px;
   }
 
   .cost {
-    width: 80px;
+    padding-right: 16px;
+    min-width: 60px;
+    text-align: right;
   }
 
-  &.heading {
-    background: #f1f1f1;
-    font-size: 15px;
-    color: #222;
-  }
-
-  button {
-    visibility: hidden;
-  }
-
-  &:not(.heading) {
-    .item {
-      .category {
-        color: #888;
-        font-size: 13px;
-      }
-      .name {
-        font-size: 15px;
-        color: #222
-      }
-    }
+  .dropoff, .notes {
+    padding-bottom: 8px;
   }
 
   &:not(.heading):hover {
     background: rgba(21, 133, 199, 0.1);
+  }
 
-    button {
-      visibility: visible;
+  .md-input-element {
+    text-align: right;
+  }
+
+  .md-input-wrapper {
+    margin: 4px 0;
+  }
+
+  md-checkbox {
+    margin: 8px 12px 8px 8px;
+
+    .md-checkbox-frame {
+      border-color: #888s;
     }
-  }
 
-  .dropoff div {
-    padding: 2px 0;
-  }
-
-  .md-input-underline {
-    border: transparent;
+    .md-checkbox-inner-container {
+      height: 16px;
+      width: 16px;
+      margin-right: 0;
+    }
   }
 }

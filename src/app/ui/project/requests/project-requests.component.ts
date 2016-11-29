@@ -55,6 +55,8 @@ export class ProjectRequestsComponent implements OnInit {
       title: Observable.from(['All Requests']),
       requests: []
     }]);
+
+
     this.route.parent.params.subscribe((params: Params) => {
       this.projectId = params['id'];
       this.project = this.projectsService.getProject(params['id']);
@@ -83,6 +85,10 @@ export class ProjectRequestsComponent implements OnInit {
 
   getRequestKey(index: number, request: Request) {
     return request.$key;
+  }
+
+  getRequestGroupKey(index: number, requestGroup: RequestGroup) {
+    return requestGroup.title;
   }
 
   showSnackbar(item: Item): void {
