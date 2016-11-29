@@ -23,6 +23,7 @@ import { ProjectNotesComponent } from './ui/project/notes/project-notes.componen
 import { ProjectRequestsComponent } from './ui/project/requests/project-requests.component';
 import { InventoryPanelComponent } from './ui/project/requests/inventory-panel/inventory-panel.component';
 import { ProjectNavComponent } from './ui/project/nav/project-nav.component';
+import { SelectionHeaderComponent } from './ui/selection-header/selection-header.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ProjectNavComponent } from './ui/project/nav/project-nav.component';
     ProjectNotesComponent,
     ProjectRequestsComponent,
     InventoryPanelComponent,
-    ProjectNavComponent
+    ProjectNavComponent,
+    SelectionHeaderComponent
   ],
   imports: [
     BrowserModule,

@@ -3,12 +3,16 @@ import {FirebaseListObservable, AngularFire, FirebaseObjectObservable} from "ang
 import {Item} from "../model/item";
 import {Project} from "../model/project";
 import {Request} from "../model/request";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class RequestsService {
-  selectedRequests: Map<string, boolean> = new Map();
+  selectedRequests: Set<string> = new Set();
 
-  constructor(private af: AngularFire) {}
+  constructor(private af: AngularFire, private router: Router) {
+    // Clear selected requests when route changes.
+    this.router.events.subscribe(() => this.clearSelected());
+  }
 
   getAllRequests(): FirebaseListObservable<any[]> {
     return this.af.database.list('requests');
@@ -48,14 +52,22 @@ export class RequestsService {
   }
 
   setSelected(id: string, value: boolean) {
-    this.selectedRequests.set(id, value);
+    if (value) {
+      this.selectedRequests.add(id);
+    } else {
+      this.selectedRequests.delete(id);
+    }
   }
 
   isSelected(id: string): boolean {
-    return this.selectedRequests.get(id);
+    return this.selectedRequests.has(id);
   }
 
   clearSelected() {
-    this.selectedRequests = new Map();
+    this.selectedRequests = new Set();
+  }
+
+  getSelectedRequests(): Set<string> {
+    return this.selectedRequests;
   }
 }

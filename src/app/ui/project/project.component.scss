@@ -2,6 +2,10 @@
 
 md-sidenav-layout.project {
   height: 100vh;
+  
+  .md-sidenav-content {
+    overflow: hidden;
+  }
 }
 
 md-toolbar {

@@ -13,6 +13,11 @@ md-sidenav-layout {
   background: #CCC;
 }
 
+.scrollable-content {
+  overflow: auto;
+  height: 100%;
+}
+
 .requests-container {
   display: flex;
   align-items: center;
