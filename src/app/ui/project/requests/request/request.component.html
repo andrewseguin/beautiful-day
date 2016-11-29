@@ -6,6 +6,7 @@
     <div class="name">{{item}}</div>
 
     <div class="quantity"
+         (mousedown)="$event.stopPropagation()"
          (click)="$event.stopPropagation()">
       <md-input type="number"
                 [value]="request.quantity"
