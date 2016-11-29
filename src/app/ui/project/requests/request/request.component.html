@@ -1,6 +1,7 @@
 <div class="request">
   <div class="top-row">
-    <md-checkbox></md-checkbox>
+    <md-checkbox [checked]="isSelected()"
+                 (change)="setSelected($event.checked)"></md-checkbox>
 
     <div class="name">{{item}}</div>
 

@@ -6,6 +6,8 @@ import {Request} from "../model/request";
 
 @Injectable()
 export class RequestsService {
+  selectedRequests: Map<string, boolean> = new Map();
+
   constructor(private af: AngularFire) {}
 
   getAllRequests(): FirebaseListObservable<any[]> {
@@ -43,5 +45,17 @@ export class RequestsService {
 
   update(id: string, update: any) {
     this.getRequest(id).update(update);
+  }
+
+  setSelected(id: string, value: boolean) {
+    this.selectedRequests.set(id, value);
+  }
+
+  isSelected(id: string): boolean {
+    return this.selectedRequests.get(id);
+  }
+
+  clearSelected() {
+    this.selectedRequests = new Map();
   }
 }

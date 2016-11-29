@@ -52,4 +52,12 @@ export class RequestComponent implements OnInit {
   changeQuantity(quantity: number) {
     this.requestsService.update(this.request.$key, {quantity});
   }
+
+  isSelected() {
+    return this.requestsService.isSelected(this.request.$key);
+  }
+
+  setSelected(value: boolean) {
+    this.requestsService.setSelected(this.request.$key, value);
+  }
 }
