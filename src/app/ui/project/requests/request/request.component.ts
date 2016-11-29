@@ -60,4 +60,8 @@ export class RequestComponent implements OnInit {
   setSelected(value: boolean) {
     this.requestsService.setSelected(this.request.$key, value);
   }
+
+  log(q: any) {
+    console.log(q);
+  }
 }
