@@ -45,10 +45,6 @@ export class RequestComponent implements OnInit {
     });
   }
 
-  removeRequest() {
-    this.requestsService.removeRequest(this.request.$key);
-  }
-
   changeQuantity(quantity: number) {
     this.requestsService.update(this.request.$key, {quantity});
   }
@@ -59,9 +55,5 @@ export class RequestComponent implements OnInit {
 
   setSelected(value: boolean) {
     this.requestsService.setSelected(this.request.$key, value);
-  }
-
-  log(q: any) {
-    console.log(q);
   }
 }

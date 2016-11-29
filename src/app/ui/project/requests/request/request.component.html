@@ -1,12 +1,12 @@
 <div class="request" (click)="setSelected(!isSelected())" md-ripple>
   <div class="top-row">
     <md-checkbox [checked]="isSelected()"
+                 (click)="$event.stopPropagation()"
                  (change)="setSelected($event.checked)"></md-checkbox>
 
     <div class="name">{{item}}</div>
 
     <div class="quantity"
-         (mousedown)="$event.stopPropagation()"
          (click)="$event.stopPropagation()">
       <md-input type="number"
                 [value]="request.quantity"
