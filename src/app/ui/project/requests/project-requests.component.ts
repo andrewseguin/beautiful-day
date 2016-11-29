@@ -69,7 +69,7 @@ export class ProjectRequestsComponent implements OnInit {
           const title = new BehaviorSubject<string>('');
           this.projectsService
             .getDropoffLocation(this.projectId, dropoffLocation)
-            .subscribe(value => title.next(value.$value));
+            .subscribe(value => title.next(String(value.$value)));
           this.requestGroups.get('dropoff location').push({
             title: title.asObservable(),
             requests: requests.filter(request => request.dropoff === dropoffLocation)

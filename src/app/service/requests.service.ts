@@ -34,8 +34,14 @@ export class RequestsService {
     const newRequest: Request = {
       item: item.$key,
       project: project.$key,
+      quantity: 1,
+      notes: '',
       dropoff: project.dropoff ? Object.keys(project.dropoff)[0] : ''
     };
     this.af.database.list('requests').push(newRequest);
+  }
+
+  update(id: string, update: any) {
+    this.getRequest(id).update(update);
   }
 }

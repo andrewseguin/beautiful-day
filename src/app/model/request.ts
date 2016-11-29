@@ -1,6 +1,8 @@
 export interface Request {
   $key?: string;
-  project: string;
-  item: string;
-  dropoff: string;
+  project?: string;
+  item?: string;
+  dropoff?: string;
+  quantity?: number;
+  notes?: string;
 }

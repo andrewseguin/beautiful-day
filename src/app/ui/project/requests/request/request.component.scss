@@ -6,47 +6,56 @@
   font-size: 13px;
   color: #444;
   align-items: center;
-  justify-content: space-around;
-}
 
-:host > span {
-  width: 200px;
-}
+  .column {
+    width: 200px;
+    padding: 0 16px;
+  }
 
-:host.heading {
-  background: #f1f1f1;
-  font-size: 15px;
-  font-weight: bold;
-  color: #222;
-}
+  .quantity {
+    width: 80px;
+  }
 
-button {
-  visibility: hidden;
-}
+  .cost {
+    width: 80px;
+  }
 
-:host:not(.heading):hover {
-  background: rgba(21, 133, 199, 0.1);
+  &.heading {
+    background: #f1f1f1;
+    font-size: 15px;
+    color: #222;
+  }
 
   button {
-    visibility: visible;
+    visibility: hidden;
   }
-}
 
-.item {
-  .category {
-    color: #888;
-    font-size: 13px;
+  &:not(.heading) {
+    .item {
+      .category {
+        color: #888;
+        font-size: 13px;
+      }
+      .name {
+        font-size: 15px;
+        color: #222
+      }
+    }
   }
-  .name {
-    font-size: 15px;
-    color: #222
+
+  &:not(.heading):hover {
+    background: rgba(21, 133, 199, 0.1);
+
+    button {
+      visibility: visible;
+    }
   }
-}
 
-.dropoff div {
-  padding: 2px 0;
-}
+  .dropoff div {
+    padding: 2px 0;
+  }
 
-.md-checkbox-frame {
-  border-color: #3993c8;
+  .md-input-underline {
+    border: transparent;
+  }
 }

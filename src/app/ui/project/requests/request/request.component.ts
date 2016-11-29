@@ -40,11 +40,15 @@ export class RequestComponent implements OnInit {
 
     this.route.parent.params.forEach((params: Params) => {
       this.projectsService.getDropoffLocation(params['id'], this.request.dropoff)
-          .subscribe(dropoff => this.dropoff = dropoff.$value);
+          .subscribe(dropoff => this.dropoff = String(dropoff.$value));
     });
   }
 
   removeRequest() {
     this.requestsService.removeRequest(this.request.$key);
+  }
+
+  changeQuantity(quantity: number) {
+    this.requestsService.update(this.request.$key, {quantity});
   }
 }
