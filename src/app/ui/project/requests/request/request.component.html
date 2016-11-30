@@ -20,8 +20,16 @@
   </div>
 
   <div class="details">
-    <div class="dropoff">
-      Dropoff @ {{dropoff}}, {{'April 24, 2017'}}
+    <div>
+      <span>
+        Dropoff @ {{dropoff}}, {{'April 24, 2017'}}
+      </span>
+    </div>
+    <div *ngIf="request.note">
+      <span class="editable"
+            (click)="editNote($event)">
+        {{request.note}}
+      </span>
     </div>
   </div>
 </div>

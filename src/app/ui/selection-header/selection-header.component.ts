@@ -2,6 +2,7 @@ import {Component, animate, style, transition, state, trigger} from '@angular/co
 import {RequestsService} from "../../service/requests.service";
 import {MdSnackBar, MdDialog} from "@angular/material";
 import {EditNoteComponent} from "../dialog/edit-note/edit-note.component";
+import {EditDropoffComponent} from "../dialog/edit-dropoff/edit-dropoff.component";
 
 @Component({
   selector: 'selection-header',
@@ -50,6 +51,13 @@ export class SelectionHeaderComponent {
 
   editNote() {
     const dialogRef = this.mdDialog.open(EditNoteComponent);
-    dialogRef.componentInstance.requests = this.requestsService.getSelectedRequests();
+    dialogRef.componentInstance.requestIds =
+      this.requestsService.getSelectedRequests();
+  }
+
+  editDropoff() {
+    const dialogRef = this.mdDialog.open(EditDropoffComponent);
+    dialogRef.componentInstance.requestIds =
+      this.requestsService.getSelectedRequests();
   }
 }

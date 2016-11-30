@@ -5,6 +5,8 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {ProjectsService} from "../../../../service/projects.service";
 import {CategoriesService} from "../../../../service/categories.service";
 import {RequestsService} from "../../../../service/requests.service";
+import {MdDialog} from "@angular/material";
+import {EditNoteComponent} from "../../../dialog/edit-note/edit-note.component";
 
 @Component({
   selector: 'request',
@@ -24,6 +26,7 @@ export class RequestComponent implements OnInit {
   @Input() isHeading: boolean;
 
   constructor(private route: ActivatedRoute,
+              private mdDialog: MdDialog,
               private projectsService: ProjectsService,
               private categoryService: CategoriesService,
               private requestsService: RequestsService,
@@ -55,5 +58,14 @@ export class RequestComponent implements OnInit {
 
   setSelected(value: boolean) {
     this.requestsService.setSelected(this.request.$key, value);
+  }
+
+  editNote(e: Event) {
+    // TODO: Return if on mobile, force use of selection header
+    e.stopPropagation();
+
+    const dialogRef = this.mdDialog.open(EditNoteComponent);
+    dialogRef.componentInstance.requestIds = new Set([this.request.$key]);
+    dialogRef.componentInstance.note = this.request.note;
   }
 }

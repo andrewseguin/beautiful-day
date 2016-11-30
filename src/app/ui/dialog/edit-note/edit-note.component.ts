@@ -9,8 +9,8 @@ import {RequestsService} from "../../../service/requests.service";
   styleUrls: ['edit-note.component.scss']
 })
 export class EditNoteComponent implements OnInit {
-  requests: Set<string>;
-  note: string;
+  requestIds: Set<string>;
+  note: string = '';
 
   constructor(private dialogRef: MdDialogRef<EditNoteComponent>,
               private requestService: RequestsService) { }
@@ -20,5 +20,12 @@ export class EditNoteComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
+  }
+
+  save() {
+    this.requestIds.forEach(requestId => {
+      this.requestService.update(requestId, {note: this.note});
+    });
+    this.close();
   }
 }

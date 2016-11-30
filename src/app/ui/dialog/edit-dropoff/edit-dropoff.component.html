@@ -1,0 +1,15 @@
+<div class="header">
+  <div class="title">Edit Dropoff</div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+<md-radio-group name="dropoff_locations" >
+  <md-radio-button value="dropoff">Option 1</md-radio-button>
+  <md-radio-button value="dropoff">Option 2</md-radio-button>
+  <md-radio-button value="dropoff">Option 3</md-radio-button>
+</md-radio-group>
+
+<div class="actions">
+  <button md-button (click)="close()">Cancel</button>
+  <button md-button (click)="save()">Save</button>
+</div>

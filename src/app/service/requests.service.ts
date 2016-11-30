@@ -36,12 +36,11 @@ export class RequestsService {
   }
 
   addRequest(project: Project, item: Item) {
-    console.log(project);
     const newRequest: Request = {
       item: item.$key,
       project: project.$key,
       quantity: 1,
-      notes: '',
+      note: '',
       dropoff: project.dropoff ? Object.keys(project.dropoff)[0] : ''
     };
     this.af.database.list('requests').push(newRequest);

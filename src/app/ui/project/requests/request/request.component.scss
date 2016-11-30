@@ -8,38 +8,58 @@
   position: relative;
   cursor: pointer;
 
+  .top-row, .details {
+    z-index: 1; // Place above md ripple background to allow clicking
+  }
+
   .top-row {
     display: flex;
     align-items: center;
+
+    .name, .quantity, .cost {
+      padding-right: 16px;
+    }
 
     .name {
       flex-grow: 1;
       font-weight: bold;
     }
+
+    .quantity {
+      min-width: 50px;
+      width: 50px;
+    }
+
+    .cost {
+      padding-right: 16px;
+      min-width: 60px;
+      text-align: right;
+    }
   }
 
   .details {
-    padding-left: 36px;
+    padding: 0 16px 0 32px;
     font-size: 12px;
-  }
 
-  .name, .quantity, .cost {
-    padding-right: 16px;
-  }
+    & > div {
+      padding-bottom: 8px;
 
-  .quantity {
-    min-width: 50px;
-    width: 50px;
-  }
+      span {
+        padding: 4px;
+      }
+    }
 
-  .cost {
-    padding-right: 16px;
-    min-width: 60px;
-    text-align: right;
-  }
+    .editable {
+      cursor: pointer;
+      display: inline-block;
 
-  .dropoff, .notes {
-    padding-bottom: 8px;
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+      &:active {
+        background: rgba(0, 0, 0, 0.15);
+      }
+    }
   }
 
   &:not(.heading):hover {

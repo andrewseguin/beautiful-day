@@ -25,6 +25,7 @@ import { InventoryPanelComponent } from './ui/project/requests/inventory-panel/i
 import { ProjectNavComponent } from './ui/project/nav/project-nav.component';
 import { SelectionHeaderComponent } from './ui/selection-header/selection-header.component';
 import { EditNoteComponent } from './ui/dialog/edit-note/edit-note.component';
+import { EditDropoffComponent } from './ui/dialog/edit-dropoff/edit-dropoff.component';
 
 @NgModule({
   declarations: [
@@ -39,10 +40,12 @@ import { EditNoteComponent } from './ui/dialog/edit-note/edit-note.component';
     InventoryPanelComponent,
     ProjectNavComponent,
     SelectionHeaderComponent,
-    EditNoteComponent
+    EditNoteComponent,
+    EditDropoffComponent,
   ],
   entryComponents: [
-    EditNoteComponent
+    EditNoteComponent,
+    EditDropoffComponent,
   ],
   imports: [
     BrowserModule,
