@@ -24,6 +24,7 @@ import { ProjectRequestsComponent } from './ui/project/requests/project-requests
 import { InventoryPanelComponent } from './ui/project/requests/inventory-panel/inventory-panel.component';
 import { ProjectNavComponent } from './ui/project/nav/project-nav.component';
 import { SelectionHeaderComponent } from './ui/selection-header/selection-header.component';
+import { EditNoteComponent } from './ui/dialog/edit-note/edit-note.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,11 @@ import { SelectionHeaderComponent } from './ui/selection-header/selection-header
     ProjectRequestsComponent,
     InventoryPanelComponent,
     ProjectNavComponent,
-    SelectionHeaderComponent
+    SelectionHeaderComponent,
+    EditNoteComponent
+  ],
+  entryComponents: [
+    EditNoteComponent
   ],
   imports: [
     BrowserModule,

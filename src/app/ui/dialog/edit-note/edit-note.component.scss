@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+md-input {
+  display: block;
+  width: 300px;
+}
+
+.actions {
+  display: flex;
+  padding-top: 16px;
+  justify-content: flex-end;
+}

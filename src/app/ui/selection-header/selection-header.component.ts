@@ -1,6 +1,7 @@
 import {Component, animate, style, transition, state, trigger} from '@angular/core';
 import {RequestsService} from "../../service/requests.service";
-import {MdSnackBar} from "@angular/material";
+import {MdSnackBar, MdDialog} from "@angular/material";
+import {EditNoteComponent} from "../dialog/edit-note/edit-note.component";
 
 @Component({
   selector: 'selection-header',
@@ -23,7 +24,9 @@ import {MdSnackBar} from "@angular/material";
 })
 export class SelectionHeaderComponent {
 
-  constructor(private requestsService: RequestsService, private snackBar: MdSnackBar) { }
+  constructor(private requestsService: RequestsService,
+              private mdDialog: MdDialog,
+              private snackBar: MdSnackBar) { }
 
   getSelectionState() {
     return this.getSelectionCount() > 0 ? 'selected' : 'none';
@@ -43,5 +46,10 @@ export class SelectionHeaderComponent {
     });
     this.snackBar.open(`Removed ${this.getSelectionCount()} requests`);
     this.clearRequests();
+  }
+
+  editNote() {
+    const dialogRef = this.mdDialog.open(EditNoteComponent);
+    dialogRef.componentInstance.requests = this.requestsService.getSelectedRequests();
   }
 }
