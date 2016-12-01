@@ -11,6 +11,7 @@ import {Request} from "../../../model/request";
 import {MdSnackBar, MdMenu} from "@angular/material";
 import {Item} from "../../../model/item";
 import {Observable, BehaviorSubject} from "rxjs";
+import {MediaQueryService} from "../../../service/media-query.service";
 
 type Group = 'all' | 'category' | 'project' | 'date needed' | 'dropoff location';
 
@@ -48,6 +49,7 @@ export class ProjectRequestsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private projectsService: ProjectsService,
               private requestsService: RequestsService,
+              private mediaQuery: MediaQueryService,
               private snackBar: MdSnackBar) { }
 
   ngOnInit() {
@@ -77,6 +79,10 @@ export class ProjectRequestsComponent implements OnInit {
     });
   }
 
+  log() {
+    console.log();
+  }
+
   getRequestKey(index: number, request: Request) {
     return request.$key;
   }
@@ -91,7 +97,11 @@ export class ProjectRequestsComponent implements OnInit {
     this._grouping = group;
   }
 
-  showInventory(): boolean {
-    return window.matchMedia('(min-width: 700px)').matches;
+  hideInventory(): boolean {
+    return this.mediaQuery.isMobile();
+  }
+
+  hasSelectedRequests(): boolean {
+    return this.requestsService.getSelectedRequests().size > 0;
   }
 }

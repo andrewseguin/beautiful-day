@@ -36,12 +36,12 @@
 
   <button md-fab
           color="accent"
-          [class.hide]="sidenav.opened"
+          [class.hide]="sidenav.opened || hasSelectedRequests()"
           (click)="sidenav.open()"><md-icon>add</md-icon></button>
 
   <md-sidenav #sidenav
-              opened="{{showInventory() ? true : false}}"
-              [mode]="showInventory() ? 'side' : 'over'"
+              opened="{{!hideInventory()}}"
+              [mode]="hideInventory() ? 'over' : 'side'"
               align="end">
     <inventory-panel (itemAdded)="showSnackbar($event)"></inventory-panel>
   </md-sidenav>

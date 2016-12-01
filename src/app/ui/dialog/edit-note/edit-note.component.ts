@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {MdDialogRef} from "@angular/material";
-import {Request} from "../../../model/request";
 import {RequestsService} from "../../../service/requests.service";
 
 @Component({

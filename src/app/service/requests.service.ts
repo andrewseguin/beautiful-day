@@ -51,7 +51,7 @@ export class RequestsService {
   }
 
   update(id: string, update: any) {
-    this.getRequest(id).update(update); 
+    this.getRequest(id).update(update);
   }
 
   setSelected(id: string, value: boolean) {

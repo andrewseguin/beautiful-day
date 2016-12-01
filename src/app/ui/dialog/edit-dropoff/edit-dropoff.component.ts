@@ -11,7 +11,7 @@ import {ProjectsService} from "../../../service/projects.service";
 export class EditDropoffComponent implements OnInit {
   requestIds: Set<string>;
   project: string;
-  dateNeeded: string = '2001-01-01';
+  dateNeeded: string;
 
   selectedDropoffLocation: string;
   dropoffLocations: Set<string>;
@@ -57,6 +57,7 @@ export class EditDropoffComponent implements OnInit {
     const date = new Date(this.dateNeeded);
     date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
 
+    // Set all requests to the dropoff location and time
     this.requestIds.forEach(requestId => {
       this.requestService.update(requestId, {
         dropoff: this.selectedDropoffLocation,

@@ -5,6 +5,7 @@ import {HttpModule} from '@angular/http';
 import {RouterModule} from "@angular/router";
 import {MaterialModule, MdIconRegistry} from '@angular/material';
 import {AngularFireModule} from 'angularfire2';
+import 'hammerjs';
 
 import {FIREBASE_CONFIG} from './firebase.config';
 import {ROUTER_CONFIG} from './router.config';
@@ -26,6 +27,7 @@ import { ProjectNavComponent } from './ui/project/nav/project-nav.component';
 import { SelectionHeaderComponent } from './ui/selection-header/selection-header.component';
 import { EditNoteComponent } from './ui/dialog/edit-note/edit-note.component';
 import { EditDropoffComponent } from './ui/dialog/edit-dropoff/edit-dropoff.component';
+import {MediaQueryService} from "./service/media-query.service";
 
 @NgModule({
   declarations: [
@@ -61,6 +63,7 @@ import { EditDropoffComponent } from './ui/dialog/edit-dropoff/edit-dropoff.comp
     ItemsService,
     CategoriesService,
     RequestsService,
+    MediaQueryService,
   ],
   bootstrap: [AppComponent]
 })
