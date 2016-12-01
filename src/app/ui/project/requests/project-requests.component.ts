@@ -15,7 +15,7 @@ import {Observable, BehaviorSubject} from "rxjs";
 type Group = 'all' | 'category' | 'project' | 'date needed' | 'dropoff location';
 
 class RequestGroup {
-  title: Observable<string>;
+  title: string;
   requests: Request[]
 }
 
@@ -52,11 +52,9 @@ export class ProjectRequestsComponent implements OnInit {
 
   ngOnInit() {
     this.requestGroups.set('all', [{
-      title: Observable.from(['All Requests']),
+      title: 'All Requests',
       requests: []
     }]);
-
-
     this.route.parent.params.subscribe((params: Params) => {
       this.projectId = params['id'];
       this.project = this.projectsService.getProject(params['id']);
@@ -68,15 +66,11 @@ export class ProjectRequestsComponent implements OnInit {
         requests.forEach(request => this.dropoffLocations.add(request.dropoff));
         this.requestGroups.set('dropoff location', []);
         this.dropoffLocations.forEach(dropoffLocation => {
-          const title = new BehaviorSubject<string>('');
-          this.projectsService
-            .getDropoffLocation(this.projectId, dropoffLocation)
-            .subscribe(value => title.next(String(value.$value)));
           this.requestGroups.get('dropoff location').push({
-            title: title.asObservable(),
+            title: dropoffLocation,
             requests: requests.filter(request => request.dropoff === dropoffLocation)
           })
-        })
+        });
       });
 
       this.grouping = 'all';
@@ -85,10 +79,6 @@ export class ProjectRequestsComponent implements OnInit {
 
   getRequestKey(index: number, request: Request) {
     return request.$key;
-  }
-
-  getRequestGroupKey(index: number, requestGroup: RequestGroup) {
-    return requestGroup.title;
   }
 
   showSnackbar(item: Item): void {

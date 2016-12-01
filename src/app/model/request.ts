@@ -5,4 +5,5 @@ export interface Request {
   dropoff?: string;
   quantity?: number;
   note?: string;
+  date?: string;
 }

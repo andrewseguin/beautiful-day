@@ -6,11 +6,10 @@
 
     <div class="name">{{item}}</div>
 
-    <div class="quantity"
-         (click)="$event.stopPropagation()">
-      <md-input type="number"
+    <div class="quantity" (click)="$event.stopPropagation(); quantityInput.focus()">
+      <md-input type="number" #quantityInput
                 [value]="request.quantity"
-                (keyup)="changeQuantity($event.target.value)"
+                (keyup)="changeQuantity($event.target.value);"
                 (change)="changeQuantity($event.target.value)">
         request.quantity
       </md-input>
@@ -23,7 +22,7 @@
     <div>
       <span class="editable"
             (click)="editDropoff($event)">
-        Dropoff @ {{dropoff.$value}}, {{'April 24, 2017'}}
+        Dropoff @ {{request.dropoff}}, {{request.date | date}}
       </span>
     </div>
     <div *ngIf="request.note">

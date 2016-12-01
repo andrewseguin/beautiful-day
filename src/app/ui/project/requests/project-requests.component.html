@@ -26,7 +26,7 @@
            *ngFor="let requestGroup of requestGroups.get(grouping); trackBy:getRequestGroupKey"
            [@groupTransition]="requestGroup.title">
         <div *ngIf="requestGroup.requests?.length">
-          <div class="title">{{requestGroup.title | async}}</div>
+          <div class="title">{{requestGroup.title}}</div>
           <request *ngFor="let request of requestGroup.requests; trackBy:getRequestKey"
                    [request]="request"></request>
         </div>

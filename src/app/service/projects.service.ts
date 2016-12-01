@@ -15,11 +15,10 @@ export class ProjectsService {
     return this.af.database.object(`projects/${id}`);
   }
 
-  getDropoffLocations(id: string) {
-    return this.af.database.list(`projects/${id}/dropoff`);
-  }
-
-  getDropoffLocation(id: string, dropoff: string) {
-    return this.af.database.object(`projects/${id}/dropoff/${dropoff}`);
+  setLastDropoff(id, dropoff, date) {
+    this.getProject(id).update({
+      lastUsedDropoff: dropoff,
+      lastUsedDate: date
+    })
   }
 }

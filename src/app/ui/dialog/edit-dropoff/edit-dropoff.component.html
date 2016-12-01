@@ -6,12 +6,14 @@
 <div class="section-title">Location</div>
 <md-radio-group name="dropoff_locations" [(ngModel)]="selectedDropoffLocation">
   <md-radio-button *ngFor="let dropoffLocation of dropoffLocations"
-                   value="{{dropoffLocation.$key}}">
-    {{dropoffLocation.$value}}
+                   value="{{dropoffLocation}}">
+    {{dropoffLocation}}
   </md-radio-button>
-  <md-radio-button value="new-dropoff">
-    <md-input (click)="selectedDropoffLocation = 'new-dropoff'"
-              placeholder="New Dropoff Location">
+  <md-radio-button value="new">
+    <md-input [(ngModel)]="newDropoff"
+              (click)="selectedDropoffLocation = 'new'"
+              placeholder="New Dropoff Location"
+              [floatingPlaceholder]="false">
     </md-input>
   </md-radio-button>
 </md-radio-group>
@@ -21,5 +23,7 @@
 
 <div class="actions">
   <button md-button (click)="close()">Cancel</button>
-  <button md-raised-button color="accent" (click)="save()">Save</button>
+  <button md-raised-button color="accent"
+          [disabled]="!canSave()"
+          (click)="save()">Save</button>
 </div>

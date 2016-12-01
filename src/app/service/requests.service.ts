@@ -4,21 +4,25 @@ import {Item} from "../model/item";
 import {Project} from "../model/project";
 import {Request} from "../model/request";
 import {Router} from "@angular/router";
+import {Subject} from "rxjs";
+import {ProjectsService} from "./projects.service";
 
 @Injectable()
 export class RequestsService {
   selectedRequests: Set<string> = new Set();
 
-  constructor(private af: AngularFire, private router: Router) {
+  constructor(private af: AngularFire,
+              private projectsService: ProjectsService,
+              private router: Router) {
     // Clear selected requests when route changes.
     this.router.events.subscribe(() => this.clearSelected());
   }
 
-  getAllRequests(): FirebaseListObservable<any[]> {
+  getAllRequests(): FirebaseListObservable<Request[]> {
     return this.af.database.list('requests');
   }
 
-  getProjectRequests(projectId: string): FirebaseListObservable<any[]> {
+  getProjectRequests(projectId: string): FirebaseListObservable<Request[]> {
     return this.af.database.list('requests', {
       query: {
         orderByChild: 'project',
@@ -27,7 +31,7 @@ export class RequestsService {
     });
   }
 
-  getRequest(id: string): FirebaseObjectObservable<any> {
+  getRequest(id: string): FirebaseObjectObservable<Request> {
     return this.af.database.object(`requests/${id}`);
   }
 
@@ -36,18 +40,18 @@ export class RequestsService {
   }
 
   addRequest(project: Project, item: Item) {
-    const newRequest: Request = {
+    this.af.database.list('requests').push({
       item: item.$key,
       project: project.$key,
       quantity: 1,
       note: '',
-      dropoff: project.dropoff ? Object.keys(project.dropoff)[0] : ''
-    };
-    this.af.database.list('requests').push(newRequest);
+      dropoff: project.lastUsedDropoff || '',
+      date: project.lastUsedDate || ''
+    });
   }
 
   update(id: string, update: any) {
-    this.getRequest(id).update(update);
+    this.getRequest(id).update(update); 
   }
 
   setSelected(id: string, value: boolean) {
