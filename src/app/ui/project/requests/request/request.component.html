@@ -21,8 +21,9 @@
 
   <div class="details">
     <div>
-      <span>
-        Dropoff @ {{dropoff}}, {{'April 24, 2017'}}
+      <span class="editable"
+            (click)="editDropoff($event)">
+        Dropoff @ {{dropoff.$value}}, {{'April 24, 2017'}}
       </span>
     </div>
     <div *ngIf="request.note">

@@ -7,6 +7,8 @@ import {CategoriesService} from "../../../../service/categories.service";
 import {RequestsService} from "../../../../service/requests.service";
 import {MdDialog} from "@angular/material";
 import {EditNoteComponent} from "../../../dialog/edit-note/edit-note.component";
+import {EditDropoffComponent} from "../../../dialog/edit-dropoff/edit-dropoff.component";
+import {Dropoff} from "../../../../model/dropoff";
 
 @Component({
   selector: 'request',
@@ -20,7 +22,8 @@ import {EditNoteComponent} from "../../../dialog/edit-note/edit-note.component";
 export class RequestComponent implements OnInit {
   category: string;
   item: string;
-  dropoff: string;
+  dropoff: Dropoff;
+  projectId: string;
 
   @Input() request: Request;
   @Input() isHeading: boolean;
@@ -43,8 +46,9 @@ export class RequestComponent implements OnInit {
     });
 
     this.route.parent.params.forEach((params: Params) => {
+      this.projectId = params['id'];
       this.projectsService.getDropoffLocation(params['id'], this.request.dropoff)
-          .subscribe(dropoff => this.dropoff = String(dropoff.$value));
+          .subscribe(dropoff => this.dropoff = dropoff);
     });
   }
 
@@ -67,5 +71,15 @@ export class RequestComponent implements OnInit {
     const dialogRef = this.mdDialog.open(EditNoteComponent);
     dialogRef.componentInstance.requestIds = new Set([this.request.$key]);
     dialogRef.componentInstance.note = this.request.note;
+  }
+
+  editDropoff(e: Event) {
+    // TODO: Return if on mobile, force use of selection header
+    e.stopPropagation();
+
+    const dialogRef = this.mdDialog.open(EditDropoffComponent);
+    dialogRef.componentInstance.requestIds = new Set([this.request.$key]);
+    dialogRef.componentInstance.selectedDropoffLocation = this.dropoff.$key;
+    dialogRef.componentInstance.project = this.projectId;
   }
 }
