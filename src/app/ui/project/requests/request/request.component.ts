@@ -68,14 +68,7 @@ export class RequestComponent implements OnInit {
     const dialogRef = this.mdDialog.open(EditDropoffComponent);
     dialogRef.componentInstance.requestIds = new Set([this.request.$key]);
     dialogRef.componentInstance.selectedDropoffLocation = this.request.dropoff;
-    dialogRef.componentInstance.dateNeeded =
-      this.getDateInputFormat(new Date(this.request.date));
+    dialogRef.componentInstance.setDateFromRequest(this.request.date);
     dialogRef.componentInstance.project = this.projectId;
-  }
-
-  getDateInputFormat(d: Date) {
-    const day = ("0" + d.getDate()).slice(-2);
-    const month = ("0" + (d.getMonth() + 1)).slice(-2);
-    return d.getFullYear()+"-"+(month)+"-"+(day) ;
   }
 }

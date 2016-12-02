@@ -7,12 +7,12 @@
     <div class="name">{{item}}</div>
 
     <div class="quantity" (click)="$event.stopPropagation(); quantityInput.focus()">
-      <md-input type="number" #quantityInput
+      <input type="number" #quantityInput
                 [value]="request.quantity"
-                (keyup)="changeQuantity($event.target.value);"
+                (click)="quantityInput.select()"
+                (keyup)="changeQuantity($event.target.value)"
+                (keydown.Enter)="quantityInput.blur()"
                 (change)="changeQuantity($event.target.value)">
-        request.quantity
-      </md-input>
     </div>
 
     <div class="cost">${{10*request.quantity}}.00</div>

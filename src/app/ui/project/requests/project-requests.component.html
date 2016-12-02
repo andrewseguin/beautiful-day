@@ -40,7 +40,7 @@
           (click)="sidenav.open()"><md-icon>add</md-icon></button>
 
   <md-sidenav #sidenav
-              opened="{{!hideInventory()}}"
+              [opened]="!hideInventory()"
               [mode]="hideInventory() ? 'over' : 'side'"
               align="end">
     <inventory-panel (itemAdded)="showSnackbar($event)"></inventory-panel>

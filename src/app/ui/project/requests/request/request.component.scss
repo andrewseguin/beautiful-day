@@ -1,4 +1,8 @@
 @import '../../../../app.component';
+@import 'src/app/theme';
+
+// Import theming functions
+@import '~@angular/material/core/theming/theming';
 
 .request {
   display: flex;
@@ -67,19 +71,29 @@
     background: rgba(21, 133, 199, 0.1);
   }
 
-  .md-input-element {
+  input {
+    width: 48px;
+    border: none;
+    border-bottom: 1px solid #BBB;
+    font-size: 14px;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    background: transparent;
     text-align: right;
-  }
+    padding: 2px;
 
-  .md-input-wrapper {
-    margin: 4px 0;
+    &:focus {
+      outline: none;
+      border-color: md-color($bd-app-accent);
+      border-bottom-width: 2px;
+      padding-bottom: 1px;
+    }
   }
 
   md-checkbox {
     margin: 8px 12px 8px 8px;
 
     .md-checkbox-frame {
-      border-color: #888s;
+      border-color: #888;
     }
 
     .md-checkbox-inner-container {

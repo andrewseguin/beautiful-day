@@ -28,6 +28,13 @@ export class EditDropoffComponent implements OnInit {
     });
   }
 
+  setDateFromRequest(requestDate: string) {
+    const date = new Date(requestDate);
+    const day = ("0" + date.getDate()).slice(-2);
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    this.dateNeeded = date.getFullYear()+"-"+(month)+"-"+(day) ;
+  }
+
   close() {
     this.dialogRef.close();
   }

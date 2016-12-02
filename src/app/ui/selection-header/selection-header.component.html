@@ -2,7 +2,10 @@
   <md-icon>close</md-icon>
 </button>
 
-<div class="count">{{getSelectionCount()}} Selected</div>
+<div class="count"
+     [style.visibility]="!!getSelectionCount() ? 'visible' : 'hidden'">
+  {{getSelectionCount()}} Selected
+</div>
 
 <button md-icon-button
         [md-menu-trigger-for]="editMenu">

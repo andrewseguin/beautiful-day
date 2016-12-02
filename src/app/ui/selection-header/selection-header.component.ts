@@ -51,13 +51,33 @@ export class SelectionHeaderComponent {
 
   editNote() {
     const dialogRef = this.mdDialog.open(EditNoteComponent);
-    dialogRef.componentInstance.requestIds =
-      this.requestsService.getSelectedRequests();
+
+    const selectedRequests = this.requestsService.getSelectedRequests();
+    dialogRef.componentInstance.requestIds = selectedRequests;
+    if (selectedRequests.size == 1) {
+      selectedRequests.forEach(requestKey => {
+        this.requestsService.getRequest(requestKey).subscribe(request => {
+          dialogRef.componentInstance.note = request.note;
+        })
+      });
+    }
   }
 
   editDropoff() {
     const dialogRef = this.mdDialog.open(EditDropoffComponent);
     dialogRef.componentInstance.requestIds =
       this.requestsService.getSelectedRequests();
+
+    const selectedRequests = this.requestsService.getSelectedRequests();
+    dialogRef.componentInstance.requestIds = selectedRequests;
+    if (selectedRequests.size == 1) {
+      selectedRequests.forEach(requestKey => {
+        this.requestsService.getRequest(requestKey).subscribe(request => {
+          dialogRef.componentInstance.selectedDropoffLocation = request.dropoff;
+          dialogRef.componentInstance.setDateFromRequest(request.date);
+          dialogRef.componentInstance.project = request.project;
+        })
+      });
+    }
   }
 }

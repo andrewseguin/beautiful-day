@@ -12,7 +12,7 @@ md-toolbar {
 
   .md-toolbar-layout md-toolbar-row {
     @media (max-width: $mobile-width) {
-      height: 48px;
+      height: 40px;
     }
   }
 
@@ -62,6 +62,6 @@ md-toolbar {
   bottom: 0;
   overflow: auto;
   @media (max-width: $mobile-width) {
-    top: 96px;
+    top: 80px;
   }
 }
