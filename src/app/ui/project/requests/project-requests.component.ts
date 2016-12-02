@@ -12,7 +12,10 @@ import {MdSnackBar, MdMenu} from "@angular/material";
 import {Item} from "../../../model/item";
 import {Observable, BehaviorSubject} from "rxjs";
 import {MediaQueryService} from "../../../service/media-query.service";
-import {Group, RequestGroup} from "../../../service/request-grouping.service";
+import {
+  Group, RequestGroup,
+  RequestGroupingService
+} from "../../../service/request-grouping.service";
 
 
 @Component({
@@ -37,25 +40,23 @@ export class ProjectRequestsComponent implements OnInit {
   _grouping: Group = 'all';
   projectId: string;
 
-  requestGroups: Map<Group, RequestGroup[]> = new Map;
+  requestGroups: Map<Group, RequestGroup[]>;
 
   @ViewChild('groupingMenu') groupingMenu: MdMenu;
 
   constructor(private route: ActivatedRoute,
               private projectsService: ProjectsService,
+              private requestGroupingService: RequestGroupingService,
               private requestsService: RequestsService,
               private mediaQuery: MediaQueryService,
               private snackBar: MdSnackBar) { }
 
   ngOnInit() {
-    this.requestGroups.set('all', [{
-      title: 'All Requests',
-      requests: []
-    }]);
     this.route.parent.params.subscribe((params: Params) => {
       this.projectId = params['id'];
       this.project = this.projectsService.getProject(params['id']);
-      this.requestsService.getProjectRequests(params['id']).subscribe(requests => {
+      this.requestGroups = this.requestGroupingService.getRequestGroups(params['id']);
+      /*this.requestsService.getProjectRequests(params['id']).subscribe(requests => {
         this.requestGroups.get('all')[0].requests = requests;
 
         // Set up dropoff grouping
@@ -68,18 +69,17 @@ export class ProjectRequestsComponent implements OnInit {
             requests: requests.filter(request => request.dropoff === dropoffLocation)
           })
         });
-      });
+      });*/
 
       this.grouping = 'all';
     });
   }
 
-  log() {
-    console.log();
-  }
-
   getRequestKey(index: number, request: Request) {
     return request.$key;
+  }
+  getRequestGroupKey(index: number, requestGroup: RequestGroup) {
+    return requestGroup.id;
   }
 
   showSnackbar(item: Item): void {

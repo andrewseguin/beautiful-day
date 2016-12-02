@@ -28,6 +28,7 @@ import { SelectionHeaderComponent } from './ui/selection-header/selection-header
 import { EditNoteComponent } from './ui/dialog/edit-note/edit-note.component';
 import { EditDropoffComponent } from './ui/dialog/edit-dropoff/edit-dropoff.component';
 import {MediaQueryService} from "./service/media-query.service";
+import {RequestGroupingService} from "./service/request-grouping.service";
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import {MediaQueryService} from "./service/media-query.service";
     CategoriesService,
     RequestsService,
     MediaQueryService,
+    RequestGroupingService
   ],
   bootstrap: [AppComponent]
 })
