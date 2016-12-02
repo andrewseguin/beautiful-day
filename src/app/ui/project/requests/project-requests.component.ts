@@ -12,13 +12,8 @@ import {MdSnackBar, MdMenu} from "@angular/material";
 import {Item} from "../../../model/item";
 import {Observable, BehaviorSubject} from "rxjs";
 import {MediaQueryService} from "../../../service/media-query.service";
+import {Group, RequestGroup} from "../../../service/request-grouping.service";
 
-type Group = 'all' | 'category' | 'project' | 'date needed' | 'dropoff location';
-
-class RequestGroup {
-  title: string;
-  requests: Request[]
-}
 
 @Component({
   selector: 'project-requests',
