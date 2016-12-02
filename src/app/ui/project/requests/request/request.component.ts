@@ -2,14 +2,11 @@ import {Component, OnInit, Input, ViewEncapsulation, ElementRef, ViewChild} from
 import {ItemsService} from "../../../../service/items.service";
 import {Request} from "../../../../model/request";
 import {ActivatedRoute, Params} from "@angular/router";
-import {ProjectsService} from "../../../../service/projects.service";
 import {CategoriesService} from "../../../../service/categories.service";
 import {RequestsService} from "../../../../service/requests.service";
 import {MdDialog} from "@angular/material";
 import {EditNoteComponent} from "../../../dialog/edit-note/edit-note.component";
 import {EditDropoffComponent} from "../../../dialog/edit-dropoff/edit-dropoff.component";
-import {Dropoff} from "../../../../model/dropoff";
-import {MediaQueryService} from "../../../../service/media-query.service";
 
 @Component({
   selector: 'request',
@@ -27,7 +24,6 @@ export class RequestComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private mdDialog: MdDialog,
-              private mediaQuery: MediaQueryService,
               private categoryService: CategoriesService,
               private requestsService: RequestsService,
               private itemsService: ItemsService) { }
@@ -59,9 +55,6 @@ export class RequestComponent implements OnInit {
   }
 
   editNote(e: Event) {
-    // If mobile, use selection header
-    if (this.mediaQuery.isMobile()) { return; }
-
     e.stopPropagation();
 
     const dialogRef = this.mdDialog.open(EditNoteComponent);
@@ -70,9 +63,6 @@ export class RequestComponent implements OnInit {
   }
 
   editDropoff(e: Event) {
-    // If mobile, use selection header
-    if (this.mediaQuery.isMobile()) { return; }
-
     e.stopPropagation();
 
     const dialogRef = this.mdDialog.open(EditDropoffComponent);

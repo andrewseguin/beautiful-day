@@ -11,6 +11,7 @@
   </md-radio-button>
   <md-radio-button value="new">
     <md-input [(ngModel)]="newDropoff"
+              (keyup.Enter)="save()"
               (click)="selectedDropoffLocation = 'new'"
               placeholder="New Dropoff Location"
               [floatingPlaceholder]="false">
@@ -19,7 +20,7 @@
 </md-radio-group>
 
 <div class="section-title">Date</div>
-<input [(ngModel)]="dateNeeded" type="date">
+<input [(ngModel)]="dateNeeded" type="date" (keyup.Enter)="save()">
 
 <div class="actions">
   <button md-button (click)="close()">Cancel</button>

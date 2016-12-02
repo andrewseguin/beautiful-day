@@ -19,11 +19,11 @@ export class EditDropoffComponent implements OnInit {
 
   constructor(private dialogRef: MdDialogRef<EditDropoffComponent>,
               private projectsService: ProjectsService,
-              private requestService: RequestsService) { }
+              private requestsService: RequestsService) { }
 
   ngOnInit() {
     this.dropoffLocations = new Set<string>();
-    this.requestService.getProjectRequests(this.project).subscribe(requests => {
+    this.requestsService.getProjectRequests(this.project).subscribe(requests => {
       requests.forEach(request => this.dropoffLocations.add(request.dropoff));
     });
   }
@@ -49,6 +49,8 @@ export class EditDropoffComponent implements OnInit {
   }
 
   save() {
+    if (!this.canSave()) { return }
+
     if (this.selectedDropoffLocation == 'new') {
       this.selectedDropoffLocation = this.newDropoff;
     }
@@ -59,7 +61,7 @@ export class EditDropoffComponent implements OnInit {
 
     // Set all requests to the dropoff location and time
     this.requestIds.forEach(requestId => {
-      this.requestService.update(requestId, {
+      this.requestsService.update(requestId, {
         dropoff: this.selectedDropoffLocation,
         date: date.getTime()
       });
@@ -70,5 +72,6 @@ export class EditDropoffComponent implements OnInit {
       this.selectedDropoffLocation, date.getTime());
 
     this.close();
+    this.requestsService.clearSelected();
   }
 }

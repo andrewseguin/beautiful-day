@@ -12,7 +12,7 @@ export class EditNoteComponent implements OnInit {
   note: string = '';
 
   constructor(private dialogRef: MdDialogRef<EditNoteComponent>,
-              private requestService: RequestsService) { }
+              private requestsService: RequestsService) { }
 
   ngOnInit() {
   }
@@ -23,8 +23,9 @@ export class EditNoteComponent implements OnInit {
 
   save() {
     this.requestIds.forEach(requestId => {
-      this.requestService.update(requestId, {note: this.note});
+      this.requestsService.update(requestId, {note: this.note});
     });
     this.close();
+    this.requestsService.clearSelected();
   }
 }
