@@ -5,9 +5,8 @@ import {ItemsService} from "./items.service";
 import {Item} from "../model/item";
 import {CategoriesService} from "./categories.service";
 import {Category} from "../model/category";
-import {Observable} from 'rxjs';
 
-export type Group = 'all' | 'category' | 'project' | 'date needed' | 'dropoff location';
+export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff';
 
 export class RequestGroup {
   id: string;
@@ -17,34 +16,37 @@ export class RequestGroup {
 
 @Injectable()
 export class RequestGroupingService {
+  items: Item[];
+  categories: Category[];
+
   constructor(private requestsService: RequestsService,
               private categoriesService: CategoriesService,
-              private itemsService: ItemsService) { }
+              private itemsService: ItemsService) {
+    this.categoriesService.getCategories().subscribe(categories => {
+      this.categories = categories;
+    });
+    this.itemsService.getItems().subscribe(items => {
+      this.items = items;
+    });
+  }
 
   getGroupNames(): string[] {
-    return ['all', 'category', 'date needed', 'dropoff location'];
+    return ['all', 'category', 'date', 'dropoff'];
   }
 
   getRequestGroups(projectId: string): Map<Group, RequestGroup[]> {
     const requestGroups: Map<Group, RequestGroup[]> = new Map();
     requestGroups.set('all', []);
     requestGroups.set('category', []);
-    requestGroups.set('date needed', []);
-    requestGroups.set('dropoff location', []);
+    requestGroups.set('date', []);
+    requestGroups.set('dropoff', []);
 
     // Update groups when items, categories, or requests change
-    const allProjectRequests = this.requestsService.getProjectRequests(projectId);
-    const allItems = this.itemsService.getItems();
-    const allCategories = this.categoriesService.getCategories();
-    Observable.combineLatest(allProjectRequests, allItems, allCategories).subscribe(result => {
-      const requests = result[0];
-      const items = result[1];
-      const categories = result[2];
-
+    this.requestsService.getProjectRequests(projectId).subscribe(requests => {
       this.updateGroupAll(requestGroups, requests);
       this.updateGroupDropoffLocation(requestGroups, requests);
       this.updateGroupDateNeeded(requestGroups, requests);
-      this.updateGroupCategory(requestGroups, requests, items, categories);
+      this.updateGroupCategory(requestGroups, requests);
     });
 
     return requestGroups;
@@ -78,9 +80,9 @@ export class RequestGroupingService {
       dropoffGroups.get(request.dropoff).push(request);
     });
 
-    requestGroups.set('dropoff location', []);
+    requestGroups.set('dropoff', []);
     dropoffGroups.forEach((requests, dropoff) => {
-      requestGroups.get('dropoff location').push({
+      requestGroups.get('dropoff').push({
         id: dropoff,
         title: dropoff,
         requests: requests
@@ -100,9 +102,9 @@ export class RequestGroupingService {
       dateNeededGroups.get(request.date).push(request);
     });
 
-    requestGroups.set('date needed', []);
+    requestGroups.set('date', []);
     dateNeededGroups.forEach((requests, date) => {
-      requestGroups.get('date needed').push({
+      requestGroups.get('date').push({
         id: date,
         title: this.getDateString(new Date(date)) ,
         requests: requests
@@ -110,15 +112,12 @@ export class RequestGroupingService {
     });
   }
 
-  updateGroupCategory(requestGroups: Map<Group, RequestGroup[]>,
-                      requests: Request[],
-                      items: Item[],
-                      categories: Category[]) {
+  updateGroupCategory(requestGroups: Map<Group, RequestGroup[]>, requests: Request[]) {
     const itemMap: Map<string, Item> = new Map();
-    items.forEach(item => itemMap.set(item.$key, item));
+    this.items.forEach(item => itemMap.set(item.$key, item));
 
     let categoryMap: Map<string, Category> = new Map();
-    categories.forEach(category => categoryMap.set(category.$key, category));
+    this.categories.forEach(category => categoryMap.set(category.$key, category));
 
     const categoryGroups: Map<string, Request[]> = new Map();
 

@@ -5,17 +5,14 @@
       <div class="grouping-title">Group By:</div>
 
       <button md-button class="grouping-menu-button" [md-menu-trigger-for]="groupingMenu">
-        {{grouping}} <md-icon>keyboard_arrow_down</md-icon>
+        {{getGroupingName(grouping)}} <md-icon>keyboard_arrow_down</md-icon>
       </button>
       <md-menu #groupingMenu="mdMenu">
         <button class="grouping-option" md-menu-item
-                (click)="grouping = 'all'"> All </button>
-        <button class="grouping-option" md-menu-item
-                (click)="grouping = 'category'"> Category </button>
-        <button class="grouping-option" md-menu-item
-                (click)="grouping = 'date needed'"> Date Needed </button>
-        <button class="grouping-option" md-menu-item
-                (click)="grouping = 'dropoff location'"> Dropoff Location </button>
+                *ngFor="let group of getGroups()"
+                [routerLink]="['../' + group]">
+          {{getGroupingName(group)}}
+        </button>
       </md-menu>
     </div>
 

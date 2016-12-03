@@ -2,7 +2,7 @@ import {
   Component, OnInit, ViewChild, animate, transition, style,
   state, trigger
 } from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FirebaseObjectObservable} from "angularfire2";
 import {Project} from "../../../model/project";
 import {RequestsService} from "../../../service/requests.service";
@@ -36,7 +36,6 @@ import {
 })
 export class ProjectRequestsComponent implements OnInit {
   project: FirebaseObjectObservable<Project>;
-  dropoffLocations: Set<string>;
   _grouping: Group = 'all';
   projectId: string;
 
@@ -56,23 +55,24 @@ export class ProjectRequestsComponent implements OnInit {
       this.projectId = params['id'];
       this.project = this.projectsService.getProject(params['id']);
       this.requestGroups = this.requestGroupingService.getRequestGroups(params['id']);
-      /*this.requestsService.getProjectRequests(params['id']).subscribe(requests => {
-        this.requestGroups.get('all')[0].requests = requests;
-
-        // Set up dropoff grouping
-        this.dropoffLocations = new Set();
-        requests.forEach(request => this.dropoffLocations.add(request.dropoff));
-        this.requestGroups.set('dropoff location', []);
-        this.dropoffLocations.forEach(dropoffLocation => {
-          this.requestGroups.get('dropoff location').push({
-            title: dropoffLocation,
-            requests: requests.filter(request => request.dropoff === dropoffLocation)
-          })
-        });
-      });*/
-
-      this.grouping = 'all';
     });
+
+    this.route.params.subscribe((params: Params) => {
+      this.grouping = params['group'];
+    });
+  }
+
+  getGroups() {
+    return this.requestGroupingService.getGroupNames();
+  }
+
+  getGroupingName(grouping: string): string {
+    switch (grouping) {
+      case 'all': return 'All';
+      case 'category': return 'Category';
+      case 'date': return 'Date Needed';
+      case 'dropoff': return 'Dropoff Location';
+    }
   }
 
   getRequestKey(index: number, request: Request) {
