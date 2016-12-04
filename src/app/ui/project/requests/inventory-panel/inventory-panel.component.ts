@@ -7,6 +7,7 @@ import {Project} from "../../../../model/project";
 import {Params, ActivatedRoute} from "@angular/router";
 import {RequestsService} from "../../../../service/requests.service";
 import {SubheaderService} from "../../../../service/subheader.service";
+import {MediaQueryService} from "../../../../service/media-query.service";
 
 @Component({
   selector: 'inventory-panel',
@@ -22,6 +23,7 @@ export class InventoryPanelComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private subheaderService: SubheaderService,
+              private mediaQuery: MediaQueryService,
               private itemsService: ItemsService,
               private requestsService: RequestsService,
               private projectsService: ProjectsService) { }
@@ -33,7 +35,11 @@ export class InventoryPanelComponent implements OnInit {
     });
 
     this.subheaderService.visibilitySubject.subscribe(visibility => {
-      this.subheaderVisibility = visibility;
+      if (!this.mediaQuery.isMobile()) {
+        this.subheaderVisibility = false;
+      } else {
+        this.subheaderVisibility = visibility;
+      }
     })
   }
 

@@ -44,3 +44,21 @@ button.grouping-option {
   color: #1565c0;
   height: 30px;
 }
+
+/* Checkbox style */
+
+
+app-root md-checkbox {
+  display: flex;
+  margin: 8px 12px 8px 8px;
+}
+
+app-root .md-checkbox-frame {
+  border-color: #888;
+}
+
+app-root .md-checkbox-inner-container {
+  height: 16px;
+  width: 16px;
+  margin-right: 0;
+}

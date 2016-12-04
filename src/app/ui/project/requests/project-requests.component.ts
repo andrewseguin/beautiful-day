@@ -121,4 +121,16 @@ export class ProjectRequestsComponent implements OnInit {
   hasSelectedRequests(): boolean {
     return this.requestsService.getSelectedRequests().size > 0;
   }
+
+  hasAllSelectedRequests(requests: Request[]): boolean {
+    return requests.every(request => {
+      return this.requestsService.isSelected(request.$key);
+    })
+  }
+
+  toggleGroupSelection(select: boolean, requests: Request[]) {
+    requests.forEach(request => {
+      this.requestsService.setSelected(request.$key, select);
+    })
+  }
 }

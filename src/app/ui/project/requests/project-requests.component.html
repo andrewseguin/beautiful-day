@@ -21,7 +21,12 @@
            *ngFor="let requestGroup of requestGroups.get(grouping); trackBy:getRequestGroupKey"
            [@groupTransition]="requestGroup.title">
         <div *ngIf="requestGroup.requests?.length">
-          <div class="title">{{requestGroup.title}}</div>
+          <div class="title">
+            <md-checkbox [checked]="hasAllSelectedRequests(requestGroup.requests)"
+                         (change)="toggleGroupSelection($event.checked, requestGroup.requests)">
+            </md-checkbox>
+            <span>{{requestGroup.title}}</span>
+          </div>
           <request *ngFor="let request of requestGroup.requests; trackBy:getRequestKey"
                    [request]="request"></request>
         </div>
