@@ -10,16 +10,37 @@ md-sidenav-layout.project {
 
 md-toolbar {
 
+  &.md-toolbar {
+    position: absolute;
+    min-height:48px;
+  }
+
   .md-toolbar-layout md-toolbar-row {
     @media (max-width: $mobile-width) {
-      height: 40px;
+      height: 48px;
     }
   }
 
   &.project-toolbar {
-    position: absolute;
     padding: 0;
+    z-index: 2;
+  }
+
+  &.sub-header {
+    display: none;
+    top: 48px;
+    left: 0;
+    right: 0;
+    height: $subheader-height;
     z-index: 1;
+
+    @media (max-width: $mobile-width) {
+      display: flex;
+    }
+
+    project-nav {
+      flex-grow: 1;
+    }
   }
 
   .toolbar-menu {
@@ -44,7 +65,6 @@ md-toolbar {
     justify-content: flex-end;
     height: 100%;
     align-items: center;
-    padding-right: 14px;
 
     .user {
       background-repeat: no-repeat;
@@ -52,6 +72,14 @@ md-toolbar {
       height: 40px;
       background-size: 40px;
       border-radius: 20px;
+      margin-right: 14px;
+
+      @media (max-width: $mobile-width) {
+        min-width: 32px;
+        height: 32px;
+        background-size: 32px;
+        margin-right: 10px;
+      }
     }
   }
 
@@ -59,14 +87,6 @@ md-toolbar {
     padding-left: 32px;
     @media (max-width: $mobile-width) {
       display: none;
-    }
-  }
-
-  .sub-header {
-    display: none;
-    height: 40px;
-    @media (max-width: $mobile-width) {
-      display: block;
     }
   }
 }
@@ -79,6 +99,6 @@ md-toolbar {
   bottom: 0;
   overflow: auto;
   @media (max-width: $mobile-width) {
-    top: 80px;
+    top: $subheader-height;
   }
 }

@@ -1,6 +1,6 @@
 import {
   Component, OnInit, ViewChild, animate, transition, style,
-  state, trigger
+  state, trigger, ElementRef
 } from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FirebaseObjectObservable} from "angularfire2";
@@ -16,6 +16,7 @@ import {
   Group, RequestGroup,
   RequestGroupingService
 } from "../../../service/request-grouping.service";
+import {SubheaderService} from "../../../service/subheader.service";
 
 
 @Component({
@@ -29,7 +30,7 @@ import {
       state('void', style({opacity: '0'})),
       transition(':enter', [
         style({transform: 'translateY(10%)'}),
-        animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
+        animate('500ms ease-in-out')]
       ),
     ])
   ]
@@ -39,15 +40,19 @@ export class ProjectRequestsComponent implements OnInit {
   _grouping: Group = 'all';
   projectId: string;
 
+  latestScrollPosition = 0;
+
   requestGroups: Map<Group, RequestGroup[]>;
 
   @ViewChild('groupingMenu') groupingMenu: MdMenu;
+  @ViewChild('scrollableContent') scrollableContent: ElementRef;
 
   constructor(private route: ActivatedRoute,
               private projectsService: ProjectsService,
               private requestGroupingService: RequestGroupingService,
               private requestsService: RequestsService,
               private mediaQuery: MediaQueryService,
+              private subheaderService: SubheaderService,
               private snackBar: MdSnackBar) { }
 
   ngOnInit() {
@@ -60,6 +65,23 @@ export class ProjectRequestsComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.grouping = params['group'];
     });
+  }
+
+  checkSubheader() {
+    let scrollPosition = this.scrollableContent.nativeElement.scrollTop;
+    if (scrollPosition > 60 && scrollPosition > this.latestScrollPosition) {
+      this.subheaderService.visibility(false);
+    }
+
+    if (scrollPosition < (this.latestScrollPosition - 60) ||
+        scrollPosition < 100) {
+      this.subheaderService.visibility(true);
+      this.latestScrollPosition = scrollPosition;
+    }
+
+    if (scrollPosition > this.latestScrollPosition) {
+      this.latestScrollPosition = scrollPosition;
+    }
   }
 
   getGroups() {

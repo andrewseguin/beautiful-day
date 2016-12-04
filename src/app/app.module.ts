@@ -31,6 +31,7 @@ import {MediaQueryService} from "./service/media-query.service";
 import {RequestGroupingService} from "./service/request-grouping.service";
 import {CanActivateViaAuthGuard} from "./auth-guard";
 import { LoginComponent } from './ui/login/login.component';
+import {SubheaderService} from "./service/subheader.service";
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { LoginComponent } from './ui/login/login.component';
     RequestsService,
     MediaQueryService,
     RequestGroupingService,
+    SubheaderService,
     CanActivateViaAuthGuard
   ],
   bootstrap: [AppComponent]

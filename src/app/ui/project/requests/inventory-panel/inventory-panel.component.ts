@@ -6,6 +6,7 @@ import {ProjectsService} from "../../../../service/projects.service";
 import {Project} from "../../../../model/project";
 import {Params, ActivatedRoute} from "@angular/router";
 import {RequestsService} from "../../../../service/requests.service";
+import {SubheaderService} from "../../../../service/subheader.service";
 
 @Component({
   selector: 'inventory-panel',
@@ -15,10 +16,12 @@ import {RequestsService} from "../../../../service/requests.service";
 export class InventoryPanelComponent implements OnInit {
   items: FirebaseListObservable<Item[]>;
   project: FirebaseObjectObservable<Project>;
+  subheaderVisibility: boolean = true;
 
   @Output('itemAdded') itemAdded = new EventEmitter();
 
   constructor(private route: ActivatedRoute,
+              private subheaderService: SubheaderService,
               private itemsService: ItemsService,
               private requestsService: RequestsService,
               private projectsService: ProjectsService) { }
@@ -28,6 +31,10 @@ export class InventoryPanelComponent implements OnInit {
     this.route.parent.params.forEach((params: Params) => {
       this.project = this.projectsService.getProject(params['id']);
     });
+
+    this.subheaderService.visibilitySubject.subscribe(visibility => {
+      this.subheaderVisibility = visibility;
+    })
   }
 
   addItem(item: Item) {

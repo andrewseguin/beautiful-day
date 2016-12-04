@@ -11,7 +11,6 @@ export class AppComponent implements OnInit {
   constructor(private auth: FirebaseAuth, private router: Router) {}
 
   ngOnInit() {
-    console.log('Loading app')
     this.auth.subscribe(auth => {
       if (!auth) {
         this.router.navigate(['login'])

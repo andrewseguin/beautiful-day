@@ -1,3 +1,9 @@
+@import '../../../../app.component';
+
+:host {
+  display: block;
+}
+
 .heading {
   font-weight: bold;
   height: 48px;

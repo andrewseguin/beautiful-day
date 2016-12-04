@@ -1,5 +1,5 @@
 <md-sidenav-layout>
-  <div class="scrollable-content">
+  <div class="scrollable-content" #scrollableContent (scroll)="checkSubheader($event)">
     <div class="requests-header md-elevation-z1">
 
       <div class="grouping-title">Group By:</div>

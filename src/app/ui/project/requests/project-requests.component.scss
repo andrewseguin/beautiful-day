@@ -1,7 +1,8 @@
 // Import theming functions
 @import '~@angular/material/core/theming/theming';
 // Import your custom theme
-@import 'src/app/theme';
+@import '../../../theme';
+@import '../../../app.component';
 
 :host {
   display: block;
@@ -16,12 +17,20 @@ md-sidenav-layout {
 .scrollable-content {
   overflow: auto;
   height: 100%;
+
+  @media (max-width: $mobile-width) {
+    padding-top: $subheader-height;
+  }
 }
 
 .requests-container {
   display: flex;
   align-items: center;
   flex-direction: column;
+
+  @media (max-width: $mobile-width) {
+    padding-bottom: 120px;
+  }
 }
 
 .requests {

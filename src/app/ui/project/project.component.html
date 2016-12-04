@@ -5,7 +5,8 @@
 
   <selection-header></selection-header>
 
-  <md-toolbar color="primary" class="md-elevation-z1 project-toolbar">
+  <md-toolbar color="primary" class="project-toolbar"
+              [class.md-elevation-z1]="!isMobile()">
     <button md-button class="toolbar-menu" (click)="sidenav.open()">
       <md-icon>menu</md-icon>
     </button>
@@ -24,10 +25,11 @@
       <button md-menu-item class="email">{{user.auth.email}}</button>
       <button md-menu-item class="logout" (click)="logout()">Logout</button>
     </md-menu>
+  </md-toolbar>
 
-    <md-toolbar-row class="sub-header">
-      <project-nav></project-nav>
-    </md-toolbar-row>
+  <md-toolbar class="sub-header" color="primary"
+              [@subheader]="subheaderVisibility">
+    <project-nav></project-nav>
   </md-toolbar>
 
   <div class="project-router-outlet">

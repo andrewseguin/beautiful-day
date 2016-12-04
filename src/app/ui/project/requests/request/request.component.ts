@@ -43,7 +43,6 @@ export class RequestComponent implements OnInit {
 
   changeQuantity(quantity: number) {
     this.requestsService.update(this.request.$key, {quantity});
-    console.log(this.quantityInput)
   }
 
   isSelected() {
