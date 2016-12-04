@@ -13,6 +13,7 @@ import {RequestsService} from "../../service/requests.service";
 import {ItemsService} from "../../service/items.service";
 import {MediaQueryService} from "../../service/media-query.service";
 import {SubheaderService} from "../../service/subheader.service";
+import {Item} from "../../model/item";
 
 @Component({
   selector: 'project',
@@ -64,11 +65,11 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  isMobile() {
+  isMobile(): boolean {
     return this.mediaQuery.isMobile();
   }
 
-  trigger() {
+  trigger(): void {
     if (this.subheaderVisibility == 'visible') {
       this.subheaderVisibility = 'hidden';
     } else {
@@ -76,19 +77,19 @@ export class ProjectComponent implements OnInit {
     }
   }
 
-  createNewProject() {
+  createNewProject(): void {
     this.projectsService.getProjects().push({name: 'test'});
   }
 
-  getItemName(itemKey: string) {
+  getItemName(itemKey: string): FirebaseObjectObservable<Item> {
     return this.itemsService.getItem(itemKey);
   }
 
-  login() {
+  login(): void {
     this.auth.login();
   }
 
-  logout() {
+  logout(): void {
     this.auth.logout();
     this.router.navigate(['login']);
   }

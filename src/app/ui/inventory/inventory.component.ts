@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ItemsService} from "../../service/items.service";
-import {FirebaseListObservable} from "angularfire2";
+import {FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
 import {CategoriesService} from "../../service/categories.service";
+import {Category} from "../../model/category";
 
 @Component({
   selector: 'inventory',
@@ -18,7 +19,7 @@ export class InventoryComponent implements OnInit {
     this.items = this.itemsService.getItems();
   }
 
-  getCategory(key: string) {
+  getCategory(key: string): FirebaseObjectObservable<Category> {
     return this.categoriesService.getCategory(key);
   }
 }
