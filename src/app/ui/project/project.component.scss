@@ -36,6 +36,7 @@ md-toolbar {
 
     @media (max-width: $mobile-width) {
       display: flex;
+      padding: 0;
     }
 
     project-nav {
