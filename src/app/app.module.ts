@@ -7,7 +7,7 @@ import {MaterialModule, MdIconRegistry} from '@angular/material';
 import {AngularFireModule} from 'angularfire2';
 import 'hammerjs';
 
-import {FIREBASE_CONFIG} from './firebase.config';
+import {FIREBASE_CONFIG, FIREBASE_AUTH} from './firebase.config';
 import {ROUTER_CONFIG} from './router.config';
 
 import {AppComponent} from './app.component';
@@ -29,6 +29,8 @@ import { EditNoteComponent } from './ui/dialog/edit-note/edit-note.component';
 import { EditDropoffComponent } from './ui/dialog/edit-dropoff/edit-dropoff.component';
 import {MediaQueryService} from "./service/media-query.service";
 import {RequestGroupingService} from "./service/request-grouping.service";
+import {CanActivateViaAuthGuard} from "./auth-guard";
+import { LoginComponent } from './ui/login/login.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import {RequestGroupingService} from "./service/request-grouping.service";
     SelectionHeaderComponent,
     EditNoteComponent,
     EditDropoffComponent,
+    LoginComponent,
   ],
   entryComponents: [
     EditNoteComponent,
@@ -55,7 +58,7 @@ import {RequestGroupingService} from "./service/request-grouping.service";
     FormsModule,
     HttpModule,
     MaterialModule.forRoot(),
-    AngularFireModule.initializeApp(FIREBASE_CONFIG),
+    AngularFireModule.initializeApp(FIREBASE_CONFIG, FIREBASE_AUTH),
     RouterModule.forRoot(ROUTER_CONFIG)
   ],
   providers: [
@@ -65,7 +68,8 @@ import {RequestGroupingService} from "./service/request-grouping.service";
     CategoriesService,
     RequestsService,
     MediaQueryService,
-    RequestGroupingService
+    RequestGroupingService,
+    CanActivateViaAuthGuard
   ],
   bootstrap: [AppComponent]
 })

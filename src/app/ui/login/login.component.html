@@ -1,0 +1,11 @@
+<div class="center md-elevation-z6">
+  <md-progress-circle *ngIf="checkingAuth"
+                      mode="indeterminate">
+  </md-progress-circle>
+
+  <button md-button
+          *ngIf="!checkingAuth"
+          (click)="login()">
+    Login
+  </button>
+</div>

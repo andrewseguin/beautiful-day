@@ -23,3 +23,24 @@ button.grouping-option {
   font-size: 15px;
   height: 40px;
 }
+
+.md-menu-panel.auth .md-menu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.md-menu-panel.auth button {
+  justify-content: flex-end;
+  font-size: 14px;
+  height: 24px;
+}
+
+.md-menu-panel.auth button.email {
+  pointer-events: none;
+}
+
+.md-menu-panel.auth button.logout {
+  color: #1565c0;
+  height: 30px;
+}
