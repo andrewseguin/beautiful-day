@@ -81,16 +81,7 @@ export class ProjectComponent implements OnInit {
     this.projectsService.getProjects().push({name: 'test'});
   }
 
-  getItemName(itemKey: string): FirebaseObjectObservable<Item> {
-    return this.itemsService.getItem(itemKey);
-  }
-
-  login(): void {
-    this.auth.login();
-  }
-
   logout(): void {
     this.auth.logout();
-    this.router.navigate(['login']);
   }
 }

@@ -70,14 +70,13 @@ export class SelectionHeaderComponent {
 
     const selectedRequests = this.requestsService.getSelectedRequests();
     dialogRef.componentInstance.requestIds = selectedRequests;
-    if (selectedRequests.size == 1) {
-      selectedRequests.forEach(requestKey => {
-        this.requestsService.getRequest(requestKey).subscribe(request => {
-          dialogRef.componentInstance.selectedDropoffLocation = request.dropoff;
-          dialogRef.componentInstance.setDateFromRequest(request.date);
-          dialogRef.componentInstance.project = request.project;
-        })
-      });
-    }
+    const firstRequest = selectedRequests.values().next().value;
+    this.requestsService.getRequest(firstRequest).subscribe(request => {
+      if (selectedRequests.size == 1) {
+        dialogRef.componentInstance.selectedDropoffLocation = request.dropoff;
+        dialogRef.componentInstance.setDateFromRequest(request.date);
+      }
+      dialogRef.componentInstance.project = request.project;
+    });
   }
 }

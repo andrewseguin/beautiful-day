@@ -63,6 +63,16 @@ md-sidenav-layout {
   color: #FAFAFA;
   height: 48px;
 
+  & > * {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+  }
+  &.visible {
+    & > * {
+      opacity: 1;
+    }
+  }
+
   button.grouping-menu-button {
     padding: 0 8px;
     margin: 4px;

@@ -18,8 +18,6 @@ export const ROUTER_CONFIG = [
   },
   { path: 'inventory', component: InventoryComponent },
   { path: 'login', component: LoginComponent},
-  { path: '', component: ProjectComponent,
-    canActivate: [CanActivateViaAuthGuard]
+  { path: '', component: ProjectComponent, canActivate: [CanActivateViaAuthGuard]
   },
-  { path: '**', redirectTo: '' }
 ];

@@ -24,7 +24,9 @@ export class EditDropoffComponent implements OnInit {
   ngOnInit() {
     this.dropoffLocations = new Set<string>();
     this.requestsService.getProjectRequests(this.project).subscribe(requests => {
-      requests.forEach(request => this.dropoffLocations.add(request.dropoff));
+      requests.forEach(request => {
+        if (request.dropoff) { this.dropoffLocations.add(request.dropoff); }
+      });
     });
   }
 
@@ -75,6 +77,7 @@ export class EditDropoffComponent implements OnInit {
     });
 
     // Store the setting to use as defaults for new requests
+    console.log(`Storing last values as ${this.selectedDropoffLocation}, ${date.getTime()} for project ${this.project}`);
     this.projectsService.setLastDropoff(this.project,
       this.selectedDropoffLocation, date.getTime());
 

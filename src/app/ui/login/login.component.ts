@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AngularFire} from "angularfire2";
+import {FirebaseAuth} from "angularfire2";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'login',
@@ -9,13 +10,20 @@ import {AngularFire} from "angularfire2";
 export class LoginComponent implements OnInit {
   checkingAuth: boolean = true;
 
-  constructor(private af: AngularFire) { }
+  constructor(private auth: FirebaseAuth, private route: Router) { }
 
   ngOnInit() {
-    this.af.auth.subscribe(() => { this.checkingAuth = false });
+    this.auth.subscribe(auth => {
+      this.checkingAuth = false;
+      if (auth) {
+        const locationHash = window.location.hash.substr(1);
+        this.route.navigate([locationHash || '']);
+      }
+    });
   }
 
   login() {
-    this.af.auth.login();
+    this.checkingAuth = true;
+    this.auth.login();
   }
 }

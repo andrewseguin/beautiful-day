@@ -8,14 +8,15 @@ import {Router} from "@angular/router";
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private auth: FirebaseAuth, private router: Router) {}
+  constructor(private auth: FirebaseAuth,
+              private router: Router) {}
 
   ngOnInit() {
     this.auth.subscribe(auth => {
       if (!auth) {
-        this.router.navigate(['login'])
-      } else {
-        this.router.navigate(['']);
+        // Navigate to the login and pass it the current location
+        // so that after login, it can redirect back.
+        this.router.navigate(['login'], {fragment: location.pathname})
       }
     });
   }

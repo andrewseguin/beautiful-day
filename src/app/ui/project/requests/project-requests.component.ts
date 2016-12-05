@@ -84,8 +84,17 @@ export class ProjectRequestsComponent implements OnInit {
     }
   }
 
-  getGroups() {
+  getGroups(): string[] {
     return this.requestGroupingService.getGroupNames();
+  }
+
+  isLoadingRequests(): boolean {
+    return !!this.requestGroups;
+  }
+
+  hasRequests(): boolean {
+    const allRequests = this.requestGroups.get('all');
+    return !!allRequests && allRequests[0] && allRequests[0].requests.length > 0;
   }
 
   getGroupingName(grouping: string): string {
