@@ -15,10 +15,16 @@ export class ProjectsService {
     return this.af.database.object(`projects/${id}`);
   }
 
-  setLastDropoff(id, dropoff, date) {
+  setLastDropoff(id, dropoff, date): void {
     this.getProject(id).update({
       lastUsedDropoff: dropoff,
       lastUsedDate: date
     })
+  }
+
+  update(id, update: Project): void {
+    console.log('Updating ' + id + ' with ' + update);
+    console.log(update);
+    this.getProject(id).update(update);
   }
 }

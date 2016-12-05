@@ -5,6 +5,8 @@ import {ProjectsService} from "../../../service/projects.service";
 import {Request} from "../../../model/request";
 import {FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
 import {Project} from "../../../model/project";
+import {MdDialog} from "@angular/material";
+import {EditProjectComponent} from "../../dialog/edit-project/edit-project.component";
 
 @Component({
   selector: 'project-details',
@@ -12,17 +14,24 @@ import {Project} from "../../../model/project";
   styleUrls: ['project-details.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
-  project: FirebaseObjectObservable<Project>;
+  project: Project;
   requests: FirebaseListObservable<Request[]>;
 
   constructor(private route: ActivatedRoute,
-              private projectsService: ProjectsService,
-              private requestsService: RequestsService,) { }
+              private mdDialog: MdDialog,
+              private projectsService: ProjectsService) { }
 
   ngOnInit() {
     this.route.parent.params.forEach((params: Params) => {
-      this.project = this.projectsService.getProject(params['id']);
-      this.requests = this.requestsService.getProjectRequests(params['id']);
+      this.projectsService.getProject(params['id']).subscribe(project => {
+        this.project = project;
+      });
     });
+  }
+
+  edit() {
+    const dialogRef = this.mdDialog.open(EditProjectComponent);
+    console.log(this.project);
+    dialogRef.componentInstance.project = this.project;
   }
 }

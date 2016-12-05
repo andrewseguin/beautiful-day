@@ -32,6 +32,7 @@ import {RequestGroupingService} from "./service/request-grouping.service";
 import {CanActivateViaAuthGuard} from "./auth-guard";
 import { LoginComponent } from './ui/login/login.component';
 import {SubheaderService} from "./service/subheader.service";
+import { EditProjectComponent } from './ui/dialog/edit-project/edit-project.component';
 
 @NgModule({
   declarations: [
@@ -49,10 +50,12 @@ import {SubheaderService} from "./service/subheader.service";
     EditNoteComponent,
     EditDropoffComponent,
     LoginComponent,
+    EditProjectComponent,
   ],
   entryComponents: [
     EditNoteComponent,
     EditDropoffComponent,
+    EditProjectComponent,
   ],
   imports: [
     BrowserModule,

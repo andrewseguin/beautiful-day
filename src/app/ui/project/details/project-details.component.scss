@@ -1,6 +1,6 @@
 @import '../../../app.component';
 
-:host {
+.info {
   display: flex;
   justify-content: center;
 
@@ -10,8 +10,24 @@
 }
 
 @media (max-width: 750px) {
-  :host {
+  .info {
     flex-direction: column;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  background: rgba(21,101,192,.1);
+  border-top: 1px solid #BBB;
+  padding: 16px;
+
+  .edit, .delete {
+    margin: 0 24px;
+  }
+
+  md-icon {
+    padding-right: 4px;
   }
 }
 

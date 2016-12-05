@@ -1,73 +1,87 @@
-<div class="left">
-  <div class="section">
-    <div class="title">Description</div>
-    Nulla turpis augue, eleifend quis aliquam et, feugiat at lorem. Donec pharetra quam lectus, vitae pulvinar lectus malesuada ac. Suspendisse laoreet elit in mauris volutpat feugiat. Donec ac mollis massa. Proin nunc augue, commodo in leo sed, pellentesque condimentum sem. Sed quis erat vel sem rhoncus dignissim vitae id urna. Maecenas vehicula, magna nec feugiat vehicula, ipsum libero volutpat nisl, vitae euismod neque lorem vel orci. Curabitur ornare ante nibh, eu euismod nulla ullamcorper sit amet.
+<div class="info">
+  <div class="left">
+    <div class="section">
+      <div class="title">Description</div>
+      Nulla turpis augue, eleifend quis aliquam et, feugiat at lorem. Donec pharetra quam lectus, vitae pulvinar lectus malesuada ac. Suspendisse laoreet elit in mauris volutpat feugiat. Donec ac mollis massa. Proin nunc augue, commodo in leo sed, pellentesque condimentum sem. Sed quis erat vel sem rhoncus dignissim vitae id urna. Maecenas vehicula, magna nec feugiat vehicula, ipsum libero volutpat nisl, vitae euismod neque lorem vel orci. Curabitur ornare ante nibh, eu euismod nulla ullamcorper sit amet.
+    </div>
+
+    <div class="section">
+      <div class="title">Owners</div>
+      <div class="owner md-elevation-z2">
+        <div class="heading">
+          <div class="role"> Manager </div>
+        </div>
+        <div class="content">
+          <div class="pic">AS</div>
+          <div class="id">
+            <div class="name"> Andrew Seguin </div>
+            <a href="tel:1-847-555-5555">1-847-555-5555</a>
+            <a href="mailto:andrewseguin@beautifulday.org">
+              andrewseguin@beautifulday.org
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="owner md-elevation-z2">
+        <div class="heading">
+          <div class="role"> Director </div>
+        </div>
+        <div class="content">
+          <div class="pic">AT</div>
+          <div class="id">
+            <div class="name"> Amy Tanner </div>
+            <a href="tel:1-847-555-5555">1-847-555-5555</a>
+            <a href="mailto:amytanner@beautifulday.org">
+              amytanner@beautifulday.org
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="owner md-elevation-z2">
+        <div class="heading">
+          <div class="role"> Acquisitions </div>
+        </div>
+        <div class="content">
+          <div class="pic">JL</div>
+          <div class="id">
+            <div class="name"> Jen Laity </div>
+            <a href="tel:1-847-555-5555">1-847-555-5555</a>
+            <a href="mailto:jenlaity@beautifulday.org">
+              jenlaity@beautifulday.org
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="section">
-    <div class="title">Owners</div>
-    <div class="owner md-elevation-z2">
-      <div class="heading">
-        <div class="role"> Manager </div>
-      </div>
-      <div class="content">
-        <div class="pic">AS</div>
-        <div class="id">
-          <div class="name"> Andrew Seguin </div>
-          <a href="tel:1-847-555-5555">1-847-555-5555</a>
-          <a href="mailto:andrewseguin@beautifulday.org">
-            andrewseguin@beautifulday.org
-          </a>
+  <div class="right">
+    <div class="section">
+      <div class="title">Location</div>
+      <div class="location">
+        <div class="loading">
+          Loading map...
+          <md-progress-circle mode="indeterminate" color="primary"></md-progress-circle>
         </div>
-      </div>
-    </div>
-
-    <div class="owner md-elevation-z2">
-      <div class="heading">
-        <div class="role"> Director </div>
-      </div>
-      <div class="content">
-        <div class="pic">AT</div>
-        <div class="id">
-          <div class="name"> Amy Tanner </div>
-          <a href="tel:1-847-555-5555">1-847-555-5555</a>
-          <a href="mailto:amytanner@beautifulday.org">
-            amytanner@beautifulday.org
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="owner md-elevation-z2">
-      <div class="heading">
-        <div class="role"> Acquisitions </div>
-      </div>
-      <div class="content">
-        <div class="pic">JL</div>
-        <div class="id">
-          <div class="name"> Jen Laity </div>
-          <a href="tel:1-847-555-5555">1-847-555-5555</a>
-          <a href="mailto:jenlaity@beautifulday.org">
-            jenlaity@beautifulday.org
-          </a>
-        </div>
+        <iframe
+          frameborder="0" style="border:0"
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY
+        &q=1295 Dentwood Dr" allowfullscreen>
+        </iframe>
       </div>
     </div>
   </div>
 </div>
 
-<div class="right">
-  <div class="section">
-    <div class="title">Location</div>
-    <div class="location">
-      <div class="loading">
-        Loading map...
-        <md-progress-circle mode="indeterminate" color="primary"></md-progress-circle>
-      </div>
-      <iframe
-        frameborder="0" style="border:0"
-        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY
-      &q=1295 Dentwood Dr" allowfullscreen>
-      </iframe>
-    </div>
+<div class="footer">
+  <button md-button color="primary" class="edit" (click)="edit()">
+    <md-icon>edit</md-icon>
+    Edit
+  </button>
+  <button md-button color="primary" class="delete">
+    <md-icon>delete</md-icon>
+    Delete
+  </button>
 </div>
