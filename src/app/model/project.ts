@@ -1,5 +1,6 @@
 export interface Project {
   $key?: string;
+  $exists?: Function;
   location?: string;
   name?: string;
   description?: string;

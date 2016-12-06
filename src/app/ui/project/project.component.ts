@@ -31,7 +31,7 @@ import {Item} from "../../model/item";
   ]
 })
 export class ProjectComponent implements OnInit {
-  project: FirebaseObjectObservable<Project>;
+  project: Project;
   requests: FirebaseListObservable<any[]>;
   user: FirebaseAuthState;
   subheaderVisibility: 'visible'|'hidden' = 'visible';
@@ -42,20 +42,22 @@ export class ProjectComponent implements OnInit {
               private subheaderService: SubheaderService,
               private mediaQuery: MediaQueryService,
               private projectsService: ProjectsService,
-              private requestsService: RequestsService,
-              private itemsService: ItemsService) {}
+              private requestsService: RequestsService) {}
 
   ngOnInit() {
     this.auth.subscribe(auth => this.user = auth );
 
     this.route.params.forEach((params: Params) => {
+      console.log(params['id'])
       if (!params['id']) {
         this.auth.subscribe(() => {
           // TODO: Use user to determine their project and go there
           this.router.navigate(['project/-KPUWxkWYm6E0HiMArw8']);
         })
       } else {
-        this.project = this.projectsService.getProject(params['id']);
+        this.projectsService.getProject(params['id']).subscribe(project => {
+          this.project = project;
+        });
         this.requests = this.requestsService.getProjectRequests(params['id']);
       }
     });

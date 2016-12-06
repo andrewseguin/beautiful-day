@@ -19,4 +19,8 @@ export class NavComponent implements OnInit {
   ngOnInit() {
     this.projects = this.projectsService.getProjects();
   }
+
+  addProject() {
+    this.projectsService.createProject();
+  }
 }

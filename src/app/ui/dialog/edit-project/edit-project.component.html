@@ -24,7 +24,9 @@
 <div *ngIf="type == 'managers'">
   <div *ngFor="let manager of managers; let i = index; trackBy:managerTrackBy"
        class="manager-row">
-    <md-input autofocus [(ngModel)]="managers[i]"
+    <md-input autofocus
+              placeholder="manager@beautifulday.org" [floatingPlaceholder]="false"
+              [(ngModel)]="managers[i]"
               (keyup.Enter)="save()"></md-input>
     <button md-icon-button [disabled]="i == 0">
       <md-icon>delete</md-icon>

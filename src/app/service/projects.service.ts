@@ -17,6 +17,14 @@ export class ProjectsService {
     return this.af.database.object(`projects/${id}`);
   }
 
+  createProject() {
+    this.getProjects().push({
+      name: 'New Project',
+      description: 'No description',
+      location: 'Westgate Church | Saratoga Campus'
+    });
+  }
+
   setLastDropoff(id, dropoff, date): void {
     this.getProject(id).update({
       lastUsedDropoff: dropoff,

@@ -103,3 +103,18 @@ md-toolbar {
     top: $subheader-height;
   }
 }
+
+md-progress-bar {
+  position: absolute;
+  top: 64px;
+  @media (max-width: $mobile-width) {
+    top: $subheader-height;
+  }
+}
+
+.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}

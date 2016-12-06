@@ -11,7 +11,10 @@
       <md-icon>menu</md-icon>
     </button>
 
-    <div class="name">{{(project | async)?.name || 'Loading...'}}</div>
+    <div class="name">
+      <span *ngIf="!project">Loading...</span>
+      <span *ngIf="project?.$exists()">{{project.name}}</span>
+    </div>
 
     <project-nav class="main"></project-nav>
 
@@ -28,11 +31,19 @@
   </md-toolbar>
 
   <md-toolbar class="sub-header" color="primary"
+              *ngIf="project?.$exists()"
               [@subheader]="subheaderVisibility">
     <project-nav></project-nav>
   </md-toolbar>
 
-  <div class="project-router-outlet">
+  <div *ngIf="!project">
+    <md-progress-bar mode="indeterminate" color="primary"></md-progress-bar>
+  </div>
+  <div *ngIf="!project?.$exists()" class="not-found">
+    This project does not exist.
+  </div>
+  <div class="project-router-outlet"
+       [style.visibility]="project?.$exists() ? 'visible' : 'hidden'">
     <router-outlet></router-outlet>
   </div>
 
