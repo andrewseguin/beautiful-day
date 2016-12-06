@@ -12,7 +12,6 @@ export class RequestsService {
   selectedRequests: Set<string> = new Set();
 
   constructor(private af: AngularFire,
-              private projectsService: ProjectsService,
               private router: Router) {
     // Clear selected requests when route changes.
     this.router.events.subscribe(() => this.clearSelected());

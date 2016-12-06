@@ -1,0 +1,45 @@
+<div class="header">
+  <div class="title">Edit <span style="text-transform: capitalize">{{type}}</span></div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+<div *ngIf="type == 'name'">
+  <md-input autofocus
+            (keyup.Enter)="save()"
+            [(ngModel)]="name"></md-input>
+</div>
+
+<div *ngIf="type == 'description'">
+  <md-textarea autofocus
+               (keydown)="adjustHeight($event)"
+               [(ngModel)]="description"></md-textarea>
+</div>
+
+<div *ngIf="type == 'location'">
+  <md-input autofocus
+            (keyup.Enter)="save()"
+            [(ngModel)]="location"></md-input>
+</div>
+
+<div *ngIf="type == 'managers'">
+  <div *ngFor="let manager of managers; let i = index; trackBy:managerTrackBy"
+       class="manager-row">
+    <md-input autofocus [(ngModel)]="managers[i]"
+              (keyup.Enter)="save()"></md-input>
+    <button md-icon-button [disabled]="i == 0">
+      <md-icon>delete</md-icon>
+    </button>
+  </div>
+  <button md-button (click)="managers.push('')">Add Manager</button>
+</div>
+
+<div *ngIf="type == 'director'">
+  <md-input autofocus
+            (keyup.Enter)="save()"
+            [(ngModel)]="director"></md-input>
+</div>
+
+<div class="actions">
+  <button md-button (click)="close()">Cancel</button>
+  <button md-button (click)="save()">Save</button>
+</div>

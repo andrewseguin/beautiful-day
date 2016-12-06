@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {Params, ActivatedRoute} from "@angular/router";
-import {RequestsService} from "../../../service/requests.service";
 import {ProjectsService} from "../../../service/projects.service";
 import {Request} from "../../../model/request";
-import {FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
+import {FirebaseListObservable} from "angularfire2";
 import {Project} from "../../../model/project";
 import {MdDialog} from "@angular/material";
-import {EditProjectComponent} from "../../dialog/edit-project/edit-project.component";
+import {EditProjectComponent, EditType} from "../../dialog/edit-project/edit-project.component";
+import {DeleteProjectComponent} from "../../dialog/delete-project/delete-project.component";
 
 @Component({
   selector: 'project-details',
@@ -29,9 +29,14 @@ export class ProjectDetailsComponent implements OnInit {
     });
   }
 
-  edit() {
+  edit(type: EditType) {
     const dialogRef = this.mdDialog.open(EditProjectComponent);
-    console.log(this.project);
+    dialogRef.componentInstance.project = this.project;
+    dialogRef.componentInstance.type = type;
+  }
+
+  deleteProject() {
+    const dialogRef = this.mdDialog.open(DeleteProjectComponent);
     dialogRef.componentInstance.project = this.project;
   }
 }

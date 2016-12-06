@@ -2,7 +2,7 @@
   <div class="left">
     <div class="section">
       <div class="title">Description</div>
-      Nulla turpis augue, eleifend quis aliquam et, feugiat at lorem. Donec pharetra quam lectus, vitae pulvinar lectus malesuada ac. Suspendisse laoreet elit in mauris volutpat feugiat. Donec ac mollis massa. Proin nunc augue, commodo in leo sed, pellentesque condimentum sem. Sed quis erat vel sem rhoncus dignissim vitae id urna. Maecenas vehicula, magna nec feugiat vehicula, ipsum libero volutpat nisl, vitae euismod neque lorem vel orci. Curabitur ornare ante nibh, eu euismod nulla ullamcorper sit amet.
+      {{project?.description}}
     </div>
 
     <div class="section">
@@ -67,8 +67,7 @@
         </div>
         <iframe
           frameborder="0" style="border:0"
-          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY
-        &q=1295 Dentwood Dr" allowfullscreen>
+          [src]="('https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY&q=' + project?.location) | safeUrl" allowfullscreen>
         </iframe>
       </div>
     </div>
@@ -76,12 +75,21 @@
 </div>
 
 <div class="footer">
-  <button md-button color="primary" class="edit" (click)="edit()">
+  <button md-button color="primary" class="edit"
+          [md-menu-trigger-for]="editMenu">
     <md-icon>edit</md-icon>
     Edit
   </button>
-  <button md-button color="primary" class="delete">
+  <button md-button color="warn" class="delete" (click)="deleteProject()">
     <md-icon>delete</md-icon>
     Delete
   </button>
 </div>
+
+<md-menu #editMenu="mdMenu" y-position="above">
+  <button md-menu-item (click)="edit('name')"> Name </button>
+  <button md-menu-item (click)="edit('location')"> Location </button>
+  <button md-menu-item (click)="edit('description')"> Description </button>
+  <button md-menu-item (click)="edit('managers')"> Managers </button>
+  <button md-menu-item (click)="edit('director')"> Director </button>
+</md-menu>

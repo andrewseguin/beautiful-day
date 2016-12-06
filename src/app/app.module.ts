@@ -33,6 +33,8 @@ import {CanActivateViaAuthGuard} from "./auth-guard";
 import { LoginComponent } from './ui/login/login.component';
 import {SubheaderService} from "./service/subheader.service";
 import { EditProjectComponent } from './ui/dialog/edit-project/edit-project.component';
+import { SafeUrlPipe } from './pipe/safe-url.pipe';
+import { DeleteProjectComponent } from './ui/dialog/delete-project/delete-project.component';
 
 @NgModule({
   declarations: [
@@ -51,11 +53,14 @@ import { EditProjectComponent } from './ui/dialog/edit-project/edit-project.comp
     EditDropoffComponent,
     LoginComponent,
     EditProjectComponent,
+    SafeUrlPipe,
+    DeleteProjectComponent,
   ],
   entryComponents: [
     EditNoteComponent,
     EditDropoffComponent,
     EditProjectComponent,
+    DeleteProjectComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,14 @@
+@import '../dialog-common';
+
+:host {
+  display: block;
+  max-width: 400px;
+}
+
+.text {
+  padding: 16px 0;
+
+  .emphasize {
+    font-weight: bold;
+  }
+}

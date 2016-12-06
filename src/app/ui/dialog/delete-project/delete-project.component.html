@@ -1,0 +1,21 @@
+<div class="header">
+  <div class="title">Delete Project - Are you sure?</div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+<div class="text">
+  Deleting this project will <span class="emphasize">permanently</span>
+  erase all details, notes, and requests related to this project.
+</div>
+<div class="text">
+  To confirm, type the word 'DELETE' into the input below.
+</div>
+<md-input autofocus [(ngModel)]="deleteCheck"></md-input>
+
+<div class="actions">
+  <button md-button (click)="close()">Cancel</button>
+  <button md-raised-button (click)="deleteProject()" color="warn"
+          [disabled]="deleteCheck.toLowerCase().trim() != 'delete'">
+    Delete
+  </button>
+</div>
