@@ -35,6 +35,7 @@ import {SubheaderService} from "./service/subheader.service";
 import { EditProjectComponent } from './ui/dialog/edit-project/edit-project.component';
 import { SafeUrlPipe } from './pipe/safe-url.pipe';
 import { DeleteProjectComponent } from './ui/dialog/delete-project/delete-project.component';
+import {UsersService} from "./service/users.service";
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { DeleteProjectComponent } from './ui/dialog/delete-project/delete-projec
     MediaQueryService,
     RequestGroupingService,
     SubheaderService,
+    UsersService,
     CanActivateViaAuthGuard
   ],
   bootstrap: [AppComponent]

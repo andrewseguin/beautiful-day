@@ -20,12 +20,12 @@
 
     <div class="end">
       <button md-button class="user"
-           [style.backgroundImage]="'url(' + user.auth.photoURL + ')'"
+           [style.backgroundImage]="'url(' + user?.auth.photoURL + ')'"
            [md-menu-trigger-for]="menu"></button>
     </div>
 
     <md-menu #menu="mdMenu" x-position="before" class="auth">
-      <button md-menu-item class="email">{{user.auth.email}}</button>
+      <button md-menu-item class="email">{{user?.auth.email}}</button>
       <button md-menu-item class="logout" (click)="logout()">Logout</button>
     </md-menu>
   </md-toolbar>

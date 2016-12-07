@@ -3,6 +3,7 @@ import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from "ang
 
 import {Project} from '../model/project';
 import {RequestsService} from "./requests.service";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class ProjectsService {
@@ -11,6 +12,22 @@ export class ProjectsService {
 
   getProjects(): FirebaseListObservable<Project[]> {
     return this.af.database.list('projects');
+  }
+
+  getUsersProjects(email: string): Observable<Project[]> {
+    return this.getProjects().flatMap(projects => {
+
+      let usersProjects = [];
+      projects.forEach(project => {
+        let managers = project.managers ? project.managers.split(',') : [];
+        let isManager = managers.some(manager => manager == email);
+
+        if (isManager || project.director == email) {
+          usersProjects.push(project);
+        }
+      });
+      return [usersProjects];
+    });
   }
 
   getProject(id: string): FirebaseObjectObservable<Project> {
@@ -33,7 +50,6 @@ export class ProjectsService {
   }
 
   update(id, update: Project): void {
-    console.log(update)
     this.getProject(id).update(update);
   }
 

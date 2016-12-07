@@ -7,6 +7,7 @@ import {CanActivateViaAuthGuard} from "./auth-guard";
 import {LoginComponent} from "./ui/login/login.component";
 
 export const ROUTER_CONFIG = [
+  { path: 'project', component: ProjectComponent},
   { path: 'project/:id', component: ProjectComponent, canActivate: [CanActivateViaAuthGuard],
     children: [
       { path: '', redirectTo: 'details', pathMatch: 'full' },
@@ -18,6 +19,4 @@ export const ROUTER_CONFIG = [
   },
   { path: 'inventory', component: InventoryComponent },
   { path: 'login', component: LoginComponent},
-  { path: '', component: ProjectComponent, canActivate: [CanActivateViaAuthGuard]
-  },
 ];

@@ -9,4 +9,5 @@ export interface Project {
   dropoff?: Map<string, string>;
   lastUsedDropoff?: string;
   lastUsedDate?: string;
+  auth?: string[];
 }

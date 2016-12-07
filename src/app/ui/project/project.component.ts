@@ -1,6 +1,6 @@
 import {
   Component, OnInit, ViewEncapsulation, animate, style, transition,
-  state, trigger
+  state, trigger, ViewChild
 } from '@angular/core';
 import {
   FirebaseListObservable, FirebaseAuth, FirebaseAuthState
@@ -11,6 +11,7 @@ import {ProjectsService} from "../../service/projects.service";
 import {RequestsService} from "../../service/requests.service";
 import {MediaQueryService} from "../../service/media-query.service";
 import {SubheaderService} from "../../service/subheader.service";
+import {MdSidenav} from "@angular/material";
 
 @Component({
   selector: 'project',
@@ -33,6 +34,10 @@ export class ProjectComponent implements OnInit {
   user: FirebaseAuthState;
   subheaderVisibility: 'visible'|'hidden' = 'visible';
 
+  userHasNoProject: boolean = false;
+
+  @ViewChild('sidenav') sidenav: MdSidenav;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private auth: FirebaseAuth,
@@ -46,10 +51,10 @@ export class ProjectComponent implements OnInit {
 
     this.route.params.forEach((params: Params) => {
       if (!params['id']) {
-        this.auth.subscribe(() => {
-          // TODO: Use user to determine their project and go there
-          this.router.navigate(['project/-KPUWxkWYm6E0HiMArw8']);
-        })
+        // If the user was directed here without a project, then go to first project
+        this.projectsService.getProjects().take(1).subscribe(project => {
+          this.router.navigate([`project/${project[0].$key}`]);
+        });
       } else {
         this.projectsService.getProject(params['id']).subscribe(project => {
           this.project = project;
