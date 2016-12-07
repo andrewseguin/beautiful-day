@@ -67,7 +67,7 @@
         </div>
         <iframe
           frameborder="0" style="border:0"
-          [src]="('https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY&q=' + project?.location) | safeUrl" allowfullscreen>
+          [src]="('https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY&q=' + (project | async)?.location) | safeUrl" allowfullscreen>
         </iframe>
       </div>
     </div>
