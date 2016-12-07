@@ -27,7 +27,7 @@ export class EditProjectComponent implements OnInit {
     this.name = this.project.name;
     this.description = this.project.description;
     this.location = this.project.location;
-    this.managers = [''] || this.project.managers.split(',');
+    this.managers = this.project.managers ? this.project.managers.split(',') : [''];
     this.director = this.project.director;
   }
 
@@ -36,22 +36,22 @@ export class EditProjectComponent implements OnInit {
   }
 
   save(): void {
-    let update = {};
+    let update: Project = {};
 
     switch (this.type) {
       case 'name':
-        update = {name: this.name}; break;
+        update.name = this.name; break;
       case 'location':
-        update = {location: this.location}; break;
+        update.location = this.location; break;
       case 'description':
-        update = {description: this.description}; break;
+        update.description = this.description; break;
       case 'managers':
         const managersArray = [];
         this.managers.forEach(manager => managersArray.push(manager));
-        update = {managers: managersArray.join()};
+        update.managers = managersArray.join();
         break;
-      case 'description':
-        update = {description: this.description}; break;
+      case 'director':
+        update.director = this.director; break;
     }
 
     this.projectsService.update(this.project.$key, update);

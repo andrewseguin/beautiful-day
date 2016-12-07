@@ -33,6 +33,7 @@ export class ProjectsService {
   }
 
   update(id, update: Project): void {
+    console.log(update)
     this.getProject(id).update(update);
   }
 
