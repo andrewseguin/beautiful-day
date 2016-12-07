@@ -2,7 +2,7 @@
   <div class="left">
     <div class="section">
       <div class="title">Description</div>
-      {{project?.description}}
+      {{(project | async)?.description}}
     </div>
 
     <div class="section">

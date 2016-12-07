@@ -3,17 +3,14 @@ import {
   state, trigger
 } from '@angular/core';
 import {
-  FirebaseObjectObservable, FirebaseListObservable, AngularFire,
-  FirebaseAuth, FirebaseAuthState
+  FirebaseListObservable, FirebaseAuth, FirebaseAuthState
 } from "angularfire2";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Project} from "../../model/project";
 import {ProjectsService} from "../../service/projects.service";
 import {RequestsService} from "../../service/requests.service";
-import {ItemsService} from "../../service/items.service";
 import {MediaQueryService} from "../../service/media-query.service";
 import {SubheaderService} from "../../service/subheader.service";
-import {Item} from "../../model/item";
 
 @Component({
   selector: 'project',
@@ -48,7 +45,6 @@ export class ProjectComponent implements OnInit {
     this.auth.subscribe(auth => this.user = auth );
 
     this.route.params.forEach((params: Params) => {
-      console.log(params['id'])
       if (!params['id']) {
         this.auth.subscribe(() => {
           // TODO: Use user to determine their project and go there

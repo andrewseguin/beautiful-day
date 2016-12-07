@@ -39,7 +39,7 @@
   <div *ngIf="!project">
     <md-progress-bar mode="indeterminate" color="primary"></md-progress-bar>
   </div>
-  <div *ngIf="!project?.$exists()" class="not-found">
+  <div *ngIf="project && !project?.$exists()" class="not-found">
     This project does not exist.
   </div>
   <div class="project-router-outlet"
