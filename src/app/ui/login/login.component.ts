@@ -25,8 +25,8 @@ export class LoginComponent implements OnInit {
         if (!user) { this.usersService.create(auth); }
       });
 
-      // Navigate out of login
-      const locationHash = window.location.hash.substr(1);
+      // Navigate out of login.
+      let locationHash = window.location.hash.substr(1);
       this.route.navigate([locationHash || '']);
     });
   }

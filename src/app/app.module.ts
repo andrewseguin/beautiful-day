@@ -23,7 +23,7 @@ import { ProjectDetailsComponent } from './ui/project/details/project-details.co
 import { ProjectNotesComponent } from './ui/project/notes/project-notes.component';
 import { ProjectRequestsComponent } from './ui/project/requests/project-requests.component';
 import { InventoryPanelComponent } from './ui/project/requests/inventory-panel/inventory-panel.component';
-import { ProjectNavComponent } from './ui/project/nav/project-nav.component';
+import { ProjectNavComponent } from './ui/header/project-nav/project-nav.component';
 import { SelectionHeaderComponent } from './ui/selection-header/selection-header.component';
 import { EditNoteComponent } from './ui/dialog/edit-note/edit-note.component';
 import { EditDropoffComponent } from './ui/dialog/edit-dropoff/edit-dropoff.component';
@@ -36,6 +36,9 @@ import { EditProjectComponent } from './ui/dialog/edit-project/edit-project.comp
 import { SafeUrlPipe } from './pipe/safe-url.pipe';
 import { DeleteProjectComponent } from './ui/dialog/delete-project/delete-project.component';
 import {UsersService} from "./service/users.service";
+import { HomeComponent } from './ui/home/home.component';
+import {HeaderService} from "./service/header.service";
+import { HeaderComponent } from './ui/header/header.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +59,8 @@ import {UsersService} from "./service/users.service";
     EditProjectComponent,
     SafeUrlPipe,
     DeleteProjectComponent,
+    HomeComponent,
+    HeaderComponent,
   ],
   entryComponents: [
     EditNoteComponent,
@@ -81,7 +86,8 @@ import {UsersService} from "./service/users.service";
     RequestGroupingService,
     SubheaderService,
     UsersService,
-    CanActivateViaAuthGuard
+    CanActivateViaAuthGuard,
+    HeaderService,
   ],
   bootstrap: [AppComponent]
 })

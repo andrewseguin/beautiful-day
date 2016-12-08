@@ -1,16 +1,16 @@
-<nav class="project-nav" *ngIf="projectExists">
+<nav class="project-nav" *ngIf="id">
   <div class="project-link"
-       [routerLink] ="['details']"
+       [routerLink] ="['project/' + id + '/details']"
        routerLinkActive="active">
     <span class="text"> Details </span>
   </div>
   <div class="project-link"
-       [routerLink]="['notes']"
+       [routerLink]="['project/' + id + '/notes']"
        routerLinkActive="active">
     <span class="text"> Notes </span>
   </div>
   <div class="project-link"
-       [routerLink]="['requests']"
+       [routerLink]="['project/' + id + '/requests']"
        routerLinkActive="active">
     <span class="text"> Requests </span>
   </div>

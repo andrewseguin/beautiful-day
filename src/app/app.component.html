@@ -1,1 +1,10 @@
-<router-outlet></router-outlet>
+<md-sidenav-layout class="project">
+  <md-sidenav #sidenav>
+    <nav-content [sidenav]="sidenav"></nav-content>
+  </md-sidenav>
+
+  <selection-header></selection-header>
+  <header [sidenav]="sidenav"></header>
+
+  <router-outlet></router-outlet>
+</md-sidenav-layout>

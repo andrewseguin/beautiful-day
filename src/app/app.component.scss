@@ -25,3 +25,11 @@ button.toolbar-menu md-icon {
 md-sidenav {
   width: 250px;
 }
+
+md-sidenav-layout.project {
+  height: 100vh;
+
+  .md-sidenav-content {
+    overflow: hidden;
+  }
+}

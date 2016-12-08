@@ -1,50 +1,10 @@
-<md-sidenav-layout class="project">
-  <md-sidenav #sidenav>
-    <nav-content [sidenav]="sidenav"></nav-content>
-  </md-sidenav>
-
-  <selection-header></selection-header>
-
-  <md-toolbar color="primary" class="project-toolbar"
-              [class.md-elevation-z1]="!isMobile()">
-    <button md-button class="toolbar-menu" (click)="sidenav.open()">
-      <md-icon>menu</md-icon>
-    </button>
-
-    <div class="name">
-      <span *ngIf="!project">Loading...</span>
-      <span *ngIf="project?.$exists()">{{project.name}}</span>
-    </div>
-
-    <project-nav class="main"></project-nav>
-
-    <div class="end">
-      <button md-button class="user"
-           [style.backgroundImage]="'url(' + user?.auth.photoURL + ')'"
-           [md-menu-trigger-for]="menu"></button>
-    </div>
-
-    <md-menu #menu="mdMenu" x-position="before" class="auth">
-      <button md-menu-item class="email">{{user?.auth.email}}</button>
-      <button md-menu-item class="logout" (click)="logout()">Logout</button>
-    </md-menu>
-  </md-toolbar>
-
-  <md-toolbar class="sub-header" color="primary"
-              *ngIf="project?.$exists()"
-              [@subheader]="subheaderVisibility">
-    <project-nav></project-nav>
-  </md-toolbar>
-
-  <div *ngIf="!project">
-    <md-progress-bar mode="indeterminate" color="primary"></md-progress-bar>
-  </div>
-  <div *ngIf="project && !project?.$exists()" class="not-found">
-    This project does not exist.
-  </div>
-  <div class="project-router-outlet"
-       [style.visibility]="project?.$exists() ? 'visible' : 'hidden'">
-    <router-outlet></router-outlet>
-  </div>
-
-</md-sidenav-layout>
+<div *ngIf="!project">
+  <md-progress-bar mode="indeterminate" color="primary"></md-progress-bar>
+</div>
+<div *ngIf="project && !project?.$exists()" class="not-found">
+  This project does not exist.
+</div>
+<div class="project-router-outlet"
+     [style.visibility]="project?.$exists() ? 'visible' : 'hidden'">
+  <router-outlet></router-outlet>
+</div>

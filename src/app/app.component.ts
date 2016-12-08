@@ -10,23 +10,18 @@ import {ProjectsService} from "./service/projects.service";
 })
 export class AppComponent implements OnInit {
   constructor(private auth: FirebaseAuth,
-              private projectsService: ProjectsService,
               private router: Router) {}
 
   ngOnInit() {
     this.auth.subscribe(auth => {
       if (!auth) {
+        // Store a redirect for post-login. If the current path is login, do not make this redirect.
+        let redirect = location.pathname != '/login' ? location.pathname : '';
+
         // Navigate to the login and pass it the current location
         // so that after login, it can redirect back.
-        this.router.navigate(['login'], {fragment: location.pathname});
+        this.router.navigate(['login'], {fragment: redirect});
         return;
-      }
-
-      if (location.pathname == '/') {
-        this.projectsService.getUsersProjects(auth.auth.email).take(1).subscribe(projects => {
-          let id = projects.length > 0 ? projects[0].$key : '';
-          this.router.navigate([`project/${id}`]);
-        });
       }
     });
 

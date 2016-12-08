@@ -5,9 +5,11 @@ import {ProjectNotesComponent} from "./ui/project/notes/project-notes.component"
 import {ProjectRequestsComponent} from "./ui/project/requests/project-requests.component";
 import {CanActivateViaAuthGuard} from "./auth-guard";
 import {LoginComponent} from "./ui/login/login.component";
+import {HomeComponent} from "./ui/home/home.component";
+
+export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home';
 
 export const ROUTER_CONFIG = [
-  { path: 'project', component: ProjectComponent},
   { path: 'project/:id', component: ProjectComponent, canActivate: [CanActivateViaAuthGuard],
     children: [
       { path: '', redirectTo: 'details', pathMatch: 'full' },
@@ -19,4 +21,6 @@ export const ROUTER_CONFIG = [
   },
   { path: 'inventory', component: InventoryComponent },
   { path: 'login', component: LoginComponent},
+  { path: 'home', component: HomeComponent},
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
