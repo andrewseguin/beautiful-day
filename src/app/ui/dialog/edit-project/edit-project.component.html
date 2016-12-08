@@ -28,7 +28,7 @@
               placeholder="manager@beautifulday.org" [floatingPlaceholder]="false"
               [(ngModel)]="managers[i]"
               (keyup.Enter)="save()"></md-input>
-    <button md-icon-button [disabled]="i == 0">
+    <button md-icon-button [disabled]="i == 0" (click)="removeManager(i)">
       <md-icon>delete</md-icon>
     </button>
   </div>

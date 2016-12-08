@@ -37,8 +37,8 @@ export class ProjectsService {
   createProject() {
     this.getProjects().push({
       name: 'New Project',
-      description: 'No description',
-      location: 'Westgate Church | Saratoga Campus'
+      description: '',
+      location: ''
     });
   }
 

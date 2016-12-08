@@ -33,3 +33,15 @@ md-sidenav-layout.project {
     overflow: hidden;
   }
 }
+
+.router-content {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  @media (max-width: $mobile-width) {
+    top: $subheader-height;
+  }
+}

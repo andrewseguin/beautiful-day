@@ -25,7 +25,10 @@ import {MdSidenav} from "@angular/material";
         animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),
     ])
-  ]
+  ],
+  host: {
+    '[style.display]': "user ? 'block' : 'none'"
+  }
 })
 export class HeaderComponent implements OnInit {
   topLevel: TopLevelSection;

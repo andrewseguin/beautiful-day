@@ -1,3 +1,5 @@
-<p>
-  home works!
-</p>
+<md-card class="project" *ngFor="let project of projects"
+         md-ripple (click)="navigateToProject(project.$key)">
+  <md-card-title> {{project.name}} </md-card-title>
+  <md-card-content> {{project.description}} </md-card-content>
+</md-card>

@@ -69,4 +69,8 @@ export class EditProjectComponent implements OnInit {
   managerTrackBy(i: number): number {
     return i;
   }
+
+  removeManager(i: number) {
+    this.managers.splice(i, 1);
+  }
 }

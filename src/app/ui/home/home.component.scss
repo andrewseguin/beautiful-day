@@ -1,0 +1,11 @@
+md-card.project {
+  position: relative;
+  margin: 16px;
+  width: 250px;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  &:hover {
+    background: #F5F5F5;
+  }
+}

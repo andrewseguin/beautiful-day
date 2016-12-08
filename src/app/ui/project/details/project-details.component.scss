@@ -3,6 +3,8 @@
 .info {
   display: flex;
   justify-content: center;
+  background-color: #CCC;
+  padding: 16px 0;
 
   @media (max-width: $mobile-width) {
     padding-top: $subheader-height;
@@ -32,18 +34,19 @@
 }
 
 .left, .right {
-  margin: 16px;
+  margin: 0 16px;
 }
 
 .section {
-  margin: 0 16px 32px 16px;
   font-size: 14px;
   max-width: 600px;
   text-align: justify;
+  background-color: white;
+  margin: 16px;
+  padding: 16px;
 
   .title {
     font-size: 20px;
-    font-weight: bold;
     margin-bottom: 16px;
     color: #444;
   }
@@ -54,11 +57,13 @@
   width: 350px;
   height: 350px;
   outline: 1px solid #DDD;
+  margin: -15px;
+  margin-top: 8px;
   @media (max-width: 750px) {
     width: inherit;
   }
 
-  & > * {
+  & .map, & .loading {
     position: absolute;
     top: 0;
     right: 0;
@@ -84,54 +89,51 @@
   }
 }
 
-.owner {
-  display: flex;
-  font-size: 16px;
-  margin: 16px 0;
-  background: white;
-  flex-direction: column;
+.contact {
+  margin-bottom: 16px;
+}
 
-  .heading {
-    padding: 12px;
-    border-bottom: 1px solid #CCC;
-    background: #FCFCFC;
+.heading {
+  font-weight: bold;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 8px 0;
+
+  .pic {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(33, 150, 243, 1.0);
+    background-repeat: no-repeat;
+    background-size: 48px;
+    border-radius: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: lighter;
+    color: white;
+    font-size: 22px;
   }
 
-  .content {
+  .id {
+    flex-grow: 1;
+    padding: 0 16px;
     display: flex;
-    padding: 12px;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 
-    .pic {
-      width: 48px;
-      height: 48px;
-      background-color: rgba(33, 150, 243, 1.0);
-      border-radius: 48px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: lighter;
-      color: white;
-      font-size: 22px;
+    a {
+      text-decoration: none;
+      color: #0202ab
     }
+  }
 
-    .id {
-      flex-grow: 1;
-      padding: 0 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      a {
-        text-decoration: none;
-        color: #0202ab
-      }
-    }
-
-    .role {
-      padding: 0 16px;
-      font-size: 15px;
-      font-weight: lighter;
-    }
+  .role {
+    padding: 0 16px;
+    font-size: 15px;
+    font-weight: lighter;
   }
 }

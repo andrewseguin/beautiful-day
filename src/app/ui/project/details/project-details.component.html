@@ -1,32 +1,39 @@
-<div class="info">
+<div class="info" *ngIf="project">
   <div class="left">
-    <div class="section">
+    <div class="section md-elevation-z1">
       <div class="title">Description</div>
-      {{(project | async)?.description}}
+      <div *ngIf="project.description"> {{project?.description}} </div>
+      <div *ngIf="!project.description && canEdit()">
+        <button md-button (click)="edit('description')">
+          Add description
+        </button>
+      </div>
+      <div *ngIf="!project.description && !canEdit()">
+        No project description provided.
+      </div>
     </div>
 
-    <div class="section">
-      <div class="title">Owners</div>
-      <div class="owner md-elevation-z2">
-        <div class="heading">
-          <div class="role"> Manager </div>
-        </div>
-        <div class="content">
-          <div class="pic">AS</div>
+    <div class="section md-elevation-z1">
+      <div class="title"> Contacts </div>
+
+      <div class="contact">
+        <div class="heading"> {{getManagers().length > 1 ? 'Managers' : 'Manager'}} </div>
+        <div class="content" *ngFor="let manager of getManagers()">
+          <div class="pic" [style.backgroundImage]="'url(' + manager?.pic + ')'"></div>
           <div class="id">
-            <div class="name"> Andrew Seguin </div>
-            <a href="tel:1-847-555-5555">1-847-555-5555</a>
-            <a href="mailto:andrewseguin@beautifulday.org">
-              andrewseguin@beautifulday.org
+            <div class="name"> {{manager?.name}} </div>
+            <a [href]="'tel:' + manager?.phone">
+              {{manager?.phone}}
+            </a>
+            <a [href]="'mailto:' + manager?.email">
+              {{manager?.email}}
             </a>
           </div>
         </div>
       </div>
 
-      <div class="owner md-elevation-z2">
-        <div class="heading">
-          <div class="role"> Director </div>
-        </div>
+      <div class="contact">
+        <div class="heading"> Director </div>
         <div class="content">
           <div class="pic">AT</div>
           <div class="id">
@@ -39,10 +46,8 @@
         </div>
       </div>
 
-      <div class="owner md-elevation-z2">
-        <div class="heading">
-          <div class="role"> Acquisitions </div>
-        </div>
+      <div class="contact">
+        <div class="heading"> Acquisitions </div>
         <div class="content">
           <div class="pic">JL</div>
           <div class="id">
@@ -58,17 +63,27 @@
   </div>
 
   <div class="right">
-    <div class="section">
+    <div class="section md-elevation-z1">
       <div class="title">Location</div>
       <div class="location">
-        <div class="loading">
-          Loading map...
-          <md-progress-circle mode="indeterminate" color="primary"></md-progress-circle>
+        <div *ngIf="project.location">
+          <div class="loading">
+            Loading map...
+            <md-progress-circle mode="indeterminate" color="primary"></md-progress-circle>
+          </div>
+          <iframe class="map"
+            frameborder="0" style="border:0"
+            [src]="('https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY&q=' + (project)?.location) | safeUrl" allowfullscreen>
+          </iframe>
         </div>
-        <iframe
-          frameborder="0" style="border:0"
-          [src]="('https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY&q=' + (project | async)?.location) | safeUrl" allowfullscreen>
-        </iframe>
+        <div *ngIf="!project.location && canEdit()">
+          <button md-button (click)="edit('location')">
+            Add location
+          </button>
+        </div>
+        <div *ngIf="!project.location && !canEdit()">
+          No location provided.
+        </div>
       </div>
     </div>
   </div>

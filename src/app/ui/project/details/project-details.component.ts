@@ -2,11 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import {Params, ActivatedRoute} from "@angular/router";
 import {ProjectsService} from "../../../service/projects.service";
 import {Request} from "../../../model/request";
-import {FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
+import {
+  FirebaseListObservable, FirebaseObjectObservable, FirebaseAuth,
+  FirebaseAuthState
+} from "angularfire2";
 import {Project} from "../../../model/project";
 import {MdDialog} from "@angular/material";
 import {EditProjectComponent, EditType} from "../../dialog/edit-project/edit-project.component";
 import {DeleteProjectComponent} from "../../dialog/delete-project/delete-project.component";
+import {UsersService} from "../../../service/users.service";
+import {User} from "../../../model/user";
 
 @Component({
   selector: 'project-details',
@@ -14,25 +19,59 @@ import {DeleteProjectComponent} from "../../dialog/delete-project/delete-project
   styleUrls: ['project-details.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
-  project: FirebaseObjectObservable<Project>;
+  project: Project;
   requests: FirebaseListObservable<Request[]>;
+  user: FirebaseAuthState;
+  managers: Map<string, User>;
 
   constructor(private route: ActivatedRoute,
               private mdDialog: MdDialog,
+              private auth: FirebaseAuth,
+              private usersService: UsersService,
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
+    this.auth.subscribe(auth => this.user = auth);
+
     this.route.parent.params.forEach((params: Params) => {
-      this.project = this.projectsService.getProject(params['id'])
+      this.projectsService.getProject(params['id']).subscribe(project => {
+        this.project = project;
+
+        this.managers = new Map();
+        const users = this.getManagerEmails().concat(this.project.director);
+        users.forEach(userEmail => {
+          this.usersService.get(userEmail).subscribe(user => {
+            this.managers.set(userEmail, user);
+          });
+        })
+      });
     });
   }
 
   edit(type: EditType) {
     const dialogRef = this.mdDialog.open(EditProjectComponent);
-    this.project.take(1).subscribe(project => {
-      dialogRef.componentInstance.project = project;
-    });
+    dialogRef.componentInstance.project = this.project;
     dialogRef.componentInstance.type = type;
+  }
+
+  canEdit(): boolean {
+    if (!this.user || !this.project) return false;
+
+    // Return true if the user is a director
+    return this.project.director == this.user.auth.email;
+  }
+
+  getManagers(): User[] {
+    return this.getManagerEmails()
+        .map(email => this.managers.get(email) || {email});
+  }
+
+  getManagerEmails(): string[] {
+    return this.project.managers ? this.project.managers.split(',') : [];
+  }
+
+  getUser(email: string) {
+    return this.usersService.get(email);
   }
 
   deleteProject() {
