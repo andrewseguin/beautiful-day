@@ -5,8 +5,8 @@ import {UsersService} from "../../service/users.service";
 
 @Component({
   selector: 'login',
-  templateUrl: 'login.component.html',
-  styleUrls: ['login.component.scss']
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   checkingAuth: boolean = true;

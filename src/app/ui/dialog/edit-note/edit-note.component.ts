@@ -4,8 +4,8 @@ import {RequestsService} from "../../../service/requests.service";
 
 @Component({
   selector: 'edit-note',
-  templateUrl: 'edit-note.component.html',
-  styleUrls: ['edit-note.component.scss']
+  templateUrl: './edit-note.component.html',
+  styleUrls: ['./edit-note.component.scss']
 })
 export class EditNoteComponent implements OnInit {
   requestIds: Set<string>;

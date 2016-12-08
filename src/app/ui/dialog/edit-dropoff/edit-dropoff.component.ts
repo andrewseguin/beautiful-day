@@ -5,8 +5,8 @@ import {ProjectsService} from "../../../service/projects.service";
 
 @Component({
   selector: 'edit-dropoff',
-  templateUrl: 'edit-dropoff.component.html',
-  styleUrls: ['edit-dropoff.component.scss']
+  templateUrl: './edit-dropoff.component.html',
+  styleUrls: ['./edit-dropoff.component.scss']
 })
 export class EditDropoffComponent implements OnInit {
   requestIds: Set<string>;

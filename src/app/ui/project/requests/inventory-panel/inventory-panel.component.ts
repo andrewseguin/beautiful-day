@@ -11,8 +11,8 @@ import {MediaQueryService} from "../../../../service/media-query.service";
 
 @Component({
   selector: 'inventory-panel',
-  templateUrl: 'inventory-panel.component.html',
-  styleUrls: ['inventory-panel.component.scss'],
+  templateUrl: './inventory-panel.component.html',
+  styleUrls: ['./inventory-panel.component.scss'],
 })
 export class InventoryPanelComponent implements OnInit {
   items: FirebaseListObservable<Item[]>;

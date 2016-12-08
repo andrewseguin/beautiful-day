@@ -5,8 +5,8 @@ import {ProjectsService} from "../../../service/projects.service";
 
 @Component({
   selector: 'app-delete-project',
-  templateUrl: 'delete-project.component.html',
-  styleUrls: ['delete-project.component.scss']
+  templateUrl: './delete-project.component.html',
+  styleUrls: ['./delete-project.component.scss']
 })
 export class DeleteProjectComponent {
   project: Project;

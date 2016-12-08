@@ -6,8 +6,8 @@ import {EditDropoffComponent} from "../dialog/edit-dropoff/edit-dropoff.componen
 
 @Component({
   selector: 'selection-header',
-  templateUrl: 'selection-header.component.html',
-  styleUrls: ['selection-header.component.scss'],
+  templateUrl: './selection-header.component.html',
+  styleUrls: ['./selection-header.component.scss'],
   host: {
     '[style.display]': 'none',
     '[class.md-elevation-z1]': 'true',

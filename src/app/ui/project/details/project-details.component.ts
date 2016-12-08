@@ -3,7 +3,7 @@ import {Params, ActivatedRoute} from "@angular/router";
 import {ProjectsService} from "../../../service/projects.service";
 import {Request} from "../../../model/request";
 import {
-  FirebaseListObservable, FirebaseObjectObservable, FirebaseAuth,
+  FirebaseListObservable, FirebaseAuth,
   FirebaseAuthState
 } from "angularfire2";
 import {Project} from "../../../model/project";
@@ -12,11 +12,12 @@ import {EditProjectComponent, EditType} from "../../dialog/edit-project/edit-pro
 import {DeleteProjectComponent} from "../../dialog/delete-project/delete-project.component";
 import {UsersService} from "../../../service/users.service";
 import {User} from "../../../model/user";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'project-details',
-  templateUrl: 'project-details.component.html',
-  styleUrls: ['project-details.component.scss']
+  templateUrl: './project-details.component.html',
+  styleUrls: ['./project-details.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
   project: Project;
@@ -70,7 +71,7 @@ export class ProjectDetailsComponent implements OnInit {
     return this.project.managers ? this.project.managers.split(',') : [];
   }
 
-  getUser(email: string) {
+  getUser(email: string): Observable<User> {
     return this.usersService.get(email);
   }
 

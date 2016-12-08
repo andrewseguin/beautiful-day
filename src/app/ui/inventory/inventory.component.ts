@@ -6,8 +6,8 @@ import {Category} from "../../model/category";
 
 @Component({
   selector: 'inventory',
-  templateUrl: 'inventory.component.html',
-  styleUrls: ['inventory.component.css']
+  templateUrl: './inventory.component.html',
+  styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent implements OnInit {
   items: FirebaseListObservable<any[]>;

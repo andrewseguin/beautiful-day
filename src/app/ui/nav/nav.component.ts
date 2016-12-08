@@ -6,8 +6,8 @@ import {ProjectsService} from '../../service/projects.service';
 
 @Component({
   selector: 'nav-content',
-  templateUrl: 'nav.component.html',
-  styleUrls: ['nav.component.scss']
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
   projects: FirebaseListObservable<any[]>;

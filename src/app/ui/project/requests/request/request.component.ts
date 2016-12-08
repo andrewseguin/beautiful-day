@@ -10,8 +10,8 @@ import {EditDropoffComponent} from "../../../dialog/edit-dropoff/edit-dropoff.co
 
 @Component({
   selector: 'request',
-  templateUrl: 'request.component.html',
-  styleUrls: ['request.component.scss'],
+  templateUrl: './request.component.html',
+  styleUrls: ['./request.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class RequestComponent implements OnInit {

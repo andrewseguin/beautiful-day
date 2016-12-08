@@ -8,8 +8,8 @@ export type EditType = 'name' | 'location' | 'description' | 'managers' | 'direc
 
 @Component({
   selector: 'edit-project',
-  templateUrl: 'edit-project.component.html',
-  styleUrls: ['edit-project.component.scss']
+  templateUrl: './edit-project.component.html',
+  styleUrls: ['./edit-project.component.scss']
 })
 export class EditProjectComponent implements OnInit {
   project: Project;

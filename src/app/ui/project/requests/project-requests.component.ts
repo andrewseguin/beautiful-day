@@ -21,8 +21,8 @@ import {SubheaderService} from "../../../service/subheader.service";
 
 @Component({
   selector: 'project-requests',
-  templateUrl: 'project-requests.component.html',
-  styleUrls: ['project-requests.component.scss'],
+  templateUrl: './project-requests.component.html',
+  styleUrls: ['./project-requests.component.scss'],
   providers: [MdSnackBar],
   animations: [
     trigger('groupTransition', [

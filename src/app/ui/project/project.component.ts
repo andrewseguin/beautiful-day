@@ -8,8 +8,8 @@ import {ProjectsService} from "../../service/projects.service";
 
 @Component({
   selector: 'project',
-  templateUrl: 'project.component.html',
-  styleUrls: ['project.component.scss'],
+  templateUrl: './project.component.html',
+  styleUrls: ['./project.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ProjectComponent implements OnInit {

@@ -14,8 +14,8 @@ import {MdSidenav} from "@angular/material";
 
 @Component({
   selector: 'header',
-  templateUrl: 'header.component.html',
-  styleUrls: ['header.component.scss'],
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
   encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('subheader', [
