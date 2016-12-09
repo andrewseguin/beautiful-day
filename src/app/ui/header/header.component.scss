@@ -1,11 +1,8 @@
 @import '../../app.component';
 
-md-toolbar {
-
-  &.md-toolbar {
-    position: absolute;
-    min-height:48px;
-  }
+header md-toolbar {
+  position: absolute;
+  min-height:48px;
 
   .md-toolbar-layout md-toolbar-row {
     @media (max-width: $mobile-width) {

@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, Input, ViewEncapsulation, ElementRef, ViewChild,
+  Component, OnInit, Input, ElementRef, ViewChild,
   trigger, animate, transition, style, state
 } from '@angular/core';
 import {ItemsService} from "../../../../service/items.service";
@@ -15,7 +15,6 @@ import {EditDropoffComponent} from "../../../dialog/edit-dropoff/edit-dropoff.co
   selector: 'request',
   templateUrl: './request.component.html',
   styleUrls: ['./request.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('state', [
       state('normal', style({background: 'transparent'})),
