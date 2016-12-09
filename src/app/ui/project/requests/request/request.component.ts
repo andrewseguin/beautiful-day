@@ -16,12 +16,24 @@ import {EditDropoffComponent} from "../../../dialog/edit-dropoff/edit-dropoff.co
   templateUrl: './request.component.html',
   styleUrls: ['./request.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  animations: [
+    trigger('state', [
+      state('normal', style({background: 'transparent'})),
+      state('highlight', style({background: 'rgba(255,235,59,.2)'})),
+      transition('highlight => normal', [
+        animate('1350ms cubic-bezier(0.35, 0, 0.25, 1)')]
+      ),
+      transition('normal => highlight', [
+        animate('250ms cubic-bezier(0.35, 0, 0.25, 1)')]
+      ),
+    ])
+  ]
 })
 export class RequestComponent implements OnInit {
   category: string;
   item: string;
   projectId: string;
-  state: string;
+  state: string = 'normal';
 
   @Input() request: Request;
   @ViewChild('quantityInput') quantityInput: ElementRef;
@@ -52,6 +64,15 @@ export class RequestComponent implements OnInit {
 
   scrollIntoView(): void {
     this.elementRef.nativeElement.scrollIntoView(false);
+    this.highlight();
+  }
+
+  highlight(): void {
+    this.state = 'highlight';
+    setTimeout(() => {
+      this.state = 'normal';
+      console.log('Moving state to normal')
+    }, 1000);
   }
 
   changeQuantity(quantity: number) {

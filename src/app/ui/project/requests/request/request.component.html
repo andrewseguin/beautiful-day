@@ -1,4 +1,4 @@
-<div class="request" (click)="setSelected(!isSelected())" md-ripple>
+<div class="request" (click)="setSelected(!isSelected())" md-ripple [@state]="state">
   <div class="top-row">
     <md-checkbox [checked]="isSelected()"
                  (click)="$event.stopPropagation()"

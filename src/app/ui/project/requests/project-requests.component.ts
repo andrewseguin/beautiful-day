@@ -122,6 +122,7 @@ export class ProjectRequestsComponent implements OnInit {
     const newRequest = this.requestComponents.find(requestComponent => {
       return requestComponent.getRequestKey() == response.key;
     });
+    newRequest.highlight();
 
     const snackBarRef = this.snackBar.open(message, action, config);
     snackBarRef.onAction().subscribe(() => {
