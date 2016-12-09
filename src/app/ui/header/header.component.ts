@@ -1,6 +1,5 @@
 import {
-  Component, OnInit, animate, transition, style, state, trigger,
-  ViewEncapsulation, Input
+  Component, OnInit, animate, transition, style, state, trigger, Input
 } from '@angular/core';
 import {HeaderService} from "../../service/header.service";
 import {FirebaseAuth, FirebaseAuthState} from "angularfire2";
@@ -16,7 +15,6 @@ import {MdSidenav} from "@angular/material";
   selector: 'header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('subheader', [
       state('visible', style({transform: 'translate3d(0, 0, 0)'})),

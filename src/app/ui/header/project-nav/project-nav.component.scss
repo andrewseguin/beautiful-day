@@ -1,5 +1,15 @@
+@import '../../../app.component';
+
+
 :host {
   height: 100%;
+}
+
+:host.main {
+  padding-left: 32px;
+  @media (max-width: $mobile-width) {
+    display: none;
+  }
 }
 
 .project-nav {

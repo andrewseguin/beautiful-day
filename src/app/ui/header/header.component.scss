@@ -1,6 +1,6 @@
 @import '../../app.component';
 
-header md-toolbar {
+md-toolbar {
   position: absolute;
   min-height:48px;
 
@@ -70,13 +70,6 @@ header md-toolbar {
         background-size: 32px;
         margin-right: 10px;
       }
-    }
-  }
-
-  project-nav.main {
-    padding-left: 32px;
-    @media (max-width: $mobile-width) {
-      display: none;
     }
   }
 }

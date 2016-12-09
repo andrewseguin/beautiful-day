@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, ViewEncapsulation
+  Component, OnInit
 } from '@angular/core';
 import {FirebaseListObservable, FirebaseAuthState} from "angularfire2";
 import {ActivatedRoute, Params} from "@angular/router";
@@ -10,7 +10,6 @@ import {ProjectsService} from "../../service/projects.service";
   selector: 'project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class ProjectComponent implements OnInit {
   project: Project;

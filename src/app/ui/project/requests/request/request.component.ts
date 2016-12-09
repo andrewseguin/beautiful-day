@@ -68,10 +68,7 @@ export class RequestComponent implements OnInit {
 
   highlight(): void {
     this.state = 'highlight';
-    setTimeout(() => {
-      this.state = 'normal';
-      console.log('Moving state to normal')
-    }, 1000);
+    setTimeout(() => {this.state = 'normal'}, 1000);
   }
 
   changeQuantity(quantity: number) {

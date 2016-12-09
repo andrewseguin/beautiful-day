@@ -62,3 +62,13 @@ app-root .md-checkbox-inner-container {
   width: 16px;
   margin-right: 0;
 }
+
+/*
+App header styles that couldn't go in because ViewEncapsulation.None breaks AoT
+*/
+
+@media (max-width: 700px) {
+  header .md-toolbar-layout md-toolbar-row {
+    height: 48px;
+  }
+}
