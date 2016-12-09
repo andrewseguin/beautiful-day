@@ -1,6 +1,6 @@
 import {Component, animate, style, transition, state, trigger} from '@angular/core';
 import {RequestsService} from "../../service/requests.service";
-import {MdSnackBar, MdDialog} from "@angular/material";
+import {MdSnackBar, MdDialog, MdSnackBarConfig} from "@angular/material";
 import {EditNoteComponent} from "../dialog/edit-note/edit-note.component";
 import {EditDropoffComponent} from "../dialog/edit-dropoff/edit-dropoff.component";
 
@@ -45,7 +45,11 @@ export class SelectionHeaderComponent {
     this.requestsService.getSelectedRequests().forEach(id => {
       this.requestsService.removeRequest(id);
     });
-    this.snackBar.open(`Removed ${this.getSelectionCount()} requests`);
+
+    const message = `Removed ${this.getSelectionCount()} requests`;
+    const config: MdSnackBarConfig = {duration: 3000};
+    this.snackBar.open(message, null, config);
+
     this.clearRequests();
   }
 
