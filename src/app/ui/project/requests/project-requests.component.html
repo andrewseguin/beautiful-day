@@ -29,7 +29,8 @@
             <span>{{requestGroup.title}}</span>
           </div>
           <request *ngFor="let request of requestGroup.requests; trackBy:getRequestKey"
-                   [request]="request"></request>
+                   [request]="request"
+                   [id]="request.$key"></request>
         </div>
       </div>
     </div>
@@ -44,6 +45,6 @@
               [opened]="!hideInventory()"
               [mode]="hideInventory() ? 'over' : 'side'"
               align="end">
-    <inventory-panel (itemAdded)="showSnackbar($event)"></inventory-panel>
+    <inventory-panel (itemAdded)="itemAdded($event)"></inventory-panel>
   </md-sidenav>
 </md-sidenav-layout>

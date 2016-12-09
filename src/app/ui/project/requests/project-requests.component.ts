@@ -1,22 +1,22 @@
 import {
   Component, OnInit, ViewChild, animate, transition, style,
-  state, trigger, ElementRef
+  state, trigger, ElementRef, QueryList, ViewChildren
 } from '@angular/core';
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import {ActivatedRoute, Params} from "@angular/router";
 import {FirebaseObjectObservable} from "angularfire2";
 import {Project} from "../../../model/project";
 import {RequestsService} from "../../../service/requests.service";
 import {ProjectsService} from "../../../service/projects.service";
 import {Request} from "../../../model/request";
-import {MdSnackBar, MdMenu} from "@angular/material";
-import {Item} from "../../../model/item";
-import {Observable, BehaviorSubject} from "rxjs";
+import {MdSnackBar, MdMenu, MdSnackBarConfig} from "@angular/material";
 import {MediaQueryService} from "../../../service/media-query.service";
 import {
   Group, RequestGroup,
   RequestGroupingService
 } from "../../../service/request-grouping.service";
 import {SubheaderService} from "../../../service/subheader.service";
+import {ItemAddedResponse} from "./inventory-panel/inventory-panel.component";
+import {RequestComponent} from "./request/request.component";
 
 
 @Component({
@@ -46,6 +46,7 @@ export class ProjectRequestsComponent implements OnInit {
 
   @ViewChild('groupingMenu') groupingMenu: MdMenu;
   @ViewChild('scrollableContent') scrollableContent: ElementRef;
+  @ViewChildren(RequestComponent) requestComponents: QueryList<RequestComponent>;
 
   constructor(private route: ActivatedRoute,
               private projectsService: ProjectsService,
@@ -113,9 +114,23 @@ export class ProjectRequestsComponent implements OnInit {
     return requestGroup.id;
   }
 
-  showSnackbar(item: Item): void {
-    // TODO: Add action for viewing the new request
-    this.snackBar.open(`Added request for ${item.name}`);
+  itemAdded(response: ItemAddedResponse): void {
+    const message = `Added request for ${response.item.name}`;
+    const action = 'View Request';
+    const config: MdSnackBarConfig = {duration: 3000};
+
+    const newRequest = this.requestComponents.find(requestComponent => {
+      return requestComponent.getRequestKey() == response.key;
+    });
+
+    const snackBarRef = this.snackBar.open(message, action, config);
+    snackBarRef.onAction().subscribe(() => {
+      newRequest.scrollIntoView(); // Put item on the bottom of the view
+
+      // Scoot the view down a bit to show the item with some space
+      const scrollableContentEl = this.scrollableContent.nativeElement;
+      scrollableContentEl.scrollTop += 20;
+    });
   }
 
   get grouping(): Group { return this._grouping; }

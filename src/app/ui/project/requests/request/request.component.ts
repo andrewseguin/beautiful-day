@@ -1,4 +1,7 @@
-import {Component, OnInit, Input, ViewEncapsulation, ElementRef, ViewChild} from '@angular/core';
+import {
+  Component, OnInit, Input, ViewEncapsulation, ElementRef, ViewChild,
+  trigger, animate, transition, style, state
+} from '@angular/core';
 import {ItemsService} from "../../../../service/items.service";
 import {Request} from "../../../../model/request";
 import {ActivatedRoute, Params} from "@angular/router";
@@ -18,12 +21,14 @@ export class RequestComponent implements OnInit {
   category: string;
   item: string;
   projectId: string;
+  state: string;
 
   @Input() request: Request;
   @ViewChild('quantityInput') quantityInput: ElementRef;
 
   constructor(private route: ActivatedRoute,
               private mdDialog: MdDialog,
+              private elementRef: ElementRef,
               private categoryService: CategoriesService,
               private requestsService: RequestsService,
               private itemsService: ItemsService) { }
@@ -39,6 +44,14 @@ export class RequestComponent implements OnInit {
     this.route.parent.params.forEach((params: Params) => {
       this.projectId = params['id'];
     });
+  }
+
+  getRequestKey(): string {
+    return this.request.$key;
+  }
+
+  scrollIntoView(): void {
+    this.elementRef.nativeElement.scrollIntoView(false);
   }
 
   changeQuantity(quantity: number) {

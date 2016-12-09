@@ -9,6 +9,11 @@ import {RequestsService} from "../../../../service/requests.service";
 import {SubheaderService} from "../../../../service/subheader.service";
 import {MediaQueryService} from "../../../../service/media-query.service";
 
+export class ItemAddedResponse {
+  item: Item;
+  key: string;
+}
+
 @Component({
   selector: 'inventory-panel',
   templateUrl: './inventory-panel.component.html',
@@ -19,7 +24,7 @@ export class InventoryPanelComponent implements OnInit {
   project: FirebaseObjectObservable<Project>;
   subheaderVisibility: boolean = true;
 
-  @Output('itemAdded') itemAdded = new EventEmitter();
+  @Output('itemAdded') itemAdded = new EventEmitter<ItemAddedResponse>();
 
   constructor(private route: ActivatedRoute,
               private subheaderService: SubheaderService,
@@ -45,8 +50,9 @@ export class InventoryPanelComponent implements OnInit {
 
   addItem(item: Item) {
     this.project.first().subscribe(project => {
-      this.requestsService.addRequest(project, item);
-      this.itemAdded.emit(item);
+      this.requestsService.addRequest(project, item).then(response => {
+        this.itemAdded.emit({key: response.getKey(), item});
+      });
     })
   }
 

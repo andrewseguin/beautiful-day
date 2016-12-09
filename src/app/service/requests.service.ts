@@ -4,8 +4,7 @@ import {Item} from "../model/item";
 import {Project} from "../model/project";
 import {Request} from "../model/request";
 import {Router} from "@angular/router";
-import {Subject} from "rxjs";
-import {ProjectsService} from "./projects.service";
+import * as firebase from 'firebase';
 
 @Injectable()
 export class RequestsService {
@@ -38,8 +37,8 @@ export class RequestsService {
     this.getAllRequests().remove(id);
   }
 
-  addRequest(project: Project, item: Item) {
-    this.af.database.list('requests').push({
+  addRequest(project: Project, item: Item): firebase.database.ThenableReference {
+    return this.af.database.list('requests').push({
       item: item.$key,
       project: project.$key,
       quantity: 1,
