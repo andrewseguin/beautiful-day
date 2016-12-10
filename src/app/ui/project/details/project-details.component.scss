@@ -12,6 +12,7 @@
   background-color: #CCC;
   padding: 16px 0;
   flex-grow: 1;
+  justify-content: flex-start;
 
   @media (max-width: $mobile-width) {
     padding-top: $subheader-height;
