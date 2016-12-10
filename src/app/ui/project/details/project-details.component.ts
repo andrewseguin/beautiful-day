@@ -10,9 +10,6 @@ import {Project} from "../../../model/project";
 import {MdDialog} from "@angular/material";
 import {EditProjectComponent, EditType} from "../../dialog/edit-project/edit-project.component";
 import {DeleteProjectComponent} from "../../dialog/delete-project/delete-project.component";
-import {UsersService} from "../../../service/users.service";
-import {User} from "../../../model/user";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'project-details',
@@ -23,28 +20,21 @@ export class ProjectDetailsComponent implements OnInit {
   project: Project;
   requests: FirebaseListObservable<Request[]>;
   user: FirebaseAuthState;
-  managers: Map<string, User>;
+  managers: string[];
+  director: string;
+  acquisitions: string;
 
   constructor(private route: ActivatedRoute,
               private mdDialog: MdDialog,
               private auth: FirebaseAuth,
-              private usersService: UsersService,
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
     this.auth.subscribe(auth => this.user = auth);
 
     this.route.parent.params.forEach((params: Params) => {
-      this.projectsService.getProject(params['id']).subscribe(project => {
+      this.projectsService.getProject(params['id']).subscribe((project: Project) => {
         this.project = project;
-
-        this.managers = new Map();
-        const users = this.getManagerEmails().concat(this.project.director);
-        users.forEach(userEmail => {
-          this.usersService.get(userEmail).subscribe(user => {
-            this.managers.set(userEmail, user);
-          });
-        })
       });
     });
   }
@@ -62,17 +52,8 @@ export class ProjectDetailsComponent implements OnInit {
     return this.project.director == this.user.auth.email;
   }
 
-  getManagers(): User[] {
-    return this.getManagerEmails()
-        .map(email => this.managers.get(email) || {email});
-  }
-
   getManagerEmails(): string[] {
     return this.project.managers ? this.project.managers.split(',') : [];
-  }
-
-  getUser(email: string): Observable<User> {
-    return this.usersService.get(email);
   }
 
   deleteProject() {

@@ -39,6 +39,7 @@ import {UsersService} from "./service/users.service";
 import { HomeComponent } from './ui/home/home.component';
 import {HeaderService} from "./service/header.service";
 import { HeaderComponent } from './ui/header/header.component';
+import { DetailUserComponent } from './ui/project/details/user/detail-user.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { HeaderComponent } from './ui/header/header.component';
     DeleteProjectComponent,
     HomeComponent,
     HeaderComponent,
+    DetailUserComponent,
   ],
   entryComponents: [
     EditNoteComponent,

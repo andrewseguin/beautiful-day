@@ -41,6 +41,12 @@
             [(ngModel)]="director"></md-input>
 </div>
 
+<div *ngIf="type == 'acquisitions'">
+  <md-input autofocus
+            (keyup.Enter)="save()"
+            [(ngModel)]="acquisitions"></md-input>
+</div>
+
 <div class="actions">
   <button md-button (click)="close()">Cancel</button>
   <button md-button (click)="save()">Save</button>

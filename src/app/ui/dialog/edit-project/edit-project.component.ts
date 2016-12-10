@@ -4,7 +4,13 @@ import {RequestsService} from "../../../service/requests.service";
 import {Project} from "../../../model/project";
 import {ProjectsService} from "../../../service/projects.service";
 
-export type EditType = 'name' | 'location' | 'description' | 'managers' | 'director';
+export type EditType =
+  'name' |
+  'location' |
+  'description' |
+  'managers' |
+  'director' |
+  'acquisitions';
 
 @Component({
   selector: 'edit-project',
@@ -18,6 +24,7 @@ export class EditProjectComponent implements OnInit {
   location: string;
   managers: string[];
   director: string;
+  acquisitions: string;
   type: EditType;
 
   constructor(private dialogRef: MdDialogRef<EditProjectComponent>,
@@ -29,6 +36,7 @@ export class EditProjectComponent implements OnInit {
     this.location = this.project.location;
     this.managers = this.project.managers ? this.project.managers.split(',') : [''];
     this.director = this.project.director;
+    this.acquisitions = this.project.acquisitions;
   }
 
   close(): void {
@@ -52,6 +60,8 @@ export class EditProjectComponent implements OnInit {
         break;
       case 'director':
         update.director = this.director; break;
+      case 'acquisitions':
+        update.acquisitions = this.acquisitions; break;
     }
 
     this.projectsService.update(this.project.$key, update);

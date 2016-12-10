@@ -17,47 +17,18 @@
       <div class="title"> Contacts </div>
 
       <div class="contact">
-        <div class="heading"> {{getManagers().length > 1 ? 'Managers' : 'Manager'}} </div>
-        <div class="content" *ngFor="let manager of getManagers()">
-          <div class="pic" [style.backgroundImage]="'url(' + manager?.pic + ')'"></div>
-          <div class="id">
-            <div class="name"> {{manager?.name}} </div>
-            <a [href]="'tel:' + manager?.phone">
-              {{manager?.phone}}
-            </a>
-            <a [href]="'mailto:' + manager?.email">
-              {{manager?.email}}
-            </a>
-          </div>
-        </div>
+        <div class="heading"> {{getManagerEmails().length > 1 ? 'Managers' : 'Manager'}} </div>
+        <detail-user [userEmail]="manager" *ngFor="let manager of getManagerEmails()"></detail-user>
       </div>
 
       <div class="contact">
         <div class="heading"> Director </div>
-        <div class="content">
-          <div class="pic">AT</div>
-          <div class="id">
-            <div class="name"> Amy Tanner </div>
-            <a href="tel:1-847-555-5555">1-847-555-5555</a>
-            <a href="mailto:amytanner@beautifulday.org">
-              amytanner@beautifulday.org
-            </a>
-          </div>
-        </div>
+        <detail-user [userEmail]="project.director"></detail-user>
       </div>
 
       <div class="contact">
         <div class="heading"> Acquisitions </div>
-        <div class="content">
-          <div class="pic">JL</div>
-          <div class="id">
-            <div class="name"> Jen Laity </div>
-            <a href="tel:1-847-555-5555">1-847-555-5555</a>
-            <a href="mailto:jenlaity@beautifulday.org">
-              jenlaity@beautifulday.org
-            </a>
-          </div>
-        </div>
+        <detail-user [userEmail]="project.acquisitions"></detail-user>
       </div>
     </div>
   </div>
@@ -108,4 +79,5 @@
   <button md-menu-item (click)="edit('description')"> Description </button>
   <button md-menu-item (click)="edit('managers')"> Managers </button>
   <button md-menu-item (click)="edit('director')"> Director </button>
+  <button md-menu-item (click)="edit('acquisitions')"> Acquisitions </button>
 </md-menu>

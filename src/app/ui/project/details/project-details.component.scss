@@ -97,50 +97,12 @@
 }
 
 .contact {
-  margin-bottom: 16px;
-}
-
-.heading {
-  font-weight: bold;
-}
-
-.content {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  padding: 8px 0;
-
-  .pic {
-    width: 48px;
-    height: 48px;
-    background-color: rgba(33, 150, 243, 1.0);
-    background-repeat: no-repeat;
-    background-size: 48px;
-    border-radius: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: lighter;
-    color: white;
-    font-size: 22px;
-  }
-
-  .id {
-    flex-grow: 1;
-    padding: 0 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    a {
-      text-decoration: none;
-      color: #0202ab
-    }
-  }
-
-  .role {
-    padding: 0 16px;
-    font-size: 15px;
-    font-weight: lighter;
+  margin: 0 -16px;
+  padding: 16px;
+  border-top: 1px solid #CCC;
+  .heading {
+    font-weight: bold;
   }
 }
+
+

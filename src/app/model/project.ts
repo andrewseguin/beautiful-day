@@ -6,6 +6,7 @@ export interface Project {
   description?: string;
   managers?: string;
   director?: string;
+  acquisitions?: string;
   dropoff?: Map<string, string>;
   lastUsedDropoff?: string;
   lastUsedDate?: string;
