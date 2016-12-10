@@ -10,9 +10,9 @@
 </div>
 
 <div *ngIf="type == 'description'">
-  <md-textarea autofocus
-               (keydown)="adjustHeight($event)"
-               [(ngModel)]="description"></md-textarea>
+  <textarea autofocus md-autosize
+            (keydown)="adjustHeight($event)"
+            [(ngModel)]="description"></textarea>
 </div>
 
 <div *ngIf="type == 'location'">
