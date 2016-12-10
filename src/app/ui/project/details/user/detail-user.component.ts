@@ -17,8 +17,6 @@ export class DetailUserComponent implements OnInit {
   ngOnInit() {
     if (this.userEmail) {
       this.usersService.get(this.userEmail).subscribe(user => {
-        console.log(this.userEmail);
-        console.log(user)
         this.user = user ? user : {email: this.userEmail};
       })
     }

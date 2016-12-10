@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {MdDialogRef} from "@angular/material";
-import {RequestsService} from "../../../service/requests.service";
+import {Component, OnInit, ViewChild, AfterViewChecked} from '@angular/core';
+import {MdDialogRef, MdTextareaAutosize} from "@angular/material";
 import {Project} from "../../../model/project";
 import {ProjectsService} from "../../../service/projects.service";
 
@@ -17,7 +16,7 @@ export type EditType =
   templateUrl: './edit-project.component.html',
   styleUrls: ['./edit-project.component.scss']
 })
-export class EditProjectComponent implements OnInit {
+export class EditProjectComponent implements OnInit, AfterViewChecked {
   project: Project;
   name: string;
   description: string;
@@ -26,6 +25,8 @@ export class EditProjectComponent implements OnInit {
   director: string;
   acquisitions: string;
   type: EditType;
+
+  @ViewChild(MdTextareaAutosize) descriptionTextArea: MdTextareaAutosize;
 
   constructor(private dialogRef: MdDialogRef<EditProjectComponent>,
               private projectsService: ProjectsService) { }
@@ -37,6 +38,10 @@ export class EditProjectComponent implements OnInit {
     this.managers = this.project.managers ? this.project.managers.split(',') : [''];
     this.director = this.project.director;
     this.acquisitions = this.project.acquisitions;
+  }
+
+  ngAfterViewChecked() {
+    if (this.descriptionTextArea) { this.descriptionTextArea.resizeToFitContent(); }
   }
 
   close(): void {
@@ -68,12 +73,8 @@ export class EditProjectComponent implements OnInit {
     this.close();
   }
 
-  adjustHeight(e: KeyboardEvent): void {
+  onTextareaKeydown(e: KeyboardEvent): void {
     if (e.keyCode == 13 || e.key == 'Enter') { this.save(); return; }
-
-    const target = <HTMLElement>e.target;
-    target.style.height = '1px';
-    target.style.height = target.scrollHeight + 'px'
   }
 
   managerTrackBy(i: number): number {

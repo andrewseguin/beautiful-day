@@ -11,7 +11,7 @@
 
 <div *ngIf="type == 'description'">
   <textarea autofocus md-autosize
-            (keydown)="adjustHeight($event)"
+            (keydown)="onTextareaKeydown($event)"
             [(ngModel)]="description"></textarea>
 </div>
 

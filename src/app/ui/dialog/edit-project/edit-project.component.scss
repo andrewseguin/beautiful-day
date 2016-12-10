@@ -1,10 +1,13 @@
 @import '../dialog-common';
 
-md-textarea {
+textarea {
   width: 300px;
+  border-color: rgba(30, 136, 229, 0.3) rgba(30, 136, 229, 0.3) rgb(30, 136, 229);
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  padding: 8px;
 }
 
 .manager-row {
   display: flex;
-
 }
