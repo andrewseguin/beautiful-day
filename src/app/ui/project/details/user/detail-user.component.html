@@ -1,0 +1,12 @@
+<div class="content" *ngIf="user">
+  <div class="pic" [style.backgroundImage]="'url(' + user?.pic + ')'"></div>
+  <div class="id">
+    <div class="name"> {{user?.name}} </div>
+    <a [href]="'tel:' + user?.phone">
+      {{user?.phone}}
+    </a>
+    <a [href]="'mailto:' + user?.email">
+      {{user?.email}}
+    </a>
+  </div>
+</div>
