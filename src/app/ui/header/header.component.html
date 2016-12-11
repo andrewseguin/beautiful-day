@@ -6,7 +6,7 @@
 
   <div class="name"> {{getTitle()}} </div>
 
-  <project-nav class="main" [projectId]="project?.$key"></project-nav>
+  <project-nav class="main" *ngIf="project" [projectId]="project?.$key"></project-nav>
 
   <div class="end">
     <button md-button class="user"
