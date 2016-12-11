@@ -49,7 +49,7 @@ export class ProjectDetailsComponent implements OnInit {
     if (!this.user || !this.project) return false;
 
     // Return true if the user is a director
-    return this.project.director == this.user.auth.email;
+    return this.project.director != this.user.auth.email;
   }
 
   getManagerEmails(): string[] {

@@ -18,7 +18,7 @@
          *ngIf="canEdit() || manager || project.director || project.acquisitions">
       <div class="title"> Contacts </div>
 
-      <div class="contact" >
+      <div class="contact">
         <div class="heading"> {{getManagerEmails().length > 1 ? 'Managers' : 'Manager'}} </div>
         <detail-user [userEmail]="manager"
                      *ngFor="let manager of getManagerEmails()"></detail-user>
@@ -26,24 +26,27 @@
                 (click)="edit('managers')" *ngIf="canEdit() && getManagerEmails().length == 0">
           Add manager
         </button>
+        <div *ngIf="!canEdit() && getManagerEmails().length == 0"> No managers assigned </div>
       </div>
 
-      <div class="contact" *ngIf="project.director">
+      <div class="contact">
         <div class="heading"> Director </div>
         <detail-user *ngIf="project.director" [userEmail]="project.director"></detail-user>
         <button md-raised-button color="accent"
                 (click)="edit('director')" *ngIf="canEdit() && !project.director">
           Add director
         </button>
+        <div *ngIf="!canEdit() && !project.director"> No director assigned </div>
       </div>
 
-      <div class="contact">
+      <div class="contact" *ngIf="project.acquisitions">
         <div class="heading"> Acquisitions </div>
         <detail-user *ngIf="project.acquisitions" [userEmail]="project.acquisitions"></detail-user>
         <button md-raised-button color="accent"
                 (click)="edit('acquisitions')" *ngIf="canEdit() && !project.acquisitions">
-          Add acquisitions
+          Add acquisitions contact
         </button>
+        <div *ngIf="!canEdit() && !project.acquisitions"> No acquisitions contact assigned </div>
       </div>
     </div>
   </div>
