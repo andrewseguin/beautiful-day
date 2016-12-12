@@ -46,11 +46,21 @@ export class ProjectNotesComponent implements OnInit {
     });
 
     this.route.params.subscribe((params: Params) => {
-      if (!params['noteId']) { this.gotoDefaultNote(false); return; }
-
       this.noteId = params['noteId'];
-      this.notesService.getNote(this.noteId)
-        .subscribe(this.setNote.bind(this));
+
+      if (!this.noteId) {
+        console.log('no note')
+        // No note id, go to first note in projects
+        this.gotoDefaultNote(false);
+        // create new and navigate
+      } else if (this.noteId == 'new') {
+        this.notesService.addNote(this.projectId).then(response => {
+          this.router.navigate([`../${response.key}`], {relativeTo: this.route});
+        })
+      } else {
+        this.notesService.getNote(this.noteId)
+            .subscribe(this.setNote.bind(this));
+      }
     });
   }
 
@@ -110,6 +120,6 @@ export class ProjectNotesComponent implements OnInit {
       const noteId = notes.length > 0 ? notes[0].$key : 'new';
       const path = (replaceNote ? '../' : '') + noteId;
       this.router.navigate([path], {relativeTo: this.route});
-    })
+    });
   }
 }

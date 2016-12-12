@@ -33,7 +33,7 @@ export class NotesService {
 
   addNote(projectId: string): firebase.database.ThenableReference {
     return this.db.list('notes').push({
-      title: 'New Note',
+      title: 'My Note',
       text: '',
       project: projectId,
     });
