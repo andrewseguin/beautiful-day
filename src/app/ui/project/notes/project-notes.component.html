@@ -1,39 +1,47 @@
-<div class="nav">
-  <button md-button *ngFor="let projectNote of notes | async"
-          routerLink="../{{projectNote.$key}}"
-          routerLinkActive="active">
-    {{projectNote.title}}
-  </button>
-  <button md-raised-button color="accent"
-          (click)="createNote()">
-    + New Note
-  </button>
-</div>
-
-<div class="editor md-elevation-z4">
-  <div class="header">
-    <div class="title" [md-menu-trigger-for]="notesMenu">
-      <div>{{title}}</div>
-      <md-icon>arrow_drop_down</md-icon>
-    </div>
-
-    <button md-icon-button [md-menu-trigger-for]="editNoteMenu">
-      <md-icon>edit</md-icon>
+<div class="notes-container">
+  <div class="nav">
+    <button md-button *ngFor="let projectNote of notes | async"
+            routerLink="../{{projectNote.$key}}"
+            routerLinkActive="active">
+      {{projectNote.title}}
+    </button>
+    <button md-raised-button color="accent" class="new"
+            (click)="createNote()">
+      + New Note
     </button>
   </div>
 
-  <textarea #editor autofocus (change)="saveNote()"></textarea>
+  <div class="editor md-elevation-z4">
+    <div class="header">
+      <div class="title mobile" [md-menu-trigger-for]="notesMenu">
+        <div>{{title}}</div>
+        <md-icon>arrow_drop_down</md-icon>
+      </div>
+      <div class="title web" [md-menu-trigger-for]="notesMenu">
+        <div>{{title}}</div>
+      </div>
+
+      <button md-icon-button [md-menu-trigger-for]="editNoteMenu">
+        <md-icon>edit</md-icon>
+      </button>
+    </div>
+
+    <textarea #editor autofocus (change)="saveNote()"></textarea>
+  </div>
+
+  <md-menu #notesMenu="mdMenu" class="notes-menu">
+    <button md-menu-item *ngFor="let projectNote of notes | async"
+            routerLink="../{{projectNote.$key}}"
+            routerLinkActive="active">
+      {{projectNote.title}}
+    </button>
+    <button md-menu-item (click)="createNote()">
+      + New Note
+    </button>
+  </md-menu>
+
+  <md-menu #editNoteMenu="mdMenu" x-position="before">
+    <button md-menu-item (click)="openEditTitleDialog()"> Edit Title </button>
+    <button md-menu-item (click)="openDeleteNoteDialog()"> Delete Note </button>
+  </md-menu>
 </div>
-
-<md-menu #notesMenu="mdMenu">
-  <button md-menu-item *ngFor="let projectNote of notes | async"
-          routerLink="../{{projectNote.$key}}"
-          routerLinkActive="active">
-    {{projectNote.title}}
-  </button>
-</md-menu>
-
-<md-menu #editNoteMenu="mdMenu" x-position="before" >
-  <button md-menu-item (click)="openEditTitleDialog()"> Edit Title </button>
-  <button md-menu-item (click)="openDeleteNoteDialog()"> Delete Note </button>
-</md-menu>

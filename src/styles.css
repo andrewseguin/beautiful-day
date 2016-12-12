@@ -45,6 +45,10 @@ button.grouping-option {
   height: 30px;
 }
 
+.md-menu-panel.notes-menu {
+  max-height: 326px;
+}
+
 /* Checkbox style */
 
 
