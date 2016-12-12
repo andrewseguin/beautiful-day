@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {FirebaseListObservable, AngularFire, FirebaseObjectObservable} from "angularfire2";
+import {Router} from "@angular/router";
+import * as firebase from 'firebase';
+
 import {Item} from "../model/item";
 import {Project} from "../model/project";
 import {Request} from "../model/request";
-import {Router} from "@angular/router";
-import * as firebase from 'firebase';
 
 @Injectable()
 export class RequestsService {

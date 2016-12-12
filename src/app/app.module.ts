@@ -40,6 +40,9 @@ import { HomeComponent } from './ui/home/home.component';
 import {HeaderService} from "./service/header.service";
 import { HeaderComponent } from './ui/header/header.component';
 import { DetailUserComponent } from './ui/project/details/user/detail-user.component';
+import {NotesService} from "./service/notes.service";
+import { EditNoteTitleComponent } from './ui/dialog/edit-note-title/edit-note-title.component';
+import { DeleteNoteComponent } from './ui/dialog/delete-note/delete-note.component';
 
 @NgModule({
   declarations: [
@@ -63,11 +66,15 @@ import { DetailUserComponent } from './ui/project/details/user/detail-user.compo
     HomeComponent,
     HeaderComponent,
     DetailUserComponent,
+    EditNoteTitleComponent,
+    DeleteNoteComponent,
   ],
   entryComponents: [
     EditNoteComponent,
+    EditNoteTitleComponent,
     EditDropoffComponent,
     EditProjectComponent,
+    DeleteNoteComponent,
     DeleteProjectComponent,
   ],
   imports: [
@@ -90,6 +97,7 @@ import { DetailUserComponent } from './ui/project/details/user/detail-user.compo
     UsersService,
     CanActivateViaAuthGuard,
     HeaderService,
+    NotesService,
   ],
   bootstrap: [AppComponent]
 })

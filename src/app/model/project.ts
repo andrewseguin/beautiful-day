@@ -1,3 +1,5 @@
+import {Note} from "./note";
+
 export interface Project {
   $key?: string;
   $exists?: Function;
@@ -11,4 +13,5 @@ export interface Project {
   lastUsedDropoff?: string;
   lastUsedDate?: string;
   auth?: string[];
+  notes?: Note[];
 }

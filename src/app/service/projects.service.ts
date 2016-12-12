@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
+import * as firebase from 'firebase';
 
 import {Project} from '../model/project';
 import {RequestsService} from "./requests.service";
 import {Observable} from "rxjs";
+import {Note} from "../model/note";
 
 @Injectable()
 export class ProjectsService {
@@ -34,11 +36,30 @@ export class ProjectsService {
     return this.af.database.object(`projects/${id}`);
   }
 
-  createProject() {
-    this.getProjects().push({
+  getNote(id: string, noteId: string): FirebaseListObservable<any> {
+    return this.af.database.list(`projects/${id}/notes/${noteId}`);
+  }
+
+  getNotes(id: string): FirebaseListObservable<any> {
+    return this.af.database.list(`projects/${id}/notes`);
+  }
+
+  saveNote(id: string, note: Note) {
+    console.log(note);
+    this.af.database.object(`projects/${id}/notes/${note.$key}`).update({
+      title: note.title,
+      text: note.text
+    });
+  }
+
+  createProject(): firebase.database.ThenableReference {
+    return this.getProjects().push({
       name: 'New Project',
       description: '',
-      location: ''
+      location: '',
+      notes: {
+        'initial': 'test'
+      }
     });
   }
 

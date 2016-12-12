@@ -25,12 +25,34 @@
   overflow: hidden;
   max-width: 550px;
 
-  .title {
-    font-size: 20px;
-    font-weight: bold;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding-bottom: 16px;
     border-bottom: 1px solid #CCC;
     margin-bottom: 16px;
+
+    .title {
+      display: flex;
+      align-items: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
   }
 }
 
+.nav button {
+  width: 200px;
+  line-height: 18px;
+  padding: 4px;
+  border-radius: 2px;
+  margin: 2px;
+  & .md-button-wrapper {
+    white-space: normal;
+  }
+
+  &.active {
+    background: #e0e0e0;
+  }
+}

@@ -15,6 +15,7 @@ export const ROUTER_CONFIG = [
       { path: '', redirectTo: 'details', pathMatch: 'full' },
       { path: 'details', component: ProjectDetailsComponent },
       { path: 'notes', component: ProjectNotesComponent },
+      { path: 'notes/:noteId', component: ProjectNotesComponent },
       { path: 'requests', redirectTo: 'requests/all'},
       { path: 'requests/:group', component: ProjectRequestsComponent },
     ]

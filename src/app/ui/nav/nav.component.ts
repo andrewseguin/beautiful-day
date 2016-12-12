@@ -3,6 +3,7 @@ import {FirebaseListObservable} from "angularfire2";
 import {MdSidenav} from "@angular/material";
 
 import {ProjectsService} from '../../service/projects.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'nav-content',
@@ -12,7 +13,8 @@ import {ProjectsService} from '../../service/projects.service';
 export class NavComponent implements OnInit {
   projects: FirebaseListObservable<any[]>;
 
-  constructor(private projectsService: ProjectsService) { }
+  constructor(private projectsService: ProjectsService,
+              private router: Router) { }
 
   @Input() sidenav: MdSidenav;
 
@@ -21,6 +23,9 @@ export class NavComponent implements OnInit {
   }
 
   addProject() {
-    this.projectsService.createProject();
+    this.projectsService.createProject().then(response => {
+      this.router.navigate([`project/${response.getKey()}`]);
+      this.sidenav.close();
+    });
   }
 }

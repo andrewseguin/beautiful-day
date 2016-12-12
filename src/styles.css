@@ -72,3 +72,11 @@ App header styles that couldn't go in because ViewEncapsulation.None breaks AoT
     height: 48px;
   }
 }
+
+/*
+Wrap button text if the width grows too long
+ */
+
+.md-button-wrapper {
+  white-space: normal;
+}
