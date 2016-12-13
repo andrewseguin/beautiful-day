@@ -1,16 +1,16 @@
-<div class="notes-container">
-  <div class="nav">
-    <button md-button *ngFor="let projectNote of notes | async"
-            routerLink="../{{projectNote.$key}}"
-            routerLinkActive="active">
-      {{projectNote.title}}
-    </button>
-    <button md-raised-button color="accent" class="new"
-            (click)="createNote()">
-      + New Note
-    </button>
-  </div>
+<div class="nav md-elevation-z1">
+  <button md-button *ngFor="let projectNote of notes | async"
+          routerLink="../{{projectNote.$key}}"
+          routerLinkActive="active">
+    {{projectNote.title}}
+  </button>
+  <button md-raised-button color="accent" class="new"
+          (click)="createNote()">
+    + New Note
+  </button>
+</div>
 
+<div class="notes-container">
   <div class="editor md-elevation-z4">
     <div class="header">
       <div class="title mobile" [md-menu-trigger-for]="notesMenu">
