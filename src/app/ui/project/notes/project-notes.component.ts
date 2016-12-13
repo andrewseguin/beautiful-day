@@ -58,8 +58,11 @@ export class ProjectNotesComponent implements OnInit {
           this.router.navigate([`../${response.key}`], {relativeTo: this.route});
         })
       } else {
-        this.notesService.getNote(this.noteId)
-            .subscribe(this.setNote.bind(this));
+        this.notesService.getNote(this.noteId).subscribe((note: Note) => {
+          if (!this.editor.hasFocus()) {
+            this.setNote(note)
+          }
+        });
       }
     });
   }
@@ -77,9 +80,7 @@ export class ProjectNotesComponent implements OnInit {
 
     // Update the editor with the new value
     if (this.editor.getValue() != note.text) {
-      //const cursor = this.editor.getDoc().getCursor();
       this.editor.setValue(note.text);
-      //this.editor.getDoc().setCursor(cursor);
     }
   }
 

@@ -26,7 +26,7 @@
       </button>
     </div>
 
-    <textarea #editor autofocus (change)="saveNote()"></textarea>
+    <textarea #editor (blur)="saveNote()"></textarea>
   </div>
 
   <md-menu #notesMenu="mdMenu" class="notes-menu">
