@@ -3,8 +3,6 @@ import {RequestsService} from "./requests.service";
 import {Request} from "../model/request";
 import {ItemsService} from "./items.service";
 import {Item} from "../model/item";
-import {CategoriesService} from "./categories.service";
-import {Category} from "../model/category";
 
 export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff';
 
@@ -17,16 +15,19 @@ export class RequestGroup {
 @Injectable()
 export class RequestGroupingService {
   items: Item[];
-  categories: Category[];
+  categories: string[];
 
   constructor(private requestsService: RequestsService,
-              private categoriesService: CategoriesService,
               private itemsService: ItemsService) {
-    this.categoriesService.getCategories().subscribe(categories => {
-      this.categories = categories;
-    });
     this.itemsService.getItems().subscribe(items => {
       this.items = items;
+
+      // Get all unique categories from the set of items.
+      const categoriesSet = new Set();
+      items.forEach(item => categoriesSet.add(item.category));
+
+      this.categories = [];
+      categoriesSet.forEach(category => this.categories.push(category));
     });
   }
 
@@ -116,9 +117,6 @@ export class RequestGroupingService {
     const itemMap: Map<string, Item> = new Map();
     this.items.forEach(item => itemMap.set(item.$key, item));
 
-    let categoryMap: Map<string, Category> = new Map();
-    this.categories.forEach(category => categoryMap.set(category.$key, category));
-
     const categoryGroups: Map<string, Request[]> = new Map();
 
     // Create map of all requests keyed by item
@@ -135,7 +133,7 @@ export class RequestGroupingService {
     categoryGroups.forEach((requests, categoryKey) => {
       requestGroups.get('category').push({
         id: categoryKey,
-        title: categoryMap.get(categoryKey).name,
+        title: categoryKey,
         requests: requests
       });
     });

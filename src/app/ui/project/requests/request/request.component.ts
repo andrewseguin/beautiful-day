@@ -5,7 +5,6 @@ import {
 import {ItemsService} from "../../../../service/items.service";
 import {Request} from "../../../../model/request";
 import {ActivatedRoute, Params} from "@angular/router";
-import {CategoriesService} from "../../../../service/categories.service";
 import {RequestsService} from "../../../../service/requests.service";
 import {MdDialog} from "@angular/material";
 import {EditNoteComponent} from "../../../dialog/edit-note/edit-note.component";
@@ -29,7 +28,6 @@ import {EditDropoffComponent} from "../../../dialog/edit-dropoff/edit-dropoff.co
   ]
 })
 export class RequestComponent implements OnInit {
-  category: string;
   item: string;
   projectId: string;
   state: string = 'normal';
@@ -40,16 +38,12 @@ export class RequestComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private mdDialog: MdDialog,
               private elementRef: ElementRef,
-              private categoryService: CategoriesService,
               private requestsService: RequestsService,
               private itemsService: ItemsService) { }
 
   ngOnInit() {
     this.itemsService.getItem(this.request.item).subscribe(item => {
       this.item = item.name;
-      this.categoryService.getCategory(item.category).subscribe(category => {
-        this.category = category.name;
-      });
     });
 
     this.route.parent.params.forEach((params: Params) => {

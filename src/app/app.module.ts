@@ -16,7 +16,6 @@ import {ProjectComponent} from './ui/project/project.component';
 import {ProjectsService} from './service/projects.service';
 import { InventoryComponent } from './ui/inventory/inventory.component';
 import {ItemsService} from "./service/items.service";
-import {CategoriesService} from "./service/categories.service";
 import {RequestsService} from "./service/requests.service";
 import { RequestComponent } from './ui/project/requests/request/request.component';
 import { ProjectDetailsComponent } from './ui/project/details/project-details.component';
@@ -89,7 +88,6 @@ import { DeleteNoteComponent } from './ui/dialog/delete-note/delete-note.compone
     MdIconRegistry,
     ProjectsService,
     ItemsService,
-    CategoriesService,
     RequestsService,
     MediaQueryService,
     RequestGroupingService,
