@@ -61,7 +61,9 @@
   &:hover {
     background: #EAEAEA;
     .name md-icon {
-      display: inline;
+      @media (min-width: $mobile-width) {
+        display: inline;
+      }
     }
   }
 

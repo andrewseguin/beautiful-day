@@ -29,6 +29,7 @@ export class EditItemOptionsComponent {
   editItem() {
     const itemId = this.itemsService.getSelectedItems().values().next().value;
     const dialogRef = this.mdDialog.open(EditItemComponent);
+    dialogRef.componentInstance.mode = 'edit';
 
     this.itemsService.getItem(itemId).subscribe(item => {
       dialogRef.componentInstance.item = item;

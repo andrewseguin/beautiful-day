@@ -1,15 +1,29 @@
 @import '../dialog-common';
+@import '../../../app.component';
 
 :host {
   display: flex;
   flex-direction: column;
+
+  @media (min-width: $mobile-width) {
+    width: $mobile-width - 100;
+  }
 }
 
 .name {
   display: flex;
+
+  @media (max-width: $mobile-width) {
+    flex-direction: column;
+  }
 }
 
 md-input {
   margin: 8px 0;
   width: initial;
+  flex-grow: 1;
+
+  @media (max-width: $mobile-width) {
+    width: 300px;
+  }
 }

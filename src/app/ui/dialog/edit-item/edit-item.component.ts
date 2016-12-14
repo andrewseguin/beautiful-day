@@ -3,6 +3,8 @@ import {Item} from '../../../model/item';
 import {MdDialogRef} from '@angular/material';
 import {ItemsService} from '../../../service/items.service';
 
+export type Mode = 'new' | 'edit' | 'view';
+
 @Component({
   selector: 'app-edit-item',
   templateUrl: './edit-item.component.html',
@@ -10,22 +12,20 @@ import {ItemsService} from '../../../service/items.service';
 })
 export class EditItemComponent implements OnInit {
   _item: Item;
-  mode: 'New' | 'Edit' | 'View';
+  mode: Mode;
 
   set item(item: Item) {
     this._item = {};
     for (const prop of Object.keys(item)) {
       this._item[prop] = item[prop]
     }
-
-    this.mode = 'Edit';
   }
 
   constructor(private dialogRef: MdDialogRef<EditItemComponent>,
               private itemsService: ItemsService) { }
 
   ngOnInit() {
-    console.log(this._item);
+    if (!this.mode) throw Error('No mode set');
   }
 
   close() {
@@ -41,14 +41,35 @@ export class EditItemComponent implements OnInit {
   }
 
   save() {
-    this.itemsService.getItem(this._item.$key).update({
-      name: this._item.name,
-      type: this._item.type || '',
+    const persistingItem = {
+      name: this.toTitleCase(this._item.name),
+      type: this.toTitleCase(this._item.type || ''),
       cost: this._item.cost,
-      category: this._item.category,
+      category: this.toTitleCase(this._item.category),
       url: this._item.url,
-    });
+    };
+
+    if (this.mode == 'edit') {
+      this.itemsService.getItem(this._item.$key).update(persistingItem);
+    } else if (this.mode == 'new') {
+      this.itemsService.getItems().push(persistingItem);
+    }
+
     this.close();
   }
 
+  toTitleCase(str: string): string {
+    return str.replace(/\w\S*/g, word => {
+      return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+    });
+  }
+
+  getTitle() {
+    switch (this.mode) {
+      case 'new': return 'Create Item';
+      case 'edit': return 'Edit Item';
+      case 'view': return 'Item Details';
+    }
+  }
 }
+
