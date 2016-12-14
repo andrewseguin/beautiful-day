@@ -46,7 +46,7 @@ import { DeleteNoteComponent } from './ui/dialog/delete-note/delete-note.compone
 import { EditItemComponent } from './ui/dialog/edit-item/edit-item.component';
 import { EditRequestOptionsComponent } from './ui/selection-header/edit-request-options/edit-request-options.component';
 import { EditItemOptionsComponent } from './ui/selection-header/edit-item-options/edit-item-options.component';
-import { EditItemTypeComponent } from './ui/dialog/edit-item-type/edit-item-type.component';
+import { EditItemNameComponent } from './ui/dialog/edit-item-name/edit-item-name.component';
 import { EditItemCategoryComponent } from './ui/dialog/edit-item-category/edit-item-category.component';
 
 @NgModule({
@@ -76,13 +76,13 @@ import { EditItemCategoryComponent } from './ui/dialog/edit-item-category/edit-i
     EditItemComponent,
     EditRequestOptionsComponent,
     EditItemOptionsComponent,
-    EditItemTypeComponent,
+    EditItemNameComponent,
     EditItemCategoryComponent,
   ],
   entryComponents: [
     EditItemComponent,
     EditItemCategoryComponent,
-    EditItemTypeComponent,
+    EditItemNameComponent,
     EditNoteComponent,
     EditNoteTitleComponent,
     EditDropoffComponent,

@@ -3,7 +3,7 @@ import {ItemsService} from '../../../service/items.service';
 import {MdDialog, MdSnackBar} from '@angular/material';
 import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
 import {EditItemCategoryComponent} from '../../dialog/edit-item-category/edit-item-category.component';
-import {EditItemTypeComponent} from '../../dialog/edit-item-type/edit-item-type.component';
+import {EditItemNameComponent} from '../../dialog/edit-item-name/edit-item-name.component';
 
 @Component({
   selector: 'edit-item-options',
@@ -16,8 +16,8 @@ export class EditItemOptionsComponent {
               private mdDialog: MdDialog,
               private snackBar: MdSnackBar) { }
 
-  editType() {
-    const dialogRef = this.mdDialog.open(EditItemTypeComponent);
+  editName() {
+    const dialogRef = this.mdDialog.open(EditItemNameComponent);
     dialogRef.componentInstance.itemIds = this.itemsService.getSelectedItems();
   }
 
