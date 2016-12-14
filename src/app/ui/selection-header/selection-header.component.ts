@@ -1,8 +1,9 @@
 import {Component, animate, style, transition, state, trigger} from '@angular/core';
-import {RequestsService} from "../../service/requests.service";
-import {MdSnackBar, MdDialog, MdSnackBarConfig} from "@angular/material";
-import {EditNoteComponent} from "../dialog/edit-note/edit-note.component";
-import {EditDropoffComponent} from "../dialog/edit-dropoff/edit-dropoff.component";
+import {RequestsService} from '../../service/requests.service';
+import {MdSnackBar, MdDialog} from '@angular/material';
+import {ItemsService} from '../../service/items.service';
+
+export type SelectionType = 'request' | 'item';
 
 @Component({
   selector: 'selection-header',
@@ -26,6 +27,7 @@ import {EditDropoffComponent} from "../dialog/edit-dropoff/edit-dropoff.componen
 export class SelectionHeaderComponent {
 
   constructor(private requestsService: RequestsService,
+              private itemsService: ItemsService,
               private mdDialog: MdDialog,
               private snackBar: MdSnackBar) { }
 
@@ -34,53 +36,22 @@ export class SelectionHeaderComponent {
   }
 
   getSelectionCount() {
-    return this.requestsService.getSelectedRequests().size;
+    return this.requestsService.getSelectedRequests().size ||
+      this.itemsService.getSelectedItems().size;
   }
 
-  clearRequests() {
-    this.requestsService.clearSelected();
-  }
-
-  deleteRequests() {
-    this.requestsService.getSelectedRequests().forEach(id => {
-      this.requestsService.removeRequest(id);
-    });
-
-    const message = `Removed ${this.getSelectionCount()} requests`;
-    const config: MdSnackBarConfig = {duration: 3000};
-    this.snackBar.open(message, null, config);
-
-    this.clearRequests();
-  }
-
-  editNote() {
-    const dialogRef = this.mdDialog.open(EditNoteComponent);
-
-    const selectedRequests = this.requestsService.getSelectedRequests();
-    dialogRef.componentInstance.requestIds = selectedRequests;
-    if (selectedRequests.size == 1) {
-      selectedRequests.forEach(requestKey => {
-        this.requestsService.getRequest(requestKey).subscribe(request => {
-          dialogRef.componentInstance.note = request.note;
-        })
-      });
+  getSelectionType(): SelectionType {
+    if (this.requestsService.getSelectedRequests().size) {
+      return 'request';
+    } else if (this.itemsService.getSelectedItems().size) {
+      return 'item';
     }
+
+    return null;
   }
 
-  editDropoff() {
-    const dialogRef = this.mdDialog.open(EditDropoffComponent);
-    dialogRef.componentInstance.requestIds =
-      this.requestsService.getSelectedRequests();
-
-    const selectedRequests = this.requestsService.getSelectedRequests();
-    dialogRef.componentInstance.requestIds = selectedRequests;
-    const firstRequest = selectedRequests.values().next().value;
-    this.requestsService.getRequest(firstRequest).subscribe(request => {
-      if (selectedRequests.size == 1) {
-        dialogRef.componentInstance.selectedDropoffLocation = request.dropoff;
-        dialogRef.componentInstance.setDateFromRequest(request.date);
-      }
-      dialogRef.componentInstance.project = request.project;
-    });
+  clearSelection() {
+    this.requestsService.clearSelected();
+    this.itemsService.clearSelected();
   }
 }

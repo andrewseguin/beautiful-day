@@ -1,4 +1,28 @@
-<div *ngFor="let item of items | async" class="item-container">
-  <div class="name">{{item.name}}</div>
-  <div class="category">{{(getCategory(item.category) | async)?.name}}</div>
+<div class="inventory-header md-elevation-z1">
+  <div class="grouping-title">Category:</div>
+</div>
+
+<div class="items-container">
+  <div *ngFor="let category of categories; trackBy:categoryTrackBy " class="categorized-items">
+    <div class="category-title">{{category}}</div>
+    <div class="items">
+
+      <div *ngFor="let item of categorizedItems.get(category)"
+           (click)="setSelected(item, !isSelected(item))"
+           class="item">
+        <md-checkbox [checked]="isSelected(item)"
+                     (click)="$event.stopPropagation()"
+                     (change)="setSelected(item, $event.checked)"></md-checkbox>
+
+        <div class="name">
+          {{getItemName(item)}}
+          <md-icon (click)="$event.stopPropagation(); editItem(item)">edit</md-icon>
+          <md-icon (click)="$event.stopPropagation(); openItemUrl(item)">open_in_new</md-icon>
+        </div>
+
+        <div class="cost">${{item.cost}}</div>
+      </div>
+
+    </div>
+  </div>
 </div>
