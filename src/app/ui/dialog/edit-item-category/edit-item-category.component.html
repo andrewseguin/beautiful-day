@@ -1,0 +1,13 @@
+<div class="header">
+  <div class="title">Edit Category</div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+<md-input autofocus
+          (keyup.Enter)="save()"
+          [(ngModel)]="category"></md-input>
+
+<div class="actions">
+  <button md-button (click)="close()">Cancel</button>
+  <button md-button (click)="save()">Save</button>
+</div>

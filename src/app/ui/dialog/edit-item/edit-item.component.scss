@@ -1,0 +1,15 @@
+@import '../dialog-common';
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  display: flex;
+}
+
+md-input {
+  margin: 8px 0;
+  width: initial;
+}

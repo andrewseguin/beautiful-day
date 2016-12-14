@@ -1,0 +1,17 @@
+<div class="header">
+  <div class="title">{{mode}} Item</div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+<div class="name">
+  <md-input [(ngModel)]="_item.name" placeholder="Name"></md-input>
+  <md-input [(ngModel)]="_item.type" placeholder="(Optional) Type"></md-input>
+</div>
+<md-input [(ngModel)]="_item.cost" placeholder="Cost ($)" type="number"></md-input>
+<md-input [(ngModel)]="_item.category" placeholder="Category"></md-input>
+<md-input [(ngModel)]="_item.url" placeholder="URL"></md-input>
+
+<div class="actions">
+  <button md-button (click)="close()">Cancel</button>
+  <button md-button [disabled]="!canSave()" (click)="save()">Save</button>
+</div>
