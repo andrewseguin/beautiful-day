@@ -47,6 +47,7 @@ import { EditRequestOptionsComponent } from './ui/selection-header/edit-request-
 import { EditItemOptionsComponent } from './ui/selection-header/edit-item-options/edit-item-options.component';
 import { EditItemNameComponent } from './ui/dialog/edit-item-name/edit-item-name.component';
 import { EditItemCategoryComponent } from './ui/dialog/edit-item-category/edit-item-category.component';
+import { SlidingPanelComponent } from './ui/project/requests/inventory-panel/sliding-panel/sliding-panel.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { EditItemCategoryComponent } from './ui/dialog/edit-item-category/edit-i
     EditItemOptionsComponent,
     EditItemNameComponent,
     EditItemCategoryComponent,
+    SlidingPanelComponent,
   ],
   entryComponents: [
     EditItemComponent,

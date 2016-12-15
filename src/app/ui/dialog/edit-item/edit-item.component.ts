@@ -12,6 +12,7 @@ export type Mode = 'new' | 'edit' | 'view';
 })
 export class EditItemComponent implements OnInit {
   _item: Item;
+  disableCategory: boolean;
   mode: Mode;
 
   set item(item: Item) {

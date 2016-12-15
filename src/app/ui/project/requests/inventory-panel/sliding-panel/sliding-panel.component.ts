@@ -1,5 +1,13 @@
-import {Component, OnInit, Input, animate, style, transition, state, trigger} from '@angular/core';
+import {
+  Component, OnInit, Input, animate, style, transition, state, trigger,
+  Output, EventEmitter
+} from '@angular/core';
 import {CategoryGroup} from "../../../../../service/items.service";
+import {Item} from "../../../../../model/item";
+import {MdDialog} from "@angular/material";
+import {EditItemComponent} from "../../../../dialog/edit-item/edit-item.component";
+
+export type SlidingPanelState = 'open' | 'closed';
 
 @Component({
   selector: 'sliding-panel',
@@ -11,7 +19,7 @@ import {CategoryGroup} from "../../../../../service/items.service";
       state('closed', style({transform: 'translateX(100%)'})),
       state('void', style({transform: 'translateX(100%)'})),
       transition('* <=> *', [
-        animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
+        animate('250ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),
     ])
   ],
@@ -21,18 +29,27 @@ import {CategoryGroup} from "../../../../../service/items.service";
   }
 })
 export class SlidingPanelComponent implements OnInit {
-  state: string;
+  group: CategoryGroup;
+  state: SlidingPanelState = 'closed';
 
-  _group: CategoryGroup;
-  @Input('group') set group(group: CategoryGroup) {
-    this._group = group;
-    this.state = !!group ? 'open' : 'closed';
+  @Output('itemSelected') itemSelected = new EventEmitter<Item>();
+
+  constructor(private mdDialog: MdDialog) { }
+
+  ngOnInit() {}
+
+  open() {
+    this.state = 'open';
   }
-  get group(): CategoryGroup { return this._group; }
 
-  constructor() { }
-
-  ngOnInit() {
+  close() {
+    this.state = 'closed'
   }
 
+  createItem() {
+    const dialogRef = this.mdDialog.open(EditItemComponent);
+    dialogRef.componentInstance.item = {category: this.group.category};
+    dialogRef.componentInstance.mode = 'new';
+    dialogRef.componentInstance.disableCategory = true;
+  }
 }

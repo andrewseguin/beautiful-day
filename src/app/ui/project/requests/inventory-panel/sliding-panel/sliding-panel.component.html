@@ -1,11 +1,19 @@
 <div *ngIf="group" class="heading">
+  <button md-icon-button class="back" (click)="close()">
+    <md-icon>keyboard_arrow_left</md-icon>
+  </button>
   {{group.category}}
 </div>
 
-<div *ngIf="group">
-  <button md-button *ngFor="let item of group.items">
+<div *ngIf="group" class="items">
+  <button md-button *ngFor="let item of group.items"
+          class="item"
+          (click)="itemSelected.emit(item)">
     {{item.name}}
   </button>
-</div>
 
-<button md-button (click)="group = null">Empty</button>
+  <button md-button color="primary" class="new"
+          (click)="createItem()">
+    Add new item
+  </button>
+</div>

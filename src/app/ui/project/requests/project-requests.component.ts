@@ -15,7 +15,7 @@ import {
   RequestGroupingService
 } from "../../../service/request-grouping.service";
 import {SubheaderService} from "../../../service/subheader.service";
-import {ItemAddedResponse} from "./inventory-panel/inventory-panel.component";
+import {RequestAddedResponse} from "./inventory-panel/inventory-panel.component";
 import {RequestComponent} from "./request/request.component";
 
 
@@ -114,9 +114,9 @@ export class ProjectRequestsComponent implements OnInit {
     return requestGroup.id;
   }
 
-  itemAdded(response: ItemAddedResponse): void {
+  requestCreated(response: RequestAddedResponse): void {
     const message = `Added request for ${response.item.name}`;
-    const action = 'View Request';
+    const action = this.mediaQuery.isMobile() ? '' : 'View Request';
     const config: MdSnackBarConfig = {duration: 3000};
 
     const newRequest = this.requestComponents.find(requestComponent => {

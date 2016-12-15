@@ -1,11 +1,34 @@
-<div class="container" [style.padding-top]="subheaderVisibility ? '48px' : 0">
-  <div class="heading">
-    Inventory
+<div class="container" [style.top]="subheaderVisibility ? '48px' : 0">
+
+  <div class="categories-container">
+    <div class="heading">
+      <span class="title">Inventory</span>
+      <div class="search-container"
+           [class.open]="showSearch">
+        <button md-icon-button (click)="showSearch = true; searchInput.focus()">
+          <md-icon>search</md-icon>
+        </button>
+        <md-input #searchInput [(ngModel)]="search"
+                  placeholder="Search" [floatingPlaceholder]="false">
+        </md-input>
+        <button md-icon-button class="close"
+                (click)="showSearch = false; search = ''">
+          <md-icon>close</md-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="categories">
+      <div *ngFor="let category of getCategories()">
+        <button md-button class="inventory-category"
+                (click)="openSlidingPanel(category)">
+          {{category}}
+          <md-icon>keyboard_arrow_right</md-icon>
+        </button>
+      </div>
+
+    </div>
   </div>
 
-  <div *ngFor="let item of items | async">
-    <button md-button (click)="addItem(item)">
-      {{item.name}}
-    </button>
-  </div>
+  <sliding-panel #slidingPanel (itemSelected)="addItem($event)"></sliding-panel>
 </div>

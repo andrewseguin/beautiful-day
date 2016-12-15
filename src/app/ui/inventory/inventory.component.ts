@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ItemsService} from "../../service/items.service";
-import {FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
-import {CategoriesService} from "../../service/categories.service";
-import {Category} from "../../model/category";
+import {FirebaseListObservable} from "angularfire2";
 import {Item} from '../../model/item';
 import {MdDialog} from '@angular/material';
 import {EditItemComponent} from '../dialog/edit-item/edit-item.component';

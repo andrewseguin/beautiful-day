@@ -5,4 +5,36 @@
   right: 0;
   bottom: 0;
   background: white;
+  overflow: auto;
+}
+
+.heading {
+  height: 48px;
+  display: flex;
+  font-weight: bold;
+  align-items: center;
+  position: relative;
+}
+
+button.back {
+  border-radius: 0;
+  height: 100%;
+  margin-right: 8px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+}
+
+button.item {
+  font-weight: normal;
+  text-align: left;
+  min-height: 40px;
+  line-height: 16px;
+}
+
+button.new {
+  margin: 8px 0;
+  text-align: left;
 }

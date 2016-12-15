@@ -8,7 +8,7 @@
   <md-input [disabled]="mode == 'view'" [(ngModel)]="_item.type" placeholder="(Optional) Type"></md-input>
 </div>
 <md-input [disabled]="mode == 'view'" [(ngModel)]="_item.cost" placeholder="Cost ($)" type="number"></md-input>
-<md-input [disabled]="mode == 'view'" [(ngModel)]="_item.category" placeholder="Category"></md-input>
+<md-input [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.category" placeholder="Category"></md-input>
 <md-input [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL"></md-input>
 
 <div class="actions" *ngIf="mode != 'view'">

@@ -1,7 +1,20 @@
 @import '../../../../app.component';
 
-:host {
-  display: block;
+.container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.categories-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
 }
 
 .heading {
@@ -10,12 +23,53 @@
   display: flex;
   align-items: center;
   padding-left: 16px;
+
+  .title {
+    flex-grow: 1;
+  }
 }
 
-button {
+.search-container {
+  position: absolute;
+  right: 0;
+  width: 48px;
+  background: white;
+  transition: 500ms ease-in-out;
+  display: flex;
+  align-items: center;
+
+  .close {
+    opacity: 0;
+    transition: 500ms ease-in-out;
+    margin-right: 8px;
+
+    md-icon {
+      font-size: 18px;
+    }
+  }
+  &.open {
+    width: calc(100% - 4px);
+    .close {
+      opacity: 1;
+    }
+  }
+
+  md-input {
+    flex-grow: 1;
+    font-weight: normal;
+    font-size: 14px;
+  }
+}
+
+button.inventory-category {
   width: 100%;
   font-weight: normal;
-  height: 22px;
-  line-height: 22px;
   text-align: left;
+  line-height: 16px;
+  min-height: 40px;
 }
+
+.categories {
+  position: relative;
+}
+

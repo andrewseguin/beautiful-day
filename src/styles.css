@@ -84,3 +84,21 @@ Wrap button text if the width grows too long
 .md-button-wrapper {
   white-space: normal;
 }
+
+.inventory-category .md-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Inventory panel's search underline should extend past icons */
+.search-container .md-input-underline {
+  left: 0;
+  width: 100%;
+  margin-top: 8px;
+  transition: 500ms ease-in-out;
+}
+.search-container.open .md-input-underline {
+  left: -32px;
+  width: calc(100% + 64px);
+}

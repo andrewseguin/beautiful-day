@@ -44,7 +44,10 @@
   <md-sidenav #sidenav
               [opened]="!hideInventory()"
               [mode]="hideInventory() ? 'over' : 'side'"
+              (close)="inventoryPanel.reset()"
               align="end">
-    <inventory-panel (itemAdded)="itemAdded($event)"></inventory-panel>
+    <inventory-panel #inventoryPanel
+                     (requestCreated)="requestCreated($event)">
+    </inventory-panel>
   </md-sidenav>
 </md-sidenav-layout>
