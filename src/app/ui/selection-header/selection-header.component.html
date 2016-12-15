@@ -1,4 +1,4 @@
-<button md-icon-button (click)="clearRequests()">
+<button md-icon-button (click)="clearSelection()">
   <md-icon>close</md-icon>
 </button>
 
@@ -7,15 +7,6 @@
   {{getSelectionCount()}} Selected
 </div>
 
-<button md-icon-button
-        [md-menu-trigger-for]="editMenu">
-  <md-icon>edit</md-icon>
-</button>
-<md-menu #editMenu="mdMenu" x-position="before">
-  <button md-menu-item (click)="editNote()"> Note </button>
-  <button md-menu-item (click)="editDropoff()"> Dropoff </button>
-</md-menu>
+<edit-request-options *ngIf="getSelectionType() =='request'"></edit-request-options>
+<edit-item-options *ngIf="getSelectionType() =='item'"></edit-item-options>
 
-<button md-icon-button (click)="deleteRequests()">
-  <md-icon>delete</md-icon>
-</button>

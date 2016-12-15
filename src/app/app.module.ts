@@ -42,6 +42,11 @@ import { DetailUserComponent } from './ui/project/details/user/detail-user.compo
 import {NotesService} from "./service/notes.service";
 import { EditNoteTitleComponent } from './ui/dialog/edit-note-title/edit-note-title.component';
 import { DeleteNoteComponent } from './ui/dialog/delete-note/delete-note.component';
+import { EditItemComponent } from './ui/dialog/edit-item/edit-item.component';
+import { EditRequestOptionsComponent } from './ui/selection-header/edit-request-options/edit-request-options.component';
+import { EditItemOptionsComponent } from './ui/selection-header/edit-item-options/edit-item-options.component';
+import { EditItemNameComponent } from './ui/dialog/edit-item-name/edit-item-name.component';
+import { EditItemCategoryComponent } from './ui/dialog/edit-item-category/edit-item-category.component';
 
 @NgModule({
   declarations: [
@@ -67,8 +72,16 @@ import { DeleteNoteComponent } from './ui/dialog/delete-note/delete-note.compone
     DetailUserComponent,
     EditNoteTitleComponent,
     DeleteNoteComponent,
+    EditItemComponent,
+    EditRequestOptionsComponent,
+    EditItemOptionsComponent,
+    EditItemNameComponent,
+    EditItemCategoryComponent,
   ],
   entryComponents: [
+    EditItemComponent,
+    EditItemCategoryComponent,
+    EditItemNameComponent,
     EditNoteComponent,
     EditNoteTitleComponent,
     EditDropoffComponent,

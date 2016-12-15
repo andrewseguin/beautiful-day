@@ -7,15 +7,12 @@ import {RequestsService} from "../../../service/requests.service";
   templateUrl: './edit-note.component.html',
   styleUrls: ['./edit-note.component.scss']
 })
-export class EditNoteComponent implements OnInit {
+export class EditNoteComponent {
   requestIds: Set<string>;
   note: string = '';
 
   constructor(private dialogRef: MdDialogRef<EditNoteComponent>,
               private requestsService: RequestsService) { }
-
-  ngOnInit() {
-  }
 
   close() {
     this.dialogRef.close();

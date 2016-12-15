@@ -1,0 +1,11 @@
+<div *ngIf="group" class="heading">
+  {{group.category}}
+</div>
+
+<div *ngIf="group">
+  <button md-button *ngFor="let item of group.items">
+    {{item.name}}
+  </button>
+</div>
+
+<button md-button (click)="group = null">Empty</button>
