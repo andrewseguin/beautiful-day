@@ -18,8 +18,8 @@ export type InventoryPanelItemState = 'collapsed' | 'expanded';
   },
   animations: [
     trigger('size', [
-      state('collapsed', style({height: '48px'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({height: '48px', margin: '0 8px'})),
+      state('expanded', style({height: '*', margin: '4px 8px'})),
       transition('collapsed <=> expanded', [
         animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')
       ]),
@@ -42,7 +42,11 @@ export class InventoryPanelItemComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+
+  ngOnChanges() {
+    console.log('Item on changes');
   }
 
   getItemName() {

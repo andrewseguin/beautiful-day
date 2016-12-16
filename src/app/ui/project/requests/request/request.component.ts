@@ -51,6 +51,10 @@ export class RequestComponent implements OnInit {
     });
   }
 
+  ngOnChanges() {
+    console.log('Request on changes');
+  }
+
   getRequestKey(): string {
     return this.request.$key;
   }

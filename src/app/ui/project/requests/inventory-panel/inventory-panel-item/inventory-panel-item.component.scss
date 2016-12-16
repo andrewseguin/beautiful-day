@@ -47,18 +47,3 @@ button {
   }
 }
 
-.request-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  button .inner {
-    display: flex;
-    justify-content: space-between;
-
-    .cost {
-      color: #249824;
-      font-weight: bold;
-    }
-  }
-}

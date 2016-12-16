@@ -10,20 +10,18 @@
     </div>
     <div>
       <span class="property-title">Cost:</span>
-      ${{item.cost}}
+      ${{item.cost || '45.39'}}
     </div>
     <div>
       <span class="property-title">Website:</span>
-      <a target="_blank" href="{{item.url}}">{{item.url}}</a>
+      <a target="_blank" href="{{item.url}}">{{item.url || 'https://www.homedepot.com/item'}}</a>
 
     </div>
   </div>
   <div class="request-row">
-    <button md-button color="primary">
-      <div class="inner">
-        <span class="cost">${{item.cost}}</span>
-        <span>Request Item</span>
-      </div>
+    <button md-button color="primary"
+            (click)="createRequest.emit(item)">
+      Request Item
     </button>
   </div>
 </div>
