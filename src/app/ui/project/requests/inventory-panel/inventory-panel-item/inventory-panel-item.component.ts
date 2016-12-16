@@ -6,6 +6,11 @@ import {Item} from '../../../../../model/item';
 
 export type InventoryPanelItemState = 'collapsed' | 'expanded';
 
+export interface CreateRequestEvent {
+  item: Item;
+  quantity: number;
+}
+
 @Component({
   selector: 'inventory-panel-item',
   templateUrl: './inventory-panel-item.component.html',
@@ -35,18 +40,18 @@ export type InventoryPanelItemState = 'collapsed' | 'expanded';
 })
 export class InventoryPanelItemComponent implements OnInit {
   state: InventoryPanelItemState = 'collapsed';
+  requestQuantity: number = 1;
 
   @Input() item: Item;
 
-  @Output() createRequest = new EventEmitter<Item>();
+  @Output() createRequest = new EventEmitter<CreateRequestEvent>();
 
   constructor() { }
 
   ngOnInit() { }
 
-
   ngOnChanges() {
-    console.log('Item on changes');
+    console.log('Item changes');
   }
 
   getItemName() {
@@ -60,6 +65,10 @@ export class InventoryPanelItemComponent implements OnInit {
 
   toggleState() {
     this.state = this.state == 'collapsed' ? 'expanded' : 'collapsed';
+  }
+
+  request() {
+    this.createRequest.emit({item: this.item, quantity: this.requestQuantity});
   }
 
 }

@@ -12,6 +12,7 @@ import {RequestsService} from "../../../../service/requests.service";
 import {SubheaderService} from "../../../../service/subheader.service";
 import {MediaQueryService} from "../../../../service/media-query.service";
 import {SlidingPanelComponent} from "./sliding-panel/sliding-panel.component";
+import {CreateRequestEvent} from "./inventory-panel-item/inventory-panel-item.component";
 
 export class RequestAddedResponse {
   item: Item;
@@ -70,11 +71,12 @@ export class InventoryPanelComponent implements OnInit {
     return this.collection ? Object.keys(this.collection) : [];
   }
 
-  createRequest(item: Item) {
+  createRequest(event: CreateRequestEvent) {
     this.project.first().subscribe(project => {
-      this.requestsService.addRequest(project, item).then(response => {
-        this.requestCreated.emit({key: response.getKey(), item});
-      });
+      this.requestsService.addRequest(project, event.item, event.quantity)
+        .then(response => {
+          this.requestCreated.emit({key: response.getKey(), item: event.item});
+        });
     })
   }
 

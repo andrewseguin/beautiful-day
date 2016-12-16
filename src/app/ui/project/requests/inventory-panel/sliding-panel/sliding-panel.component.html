@@ -8,7 +8,7 @@
 <div *ngIf="group" class="items">
   <inventory-panel-item *ngFor="let item of group.items"
                         [item]="item"
-                        (createRequest)="createRequest.emit(item)">
+                        (createRequest)="createRequest.emit($event)">
     {{item.name}}
   </inventory-panel-item>
 

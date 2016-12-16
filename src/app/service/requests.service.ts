@@ -38,11 +38,13 @@ export class RequestsService {
     this.getAllRequests().remove(id);
   }
 
-  addRequest(project: Project, item: Item): firebase.database.ThenableReference {
+  addRequest(project: Project,
+             item: Item,
+             quantity: number = 1): firebase.database.ThenableReference {
     return this.af.database.list('requests').push({
       item: item.$key,
       project: project.$key,
-      quantity: 1,
+      quantity: quantity,
       note: '',
       dropoff: project.lastUsedDropoff || '',
       date: project.lastUsedDate || ''

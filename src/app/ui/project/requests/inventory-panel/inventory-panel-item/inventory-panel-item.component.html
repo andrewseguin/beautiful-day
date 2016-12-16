@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="top-row" md-ripple (click)="toggleState()">
+  <div class="top-row" (click)="toggleState()">
     <div class="item-name">{{getItemName()}}</div>
     <md-icon [@arrow]="state">expand_more</md-icon>
   </div>
@@ -19,9 +19,9 @@
     </div>
   </div>
   <div class="request-row">
-    <button md-button color="primary"
-            (click)="createRequest.emit(item)">
-      Request Item
+    <md-input [(ngModel)]="requestQuantity" placeholder="quantity"></md-input>
+    <button md-raised-button color="accent" (click)="request()">
+      Request
     </button>
   </div>
 </div>

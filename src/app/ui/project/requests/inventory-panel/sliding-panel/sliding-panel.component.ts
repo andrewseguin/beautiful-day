@@ -6,6 +6,7 @@ import {CategoryGroup} from "../../../../../service/items.service";
 import {Item} from "../../../../../model/item";
 import {MdDialog} from "@angular/material";
 import {EditItemComponent} from "../../../../dialog/edit-item/edit-item.component";
+import {CreateRequestEvent} from "../inventory-panel-item/inventory-panel-item.component";
 
 export type SlidingPanelState = 'open' | 'closed';
 
@@ -32,7 +33,7 @@ export class SlidingPanelComponent implements OnInit {
   group: CategoryGroup;
   state: SlidingPanelState = 'closed';
 
-  @Output() createRequest = new EventEmitter<Item>();
+  @Output() createRequest = new EventEmitter<CreateRequestEvent>();
 
   constructor(private mdDialog: MdDialog) { }
 

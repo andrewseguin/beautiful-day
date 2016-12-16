@@ -6,19 +6,6 @@
   display: block;
 }
 
-.container {
-}
-
-button {
-  font-weight: normal;
-  text-align: right;
-  min-height: 40px;
-  line-height: 16px;
-  width: 100%;
-}
-
-.row {}
-
 .top-row {
   display: flex;
   align-items: center;
@@ -26,6 +13,13 @@ button {
   position: relative;
   padding: 0 8px 0 16px;
   height: 48px;
+  cursor: pointer;
+  &:hover {
+    background: #FAFAFA;
+  }
+  &:active {
+    background: #F5F5F5;
+  }
 
   .item-name {
     max-height: 48px;
@@ -47,3 +41,15 @@ button {
   }
 }
 
+.request-row {
+  display: flex;
+  padding: 8px 0 8px 16px;
+  align-items: center;
+  border-top: 1px solid #CCC;
+
+  button {
+    font-weight: normal;
+    line-height: 16px;
+    margin: 0 16px;
+  }
+}

@@ -52,7 +52,7 @@ export class RequestComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log('Request on changes');
+    console.log('Request changes');
   }
 
   getRequestKey(): string {
