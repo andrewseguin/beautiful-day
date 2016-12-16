@@ -25,9 +25,9 @@ export class RequestAddedResponse {
 })
 export class InventoryPanelComponent implements OnInit {
   collection: CategoryGroupCollection;
-  selectedCategory: string;
   project: FirebaseObjectObservable<Project>;
   subheaderVisibility: boolean = true;
+  items: Item[];
 
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
 
@@ -42,6 +42,8 @@ export class InventoryPanelComponent implements OnInit {
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
+    this.itemsService.getItems().subscribe(items => this.items = items);
+
     this.itemsService.getItemsByCategory().subscribe(collection => {
       this.collection = collection;
 
@@ -68,7 +70,7 @@ export class InventoryPanelComponent implements OnInit {
     return this.collection ? Object.keys(this.collection) : [];
   }
 
-  addItem(item: Item) {
+  createRequest(item: Item) {
     this.project.first().subscribe(project => {
       this.requestsService.addRequest(project, item).then(response => {
         this.requestCreated.emit({key: response.getKey(), item});

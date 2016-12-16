@@ -32,7 +32,7 @@ export class SlidingPanelComponent implements OnInit {
   group: CategoryGroup;
   state: SlidingPanelState = 'closed';
 
-  @Output('itemSelected') itemSelected = new EventEmitter<Item>();
+  @Output() createRequest = new EventEmitter<Item>();
 
   constructor(private mdDialog: MdDialog) { }
 

@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="top-row" md-ripple (click)="toggleState()">
+    <div class="item-name">{{getItemName()}}</div>
+    <md-icon [@arrow]="state">expand_more</md-icon>
+  </div>
+  <div class="info-row">
+    <div>
+      <span class="property-title">Category:</span>
+      {{item.category}}
+    </div>
+    <div>
+      <span class="property-title">Cost:</span>
+      ${{item.cost}}
+    </div>
+    <div>
+      <span class="property-title">Website:</span>
+      <a target="_blank" href="{{item.url}}">{{item.url}}</a>
+
+    </div>
+  </div>
+  <div class="request-row">
+    <button md-button color="primary">
+      <div class="inner">
+        <span class="cost">${{item.cost}}</span>
+        <span>Request Item</span>
+      </div>
+    </button>
+  </div>
+</div>

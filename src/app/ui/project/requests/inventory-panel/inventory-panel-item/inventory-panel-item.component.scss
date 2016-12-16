@@ -1,0 +1,64 @@
+:host {
+  position: relative;
+  margin: 8px;
+  background: white;
+  font-size: 13px;
+  display: block;
+}
+
+.container {
+}
+
+button {
+  font-weight: normal;
+  text-align: right;
+  min-height: 40px;
+  line-height: 16px;
+  width: 100%;
+}
+
+.row {}
+
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 8px 0 16px;
+  height: 48px;
+
+  .item-name {
+    max-height: 48px;
+    padding-right: 8px;
+  }
+}
+
+.info-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 16px 8px 16px;
+
+  & > div {
+    padding: 4px 0;
+  }
+  .property-title {
+    font-weight: bold;
+  }
+}
+
+.request-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button .inner {
+    display: flex;
+    justify-content: space-between;
+
+    .cost {
+      color: #249824;
+      font-weight: bold;
+    }
+  }
+}

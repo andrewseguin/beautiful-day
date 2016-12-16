@@ -96,7 +96,7 @@ Wrap button text if the width grows too long
   left: 0;
   width: 100%;
   margin-top: 8px;
-  transition: 500ms ease-in-out;
+  transition: 250ms ease-in-out;
 }
 .search-container.open .md-input-underline {
   left: -32px;

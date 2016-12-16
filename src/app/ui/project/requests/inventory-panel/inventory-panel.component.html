@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="categories">
+    <div class="categories" *ngIf="!search">
       <div *ngFor="let category of getCategories()">
         <button md-button class="inventory-category"
                 (click)="openSlidingPanel(category)">
@@ -26,9 +26,15 @@
           <md-icon>keyboard_arrow_right</md-icon>
         </button>
       </div>
+    </div>
 
+    <div class="search-results" *ngIf="search">
+      <inventory-panel-item *ngFor="let item of items | itemSearch:search"
+                            [item]="item"
+                            (createRequest)="createRequest($event)">
+      </inventory-panel-item>
     </div>
   </div>
 
-  <sliding-panel #slidingPanel (itemSelected)="addItem($event)"></sliding-panel>
+  <sliding-panel #slidingPanel (createRequest)="createRequest($event)"></sliding-panel>
 </div>

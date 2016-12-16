@@ -6,11 +6,11 @@
 </div>
 
 <div *ngIf="group" class="items">
-  <button md-button *ngFor="let item of group.items"
-          class="item"
-          (click)="itemSelected.emit(item)">
+  <inventory-panel-item *ngFor="let item of group.items"
+                        [item]="item"
+                        (createRequest)="createRequest.emit(item)">
     {{item.name}}
-  </button>
+  </inventory-panel-item>
 
   <button md-button color="primary" class="new"
           (click)="createItem()">

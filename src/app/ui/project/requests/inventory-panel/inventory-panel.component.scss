@@ -6,6 +6,7 @@
   bottom: 0;
   left: 0;
   right: 0;
+  background: #F5F5F5;
 }
 
 .categories-container {
@@ -33,14 +34,14 @@
   position: absolute;
   right: 0;
   width: 48px;
-  background: white;
-  transition: 500ms ease-in-out;
+  background: #F5F5F5;
+  transition: 250ms ease-in-out;
   display: flex;
   align-items: center;
 
   .close {
     opacity: 0;
-    transition: 500ms ease-in-out;
+    transition: 100ms ease-in-out;
     margin-right: 8px;
 
     md-icon {

@@ -4,8 +4,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: white;
+  background: #F5F5F5;
   overflow: auto;
+  z-index: 1;
 }
 
 .heading {
@@ -25,13 +26,6 @@ button.back {
 .items {
   display: flex;
   flex-direction: column;
-}
-
-button.item {
-  font-weight: normal;
-  text-align: left;
-  min-height: 40px;
-  line-height: 16px;
 }
 
 button.new {

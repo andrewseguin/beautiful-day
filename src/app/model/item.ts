@@ -9,5 +9,4 @@ export interface Item {
   isRental?: boolean;
   addedBy?: string;
   dateAdded?: string;
-
 }
