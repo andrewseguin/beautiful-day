@@ -41,6 +41,7 @@ export interface CreateRequestEvent {
 export class InventoryPanelItemComponent implements OnInit {
   state: InventoryPanelItemState = 'collapsed';
   requestQuantity: number = 1;
+  requested: boolean;
 
   @Input() item: Item;
 
@@ -65,10 +66,13 @@ export class InventoryPanelItemComponent implements OnInit {
 
   toggleState() {
     this.state = this.state == 'collapsed' ? 'expanded' : 'collapsed';
+    this.requested = false;
   }
 
   request() {
     this.createRequest.emit({item: this.item, quantity: this.requestQuantity});
+    this.requestQuantity = 1;
+    this.requested = true;
   }
 
 }

@@ -20,8 +20,9 @@
   </div>
   <div class="request-row">
     <md-input [(ngModel)]="requestQuantity" placeholder="quantity"></md-input>
-    <button md-raised-button color="accent" (click)="request()">
-      Request
+    <button md-raised-button [disabled]="requested" color="accent" (click)="request()">
+      <span *ngIf="requested">Requested</span>
+      <span *ngIf="!requested">Request</span>
     </button>
   </div>
 </div>

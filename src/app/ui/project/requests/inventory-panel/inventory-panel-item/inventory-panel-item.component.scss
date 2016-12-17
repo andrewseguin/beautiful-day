@@ -43,13 +43,13 @@
 
 .request-row {
   display: flex;
-  padding: 8px 0 8px 16px;
+  padding: 8px 16px;
   align-items: center;
   border-top: 1px solid #CCC;
+  height: 32px;
 
   button {
-    font-weight: normal;
-    line-height: 16px;
-    margin: 0 16px;
+    margin-left: 16px;
+    min-width: 100px;
   }
 }
