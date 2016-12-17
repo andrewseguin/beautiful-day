@@ -29,10 +29,12 @@
     </div>
 
     <div class="search-results" *ngIf="search">
-      <inventory-panel-item *ngFor="let item of items | itemSearch:search"
+
+      <inventory-panel-item *ngFor="let item of getItems(); trackBy:getItemKey"
                             [item]="item"
                             (createRequest)="createRequest($event)">
       </inventory-panel-item>
+      <button md-button (click)="loadMore()">More items...</button>
     </div>
   </div>
 

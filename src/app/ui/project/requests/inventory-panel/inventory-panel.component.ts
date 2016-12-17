@@ -1,18 +1,16 @@
 import {Component, OnInit, EventEmitter, Output, ViewChild} from '@angular/core';
-import {
-  ItemsService, CategoryGroupCollection,
-  CategoryGroup
-} from "../../../../service/items.service";
-import {FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
-import {Item} from "../../../../model/item";
-import {ProjectsService} from "../../../../service/projects.service";
-import {Project} from "../../../../model/project";
-import {Params, ActivatedRoute} from "@angular/router";
-import {RequestsService} from "../../../../service/requests.service";
-import {SubheaderService} from "../../../../service/subheader.service";
-import {MediaQueryService} from "../../../../service/media-query.service";
-import {SlidingPanelComponent} from "./sliding-panel/sliding-panel.component";
-import {CreateRequestEvent} from "./inventory-panel-item/inventory-panel-item.component";
+import {ItemsService, CategoryGroupCollection} from '../../../../service/items.service';
+import {FirebaseObjectObservable} from 'angularfire2';
+import {Item} from '../../../../model/item';
+import {ProjectsService} from '../../../../service/projects.service';
+import {Project} from '../../../../model/project';
+import {Params, ActivatedRoute} from '@angular/router';
+import {RequestsService} from '../../../../service/requests.service';
+import {SubheaderService} from '../../../../service/subheader.service';
+import {MediaQueryService} from '../../../../service/media-query.service';
+import {SlidingPanelComponent} from './sliding-panel/sliding-panel.component';
+import {CreateRequestEvent} from './inventory-panel-item/inventory-panel-item.component';
+import {ItemSearchPipe} from '../../../../pipe/item-search.pipe';
 
 export class RequestAddedResponse {
   item: Item;
@@ -30,6 +28,11 @@ export class InventoryPanelComponent implements OnInit {
   subheaderVisibility: boolean = true;
   items: Item[];
 
+  search: string = '';
+  searchResultCount: number;
+  searchLimit: number = 10;
+  itemSearch = new ItemSearchPipe();
+
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
 
   @Output('requestCreated') requestCreated =
@@ -40,7 +43,7 @@ export class InventoryPanelComponent implements OnInit {
               private mediaQuery: MediaQueryService,
               private itemsService: ItemsService,
               private requestsService: RequestsService,
-              private projectsService: ProjectsService) { }
+              private projectsService: ProjectsService) {}
 
   ngOnInit() {
     this.itemsService.getItems().subscribe(items => this.items = items);
@@ -89,4 +92,13 @@ export class InventoryPanelComponent implements OnInit {
     this.slidingPanel.close();
   }
 
+  getItems(): Item[] {
+    const itemsSearchResult = this.itemSearch.transform(this.items, this.search);
+    this.searchResultCount = itemsSearchResult.length;
+    return itemsSearchResult.slice(0, this.searchLimit);
+  }
+
+  getItemKey(item: Item): string {
+    return item.$key;
+  }
 }

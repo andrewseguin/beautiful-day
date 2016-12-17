@@ -6,7 +6,8 @@ import {Item} from '../model/item';
 })
 export class ItemSearchPipe implements PipeTransform {
 
-  transform(items: Item[], query: string): any {
+  transform(items: Item[], query: string): Item[] {
+    console.log(query)
     const tokens = query.split(' ');
     return items.filter(item => {
       return tokens.every(token => this.itemMatchesSearch(item, token));

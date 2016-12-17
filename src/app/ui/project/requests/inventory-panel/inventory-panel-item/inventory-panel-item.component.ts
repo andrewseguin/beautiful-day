@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, EventEmitter, Output, animate, transition,
-  style, state, trigger
+  style, state, trigger, ChangeDetectionStrategy
 } from '@angular/core';
 import {Item} from '../../../../../model/item';
 
@@ -36,7 +36,8 @@ export interface CreateRequestEvent {
         animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')
       ]),
     ]),
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InventoryPanelItemComponent implements OnInit {
   state: InventoryPanelItemState = 'collapsed';
