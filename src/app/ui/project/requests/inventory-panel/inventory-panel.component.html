@@ -7,7 +7,8 @@
            [@searchContainer]="searchState"
            (@searchContainer.start)="searchContainerAnimationStart($event)"
            (@searchContainer.done)="searchContainerAnimationDone($event)">
-        <button md-icon-button (click)="searchState = 'open'">
+        <button md-icon-button class="search"
+                (click)="searchState = 'open'">
           <md-icon>search</md-icon>
         </button>
         <md-input #searchInput
