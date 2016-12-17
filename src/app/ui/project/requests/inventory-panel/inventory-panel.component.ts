@@ -34,8 +34,8 @@ export class RequestAddedResponse {
       ),
     ]),
     trigger('searchInput', [
-      state('open', style({'margin-left': '*'})),
-      state('closed', style({'margin-left': '12px'})),
+      state('open', style({'opacity': '1'})),
+      state('closed', style({'opacity': '0'})),
       transition('open <=> closed', [
         animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')
       ])
@@ -56,7 +56,6 @@ export class InventoryPanelComponent implements OnInit {
 
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
   @ViewChild('searchInput') searchInput: MdInput;
-  @ViewChild('searchContainer') searchContainer: ElementRef;
 
   @Output('requestCreated') requestCreated =
       new EventEmitter<RequestAddedResponse>();
@@ -126,21 +125,7 @@ export class InventoryPanelComponent implements OnInit {
     return item.$key;
   }
 
-  searchContainerAnimationStart(e: AnimationTransitionEvent) {
-  }
-
   searchContainerAnimationDone(e: AnimationTransitionEvent) {
-    // Focus on the search input and add the class that extends the underline
-    if (e.toState == 'open') {
-      this.searchInput.focus();
-      this.renderer.setElementClass(
-          this.searchContainer.nativeElement, 'open', true);
-    }
-
-    // Remove the open class from the search container which shrinks the underline
-    if (e.toState == 'closed') {
-      this.renderer.setElementClass(
-        this.searchContainer.nativeElement, 'open', false);
-    }
+    if (e.toState == 'open') { this.searchInput.focus(); }
   }
 }

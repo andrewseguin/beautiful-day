@@ -3,9 +3,8 @@
   <div class="categories-container">
     <div class="heading">
       <span class="title">Inventory</span>
-      <div class="search-container" #searchContainer
+      <div class="search-container"
            [@searchContainer]="searchState"
-           (@searchContainer.start)="searchContainerAnimationStart($event)"
            (@searchContainer.done)="searchContainerAnimationDone($event)">
         <button md-icon-button class="search"
                 (click)="searchState = 'open'">
