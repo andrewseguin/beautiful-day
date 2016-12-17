@@ -100,5 +100,5 @@ Wrap button text if the width grows too long
 }
 .search-container.open .md-input-underline {
   left: -32px;
-  width: calc(100% + 64px);
+  width: calc(100% + 72px);
 }

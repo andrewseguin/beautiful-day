@@ -33,25 +33,17 @@
 .search-container {
   position: absolute;
   right: 0;
-  width: 48px;
+  left: 0;
+  height: 48px;
   background: #F5F5F5;
   transition: 250ms ease-in-out;
   display: flex;
   align-items: center;
+  transform: translate3d(200px, 0, 0);
 
   .close {
-    opacity: 0;
-    transition: 100ms ease-in-out;
-    margin-right: 8px;
-
     md-icon {
       font-size: 18px;
-    }
-  }
-  &.open {
-    width: calc(100% - 4px);
-    .close {
-      opacity: 1;
     }
   }
 
@@ -68,6 +60,11 @@ button.inventory-category {
   text-align: left;
   line-height: 16px;
   min-height: 40px;
+}
+
+button.close {
+  height: 48px;
+  width: 48px;
 }
 
 .categories {

@@ -3,16 +3,21 @@
   <div class="categories-container">
     <div class="heading">
       <span class="title">Inventory</span>
-      <div class="search-container"
-           [class.open]="showSearch">
-        <button md-icon-button (click)="showSearch = true; searchInput.focus()">
+      <div class="search-container" #searchContainer
+           [@searchContainer]="searchState"
+           (@searchContainer.start)="searchContainerAnimationStart($event)"
+           (@searchContainer.done)="searchContainerAnimationDone($event)">
+        <button md-icon-button (click)="searchState = 'open'">
           <md-icon>search</md-icon>
         </button>
-        <md-input #searchInput [(ngModel)]="search"
-                  placeholder="Search" [floatingPlaceholder]="false">
+        <md-input #searchInput
+                  [@searchInput]="searchState"
+                  [(ngModel)]="search"
+                  placeholder="Search"
+                  [floatingPlaceholder]="false">
         </md-input>
         <button md-icon-button class="close"
-                (click)="showSearch = false; search = ''">
+                (click)="searchState = 'closed'; search = ''">
           <md-icon>close</md-icon>
         </button>
       </div>

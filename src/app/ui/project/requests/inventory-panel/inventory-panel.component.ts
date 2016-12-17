@@ -1,4 +1,7 @@
-import {Component, OnInit, EventEmitter, Output, ViewChild} from '@angular/core';
+import {
+  Component, OnInit, EventEmitter, Output, ViewChild, animate, style,
+  transition, state, trigger, AnimationTransitionEvent, ElementRef, Renderer
+} from '@angular/core';
 import {ItemsService, CategoryGroupCollection} from '../../../../service/items.service';
 import {FirebaseObjectObservable} from 'angularfire2';
 import {Item} from '../../../../model/item';
@@ -11,6 +14,7 @@ import {MediaQueryService} from '../../../../service/media-query.service';
 import {SlidingPanelComponent} from './sliding-panel/sliding-panel.component';
 import {CreateRequestEvent} from './inventory-panel-item/inventory-panel-item.component';
 import {ItemSearchPipe} from '../../../../pipe/item-search.pipe';
+import {MdInput} from "@angular/material";
 
 export class RequestAddedResponse {
   item: Item;
@@ -21,6 +25,22 @@ export class RequestAddedResponse {
   selector: 'inventory-panel',
   templateUrl: './inventory-panel.component.html',
   styleUrls: ['./inventory-panel.component.scss'],
+  animations: [
+    trigger('searchContainer', [
+      state('open', style({transform: 'translate3d(0, 0, 0)'})),
+      state('closed', style({transform: 'translate3d(200px, 0, 0)'})),
+      transition('open <=> closed', [
+        animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')]
+      ),
+    ]),
+    trigger('searchInput', [
+      state('open', style({'margin-left': '*'})),
+      state('closed', style({'margin-left': '12px'})),
+      transition('open <=> closed', [
+        animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')
+      ])
+    ])
+  ]
 })
 export class InventoryPanelComponent implements OnInit {
   collection: CategoryGroupCollection;
@@ -29,16 +49,20 @@ export class InventoryPanelComponent implements OnInit {
   items: Item[];
 
   search: string = '';
+  searchState: 'open' | 'closed' = 'closed';
   searchResultCount: number;
   searchLimit: number = 10;
   itemSearch = new ItemSearchPipe();
 
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
+  @ViewChild('searchInput') searchInput: MdInput;
+  @ViewChild('searchContainer') searchContainer: ElementRef;
 
   @Output('requestCreated') requestCreated =
       new EventEmitter<RequestAddedResponse>();
 
   constructor(private route: ActivatedRoute,
+              private renderer: Renderer,
               private subheaderService: SubheaderService,
               private mediaQuery: MediaQueryService,
               private itemsService: ItemsService,
@@ -100,5 +124,23 @@ export class InventoryPanelComponent implements OnInit {
 
   getItemKey(item: Item): string {
     return item.$key;
+  }
+
+  searchContainerAnimationStart(e: AnimationTransitionEvent) {
+  }
+
+  searchContainerAnimationDone(e: AnimationTransitionEvent) {
+    // Focus on the search input and add the class that extends the underline
+    if (e.toState == 'open') {
+      this.searchInput.focus();
+      this.renderer.setElementClass(
+          this.searchContainer.nativeElement, 'open', true);
+    }
+
+    // Remove the open class from the search container which shrinks the underline
+    if (e.toState == 'closed') {
+      this.renderer.setElementClass(
+        this.searchContainer.nativeElement, 'open', false);
+    }
   }
 }
