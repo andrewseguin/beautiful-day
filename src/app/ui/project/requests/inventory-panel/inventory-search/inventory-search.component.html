@@ -8,7 +8,6 @@
           placeholder="Search"
           [@searchInput]="searchState"
           [(ngModel)]="search"
-          (ngModelChange)="searchChanged.emit($event)"
           [floatingPlaceholder]="false">
 </md-input>
 

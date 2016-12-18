@@ -40,10 +40,10 @@ export type SearchState = 'open' | 'closed';
   }
 })
 export class InventorySearchComponent  {
-  search: string = '';
   searchState: SearchState = 'closed';
 
   @ViewChild('searchInput') searchInput: MdInput;
+
   @Output('searchChanged') searchChanged =
       new EventEmitter<string>();
 
@@ -52,4 +52,11 @@ export class InventorySearchComponent  {
       this.searchInput.focus();
     }
   }
+
+  _search: string = '';
+  set search(s: string) {
+    this._search = s;
+    this.searchChanged.emit(s)
+  }
+  get search(): string { return this._search; }
 }
