@@ -15,9 +15,9 @@
           <md-icon>search</md-icon>
         </button>
         <md-input #searchInput
+                  placeholder="Search"
                   [@searchInput]="searchState"
                   [(ngModel)]="search"
-                  placeholder="Search"
                   [floatingPlaceholder]="false">
         </md-input>
         <button md-icon-button class="close"

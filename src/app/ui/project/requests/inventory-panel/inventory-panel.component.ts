@@ -128,6 +128,8 @@ export class InventoryPanelComponent implements OnInit {
   }
 
   searchContainerAnimationDone(e: AnimationTransitionEvent) {
-    if (e.toState == 'open') { this.searchInput.focus(); }
+    if (e.toState == 'open' && this.searchState == 'open') {
+      this.searchInput.focus();
+    }
   }
 }
