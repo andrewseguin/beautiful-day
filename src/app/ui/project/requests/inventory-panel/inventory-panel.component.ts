@@ -21,6 +21,8 @@ export class RequestAddedResponse {
   key: string;
 }
 
+export type SearchState = 'open' | 'closed';
+
 @Component({
   selector: 'inventory-panel',
   templateUrl: './inventory-panel.component.html',
@@ -28,16 +30,16 @@ export class RequestAddedResponse {
   animations: [
     trigger('searchContainer', [
       state('open', style({transform: 'translate3d(0, 0, 0)'})),
-      state('closed', style({transform: 'translate3d(200px, 0, 0)'})),
+      state('closed', style({transform: 'translate3d(calc(100% - 48px), 0px, 0px)'})),
       transition('open <=> closed', [
-        animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')]
+        animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),
     ]),
     trigger('searchInput', [
       state('open', style({'opacity': '1'})),
       state('closed', style({'opacity': '0'})),
       transition('open <=> closed', [
-        animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')
+        animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')
       ])
     ])
   ]
@@ -49,7 +51,7 @@ export class InventoryPanelComponent implements OnInit {
   items: Item[];
 
   search: string = '';
-  searchState: 'open' | 'closed' = 'closed';
+  searchState: SearchState = 'closed';
   searchResultCount: number;
   searchLimit: number = 10;
   itemSearch = new ItemSearchPipe();
@@ -59,9 +61,9 @@ export class InventoryPanelComponent implements OnInit {
 
   @Output('requestCreated') requestCreated =
       new EventEmitter<RequestAddedResponse>();
+  @Output('closeSidenav') closeSidenav = new EventEmitter<void>();
 
   constructor(private route: ActivatedRoute,
-              private renderer: Renderer,
               private subheaderService: SubheaderService,
               private mediaQuery: MediaQueryService,
               private itemsService: ItemsService,

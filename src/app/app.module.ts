@@ -101,7 +101,7 @@ import { InventoryPanelItemComponent } from './ui/project/requests/inventory-pan
     HttpModule,
     MaterialModule.forRoot(),
     AngularFireModule.initializeApp(FIREBASE_CONFIG, FIREBASE_AUTH),
-    RouterModule.forRoot(ROUTER_CONFIG)
+    RouterModule.forRoot(ROUTER_CONFIG),
   ],
   providers: [
     MdIconRegistry,

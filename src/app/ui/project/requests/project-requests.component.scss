@@ -16,6 +16,8 @@ md-sidenav-layout {
 
 md-sidenav {
   overflow: hidden;
+  width: 100%;
+  max-width: 300px;
 }
 
 .scrollable-content {

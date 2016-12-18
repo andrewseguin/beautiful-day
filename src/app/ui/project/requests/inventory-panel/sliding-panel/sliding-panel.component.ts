@@ -32,6 +32,7 @@ export type SlidingPanelState = 'open' | 'closed';
 export class SlidingPanelComponent implements OnInit {
   group: CategoryGroup;
   state: SlidingPanelState = 'closed';
+  page: number;
 
   @Output() createRequest = new EventEmitter<CreateRequestEvent>();
 
