@@ -23,8 +23,8 @@ export interface CreateRequestEvent {
   },
   animations: [
     trigger('size', [
-      state('collapsed', style({height: '48px'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({height: '48px', margin: '0 8px'})),
+      state('expanded', style({height: '*', margin: '16px 8px'})),
       transition('collapsed <=> expanded', [
         animate('250ms cubic-bezier(0.35, 0, 0.25, 1)')
       ]),
