@@ -50,6 +50,7 @@ import { EditItemCategoryComponent } from './ui/dialog/edit-item-category/edit-i
 import { SlidingPanelComponent } from './ui/project/requests/inventory-panel/sliding-panel/sliding-panel.component';
 import { ItemSearchPipe } from './pipe/item-search.pipe';
 import { InventoryPanelItemComponent } from './ui/project/requests/inventory-panel/inventory-panel-item/inventory-panel-item.component';
+import { InventorySearchComponent } from './ui/project/requests/inventory-panel/inventory-search/inventory-search.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { InventoryPanelItemComponent } from './ui/project/requests/inventory-pan
     SlidingPanelComponent,
     ItemSearchPipe,
     InventoryPanelItemComponent,
+    InventorySearchComponent,
   ],
   entryComponents: [
     EditItemComponent,

@@ -57,7 +57,7 @@ export class InventoryComponent implements OnInit {
 
   editItem(item: Item) {
     const dialogRef = this.mdDialog.open(EditItemComponent);
-    dialogRef.componentInstance.mode = 'view';
+    dialogRef.componentInstance.mode = 'edit';
     dialogRef.componentInstance.item = item;
   }
 

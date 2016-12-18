@@ -6,28 +6,11 @@
         <md-icon>keyboard_arrow_left</md-icon>
       </button>
       <span class="title">Inventory</span>
-      <div class="search-container"
-           [@searchContainer]="searchState"
-           (@searchContainer.done)="searchContainerAnimationDone($event)">
-        <button md-icon-button class="search"
-                [disabled]="searchState == 'open'"
-                (click)="searchState = 'open'">
-          <md-icon>search</md-icon>
-        </button>
-        <md-input #searchInput
-                  placeholder="Search"
-                  [@searchInput]="searchState"
-                  [(ngModel)]="search"
-                  [floatingPlaceholder]="false">
-        </md-input>
-        <button md-icon-button class="close"
-                (click)="searchState = 'closed'; search = ''">
-          <md-icon>close</md-icon>
-        </button>
-      </div>
+
+      <inventory-search (searchChanged)="search = $event"></inventory-search>
     </div>
 
-    <div class="categories" *ngIf="!search">
+    <div class="categories" *ngIf="!_search">
       <div *ngFor="let category of getCategories()">
         <button md-button class="inventory-category"
                 (click)="openSlidingPanel(category)">
@@ -37,9 +20,14 @@
       </div>
     </div>
 
-    <div class="search-results" *ngIf="search">
-
-      <inventory-panel-item *ngFor="let item of getItems(); trackBy:getItemKey"
+    <div class="search-results" *ngIf="_search">
+      <div class="result-count" *ngIf="searchResultCount > 0">
+        Search found {{searchResultCount}} {{searchResultCount > 1 ? 'items' : 'item'}}
+      </div>
+      <div class="result-count" *ngIf="searchResultCount == 0">
+        Could not find any items that match "{{_search}}"
+      </div>
+      <inventory-panel-item *ngFor="let item of paginatedSearchResult; trackBy:getItemKey"
                             [item]="item"
                             (createRequest)="createRequest($event)">
       </inventory-panel-item>

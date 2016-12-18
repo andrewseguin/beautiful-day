@@ -1,0 +1,18 @@
+<button md-icon-button class="search"
+        [disabled]="searchState == 'open'"
+        (click)="searchState = 'open'">
+  <md-icon>search</md-icon>
+</button>
+
+<md-input #searchInput
+          placeholder="Search"
+          [@searchInput]="searchState"
+          [(ngModel)]="search"
+          (ngModelChange)="searchChanged.emit($event)"
+          [floatingPlaceholder]="false">
+</md-input>
+
+<button md-icon-button class="close"
+        (click)="searchState = 'closed'; search = ''">
+  <md-icon>close</md-icon>
+</button>

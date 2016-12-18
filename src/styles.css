@@ -92,7 +92,7 @@ Wrap button text if the width grows too long
 }
 
 /* Inventory panel's search underline should extend past icons */
-.search-container .md-input-underline {
+inventory-search .md-input-underline {
   margin-top: 8px;
   left: -32px;
   width: calc(100% + 72px);

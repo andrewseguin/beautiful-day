@@ -23,37 +23,14 @@
   height: 48px;
   display: flex;
   align-items: center;
+  position: relative;
+  overflow: hidden;
 
   .title {
     flex-grow: 1;
     @media (min-width: $mobile-width) {
       padding-left: 16px;
     }
-  }
-}
-
-.search-container {
-  position: absolute;
-  right: 0;
-  left: 0;
-  height: 48px;
-  background: #F5F5F5;
-  transition: 250ms ease-in-out;
-  display: flex;
-  align-items: center;
-  transform: translate3d(200px, 0, 0);
-  z-index: 1;
-
-  .close {
-    md-icon {
-      font-size: 18px;
-    }
-  }
-
-  md-input {
-    flex-grow: 1;
-    font-weight: normal;
-    font-size: 14px;
   }
 }
 
@@ -66,15 +43,17 @@ button.inventory-category {
   padding-right: 12px;
 }
 
-button.back, button.close, button.search {
+button.back {
   height: 48px;
   width: 48px;
-}
-
-button.back {
   @media (min-width: $mobile-width) {
     display: none;
   }
+}
+
+.result-count {
+  margin: 8px 16px;
+  font-size: 12px;
 }
 
 .categories {

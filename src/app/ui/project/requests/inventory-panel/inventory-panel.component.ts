@@ -1,63 +1,40 @@
-import {
-  Component, OnInit, EventEmitter, Output, ViewChild, animate, style,
-  transition, state, trigger, AnimationTransitionEvent, ElementRef, Renderer
-} from '@angular/core';
-import {ItemsService, CategoryGroupCollection} from '../../../../service/items.service';
-import {FirebaseObjectObservable} from 'angularfire2';
-import {Item} from '../../../../model/item';
-import {ProjectsService} from '../../../../service/projects.service';
-import {Project} from '../../../../model/project';
-import {Params, ActivatedRoute} from '@angular/router';
-import {RequestsService} from '../../../../service/requests.service';
-import {SubheaderService} from '../../../../service/subheader.service';
-import {MediaQueryService} from '../../../../service/media-query.service';
-import {SlidingPanelComponent} from './sliding-panel/sliding-panel.component';
-import {CreateRequestEvent} from './inventory-panel-item/inventory-panel-item.component';
-import {ItemSearchPipe} from '../../../../pipe/item-search.pipe';
-import {MdInput} from "@angular/material";
+import {Component, OnInit, EventEmitter, Output, ViewChild} from "@angular/core";
+import {ItemsService, CategoryGroupCollection} from "../../../../service/items.service";
+import {FirebaseObjectObservable} from "angularfire2";
+import {Item} from "../../../../model/item";
+import {ProjectsService} from "../../../../service/projects.service";
+import {Project} from "../../../../model/project";
+import {Params, ActivatedRoute} from "@angular/router";
+import {RequestsService} from "../../../../service/requests.service";
+import {SubheaderService} from "../../../../service/subheader.service";
+import {MediaQueryService} from "../../../../service/media-query.service";
+import {SlidingPanelComponent} from "./sliding-panel/sliding-panel.component";
+import {CreateRequestEvent} from "./inventory-panel-item/inventory-panel-item.component";
+import {ItemSearchPipe} from "../../../../pipe/item-search.pipe";
 
 export class RequestAddedResponse {
   item: Item;
   key: string;
 }
 
-export type SearchState = 'open' | 'closed';
-
 @Component({
   selector: 'inventory-panel',
   templateUrl: './inventory-panel.component.html',
-  styleUrls: ['./inventory-panel.component.scss'],
-  animations: [
-    trigger('searchContainer', [
-      state('open', style({transform: 'translate3d(0, 0, 0)'})),
-      state('closed', style({transform: 'translate3d(calc(100% - 48px), 0px, 0px)'})),
-      transition('open <=> closed', [
-        animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
-      ),
-    ]),
-    trigger('searchInput', [
-      state('open', style({'opacity': '1'})),
-      state('closed', style({'opacity': '0'})),
-      transition('open <=> closed', [
-        animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')
-      ])
-    ])
-  ]
+  styleUrls: ['./inventory-panel.component.scss']
 })
 export class InventoryPanelComponent implements OnInit {
   collection: CategoryGroupCollection;
   project: FirebaseObjectObservable<Project>;
   subheaderVisibility: boolean = true;
   items: Item[];
+  paginatedSearchResult: Item[];
 
-  search: string = '';
-  searchState: SearchState = 'closed';
-  searchResultCount: number;
+  _search: string = '';
+  searchResultCount: number = 0;
   searchLimit: number = 10;
   itemSearch = new ItemSearchPipe();
 
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
-  @ViewChild('searchInput') searchInput: MdInput;
 
   @Output('requestCreated') requestCreated =
       new EventEmitter<RequestAddedResponse>();
@@ -69,6 +46,21 @@ export class InventoryPanelComponent implements OnInit {
               private itemsService: ItemsService,
               private requestsService: RequestsService,
               private projectsService: ProjectsService) {}
+
+  set search(s: string) {
+    this._search = s;
+    if (s == '') {
+      this.searchResultCount = 0;
+      this.paginatedSearchResult = [];
+      return;
+    }
+
+    const itemsSearchResult = this.itemSearch.transform(this.items, s);
+    this.searchResultCount = itemsSearchResult.length;
+    console.log(this.searchResultCount)
+    this.paginatedSearchResult = itemsSearchResult.slice(0, this.searchLimit);
+  }
+  get search(): string { return this._search; }
 
   ngOnInit() {
     this.itemsService.getItems().subscribe(items => this.items = items);
@@ -117,19 +109,7 @@ export class InventoryPanelComponent implements OnInit {
     this.slidingPanel.close();
   }
 
-  getItems(): Item[] {
-    const itemsSearchResult = this.itemSearch.transform(this.items, this.search);
-    this.searchResultCount = itemsSearchResult.length;
-    return itemsSearchResult.slice(0, this.searchLimit);
-  }
-
   getItemKey(item: Item): string {
     return item.$key;
-  }
-
-  searchContainerAnimationDone(e: AnimationTransitionEvent) {
-    if (e.toState == 'open' && this.searchState == 'open') {
-      this.searchInput.focus();
-    }
   }
 }
