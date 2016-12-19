@@ -3,6 +3,11 @@ import {
   style, state, trigger, ChangeDetectionStrategy, AnimationTransitionEvent, keyframes
 } from '@angular/core';
 import {Item} from '../../../../../model/item';
+import {Route, Params, ActivatedRoute} from "@angular/router";
+import {Project} from "../../../../../model/project";
+import {FirebaseObjectObservable} from "angularfire2";
+import {RequestsService} from "../../../../../service/requests.service";
+import {ProjectsService} from "../../../../../service/projects.service";
 
 export type InventoryPanelItemState = 'collapsed' | 'expanded';
 
@@ -42,12 +47,19 @@ export class InventoryPanelItemComponent {
   state: InventoryPanelItemState = 'collapsed';
   requestQuantity: number = 1;
   requested: boolean;
+  project: FirebaseObjectObservable<Project>;
 
   @Input() item: Item;
 
-  @Output() createRequest = new EventEmitter<CreateRequestEvent>();
+  constructor(private route: ActivatedRoute,
+              private projectsService: ProjectsService,
+              private requestsService: RequestsService) { }
 
-  constructor() { }
+  ngOnInit() {
+    this.route.parent.params.subscribe((params: Params) => {
+      this.project = this.projectsService.getProject(params['id']);
+    });
+  }
 
   getItemName() {
     let name = this.item.name;
@@ -63,8 +75,10 @@ export class InventoryPanelItemComponent {
   }
 
   request() {
-    this.createRequest.emit({item: this.item, quantity: this.requestQuantity});
     this.requested = true;
+    this.project.first().subscribe(project => {
+      this.requestsService.addRequest(project, this.item, this.requestQuantity)
+    });
   }
 
   sizeAnimationDone(e: AnimationTransitionEvent) {

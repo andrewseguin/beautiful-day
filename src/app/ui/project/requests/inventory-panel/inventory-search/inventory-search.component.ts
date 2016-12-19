@@ -10,7 +10,6 @@ import {
   AnimationTransitionEvent, EventEmitter, Output
 } from "@angular/core";
 import {MdInput} from "@angular/material";
-import {Subject} from "rxjs";
 
 export type SearchState = 'open' | 'closed';
 

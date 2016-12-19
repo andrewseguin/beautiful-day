@@ -5,7 +5,7 @@ import {
 import {ActivatedRoute, Params} from "@angular/router";
 import {FirebaseObjectObservable} from "angularfire2";
 import {Project} from "../../../model/project";
-import {RequestsService} from "../../../service/requests.service";
+import {RequestsService, RequestAddedResponse} from "../../../service/requests.service";
 import {ProjectsService} from "../../../service/projects.service";
 import {Request} from "../../../model/request";
 import {MdSnackBar, MdMenu, MdSnackBarConfig} from "@angular/material";
@@ -15,7 +15,6 @@ import {
   RequestGroupingService
 } from "../../../service/request-grouping.service";
 import {SubheaderService} from "../../../service/subheader.service";
-import {RequestAddedResponse} from "./inventory-panel/inventory-panel.component";
 import {RequestComponent} from "./request/request.component";
 
 
@@ -65,6 +64,10 @@ export class ProjectRequestsComponent implements OnInit {
 
     this.route.params.subscribe((params: Params) => {
       this.grouping = params['group'];
+    });
+
+    this.requestsService.getRequestAddedStream().subscribe(response => {
+      this.requestCreated(response);
     });
   }
 

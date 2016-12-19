@@ -9,13 +9,7 @@ import {RequestsService} from "../../../../service/requests.service";
 import {SubheaderService} from "../../../../service/subheader.service";
 import {MediaQueryService} from "../../../../service/media-query.service";
 import {SlidingPanelComponent} from "./sliding-panel/sliding-panel.component";
-import {CreateRequestEvent} from "./inventory-panel-item/inventory-panel-item.component";
 import {ItemSearchPipe} from "../../../../pipe/item-search.pipe";
-
-export class RequestAddedResponse {
-  item: Item;
-  key: string;
-}
 
 @Component({
   selector: 'inventory-panel',
@@ -36,15 +30,12 @@ export class InventoryPanelComponent implements OnInit {
 
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
 
-  @Output('requestCreated') requestCreated =
-      new EventEmitter<RequestAddedResponse>();
   @Output('closeSidenav') closeSidenav = new EventEmitter<void>();
 
   constructor(private route: ActivatedRoute,
               private subheaderService: SubheaderService,
               private mediaQuery: MediaQueryService,
               private itemsService: ItemsService,
-              private requestsService: RequestsService,
               private projectsService: ProjectsService) {}
 
   set search(s: string) {
@@ -89,15 +80,6 @@ export class InventoryPanelComponent implements OnInit {
 
   getCategories(): string[] {
     return this.collection ? Object.keys(this.collection) : [];
-  }
-
-  createRequest(event: CreateRequestEvent) {
-    this.project.first().subscribe(project => {
-      this.requestsService.addRequest(project, event.item, event.quantity)
-        .then(response => {
-          this.requestCreated.emit({key: response.getKey(), item: event.item});
-        });
-    })
   }
 
   openSlidingPanel(category: string) {

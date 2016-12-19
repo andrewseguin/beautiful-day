@@ -46,9 +46,7 @@
               [mode]="hideInventory() ? 'over' : 'side'"
               (close)="inventoryPanel.reset()"
               align="end">
-    <inventory-panel #inventoryPanel
-                     (closeSidenav)="sidenav.close()"
-                     (requestCreated)="requestCreated($event)">
+    <inventory-panel #inventoryPanel (closeSidenav)="sidenav.close()">
     </inventory-panel>
   </md-sidenav>
 </md-sidenav-layout>

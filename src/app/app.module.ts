@@ -51,6 +51,7 @@ import { SlidingPanelComponent } from './ui/project/requests/inventory-panel/sli
 import { ItemSearchPipe } from './pipe/item-search.pipe';
 import { InventoryPanelItemComponent } from './ui/project/requests/inventory-panel/inventory-panel-item/inventory-panel-item.component';
 import { InventorySearchComponent } from './ui/project/requests/inventory-panel/inventory-search/inventory-search.component';
+import { InventoryListComponent } from './ui/project/requests/inventory-panel/inventory-list/inventory-list.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { InventorySearchComponent } from './ui/project/requests/inventory-panel/
     ItemSearchPipe,
     InventoryPanelItemComponent,
     InventorySearchComponent,
+    InventoryListComponent,
   ],
   entryComponents: [
     EditItemComponent,

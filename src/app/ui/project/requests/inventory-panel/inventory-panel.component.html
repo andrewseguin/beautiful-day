@@ -28,8 +28,7 @@
         Could not find any items that match "{{_search}}"
       </div>
       <inventory-panel-item *ngFor="let item of paginatedSearchResult; trackBy:getItemKey"
-                            [item]="item"
-                            (createRequest)="createRequest($event)">
+                            [item]="item">
       </inventory-panel-item>
       <button md-button (click)="loadMore()">More items...</button>
     </div>

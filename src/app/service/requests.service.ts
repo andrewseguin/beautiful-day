@@ -6,9 +6,16 @@ import * as firebase from 'firebase';
 import {Item} from "../model/item";
 import {Project} from "../model/project";
 import {Request} from "../model/request";
+import {Subject, Observable} from "rxjs";
+
+export class RequestAddedResponse {
+  item: Item;
+  key: string;
+}
 
 @Injectable()
 export class RequestsService {
+  requestAdded: Subject<RequestAddedResponse> = new Subject<RequestAddedResponse>();
   selectedRequests: Set<string> = new Set();
 
   constructor(private af: AngularFire,
@@ -38,17 +45,21 @@ export class RequestsService {
     this.getAllRequests().remove(id);
   }
 
-  addRequest(project: Project,
-             item: Item,
-             quantity: number = 1): firebase.database.ThenableReference {
-    return this.af.database.list('requests').push({
+  addRequest(project: Project, item: Item, quantity: number = 1) {
+    this.af.database.list('requests').push({
       item: item.$key,
       project: project.$key,
       quantity: quantity,
       note: '',
       dropoff: project.lastUsedDropoff || '',
       date: project.lastUsedDate || ''
+    }).then(response => {
+      this.requestAdded.next({key: response.getKey(), item});
     });
+  }
+
+  getRequestAddedStream(): Observable<RequestAddedResponse> {
+    return this.requestAdded.asObservable();
   }
 
   update(id: string, update: any) {
