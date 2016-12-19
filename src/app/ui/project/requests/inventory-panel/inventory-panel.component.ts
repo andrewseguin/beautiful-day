@@ -21,11 +21,9 @@ export class InventoryPanelComponent implements OnInit {
   project: FirebaseObjectObservable<Project>;
   subheaderVisibility: boolean = true;
   items: Item[];
-  paginatedSearchResult: Item[];
 
   _search: string = '';
-  searchResultCount: number = 0;
-  searchLimit: number = 10;
+  searchResult: Item[] = [];
   itemSearch = new ItemSearchPipe();
 
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
@@ -41,15 +39,11 @@ export class InventoryPanelComponent implements OnInit {
   set search(s: string) {
     this._search = s;
     if (s == '') {
-      this.searchResultCount = 0;
-      this.paginatedSearchResult = [];
+      this.searchResult = [];
       return;
     }
 
-    const itemsSearchResult = this.itemSearch.transform(this.items, s);
-    this.searchResultCount = itemsSearchResult.length;
-    console.log(this.searchResultCount)
-    this.paginatedSearchResult = itemsSearchResult.slice(0, this.searchLimit);
+    this.searchResult = this.itemSearch.transform(this.items, s);
   }
   get search(): string { return this._search; }
 

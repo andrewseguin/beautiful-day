@@ -5,22 +5,6 @@
   {{group.category}}
 </div>
 
-<div *ngIf="!group || !itemsToShow">
-  <md-progress-bar mode="determinate" [value]="loadingValue" color="primary">
-  </md-progress-bar>
-
-  <div class="loading-text">Loading {{group?.category}} items</div>
-</div>
-
-<div *ngIf="group && itemsToShow > 0" class="items">
-  <div *ngFor="let item of group.items; let i = index; trackBy:itemTrackBy">
-    <inventory-panel-item [item]="item" *ngIf="i < itemsToShow">
-      {{item.name}}
-    </inventory-panel-item>
-  </div>
-
-  <button md-button color="primary" class="new"
-          (click)="createItem()">
-    Add new item
-  </button>
-</div>
+<inventory-list [items]="group?.items"
+                [categoryForNewItems]="group?.category">
+</inventory-list>

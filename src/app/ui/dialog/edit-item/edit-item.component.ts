@@ -11,7 +11,7 @@ export type Mode = 'new' | 'edit' | 'view';
   styleUrls: ['./edit-item.component.scss']
 })
 export class EditItemComponent implements OnInit {
-  _item: Item;
+  _item: Item = {};
   disableCategory: boolean;
   mode: Mode;
 

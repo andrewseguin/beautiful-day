@@ -21,18 +21,15 @@
     </div>
 
     <div class="search-results" *ngIf="_search">
-      <div class="result-count" *ngIf="searchResultCount > 0">
-        Search found {{searchResultCount}} {{searchResultCount > 1 ? 'items' : 'item'}}
+      <div class="result-count" *ngIf="searchResult.length > 0">
+        Search found {{searchResult.length}} {{searchResult.length > 1 ? 'items' : 'item'}}
       </div>
-      <div class="result-count" *ngIf="searchResultCount == 0">
-        Could not find any items that match "{{_search}}"
+      <div class="result-count" *ngIf="searchResult.length == 0">
+        No results for "{{_search}}"
       </div>
-      <inventory-panel-item *ngFor="let item of paginatedSearchResult; trackBy:getItemKey"
-                            [item]="item">
-      </inventory-panel-item>
-      <button md-button (click)="loadMore()">More items...</button>
+      <inventory-list [items]="searchResult"></inventory-list>
     </div>
   </div>
 
-  <sliding-panel #slidingPanel (createRequest)="createRequest($event)"></sliding-panel>
+  <sliding-panel #slidingPanel></sliding-panel>
 </div>
