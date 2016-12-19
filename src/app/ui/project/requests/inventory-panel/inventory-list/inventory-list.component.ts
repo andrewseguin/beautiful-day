@@ -3,6 +3,9 @@ import {Item} from "../../../../../model/item";
 import {EditItemComponent} from "../../../../dialog/edit-item/edit-item.component";
 import {MdDialog} from "@angular/material";
 
+/** Number of items to load each time. */
+const ITEMS_TO_LOAD = 20;
+
 @Component({
   selector: 'inventory-list',
   templateUrl: './inventory-list.component.html',
@@ -20,8 +23,8 @@ export class InventoryListComponent implements OnInit {
     this._items = items;
 
     // If less than 10 items, just show them without the loading
-    if (items.length < 10) {
-      this.itemsToShow = 10;
+    if (items.length < ITEMS_TO_LOAD) {
+      this.itemsToShow = ITEMS_TO_LOAD;
       this.loadingValue = 100;
       return;
     }
@@ -44,13 +47,13 @@ export class InventoryListComponent implements OnInit {
       this.loadingValue += Math.random() * 10;
       if (this.loadingValue >= 100) {
         this.clearLoading();
-        this.itemsToShow += 10;
+        this.itemsToShow += ITEMS_TO_LOAD;
 
         if (this.itemsToShow < this.items.length) {
           this.loadMoreItems();
         }
       }
-    }, 50);
+    }, 40);
   }
 
   clearLoading() {

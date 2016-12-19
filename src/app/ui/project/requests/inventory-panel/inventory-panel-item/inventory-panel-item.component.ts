@@ -74,6 +74,10 @@ export class InventoryPanelItemComponent {
     this.state = this.state == 'collapsed' ? 'expanded' : 'collapsed';
   }
 
+  expand() {
+    this.state = 'expanded';
+  }
+
   request() {
     this.requested = true;
     this.project.first().subscribe(project => {

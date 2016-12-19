@@ -48,7 +48,12 @@ export class InventoryPanelComponent implements OnInit {
   get search(): string { return this._search; }
 
   ngOnInit() {
-    this.itemsService.getItems().subscribe(items => this.items = items);
+    this.itemsService.getItems().subscribe(items => {
+      this.items = items;
+
+      // Update the search results in case a new item matches
+      this.searchResult = this.itemSearch.transform(this.items, this._search);
+    });
 
     this.itemsService.getItemsByCategory().subscribe(collection => {
       this.collection = collection;
