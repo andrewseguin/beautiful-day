@@ -170,9 +170,19 @@ export class ProjectRequestsComponent implements OnInit {
     }, 0)
   }
 
-  groupTransitionAnimationDone(e: AnimationTransitionEvent) {
+  groupTransitionAnimationDone(e: AnimationTransitionEvent, requestGroup: RequestGroup) {
     // When the group transition finishes, load in all the remaining requests
     if (e.toState == 'void') return;
-    this.requestComponents.forEach(requestComponent => requestComponent.show());
+
+    // Create quick lookup map for the request keys in this group.
+    const groupRequestIds = new Map<string, Request>();
+    requestGroup.requests.forEach(request => groupRequestIds.set(request.$key, request) );
+
+    setTimeout(() => {
+      // Set each request component to be displayed after a small delay after the group anim.
+      this.requestComponents.forEach(requestComponent => {
+        if (groupRequestIds.has(requestComponent.requestId)) { requestComponent.show() }
+      });
+    }, 150);
   }
 }

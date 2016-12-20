@@ -65,12 +65,7 @@ export class RequestComponent implements OnInit {
               private itemsService: ItemsService) { }
 
   ngOnInit() {
-    // If one of the first 5 items, then immediately display. Otherwise, stagger the
-    // display of the item to optimize rendering.
-    if (this.groupIndex < 10) {
-      this.displayState = 'visible';
-      this.cd.markForCheck();
-    }
+
 
     this.requestsService.getRequest(this.requestId).subscribe(request => {
       this.request = request;
@@ -88,9 +83,20 @@ export class RequestComponent implements OnInit {
   }
 
   show() {
-    if (this.displayState != 'visible') {
-      this.displayState = 'visible';
-      this.cd.markForCheck();
+    // If one of the first 5 items, then immediately display. Otherwise, stagger the
+    // display of the item to optimize rendering.
+    if (this.groupIndex < 20) {
+      setTimeout(() => {
+        console.log('Setting visible for first twenty', this.groupIndex)
+        this.displayState = 'visible';
+        this.cd.markForCheck();
+      }, 20 * this.groupIndex);
+    } else {
+      setTimeout(() => {
+        console.log('Setting visible for all')
+        this.displayState = 'visible';
+        this.cd.markForCheck();
+      }, (20 * 20) + 1000);
     }
   }
 

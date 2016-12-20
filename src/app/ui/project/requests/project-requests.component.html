@@ -21,7 +21,7 @@
       <div class="requests md-elevation-z4"
            *ngFor="let requestGroup of requestGroups.get(grouping); trackBy:getRequestGroupKey"
            [@groupTransition]="requestGroup.title"
-           (@groupTransition.done)="groupTransitionAnimationDone($event)">
+           (@groupTransition.done)="groupTransitionAnimationDone($event, requestGroup)">
         <div *ngIf="requestGroup.requests?.length && !loading">
           <div class="title">
             <md-checkbox [checked]="hasAllSelectedRequests(requestGroup.requests)"
