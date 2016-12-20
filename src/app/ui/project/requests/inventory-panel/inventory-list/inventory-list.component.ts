@@ -12,7 +12,7 @@ const ITEMS_TO_LOAD = 20;
   styleUrls: ['./inventory-list.component.scss']
 })
 export class InventoryListComponent implements OnInit {
-  itemsToShow: number = 0;
+  itemsToShow: number;
   loadingValue: number = 0;
   loadingInterval: number;
 
@@ -22,14 +22,14 @@ export class InventoryListComponent implements OnInit {
     this.clearLoading();
     this._items = items;
 
-    // If less than 10 items, just show them without the loading
+    // If less than the constant count, just show them without the loading
     if (items.length < ITEMS_TO_LOAD) {
       this.itemsToShow = ITEMS_TO_LOAD;
       this.loadingValue = 100;
       return;
     }
 
-    this.itemsToShow = 0;
+    this.itemsToShow = 10;
     this.loadMoreItems();
   }
   get items(): Item[] { return this._items; }

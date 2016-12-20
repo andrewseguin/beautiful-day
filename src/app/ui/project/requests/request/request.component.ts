@@ -1,7 +1,17 @@
 import {
-  Component, OnInit, Input, ElementRef, ViewChild,
-  trigger, animate, transition, style, state, ChangeDetectionStrategy, ChangeDetectorRef
-} from '@angular/core';
+  Component,
+  OnInit,
+  Input,
+  ElementRef,
+  ViewChild,
+  trigger,
+  animate,
+  transition,
+  style,
+  state,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from "@angular/core";
 import {ItemsService} from "../../../../service/items.service";
 import {Request} from "../../../../model/request";
 import {ActivatedRoute, Params} from "@angular/router";
@@ -15,7 +25,7 @@ import {EditDropoffComponent} from "../../../dialog/edit-dropoff/edit-dropoff.co
   templateUrl: './request.component.html',
   styleUrls: ['./request.component.scss'],
   animations: [
-    trigger('state', [
+    trigger('highlightTrigger', [
       state('normal', style({background: 'transparent'})),
       state('highlight', style({background: 'rgba(255,235,59,.2)'})),
       transition('highlight => normal', [
@@ -24,17 +34,27 @@ import {EditDropoffComponent} from "../../../dialog/edit-dropoff/edit-dropoff.co
       transition('normal => highlight', [
         animate('250ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),
-    ])
+    ]),
+    trigger('displayTrigger', [
+      state('hidden', style({opacity: 0, height: '50px'})),
+      state('visible', style({opacity: 1, height: '*'})),
+      transition('* => visible', [
+        animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
+      ),
+    ]),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestComponent implements OnInit {
   item: string;
   projectId: string;
-  state: string = 'normal';
+  highlightState: string = 'normal';
+  displayState: string = 'hidden';
   request: Request;
 
   @Input() requestId: string;
+  @Input() groupIndex: number;
+
   @ViewChild('quantityInput') quantityInput: ElementRef;
 
   constructor(private route: ActivatedRoute,
@@ -45,6 +65,13 @@ export class RequestComponent implements OnInit {
               private itemsService: ItemsService) { }
 
   ngOnInit() {
+    // If one of the first 5 items, then immediately display. Otherwise, stagger the
+    // display of the item to optimize rendering.
+    if (this.groupIndex < 10) {
+      this.displayState = 'visible';
+      this.cd.markForCheck();
+    }
+
     this.requestsService.getRequest(this.requestId).subscribe(request => {
       this.request = request;
       this.cd.markForCheck();
@@ -60,8 +87,11 @@ export class RequestComponent implements OnInit {
     });
   }
 
-  ngOnChanges() {
-    // console.log('Request changes');
+  show() {
+    if (this.displayState != 'visible') {
+      this.displayState = 'visible';
+      this.cd.markForCheck();
+    }
   }
 
   getRequestKey(): string {
@@ -74,8 +104,14 @@ export class RequestComponent implements OnInit {
   }
 
   highlight(): void {
-    this.state = 'highlight';
-    setTimeout(() => {this.state = 'normal'}, 1000);
+    this.displayState = 'visible';
+    this.highlightState = 'highlight';
+    this.cd.markForCheck();
+
+    setTimeout(() => {
+      this.highlightState = 'normal';
+      this.cd.markForCheck();
+    }, 1000);
   }
 
   changeQuantity(quantity: number) {

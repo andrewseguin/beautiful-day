@@ -1,6 +1,6 @@
 import {
   Component, OnInit, ViewChild, animate, transition, style,
-  state, trigger, ElementRef, QueryList, ViewChildren
+  state, trigger, ElementRef, QueryList, ViewChildren, AnimationTransitionEvent
 } from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FirebaseObjectObservable} from "angularfire2";
@@ -28,7 +28,7 @@ import {RequestComponent} from "./request/request.component";
       state('*', style({transform: 'translateY(0%)'})),
       state('void', style({opacity: '0'})),
       transition(':enter', [
-        style({transform: 'translateY(10%)'}),
+        style({transform: 'translateY(100px)'}),
         animate('500ms ease-in-out')]
       ),
     ])
@@ -168,5 +168,11 @@ export class ProjectRequestsComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate([`../${group}`], {relativeTo: this.route});
     }, 0)
+  }
+
+  groupTransitionAnimationDone(e: AnimationTransitionEvent) {
+    // When the group transition finishes, load in all the remaining requests
+    if (e.toState == 'void') return;
+    this.requestComponents.forEach(requestComponent => requestComponent.show());
   }
 }

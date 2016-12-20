@@ -1,36 +1,41 @@
-<div class="request" (click)="setSelected(!isSelected())" md-ripple [@state]="state">
-  <div class="top-row">
-    <md-checkbox [checked]="isSelected()"
-                 (click)="$event.stopPropagation()"
-                 (change)="setSelected($event.checked)"></md-checkbox>
+<div class="request" md-ripple
+     (click)="setSelected(!isSelected())"
+     [@highlightTrigger]="highlightState"
+     [@displayTrigger]="displayState">
+  <div *ngIf="displayState == 'visible'">
+    <div class="top-row">
+      <md-checkbox [checked]="isSelected()"
+                   (click)="$event.stopPropagation()"
+                   (change)="setSelected($event.checked)"></md-checkbox>
 
-    <div class="name">{{item}}</div>
+      <div class="name">{{item}}</div>
 
-    <div class="quantity" (click)="$event.stopPropagation(); quantityInput.focus()">
-      <input type="number" #quantityInput
-                [value]="request?.quantity"
-                (click)="quantityInput.select()"
-                (keyup)="changeQuantity($event.target.value)"
-                (keydown.Enter)="quantityInput.blur()"
-                (change)="changeQuantity($event.target.value)">
+      <div class="quantity" (click)="$event.stopPropagation(); quantityInput.focus()">
+        <input type="number" #quantityInput
+                  [value]="request?.quantity"
+                  (click)="quantityInput.select()"
+                  (keyup)="changeQuantity($event.target.value)"
+                  (keydown.Enter)="quantityInput.blur()"
+                  (change)="changeQuantity($event.target.value)">
+      </div>
+
+      <div class="cost">${{10*request?.quantity}}.00</div>
     </div>
 
-    <div class="cost">${{10*request?.quantity}}.00</div>
-  </div>
-
-  <div class="details">
-    <div>
-      <span class="editable"
-            (click)="editDropoff($event)">
-        <span *ngIf="request?.dropoff">Dropoff @ {{request?.dropoff}}, {{request?.date | date}}</span>
-        <span class="warn" *ngIf="!request?.dropoff">Enter a dropoff location and date</span>
-      </span>
-    </div>
-    <div *ngIf="request?.note">
-      <span class="editable"
-            (click)="editNote($event)">
-        {{request?.note}}
-      </span>
+    <div class="details">
+      <div>
+        <span class="editable"
+              (click)="editDropoff($event)">
+          <span *ngIf="request?.dropoff">Dropoff @ {{request?.dropoff}}, {{request?.date | date}}</span>
+          <span class="warn" *ngIf="!request?.dropoff">Enter a dropoff location and date</span>
+        </span>
+      </div>
+      <div *ngIf="request?.note">
+        <span class="editable"
+              (click)="editNote($event)">
+          {{request?.note}}
+        </span>
+      </div>
     </div>
   </div>
 </div>
