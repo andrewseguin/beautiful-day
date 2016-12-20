@@ -29,7 +29,7 @@ export class InventoryListComponent implements OnInit {
       return;
     }
 
-    this.itemsToShow = 10;
+    this.itemsToShow = 0;
     this.loadMoreItems();
   }
   get items(): Item[] { return this._items; }
