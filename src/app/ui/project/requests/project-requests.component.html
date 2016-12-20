@@ -11,7 +11,7 @@
       <md-menu #groupingMenu="mdMenu">
         <button class="grouping-option" md-menu-item
                 *ngFor="let group of getGroups()"
-                [routerLink]="['../' + group]">
+                (click)="setGroup(group)">
           {{getGroupingName(group)}}
         </button>
       </md-menu>
@@ -21,7 +21,7 @@
       <div class="requests md-elevation-z4"
            *ngFor="let requestGroup of requestGroups.get(grouping); trackBy:getRequestGroupKey"
            [@groupTransition]="requestGroup.title">
-        <div *ngIf="requestGroup.requests?.length">
+        <div *ngIf="requestGroup.requests?.length && !loading">
           <div class="title">
             <md-checkbox [checked]="hasAllSelectedRequests(requestGroup.requests)"
                          (change)="toggleGroupSelection($event.checked, requestGroup.requests)">
@@ -29,7 +29,7 @@
             <span>{{requestGroup.title}}</span>
           </div>
           <request *ngFor="let request of requestGroup.requests; trackBy:getRequestKey"
-                   [request]="request"
+                   [requestId]="request.$key"
                    [id]="request.$key"></request>
         </div>
       </div>

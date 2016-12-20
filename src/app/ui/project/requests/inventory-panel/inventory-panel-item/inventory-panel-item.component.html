@@ -3,24 +3,35 @@
     <div class="item-name">{{getItemName()}}</div>
     <md-icon [@arrow]="state">expand_more</md-icon>
   </div>
+
   <div class="info-row">
     <div>
       <span class="property-title">Category:</span>
       {{item.category}}
     </div>
+
     <div>
       <span class="property-title">Cost:</span>
       ${{item.cost || '45.39'}}
     </div>
+
     <div>
       <span class="property-title">Website:</span>
-      <a target="_blank" href="{{item.url}}">{{item.url || 'https://www.homedepot.com/item'}}</a>
-
+      <a target="_blank" href="{{item.url}}">
+        {{item.url || 'https://www.homedepot.com/item'}}
+      </a>
     </div>
   </div>
+
   <div class="request-row">
-    <md-input [(ngModel)]="requestQuantity" placeholder="quantity"></md-input>
-    <button md-raised-button [disabled]="requested" color="accent" (click)="request()">
+    <md-input [(ngModel)]="requestQuantity"
+              [disabled]="requested"
+              placeholder="quantity">
+    </md-input>
+    <button md-raised-button
+            color="accent"
+            [disabled]="requested"
+            (click)="request()">
       <span *ngIf="requested">Requested</span>
       <span *ngIf="!requested">Request</span>
     </button>

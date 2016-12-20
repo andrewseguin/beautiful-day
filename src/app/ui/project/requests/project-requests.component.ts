@@ -2,7 +2,7 @@ import {
   Component, OnInit, ViewChild, animate, transition, style,
   state, trigger, ElementRef, QueryList, ViewChildren
 } from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FirebaseObjectObservable} from "angularfire2";
 import {Project} from "../../../model/project";
 import {RequestsService, RequestAddedResponse} from "../../../service/requests.service";
@@ -48,6 +48,7 @@ export class ProjectRequestsComponent implements OnInit {
   @ViewChildren(RequestComponent) requestComponents: QueryList<RequestComponent>;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private projectsService: ProjectsService,
               private requestGroupingService: RequestGroupingService,
               private requestsService: RequestsService,
@@ -160,5 +161,12 @@ export class ProjectRequestsComponent implements OnInit {
     requests.forEach(request => {
       this.requestsService.setSelected(request.$key, select);
     })
+  }
+
+  setGroup(group: string) {
+    // Set timeout so that the navigation occurs after the menu closes.
+    setTimeout(() => {
+      this.router.navigate([`../${group}`], {relativeTo: this.route});
+    }, 0)
   }
 }

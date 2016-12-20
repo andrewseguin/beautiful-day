@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, ElementRef, ViewChild,
-  trigger, animate, transition, style, state
+  trigger, animate, transition, style, state, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 import {ItemsService} from "../../../../service/items.service";
 import {Request} from "../../../../model/request";
@@ -25,25 +25,34 @@ import {EditDropoffComponent} from "../../../dialog/edit-dropoff/edit-dropoff.co
         animate('250ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),
     ])
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestComponent implements OnInit {
   item: string;
   projectId: string;
   state: string = 'normal';
+  request: Request;
 
-  @Input() request: Request;
+  @Input() requestId: string;
   @ViewChild('quantityInput') quantityInput: ElementRef;
 
   constructor(private route: ActivatedRoute,
+              private cd: ChangeDetectorRef,
               private mdDialog: MdDialog,
               private elementRef: ElementRef,
               private requestsService: RequestsService,
               private itemsService: ItemsService) { }
 
   ngOnInit() {
-    this.itemsService.getItem(this.request.item).subscribe(item => {
-      this.item = item.name;
+    this.requestsService.getRequest(this.requestId).subscribe(request => {
+      this.request = request;
+      this.cd.markForCheck();
+
+      this.itemsService.getItem(this.request.item).subscribe(item => {
+        this.item = item.name;
+        this.cd.markForCheck();
+      });
     });
 
     this.route.parent.params.forEach((params: Params) => {
@@ -52,7 +61,7 @@ export class RequestComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log('Request changes');
+    // console.log('Request changes');
   }
 
   getRequestKey(): string {

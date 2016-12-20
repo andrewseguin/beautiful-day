@@ -8,28 +8,28 @@
 
     <div class="quantity" (click)="$event.stopPropagation(); quantityInput.focus()">
       <input type="number" #quantityInput
-                [value]="request.quantity"
+                [value]="request?.quantity"
                 (click)="quantityInput.select()"
                 (keyup)="changeQuantity($event.target.value)"
                 (keydown.Enter)="quantityInput.blur()"
                 (change)="changeQuantity($event.target.value)">
     </div>
 
-    <div class="cost">${{10*request.quantity}}.00</div>
+    <div class="cost">${{10*request?.quantity}}.00</div>
   </div>
 
   <div class="details">
     <div>
       <span class="editable"
             (click)="editDropoff($event)">
-        <span *ngIf="request.dropoff">Dropoff @ {{request.dropoff}}, {{request.date | date}}</span>
-        <span class="warn" *ngIf="!request.dropoff">Enter a dropoff location and date</span>
+        <span *ngIf="request?.dropoff">Dropoff @ {{request?.dropoff}}, {{request?.date | date}}</span>
+        <span class="warn" *ngIf="!request?.dropoff">Enter a dropoff location and date</span>
       </span>
     </div>
-    <div *ngIf="request.note">
+    <div *ngIf="request?.note">
       <span class="editable"
             (click)="editNote($event)">
-        {{request.note}}
+        {{request?.note}}
       </span>
     </div>
   </div>

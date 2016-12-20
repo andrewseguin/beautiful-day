@@ -110,3 +110,18 @@ button[md-fab] {
     opacity: 0;
   }
 }
+
+.loading-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  md-progress-circle {
+    width: 60px;
+  }
+}
