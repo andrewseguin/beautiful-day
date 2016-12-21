@@ -38,21 +38,14 @@ export class InventoryPanelComponent implements OnInit {
 
   set search(s: string) {
     this._search = s;
-    if (s == '') {
-      this.searchResult = [];
-      return;
-    }
-
-    this.searchResult = this.itemSearch.transform(this.items, s);
+    this.updateSearchResults();
   }
   get search(): string { return this._search; }
 
   ngOnInit() {
     this.itemsService.getItems().subscribe(items => {
       this.items = items;
-
-      // Update the search results in case a new item matches
-      this.searchResult = this.itemSearch.transform(this.items, this._search);
+      this.updateSearchResults();
     });
 
     this.itemsService.getItemsByCategory().subscribe(collection => {
@@ -75,6 +68,16 @@ export class InventoryPanelComponent implements OnInit {
         this.subheaderVisibility = visibility;
       }
     })
+  }
+
+  updateSearchResults() {
+    if (!this._search) {
+      this.searchResult = [];
+      return;
+    }
+
+    // Update the search results in case a new item matches
+    this.searchResult = this.itemSearch.transform(this.items, this._search);
   }
 
   getCategories(): string[] {
