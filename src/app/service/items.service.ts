@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {FirebaseObjectObservable, FirebaseListObservable, AngularFire} from "angularfire2";
+import {Injectable} from "@angular/core";
+import {FirebaseObjectObservable, FirebaseListObservable, AngularFireDatabase} from "angularfire2";
 import {Item} from "../model/item";
 import {Observable} from "rxjs";
 
@@ -10,15 +10,23 @@ export class CategoryGroup {
   items: Item[];
 }
 
-
 @Injectable()
 export class ItemsService {
   selectedItems: Set<string> = new Set();
 
-  constructor(private af: AngularFire) {}
+  constructor(private db: AngularFireDatabase) {}
 
   getItems(): FirebaseListObservable<Item[]> {
-    return this.af.database.list('items');
+    return this.db.list('items', { query: { orderByChild: 'dateAdded' } });
+  }
+
+  getItemsWithCategory(category: string): FirebaseListObservable<Item[]> {
+    return this.db.list('items', {
+      query: {
+        orderByChild: 'category',
+        equalTo: category
+      }
+    });
   }
 
   getItemsByCategory(): Observable<CategoryGroupCollection> {
@@ -42,7 +50,11 @@ export class ItemsService {
   }
 
   getItem(id: string): FirebaseObjectObservable<Item> {
-    return this.af.database.object(`items/${id}`);
+    return this.db.object(`items/${id}`);
+  }
+
+  createItem(item: Item) {
+    this.getItems().push(item);
   }
 
   setSelected(id: string, value: boolean) {

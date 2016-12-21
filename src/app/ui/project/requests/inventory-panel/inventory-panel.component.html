@@ -10,7 +10,7 @@
       <inventory-search (searchChanged)="search = $event"></inventory-search>
     </div>
 
-    <div class="categories" *ngIf="!_search">
+    <div class="categories" *ngIf="!search">
       <div *ngFor="let category of getCategories()">
         <button md-button class="inventory-category"
                 (click)="openSlidingPanel(category)">
@@ -20,14 +20,10 @@
       </div>
     </div>
 
-    <div class="search-results" *ngIf="_search">
-      <div class="result-count" *ngIf="searchResult.length > 0">
-        Search found {{searchResult.length}} {{searchResult.length > 1 ? 'items' : 'item'}}
-      </div>
-      <div class="result-count" *ngIf="searchResult.length == 0">
-        No results for "{{_search}}"
-      </div>
-      <inventory-list [items]="searchResult"></inventory-list>
+    <div class="search-results" *ngIf="search">
+      <inventory-list [search]="search"
+                      (filteredItemCount)="searchResultCount = $event">
+      </inventory-list>
     </div>
   </div>
 

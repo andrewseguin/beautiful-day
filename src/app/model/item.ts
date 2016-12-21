@@ -8,5 +8,5 @@ export interface Item {
   isApproved?: boolean;
   isRental?: boolean;
   addedBy?: string;
-  dateAdded?: string;
+  dateAdded?: number;
 }

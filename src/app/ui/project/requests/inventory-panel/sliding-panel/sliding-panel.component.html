@@ -1,10 +1,8 @@
-<div *ngIf="group" class="heading">
+<div *ngIf="category" class="heading">
   <button md-icon-button class="back" (click)="close()">
     <md-icon>keyboard_arrow_left</md-icon>
   </button>
-  {{group.category}}
+  {{category}}
 </div>
 
-<inventory-list [items]="group?.items"
-                [categoryForNewItems]="group?.category">
-</inventory-list>
+<inventory-list [category]="category"></inventory-list>

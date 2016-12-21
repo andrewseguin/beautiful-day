@@ -42,18 +42,24 @@ export class EditItemComponent implements OnInit {
   }
 
   save() {
-    const persistingItem = {
+    const persistingItem: Item = {
       name: this.toTitleCase(this._item.name),
       type: this.toTitleCase(this._item.type || ''),
       cost: this._item.cost,
       category: this.toTitleCase(this._item.category),
-      url: this._item.url,
+      url: this._item.url
     };
 
     if (this.mode == 'edit') {
       this.itemsService.getItem(this._item.$key).update(persistingItem);
     } else if (this.mode == 'new') {
-      this.itemsService.getItems().push(persistingItem);
+      // Set the dateMove the UTC date to user's time zone
+      const date = new Date();
+      date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+      persistingItem.dateAdded = new Date().getTime();
+      console.log(persistingItem.dateAdded);
+
+      this.itemsService.createItem(persistingItem);
     }
 
     this.close();

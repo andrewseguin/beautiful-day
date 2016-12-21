@@ -6,11 +6,13 @@
     <div class="top-row">
       <md-checkbox [checked]="isSelected()"
                    (click)="$event.stopPropagation()"
-                   (change)="setSelected($event.checked)"></md-checkbox>
+                   (change)="setSelected($event.checked)">
+      </md-checkbox>
 
       <div class="name">{{item}}</div>
 
-      <div class="quantity" (click)="$event.stopPropagation(); quantityInput.focus()">
+      <div class="quantity"
+           (click)="$event.stopPropagation(); quantityInput.focus()">
         <input type="number" #quantityInput
                   [value]="request?.quantity"
                   (click)="quantityInput.select()"
@@ -26,8 +28,12 @@
       <div>
         <span class="editable"
               (click)="editDropoff($event)">
-          <span *ngIf="request?.dropoff">Dropoff @ {{request?.dropoff}}, {{request?.date | date}}</span>
-          <span class="warn" *ngIf="!request?.dropoff">Enter a dropoff location and date</span>
+          <span *ngIf="request?.dropoff">
+            Dropoff @ {{request?.dropoff}}, {{request?.date | date}}
+          </span>
+          <span class="warn" *ngIf="!request?.dropoff">
+            Enter a dropoff location and date
+          </span>
         </span>
       </div>
       <div *ngIf="request?.note">

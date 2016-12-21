@@ -85,7 +85,6 @@ export class RequestComponent implements OnInit {
     // display of the item to optimize rendering.
     if (this.groupIndex < 20) {
       setTimeout(() => {
-        console.log('Setting visible for first twenty', this.groupIndex)
         this.displayState = 'visible';
         this.cd.markForCheck();
       }, 20 * this.groupIndex);

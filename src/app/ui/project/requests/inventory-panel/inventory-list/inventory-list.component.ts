@@ -1,7 +1,9 @@
-import {Component, OnInit, Input} from "@angular/core";
+import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import {Item} from "../../../../../model/item";
 import {EditItemComponent} from "../../../../dialog/edit-item/edit-item.component";
 import {MdDialog} from "@angular/material";
+import {ItemsService} from "../../../../../service/items.service";
+import {ItemSearchPipe} from "../../../../../pipe/item-search.pipe";
 
 /** Number of items to load each time. */
 const ITEMS_TO_LOAD = 20;
@@ -12,19 +14,70 @@ const ITEMS_TO_LOAD = 20;
   styleUrls: ['./inventory-list.component.scss']
 })
 export class InventoryListComponent implements OnInit {
-  itemsToShow: number;
   loadingValue: number = 0;
   loadingInterval: number;
 
-  _items: Item[];
-  @Input() set items(items: Item[]) {
-    if (this.items == items) { return; }
-    this.clearLoading();
-    this._items = items;
+  itemSearch = new ItemSearchPipe();
 
+  itemsToShow: number;
+  items: Item[] = [];
+  filteredItems: Item[];
+
+  _category: string;
+  @Input() set category(category: string) {
+    this._category = category;
+
+    this.clearLoading();
+    this.filterItems();
+    this.beginLoading();
+  }
+  get category(): string { return this._category; }
+
+  _search: string;
+  @Input() set search(search: string) {
+    this._search = search;
+
+    this.clearLoading();
+    this.filterItems();
+    this.beginLoading();
+  }
+  get search(): string { return this._search; }
+
+  @Output() filteredItemCount: EventEmitter<number> = new EventEmitter<number>();
+
+  constructor(private mdDialog: MdDialog, private itemsService: ItemsService) {
+
+    this.itemsService.getItems().subscribe(items => {
+      this.items = items;
+      this.filterItems();
+    });
+  }
+
+  ngOnInit() {
+
+  }
+
+  filterItems() {
+    console.log('Filtering items');
+    this.filteredItems = this.items;
+
+    if (this.category) {
+      this.filteredItems =
+          this.items.filter(item => item.category == this.category);
+    }
+
+    if (this.search) {
+      this.filteredItems =
+          this.itemSearch.transform(this.filteredItems, this.search);
+    }
+
+    this.filteredItemCount.emit(this.filteredItems.length);
+  }
+
+  beginLoading() {
     // If less than the constant count, just show them without the loading
-    if (items.length < ITEMS_TO_LOAD) {
-      this.itemsToShow = ITEMS_TO_LOAD;
+    if (this.filteredItems.length < 10) {
+      this.itemsToShow = 10;
       this.loadingValue = 100;
       return;
     }
@@ -32,14 +85,6 @@ export class InventoryListComponent implements OnInit {
     this.itemsToShow = 0;
     this.loadMoreItems();
   }
-  get items(): Item[] { return this._items; }
-
-
-  @Input() categoryForNewItems: string;
-
-  constructor(private mdDialog: MdDialog) { }
-
-  ngOnInit() { }
 
   loadMoreItems() {
     this.loadingValue = 0;
@@ -49,7 +94,7 @@ export class InventoryListComponent implements OnInit {
         this.clearLoading();
         this.itemsToShow += ITEMS_TO_LOAD;
 
-        if (this.itemsToShow < this.items.length) {
+        if (this.itemsToShow < this.filteredItems.length) {
           this.loadMoreItems();
         }
       }
@@ -63,8 +108,8 @@ export class InventoryListComponent implements OnInit {
   createItem() {
     const dialogRef = this.mdDialog.open(EditItemComponent);
 
-    if (this.categoryForNewItems) {
-      dialogRef.componentInstance.item = {category: this.categoryForNewItems};
+    if (this.category) {
+      dialogRef.componentInstance.item = {category: this.category};
       dialogRef.componentInstance.disableCategory = true;
     }
 
