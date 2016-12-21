@@ -11,11 +11,6 @@ import {ProjectsService} from "../../../../../service/projects.service";
 
 export type InventoryPanelItemState = 'collapsed' | 'expanded';
 
-export interface CreateRequestEvent {
-  item: Item;
-  quantity: number;
-}
-
 @Component({
   selector: 'inventory-panel-item',
   templateUrl: './inventory-panel-item.component.html',

@@ -65,8 +65,6 @@ export class RequestComponent implements OnInit {
               private itemsService: ItemsService) { }
 
   ngOnInit() {
-
-
     this.requestsService.getRequest(this.requestId).subscribe(request => {
       this.request = request;
       this.cd.markForCheck();
@@ -93,7 +91,7 @@ export class RequestComponent implements OnInit {
       }, 20 * this.groupIndex);
     } else {
       setTimeout(() => {
-        console.log('Setting visible for all')
+        console.log('Setting visible for all');
         this.displayState = 'visible';
         this.cd.markForCheck();
       }, (20 * 20) + 1000);
