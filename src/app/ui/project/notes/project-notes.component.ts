@@ -49,7 +49,6 @@ export class ProjectNotesComponent implements OnInit {
       this.noteId = params['noteId'];
 
       if (!this.noteId) {
-        console.log('no note')
         // No note id, go to first note in projects
         this.gotoDefaultNote(false);
         // create new and navigate
@@ -117,7 +116,6 @@ export class ProjectNotesComponent implements OnInit {
 
   gotoDefaultNote(replaceNote: boolean) {
     this.notesService.getDefaultProjectNoteId(this.projectId).take(1).subscribe((notes: Note[])=> {
-      console.log(notes);
       const noteId = notes.length > 0 ? notes[0].$key : 'new';
       const path = (replaceNote ? '../' : '') + noteId;
       this.router.navigate([path], {relativeTo: this.route});

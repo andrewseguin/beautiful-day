@@ -90,7 +90,6 @@ export class RequestComponent implements OnInit {
       }, 20 * this.groupIndex);
     } else {
       setTimeout(() => {
-        console.log('Setting visible for all');
         this.displayState = 'visible';
         this.cd.markForCheck();
       }, (20 * 20) + 1000);

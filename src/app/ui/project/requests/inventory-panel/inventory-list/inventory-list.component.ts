@@ -58,7 +58,6 @@ export class InventoryListComponent implements OnInit {
   }
 
   filterItems() {
-    console.log('Filtering items');
     this.filteredItems = this.items;
 
     if (this.category) {

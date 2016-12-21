@@ -45,7 +45,6 @@ export class ProjectsService {
   }
 
   saveNote(id: string, note: Note) {
-    console.log(note);
     this.af.database.object(`projects/${id}/notes/${note.$key}`).update({
       title: note.title,
       text: note.text

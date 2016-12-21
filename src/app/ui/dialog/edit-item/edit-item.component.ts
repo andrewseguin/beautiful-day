@@ -57,7 +57,6 @@ export class EditItemComponent implements OnInit {
       const date = new Date();
       date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
       persistingItem.dateAdded = new Date().getTime();
-      console.log(persistingItem.dateAdded);
 
       this.itemsService.createItem(persistingItem);
     }
