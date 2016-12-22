@@ -1,7 +1,7 @@
 <div *ngIf="requestGroup.requests?.length && !loading">
   <div class="title">
-    <md-checkbox [checked]="hasAllSelectedRequests(requestGroup.requests)"
-                 (change)="toggleGroupSelection($event.checked, requestGroup.requests)">
+    <md-checkbox [checked]="hasAllSelectedRequests()"
+                 (change)="toggleGroupSelection($event.checked)">
     </md-checkbox>
     <span>{{requestGroup.title}}</span>
   </div>

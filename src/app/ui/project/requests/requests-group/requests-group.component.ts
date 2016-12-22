@@ -55,14 +55,14 @@ export class RequestsGroupComponent implements OnInit {
     return request.$key;
   }
 
-  hasAllSelectedRequests(requests: Request[]): boolean {
-    return requests.every(request => {
+  hasAllSelectedRequests(): boolean {
+    return this.requestGroup.requests.every(request => {
       return this.requestsService.isSelected(request.$key);
     })
   }
 
-  toggleGroupSelection(select: boolean, requests: Request[]) {
-    requests.forEach(request => {
+  toggleGroupSelection(select: boolean) {
+    this.requestGroup.requests.forEach(request => {
       this.requestsService.setSelected(request.$key, select);
     })
   }

@@ -15,8 +15,9 @@ export class RequestAddedResponse {
 
 @Injectable()
 export class RequestsService {
-  requestAdded: Subject<RequestAddedResponse> = new Subject<RequestAddedResponse>();
-  selectedRequests: Set<string> = new Set();
+  requestAdded = new Subject<RequestAddedResponse>();
+  selectedRequests = new Set<string>();
+  selectionChangeSubject = new Subject<void>();
 
   constructor(private af: AngularFire,
               private router: Router) {
@@ -66,12 +67,18 @@ export class RequestsService {
     this.getRequest(id).update(update);
   }
 
+  selectionChange(): Observable<void> {
+    return this.selectionChangeSubject.asObservable();
+  }
+
   setSelected(id: string, value: boolean) {
     if (value) {
       this.selectedRequests.add(id);
     } else {
       this.selectedRequests.delete(id);
     }
+
+    this.selectionChangeSubject.next();
   }
 
   isSelected(id: string): boolean {
@@ -80,6 +87,7 @@ export class RequestsService {
 
   clearSelected() {
     this.selectedRequests = new Set();
+    this.selectionChangeSubject.next();
   }
 
   getSelectedRequests(): Set<string> {

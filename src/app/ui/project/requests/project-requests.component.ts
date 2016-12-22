@@ -1,4 +1,7 @@
-import {Component, OnInit, ViewChild, ElementRef, QueryList, ViewChildren} from "@angular/core";
+import {
+  Component, OnInit, ViewChild, ElementRef, QueryList, ViewChildren,
+  ChangeDetectionStrategy
+} from "@angular/core";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FirebaseObjectObservable} from "angularfire2";
 import {Project} from "../../../model/project";
@@ -20,7 +23,7 @@ import {Request} from "../../../model/request";
   selector: 'project-requests',
   templateUrl: './project-requests.component.html',
   styleUrls: ['./project-requests.component.scss'],
-  providers: [MdSnackBar]
+  providers: [MdSnackBar],
 })
 export class ProjectRequestsComponent implements OnInit {
   project: FirebaseObjectObservable<Project>;

@@ -75,6 +75,10 @@ export class RequestComponent implements OnInit {
       });
     });
 
+    this.requestsService.selectionChange().subscribe(() => {
+      this.cd.markForCheck()
+    });
+
     this.route.parent.params.forEach((params: Params) => {
       this.projectId = params['id'];
     });
