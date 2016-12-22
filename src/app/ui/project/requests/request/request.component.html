@@ -2,7 +2,8 @@
      (click)="setSelected(!isSelected())"
      [@highlightTrigger]="highlightState"
      [@displayTrigger]="displayState">
-  <div *ngIf="displayState == 'visible'">
+  <div *ngIf="displayState == 'visible'"
+       [style.z-index]="1"> <!-- Be above the mdripple -->
     <div class="top-row">
       <md-checkbox [checked]="isSelected()"
                    (click)="$event.stopPropagation()"

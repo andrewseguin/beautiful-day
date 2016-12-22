@@ -52,6 +52,7 @@ import { ItemSearchPipe } from './pipe/item-search.pipe';
 import { InventoryPanelItemComponent } from './ui/project/requests/inventory-panel/inventory-panel-item/inventory-panel-item.component';
 import { InventorySearchComponent } from './ui/project/requests/inventory-panel/inventory-search/inventory-search.component';
 import { InventoryListComponent } from './ui/project/requests/inventory-panel/inventory-list/inventory-list.component';
+import { RequestsGroupComponent } from './ui/project/requests/requests-group/requests-group.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { InventoryListComponent } from './ui/project/requests/inventory-panel/in
     InventoryPanelItemComponent,
     InventorySearchComponent,
     InventoryListComponent,
+    RequestsGroupComponent,
   ],
   entryComponents: [
     EditItemComponent,
