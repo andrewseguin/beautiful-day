@@ -39,6 +39,28 @@ md-sidenav {
   }
 }
 
+.empty-requests {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 18px;
+  color: #222;
+  font-weight: lighter;
+
+  .getting-started {
+    padding: 4px 16px;
+    margin: 8px;
+    display: inline-block;
+    font-weight: bold;
+    color: #444;
+  }
+}
 
 .requests-header {
   display: flex;
@@ -49,14 +71,16 @@ md-sidenav {
   /* background: rgba(21, 133, 199, 0.8); */
   color: #FAFAFA;
   height: 48px;
+  opacity: 0;
 
   & > * {
     opacity: 0;
-    transition: opacity 500ms ease-in;
   }
   &.visible {
+    opacity: 1;
     & > * {
       opacity: 1;
+      transition: opacity 500ms ease-in;
     }
   }
 

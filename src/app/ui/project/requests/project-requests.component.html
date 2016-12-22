@@ -1,7 +1,7 @@
 <md-sidenav-layout>
   <div class="scrollable-content" #scrollableContent (scroll)="checkSubheader($event)">
     <div class="requests-header md-elevation-z1"
-         [class.visible]="hasRequests()">
+         [class.visible]="requestGroups && getAllRequests()?.length !== 0">
 
       <div class="grouping-title">Group By:</div>
 
@@ -15,6 +15,17 @@
           {{getGroupingName(group)}}
         </button>
       </md-menu>
+    </div>
+
+    <div *ngIf="getAllRequests()?.length === 0" class="empty-requests">
+      <div class="wide">
+        <div class="getting-started">
+          Getting Started
+        </div>
+        <div class="instructions">
+          Create requests using the inventory panel to the right
+        </div>
+      </div>
     </div>
 
     <div class="requests-container">

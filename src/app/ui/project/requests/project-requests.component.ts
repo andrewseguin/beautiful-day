@@ -13,6 +13,7 @@ import {
 } from "../../../service/request-grouping.service";
 import {SubheaderService} from "../../../service/subheader.service";
 import {RequestsGroupComponent} from "./requests-group/requests-group.component";
+import {Request} from "../../../model/request";
 
 
 @Component({
@@ -82,6 +83,15 @@ export class ProjectRequestsComponent implements OnInit {
 
   isLoadingRequests(): boolean {
     return !!this.requestGroups;
+  }
+
+  getAllRequests(): Request[] | null {
+    if (!this.requestGroups) { return; }
+
+    const allRequests = this.requestGroups.get('all')[0];
+    if (!allRequests) { return; }
+
+    return allRequests.requests;
   }
 
   hasRequests(): boolean {
