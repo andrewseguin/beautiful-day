@@ -45,16 +45,14 @@ export class InventoryListComponent implements OnInit {
 
   @Output() filteredItemCount: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private mdDialog: MdDialog, private itemsService: ItemsService) {
+  constructor(private mdDialog: MdDialog,
+              private itemsService: ItemsService) {}
 
+  ngOnInit() {
     this.itemsService.getItems().subscribe(items => {
       this.items = items;
       this.filterItems();
     });
-  }
-
-  ngOnInit() {
-
   }
 
   filterItems() {

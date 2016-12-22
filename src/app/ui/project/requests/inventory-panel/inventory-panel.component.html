@@ -20,7 +20,12 @@
       </div>
     </div>
 
-    <div class="search-results" *ngIf="search">
+    <!--
+    Must always be displayed because the inventory list had a firebase
+    database bug where items would come in one by one on the subscription
+    -->
+    <div class="search-results"
+         [style.display]="search ? 'block' : 'none'">
       <inventory-list [search]="search"
                       (filteredItemCount)="searchResultCount = $event">
       </inventory-list>

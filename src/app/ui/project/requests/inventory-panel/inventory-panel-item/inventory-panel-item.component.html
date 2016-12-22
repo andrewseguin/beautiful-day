@@ -26,11 +26,12 @@
   <div class="request-row">
     <md-input [(ngModel)]="requestQuantity"
               [disabled]="requested"
+              (keyup.Enter)="request()"
               placeholder="quantity">
     </md-input>
     <button md-raised-button
             color="accent"
-            [disabled]="requested"
+            [disabled]="requestQuantity <= 0 || requested"
             (click)="request()">
       <span *ngIf="requested">Requested</span>
       <span *ngIf="!requested">Request</span>

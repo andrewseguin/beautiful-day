@@ -8,6 +8,7 @@ import {Params, ActivatedRoute} from "@angular/router";
 import {SubheaderService} from "../../../../service/subheader.service";
 import {MediaQueryService} from "../../../../service/media-query.service";
 import {SlidingPanelComponent} from "./sliding-panel/sliding-panel.component";
+import {InventoryListComponent} from "./inventory-list/inventory-list.component";
 
 @Component({
   selector: 'inventory-panel',
@@ -21,9 +22,9 @@ export class InventoryPanelComponent implements OnInit {
   items: Item[];
 
   search: string = '';
-  searchResultCount: number;
 
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
+  @ViewChild(InventoryListComponent) inventoryList: InventoryListComponent;
 
   @Output('closeSidenav') closeSidenav = new EventEmitter<void>();
 
