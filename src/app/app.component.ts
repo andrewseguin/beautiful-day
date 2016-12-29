@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FirebaseAuth} from "angularfire2";
-import {Router} from "@angular/router";
+import {Router, NavigationEnd, Event} from "@angular/router";
+declare let ga:Function;
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,15 @@ import {Router} from "@angular/router";
 })
 export class AppComponent implements OnInit {
   constructor(private auth: FirebaseAuth,
-              private router: Router) {}
+              private router: Router) {
+    this.router.events.subscribe((event: Event) => {
+      console.log('Route changed');
+      if (event instanceof NavigationEnd) {
+        console.log('Sending event');
+        ga('send', 'pageview', event.urlAfterRedirects);
+      }
+    });
+  }
 
   ngOnInit() {
     this.auth.subscribe(auth => {

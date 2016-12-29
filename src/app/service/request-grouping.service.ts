@@ -83,6 +83,7 @@ export class RequestGroupingService {
 
     requestGroups.set('dropoff', []);
     dropoffGroups.forEach((requests, dropoff) => {
+      dropoff = dropoff || 'Unknown dropoff location';
       requestGroups.get('dropoff').push({
         id: dropoff,
         title: dropoff,
@@ -105,11 +106,8 @@ export class RequestGroupingService {
 
     requestGroups.set('date', []);
     dateNeededGroups.forEach((requests, date) => {
-      requestGroups.get('date').push({
-        id: date,
-        title: this.getDateString(new Date(date)) ,
-        requests: requests
-      })
+      const title = date ? this.getDateString(new Date(date)) : 'Unknown dropoff date';
+      requestGroups.get('date').push({id: date, title, requests});
     });
   }
 
