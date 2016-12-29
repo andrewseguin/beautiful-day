@@ -17,8 +17,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.auth.subscribe(auth => {
-      this.checkingAuth = false;
-      if (!auth) return;
+      if (!auth) {
+        this.checkingAuth = false;
+        return;
+      }
 
       // Store credentials if we do not already have them.
       this.usersService.get(auth.auth.email).take(1).subscribe(user => {
