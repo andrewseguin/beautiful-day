@@ -1,11 +1,14 @@
-<div class="center md-elevation-z6">
+<div class="center">
+  <div class="logo"></div>
+  <div class="app-title">Management</div>
+
   <md-progress-circle *ngIf="checkingAuth"
                       mode="indeterminate">
   </md-progress-circle>
 
-  <button md-button
+  <button md-raised-button color="primary"
           *ngIf="!checkingAuth"
           (click)="login()">
-    Login
+    Login with Google
   </button>
 </div>
