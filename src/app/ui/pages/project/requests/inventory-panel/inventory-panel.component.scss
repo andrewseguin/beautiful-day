@@ -1,0 +1,58 @@
+@import '../../../../../app.component';
+
+.container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #F5F5F5;
+  overflow: hidden;
+}
+
+.categories-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+}
+
+.heading {
+  font-weight: bold;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  .title {
+    flex-grow: 1;
+    @media (min-width: $mobile-width) {
+      padding-left: 16px;
+    }
+  }
+}
+
+button.inventory-category {
+  width: 100%;
+  font-weight: normal;
+  text-align: left;
+  line-height: 16px;
+  min-height: 40px;
+  padding-right: 12px;
+}
+
+button.back {
+  height: 48px;
+  width: 48px;
+  @media (min-width: $mobile-width) {
+    display: none;
+  }
+}
+
+.categories {
+  position: relative;
+}
+

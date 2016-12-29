@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FirebaseAuth} from "angularfire2";
 import {Router} from "@angular/router";
-import {ProjectsService} from "./service/projects.service";
 
 @Component({
   selector: 'app-root',

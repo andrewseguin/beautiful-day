@@ -1,0 +1,132 @@
+// Import theming functions
+@import '../../../../../../node_modules/@angular/material/core/theming/theming';
+// Import your custom theme
+@import '../../../../theme';
+@import '../../../../app.component';
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+:host md-sidenav-container {
+  height: 100%;
+  background: #CCC;
+}
+
+md-sidenav {
+  overflow: hidden;
+  width: 100%;
+  max-width: 300px;
+}
+
+.scrollable-content {
+  overflow: auto;
+  height: 100%;
+
+  @media (max-width: $mobile-width) {
+    padding-top: $subheader-height;
+  }
+}
+
+.requests-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  @media (max-width: $mobile-width) {
+    padding-bottom: 120px;
+  }
+}
+
+.empty-requests {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 18px;
+  color: #222;
+  font-weight: lighter;
+
+  .getting-started {
+    padding: 4px 16px;
+    margin: 8px;
+    display: inline-block;
+    font-weight: bold;
+    color: #444;
+  }
+}
+
+.requests-header {
+  display: flex;
+  padding: 0 24px;
+  font-size: 14px;
+  align-items: center;
+  background-color: md-color($bd-app-accent);
+  /* background: rgba(21, 133, 199, 0.8); */
+  color: #FAFAFA;
+  height: 48px;
+  opacity: 0;
+
+  & > * {
+    opacity: 0;
+  }
+  &.visible {
+    opacity: 1;
+    & > * {
+      opacity: 1;
+      transition: opacity 500ms ease-in;
+    }
+  }
+
+  button.grouping-menu-button {
+    padding: 0 8px;
+    margin: 4px;
+    text-transform: capitalize;
+    min-width: 0;
+    &:hover::after {
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+
+    md-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+button[md-fab] {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 16px;
+  transition: 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: scale(1);
+  opacity: 1;
+
+  &.hide {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.loading-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  md-progress-circle {
+    width: 60px;
+  }
+}

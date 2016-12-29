@@ -1,0 +1,12 @@
+@import '../../../app.component';
+
+.project-router-outlet {
+  height: 100%;
+}
+
+.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}

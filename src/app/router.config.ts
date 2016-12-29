@@ -1,11 +1,11 @@
-import {ProjectComponent} from "./ui/project/project.component";
-import {InventoryComponent} from "./ui/inventory/inventory.component";
-import {ProjectDetailsComponent} from "./ui/project/details/project-details.component";
-import {ProjectNotesComponent} from "./ui/project/notes/project-notes.component";
-import {ProjectRequestsComponent} from "./ui/project/requests/project-requests.component";
+import {ProjectComponent} from "./ui/pages/project/project.component";
+import {InventoryComponent} from "./ui/pages/inventory/inventory.component";
+import {ProjectDetailsComponent} from "./ui/pages/project/details/project-details.component";
+import {ProjectNotesComponent} from "./ui/pages/project/notes/project-notes.component";
+import {ProjectRequestsComponent} from "./ui/pages/project/requests/project-requests.component";
 import {CanActivateViaAuthGuard} from "./auth-guard";
 import {LoginComponent} from "./ui/login/login.component";
-import {HomeComponent} from "./ui/home/home.component";
+import {HomeComponent} from "./ui/pages/home/home.component";
 
 export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home';
 
