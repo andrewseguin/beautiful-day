@@ -1,10 +1,10 @@
 :host {
   position: absolute;
+  top: 0;
   right: 0;
   left: 0;
   height: 48px;
   background: #F5F5F5;
-  transition: 250ms ease-in-out;
   display: flex;
   align-items: center;
   transform: translate3d(calc(100% - 48px), 0px, 0px);

@@ -1,4 +1,4 @@
-<md-sidenav-layout>
+<md-sidenav-container>
   <div class="scrollable-content" #scrollableContent (scroll)="checkSubheader($event)">
     <div class="requests-header md-elevation-z1"
          [class.visible]="requestGroups && getAllRequests()?.length !== 0">
@@ -48,4 +48,4 @@
     <inventory-panel #inventoryPanel (closeSidenav)="sidenav.close()">
     </inventory-panel>
   </md-sidenav>
-</md-sidenav-layout>
+</md-sidenav-container>
