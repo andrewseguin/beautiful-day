@@ -53,6 +53,7 @@ import { InventoryPanelItemComponent } from './ui/pages/project/requests/invento
 import { InventorySearchComponent } from './ui/pages/project/requests/inventory-panel/inventory-search/inventory-search.component';
 import { InventoryListComponent } from './ui/pages/project/requests/inventory-panel/inventory-list/inventory-list.component';
 import { RequestsGroupComponent } from './ui/pages/project/requests/requests-group/requests-group.component';
+import { PagesComponent } from './ui/pages/pages.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { RequestsGroupComponent } from './ui/pages/project/requests/requests-gro
     InventorySearchComponent,
     InventoryListComponent,
     RequestsGroupComponent,
+    PagesComponent,
   ],
   entryComponents: [
     EditItemComponent,

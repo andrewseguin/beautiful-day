@@ -6,22 +6,23 @@ import {ProjectRequestsComponent} from "./ui/pages/project/requests/project-requ
 import {CanActivateViaAuthGuard} from "./auth-guard";
 import {LoginComponent} from "./ui/login/login.component";
 import {HomeComponent} from "./ui/pages/home/home.component";
+import {PagesComponent} from './ui/pages/pages.component';
 
 export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home';
 
 export const ROUTER_CONFIG = [
-  { path: 'project/:id', component: ProjectComponent, canActivate: [CanActivateViaAuthGuard],
-    children: [
-      { path: '', redirectTo: 'details', pathMatch: 'full' },
-      { path: 'details', component: ProjectDetailsComponent },
-      { path: 'notes', component: ProjectNotesComponent },
-      { path: 'notes/:noteId', component: ProjectNotesComponent },
-      { path: 'requests', redirectTo: 'requests/all'},
-      { path: 'requests/:group', component: ProjectRequestsComponent },
-    ]
-  },
-  { path: 'inventory', component: InventoryComponent },
-  { path: 'login', component: LoginComponent},
-  { path: 'home', component: HomeComponent},
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {path: '', component: PagesComponent, children: [
+    {path: 'project/:id', component: ProjectComponent, canActivate: [CanActivateViaAuthGuard], children: [
+      {path: '', redirectTo: 'details', pathMatch: 'full'},
+      {path: 'details', component: ProjectDetailsComponent},
+      {path: 'notes', component: ProjectNotesComponent},
+      {path: 'notes/:noteId', component: ProjectNotesComponent},
+      {path: 'requests', redirectTo: 'requests/all'},
+      {path: 'requests/:group', component: ProjectRequestsComponent}
+    ]},
+    {path: 'inventory', component: InventoryComponent},
+    {path: 'home', component: HomeComponent},
+    {path: '', redirectTo: '/home', pathMatch: 'full'},
+  ]},
+  {path: 'login', component: LoginComponent},
 ];

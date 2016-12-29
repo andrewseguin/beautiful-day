@@ -15,7 +15,7 @@
 <div class="section-title">Projects</div>
 <button md-button class="project-link"
         (click)="sidenav.close()"
-        routerLink="project/{{project.$key}}"
+        routerLink="/project/{{project.$key}}"
         routerLinkActive="active"
         *ngFor="let project of projects | async">
   {{project.name}}

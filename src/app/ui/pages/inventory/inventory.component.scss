@@ -2,7 +2,7 @@
 @import '../../../../../node_modules/@angular/material/core/theming/theming';
 // Import your custom theme
 @import '../../../theme';
-@import '../../../app.component';
+@import '../../shared/constants';
 
 :host {
   display: flex;

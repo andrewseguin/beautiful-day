@@ -17,9 +17,9 @@ export class ProjectNavComponent {
     if (!id) { this.projectNavLinks = null; return; }
 
     this.projectNavLinks = [
-      {link: `project/${id}/details`, title: 'Details'},
-      {link: `project/${id}/notes`, title: 'Notes'},
-      {link: `project/${id}/requests`, title: 'Requests'}
+      {link: `/project/${id}/details`, title: 'Details'},
+      {link: `/project/${id}/notes`, title: 'Notes'},
+      {link: `/project/${id}/requests`, title: 'Requests'}
     ];
   }
 }
