@@ -10,15 +10,7 @@ declare let ga:Function;
 })
 export class AppComponent implements OnInit {
   constructor(private auth: FirebaseAuth,
-              private router: Router) {
-    this.router.events.subscribe((event: Event) => {
-      console.log('Route changed');
-      if (event instanceof NavigationEnd) {
-        console.log('Sending event');
-        ga('send', 'pageview', event.urlAfterRedirects);
-      }
-    });
-  }
+              private router: Router) {}
 
   ngOnInit() {
     this.auth.subscribe(auth => {
