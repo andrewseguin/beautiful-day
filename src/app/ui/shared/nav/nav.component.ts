@@ -28,4 +28,9 @@ export class NavComponent implements OnInit {
       this.sidenav.close();
     });
   }
+
+  nagivateToHome() {
+    this.router.navigate(['/home']);
+    this.sidenav.close();
+  }
 }

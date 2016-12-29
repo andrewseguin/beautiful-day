@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ProjectsService} from "../../../service/projects.service";
 import {Project} from "../../../model/project";
 import {Router} from "@angular/router";
+import {HeaderService} from '../../../service/header.service';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +14,12 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private projectsService: ProjectsService,
+    private headerService: HeaderService,
     private router: Router) { }
 
   ngOnInit() {
+    this.headerService.title = 'Home';
+
     this.projectsService.getProjects().subscribe(projects => {
       this.projects = projects;
     });
