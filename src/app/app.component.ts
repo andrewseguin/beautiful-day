@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {FirebaseAuth} from "angularfire2";
-import {Router, NavigationEnd, Event} from "@angular/router";
-declare let ga:Function;
+import {FirebaseAuth} from 'angularfire2';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
