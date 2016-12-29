@@ -8,8 +8,8 @@ import {
 } from "angularfire2";
 import {Project} from "../../../model/project";
 import {MdDialog} from "@angular/material";
-import {EditProjectComponent, EditType} from "../../dialog/edit-project/edit-project.component";
-import {DeleteProjectComponent} from "../../dialog/delete-project/delete-project.component";
+import {EditProjectComponent, EditType} from "../../shared/dialog/edit-project/edit-project.component";
+import {DeleteProjectComponent} from "../../shared/dialog/delete-project/delete-project.component";
 
 @Component({
   selector: 'project-details',

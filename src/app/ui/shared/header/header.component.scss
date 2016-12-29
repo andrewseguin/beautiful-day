@@ -1,0 +1,75 @@
+@import '../../../app.component';
+
+md-toolbar {
+  position: absolute;
+  min-height:48px;
+
+  .md-toolbar-layout md-toolbar-row {
+    @media (max-width: $mobile-width) {
+      height: 48px;
+    }
+  }
+
+  &.project-toolbar {
+    padding: 0;
+    z-index: 2;
+  }
+
+  &.sub-header {
+    display: none;
+    top: 48px;
+    left: 0;
+    right: 0;
+    height: $subheader-height;
+    z-index: 1;
+
+    @media (max-width: $mobile-width) {
+      display: flex;
+      padding: 0;
+    }
+
+    project-nav {
+      flex-grow: 1;
+    }
+  }
+
+  .toolbar-menu {
+    padding: 0;
+    margin: 8px;
+    min-width: 0;
+    height: 48px;
+    width: 48px;
+    border-radius: 8px;
+  }
+
+  .name {
+    padding-right: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .end {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+    height: 100%;
+    align-items: center;
+
+    .user {
+      background-repeat: no-repeat;
+      min-width: 40px;
+      height: 40px;
+      background-size: 40px;
+      border-radius: 20px;
+      margin-right: 14px;
+
+      @media (max-width: $mobile-width) {
+        min-width: 32px;
+        height: 32px;
+        background-size: 32px;
+        margin-right: 10px;
+      }
+    }
+  }
+}

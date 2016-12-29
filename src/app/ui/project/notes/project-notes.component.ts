@@ -5,9 +5,9 @@ import EditorFromTextArea = CodeMirror.EditorFromTextArea;
 
 import {Note} from "../../../model/note";
 import {NotesService} from "../../../service/notes.service";
-import {EditNoteTitleComponent} from "../../dialog/edit-note-title/edit-note-title.component";
+import {EditNoteTitleComponent} from "../../shared/dialog/edit-note-title/edit-note-title.component";
 import {MdDialog} from "@angular/material";
-import {DeleteNoteComponent} from "../../dialog/delete-note/delete-note.component";
+import {DeleteNoteComponent} from "../../shared/dialog/delete-note/delete-note.component";
 import {FirebaseListObservable} from "angularfire2";
 
 const CodeMirrorConfig = {

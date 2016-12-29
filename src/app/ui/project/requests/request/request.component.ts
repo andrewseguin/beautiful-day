@@ -17,8 +17,8 @@ import {Request} from "../../../../model/request";
 import {ActivatedRoute, Params} from "@angular/router";
 import {RequestsService} from "../../../../service/requests.service";
 import {MdDialog} from "@angular/material";
-import {EditNoteComponent} from "../../../dialog/edit-note/edit-note.component";
-import {EditDropoffComponent} from "../../../dialog/edit-dropoff/edit-dropoff.component";
+import {EditNoteComponent} from "../../../shared/dialog/edit-note/edit-note.component";
+import {EditDropoffComponent} from "../../../shared/dialog/edit-dropoff/edit-dropoff.component";
 
 @Component({
   selector: 'request',

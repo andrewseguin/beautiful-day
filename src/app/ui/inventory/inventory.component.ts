@@ -3,7 +3,7 @@ import {ItemsService} from "../../service/items.service";
 import {FirebaseListObservable} from "angularfire2";
 import {Item} from '../../model/item';
 import {MdDialog} from '@angular/material';
-import {EditItemComponent} from '../dialog/edit-item/edit-item.component';
+import {EditItemComponent} from '../shared/dialog/edit-item/edit-item.component';
 import {HeaderService} from '../../service/header.service';
 
 @Component({
