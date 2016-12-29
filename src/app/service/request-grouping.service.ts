@@ -14,7 +14,7 @@ export class RequestGroup {
 
 @Injectable()
 export class RequestGroupingService {
-  items: Item[];
+  items: Item[] = [];
   categories: string[];
 
   constructor(private requestsService: RequestsService,
