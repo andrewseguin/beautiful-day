@@ -1,3 +1,5 @@
+@import 'app/ui/shared/constants.scss';
+
 body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   margin: 0;
@@ -111,4 +113,19 @@ inventory-search .md-input-underline {
   margin-top: 8px;
   left: -32px;
   width: calc(100% + 72px);
+}
+
+/* Make header NOT responsive by material's definition */
+.md-toolbar-layout md-toolbar-row {
+  height: 64px !important; // Material wants to override this to be responsive
+  @media (max-width: $mobile-width) {
+    height: 48px !important;
+  }
+}
+
+/* Sidenav will handle its own overflow. */
+md-sidenav-container.project {
+  .md-sidenav-content {
+    overflow: hidden;
+  }
 }

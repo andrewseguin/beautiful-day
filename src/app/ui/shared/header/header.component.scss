@@ -4,12 +4,6 @@ md-toolbar {
   position: absolute;
   min-height:48px;
 
-  .md-toolbar-layout md-toolbar-row {
-    @media (max-width: $mobile-width) {
-      height: 48px;
-    }
-  }
-
   &.project-toolbar {
     padding: 0;
     z-index: 2;
