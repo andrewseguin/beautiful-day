@@ -3,6 +3,7 @@
 // Import your custom theme
 @import '../../../../theme';
 @import '../../../shared/constants';
+@import 'common';
 
 :host {
   display: block;
@@ -69,7 +70,6 @@ md-sidenav {
   align-items: center;
   justify-content: center;
   background-color: md-color($bd-app-accent);
-  /* background: rgba(21, 133, 199, 0.8); */
   color: #FAFAFA;
   height: 48px;
   opacity: 0;
@@ -86,12 +86,13 @@ md-sidenav {
   }
 
   .buttons {
-    width: 100%;
+    @include content-width;
     display: flex;
     justify-content: space-between;
-    max-width: 650px;
   }
 }
+
+
 
 button[md-fab] {
   position: absolute;
