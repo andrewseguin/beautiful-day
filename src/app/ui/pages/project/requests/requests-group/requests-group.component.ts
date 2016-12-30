@@ -27,15 +27,12 @@ import {RequestsService} from "../../../../../service/requests.service";
     ])
   ]
 })
-export class RequestsGroupComponent implements OnInit {
-
+export class RequestsGroupComponent {
   @ViewChildren(RequestComponent) requestComponents: QueryList<RequestComponent>;
 
   @Input() requestGroup: RequestGroup;
 
   constructor(private requestsService: RequestsService) { }
-
-  ngOnInit() {}
 
   showRequest(requestKey: string, scrollableContent: ElementRef) {
     const newRequest = this.requestComponents.find(requestComponent => {

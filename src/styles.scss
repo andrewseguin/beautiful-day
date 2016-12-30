@@ -67,20 +67,14 @@ app-root .md-checkbox-inner-container {
   margin-right: 0;
 }
 
-/*
-App header styles that couldn't go in because ViewEncapsulation.None breaks AoT
-*/
-
+/* App header styles that couldn't go in because ViewEncapsulation.None breaks AoT */
 @media (max-width: 700px) {
   header .md-toolbar-layout md-toolbar-row {
     height: 48px;
   }
 }
 
-/*
-Wrap button text if the width grows too long
- */
-
+/* Wrap button text if the width grows too long */
 .md-button-wrapper {
   white-space: normal;
 }
@@ -89,6 +83,27 @@ Wrap button text if the width grows too long
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.project-requests-menu-title {
+  padding: 8px 16px 16px 16px;
+  border-bottom: 1px solid #DDD;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Request header menu options get selected */
+button.project-requests-option {
+  md-icon {
+    visibility: hidden;
+  }
+
+  &.selected {
+    font-weight: bold;
+    md-icon {
+      visibility: visible;
+    }
+  }
 }
 
 /* Inventory panel's search underline should extend past icons */

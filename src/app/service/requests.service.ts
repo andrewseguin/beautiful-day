@@ -7,6 +7,7 @@ import {Item} from "../model/item";
 import {Project} from "../model/project";
 import {Request} from "../model/request";
 import {Subject, Observable} from "rxjs";
+import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
 
 export class RequestAddedResponse {
   item: Item;
@@ -20,7 +21,8 @@ export class RequestsService {
   selectionChangeSubject = new Subject<void>();
 
   constructor(private af: AngularFire,
-              private router: Router) {
+              private router: Router,
+              private snackBar: MdSnackBar) {
     // Clear selected requests when route changes.
     this.router.events.subscribe(() => this.clearSelected());
   }
@@ -56,6 +58,10 @@ export class RequestsService {
       date: project.lastUsedDate || ''
     }).then(response => {
       this.requestAdded.next({key: response.getKey(), item});
+
+      const snackbarConfig = new MdSnackBarConfig();
+      snackbarConfig.duration = 3000;
+      this.snackBar.open(`Added request for ${item.name}`, null, snackbarConfig);
     });
   }
 

@@ -2,19 +2,35 @@
   <div class="scrollable-content" #scrollableContent (scroll)="checkSubheader($event)">
     <div class="requests-header md-elevation-z1"
          [class.visible]="requestGroups && getAllRequests()?.length !== 0">
-
-      <div class="grouping-title">Group By:</div>
-
-      <button md-button class="grouping-menu-button" [md-menu-trigger-for]="groupingMenu">
-        {{getGroupingName(grouping)}} <md-icon>keyboard_arrow_down</md-icon>
-      </button>
-      <md-menu #groupingMenu="mdMenu">
-        <button class="grouping-option" md-menu-item
-                *ngFor="let group of getGroups()"
-                (click)="setGroup(group)">
-          {{getGroupingName(group)}}
+      <div class="buttons">
+        <button md-button>
+          <div class="button-content">
+            <md-icon>filter_list</md-icon>
+            Filter
+          </div>
         </button>
-      </md-menu>
+
+        <button md-button [md-menu-trigger-for]="groupingMenu">
+          <div class="button-content">
+            <md-icon>view_stream</md-icon>
+            Group
+          </div>
+        </button>
+
+        <button md-button>
+          <div class="button-content">
+            <md-icon>remove_red_eye</md-icon>
+            View
+          </div>
+        </button>
+
+        <button md-button>
+          <div class="button-content">
+            <md-icon>sort</md-icon>
+            Sort
+          </div>
+        </button>
+      </div>
     </div>
 
     <div *ngIf="getAllRequests()?.length === 0" class="empty-requests">
@@ -49,3 +65,14 @@
     </inventory-panel>
   </md-sidenav>
 </md-sidenav-container>
+
+<md-menu #groupingMenu="mdMenu">
+  <div class="project-requests-menu-title">Group requests by:</div>
+  <button class="grouping-option project-requests-option" md-menu-item
+          *ngFor="let group of getGroups()"
+          [class.selected]="grouping == group"
+          (click)="setGroup(group)">
+    <md-icon>check</md-icon>
+    {{getGroupingName(group)}}
+  </button>
+</md-menu>

@@ -41,8 +41,7 @@ export class ProjectRequestsComponent implements OnInit {
               private requestGroupingService: RequestGroupingService,
               private requestsService: RequestsService,
               private mediaQuery: MediaQueryService,
-              private subheaderService: SubheaderService,
-              private snackBar: MdSnackBar) { }
+              private subheaderService: SubheaderService) { }
 
   ngOnInit() {
     this.route.parent.params.subscribe((params: Params) => {
@@ -118,9 +117,6 @@ export class ProjectRequestsComponent implements OnInit {
     this.requestsGroups.forEach(requestsGroup => {
       requestsGroup.showRequest(response.key, this.scrollableContent)
     });
-
-    this.snackBar.open(`Added request for ${response.item.name}`,
-        null, {duration: 3000});
   }
 
   get grouping(): Group { return this._grouping; }

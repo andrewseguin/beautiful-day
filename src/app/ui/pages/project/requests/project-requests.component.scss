@@ -67,6 +67,7 @@ md-sidenav {
   padding: 0 24px;
   font-size: 14px;
   align-items: center;
+  justify-content: center;
   background-color: md-color($bd-app-accent);
   /* background: rgba(21, 133, 199, 0.8); */
   color: #FAFAFA;
@@ -84,20 +85,11 @@ md-sidenav {
     }
   }
 
-  button.grouping-menu-button {
-    padding: 0 8px;
-    margin: 4px;
-    text-transform: capitalize;
-    min-width: 0;
-    &:hover::after {
-      background-color: rgba(255, 255, 255, 0.12);
-    }
-
-    md-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-    }
+  .buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    max-width: 650px;
   }
 }
 
@@ -128,5 +120,13 @@ button[md-fab] {
 
   md-progress-circle {
     width: 60px;
+  }
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  md-icon {
+    padding-right: 8px;
   }
 }
