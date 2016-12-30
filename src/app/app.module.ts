@@ -54,6 +54,7 @@ import { InventorySearchComponent } from './ui/pages/project/requests/inventory-
 import { InventoryListComponent } from './ui/pages/project/requests/inventory-panel/inventory-list/inventory-list.component';
 import { RequestsGroupComponent } from './ui/pages/project/requests/requests-group/requests-group.component';
 import { PagesComponent } from './ui/pages/pages.component';
+import { RequestSortPipe } from './pipe/request-sort.pipe';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { PagesComponent } from './ui/pages/pages.component';
     InventoryListComponent,
     RequestsGroupComponent,
     PagesComponent,
+    RequestSortPipe,
   ],
   entryComponents: [
     EditItemComponent,

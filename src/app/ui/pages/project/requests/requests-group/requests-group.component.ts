@@ -1,11 +1,23 @@
 import {
-  Component, OnInit, Input, AnimationTransitionEvent, ViewChildren,
-  QueryList, ElementRef, animate, style, transition, state, trigger
-} from '@angular/core';
+  Component,
+  Input,
+  AnimationTransitionEvent,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  animate,
+  style,
+  transition,
+  state,
+  trigger
+} from "@angular/core";
 import {RequestGroup} from "../../../../../service/request-grouping.service";
 import {RequestComponent} from "../request/request.component";
 import {Request} from "../../../../../model/request";
 import {RequestsService} from "../../../../../service/requests.service";
+import {RequestViewOptions} from "../project-requests.component";
+
+export type Sort = 'request added' | 'item' | 'cost';
 
 @Component({
   selector: 'requests-group',
@@ -28,9 +40,13 @@ import {RequestsService} from "../../../../../service/requests.service";
   ]
 })
 export class RequestsGroupComponent {
+  showRequests: boolean;
+
   @ViewChildren(RequestComponent) requestComponents: QueryList<RequestComponent>;
 
+  @Input() sort: Sort;
   @Input() requestGroup: RequestGroup;
+  @Input() requestViewOptions: RequestViewOptions;
 
   constructor(private requestsService: RequestsService) { }
 
@@ -45,7 +61,7 @@ export class RequestsGroupComponent {
 
     // Put the item on the bottom of the view and then scoot the view down a bit
     newRequest.scrollIntoView();
-    scrollableContent.nativeElement.scrollTop += 20;
+    scrollableContent.nativeElement.scrollTop += 80;
   }
 
   getRequestKey(index: number, request: Request) {
@@ -69,8 +85,9 @@ export class RequestsGroupComponent {
     if (e.toState == 'void') return;
 
     setTimeout(() => {
+      this.showRequests = true;
       // Show the remaining requests after a small delay after the animation finishes.
-      this.requestComponents.forEach(requestComponent => requestComponent.show());
+      //this.requestComponents.forEach(requestComponent => requestComponent.show());
     }, 150);
   }
 }

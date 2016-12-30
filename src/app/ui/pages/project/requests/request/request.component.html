@@ -22,11 +22,11 @@
                   (change)="changeQuantity($event.target.value)">
       </div>
 
-      <div class="cost">${{10*request?.quantity}}.00</div>
+      <div class="cost" *ngIf="requestViewOptions.cost">${{10*request?.quantity}}.00</div>
     </div>
 
     <div class="details">
-      <div>
+      <div *ngIf="requestViewOptions.dropoff">
         <span class="editable"
               (click)="editDropoff($event)">
           <span *ngIf="request?.dropoff">
@@ -37,7 +37,7 @@
           </span>
         </span>
       </div>
-      <div *ngIf="request?.note">
+      <div *ngIf="request?.note && requestViewOptions.notes">
         <span class="editable"
               (click)="editNote($event)">
           {{request?.note}}

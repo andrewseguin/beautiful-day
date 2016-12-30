@@ -19,6 +19,7 @@ import {RequestsService} from "../../../../../service/requests.service";
 import {MdDialog} from "@angular/material";
 import {EditNoteComponent} from "../../../../shared/dialog/edit-note/edit-note.component";
 import {EditDropoffComponent} from "../../../../shared/dialog/edit-dropoff/edit-dropoff.component";
+import {RequestViewOptions} from "../project-requests.component";
 
 @Component({
   selector: 'request',
@@ -54,6 +55,11 @@ export class RequestComponent implements OnInit {
 
   @Input() requestId: string;
   @Input() groupIndex: number;
+  @Input() requestViewOptions: RequestViewOptions;
+
+  @Input() set show(show: boolean) {
+    show ? this.setVisible() : this.displayState = 'hidden';
+  }
 
   @ViewChild('quantityInput') quantityInput: ElementRef;
 
@@ -84,7 +90,7 @@ export class RequestComponent implements OnInit {
     });
   }
 
-  show() {
+  setVisible() {
     // If one of the first 5 items, then immediately display. Otherwise, stagger the
     // display of the item to optimize rendering.
     if (this.groupIndex < 20) {

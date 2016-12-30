@@ -21,11 +21,6 @@ project-notes .CodeMirror-code {
 }
 
 /* Menu syles */
-button.grouping-option {
-  font-size: 15px;
-  height: 40px;
-}
-
 .md-menu-panel.auth .md-menu-content {
   display: flex;
   flex-direction: column;
@@ -88,7 +83,7 @@ app-root .md-checkbox-inner-container {
 }
 
 .project-requests-menu-title {
-  padding: 8px 16px 16px 16px;
+  padding: 6px 16px 12px 16px;
   border-bottom: 1px solid #DDD;
   font-weight: bold;
   font-size: 14px;
@@ -96,6 +91,10 @@ app-root .md-checkbox-inner-container {
 
 /* Request header menu options get selected */
 button.project-requests-option {
+  font-size: 14px;
+  height: 32px;
+  text-transform: capitalize;
+
   md-icon {
     visibility: hidden;
   }
