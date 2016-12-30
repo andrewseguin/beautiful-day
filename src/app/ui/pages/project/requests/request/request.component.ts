@@ -71,6 +71,7 @@ export class RequestComponent implements OnInit {
               private itemsService: ItemsService) { }
 
   ngOnInit() {
+    console.log('init')
     this.requestsService.getRequest(this.requestId).subscribe(request => {
       this.request = request;
       this.cd.markForCheck();

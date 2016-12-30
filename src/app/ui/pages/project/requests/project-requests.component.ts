@@ -102,7 +102,7 @@ export class ProjectRequestsComponent implements OnInit {
   getAllRequests(): Request[] | null {
     if (!this.requestGroups) { return; }
 
-    const allRequests = this.requestGroups.get('all')[0];
+    const allRequests = this.requestGroups.get('all') && this.requestGroups.get('all')[0];
     if (!allRequests) { return; }
 
     return allRequests.requests;

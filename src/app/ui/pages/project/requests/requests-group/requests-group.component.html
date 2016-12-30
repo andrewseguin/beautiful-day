@@ -5,8 +5,7 @@
     </md-checkbox>
     <span>{{requestGroup.title}}</span>
   </div>
-  <request *ngFor="let request of requestGroup.requests | requestSort:sort | async; let index = index;
-                   trackBy:getRequestKey"
+  <request *ngFor="let request of sortedRequests; let index = index; trackBy:getRequestKey"
            [show]="showRequests"
            [requestId]="request.$key"
            [requestViewOptions]="requestViewOptions"

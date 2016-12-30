@@ -37,13 +37,14 @@ export class RequestGroupingService {
 
   getRequestGroups(projectId: string): Map<Group, RequestGroup[]> {
     const requestGroups: Map<Group, RequestGroup[]> = new Map();
-    requestGroups.set('all', []);
-    requestGroups.set('category', []);
-    requestGroups.set('date', []);
-    requestGroups.set('dropoff', []);
 
     // Update groups when items, categories, or requests change
     this.requestsService.getProjectRequests(projectId).subscribe(requests => {
+      requestGroups.set('all', []);
+      requestGroups.set('category', []);
+      requestGroups.set('date', []);
+      requestGroups.set('dropoff', []);
+
       this.updateGroupAll(requestGroups, requests);
       this.updateGroupDropoffLocation(requestGroups, requests);
       this.updateGroupDateNeeded(requestGroups, requests);

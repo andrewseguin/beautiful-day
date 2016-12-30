@@ -16,6 +16,8 @@ import {RequestComponent} from "../request/request.component";
 import {Request} from "../../../../../model/request";
 import {RequestsService} from "../../../../../service/requests.service";
 import {RequestViewOptions} from "../project-requests.component";
+import {RequestSortPipe} from "../../../../../pipe/request-sort.pipe";
+import {ItemsService} from "../../../../../service/items.service";
 
 export type Sort = 'request added' | 'item' | 'cost';
 
@@ -40,15 +42,30 @@ export type Sort = 'request added' | 'item' | 'cost';
   ]
 })
 export class RequestsGroupComponent {
+  requestSortPipe = new RequestSortPipe();
+  sortedRequests: Request[] = [];
   showRequests: boolean;
 
   @ViewChildren(RequestComponent) requestComponents: QueryList<RequestComponent>;
 
-  @Input() sort: Sort;
-  @Input() requestGroup: RequestGroup;
+  _sort: Sort;
+  @Input() set sort(sort: Sort) {
+    this._sort = sort;
+    if (this.requestGroup) { this.sortRequests(); }
+  }
+  get sort(): Sort { return this._sort; }
+
+  _requestGroup: RequestGroup;
+  @Input() set requestGroup(requestGroup: RequestGroup) {
+    this._requestGroup = requestGroup;
+    this.sortRequests();
+  }
+  get requestGroup(): RequestGroup { return this._requestGroup; }
+
   @Input() requestViewOptions: RequestViewOptions;
 
-  constructor(private requestsService: RequestsService) { }
+  constructor(private requestsService: RequestsService,
+              private itemsService: ItemsService) {}
 
   showRequest(requestKey: string, scrollableContent: ElementRef) {
     const newRequest = this.requestComponents.find(requestComponent => {
@@ -62,6 +79,13 @@ export class RequestsGroupComponent {
     // Put the item on the bottom of the view and then scoot the view down a bit
     newRequest.scrollIntoView();
     scrollableContent.nativeElement.scrollTop += 80;
+  }
+
+  sortRequests() {
+    this.itemsService.getItems().subscribe(items => {
+      this.sortedRequests =
+          this.requestSortPipe.transform(this.requestGroup.requests, this.sort, items);
+    });
   }
 
   getRequestKey(index: number, request: Request) {
