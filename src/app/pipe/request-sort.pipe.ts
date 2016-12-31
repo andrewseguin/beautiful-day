@@ -6,14 +6,20 @@ import {Item} from "../model/item";
 @Pipe({name: 'requestSort'})
 export class RequestSortPipe implements PipeTransform {
 
-  transform(requests: Request[], sort: Sort, items: Item[]): Request[] {
-    return requests.sort(this.getSortFunction(sort, items));
-  }
-
-  getSortFunction(sort: Sort, items: Item[]) {
+  transform(requests: Request[], sort: Sort, filter: string, items: Item[]): Request[] {
     const itemMap = new Map<string, Item>();
     items.forEach(item => itemMap.set(item.$key, item));
 
+    const filterTokens = filter.split(' ');
+    const filteredRequests = requests.filter(request => {
+      const item = itemMap.get(request.item);
+      return filterTokens.every(token => this.requestMatchesSearch(request, item, token));
+    });
+
+    return filteredRequests.sort(this.getSortFunction(sort, itemMap));
+  }
+
+  getSortFunction(sort: Sort, itemMap: Map<string, Item>) {
     switch(sort) {
       case 'request added':
         return (a: Request, b: Request) => {
@@ -37,4 +43,11 @@ export class RequestSortPipe implements PipeTransform {
     }
   }
 
+
+  requestMatchesSearch(request: Request, item: Item, token: string) {
+    const requestStr = (request.dropoff + request.note + request.quantity).toLowerCase();
+    const itemStr = (item.name + item.type + item.category + item.url).toLowerCase();
+    return requestStr.indexOf(token.toLowerCase()) != -1 ||
+        itemStr.indexOf(token.toLowerCase()) != -1;
+  }
 }

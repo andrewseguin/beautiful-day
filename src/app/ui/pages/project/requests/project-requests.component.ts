@@ -4,7 +4,7 @@ import {FirebaseObjectObservable} from "angularfire2";
 import {Project} from "../../../../model/project";
 import {RequestsService, RequestAddedResponse} from "../../../../service/requests.service";
 import {ProjectsService} from "../../../../service/projects.service";
-import {MdMenu} from "@angular/material";
+import {MdMenu, MdInput} from "@angular/material";
 import {MediaQueryService} from "../../../../service/media-query.service";
 import {
   Group,
@@ -42,12 +42,16 @@ export class ProjectRequestsComponent implements OnInit {
   projectId: string;
   requestViewOptions: RequestViewOptions = new RequestViewOptions();
 
+  filter: string = '';
+  showFilter: boolean = false;
+
   latestScrollPosition = 0;
 
   requestGroups: Map<Group, RequestGroup[]>;
 
   @ViewChild('groupingMenu') groupingMenu: MdMenu;
   @ViewChild('scrollableContent') scrollableContent: ElementRef;
+  @ViewChild('filterInput') filterInput: ElementRef;
   @ViewChildren(RequestsGroupComponent) requestsGroups: QueryList<RequestsGroupComponent>;
 
   constructor(private route: ActivatedRoute,

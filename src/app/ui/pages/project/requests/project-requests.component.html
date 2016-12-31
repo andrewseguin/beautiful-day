@@ -3,7 +3,9 @@
     <div class="requests-header md-elevation-z1"
          [class.visible]="requestGroups && getAllRequests()?.length !== 0">
       <div class="buttons">
-        <button md-button>
+        <button md-button
+                (click)="showFilter = !showFilter; filter = ''"
+                [class.active]="showFilter">
           <div class="button-content">
             <md-icon>filter_list</md-icon>
             Filter
@@ -44,11 +46,19 @@
       </div>
     </div>
 
+    <div *ngIf="showFilter" class="filter-input md-elevation-z1">
+      <md-input-container [floatingPlaceholder]="false">
+        <input md-input [(ngModel)]="filter"
+               autofocus placeholder="Enter keywords to filter requests">
+      </md-input-container>
+    </div>
+
     <div class="requests-container">
       <requests-group *ngFor="let requestGroup of requestGroups.get(grouping);
                               trackBy:getRequestGroupKey"
                       [requestGroup]="requestGroup"
                       [sort]="sorting"
+                      [filter]="filter"
                       [requestViewOptions]="requestViewOptions">
       </requests-group>
     </div>

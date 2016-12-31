@@ -91,8 +91,6 @@ md-sidenav {
   }
 }
 
-
-
 button[md-fab] {
   position: absolute;
   bottom: 0;
@@ -108,25 +106,27 @@ button[md-fab] {
   }
 }
 
-.loading-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  md-progress-circle {
-    width: 60px;
-  }
-}
-
 .button-content {
   display: flex;
   align-items: center;
   md-icon {
     padding-right: 8px;
   }
+}
+
+.filter-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F1F1F1;
+  height: 48px;
+
+  md-input-container {
+    @include content-width;
+    margin: 0;
+  }
+}
+
+button.active {
+  background-color: rgba(0, 0, 0, 0.2);
 }

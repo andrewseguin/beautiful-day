@@ -43,22 +43,29 @@ export type Sort = 'request added' | 'item' | 'cost';
 })
 export class RequestsGroupComponent {
   requestSortPipe = new RequestSortPipe();
-  sortedRequests: Request[] = [];
+  processedRequests: Request[] = [];
   showRequests: boolean;
 
   @ViewChildren(RequestComponent) requestComponents: QueryList<RequestComponent>;
 
+  _filter: string;
+  @Input() set filter(filter: string) {
+    this._filter = filter;
+    if (this.requestGroup) { this.sortAndFilterRequests(); }
+  }
+  get filter(): string { return this._filter; }
+
   _sort: Sort;
   @Input() set sort(sort: Sort) {
     this._sort = sort;
-    if (this.requestGroup) { this.sortRequests(); }
+    if (this.requestGroup) { this.sortAndFilterRequests(); }
   }
   get sort(): Sort { return this._sort; }
 
   _requestGroup: RequestGroup;
   @Input() set requestGroup(requestGroup: RequestGroup) {
     this._requestGroup = requestGroup;
-    this.sortRequests();
+    this.sortAndFilterRequests();
   }
   get requestGroup(): RequestGroup { return this._requestGroup; }
 
@@ -81,10 +88,11 @@ export class RequestsGroupComponent {
     scrollableContent.nativeElement.scrollTop += 80;
   }
 
-  sortRequests() {
+  sortAndFilterRequests() {
     this.itemsService.getItems().subscribe(items => {
-      this.sortedRequests =
-          this.requestSortPipe.transform(this.requestGroup.requests, this.sort, items);
+      const requests = this.requestGroup.requests;
+      this.processedRequests =
+          this.requestSortPipe.transform(requests, this.sort, this.filter, items);
     });
   }
 
@@ -108,10 +116,6 @@ export class RequestsGroupComponent {
     // When the group transition finishes, load in all the remaining requests
     if (e.toState == 'void') return;
 
-    setTimeout(() => {
-      this.showRequests = true;
-      // Show the remaining requests after a small delay after the animation finishes.
-      //this.requestComponents.forEach(requestComponent => requestComponent.show());
-    }, 150);
+    setTimeout(() => { this.showRequests = true }, 150);
   }
 }
