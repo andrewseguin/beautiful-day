@@ -62,8 +62,8 @@ md-toolbar {
       font-weight: bold;
       position: absolute;
       z-index: 1;
-      top: 4px;
-      right: 4px;
+      top: -4px;
+      right: -4px;
     }
 
     .user {
@@ -73,6 +73,7 @@ md-toolbar {
       background-size: 40px;
       border-radius: 20px;
       margin-right: 14px;
+      padding: 0;
 
       @media (max-width: $mobile-width) {
         min-width: 32px;
