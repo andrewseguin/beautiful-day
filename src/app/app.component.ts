@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FirebaseAuth} from 'angularfire2';
 import {Router} from '@angular/router';
+import {MdSnackBarConfig, MdSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import {Router} from '@angular/router';
 })
 export class AppComponent implements OnInit {
   constructor(private auth: FirebaseAuth,
+              private mdSnackbar: MdSnackBar,
               private router: Router) {}
 
   ngOnInit() {
@@ -21,6 +23,10 @@ export class AppComponent implements OnInit {
         // so that after login, it can redirect back.
         this.router.navigate(['login'], {fragment: redirect});
         return;
+      } else {
+        const snackbarConfig = new MdSnackBarConfig();
+        snackbarConfig.duration = 4000;
+        this.mdSnackbar.open(`Logged in as ${auth.auth.email}`, null, snackbarConfig);
       }
     });
 
