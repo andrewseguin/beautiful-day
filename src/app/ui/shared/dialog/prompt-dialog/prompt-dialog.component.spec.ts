@@ -1,20 +1,20 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-import {EditTagsComponent} from "./edit-tags.component";
+import {PromptDialogComponent} from "./prompt-dialog.component";
 
-describe('EditTagsComponent', () => {
-  let component: EditTagsComponent;
-  let fixture: ComponentFixture<EditTagsComponent>;
+describe('PromptDialogComponent', () => {
+  let component: PromptDialogComponent;
+  let fixture: ComponentFixture<PromptDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditTagsComponent ]
+      declarations: [ PromptDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditTagsComponent);
+    fixture = TestBed.createComponent(PromptDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

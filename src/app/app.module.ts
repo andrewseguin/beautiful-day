@@ -22,7 +22,6 @@ import {ProjectRequestsComponent} from "./ui/pages/project/requests/project-requ
 import {InventoryPanelComponent} from "./ui/pages/project/requests/inventory-panel/inventory-panel.component";
 import {ProjectNavComponent} from "./ui/shared/header/project-nav/project-nav.component";
 import {SelectionHeaderComponent} from "./ui/shared/selection-header/selection-header.component";
-import {EditNoteComponent} from "./ui/shared/dialog/edit-note/edit-note.component";
 import {EditDropoffComponent} from "./ui/shared/dialog/edit-dropoff/edit-dropoff.component";
 import {MediaQueryService} from "./service/media-query.service";
 import {RequestGroupingService} from "./service/request-grouping.service";
@@ -54,7 +53,8 @@ import {RequestsGroupComponent} from "./ui/pages/project/requests/requests-group
 import {PagesComponent} from "./ui/pages/pages.component";
 import {RequestSortPipe} from "./pipe/request-sort.pipe";
 import {EditTagsComponent} from "./ui/shared/dialog/edit-tags/edit-tags.component";
-import { SetValuesPipe } from './pipe/set-values.pipe';
+import {SetValuesPipe} from "./pipe/set-values.pipe";
+import {PromptDialogComponent} from "./ui/shared/dialog/prompt-dialog/prompt-dialog.component";
 
 @NgModule({
   declarations: [
@@ -69,7 +69,6 @@ import { SetValuesPipe } from './pipe/set-values.pipe';
     InventoryPanelComponent,
     ProjectNavComponent,
     SelectionHeaderComponent,
-    EditNoteComponent,
     EditDropoffComponent,
     LoginComponent,
     EditProjectComponent,
@@ -95,18 +94,19 @@ import { SetValuesPipe } from './pipe/set-values.pipe';
     PagesComponent,
     RequestSortPipe,
     SetValuesPipe,
+    PromptDialogComponent,
   ],
   entryComponents: [
     EditItemComponent,
     EditItemCategoryComponent,
     EditItemNameComponent,
-    EditNoteComponent,
     EditNoteTitleComponent,
     EditDropoffComponent,
     EditProjectComponent,
     EditTagsComponent,
     DeleteNoteComponent,
     DeleteProjectComponent,
+    PromptDialogComponent,
   ],
   imports: [
     BrowserModule,

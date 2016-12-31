@@ -1,11 +1,11 @@
 <div class="header">
-  <div class="title">Edit Note</div>
+  <div class="title">{{title}}</div>
   <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
 </div>
 
 <md-input autofocus
           (keyup.Enter)="save()"
-          [(ngModel)]="note"></md-input>
+          [(ngModel)]="input"></md-input>
 
 <div class="actions">
   <button md-button (click)="close()">Cancel</button>

@@ -10,14 +10,15 @@ import {
   style,
   state,
   ChangeDetectionStrategy,
-  ChangeDetectorRef, EventEmitter, Output
+  ChangeDetectorRef,
+  EventEmitter,
+  Output
 } from "@angular/core";
 import {ItemsService} from "../../../../../service/items.service";
 import {Request} from "../../../../../model/request";
 import {ActivatedRoute, Params} from "@angular/router";
 import {RequestsService} from "../../../../../service/requests.service";
 import {MdDialog} from "@angular/material";
-import {EditNoteComponent} from "../../../../shared/dialog/edit-note/edit-note.component";
 import {EditDropoffComponent} from "../../../../shared/dialog/edit-dropoff/edit-dropoff.component";
 import {RequestViewOptions} from "../project-requests.component";
 import {EditItemComponent} from "../../../../shared/dialog/edit-item/edit-item.component";
@@ -144,10 +145,7 @@ export class RequestComponent implements OnInit {
 
   editNote(e: Event) {
     e.stopPropagation();
-
-    const dialogRef = this.mdDialog.open(EditNoteComponent);
-    dialogRef.componentInstance.requestIds = new Set([this.request.$key]);
-    dialogRef.componentInstance.note = this.request.note;
+    this.requestsService.editNote(new Set([this.request.$key]));
   }
 
   editDropoff(e: Event) {

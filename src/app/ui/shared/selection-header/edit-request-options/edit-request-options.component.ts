@@ -1,8 +1,7 @@
-import {Component} from '@angular/core';
-import {MdSnackBar, MdDialog, MdSnackBarConfig} from '@angular/material';
-import {RequestsService} from '../../../../service/requests.service';
-import {EditNoteComponent} from '../../dialog/edit-note/edit-note.component';
-import {EditDropoffComponent} from '../../dialog/edit-dropoff/edit-dropoff.component';
+import {Component} from "@angular/core";
+import {MdSnackBar, MdDialog, MdSnackBarConfig} from "@angular/material";
+import {RequestsService} from "../../../../service/requests.service";
+import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.component";
 import {EditTagsComponent} from "../../dialog/edit-tags/edit-tags.component";
 
 @Component({
@@ -29,17 +28,7 @@ export class EditRequestOptionsComponent {
   }
 
   editNote() {
-    const dialogRef = this.mdDialog.open(EditNoteComponent);
-
-    const selectedRequests = this.requestsService.getSelectedRequests();
-    dialogRef.componentInstance.requestIds = selectedRequests;
-    if (selectedRequests.size == 1) {
-      selectedRequests.forEach(requestKey => {
-        this.requestsService.getRequest(requestKey).subscribe(request => {
-          dialogRef.componentInstance.note = request.note;
-        })
-      });
-    }
+    this.requestsService.editNote(this.requestsService.getSelectedRequests());
   }
 
   editDropoff() {
