@@ -9,6 +9,7 @@
   <project-nav class="main" *ngIf="project" [projectId]="project?.$key"></project-nav>
 
   <div class="end">
+    <div class="badge" *ngIf="user && !user.phone">!</div>
     <button md-button class="user"
             [style.backgroundImage]="'url(' + authState?.auth.photoURL + ')'"
             [md-menu-trigger-for]="menu"></button>
@@ -19,7 +20,13 @@
     <button md-menu-item class="info" *ngIf="user?.phone">{{user?.phone}}</button>
     <button md-menu-item class="info last">{{authState?.auth.email}}</button>
 
-    <button md-menu-item class="option" (click)="editProfile()">Edit Profile</button>
+    <button md-menu-item class="option" (click)="editProfile()">
+      <md-icon *ngIf="user && !user.phone"
+               mdTooltip="Missing phone number">
+        error_outline
+      </md-icon>
+      Edit Profile
+    </button>
     <button md-menu-item class="option" (click)="logout()">Send Feedback</button>
     <button md-menu-item class="option" (click)="logout()">Report Issue</button>
 

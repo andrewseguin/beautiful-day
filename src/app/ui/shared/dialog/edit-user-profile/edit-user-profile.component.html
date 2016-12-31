@@ -5,7 +5,7 @@
 
 <div class="profile-info">
   <md-input-container>
-    <input md-input autofocus
+    <input md-input
            placeholder="Name"
            (keyup.Enter)="save()"
            [(ngModel)]="name">
@@ -21,5 +21,5 @@
 
 <div class="actions">
   <button md-button (click)="close()">Cancel</button>
-  <button md-button (click)="save()">Save</button>
+  <button md-button (click)="save()" [disabled]="!phone">Save</button>
 </div>

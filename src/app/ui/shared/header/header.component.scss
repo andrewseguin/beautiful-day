@@ -50,6 +50,22 @@ md-toolbar {
     height: 100%;
     align-items: center;
 
+    .badge {
+      background: red;
+      height: 16px;
+      width: 16px;
+      border-radius: 16px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      position: absolute;
+      z-index: 1;
+      top: 4px;
+      right: 4px;
+    }
+
     .user {
       background-repeat: no-repeat;
       min-width: 40px;

@@ -47,6 +47,12 @@ project-notes .CodeMirror-code {
     &.logout {
       color: #1565c0;
     }
+
+    md-icon {
+      color: red;
+      margin-right: 8px;
+      z-index: 1;
+    }
   }
 }
 

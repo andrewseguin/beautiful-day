@@ -11,7 +11,7 @@
 </div>
 
 <md-input-container [floatingPlaceholder]="false">
-  <input md-input placeholder="Enter a new tag"
+  <input md-input placeholder="Enter a new tag" autofocus
          (keypress)="handleNewTagKeypress($event)"
          (keyup.Enter)="save()"
          [(ngModel)]="newTag">
