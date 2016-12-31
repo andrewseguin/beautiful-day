@@ -20,6 +20,8 @@ import {MdDialog} from "@angular/material";
 import {EditNoteComponent} from "../../../../shared/dialog/edit-note/edit-note.component";
 import {EditDropoffComponent} from "../../../../shared/dialog/edit-dropoff/edit-dropoff.component";
 import {RequestViewOptions} from "../project-requests.component";
+import {EditItemComponent} from "../../../../shared/dialog/edit-item/edit-item.component";
+import {Item} from "../../../../../model/item";
 
 @Component({
   selector: 'request',
@@ -47,7 +49,7 @@ import {RequestViewOptions} from "../project-requests.component";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestComponent implements OnInit {
-  item: string;
+  item: Item;
   projectId: string;
   highlightState: string = 'normal';
   displayState: string = 'hidden';
@@ -78,7 +80,7 @@ export class RequestComponent implements OnInit {
       this.cd.markForCheck();
 
       this.itemsService.getItem(this.request.item).subscribe(item => {
-        this.item = item.name;
+        this.item = item;
         this.cd.markForCheck();
       });
     });
@@ -156,6 +158,14 @@ export class RequestComponent implements OnInit {
     dialogRef.componentInstance.selectedDropoffLocation = this.request.dropoff;
     dialogRef.componentInstance.setDateFromRequest(this.request.date);
     dialogRef.componentInstance.project = this.projectId;
+  }
+
+  viewItem(e: Event) {
+    e.stopPropagation();
+
+    const dialogRef = this.mdDialog.open(EditItemComponent);
+    dialogRef.componentInstance.mode = 'view';
+    dialogRef.componentInstance.item = this.item;
   }
 
   getTagColor(tag: string) {
