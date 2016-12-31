@@ -43,6 +43,13 @@
           {{request?.note}}
         </span>
       </div>
+      <div *ngIf="request?.tags && requestViewOptions.tags" class="tags">
+        <span class="editable tag" *ngFor="let tag of request.tags.split(',').sort()"
+              [style.background]="getTagColor(tag)"
+              (click)="$event.stopPropagation(); filterTag.emit(tag)">
+          {{tag}}
+        </span>
+      </div>
     </div>
   </div>
 </div>

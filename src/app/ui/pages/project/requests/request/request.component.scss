@@ -56,16 +56,30 @@
         pointer-events: none;
       }
       &:hover {
-        background: rgba(0, 0, 0, 0.1);
+        background: rgba(0, 0, 0, 0.1) !important;
       }
       &:active {
-        background: rgba(0, 0, 0, 0.15);
+        background: rgba(0, 0, 0, 0.15) !important;
       }
 
       .warn {
         color: #b90000;
         font-style: italic;
         font-weight: bold;
+      }
+    }
+
+    .tags {
+      display: flex;
+      justify-content: flex-end;
+
+      .tag {
+        margin-left: 4px;
+        height: 12px;
+        display: flex;
+        align-items: center;
+        border-radius: 12px;
+        padding: 4px 10px;
       }
     }
   }

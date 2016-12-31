@@ -10,7 +10,7 @@ import {
   style,
   state,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef, EventEmitter, Output
 } from "@angular/core";
 import {ItemsService} from "../../../../../service/items.service";
 import {Request} from "../../../../../model/request";
@@ -60,6 +60,8 @@ export class RequestComponent implements OnInit {
   @Input() set show(show: boolean) {
     show ? this.setVisible() : this.displayState = 'hidden';
   }
+
+  @Output() filterTag = new EventEmitter<string>();
 
   @ViewChild('quantityInput') quantityInput: ElementRef;
 
@@ -154,5 +156,19 @@ export class RequestComponent implements OnInit {
     dialogRef.componentInstance.selectedDropoffLocation = this.request.dropoff;
     dialogRef.componentInstance.setDateFromRequest(this.request.date);
     dialogRef.componentInstance.project = this.projectId;
+  }
+
+  getTagColor(tag: string) {
+    // Get string hash
+    let hash = 0;
+    for (let i = 0; i < tag.length; i++) {
+      hash = tag.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const r = (hash >> 16) & 255;
+    const g = (hash >> 8) & 255;
+    const b = hash & 255;
+
+    return `rgba(${[r, g, b].join(',')}, 0.15)`;
   }
 }

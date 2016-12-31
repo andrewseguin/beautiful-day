@@ -48,8 +48,13 @@
 
     <div *ngIf="showFilter" class="filter-input md-elevation-z1">
       <md-input-container [floatingPlaceholder]="false">
-        <input md-input [(ngModel)]="filter"
-               autofocus placeholder="Enter keywords to filter requests">
+        <div class="input-content">
+          <input md-input [(ngModel)]="filter"
+                 autofocus placeholder="Enter keywords to filter requests">
+          <button md-icon-button (click)="showFilter = false; filter = ''">
+            <md-icon>close</md-icon>
+          </button>
+        </div>
       </md-input-container>
     </div>
 
@@ -59,7 +64,8 @@
                       [requestGroup]="requestGroup"
                       [sort]="sorting"
                       [filter]="filter"
-                      [requestViewOptions]="requestViewOptions">
+                      [requestViewOptions]="requestViewOptions"
+                      (filterTag)="showFilter = true; filter = $event">
       </requests-group>
     </div>
   </div>

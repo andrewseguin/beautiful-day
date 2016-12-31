@@ -9,5 +9,7 @@
          [requestId]="request.$key"
          [requestViewOptions]="requestViewOptions"
          [groupIndex]="index"
-         [id]="request.$key"></request>
+         [id]="request.$key"
+         (filterTag)="filterTag.emit($event)">
+</request>
 

@@ -1,0 +1,35 @@
+@import '../dialog-common';
+
+.tag {
+  display: flex;
+  background: #DDD;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  height: 32px;
+  border-radius: 32px;
+  padding-left: 16px;
+  margin: 8px 0;
+
+  button {
+    opacity: 0;
+    height: 32px;
+    line-height: 32px;
+    width: 48px;
+    border-radius: 32px;
+
+    md-icon {
+      font-size: 20px;
+    }
+  }
+}
+
+.tag:hover button {
+  opacity: 1;
+}
+
+md-input-container {
+  display: flex;
+  margin: 8px 16px 0 16px;
+  min-width: 180px;
+}

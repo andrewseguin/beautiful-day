@@ -20,12 +20,14 @@ export class RequestViewOptions {
   cost: boolean = true;
   dropoff: boolean = true;
   notes: boolean = true;
+  tags: boolean = true;
 
   clone(): RequestViewOptions {
     const clone = new RequestViewOptions();
     clone.cost = this.cost;
     clone.dropoff = this.dropoff;
     clone.notes = this.notes;
+    clone.tags = this.tags;
     return clone;
   }
 }

@@ -3,6 +3,7 @@ import {MdSnackBar, MdDialog, MdSnackBarConfig} from '@angular/material';
 import {RequestsService} from '../../../../service/requests.service';
 import {EditNoteComponent} from '../../dialog/edit-note/edit-note.component';
 import {EditDropoffComponent} from '../../dialog/edit-dropoff/edit-dropoff.component';
+import {EditTagsComponent} from "../../dialog/edit-tags/edit-tags.component";
 
 @Component({
   selector: 'edit-request-options',
@@ -44,7 +45,7 @@ export class EditRequestOptionsComponent {
   editDropoff() {
     const dialogRef = this.mdDialog.open(EditDropoffComponent);
     dialogRef.componentInstance.requestIds =
-      this.requestsService.getSelectedRequests();
+        this.requestsService.getSelectedRequests();
 
     const selectedRequests = this.requestsService.getSelectedRequests();
     dialogRef.componentInstance.requestIds = selectedRequests;
@@ -56,5 +57,11 @@ export class EditRequestOptionsComponent {
       }
       dialogRef.componentInstance.project = request.project;
     });
+  }
+
+  editTags() {
+    const dialogRef = this.mdDialog.open(EditTagsComponent);
+    dialogRef.componentInstance.requestIds =
+        this.requestsService.getSelectedRequests();
   }
 }

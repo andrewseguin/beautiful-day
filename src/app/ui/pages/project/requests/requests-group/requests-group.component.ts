@@ -9,7 +9,7 @@ import {
   style,
   transition,
   state,
-  trigger
+  trigger, EventEmitter, Output
 } from "@angular/core";
 import {RequestGroup} from "../../../../../service/request-grouping.service";
 import {RequestComponent} from "../request/request.component";
@@ -71,6 +71,8 @@ export class RequestsGroupComponent {
   get requestGroup(): RequestGroup { return this._requestGroup; }
 
   @Input() requestViewOptions: RequestViewOptions;
+
+  @Output() filterTag = new EventEmitter<string>();
 
   constructor(private requestsService: RequestsService,
               private itemsService: ItemsService) {}

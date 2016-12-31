@@ -6,4 +6,5 @@ export interface Request {
   quantity?: number;
   note?: string;
   date?: string;
+  tags?: string;
 }

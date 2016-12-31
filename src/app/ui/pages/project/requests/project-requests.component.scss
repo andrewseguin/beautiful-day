@@ -124,6 +124,16 @@ button[md-fab] {
   md-input-container {
     @include content-width;
     margin: 0;
+
+    .input-content {
+      display: flex;
+      height: 24px;
+      align-items: center;
+    }
+
+    input {
+      margin: 0 8px;
+    }
   }
 }
 

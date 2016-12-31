@@ -17,3 +17,9 @@ md-card.project {
   border-bottom: 1px solid black;
   padding: 16px;
 }
+
+.projects {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
