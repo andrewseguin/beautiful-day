@@ -10,7 +10,9 @@
                    (change)="setSelected($event.checked)">
       </md-checkbox>
 
-      <div class="name editable" (click)="viewItem($event)">{{item.name}}</div>
+      <div class="name">
+        <span class="editable" (click)="viewItem($event)">{{item.name}}</span>
+      </div>
 
       <div class="quantity"
            (click)="$event.stopPropagation(); quantityInput.focus()">
