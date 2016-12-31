@@ -25,21 +25,29 @@ project-notes .CodeMirror-code {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-}
+  padding: 0;
 
-.md-menu-panel.auth button {
-  justify-content: flex-end;
-  font-size: 14px;
-  height: 24px;
-}
-
-.md-menu-panel.auth button.email {
-  pointer-events: none;
-}
-
-.md-menu-panel.auth button.logout {
-  color: #1565c0;
-  height: 30px;
+  button {
+    font-size: 14px;
+    height: 40px;
+    justify-content: flex-end;
+    &.info {
+      height: inherit;
+      pointer-events: none;
+      background: #EAEAEA;
+      padding: 2px 16px;
+      &.first {
+        padding-top: 8px;
+      }
+      &.last {
+        border-bottom: 1px solid #CCC;
+        padding-bottom: 8px;
+      }
+    }
+    &.logout {
+      color: #1565c0;
+    }
+  }
 }
 
 .md-menu-panel.notes-menu {

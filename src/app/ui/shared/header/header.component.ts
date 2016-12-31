@@ -10,6 +10,8 @@ import {TopLevelSection} from "../../../router.config";
 import {ProjectsService} from "../../../service/projects.service";
 import {Project} from "../../../model/project";
 import {MdSidenav} from "@angular/material";
+import {UsersService} from "../../../service/users.service";
+import {User} from "../../../model/user";
 
 @Component({
   selector: 'header',
@@ -30,7 +32,8 @@ import {MdSidenav} from "@angular/material";
 })
 export class HeaderComponent implements OnInit {
   topLevel: TopLevelSection;
-  user: FirebaseAuthState;
+  authState: FirebaseAuthState;
+  user: User;
   project: Project;
   subheaderVisibility: 'visible'|'hidden' = 'visible';
 
@@ -41,12 +44,19 @@ export class HeaderComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private projectsService: ProjectsService,
+    private usersService: UsersService,
     private mediaQuery: MediaQueryService,
     private subheaderService: SubheaderService,
     private headerService: HeaderService) { }
 
   ngOnInit() {
-    this.auth.subscribe(auth => this.user = auth );
+    this.auth.subscribe(authState => {
+      this.authState = authState;
+      this.usersService.get(authState.auth.email).subscribe(user => {
+        this.user = user;
+      })
+    });
+
 
     this.subheaderService.visibilitySubject.subscribe(visibility => {
       this.subheaderVisibility = visibility ? 'visible' : 'hidden';
