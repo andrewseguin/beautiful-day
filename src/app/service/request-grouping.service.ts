@@ -4,7 +4,7 @@ import {Request} from "../model/request";
 import {ItemsService} from "./items.service";
 import {Item} from "../model/item";
 
-export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff';
+export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff' | 'tags';
 
 export class RequestGroup {
   id: string;
@@ -32,7 +32,7 @@ export class RequestGroupingService {
   }
 
   getGroupNames(): string[] {
-    return ['all', 'category', 'date', 'dropoff'];
+    return ['all', 'category', 'date', 'dropoff', 'tags'];
   }
 
   getRequestGroups(projectId: string): Map<Group, RequestGroup[]> {
@@ -44,11 +44,13 @@ export class RequestGroupingService {
       requestGroups.set('category', []);
       requestGroups.set('date', []);
       requestGroups.set('dropoff', []);
+      requestGroups.set('tags', []);
 
       this.updateGroupAll(requestGroups, requests);
       this.updateGroupDropoffLocation(requestGroups, requests);
       this.updateGroupDateNeeded(requestGroups, requests);
       this.updateGroupCategory(requestGroups, requests);
+      this.updateGroupTags(requestGroups, requests);
     });
 
     return requestGroups;
@@ -133,6 +135,26 @@ export class RequestGroupingService {
       requestGroups.get('category').push({
         id: categoryKey,
         title: categoryKey,
+        requests: requests
+      });
+    });
+  }
+
+  updateGroupTags(requestGroups: Map<Group, RequestGroup[]>, requests: Request[]) {
+    const tagMap: Map<string, Request[]> = new Map();
+    requests.forEach(request => {
+      const tags = request.tags ? request.tags.split(',') : ['No Tag Set'];
+      tags.forEach(tag => {
+        if (!tagMap.get(tag)) { tagMap.set(tag, []); }
+        tagMap.get(tag).push(request);
+      });
+    });
+
+    requestGroups.set('tags', []);
+    tagMap.forEach((requests, tag) => {
+      requestGroups.get('tags').push({
+        id: tag,
+        title: tag,
         requests: requests
       });
     });

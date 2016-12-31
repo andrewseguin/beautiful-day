@@ -125,6 +125,7 @@ export class ProjectRequestsComponent implements OnInit {
       case 'category': return 'Category';
       case 'date': return 'Date Needed';
       case 'dropoff': return 'Dropoff Location';
+      case 'tags': return 'Tags';
     }
   }
 
