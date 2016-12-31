@@ -55,6 +55,7 @@ import {RequestSortPipe} from "./pipe/request-sort.pipe";
 import {EditTagsComponent} from "./ui/shared/dialog/edit-tags/edit-tags.component";
 import {SetValuesPipe} from "./pipe/set-values.pipe";
 import {PromptDialogComponent} from "./ui/shared/dialog/prompt-dialog/prompt-dialog.component";
+import {EditUserProfileComponent} from "./ui/shared/dialog/edit-user-profile/edit-user-profile.component";
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import {PromptDialogComponent} from "./ui/shared/dialog/prompt-dialog/prompt-dia
     EditItemNameComponent,
     EditItemCategoryComponent,
     EditTagsComponent,
+    EditUserProfileComponent,
     SlidingPanelComponent,
     ItemSearchPipe,
     InventoryPanelItemComponent,
@@ -104,6 +106,7 @@ import {PromptDialogComponent} from "./ui/shared/dialog/prompt-dialog/prompt-dia
     EditDropoffComponent,
     EditProjectComponent,
     EditTagsComponent,
+    EditUserProfileComponent,
     DeleteNoteComponent,
     DeleteProjectComponent,
     PromptDialogComponent,

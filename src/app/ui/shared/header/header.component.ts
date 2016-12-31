@@ -9,9 +9,10 @@ import {ActivatedRoute, UrlSegment, Router, Event} from "@angular/router";
 import {TopLevelSection} from "../../../router.config";
 import {ProjectsService} from "../../../service/projects.service";
 import {Project} from "../../../model/project";
-import {MdSidenav} from "@angular/material";
+import {MdSidenav, MdDialog} from "@angular/material";
 import {UsersService} from "../../../service/users.service";
 import {User} from "../../../model/user";
+import {EditUserProfileComponent} from "../dialog/edit-user-profile/edit-user-profile.component";
 
 @Component({
   selector: 'header',
@@ -25,10 +26,7 @@ import {User} from "../../../model/user";
         animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),
     ])
-  ],
-  host: {
-    '[style.display]': "user ? 'block' : 'none'"
-  }
+  ]
 })
 export class HeaderComponent implements OnInit {
   topLevel: TopLevelSection;
@@ -47,6 +45,7 @@ export class HeaderComponent implements OnInit {
     private usersService: UsersService,
     private mediaQuery: MediaQueryService,
     private subheaderService: SubheaderService,
+    private mdDialog: MdDialog,
     private headerService: HeaderService) { }
 
   ngOnInit() {
@@ -98,5 +97,10 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.auth.logout();
+  }
+
+  editProfile(): void {
+    const dialogRef = this.mdDialog.open(EditUserProfileComponent);
+    dialogRef.componentInstance.user = this.user;
   }
 }

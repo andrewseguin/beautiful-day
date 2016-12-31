@@ -19,7 +19,7 @@
     <button md-menu-item class="info" *ngIf="user?.phone">{{user?.phone}}</button>
     <button md-menu-item class="info last">{{authState?.auth.email}}</button>
 
-    <button md-menu-item class="option" (click)="logout()">Edit Profile</button>
+    <button md-menu-item class="option" (click)="editProfile()">Edit Profile</button>
     <button md-menu-item class="option" (click)="logout()">Send Feedback</button>
     <button md-menu-item class="option" (click)="logout()">Report Issue</button>
 

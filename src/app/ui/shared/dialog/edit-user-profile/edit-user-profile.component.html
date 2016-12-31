@@ -1,0 +1,25 @@
+<div class="header">
+  <div class="title">Edit Profile</div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+<div class="profile-info">
+  <md-input-container>
+    <input md-input autofocus
+           placeholder="Name"
+           (keyup.Enter)="save()"
+           [(ngModel)]="name">
+  </md-input-container>
+
+  <md-input-container>
+    <input md-input autofocus
+           placeholder="Phone"
+           (keyup.Enter)="save()"
+           [(ngModel)]="phone">
+  </md-input-container>
+</div>
+
+<div class="actions">
+  <button md-button (click)="close()">Cancel</button>
+  <button md-button (click)="save()">Save</button>
+</div>
