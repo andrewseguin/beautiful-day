@@ -1,6 +1,7 @@
 @import '../dialog-common';
+@import '../../constants';
 
-.tag {
+.tag-pill {
   display: flex;
   background: #DDD;
   justify-content: space-between;
@@ -11,6 +12,12 @@
   padding-left: 16px;
   margin: 8px 0;
 
+  .tag-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   button {
     opacity: 0;
     height: 32px;
@@ -18,13 +25,18 @@
     width: 48px;
     border-radius: 32px;
 
+    // Always show delete when on mobile
+    @media (max-width: $mobile-width) {
+      opacity: 1;
+    }
+
     md-icon {
       font-size: 20px;
     }
   }
 }
 
-.tag:hover button {
+.tag-pill:hover button {
   opacity: 1;
 }
 

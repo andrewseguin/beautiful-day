@@ -34,6 +34,12 @@ export class EditTagsComponent {
   }
 
   save() {
+    // If spaces exist (from mobile), then title case and remove spaces
+    this.newTag = this.toTitleCase(this.newTag).replace(/\s+/g, '');
+
+    // Add a hash tag if there is none
+    if (this.newTag.charAt(0) != '#') { this.newTag = '#' + this.newTag; }
+
     if (this.newTag) {
       this.requestTags.forEach(tags => {
         tags.add(this.newTag);
@@ -62,8 +68,8 @@ export class EditTagsComponent {
     });
   }
 
-  handleNewTagKeypress(e: KeyboardEvent) {
-    // Disallow spaces in tags
-    if (e.keyCode == 32) { e.preventDefault() }
+  toTitleCase(str: string): string {
+    return str.replace(/\w\S*/g,
+        (txt) => (txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()));
   }
 }

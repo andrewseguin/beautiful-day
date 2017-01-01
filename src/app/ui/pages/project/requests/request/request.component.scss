@@ -50,10 +50,13 @@
     .tags {
       display: flex;
       justify-content: flex-end;
+      flex-wrap: wrap;
+      margin: 4px 0;
 
       .tag {
-        margin-left: 4px;
-        height: 12px;
+        margin: 2px 0 2px 4px;
+        word-wrap: normal;
+        word-break: break-all;
         display: flex;
         align-items: center;
         border-radius: 12px;
