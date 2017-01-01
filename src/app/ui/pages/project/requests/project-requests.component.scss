@@ -23,7 +23,11 @@ md-sidenav {
 
 .scrollable-content {
   overflow: auto;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 
   @media (max-width: $mobile-width) {
     padding-top: $subheader-height;
@@ -36,7 +40,7 @@ md-sidenav {
   flex-direction: column;
 
   @media (max-width: $mobile-width) {
-    padding-bottom: 120px;
+    padding-bottom: 80px;
   }
 }
 
