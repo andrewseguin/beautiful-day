@@ -29,7 +29,7 @@
   justify-content: center;
   background: white;
   border-top: 1px solid #BBB;
-  padding: 16px;
+  height: 48px;
 
   .edit, .delete {
     margin: 0 24px;
@@ -104,8 +104,4 @@
   .heading {
     font-weight: bold;
   }
-}
-
-button {
-  margin: 8px 0;
 }

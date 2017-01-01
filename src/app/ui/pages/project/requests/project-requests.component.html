@@ -70,6 +70,8 @@
     </div>
   </div>
 
+  <remaining-budget [projectId]="projectId"></remaining-budget>
+
   <button md-fab color="accent"
           [class.hide]="sidenav.opened || hasSelectedRequests()"
           (click)="sidenav.open()"><md-icon>add</md-icon></button>

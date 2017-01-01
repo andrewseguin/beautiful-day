@@ -56,6 +56,9 @@ import {EditTagsComponent} from "./ui/shared/dialog/edit-tags/edit-tags.componen
 import {SetValuesPipe} from "./pipe/set-values.pipe";
 import {PromptDialogComponent} from "./ui/shared/dialog/prompt-dialog/prompt-dialog.component";
 import {EditUserProfileComponent} from "./ui/shared/dialog/edit-user-profile/edit-user-profile.component";
+import { RemainingBudgetComponent } from './ui/pages/project/requests/remaining-budget/remaining-budget.component';
+import {AccountingService} from "./service/accounting.service";
+import {CountUpModule} from "countup.js/dist/countUp.module";
 
 @NgModule({
   declarations: [
@@ -97,6 +100,7 @@ import {EditUserProfileComponent} from "./ui/shared/dialog/edit-user-profile/edi
     RequestSortPipe,
     SetValuesPipe,
     PromptDialogComponent,
+    RemainingBudgetComponent,
   ],
   entryComponents: [
     EditItemComponent,
@@ -131,6 +135,7 @@ import {EditUserProfileComponent} from "./ui/shared/dialog/edit-user-profile/edi
     CanActivateViaAuthGuard,
     HeaderService,
     NotesService,
+    AccountingService,
   ],
   bootstrap: [AppComponent]
 })

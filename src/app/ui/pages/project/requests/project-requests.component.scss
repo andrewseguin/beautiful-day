@@ -5,6 +5,7 @@
 @import '../../../shared/constants';
 @import 'common';
 
+
 :host {
   display: block;
   height: 100%;
@@ -25,7 +26,7 @@ md-sidenav {
   overflow: auto;
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: $budget-height;
   right: 0;
   left: 0;
 
@@ -40,7 +41,7 @@ md-sidenav {
   flex-direction: column;
 
   @media (max-width: $mobile-width) {
-    padding-bottom: 80px;
+    padding-bottom: 112px;
   }
 }
 
@@ -99,7 +100,7 @@ button[md-fab] {
   position: absolute;
   bottom: 0;
   right: 0;
-  margin: 16px;
+  margin: 0 24px 56px 0;
   transition: 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
   transform: scale(1);
   opacity: 1;

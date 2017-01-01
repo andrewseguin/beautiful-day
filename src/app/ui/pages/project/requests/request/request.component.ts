@@ -132,6 +132,7 @@ export class RequestComponent implements OnInit {
   }
 
   changeQuantity(quantity: number) {
+    quantity = Math.max(0, quantity);
     this.requestsService.update(this.request.$key, {quantity});
   }
 

@@ -16,7 +16,7 @@
 
       <div class="quantity"
            (click)="$event.stopPropagation(); quantityInput.focus()">
-        <input type="number" #quantityInput
+        <input type="number" #quantityInput min="0"
                   [value]="request?.quantity"
                   (click)="quantityInput.select()"
                   (keyup)="changeQuantity($event.target.value)"
@@ -24,7 +24,12 @@
                   (change)="changeQuantity($event.target.value)">
       </div>
 
-      <div class="cost" *ngIf="requestViewOptions.cost">${{10*request?.quantity}}.00</div>
+      <div class="cost" *ngIf="requestViewOptions.cost">
+        <span *ngIf="item.cost">
+          {{item.cost*request?.quantity | currency:'USD':true:'1.2-2'}}
+        </span>
+        <span *ngIf="!item.cost">--</span>
+      </div>
     </div>
 
     <div class="details">

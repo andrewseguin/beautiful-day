@@ -5,6 +5,7 @@ import {ProjectsService} from "../../../../service/projects.service";
 
 export type EditType =
   'name' |
+  'budget' |
   'location' |
   'description' |
   'managers' |
@@ -19,6 +20,7 @@ export type EditType =
 export class EditProjectComponent implements OnInit, AfterViewChecked {
   project: Project;
   name: string;
+  budget: number;
   description: string;
   location: string;
   managers: string[];
@@ -33,6 +35,7 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.name = this.project.name;
+    this.budget = this.project.budget;
     this.description = this.project.description;
     this.location = this.project.location;
     this.managers = this.project.managers ? this.project.managers.split(',') : [''];
@@ -54,6 +57,9 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
     switch (this.type) {
       case 'name':
         update.name = this.name; break;
+      case 'budget':
+        this.budget = Math.max(0, this.budget);
+        update.budget = this.budget; break;
       case 'location':
         update.location = this.location; break;
       case 'description':

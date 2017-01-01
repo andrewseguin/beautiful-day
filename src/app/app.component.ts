@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
         return;
       } else {
         const snackbarConfig = new MdSnackBarConfig();
-        snackbarConfig.duration = 4000;
+        snackbarConfig.duration = 2000;
         this.mdSnackbar.open(`Logged in as ${auth.auth.email}`, null, snackbarConfig);
       }
     });

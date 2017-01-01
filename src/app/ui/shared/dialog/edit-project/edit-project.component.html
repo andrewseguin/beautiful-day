@@ -9,6 +9,14 @@
             [(ngModel)]="name"></md-input>
 </div>
 
+<div *ngIf="type == 'budget'">
+  <md-input autofocus min="0"
+            (keyup.Enter)="save()"
+            [(ngModel)]="budget">
+    <span md-prefix>$&nbsp;</span>
+  </md-input>
+</div>
+
 <div *ngIf="type == 'description'">
   <textarea autofocus md-autosize
             (keydown)="onTextareaKeydown($event)"

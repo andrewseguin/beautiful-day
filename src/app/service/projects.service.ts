@@ -36,19 +36,8 @@ export class ProjectsService {
     return this.af.database.object(`projects/${id}`);
   }
 
-  getNote(id: string, noteId: string): FirebaseListObservable<any> {
-    return this.af.database.list(`projects/${id}/notes/${noteId}`);
-  }
-
-  getNotes(id: string): FirebaseListObservable<any> {
-    return this.af.database.list(`projects/${id}/notes`);
-  }
-
-  saveNote(id: string, note: Note) {
-    this.af.database.object(`projects/${id}/notes/${note.$key}`).update({
-      title: note.title,
-      text: note.text
-    });
+  getBudget(id: string): Observable<number> {
+    return this.af.database.object(`projects/${id}/budget`).map(budget => budget['$value']);
   }
 
   createProject(): firebase.database.ThenableReference {
@@ -56,9 +45,7 @@ export class ProjectsService {
       name: 'New Project',
       description: '',
       location: '',
-      notes: {
-        'initial': 'test'
-      }
+      budget: '0'
     });
   }
 

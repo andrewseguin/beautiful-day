@@ -58,10 +58,6 @@ export class RequestsService {
       date: project.lastUsedDate || ''
     }).then(response => {
       this.requestAdded.next({key: response.getKey(), item});
-
-      const snackbarConfig = new MdSnackBarConfig();
-      snackbarConfig.duration = 3000;
-      this.snackBar.open(`Added request for ${item.name}`, null, snackbarConfig);
     });
   }
 
