@@ -17,3 +17,9 @@
   background: rgba(187,187,187,0.2);
   border-bottom: 1px solid #CCC;
 }
+
+.title-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
