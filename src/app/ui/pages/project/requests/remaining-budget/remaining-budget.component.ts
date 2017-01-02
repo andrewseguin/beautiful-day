@@ -38,7 +38,9 @@ export class RemainingBudgetComponent implements OnInit {
     this.budgetStream = this.accountingService.getBudgetStream(this.projectId)
         .subscribe(budgetResponse => {
           this.projectBudget = budgetResponse.budget;
-          this.previousRemainingBudget = this.currentRemainingBudget || budgetResponse.remaining;
+          this.previousRemainingBudget =
+              this.currentRemainingBudget != undefined ?
+                this.currentRemainingBudget : budgetResponse.remaining;
           this.currentRemainingBudget = budgetResponse.remaining;
           this.updateBudgetValue();
         });
