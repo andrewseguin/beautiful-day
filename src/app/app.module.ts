@@ -58,7 +58,6 @@ import {PromptDialogComponent} from "./ui/shared/dialog/prompt-dialog/prompt-dia
 import {EditUserProfileComponent} from "./ui/shared/dialog/edit-user-profile/edit-user-profile.component";
 import { RemainingBudgetComponent } from './ui/pages/project/requests/remaining-budget/remaining-budget.component';
 import {AccountingService} from "./service/accounting.service";
-import {CountUpModule} from "countup.js/dist/countUp.module";
 
 @NgModule({
   declarations: [
