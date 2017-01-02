@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {User} from "../model/user";
 import {ProjectsService} from "./projects.service";
 import {Observable} from "rxjs";
-import {FirebaseAuth} from "angularfire2";
 import {UsersService} from "./users.service";
 import {AdminsService} from "./admins.service";
 
@@ -16,16 +15,13 @@ export interface EditPermissions {
 export class PermissionsService {
   constructor(private projectsService: ProjectsService,
               private adminsService: AdminsService,
-              private usersService: UsersService,
-              private auth: FirebaseAuth) { }
+              private usersService: UsersService) { }
 
   getEditPermissions(projectId: string): Observable<EditPermissions> {
     let user: User;
     let admins: string[];
 
-    return this.auth.flatMap(authState => {
-      return this.usersService.get(authState.auth.email);
-    }).flatMap(u => {
+    return this.usersService.getCurrentUser().flatMap(u => {
       user = u;
       return this.adminsService.getAdmins();
     }).flatMap(a => {
@@ -48,8 +44,10 @@ export class PermissionsService {
   }
 
   canCreateProjects(): Observable<boolean> {
-    return this.auth
-        .flatMap(authState => this.usersService.get(authState.auth.email))
-        .flatMap(user => Observable.from([user.isAdmin]));
+    return this.usersService.getCurrentUser().map(user => user ? user.isAdmin : false);
+  }
+
+  isOwner(): Observable<boolean> {
+    return this.usersService.getCurrentUser().map(user => user ? user.isOwner : false);
   }
 }

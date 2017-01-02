@@ -13,6 +13,7 @@ import {PermissionsService} from "../../../service/permissions.service";
 })
 export class NavComponent implements OnInit {
   canCreateProjects: boolean;
+  isOwner: boolean;
   projects: FirebaseListObservable<any[]>;
 
   constructor(private projectsService: ProjectsService,
@@ -25,7 +26,8 @@ export class NavComponent implements OnInit {
     this.projects = this.projectsService.getProjects();
     this.permissionsService.canCreateProjects().subscribe(canCreateProjects => {
       this.canCreateProjects = canCreateProjects;
-    })
+    });
+    this.permissionsService.isOwner().subscribe(isOwner => this.isOwner = isOwner);
   }
 
   addProject() {

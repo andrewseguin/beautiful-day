@@ -25,7 +25,7 @@ import {SelectionHeaderComponent} from "./ui/shared/selection-header/selection-h
 import {EditDropoffComponent} from "./ui/shared/dialog/edit-dropoff/edit-dropoff.component";
 import {MediaQueryService} from "./service/media-query.service";
 import {RequestGroupingService} from "./service/request-grouping.service";
-import {CanActivateViaAuthGuard} from "./auth-guard";
+import {CanActivateAuthGuard} from "./can-activate-auth-guard";
 import {LoginComponent} from "./ui/login/login.component";
 import {SubheaderService} from "./service/subheader.service";
 import {EditProjectComponent} from "./ui/shared/dialog/edit-project/edit-project.component";
@@ -61,6 +61,9 @@ import {AccountingService} from "./service/accounting.service";
 import {PermissionsService} from "./service/permissions.service";
 import {AdminsService} from "./service/admins.service";
 import {EditAdminComponent} from "./ui/shared/dialog/edit-admins/edit-admin.component";
+import {FeedbackComponent} from "./ui/pages/feedback/feedback.component";
+import {CanActivateOwnerGuard} from "./can-activate-owner-guard";
+import {FeedbackService} from "./service/feedback.service";
 
 @NgModule({
   declarations: [
@@ -104,6 +107,7 @@ import {EditAdminComponent} from "./ui/shared/dialog/edit-admins/edit-admin.comp
     PromptDialogComponent,
     RemainingBudgetComponent,
     EditAdminComponent,
+    FeedbackComponent,
   ],
   entryComponents: [
     EditItemComponent,
@@ -136,11 +140,13 @@ import {EditAdminComponent} from "./ui/shared/dialog/edit-admins/edit-admin.comp
     RequestGroupingService,
     SubheaderService,
     UsersService,
-    CanActivateViaAuthGuard,
+    CanActivateAuthGuard,
+    CanActivateOwnerGuard,
     HeaderService,
     NotesService,
     AccountingService,
     PermissionsService,
+    FeedbackService,
     AdminsService,
   ],
   bootstrap: [AppComponent]

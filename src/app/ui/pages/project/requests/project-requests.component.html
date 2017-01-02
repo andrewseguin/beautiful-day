@@ -36,12 +36,21 @@
     </div>
 
     <div *ngIf="getAllRequests()?.length === 0" class="empty-requests">
-      <div class="wide">
-        <div class="getting-started">
-          Getting Started
+      <div *ngIf="editPermissions.requests">
+        <div class="wide">
+          <div class="getting-started">
+            Getting Started
+          </div>
+          <div class="instructions">
+            Create requests using the inventory panel to the right
+          </div>
         </div>
-        <div class="instructions">
-          Create requests using the inventory panel to the right
+      </div>
+      <div *ngIf="!editPermissions.requests">
+        <div class="wide">
+          <div class="getting-started">
+            No requests.
+          </div>
         </div>
       </div>
     </div>

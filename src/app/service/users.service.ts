@@ -1,19 +1,26 @@
 import {Injectable} from "@angular/core";
-import {AngularFireDatabase, FirebaseAuthState} from "angularfire2";
+import {
+  AngularFireDatabase, FirebaseAuthState, AngularFireAuth,
+  FirebaseObjectObservable
+} from "angularfire2";
 import {User} from "../model/user";
 import {Observable} from "rxjs";
 
 @Injectable()
 export class UsersService {
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase, private auth: AngularFireAuth) { }
 
   create(authState: FirebaseAuthState) {
-    this.db.object(`users/${authState.uid}`).set({
+    this.getByUid(authState.uid).set({
       uid: authState.uid,
       email: authState.auth.email,
       name: authState.auth.displayName,
       pic: authState.auth.photoURL
     });
+  }
+
+  getByUid(uid: string): FirebaseObjectObservable<User> {
+    return this.db.object(`users/${uid}`);
   }
 
   get(email: string): Observable<User> {
@@ -26,6 +33,12 @@ export class UsersService {
   }
 
   update(uid: string, update: any) {
-    this.db.object(`users/${uid}`).update(update);
+    this.getByUid(uid).update(update);
+  }
+
+  getCurrentUser(): Observable<User> {
+    return this.auth.flatMap(auth => {
+      return auth ? this.get(auth.auth.email) : Observable.from([null]);
+    });
   }
 }

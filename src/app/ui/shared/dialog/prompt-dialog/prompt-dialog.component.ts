@@ -10,6 +10,7 @@ import {Subject, Observable} from "rxjs";
 export class PromptDialogComponent {
   title = '';
   input = '';
+  useTextArea: boolean;
 
   onSaveSubject = new Subject<string>();
 

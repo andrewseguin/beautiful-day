@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
-import {CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot} from "@angular/router";
+import {CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot} from "@angular/router";
 import {FirebaseAuthState, FirebaseAuth} from "angularfire2";
 import {Observable} from "rxjs";
-import 'rxjs/add/operator/take';
+import "rxjs/add/operator/take";
 
 @Injectable()
-export class CanActivateViaAuthGuard implements CanActivate {
+export class CanActivateAuthGuard implements CanActivate {
 
   constructor(private auth: FirebaseAuth) {}
 
