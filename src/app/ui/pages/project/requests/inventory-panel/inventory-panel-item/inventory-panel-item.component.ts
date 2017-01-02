@@ -80,6 +80,7 @@ export class InventoryPanelItemComponent {
   }
 
   request() {
+    this.requestQuantity = Math.max(0, this.requestQuantity);
     this.requested = true;
     this.project.first().subscribe(project => {
       this.requestsService.addRequest(project, this.item, this.requestQuantity)

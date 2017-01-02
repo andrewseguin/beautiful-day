@@ -49,7 +49,6 @@ export class RemainingBudgetComponent implements OnInit {
   }
 
   updateBudgetValue() {
-    console.log('update budget value')
     new CountUp('budget-remaining',
         this.previousRemainingBudget,
         this.currentRemainingBudget,

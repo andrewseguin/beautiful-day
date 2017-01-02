@@ -24,11 +24,14 @@
   </div>
 
   <div class="request-row">
-    <md-input [(ngModel)]="requestQuantity"
-              [disabled]="requested"
-              (keyup.Enter)="request()"
-              placeholder="quantity">
-    </md-input>
+    <md-input-container>
+      <input md-input type="number" min="0"
+             [(ngModel)]="requestQuantity"
+             [disabled]="requested"
+             (keyup.Enter)="request()"
+             placeholder="quantity"/>
+    </md-input-container>
+
     <button md-raised-button
             color="accent"
             [disabled]="requestQuantity <= 0 || requested"
