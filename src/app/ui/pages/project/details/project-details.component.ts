@@ -38,12 +38,14 @@ export class ProjectDetailsComponent implements OnInit {
     this.route.parent.params.forEach((params: Params) => {
       this.projectsService.getProject(params['id']).subscribe((project: Project) => {
         this.project = project;
+
+        this.permissionsService.getEditPermissions(this.project.$key)
+          .subscribe(editPermissions => {
+            this.editPermissions = editPermissions;
+          });
       });
     });
 
-    this.permissionsService.getEditPermissions(this.project.$key).subscribe(editPermissions => {
-      this.editPermissions = editPermissions;
-    })
   }
 
   edit(type: EditType) {

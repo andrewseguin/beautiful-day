@@ -6,4 +6,5 @@ export interface User {
   pic?: string;
   phone?: string;
   isAdmin?: boolean;
+  isOwner?: boolean;
 }

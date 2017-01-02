@@ -59,6 +59,8 @@ import {EditUserProfileComponent} from "./ui/shared/dialog/edit-user-profile/edi
 import {RemainingBudgetComponent} from "./ui/pages/project/requests/remaining-budget/remaining-budget.component";
 import {AccountingService} from "./service/accounting.service";
 import {PermissionsService} from "./service/permissions.service";
+import {AdminsService} from "./service/admins.service";
+import {EditAdminComponent} from "./ui/shared/dialog/edit-admins/edit-admin.component";
 
 @NgModule({
   declarations: [
@@ -101,6 +103,7 @@ import {PermissionsService} from "./service/permissions.service";
     SetValuesPipe,
     PromptDialogComponent,
     RemainingBudgetComponent,
+    EditAdminComponent,
   ],
   entryComponents: [
     EditItemComponent,
@@ -114,6 +117,7 @@ import {PermissionsService} from "./service/permissions.service";
     DeleteNoteComponent,
     DeleteProjectComponent,
     PromptDialogComponent,
+    EditAdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -137,6 +141,7 @@ import {PermissionsService} from "./service/permissions.service";
     NotesService,
     AccountingService,
     PermissionsService,
+    AdminsService,
   ],
   bootstrap: [AppComponent]
 })

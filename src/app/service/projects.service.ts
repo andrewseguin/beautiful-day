@@ -1,19 +1,17 @@
-import {Injectable} from '@angular/core';
-import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
-import * as firebase from 'firebase';
-
-import {Project} from '../model/project';
+import {Injectable} from "@angular/core";
+import {FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase} from "angularfire2";
+import * as firebase from "firebase";
+import {Project} from "../model/project";
 import {RequestsService} from "./requests.service";
 import {Observable} from "rxjs";
-import {Note} from "../model/note";
 
 @Injectable()
 export class ProjectsService {
-  constructor(private af: AngularFire,
+  constructor(private db: AngularFireDatabase,
               private requestsService: RequestsService) {}
 
   getProjects(): FirebaseListObservable<Project[]> {
-    return this.af.database.list('projects');
+    return this.db.list('projects');
   }
 
   getUsersProjects(email: string): Observable<Project[]> {
@@ -33,11 +31,11 @@ export class ProjectsService {
   }
 
   getProject(id: string): FirebaseObjectObservable<Project> {
-    return this.af.database.object(`projects/${id}`);
+    return this.db.object(`projects/${id}`);
   }
 
   getBudget(id: string): Observable<number> {
-    return this.af.database.object(`projects/${id}/budget`).map(budget => budget['$value']);
+    return this.db.object(`projects/${id}/budget`).map(budget => budget['$value']);
   }
 
   createProject(): firebase.database.ThenableReference {

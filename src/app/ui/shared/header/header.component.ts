@@ -13,6 +13,7 @@ import {MdSidenav, MdDialog} from "@angular/material";
 import {UsersService} from "../../../service/users.service";
 import {User} from "../../../model/user";
 import {EditUserProfileComponent} from "../dialog/edit-user-profile/edit-user-profile.component";
+import {EditAdminComponent} from "../dialog/edit-admins/edit-admin.component";
 
 @Component({
   selector: 'header',
@@ -102,5 +103,9 @@ export class HeaderComponent implements OnInit {
   editProfile(): void {
     const dialogRef = this.mdDialog.open(EditUserProfileComponent);
     dialogRef.componentInstance.user = this.user;
+  }
+
+  manageAdmins(): void {
+    this.mdDialog.open(EditAdminComponent);
   }
 }

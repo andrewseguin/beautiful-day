@@ -15,12 +15,12 @@
   border-top: 1px solid #cce8cc;
   transition: all 750ms ease-in-out;
   cursor: default;
+  font-weight: bold;
 
   .budget-remaining {
     transition: all 750ms ease-in-out;
     color: green;
     padding: 0 8px;
-    font-weight: bold;
   }
 
   &.negative {

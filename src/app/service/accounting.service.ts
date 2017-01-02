@@ -36,7 +36,7 @@ export class AccountingService {
         return this.requestsService.getProjectRequests(projectId);
       })
       .debounceTime(100).map(requests => {
-        if (!this.items.size) return 0;
+        if (!this.items.size || !requests.length) return 0;
 
         const requestsCost = requests
         // Convert all requests to their cost
