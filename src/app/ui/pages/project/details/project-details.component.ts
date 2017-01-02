@@ -10,6 +10,7 @@ import {
   EditType
 } from '../../../shared/dialog/edit-project/edit-project.component';
 import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/delete-project.component';
+import {PermissionsService, EditPermissions} from "../../../../service/permissions.service";
 
 @Component({
   selector: 'project-details',
@@ -17,6 +18,7 @@ import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/dele
   styleUrls: ['./project-details.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
+  editPermissions: EditPermissions;
   project: Project;
   requests: FirebaseListObservable<Request[]>;
   user: FirebaseAuthState;
@@ -27,6 +29,7 @@ export class ProjectDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private mdDialog: MdDialog,
               private auth: FirebaseAuth,
+              private permissionsService: PermissionsService,
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
@@ -37,6 +40,10 @@ export class ProjectDetailsComponent implements OnInit {
         this.project = project;
       });
     });
+
+    this.permissionsService.getEditPermissions(this.project.$key).subscribe(editPermissions => {
+      this.editPermissions = editPermissions;
+    })
   }
 
   edit(type: EditType) {
@@ -46,10 +53,8 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   canEdit(): boolean {
-    if (!this.user || !this.project) return false;
-
-    // Return true if the user is a director
-    return this.project.director != this.user.auth.email;
+    if (!this.user || !this.project || !this.editPermissions) return false;
+    return this.editPermissions.details;
   }
 
   getManagerEmails(): string[] {

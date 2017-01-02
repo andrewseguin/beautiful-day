@@ -5,4 +5,5 @@ export interface User {
   name?: string;
   pic?: string;
   phone?: string;
+  isAdmin?: boolean;
 }

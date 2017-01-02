@@ -5,7 +5,8 @@
   <div *ngIf="displayState == 'visible'"
        [style.z-index]="1"> <!-- Be above the mdripple -->
     <div class="top-row">
-      <md-checkbox [checked]="isSelected()"
+      <md-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
+                   [checked]="isSelected()"
                    (click)="$event.stopPropagation()"
                    (change)="setSelected($event.checked)">
       </md-checkbox>

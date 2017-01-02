@@ -16,7 +16,7 @@ export class UsersService {
     });
   }
 
-  get(email: string): Observable<FirebaseObjectObservable<User>> {
+  get(email: string): Observable<User> {
     return this.db.list('users', {
       query: {
         orderByChild: 'email',

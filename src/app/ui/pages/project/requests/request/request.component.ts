@@ -47,6 +47,9 @@ import {Item} from "../../../../../model/item";
       ),
     ]),
   ],
+  host: {
+    '[style.pointer-events]': "canEdit ? '' : 'none'"
+  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestComponent implements OnInit {
@@ -56,6 +59,7 @@ export class RequestComponent implements OnInit {
   displayState: string = 'hidden';
   request: Request;
 
+  @Input() canEdit: boolean;
   @Input() requestId: string;
   @Input() groupIndex: number;
   @Input() requestViewOptions: RequestViewOptions;

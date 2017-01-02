@@ -41,7 +41,7 @@
 }
 
 .left, .right {
-  min-width: 288px;
+  min-width: 352px;
   margin: 0 16px;
 }
 
@@ -62,14 +62,10 @@
 
 .location {
   position: relative;
-  width: 350px;
   height: 350px;
   outline: 1px solid #DDD;
   margin: -15px;
   margin-top: 8px;
-  @media (max-width: 750px) {
-    width: inherit;
-  }
 
   & .map, & .loading {
     position: absolute;
@@ -104,4 +100,8 @@
   .heading {
     font-weight: bold;
   }
+}
+
+.add-info {
+  margin: 16px 0;
 }

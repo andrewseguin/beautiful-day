@@ -1,4 +1,4 @@
-<md-sidenav-container>
+<md-sidenav-container *ngIf="editPermissions">
   <div class="scrollable-content" #scrollableContent (scroll)="checkSubheader($event)">
     <div class="requests-header md-elevation-z1"
          [class.visible]="requestGroups && getAllRequests()?.length !== 0">
@@ -62,6 +62,7 @@
       <requests-group *ngFor="let requestGroup of requestGroups.get(grouping);
                               trackBy:getRequestGroupKey"
                       [requestGroup]="requestGroup"
+                      [canEdit]="editPermissions.requests"
                       [sort]="sorting"
                       [filter]="filter"
                       [requestViewOptions]="requestViewOptions"
@@ -73,7 +74,7 @@
   <remaining-budget [projectId]="projectId"></remaining-budget>
 
   <button md-fab color="accent"
-          [class.hide]="sidenav.opened || hasSelectedRequests()"
+          [class.hide]="sidenav.opened || hasSelectedRequests() || !editPermissions.requests"
           (click)="sidenav.open()"><md-icon>add</md-icon></button>
 
   <md-sidenav #sidenav

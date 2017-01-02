@@ -4,7 +4,7 @@
       <div class="title">Description</div>
       <div *ngIf="project.description"> {{project?.description}} </div>
       <div *ngIf="!project.description && canEdit()">
-        <button md-raised-button color="accent"
+        <button md-raised-button color="accent" class="add-info"
                 (click)="edit('description')">
           Add description
         </button>
@@ -22,7 +22,7 @@
         <div class="heading"> {{getManagerEmails().length > 1 ? 'Managers' : 'Manager'}} </div>
         <detail-user [userEmail]="manager"
                      *ngFor="let manager of getManagerEmails()"></detail-user>
-        <button md-raised-button color="accent"
+        <button md-raised-button color="accent" class="add-info"
                 (click)="edit('managers')" *ngIf="canEdit() && getManagerEmails().length == 0">
           Add manager
         </button>
@@ -32,7 +32,7 @@
       <div class="contact">
         <div class="heading"> Director </div>
         <detail-user *ngIf="project.director" [userEmail]="project.director"></detail-user>
-        <button md-raised-button color="accent"
+        <button md-raised-button color="accent" class="add-info"
                 (click)="edit('director')" *ngIf="canEdit() && !project.director">
           Add director
         </button>
@@ -42,7 +42,7 @@
       <div class="contact" *ngIf="project.acquisitions">
         <div class="heading"> Acquisitions </div>
         <detail-user *ngIf="project.acquisitions" [userEmail]="project.acquisitions"></detail-user>
-        <button md-raised-button color="accent"
+        <button md-raised-button color="accent" class="add-info"
                 (click)="edit('acquisitions')" *ngIf="canEdit() && !project.acquisitions">
           Add acquisitions contact
         </button>
@@ -67,7 +67,7 @@
           </iframe>
         </div>
         <div *ngIf="!project.location && canEdit()" style="padding: 16px">
-          <button md-raised-button color="accent"
+          <button md-raised-button color="accent" class="add-info"
                   (click)="edit('location')">
             Add location
           </button>
@@ -80,7 +80,7 @@
   </div>
 </div>
 
-<div class="footer">
+<div class="footer" *ngIf="canEdit()">
   <button md-button color="primary" class="edit"
           [md-menu-trigger-for]="editMenu">
     <md-icon>edit</md-icon>

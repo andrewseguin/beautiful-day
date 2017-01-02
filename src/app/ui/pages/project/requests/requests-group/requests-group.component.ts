@@ -47,6 +47,8 @@ export class RequestsGroupComponent {
   processedRequests: Request[] = [];
   showRequests: boolean;
 
+  @Input() canEdit: boolean;
+
   @ViewChildren(RequestComponent) requestComponents: QueryList<RequestComponent>;
 
   _filter: string;

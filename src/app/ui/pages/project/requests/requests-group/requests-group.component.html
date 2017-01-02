@@ -1,5 +1,6 @@
 <div class="title">
-  <md-checkbox [checked]="hasAllSelectedRequests()"
+  <md-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
+               [checked]="hasAllSelectedRequests()"
                (change)="toggleGroupSelection($event.checked)">
   </md-checkbox>
   <div class="title-text">{{requestGroup.title}}</div>
@@ -10,6 +11,7 @@
          [requestViewOptions]="requestViewOptions"
          [groupIndex]="index"
          [id]="request.$key"
+         [canEdit]="canEdit"
          (filterTag)="filterTag.emit($event)">
 </request>
 

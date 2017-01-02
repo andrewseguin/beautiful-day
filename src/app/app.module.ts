@@ -56,8 +56,9 @@ import {EditTagsComponent} from "./ui/shared/dialog/edit-tags/edit-tags.componen
 import {SetValuesPipe} from "./pipe/set-values.pipe";
 import {PromptDialogComponent} from "./ui/shared/dialog/prompt-dialog/prompt-dialog.component";
 import {EditUserProfileComponent} from "./ui/shared/dialog/edit-user-profile/edit-user-profile.component";
-import { RemainingBudgetComponent } from './ui/pages/project/requests/remaining-budget/remaining-budget.component';
+import {RemainingBudgetComponent} from "./ui/pages/project/requests/remaining-budget/remaining-budget.component";
 import {AccountingService} from "./service/accounting.service";
+import {PermissionsService} from "./service/permissions.service";
 
 @NgModule({
   declarations: [
@@ -135,6 +136,7 @@ import {AccountingService} from "./service/accounting.service";
     HeaderService,
     NotesService,
     AccountingService,
+    PermissionsService,
   ],
   bootstrap: [AppComponent]
 })

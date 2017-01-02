@@ -23,5 +23,6 @@
 </button>
 
 <button md-button class="project-link new"
+        *ngIf="canCreateProjects"
         (click)="addProject()">+ New Project</button>
 

@@ -14,6 +14,7 @@ import {
 import {SubheaderService} from "../../../../service/subheader.service";
 import {RequestsGroupComponent, Sort} from "./requests-group/requests-group.component";
 import {Request} from "../../../../model/request";
+import {PermissionsService, EditPermissions} from "../../../../service/permissions.service";
 
 
 export class RequestViewOptions {
@@ -38,6 +39,7 @@ export class RequestViewOptions {
   styleUrls: ['./project-requests.component.scss'],
 })
 export class ProjectRequestsComponent implements OnInit {
+  editPermissions: EditPermissions;
   project: FirebaseObjectObservable<Project>;
   grouping: Group = 'all';
   sorting: Sort = 'request added';
@@ -62,6 +64,7 @@ export class ProjectRequestsComponent implements OnInit {
               private requestGroupingService: RequestGroupingService,
               private requestsService: RequestsService,
               private mediaQuery: MediaQueryService,
+              private permissionsService: PermissionsService,
               private subheaderService: SubheaderService) { }
 
   ngOnInit() {
@@ -78,6 +81,10 @@ export class ProjectRequestsComponent implements OnInit {
     this.requestsService.getRequestAddedStream().subscribe(response => {
       this.requestCreated(response);
     });
+
+    this.permissionsService.getEditPermissions(this.projectId).subscribe(editPermissions => {
+      this.editPermissions = editPermissions;
+    })
   }
 
   checkSubheader() {
@@ -142,7 +149,7 @@ export class ProjectRequestsComponent implements OnInit {
   }
 
   hideInventory(): boolean {
-    return this.mediaQuery.isMobile();
+    return this.mediaQuery.isMobile() || !this.editPermissions.requests;
   }
 
   hasSelectedRequests(): boolean {
