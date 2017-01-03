@@ -16,4 +16,8 @@ export class AdminsService {
   setAdmins(admins: string[]) {
     this.db.object('admins').set(admins.join(','));
   }
+
+  isAdmin(email: string): Observable<boolean> {
+    return this.getAdmins().map(admins => admins.indexOf(email) != -1);
+  }
 }

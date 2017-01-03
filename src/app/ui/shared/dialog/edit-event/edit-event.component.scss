@@ -5,16 +5,18 @@
   width: 300px;
 }
 
-.dates {
+.datetime {
   display: flex;
-  flex-direction: column;
-  margin: 16px 0;
+  margin-top: 16px;
 }
 
-.date {
+.info {
   display: flex;
+}
 
-  md-input-container {
-    flex-grow: 1;
+md-input-container {
+  flex-grow: 1;
+  input {
+    height: 26px;
   }
 }

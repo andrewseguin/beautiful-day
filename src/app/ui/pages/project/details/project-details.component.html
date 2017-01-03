@@ -55,26 +55,22 @@
     <div class="section md-elevation-z4">
       <div class="title">
         Upcoming
-        <button md-icon-button (click)="editDates()"><md-icon>edit</md-icon></button>
+        <button md-icon-button *ngIf="canEditEvents" (click)="addEvent()">
+          <md-icon>add</md-icon>
+        </button>
       </div>
-      <div class="deadline">
-        <div class="date">
-          <span>January 23, 2017</span>
-          <span> @ 6:00pm</span>
-        </div>
 
-        <div class="event">Huddle Meeting at Westgate</div>
-      </div>
-      <div class="deadline">
-        <div class="date">January 30, 2017</div>
-        <div class="event">Deadline for entering all requests</div>
-      </div>
-      <div class="deadline">
-        <div class="date">
-          <span>February 4, 2017</span>
-          <span> @ 6:00pm</span>
+      <div class="event" *ngFor="let event of events">
+        <div>
+          <div class="date">
+            <span>{{event.date | eventDate}}</span>
+            <span *ngIf="event.time"> @ {{event.time}}</span>
+          </div>
+          <div class="event-info">{{event.info}}</div>
         </div>
-        <div class="event">Huddle Meeting at Westgate</div>
+        <button *ngIf="canEditEvents" md-icon-button (click)="editEvent(event)">
+          <md-icon>edit</md-icon>
+        </button>
       </div>
     </div>
 

@@ -1,20 +1,20 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-import {EditDatesComponent} from "./edit-dates.component";
+import {EditEventComponent} from "./edit-event.component";
 
-describe('EditDatesComponent', () => {
-  let component: EditDatesComponent;
-  let fixture: ComponentFixture<EditDatesComponent>;
+describe('EditEventComponent', () => {
+  let component: EditEventComponent;
+  let fixture: ComponentFixture<EditEventComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditDatesComponent ]
+      declarations: [ EditEventComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditDatesComponent);
+    fixture = TestBed.createComponent(EditEventComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

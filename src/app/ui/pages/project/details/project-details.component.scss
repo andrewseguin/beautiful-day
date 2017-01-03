@@ -14,7 +14,8 @@
   flex-grow: 1;
 
   @media (max-width: $mobile-width) {
-    padding-top: ($subheader-height + 32px);
+    padding-top: ($subheader-height + 16px);
+    padding-bottom: 0;
   }
 }
 
@@ -52,6 +53,10 @@
   background-color: white;
   margin-bottom: 32px;
   padding: 16px;
+
+  @media (max-width: $mobile-width) {
+    margin-bottom: 16px;
+  }
 
   .title {
     font-size: 20px;
@@ -113,7 +118,18 @@
   margin: 16px 0;
 }
 
-.deadline {
+.event {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    margin-left: 16px;
+    md-icon {
+      color: #888;
+    }
+  }
+
   &:not(:last-child) {
     border-bottom: 1px solid #ccc;
     margin-bottom: 16px;

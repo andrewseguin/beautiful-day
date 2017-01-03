@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Params, ActivatedRoute} from '@angular/router';
 import {ProjectsService} from '../../../../service/projects.service';
 import {Request} from '../../../../model/request';
+import {Event} from '../../../../model/event';
 import {FirebaseListObservable, FirebaseAuth, FirebaseAuthState} from 'angularfire2';
 import {Project} from '../../../../model/project';
 import {MdDialog} from '@angular/material';
@@ -11,7 +12,10 @@ import {
 } from '../../../shared/dialog/edit-project/edit-project.component';
 import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/delete-project.component';
 import {PermissionsService, EditPermissions} from "../../../../service/permissions.service";
-import {EditDatesComponent} from "../../../shared/dialog/edit-dates/edit-dates.component";
+import {EditEventComponent} from "../../../shared/dialog/edit-event/edit-event.component";
+import {EventsService} from "../../../../service/events.service";
+import {AdminsService} from "../../../../service/admins.service";
+import {UsersService} from "../../../../service/users.service";
 
 @Component({
   selector: 'project-details',
@@ -19,6 +23,7 @@ import {EditDatesComponent} from "../../../shared/dialog/edit-dates/edit-dates.c
   styleUrls: ['./project-details.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
+  canEditEvents: boolean;
   editPermissions: EditPermissions;
   project: Project;
   requests: FirebaseListObservable<Request[]>;
@@ -26,15 +31,27 @@ export class ProjectDetailsComponent implements OnInit {
   managers: string[];
   director: string;
   acquisitions: string;
+  events: Event[];
 
   constructor(private route: ActivatedRoute,
               private mdDialog: MdDialog,
               private auth: FirebaseAuth,
               private permissionsService: PermissionsService,
+              private eventsService: EventsService,
+              private adminsService: AdminsService,
+              private usersService: UsersService,
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
-    this.auth.subscribe(auth => this.user = auth);
+    this.auth.subscribe(auth => {
+      this.user = auth;
+
+      // Determine if the user is an admin or owner, if so they can edit events
+      this.adminsService.isAdmin(auth.auth.email).flatMap(isAdmin => {
+        this.canEditEvents = isAdmin;
+        return this.usersService.getCurrentUser();
+      }).subscribe(user => this.canEditEvents = this.canEditEvents || user.isOwner);
+    });
 
     this.route.parent.params.forEach((params: Params) => {
       this.projectsService.getProject(params['id']).subscribe((project: Project) => {
@@ -46,6 +63,8 @@ export class ProjectDetailsComponent implements OnInit {
           });
       });
     });
+
+    this.eventsService.getEvents().subscribe(events => this.events = events);
 
   }
 
@@ -69,7 +88,12 @@ export class ProjectDetailsComponent implements OnInit {
     dialogRef.componentInstance.project = this.project;
   }
 
-  editDates() {
-    this.mdDialog.open(EditDatesComponent);
+  addEvent() {
+    this.mdDialog.open(EditEventComponent);
+  }
+
+  editEvent(event: Event) {
+    const dialogRef = this.mdDialog.open(EditEventComponent);
+    dialogRef.componentInstance.event = event;
   }
 }
