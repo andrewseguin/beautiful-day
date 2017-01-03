@@ -2,13 +2,11 @@ import {Injectable} from "@angular/core";
 import {FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase} from "angularfire2";
 import * as firebase from "firebase";
 import {Project} from "../model/project";
-import {RequestsService} from "./requests.service";
 import {Observable} from "rxjs";
 
 @Injectable()
 export class ProjectsService {
-  constructor(private db: AngularFireDatabase,
-              private requestsService: RequestsService) {}
+  constructor(private db: AngularFireDatabase) {}
 
   getProjects(): FirebaseListObservable<Project[]> {
     return this.db.list('projects');
@@ -59,11 +57,6 @@ export class ProjectsService {
   }
 
   deleteProject(id: string) {
-    this.requestsService.getProjectRequests(id).subscribe(requests => {
-      requests.forEach(request => {
-        this.requestsService.removeRequest(request.$key)
-      });
-    });
     this.getProject(id).remove();
   }
 }

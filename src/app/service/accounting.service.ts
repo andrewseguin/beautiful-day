@@ -25,18 +25,25 @@ export class AccountingService {
   }
 
   getBudgetStream(projectId: string): Observable<BudgetResponse> {
-    let projectBudget = 0;
+    let projectBudget;
     return this.itemsService.getItems()
       .debounceTime(100).flatMap(items => {
         if (!this.items.size) { this.saveItems(items) }
         return this.projectsService.getBudget(projectId)
       })
       .debounceTime(100).flatMap(budget => {
-        projectBudget = budget || 0;
+        projectBudget = budget;
+
+        if (budget == null) { return Observable.from([null]) }
         return this.requestsService.getProjectRequests(projectId);
       })
       .debounceTime(100).map(requests => {
-        if (!this.items.size || !requests.length) return 0;
+        if (!this.items.size || !requests || !requests.length) {
+          return {
+            budget: projectBudget,
+            remaining: projectBudget,
+          };
+        }
 
         const requestsCost = requests
         // Convert all requests to their cost

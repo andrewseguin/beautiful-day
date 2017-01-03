@@ -49,6 +49,20 @@
         <div *ngIf="!canEdit() && !project.acquisitions"> No acquisitions contact assigned </div>
       </div>
     </div>
+
+    <div class="section title-only md-elevation-z4">
+      <div class="title">
+        <div>Remaining Budget</div>
+        <div *ngIf="canEdit() && noBudget">
+          <button md-raised-button (click)="edit('budget')" color="accent">
+            Add Budget
+          </button>
+        </div>
+        <div [style.color]="remainingBudget > 0 ? 'green' : 'red'">
+          {{remainingBudget | currency:'USD':true:'1.2-2'}}
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="right">

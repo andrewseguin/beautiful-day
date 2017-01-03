@@ -58,8 +58,11 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
       case 'name':
         update.name = this.name; break;
       case 'budget':
-        this.budget = Math.max(0, this.budget);
-        update.budget = this.budget; break;
+        if (this.budget != undefined) {
+          this.budget = Math.max(0, this.budget);
+          update.budget = this.budget;
+        }
+        break;
       case 'location':
         update.location = this.location; break;
       case 'description':

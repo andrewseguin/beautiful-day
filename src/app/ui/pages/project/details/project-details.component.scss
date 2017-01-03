@@ -69,6 +69,10 @@
       color: #888;
     }
   }
+
+  &.title-only .title {
+    margin-bottom: 0;
+  }
 }
 
 .location {
@@ -116,6 +120,12 @@
 
 .add-info {
   margin: 16px 0;
+}
+
+.contact {
+  .add-info {
+    margin-left: 64px;
+  }
 }
 
 .event {

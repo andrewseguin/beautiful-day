@@ -44,10 +44,12 @@ export class PermissionsService {
   }
 
   canCreateProjects(): Observable<boolean> {
-    return this.usersService.getCurrentUser().map(user => user ? user.isAdmin : false);
+    return this.usersService.getCurrentUser()
+        .map(user => user ? (user.isAdmin || user.isOwner) : false);
   }
 
   isOwner(): Observable<boolean> {
-    return this.usersService.getCurrentUser().map(user => user ? user.isOwner : false);
+    return this.usersService.getCurrentUser()
+        .map(user => user ? user.isOwner : false);
   }
 }

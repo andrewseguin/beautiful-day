@@ -1,21 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {Params, ActivatedRoute} from '@angular/router';
-import {ProjectsService} from '../../../../service/projects.service';
-import {Request} from '../../../../model/request';
-import {Event} from '../../../../model/event';
-import {FirebaseListObservable, FirebaseAuth, FirebaseAuthState} from 'angularfire2';
-import {Project} from '../../../../model/project';
-import {MdDialog} from '@angular/material';
+import {Component, OnInit} from "@angular/core";
+import {Params, ActivatedRoute} from "@angular/router";
+import {ProjectsService} from "../../../../service/projects.service";
+import {Request} from "../../../../model/request";
+import {Event} from "../../../../model/event";
+import {FirebaseListObservable, FirebaseAuth, FirebaseAuthState} from "angularfire2";
+import {Project} from "../../../../model/project";
+import {MdDialog} from "@angular/material";
 import {
   EditProjectComponent,
   EditType
-} from '../../../shared/dialog/edit-project/edit-project.component';
-import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/delete-project.component';
+} from "../../../shared/dialog/edit-project/edit-project.component";
+import {DeleteProjectComponent} from "../../../shared/dialog/delete-project/delete-project.component";
 import {PermissionsService, EditPermissions} from "../../../../service/permissions.service";
 import {EditEventComponent} from "../../../shared/dialog/edit-event/edit-event.component";
 import {EventsService} from "../../../../service/events.service";
 import {AdminsService} from "../../../../service/admins.service";
 import {UsersService} from "../../../../service/users.service";
+import {AccountingService} from "../../../../service/accounting.service";
 
 @Component({
   selector: 'project-details',
@@ -33,6 +34,9 @@ export class ProjectDetailsComponent implements OnInit {
   acquisitions: string;
   events: Event[];
 
+  noBudget: boolean;
+  remainingBudget: number;
+
   constructor(private route: ActivatedRoute,
               private mdDialog: MdDialog,
               private auth: FirebaseAuth,
@@ -40,6 +44,7 @@ export class ProjectDetailsComponent implements OnInit {
               private eventsService: EventsService,
               private adminsService: AdminsService,
               private usersService: UsersService,
+              private accountingService: AccountingService,
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
@@ -58,9 +63,15 @@ export class ProjectDetailsComponent implements OnInit {
         this.project = project;
 
         this.permissionsService.getEditPermissions(this.project.$key)
-          .subscribe(editPermissions => {
-            this.editPermissions = editPermissions;
-          });
+            .subscribe(editPermissions => {
+              this.editPermissions = editPermissions;
+            });
+
+        this.accountingService.getBudgetStream(this.project.$key)
+            .subscribe(budgetResponse => {
+              this.noBudget = budgetResponse.budget == undefined;
+              this.remainingBudget = budgetResponse.remaining;
+            });
       });
     });
 

@@ -1,6 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input} from "@angular/core";
 import {AccountingService} from "../../../../../service/accounting.service";
-import * as CountUp from 'countup.js';
+import * as CountUp from "countup.js";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -10,7 +10,6 @@ import {Subscription} from "rxjs";
   host: {
     '[class.md-elevation-z10]': 'true',
     '[class.negative]': 'currentRemainingBudget < 0',
-    '[style.display]': "currentRemainingBudget == undefined ? 'none' : ''"
   }
 })
 export class RemainingBudgetComponent implements OnInit {
@@ -19,6 +18,7 @@ export class RemainingBudgetComponent implements OnInit {
   previousRemainingBudget: number = 0;
   currentRemainingBudget: number;
 
+  // Countup.js settings
   decimals = 2;
   duration = .75;
   countUpOptions = {
@@ -42,7 +42,10 @@ export class RemainingBudgetComponent implements OnInit {
               this.currentRemainingBudget != undefined ?
                 this.currentRemainingBudget : budgetResponse.remaining;
           this.currentRemainingBudget = budgetResponse.remaining;
-          this.updateBudgetValue();
+
+          if (budgetResponse.budget != undefined) {
+            this.updateBudgetValue();
+          }
         });
   }
 
