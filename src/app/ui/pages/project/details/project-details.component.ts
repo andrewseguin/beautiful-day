@@ -11,6 +11,7 @@ import {
 } from '../../../shared/dialog/edit-project/edit-project.component';
 import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/delete-project.component';
 import {PermissionsService, EditPermissions} from "../../../../service/permissions.service";
+import {EditDatesComponent} from "../../../shared/dialog/edit-dates/edit-dates.component";
 
 @Component({
   selector: 'project-details',
@@ -66,5 +67,9 @@ export class ProjectDetailsComponent implements OnInit {
   deleteProject() {
     const dialogRef = this.mdDialog.open(DeleteProjectComponent);
     dialogRef.componentInstance.project = this.project;
+  }
+
+  editDates() {
+    this.mdDialog.open(EditDatesComponent);
   }
 }

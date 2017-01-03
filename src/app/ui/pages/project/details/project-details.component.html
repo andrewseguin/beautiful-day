@@ -1,6 +1,6 @@
 <div class="info" *ngIf="project">
   <div class="left">
-    <div class="section md-elevation-z1">
+    <div class="section md-elevation-z4">
       <div class="title">Description</div>
       <div *ngIf="project.description"> {{project?.description}} </div>
       <div *ngIf="!project.description && canEdit()">
@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="section md-elevation-z1"
+    <div class="section md-elevation-z4"
          *ngIf="canEdit() || manager || project.director || project.acquisitions">
       <div class="title"> Contacts </div>
 
@@ -52,7 +52,33 @@
   </div>
 
   <div class="right">
-    <div class="section md-elevation-z1">
+    <div class="section md-elevation-z4">
+      <div class="title">
+        Upcoming
+        <button md-icon-button (click)="editDates()"><md-icon>edit</md-icon></button>
+      </div>
+      <div class="deadline">
+        <div class="date">
+          <span>January 23, 2017</span>
+          <span> @ 6:00pm</span>
+        </div>
+
+        <div class="event">Huddle Meeting at Westgate</div>
+      </div>
+      <div class="deadline">
+        <div class="date">January 30, 2017</div>
+        <div class="event">Deadline for entering all requests</div>
+      </div>
+      <div class="deadline">
+        <div class="date">
+          <span>February 4, 2017</span>
+          <span> @ 6:00pm</span>
+        </div>
+        <div class="event">Huddle Meeting at Westgate</div>
+      </div>
+    </div>
+
+    <div class="section md-elevation-z4">
       <div class="title">Location</div>
       {{(project)?.location}}
       <div class="location">
@@ -62,8 +88,8 @@
             <md-progress-circle mode="indeterminate" color="primary"></md-progress-circle>
           </div>
           <iframe class="map"
-            frameborder="0" style="border:0"
-            [src]="('https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY&q=' + (project)?.location) | safeUrl" allowfullscreen>
+                  frameborder="0" style="border:0"
+                  [src]="('https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY&q=' + (project)?.location) | safeUrl" allowfullscreen>
           </iframe>
         </div>
         <div *ngIf="!project.location && canEdit()" style="padding: 16px">

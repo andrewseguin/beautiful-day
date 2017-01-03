@@ -57,6 +57,12 @@
     font-size: 20px;
     margin-bottom: 16px;
     color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    md-icon {
+      color: #888;
+    }
   }
 }
 
@@ -99,9 +105,22 @@
   border-top: 1px solid #CCC;
   .heading {
     font-weight: bold;
+    margin-left: 64px;
   }
 }
 
 .add-info {
   margin: 16px 0;
+}
+
+.deadline {
+  &:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+  }
+  .date {
+    font-weight: bold;
+    padding-bottom: 4px;
+  }
 }

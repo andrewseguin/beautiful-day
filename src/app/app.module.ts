@@ -64,6 +64,7 @@ import {EditAdminComponent} from "./ui/shared/dialog/edit-admins/edit-admin.comp
 import {FeedbackComponent} from "./ui/pages/feedback/feedback.component";
 import {CanActivateOwnerGuard} from "./can-activate-owner-guard";
 import {FeedbackService} from "./service/feedback.service";
+import {EditDatesComponent} from "./ui/shared/dialog/edit-dates/edit-dates.component";
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import {FeedbackService} from "./service/feedback.service";
     RemainingBudgetComponent,
     EditAdminComponent,
     FeedbackComponent,
+    EditDatesComponent,
   ],
   entryComponents: [
     EditItemComponent,
@@ -122,6 +124,7 @@ import {FeedbackService} from "./service/feedback.service";
     DeleteProjectComponent,
     PromptDialogComponent,
     EditAdminComponent,
+    EditDatesComponent,
   ],
   imports: [
     BrowserModule,
