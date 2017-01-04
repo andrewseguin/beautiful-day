@@ -30,12 +30,12 @@ project-notes .CodeMirror-code {
   button {
     font-size: 14px;
     height: 40px;
-    justify-content: flex-end;
+    display: inline-block;
+    text-align: right;
     &.info {
-      height: inherit;
+      height: 26px;
       pointer-events: none;
       background: #EAEAEA;
-      padding: 2px 16px;
       &.first {
         padding-top: 8px;
       }
