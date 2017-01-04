@@ -4,7 +4,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  background: #e3ffe3;
+  background: #D5D5D5;
   font-size: 14px;
   color: #444;
   display: flex;
@@ -12,14 +12,13 @@
   justify-content: center;
   right: 0;
   height: $budget-height;
-  border-top: 1px solid #cce8cc;
+  border-top: 1px solid #CCC;
   transition: all 750ms ease-in-out;
   cursor: default;
   font-weight: bold;
 
   .budget-remaining {
     transition: all 750ms ease-in-out;
-    color: green;
     padding: 0 8px;
   }
 
@@ -28,6 +27,14 @@
     border-color: #ffbdbd;
     .budget-remaining {
       color: red;
+    }
+  }
+
+  &.positive {
+    background: #e3ffe3;
+    border-color: #cce8cc;
+    .budget-remaining {
+      color: green;
     }
   }
 }

@@ -10,6 +10,7 @@ import {Subscription} from "rxjs";
   host: {
     '[class.md-elevation-z10]': 'true',
     '[class.negative]': 'currentRemainingBudget < 0',
+    '[class.positive]': 'currentRemainingBudget > 0',
   }
 })
 export class RemainingBudgetComponent implements OnInit {
