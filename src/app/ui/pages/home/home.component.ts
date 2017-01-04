@@ -20,9 +20,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.headerService.title = 'Home';
 
-    this.projectsService.getProjects().subscribe(projects => {
-      this.projects = projects;
-    });
+    this.projectsService.getProjects()
+        .subscribe(projects => this.projects = projects);
   }
 
   navigateToProject(id: string) {

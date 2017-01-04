@@ -17,7 +17,7 @@
         (click)="sidenav.close()"
         routerLink="/project/{{project.$key}}"
         routerLinkActive="active"
-        *ngFor="let project of projects | async">
+        *ngFor="let project of projects">
   {{project.name}}
 </button>
 

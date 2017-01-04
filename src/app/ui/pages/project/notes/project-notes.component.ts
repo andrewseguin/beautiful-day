@@ -39,41 +39,30 @@ export class ProjectNotesComponent implements OnInit {
   ngOnInit() {
     this.initializeEditor();
 
-    this.route.parent.params.subscribe((params: Params) => {
+    this.route.parent.params.subscribe(params => {
       this.projectId = params['id'];
       this.notes = this.notesService.getProjectNotes(this.projectId);
     });
 
-    this.route.params.subscribe((params: Params) => {
+    this.route.params.subscribe(params => {
       this.noteId = params['noteId'];
+      this.notesService.getNote(this.noteId).take(1).subscribe((note: Note) => {
+        if (!note.$exists()) {
+          this.gotoDefaultNote(!!this.noteId);
+          return;
+        }
 
-      if (!this.noteId) {
-        // No note id, go to first note in projects
-        this.gotoDefaultNote(false);
-        // create new and navigate
-      } else if (this.noteId == 'new') {
-        this.notesService.addNote(this.projectId).then(response => {
-          this.router.navigate([`../${response.key}`], {relativeTo: this.route});
-        })
-      } else {
-        this.notesService.getNote(this.noteId).subscribe((note: Note) => {
-          if (!this.editor.hasFocus()) {
-            this.setNote(note)
-          }
-        });
-      }
+        if (!this.editor.hasFocus()) { this.setNote(note) }
+      });
     });
   }
 
   initializeEditor() {
-    this.editor = CodeMirror.fromTextArea(
-        this.textarea.nativeElement, CodeMirrorConfig);
+    this.editor = CodeMirror.fromTextArea(this.textarea.nativeElement, CodeMirrorConfig);
     this.editor.on('change', this.saveNote.bind(this));
   }
 
   setNote(note: Note) {
-    if (!note.$exists()) { return; }
-
     this.title = note.title;
 
     // Update the editor with the new value
@@ -114,8 +103,8 @@ export class ProjectNotesComponent implements OnInit {
   }
 
   gotoDefaultNote(replaceNote: boolean) {
-    this.notesService.getDefaultProjectNoteId(this.projectId).take(1).subscribe((notes: Note[])=> {
-      const noteId = notes.length > 0 ? notes[0].$key : 'new';
+    this.notesService.getDefaultProjectNoteId(this.projectId).subscribe(noteId => {
+      console.log(noteId);
       const path = (replaceNote ? '../' : '') + noteId;
       this.router.navigate([path], {relativeTo: this.route});
     });

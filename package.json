@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "~2.4.1",
     "@angular/router": "~3.4.1",
     "@types/firebase": "^2.4.30",
-    "angularfire2": "^2.0.0-beta.7",
+    "angularfire2": "^2.0.0-beta.7.1-pre",
     "codemirror": "^5.21.0",
     "core-js": "^2.4.1",
     "countup.js": "^1.8.1",
