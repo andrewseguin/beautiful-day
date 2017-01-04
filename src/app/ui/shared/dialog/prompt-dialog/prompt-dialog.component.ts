@@ -14,7 +14,7 @@ export class PromptDialogComponent {
 
   onSaveSubject = new Subject<string>();
 
-  constructor(private dialogRef: MdDialogRef<PromptDialogComponent>) { }
+  constructor(private dialogRef: MdDialogRef<PromptDialogComponent>) {}
 
   onSave(): Observable<string> {
     return this.onSaveSubject.asObservable();
