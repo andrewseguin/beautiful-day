@@ -9,6 +9,9 @@ body {
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  // Remove blue highlight on android
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* Project notes codemirror styles */
