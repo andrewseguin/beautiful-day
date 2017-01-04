@@ -1,3 +1,5 @@
+@import '../../shared/constants';
+
 md-card.project {
   position: relative;
   margin: 16px 4px;
@@ -9,6 +11,13 @@ md-card.project {
   &:hover {
     background: #F5F5F5;
   }
+
+  @media (max-width: $mobile-width) {
+    margin: 0;
+    width: initial;
+    height: inherit;
+    border-bottom: 1px solid #CCC;
+  }
 }
 
 .section-title {
@@ -16,6 +25,15 @@ md-card.project {
   margin: 24px;
   border-bottom: 1px solid black;
   padding: 16px;
+
+  @media (max-width: $mobile-width) {
+    border: none;
+    background: white;
+    padding: 32px;
+    margin: 0 0 16px 0;
+    font-weight: bold;
+    text-align: center;
+  }
 }
 
 .projects {
@@ -23,4 +41,10 @@ md-card.project {
   flex-wrap: wrap;
   justify-content: space-around;
   margin: 24px;
+
+  @media (max-width: $mobile-width) {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    margin: 0;
+  }
 }
