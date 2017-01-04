@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <div *ngIf="showFilter" class="filter-input md-elevation-z1">
+    <div [style.display]="showFilter ? '' : 'none'" class="filter-input md-elevation-z1">
       <md-input-container [floatingPlaceholder]="false">
         <div class="input-content">
           <input md-input [(ngModel)]="filter"
