@@ -15,18 +15,18 @@
     </div>
 
     <div class="section md-elevation-z4"
-         *ngIf="canEdit() || manager || project.director || project.acquisitions">
+         *ngIf="canEdit() || lead || project.director || project.acquisitions">
       <div class="title"> Contacts </div>
 
       <div class="contact">
-        <div class="heading"> {{getManagerEmails().length > 1 ? 'Managers' : 'Manager'}} </div>
-        <detail-user [userEmail]="manager"
-                     *ngFor="let manager of getManagerEmails()"></detail-user>
+        <div class="heading"> {{getLeadEmails().length > 1 ? 'Leads' : 'Lead'}} </div>
+        <detail-user [userEmail]="lead"
+                     *ngFor="let lead of getLeadEmails()"></detail-user>
         <button md-raised-button color="accent" class="add-info"
-                (click)="edit('managers')" *ngIf="canEdit() && getManagerEmails().length == 0">
-          Add manager
+                (click)="edit('leads')" *ngIf="canEdit() && getLeadEmails().length == 0">
+          Add lead
         </button>
-        <div *ngIf="!canEdit() && getManagerEmails().length == 0"> No managers assigned </div>
+        <div *ngIf="!canEdit() && getLeadEmails().length == 0"> No leads assigned </div>
       </div>
 
       <div class="contact">
@@ -133,7 +133,7 @@
   <button md-menu-item (click)="edit('location')"> Location </button>
   <button md-menu-item (click)="edit('budget')"> Budget </button>
   <button md-menu-item (click)="edit('description')"> Description </button>
-  <button md-menu-item (click)="edit('managers')"> Managers </button>
+  <button md-menu-item (click)="edit('leads')"> Leads </button>
   <button md-menu-item (click)="edit('director')"> Director </button>
   <button md-menu-item (click)="edit('acquisitions')"> Acquisitions </button>
 </md-menu>

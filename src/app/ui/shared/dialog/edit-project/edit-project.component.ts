@@ -8,7 +8,7 @@ export type EditType =
   'budget' |
   'location' |
   'description' |
-  'managers' |
+  'leads' |
   'director' |
   'acquisitions';
 
@@ -23,7 +23,7 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
   budget: number;
   description: string;
   location: string;
-  managers: string[];
+  leads: string[];
   director: string;
   acquisitions: string;
   type: EditType;
@@ -38,7 +38,7 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
     this.budget = this.project.budget;
     this.description = this.project.description;
     this.location = this.project.location;
-    this.managers = this.project.managers ? this.project.managers.split(',') : [''];
+    this.leads = this.project.leads ? this.project.leads.split(',') : [''];
     this.director = this.project.director;
     this.acquisitions = this.project.acquisitions;
   }
@@ -67,10 +67,10 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
         update.location = this.location; break;
       case 'description':
         update.description = this.description; break;
-      case 'managers':
-        const managersArray = [];
-        this.managers.forEach(manager => managersArray.push(manager));
-        update.managers = managersArray.join();
+      case 'leads':
+        const leadsArray = [];
+        this.leads.forEach(lead => leadsArray.push(lead));
+        update.leads = leadsArray.join();
         break;
       case 'director':
         update.director = this.director; break;
@@ -86,11 +86,11 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
     if (e.keyCode == 13 || e.key == 'Enter') { this.save(); return; }
   }
 
-  managerTrackBy(i: number): number {
+  leadTrackBy(i: number): number {
     return i;
   }
 
-  removeManager(i: number) {
-    this.managers.splice(i, 1);
+  removeLead(i: number) {
+    this.leads.splice(i, 1);
   }
 }

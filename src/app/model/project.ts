@@ -7,7 +7,7 @@ export interface Project {
   name?: string;
   budget?: number;
   description?: string;
-  managers?: string;
+  leads?: string;
   director?: string;
   acquisitions?: string;
   dropoff?: Map<string, string>;

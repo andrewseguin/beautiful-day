@@ -31,14 +31,14 @@ export class PermissionsService {
       const isAdmin = admins.indexOf(user.email) != -1;
       const isDirector = user.email == project.director;
 
-      const managers = project.managers || '';
-      const lowercaseManagers = managers.split(',').map(m => m.toLowerCase());
-      const isManager = lowercaseManagers.indexOf(user.email.toLowerCase()) != -1;
+      const leads = project.leads || '';
+      const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());
+      const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) != -1;
 
       return Observable.from([{
         details: isDirector || isAdmin || user.isOwner,
-        notes: isManager || isDirector || isAdmin || user.isOwner,
-        requests: isManager || isDirector || isAdmin || user.isOwner
+        notes: isLead || isDirector || isAdmin || user.isOwner,
+        requests: isLead || isDirector || isAdmin || user.isOwner
       }]);
     });
   }

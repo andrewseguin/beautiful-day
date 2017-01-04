@@ -29,7 +29,7 @@ export class ProjectDetailsComponent implements OnInit {
   project: Project;
   requests: FirebaseListObservable<Request[]>;
   user: FirebaseAuthState;
-  managers: string[];
+  leads: string[];
   director: string;
   acquisitions: string;
   events: Event[];
@@ -90,8 +90,8 @@ export class ProjectDetailsComponent implements OnInit {
     return this.editPermissions.details;
   }
 
-  getManagerEmails(): string[] {
-    return this.project.managers ? this.project.managers.split(',') : [];
+  getLeadEmails(): string[] {
+    return this.project.leads ? this.project.leads.split(',') : [];
   }
 
   deleteProject() {

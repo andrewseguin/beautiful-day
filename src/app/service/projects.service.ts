@@ -17,10 +17,10 @@ export class ProjectsService {
 
       let usersProjects = [];
       projects.forEach(project => {
-        let managers = project.managers ? project.managers.split(',') : [];
-        let isManager = managers.some(manager => manager == email);
+        let leads = project.leads ? project.leads.split(',') : [];
+        let isLead = leads.some(lead => lead == email);
 
-        if (isManager || project.director == email) {
+        if (isLead || project.director == email) {
           usersProjects.push(project);
         }
       });
