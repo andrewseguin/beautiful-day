@@ -59,6 +59,22 @@ md-sidenav {
   color: #222;
   font-weight: lighter;
 
+  .wide {
+    @media (max-width: $mobile-width) {
+      display: none;
+    }
+  }
+
+  .mobile {
+    @media (min-width: $mobile-width) {
+      display: none;
+    }
+  }
+
+  .instructions {
+    width: 230px;
+  }
+
   .getting-started {
     padding: 4px 16px;
     margin: 8px;
@@ -140,4 +156,24 @@ button[md-fab] {
 
 button.active {
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.arrow-to-fab {
+  background: url(../../../../../assets/arrow_to_fab.png) no-repeat center;
+  background-size: contain;
+  position: absolute;
+  bottom: 80px;
+  right: 48px;
+  height: 100px;
+  width: 62px;
+
+  @media (min-height: 580px) {
+    height: 110px;
+    width: 68px;
+  }
+
+  @media (min-height: 640px) {
+    height: 150px;
+    width: 90px;
+  }
 }
