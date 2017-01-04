@@ -11,10 +11,12 @@ import {Subscription} from "rxjs";
     '[class.md-elevation-z10]': 'true',
     '[class.negative]': 'currentRemainingBudget < 0',
     '[class.positive]': 'currentRemainingBudget > 0',
+    '[class.loaded]': 'budgetLoaded'
   }
 })
 export class RemainingBudgetComponent implements OnInit {
   budgetStream: Subscription;
+  budgetLoaded: boolean;
   projectBudget: number;
   previousRemainingBudget: number = 0;
   currentRemainingBudget: number;
@@ -38,7 +40,9 @@ export class RemainingBudgetComponent implements OnInit {
   ngOnInit() {
     this.budgetStream = this.accountingService.getBudgetStream(this.projectId)
         .subscribe(budgetResponse => {
+          this.budgetLoaded = true;
           this.projectBudget = budgetResponse.budget;
+
           this.previousRemainingBudget =
               this.currentRemainingBudget != undefined ?
                 this.currentRemainingBudget : budgetResponse.remaining;

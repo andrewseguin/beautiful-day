@@ -27,7 +27,6 @@ export class EditAdminComponent {
   }
 
   save() {
-    console.log(this.admins)
     this.adminsService.setAdmins(this.admins);
     this.close();
   }

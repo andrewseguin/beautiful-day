@@ -40,8 +40,7 @@ export class ProjectsService {
     return this.getProjects().push({
       name: 'New Project',
       description: '',
-      location: '',
-      budget: '0'
+      location: ''
     });
   }
 

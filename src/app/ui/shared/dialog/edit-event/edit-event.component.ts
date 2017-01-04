@@ -47,7 +47,6 @@ export class EditEventComponent {
       info: this.info
     };
 
-    console.log(event)
     this.event ? this.eventsService.update(this.event.$key, event) : this.eventsService.add(event);
     this.close();
   }

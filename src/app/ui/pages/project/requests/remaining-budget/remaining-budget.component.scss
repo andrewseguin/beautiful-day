@@ -17,6 +17,14 @@
   cursor: default;
   font-weight: bold;
 
+  & > * {
+    transition: all 750ms ease-in-out;
+    opacity: 0;
+  }
+  &.loaded > * {
+    opacity: 1;
+  }
+
   .budget-remaining {
     transition: all 750ms ease-in-out;
     padding: 0 8px;
@@ -38,4 +46,3 @@
     }
   }
 }
-
