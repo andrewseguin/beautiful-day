@@ -1,4 +1,5 @@
-@import 'app/ui/shared/constants.scss';
+@import 'app/ui/shared/constants';
+@import 'app/theme';
 
 body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
@@ -12,15 +13,6 @@ body {
 
   // Remove blue highlight on android
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
-/* Project notes codemirror styles */
-project-notes .CodeMirror {
-  height: auto;
-}
-
-project-notes .CodeMirror-code {
-  min-height: 300px;
 }
 
 /* Menu syles */
@@ -61,6 +53,13 @@ project-notes .CodeMirror-code {
 
 .md-menu-panel.notes-menu {
   max-height: 326px;
+  button.active {
+    font-weight: bold;
+    background: #F5F5F5;
+  }
+  button.new-note {
+    color: md-color($bd-app-accent);
+  }
 }
 
 /* Checkbox style */

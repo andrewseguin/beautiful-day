@@ -38,12 +38,11 @@
 
   <md-menu #notesMenu="mdMenu" class="notes-menu">
     <button md-menu-item *ngFor="let projectNote of notes"
-            (click)="saveNote()"
             routerLink="../{{projectNote.$key}}"
             routerLinkActive="active">
       {{projectNote.title}}
     </button>
-    <button md-menu-item (click)="createNote()">
+    <button md-menu-item class="new-note" (click)="createNote()">
       + New Note
     </button>
   </md-menu>
