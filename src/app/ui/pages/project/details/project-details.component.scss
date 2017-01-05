@@ -19,7 +19,7 @@
   }
 }
 
-@media (max-width: 750px) {
+@media (max-width: $mobile-width) {
   .info {
     flex-direction: column;
   }
@@ -48,7 +48,7 @@
 
 .section {
   font-size: 14px;
-  max-width: 600px;
+  max-width: 450px;
   text-align: justify;
   background-color: white;
   margin-bottom: 32px;
@@ -56,6 +56,7 @@
 
   @media (max-width: $mobile-width) {
     margin-bottom: 16px;
+    max-width: 100%;
   }
 
   .title {
