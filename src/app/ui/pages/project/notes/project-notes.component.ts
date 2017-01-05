@@ -50,6 +50,7 @@ export class ProjectNotesComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.noteId = params['noteId'];
       this.notesService.getNote(this.noteId).subscribe((note: Note) => {
+        if (this.noteId != params['noteId']) { return; /* Subscription no longer relevant  */ }
         if (!note.$exists()) {
           this.gotoDefaultNote(!!this.noteId);
           return;
