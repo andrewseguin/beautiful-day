@@ -37,7 +37,6 @@ import {HeaderService} from "./service/header.service";
 import {HeaderComponent} from "./ui/shared/header/header.component";
 import {DetailUserComponent} from "./ui/pages/project/details/user/detail-user.component";
 import {NotesService} from "./service/notes.service";
-import {EditNoteTitleComponent} from "./ui/shared/dialog/edit-note-title/edit-note-title.component";
 import {DeleteNoteComponent} from "./ui/shared/dialog/delete-note/delete-note.component";
 import {EditItemComponent} from "./ui/shared/dialog/edit-item/edit-item.component";
 import {EditRequestOptionsComponent} from "./ui/shared/selection-header/edit-request-options/edit-request-options.component";
@@ -89,7 +88,6 @@ import {EventDatePipe} from "./pipe/event-date.pipe";
     HomeComponent,
     HeaderComponent,
     DetailUserComponent,
-    EditNoteTitleComponent,
     DeleteNoteComponent,
     EditItemComponent,
     EditRequestOptionsComponent,
@@ -118,7 +116,6 @@ import {EventDatePipe} from "./pipe/event-date.pipe";
     EditItemComponent,
     EditItemCategoryComponent,
     EditItemNameComponent,
-    EditNoteTitleComponent,
     EditDropoffComponent,
     EditProjectComponent,
     EditTagsComponent,

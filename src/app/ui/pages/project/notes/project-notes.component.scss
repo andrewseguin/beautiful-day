@@ -17,12 +17,14 @@
 
 .notes-container {
   flex-grow: 1;
+  background-color: white;
+  display: flex;
 }
 
 .nav {
   display: flex;
   flex-direction: column;
-  background: #f5f5f5;
+  background: #CCC;
   padding: 16px;
 
   @media (max-width: $mobile-width) {
@@ -32,18 +34,16 @@
 
 .editor {
   flex-grow: 1;
-  padding: 16px;
-  background: white;
   overflow: hidden;
-  margin: 16px;
+  display: flex;
+  flex-direction: column;
 
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 16px;
     border-bottom: 1px solid #CCC;
-    margin-bottom: 16px;
+    padding: 16px;
 
     .title {
       display: none;
@@ -84,3 +84,40 @@
   }
 }
 
+textarea {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  font-size: 14px;
+  outline: none;
+  padding: 16px;
+
+  &:hover {
+    background: #FAFAFA;
+  }
+  &:focus {
+    background: inherit;
+  }
+}
+
+@mixin project-notes-placeholder {
+  font-style: italic;
+  color: #888;
+  font-size: 16px;
+}
+::-webkit-input-placeholder {
+  @include project-notes-placeholder;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  @include project-notes-placeholder;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  @include project-notes-placeholder;
+}
+
+:-ms-input-placeholder {
+  @include project-notes-placeholder;
+}

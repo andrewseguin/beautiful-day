@@ -1,23 +1,24 @@
 <div class="nav md-elevation-z1">
-  <button md-button *ngFor="let projectNote of notes | async"
+  <button md-button *ngFor="let projectNote of notes"
           routerLink="../{{projectNote.$key}}"
           routerLinkActive="active">
     {{projectNote.title}}
   </button>
-  <button md-raised-button color="accent" class="new"
-          (click)="createNote()">
+  <button md-raised-button color="accent" class="new" (click)="createNote()">
     + New Note
   </button>
 </div>
 
-<div class="notes-container">
-  <div class="editor md-elevation-z4">
+{{changes}}
+
+<div class="notes-container md-elevation-z4">
+  <div class="editor"  >
     <div class="header">
       <div class="title mobile" [md-menu-trigger-for]="notesMenu">
         <div>{{title}}</div>
         <md-icon>arrow_drop_down</md-icon>
       </div>
-      <div class="title web" [md-menu-trigger-for]="notesMenu">
+      <div class="title web">
         <div>{{title}}</div>
       </div>
 
@@ -26,11 +27,18 @@
       </button>
     </div>
 
-    <textarea #editor (blur)="saveNote()"></textarea>
+    <textarea #editor
+              placeholder="Enter your notes here"
+              [(ngModel)]="text"
+              (ngModelChange)="noteChanged.next({noteId: noteId, text: $event})"
+              (focus)="noteFocused = true"
+              (blur)="noteFocused = false">
+    </textarea>
   </div>
 
   <md-menu #notesMenu="mdMenu" class="notes-menu">
-    <button md-menu-item *ngFor="let projectNote of notes | async"
+    <button md-menu-item *ngFor="let projectNote of notes"
+            (click)="saveNote()"
             routerLink="../{{projectNote.$key}}"
             routerLinkActive="active">
       {{projectNote.title}}
