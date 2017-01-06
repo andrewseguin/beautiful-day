@@ -1,3 +1,5 @@
+@import '../../shared/constants';
+
 :host {
   display: flex;
   flex-direction: column;
@@ -10,8 +12,14 @@
   padding: 16px;
   max-width: 450px;
   width: 100%;
+  box-sizing: border-box;
   &:last-child {
     margin-bottom: 24px;
+  }
+
+  @media (max-width: $mobile-width) {
+    margin: 0;
+    border-bottom: 1px solid #CCC;
   }
 }
 

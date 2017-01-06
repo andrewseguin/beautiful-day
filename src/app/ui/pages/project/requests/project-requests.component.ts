@@ -39,6 +39,7 @@ export class RequestViewOptions {
   styleUrls: ['./project-requests.component.scss'],
 })
 export class ProjectRequestsComponent implements OnInit {
+  delayedShow: boolean;
   editPermissions: EditPermissions;
   project: FirebaseObjectObservable<Project>;
   grouping: Group = 'all';
@@ -84,7 +85,11 @@ export class ProjectRequestsComponent implements OnInit {
 
     this.permissionsService.getEditPermissions(this.projectId).subscribe(editPermissions => {
       this.editPermissions = editPermissions;
-    })
+    });
+
+    // Delay the HTML so that the page first shows up with a background.
+    // This is significant for mobile
+    setTimeout(() => { this.delayedShow = true }, 0);
   }
 
   checkSubheader() {

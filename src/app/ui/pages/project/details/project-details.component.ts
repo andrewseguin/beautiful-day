@@ -21,9 +21,10 @@ import {AccountingService} from "../../../../service/accounting.service";
 @Component({
   selector: 'project-details',
   templateUrl: './project-details.component.html',
-  styleUrls: ['./project-details.component.scss']
+  styleUrls: ['./project-details.component.scss'],
 })
 export class ProjectDetailsComponent implements OnInit {
+  delayedShow: boolean;
   canEditEvents: boolean;
   editPermissions: EditPermissions;
   project: Project;
@@ -77,6 +78,9 @@ export class ProjectDetailsComponent implements OnInit {
 
     this.eventsService.getEvents().subscribe(events => this.events = events);
 
+    // Delay the HTML so that the page first shows up with a background.
+    // This is significant for mobile
+    setTimeout(() => { this.delayedShow = true }, 0);
   }
 
   edit(type: EditType) {

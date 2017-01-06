@@ -1,4 +1,4 @@
-<div class="info" *ngIf="project">
+<div class="info" *ngIf="project && delayedShow">
   <div class="left">
     <div class="section md-elevation-z4">
       <div class="title">Description</div>
@@ -15,7 +15,7 @@
     </div>
 
     <div class="section md-elevation-z4"
-         *ngIf="canEdit() || lead || project.director || project.acquisitions">
+         *ngIf="canEdit() || getLeadEmails() || project.director || project.acquisitions">
       <div class="title"> Contacts </div>
 
       <div class="contact">
@@ -116,7 +116,7 @@
   </div>
 </div>
 
-<div class="footer" *ngIf="canEdit()">
+<div class="footer" *ngIf="canEdit() && delayedShow">
   <button md-button color="primary" class="edit"
           [md-menu-trigger-for]="editMenu">
     <md-icon>edit</md-icon>

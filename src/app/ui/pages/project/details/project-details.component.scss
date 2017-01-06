@@ -19,6 +19,12 @@
   }
 }
 
+.delayed-show {
+  @media (max-width: $mobile-width) {
+    padding-top: $subheader-height;
+  }
+}
+
 @media (max-width: $mobile-width) {
   .info {
     flex-direction: column;
@@ -42,7 +48,7 @@
 }
 
 .left, .right {
-  min-width: 352px;
+  min-width: 318px;
   margin: 0 16px;
 }
 
