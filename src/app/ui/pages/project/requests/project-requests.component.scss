@@ -109,6 +109,10 @@ md-sidenav {
     @include content-width;
     display: flex;
     justify-content: space-between;
+    button {
+      min-width: 0;
+      min-height: 36px;
+    }
   }
 }
 
@@ -130,8 +134,12 @@ button[md-fab] {
 .button-content {
   display: flex;
   align-items: center;
-  md-icon {
-    padding-right: 8px;
+  justify-content: center;
+  .text {
+    padding-left: 8px;
+    @media (max-width: 400px) {
+      display: none;
+    }
   }
 }
 
