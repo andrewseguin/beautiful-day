@@ -1,4 +1,5 @@
 <button md-icon-button class="search"
+        [@searchIcon]="searchState"
         [disabled]="searchState == 'open'"
         (click)="searchState = 'open'">
   <md-icon>search</md-icon>
