@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Project} from "../../../../model/project";
-import {MdDialogRef} from "@angular/material";
+import {MdDialogRef, MdSnackBar, MdSnackBarConfig} from "@angular/material";
 import {ProjectsService} from "../../../../service/projects.service";
+import {RequestsService} from "../../../../service/requests.service";
+import {NotesService} from "../../../../service/notes.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-delete-project',
@@ -13,6 +16,10 @@ export class DeleteProjectComponent {
   deleteCheck: string = '';
 
   constructor(private dialogRef: MdDialogRef<DeleteProjectComponent>,
+              private router: Router,
+              private mdSnackbar: MdSnackBar,
+              private requestsService: RequestsService,
+              private notesService: NotesService,
               private projectsService: ProjectsService) { }
 
   close() {
@@ -22,7 +29,25 @@ export class DeleteProjectComponent {
   deleteProject() {
     if (this.deleteCheck.toLowerCase().trim() != 'delete') return;
 
+    // Delete requests
+    this.requestsService.getProjectRequests(this.project.$key).subscribe(requests => {
+      requests.forEach(request => this.requestsService.removeRequest(request.$key));
+    });
+
+    // Delete notes
+    this.notesService.getProjectNotes(this.project.$key).subscribe(notes => {
+      notes.forEach(note => this.notesService.delete(note.$key));
+    });
+
+    // Delete project
     this.projectsService.deleteProject(this.project.$key);
+
+    const snackbarConfig = new MdSnackBarConfig();
+    snackbarConfig.duration = 2000;
+    this.mdSnackbar.open(`Project ${this.project.name} deleted`, null, snackbarConfig);
+
+    // TODO(andrewjs): Navigate to home
+
     this.close();
   }
 }

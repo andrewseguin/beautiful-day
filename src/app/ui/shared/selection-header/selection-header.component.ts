@@ -27,9 +27,7 @@ export type SelectionType = 'request' | 'item';
 export class SelectionHeaderComponent {
 
   constructor(private requestsService: RequestsService,
-              private itemsService: ItemsService,
-              private mdDialog: MdDialog,
-              private snackBar: MdSnackBar) { }
+              private itemsService: ItemsService) { }
 
   getSelectionState() {
     return this.getSelectionCount() > 0 ? 'selected' : 'none';

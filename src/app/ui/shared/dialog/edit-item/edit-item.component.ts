@@ -37,8 +37,7 @@ export class EditItemComponent implements OnInit {
     return this._item.name != undefined
         && this._item.cost != undefined
         && this._item.category != undefined
-        && this._item.url != undefined
-
+        && this._item.url != undefined;
   }
 
   save() {

@@ -1,0 +1,44 @@
+@import '../../shared/constants';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feedback {
+  background: white;
+  margin-top: 24px;
+  padding: 16px;
+  max-width: 450px;
+  width: 100%;
+  box-sizing: border-box;
+  &:last-child {
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: $mobile-width) {
+    margin: 0;
+    border-bottom: 1px solid #CCC;
+  }
+}
+
+.type {
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #b30000;
+  font-weight: bold;
+  padding-bottom: 8px;
+}
+
+.text {
+  font-size: 14px;
+  margin: 0;
+}
+
+.user {
+  text-align: right;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #888;
+}

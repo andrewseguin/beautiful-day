@@ -1,0 +1,22 @@
+@import '../dialog-common';
+
+:host {
+  display: block;
+  width: 300px;
+}
+
+.datetime {
+  display: flex;
+  margin-top: 16px;
+}
+
+.info {
+  display: flex;
+}
+
+md-input-container {
+  flex-grow: 1;
+  input {
+    height: 26px;
+  }
+}

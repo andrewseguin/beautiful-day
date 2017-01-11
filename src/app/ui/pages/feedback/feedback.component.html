@@ -1,0 +1,5 @@
+<div class="feedback md-elevation-z2" *ngFor="let feedback of feedbacks">
+  <div class="type" *ngIf="feedback.type != 'feedback'">{{feedback.type}}</div>
+  <pre class="text">{{feedback.text}}</pre>
+  <div class="user">{{(userMap.get(feedback.user) | async)?.email}}</div>
+</div>

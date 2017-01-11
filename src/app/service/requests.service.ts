@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
-import {FirebaseListObservable, AngularFire, FirebaseObjectObservable} from "angularfire2";
+import {Injectable} from "@angular/core";
+import {FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase} from "angularfire2";
 import {Router} from "@angular/router";
-import * as firebase from 'firebase';
-
 import {Item} from "../model/item";
 import {Project} from "../model/project";
 import {Request} from "../model/request";
 import {Subject, Observable} from "rxjs";
-import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
+import {MdSnackBar, MdSnackBarConfig, MdDialog} from "@angular/material";
+import {PromptDialogComponent} from "../ui/shared/dialog/prompt-dialog/prompt-dialog.component";
 
 export class RequestAddedResponse {
   item: Item;
@@ -20,19 +19,20 @@ export class RequestsService {
   selectedRequests = new Set<string>();
   selectionChangeSubject = new Subject<void>();
 
-  constructor(private af: AngularFire,
+  constructor(private db: AngularFireDatabase,
               private router: Router,
+              private mdDialog: MdDialog,
               private snackBar: MdSnackBar) {
     // Clear selected requests when route changes.
     this.router.events.subscribe(() => this.clearSelected());
   }
 
   getAllRequests(): FirebaseListObservable<Request[]> {
-    return this.af.database.list('requests');
+    return this.db.list('requests');
   }
 
   getProjectRequests(projectId: string): FirebaseListObservable<Request[]> {
-    return this.af.database.list('requests', {
+    return this.db.list('requests', {
       query: {
         orderByChild: 'project',
         equalTo: projectId
@@ -41,7 +41,7 @@ export class RequestsService {
   }
 
   getRequest(id: string): FirebaseObjectObservable<Request> {
-    return this.af.database.object(`requests/${id}`);
+    return this.db.object(`requests/${id}`);
   }
 
   removeRequest(id: string): void {
@@ -49,7 +49,7 @@ export class RequestsService {
   }
 
   addRequest(project: Project, item: Item, quantity: number = 1) {
-    this.af.database.list('requests').push({
+    this.db.list('requests').push({
       item: item.$key,
       project: project.$key,
       quantity: quantity,
@@ -58,10 +58,6 @@ export class RequestsService {
       date: project.lastUsedDate || ''
     }).then(response => {
       this.requestAdded.next({key: response.getKey(), item});
-
-      const snackbarConfig = new MdSnackBarConfig();
-      snackbarConfig.duration = 3000;
-      this.snackBar.open(`Added request for ${item.name}`, null, snackbarConfig);
     });
   }
 
@@ -98,5 +94,23 @@ export class RequestsService {
 
   getSelectedRequests(): Set<string> {
     return this.selectedRequests;
+  }
+
+  editNote(requestIds: Set<string>) {
+    const dialogRef = this.mdDialog.open(PromptDialogComponent);
+
+    dialogRef.componentInstance.title = 'Edit Note';
+    if (requestIds.size == 1) {
+      requestIds.forEach(id => {
+        this.getRequest(id).subscribe(request => {
+          dialogRef.componentInstance.input = request.note;
+        })
+      });
+    }
+
+    dialogRef.componentInstance.onSave().subscribe(note => {
+      requestIds.forEach(requestId => this.update(requestId, {note}));
+      this.clearSelected();
+    })
   }
 }

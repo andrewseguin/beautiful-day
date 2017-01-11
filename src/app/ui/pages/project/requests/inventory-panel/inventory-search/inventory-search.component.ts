@@ -21,7 +21,14 @@ export type SearchState = 'open' | 'closed';
   animations: [
     trigger('searchContainer', [
       state('open', style({transform: 'translate3d(0, 0, 0)'})),
-      state('closed', style({transform: 'translate3d(calc(100% - 48px), 0px, 0px)'})),
+      state('closed', style({transform: 'translate3d(100%, 0px, 0px)'})),
+      transition('open <=> closed', [
+        animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
+      ),
+    ]),
+    trigger('searchIcon', [
+      state('open', style({transform: 'translate3d(0, 0, 0)'})),
+      state('closed', style({transform: 'translate3d(-48px, 0px, 0px)'})),
       transition('open <=> closed', [
         animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),

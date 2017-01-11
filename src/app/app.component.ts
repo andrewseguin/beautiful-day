@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FirebaseAuth} from 'angularfire2';
 import {Router, NavigationEnd} from '@angular/router';
+import {Router} from '@angular/router';
+import {MdSnackBarConfig, MdSnackBar} from "@angular/material";
 declare let ga:Function;
 
 @Component({
@@ -10,12 +12,12 @@ declare let ga:Function;
 })
 export class AppComponent implements OnInit {
   constructor(private auth: FirebaseAuth,
+              private mdSnackbar: MdSnackBar,
               private router: Router) {
     this.setupGoogleAnalytics();
   }
 
   ngOnInit() {
-
     this.auth.subscribe(auth => {
       if (!auth) {
         // Store a redirect for post-login. If the current path is login, do not make this redirect.
@@ -25,6 +27,10 @@ export class AppComponent implements OnInit {
         // so that after login, it can redirect back.
         this.router.navigate(['login'], {fragment: redirect});
         return;
+      } else {
+        const snackbarConfig = new MdSnackBarConfig();
+        snackbarConfig.duration = 2000;
+        this.mdSnackbar.open(`Logged in as ${auth.auth.email}`, null, snackbarConfig);
       }
     });
   }

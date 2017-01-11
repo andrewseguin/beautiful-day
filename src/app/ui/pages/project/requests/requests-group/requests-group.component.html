@@ -1,13 +1,17 @@
-<div *ngIf="requestGroup.requests?.length && !loading">
-  <div class="title">
-    <md-checkbox [checked]="hasAllSelectedRequests()"
-                 (change)="toggleGroupSelection($event.checked)">
-    </md-checkbox>
-    <span>{{requestGroup.title}}</span>
-  </div>
-  <request *ngFor="let request of requestGroup.requests; let index = index;
-                   trackBy:getRequestKey"
-           [requestId]="request.$key"
-           [groupIndex]="index"
-           [id]="request.$key"></request>
+<div class="title">
+  <md-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
+               [checked]="hasAllSelectedRequests()"
+               (change)="toggleGroupSelection($event.checked)">
+  </md-checkbox>
+  <div class="title-text">{{requestGroup.title}}</div>
 </div>
+<request *ngFor="let request of processedRequests; let index = index; trackBy:getRequestKey"
+         [show]="showRequests"
+         [requestId]="request.$key"
+         [requestViewOptions]="requestViewOptions"
+         [groupIndex]="index"
+         [id]="request.$key"
+         [canEdit]="canEdit"
+         (filterTag)="filterTag.emit($event)">
+</request>
+

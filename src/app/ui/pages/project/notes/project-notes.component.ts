@@ -1,18 +1,16 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import * as CodeMirror from 'codemirror';
-import {Note} from '../../../../model/note';
-import {NotesService} from '../../../../service/notes.service';
-import {EditNoteTitleComponent} from '../../../shared/dialog/edit-note-title/edit-note-title.component';
-import {MdDialog} from '@angular/material';
-import {DeleteNoteComponent} from '../../../shared/dialog/delete-note/delete-note.component';
-import {FirebaseListObservable} from 'angularfire2';
-import EditorFromTextArea = CodeMirror.EditorFromTextArea;
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Note} from "../../../../model/note";
+import {NotesService} from "../../../../service/notes.service";
+import {MdDialog} from "@angular/material";
+import {DeleteNoteComponent} from "../../../shared/dialog/delete-note/delete-note.component";
+import {Subject} from "rxjs";
+import {PromptDialogComponent} from "../../../shared/dialog/prompt-dialog/prompt-dialog.component";
 
-const CodeMirrorConfig = {
-  lineWrapping: true,
-  electricChars: false
-};
+export interface NoteChange {
+  noteId: string;
+  text: string;
+}
 
 @Component({
   selector: 'project-notes',
@@ -23,13 +21,15 @@ const CodeMirrorConfig = {
   }
 })
 export class ProjectNotesComponent implements OnInit {
-  editor: EditorFromTextArea;
   projectId: string;
+  notes : Note[];
+
   title: string;
   noteId: string;
-  notes : FirebaseListObservable<Note>;
+  text: string;
 
-  @ViewChild('editor') textarea: ElementRef;
+  noteChanged = new Subject<NoteChange>();
+  noteFocused: boolean;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -37,49 +37,33 @@ export class ProjectNotesComponent implements OnInit {
               private notesService: NotesService) { }
 
   ngOnInit() {
-    this.initializeEditor();
+    this.noteChanged.asObservable().debounceTime(1000).subscribe(noteChange => {
+      this.saveNoteText(noteChange.noteId, noteChange.text);
+    });
 
-    this.route.parent.params.subscribe((params: Params) => {
+    this.route.parent.params.subscribe(params => {
       this.projectId = params['id'];
-      this.notes = this.notesService.getProjectNotes(this.projectId);
+      this.notesService.getProjectNotes(this.projectId)
+          .subscribe(notes => this.notes = notes);
     });
 
-    this.route.params.subscribe((params: Params) => {
+    this.route.params.subscribe(params => {
       this.noteId = params['noteId'];
+      this.notesService.getNote(this.noteId).subscribe((note: Note) => {
+        if (this.noteId != params['noteId']) { return; /* Subscription no longer relevant  */ }
+        if (!note.$exists()) {
+          this.gotoDefaultNote(!!this.noteId);
+          return;
+        }
 
-      if (!this.noteId) {
-        // No note id, go to first note in projects
-        this.gotoDefaultNote(false);
-        // create new and navigate
-      } else if (this.noteId == 'new') {
-        this.notesService.addNote(this.projectId).then(response => {
-          this.router.navigate([`../${response.key}`], {relativeTo: this.route});
-        })
-      } else {
-        this.notesService.getNote(this.noteId).subscribe((note: Note) => {
-          if (!this.editor.hasFocus()) {
-            this.setNote(note)
-          }
-        });
-      }
+        this.title = note.title;
+        if (!this.noteFocused) { this.text = note.text; }
+      });
     });
   }
 
-  initializeEditor() {
-    this.editor = CodeMirror.fromTextArea(
-        this.textarea.nativeElement, CodeMirrorConfig);
-    this.editor.on('change', this.saveNote.bind(this));
-  }
-
-  setNote(note: Note) {
-    if (!note.$exists()) { return; }
-
-    this.title = note.title;
-
-    // Update the editor with the new value
-    if (this.editor.getValue() != note.text) {
-      this.editor.setValue(note.text);
-    }
+  ngOnDestroy() {
+    if (this.noteId) { this.saveNoteText(this.noteId, this.text) }
   }
 
   createNote() {
@@ -90,16 +74,17 @@ export class ProjectNotesComponent implements OnInit {
     });
   }
 
-  saveNote() {
-    this.notesService.update(this.noteId, {
-      text: this.editor.getValue()
-    });
+  saveNoteText(noteId: string, text: string) {
+    this.notesService.update(noteId, {text});
   }
 
   openEditTitleDialog() {
-    const dialogRef = this.mdDialog.open(EditNoteTitleComponent);
-    dialogRef.componentInstance.noteId = this.noteId;
-    dialogRef.componentInstance.title = this.title;
+    const dialogRef = this.mdDialog.open(PromptDialogComponent);
+    dialogRef.componentInstance.title = 'Edit Title';
+    dialogRef.componentInstance.input = this.title;
+    dialogRef.componentInstance.onSave().subscribe(title => {
+      this.notesService.update(this.noteId, {title});
+    });
   }
 
   openDeleteNoteDialog() {
@@ -107,15 +92,13 @@ export class ProjectNotesComponent implements OnInit {
     dialogRef.componentInstance.noteId = this.noteId;
     dialogRef.componentInstance.title = this.title;
 
-
     dialogRef.componentInstance.onDelete().subscribe(() => {
       this.gotoDefaultNote(true);
     });
   }
 
   gotoDefaultNote(replaceNote: boolean) {
-    this.notesService.getDefaultProjectNoteId(this.projectId).take(1).subscribe((notes: Note[])=> {
-      const noteId = notes.length > 0 ? notes[0].$key : 'new';
+    this.notesService.getDefaultProjectNoteId(this.projectId).subscribe(noteId => {
       const path = (replaceNote ? '../' : '') + noteId;
       this.router.navigate([path], {relativeTo: this.route});
     });

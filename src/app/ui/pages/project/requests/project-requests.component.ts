@@ -1,31 +1,54 @@
-import {Component, OnInit, ViewChild, ElementRef, QueryList, ViewChildren} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {FirebaseObjectObservable} from 'angularfire2';
-import {Project} from '../../../../model/project';
-import {RequestsService, RequestAddedResponse} from '../../../../service/requests.service';
-import {ProjectsService} from '../../../../service/projects.service';
-import {MdSnackBar, MdMenu} from '@angular/material';
-import {MediaQueryService} from '../../../../service/media-query.service';
+import {Component, OnInit, ViewChild, ElementRef, QueryList, ViewChildren} from "@angular/core";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {FirebaseObjectObservable} from "angularfire2";
+import {Project} from "../../../../model/project";
+import {RequestsService, RequestAddedResponse} from "../../../../service/requests.service";
+import {ProjectsService} from "../../../../service/projects.service";
+import {MdMenu, MdInput} from "@angular/material";
+import {MediaQueryService} from "../../../../service/media-query.service";
 import {
   Group,
   RequestGroup,
   RequestGroupingService
-} from '../../../../service/request-grouping.service';
-import {SubheaderService} from '../../../../service/subheader.service';
-import {RequestsGroupComponent} from './requests-group/requests-group.component';
-import {Request} from '../../../../model/request';
+} from "../../../../service/request-grouping.service";
+import {SubheaderService} from "../../../../service/subheader.service";
+import {RequestsGroupComponent, Sort} from "./requests-group/requests-group.component";
+import {Request} from "../../../../model/request";
+import {PermissionsService, EditPermissions} from "../../../../service/permissions.service";
 
+
+export class RequestViewOptions {
+  cost: boolean = true;
+  dropoff: boolean = true;
+  notes: boolean = true;
+  tags: boolean = true;
+
+  clone(): RequestViewOptions {
+    const clone = new RequestViewOptions();
+    clone.cost = this.cost;
+    clone.dropoff = this.dropoff;
+    clone.notes = this.notes;
+    clone.tags = this.tags;
+    return clone;
+  }
+}
 
 @Component({
   selector: 'project-requests',
   templateUrl: './project-requests.component.html',
   styleUrls: ['./project-requests.component.scss'],
-  providers: [MdSnackBar],
 })
 export class ProjectRequestsComponent implements OnInit {
+  delayedShow: boolean;
+  editPermissions: EditPermissions;
   project: FirebaseObjectObservable<Project>;
-  _grouping: Group = 'all';
+  grouping: Group = 'all';
+  sorting: Sort = 'request added';
   projectId: string;
+  requestViewOptions: RequestViewOptions = new RequestViewOptions();
+
+  filter: string = '';
+  showFilter: boolean = false;
 
   latestScrollPosition = 0;
 
@@ -33,6 +56,7 @@ export class ProjectRequestsComponent implements OnInit {
 
   @ViewChild('groupingMenu') groupingMenu: MdMenu;
   @ViewChild('scrollableContent') scrollableContent: ElementRef;
+  @ViewChild('filterInput') filterInput: ElementRef;
   @ViewChildren(RequestsGroupComponent) requestsGroups: QueryList<RequestsGroupComponent>;
 
   constructor(private route: ActivatedRoute,
@@ -41,6 +65,7 @@ export class ProjectRequestsComponent implements OnInit {
               private requestGroupingService: RequestGroupingService,
               private requestsService: RequestsService,
               private mediaQuery: MediaQueryService,
+              private permissionsService: PermissionsService,
               private subheaderService: SubheaderService) { }
 
   ngOnInit() {
@@ -57,6 +82,14 @@ export class ProjectRequestsComponent implements OnInit {
     this.requestsService.getRequestAddedStream().subscribe(response => {
       this.requestCreated(response);
     });
+
+    this.permissionsService.getEditPermissions(this.projectId).subscribe(editPermissions => {
+      this.editPermissions = editPermissions;
+    });
+
+    // Delay the HTML so that the page first shows up with a background.
+    // This is significant for mobile
+    setTimeout(() => { this.delayedShow = true }, 0);
   }
 
   checkSubheader() {
@@ -87,7 +120,7 @@ export class ProjectRequestsComponent implements OnInit {
   getAllRequests(): Request[] | null {
     if (!this.requestGroups) { return; }
 
-    const allRequests = this.requestGroups.get('all')[0];
+    const allRequests = this.requestGroups.get('all') && this.requestGroups.get('all')[0];
     if (!allRequests) { return; }
 
     return allRequests.requests;
@@ -104,6 +137,7 @@ export class ProjectRequestsComponent implements OnInit {
       case 'category': return 'Category';
       case 'date': return 'Date Needed';
       case 'dropoff': return 'Dropoff Location';
+      case 'tags': return 'Tags';
     }
   }
 
@@ -119,13 +153,8 @@ export class ProjectRequestsComponent implements OnInit {
     });
   }
 
-  get grouping(): Group { return this._grouping; }
-  set grouping(group: Group) {
-    this._grouping = group;
-  }
-
   hideInventory(): boolean {
-    return this.mediaQuery.isMobile();
+    return this.mediaQuery.isMobile() || !this.editPermissions.requests;
   }
 
   hasSelectedRequests(): boolean {
@@ -137,5 +166,20 @@ export class ProjectRequestsComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate([`../${group}`], {relativeTo: this.route});
     }, 0)
+  }
+
+  getRequestViewOptionKeys() {
+    return Object.keys(this.requestViewOptions);
+  }
+
+  toggleRequestViewOption(option: string) {
+    // Create new set of options so that the children components are passed a new
+    // reference and they will know to update.
+    this.requestViewOptions = this.requestViewOptions.clone();
+    this.requestViewOptions[option] = !this.requestViewOptions[option];
+  }
+
+  getSortOptions(): Sort[] {
+    return ['request added', 'cost', 'item'];
   }
 }

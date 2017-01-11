@@ -1,19 +1,15 @@
-import {Injectable} from '@angular/core';
-import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
-import * as firebase from 'firebase';
-
-import {Project} from '../model/project';
-import {RequestsService} from "./requests.service";
+import {Injectable} from "@angular/core";
+import {FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase} from "angularfire2";
+import * as firebase from "firebase";
+import {Project} from "../model/project";
 import {Observable} from "rxjs";
-import {Note} from "../model/note";
 
 @Injectable()
 export class ProjectsService {
-  constructor(private af: AngularFire,
-              private requestsService: RequestsService) {}
+  constructor(private db: AngularFireDatabase) {}
 
   getProjects(): FirebaseListObservable<Project[]> {
-    return this.af.database.list('projects');
+    return this.db.list('projects');
   }
 
   getUsersProjects(email: string): Observable<Project[]> {
@@ -21,10 +17,10 @@ export class ProjectsService {
 
       let usersProjects = [];
       projects.forEach(project => {
-        let managers = project.managers ? project.managers.split(',') : [];
-        let isManager = managers.some(manager => manager == email);
+        let leads = project.leads ? project.leads.split(',') : [];
+        let isLead = leads.some(lead => lead == email);
 
-        if (isManager || project.director == email) {
+        if (isLead || project.director == email) {
           usersProjects.push(project);
         }
       });
@@ -33,32 +29,18 @@ export class ProjectsService {
   }
 
   getProject(id: string): FirebaseObjectObservable<Project> {
-    return this.af.database.object(`projects/${id}`);
+    return this.db.object(`projects/${id}`);
   }
 
-  getNote(id: string, noteId: string): FirebaseListObservable<any> {
-    return this.af.database.list(`projects/${id}/notes/${noteId}`);
-  }
-
-  getNotes(id: string): FirebaseListObservable<any> {
-    return this.af.database.list(`projects/${id}/notes`);
-  }
-
-  saveNote(id: string, note: Note) {
-    this.af.database.object(`projects/${id}/notes/${note.$key}`).update({
-      title: note.title,
-      text: note.text
-    });
+  getBudget(id: string): Observable<number> {
+    return this.db.object(`projects/${id}/budget`).map(budget => budget['$value']);
   }
 
   createProject(): firebase.database.ThenableReference {
     return this.getProjects().push({
       name: 'New Project',
       description: '',
-      location: '',
-      notes: {
-        'initial': 'test'
-      }
+      location: ''
     });
   }
 
@@ -74,11 +56,6 @@ export class ProjectsService {
   }
 
   deleteProject(id: string) {
-    this.requestsService.getProjectRequests(id).subscribe(requests => {
-      requests.forEach(request => {
-        this.requestsService.removeRequest(request.$key)
-      });
-    });
     this.getProject(id).remove();
   }
 }

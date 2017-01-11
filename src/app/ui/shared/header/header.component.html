@@ -9,13 +9,29 @@
   <project-nav class="main" *ngIf="project" [projectId]="project?.$key"></project-nav>
 
   <div class="end">
-    <button md-button class="user"
-            [style.backgroundImage]="'url(' + user?.auth.photoURL + ')'"
-            [md-menu-trigger-for]="menu"></button>
+    <button md-button class="user" *ngIf="authState"
+            [style.backgroundImage]="'url(' + authState.auth.photoURL + ')'"
+            [md-menu-trigger-for]="menu">
+      <div class="badge" *ngIf="user && !user.phone">!</div>
+    </button>
   </div>
 
   <md-menu #menu="mdMenu" x-position="before" class="auth">
-    <button md-menu-item class="email">{{user?.auth.email}}</button>
+    <button md-menu-item class="info first">{{user?.name}}</button>
+    <button md-menu-item class="info" *ngIf="user?.phone">{{user?.phone}}</button>
+    <button md-menu-item class="info last">{{authState?.auth.email}}</button>
+
+    <button md-menu-item class="option" (click)="editProfile()">
+      <md-icon *ngIf="user && !user.phone"
+               mdTooltip="Missing phone number">
+        error_outline
+      </md-icon>
+      Edit Profile
+    </button>
+    <button md-menu-item class="option" (click)="sendFeedback()">Send Feedback</button>
+    <button md-menu-item class="option" (click)="reportIssue()">Report Issue</button>
+    <button md-menu-item class="option" (click)="manageAdmins()">Manage Admins</button>
+
     <button md-menu-item class="logout" (click)="logout()">Logout</button>
   </md-menu>
 </md-toolbar>

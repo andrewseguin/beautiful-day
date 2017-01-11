@@ -14,11 +14,18 @@
   flex-grow: 1;
 
   @media (max-width: $mobile-width) {
-    padding-top: ($subheader-height + 32px);
+    padding-top: ($subheader-height + 16px);
+    padding-bottom: 0;
   }
 }
 
-@media (max-width: 750px) {
+.delayed-show {
+  @media (max-width: $mobile-width) {
+    padding-top: $subheader-height;
+  }
+}
+
+@media (max-width: $mobile-width) {
   .info {
     flex-direction: column;
   }
@@ -29,7 +36,7 @@
   justify-content: center;
   background: white;
   border-top: 1px solid #BBB;
-  padding: 16px;
+  height: 48px;
 
   .edit, .delete {
     margin: 0 24px;
@@ -41,35 +48,46 @@
 }
 
 .left, .right {
-  min-width: 288px;
+  min-width: 318px;
   margin: 0 16px;
 }
 
 .section {
   font-size: 14px;
-  max-width: 600px;
+  max-width: 450px;
   text-align: justify;
   background-color: white;
   margin-bottom: 32px;
   padding: 16px;
 
+  @media (max-width: $mobile-width) {
+    margin-bottom: 16px;
+    max-width: 100%;
+  }
+
   .title {
     font-size: 20px;
     margin-bottom: 16px;
     color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    md-icon {
+      color: #888;
+    }
+  }
+
+  &.title-only .title {
+    margin-bottom: 0;
   }
 }
 
 .location {
   position: relative;
-  width: 350px;
   height: 350px;
   outline: 1px solid #DDD;
   margin: -15px;
   margin-top: 8px;
-  @media (max-width: 750px) {
-    width: inherit;
-  }
 
   & .map, & .loading {
     position: absolute;
@@ -103,9 +121,39 @@
   border-top: 1px solid #CCC;
   .heading {
     font-weight: bold;
+    margin-left: 64px;
   }
 }
 
-button {
-  margin: 8px 0;
+.add-info {
+  margin: 16px 0;
+}
+
+.contact {
+  .add-info {
+    margin-left: 64px;
+  }
+}
+
+.event {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    margin-left: 16px;
+    md-icon {
+      color: #888;
+    }
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+  }
+  .date {
+    font-weight: bold;
+    padding-bottom: 4px;
+  }
 }

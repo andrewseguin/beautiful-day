@@ -5,23 +5,30 @@
 
 <div class="section-title">Acquisitions</div>
 <button md-button
-        class="project-link"
+        class="nav-link"
         (click)="sidenav.close()"
         routerLink="/inventory"
         routerLinkActive="active">
   Inventory
 </button>
 
-
 <div class="section-title">Projects</div>
-<button md-button class="project-link"
+<button md-button class="nav-link"
         (click)="sidenav.close()"
         routerLink="/project/{{project.$key}}"
         routerLinkActive="active"
-        *ngFor="let project of projects | async">
+        *ngFor="let project of projects">
   {{project.name}}
 </button>
 
-<button md-button class="project-link new"
+<button md-button class="nav-link new"
+        *ngIf="canCreateProjects"
         (click)="addProject()">+ New Project</button>
 
+<div class="section-title" *ngIf="isOwner">Feedback</div>
+<button md-button class="nav-link" *ngIf="isOwner"
+        (click)="sidenav.close()"
+        routerLink="/feedback"
+        routerLinkActive="active">
+  Feedback
+</button>

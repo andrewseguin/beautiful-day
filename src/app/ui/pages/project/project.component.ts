@@ -1,7 +1,5 @@
-import {
-  Component, OnInit
-} from '@angular/core';
-import {FirebaseListObservable, FirebaseAuthState} from "angularfire2";
+import {Component, OnInit} from "@angular/core";
+import {FirebaseListObservable} from "angularfire2";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Project} from "../../../model/project";
 import {ProjectsService} from "../../../service/projects.service";
@@ -14,7 +12,6 @@ import {ProjectsService} from "../../../service/projects.service";
 export class ProjectComponent implements OnInit {
   project: Project;
   requests: FirebaseListObservable<any[]>;
-  user: FirebaseAuthState;
 
   constructor(
     private route: ActivatedRoute,

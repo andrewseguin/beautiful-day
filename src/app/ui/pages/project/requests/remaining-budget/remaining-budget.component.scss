@@ -1,0 +1,48 @@
+@import '../common';
+
+:host {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #D5D5D5;
+  font-size: 14px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 0;
+  height: $budget-height;
+  border-top: 1px solid #CCC;
+  transition: all 750ms ease-in-out;
+  cursor: default;
+  font-weight: bold;
+
+  & > * {
+    transition: all 750ms ease-in-out;
+    opacity: 0;
+  }
+  &.loaded > * {
+    opacity: 1;
+  }
+
+  .budget-remaining {
+    transition: all 750ms ease-in-out;
+    padding: 0 8px;
+  }
+
+  &.negative {
+    background: #ffd9d9;
+    border-color: #ffbdbd;
+    .budget-remaining {
+      color: red;
+    }
+  }
+
+  &.positive {
+    background: #e3ffe3;
+    border-color: #cce8cc;
+    .budget-remaining {
+      color: green;
+    }
+  }
+}

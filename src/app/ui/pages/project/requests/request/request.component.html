@@ -5,16 +5,19 @@
   <div *ngIf="displayState == 'visible'"
        [style.z-index]="1"> <!-- Be above the mdripple -->
     <div class="top-row">
-      <md-checkbox [checked]="isSelected()"
+      <md-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
+                   [checked]="isSelected()"
                    (click)="$event.stopPropagation()"
                    (change)="setSelected($event.checked)">
       </md-checkbox>
 
-      <div class="name">{{item}}</div>
+      <div class="name">
+        <span class="editable" (click)="viewItem($event)">{{item.name}}</span>
+      </div>
 
       <div class="quantity"
            (click)="$event.stopPropagation(); quantityInput.focus()">
-        <input type="number" #quantityInput
+        <input type="number" #quantityInput min="0"
                   [value]="request?.quantity"
                   (click)="quantityInput.select()"
                   (keyup)="changeQuantity($event.target.value)"
@@ -22,11 +25,16 @@
                   (change)="changeQuantity($event.target.value)">
       </div>
 
-      <div class="cost">${{10*request?.quantity}}.00</div>
+      <div class="cost" *ngIf="requestViewOptions.cost">
+        <span *ngIf="item.cost">
+          {{item.cost*request?.quantity | currency:'USD':true:'1.2-2'}}
+        </span>
+        <span *ngIf="!item.cost">--</span>
+      </div>
     </div>
 
     <div class="details">
-      <div>
+      <div *ngIf="requestViewOptions.dropoff">
         <span class="editable"
               (click)="editDropoff($event)">
           <span *ngIf="request?.dropoff">
@@ -37,10 +45,17 @@
           </span>
         </span>
       </div>
-      <div *ngIf="request?.note">
+      <div *ngIf="request?.note && requestViewOptions.notes">
         <span class="editable"
               (click)="editNote($event)">
           {{request?.note}}
+        </span>
+      </div>
+      <div *ngIf="request?.tags && requestViewOptions.tags" class="tags">
+        <span class="editable tag" *ngFor="let tag of request.tags.split(',').sort()"
+              [style.background]="getTagColor(tag)"
+              (click)="$event.stopPropagation(); filterTag.emit(tag)">
+          {{tag}}
         </span>
       </div>
     </div>

@@ -1,13 +1,18 @@
 @import '../dialog-common';
 
+:host {
+  display: block;
+  min-width: 250px;
+}
+
 textarea {
-  width: 300px;
+  flex-grow: 1;
   border-color: rgba(30, 136, 229, 0.3) rgba(30, 136, 229, 0.3) rgb(30, 136, 229);
   border-bottom-width: 2px;
   border-bottom-style: solid;
   padding: 8px;
 }
 
-.manager-row {
+.lead-row {
   display: flex;
 }

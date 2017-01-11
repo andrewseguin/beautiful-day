@@ -9,7 +9,15 @@
             [(ngModel)]="name"></md-input>
 </div>
 
-<div *ngIf="type == 'description'">
+<div *ngIf="type == 'budget'">
+  <md-input autofocus min="0"
+            (keyup.Enter)="save()"
+            [(ngModel)]="budget">
+    <span md-prefix>$&nbsp;</span>
+  </md-input>
+</div>
+
+<div *ngIf="type == 'description'" style="display: flex">
   <textarea autofocus md-autosize
             (keydown)="onTextareaKeydown($event)"
             [(ngModel)]="description"></textarea>
@@ -21,18 +29,18 @@
             [(ngModel)]="location"></md-input>
 </div>
 
-<div *ngIf="type == 'managers'">
-  <div *ngFor="let manager of managers; let i = index; trackBy:managerTrackBy"
-       class="manager-row">
+<div *ngIf="type == 'leads'">
+  <div *ngFor="let lead of leads; let i = index; trackBy:leadTrackBy"
+       class="lead-row">
     <md-input autofocus
-              placeholder="manager@beautifulday.org" [floatingPlaceholder]="false"
-              [(ngModel)]="managers[i]"
+              placeholder="lead@beautifulday.org" [floatingPlaceholder]="false"
+              [(ngModel)]="leads[i]"
               (keyup.Enter)="save()"></md-input>
-    <button md-icon-button [disabled]="i == 0" (click)="removeManager(i)">
+    <button md-icon-button [disabled]="i == 0" (click)="removeLead(i)">
       <md-icon>delete</md-icon>
     </button>
   </div>
-  <button md-button (click)="managers.push('')">Add Manager</button>
+  <button md-button (click)="leads.push('')">Add Lead</button>
 </div>
 
 <div *ngIf="type == 'director'">

@@ -4,6 +4,8 @@ import {MdSidenav} from "@angular/material";
 
 import {ProjectsService} from '../../../service/projects.service';
 import {Router} from "@angular/router";
+import {PermissionsService} from "../../../service/permissions.service";
+import {Project} from "../../../model/project";
 
 @Component({
   selector: 'nav-content',
@@ -11,15 +13,25 @@ import {Router} from "@angular/router";
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-  projects: FirebaseListObservable<any[]>;
+  canCreateProjects: boolean;
+  isOwner: boolean;
+  projects: Project[];
 
   constructor(private projectsService: ProjectsService,
+              private permissionsService: PermissionsService,
               private router: Router) { }
 
   @Input() sidenav: MdSidenav;
 
   ngOnInit() {
-    this.projects = this.projectsService.getProjects();
+    this.projectsService.getProjects()
+        .subscribe(projects => this.projects = projects);
+
+    this.permissionsService.canCreateProjects()
+        .subscribe(canCreateProjects => this.canCreateProjects = canCreateProjects);
+
+    this.permissionsService.isOwner()
+        .subscribe(isOwner => this.isOwner = isOwner);
   }
 
   addProject() {

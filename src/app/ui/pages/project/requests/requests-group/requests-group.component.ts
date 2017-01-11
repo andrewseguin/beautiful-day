@@ -1,17 +1,32 @@
 import {
-  Component, OnInit, Input, AnimationTransitionEvent, ViewChildren,
-  QueryList, ElementRef, animate, style, transition, state, trigger
-} from '@angular/core';
+  Component,
+  Input,
+  AnimationTransitionEvent,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  animate,
+  style,
+  transition,
+  state,
+  trigger, EventEmitter, Output
+} from "@angular/core";
 import {RequestGroup} from "../../../../../service/request-grouping.service";
 import {RequestComponent} from "../request/request.component";
 import {Request} from "../../../../../model/request";
 import {RequestsService} from "../../../../../service/requests.service";
+import {RequestViewOptions} from "../project-requests.component";
+import {RequestSortPipe} from "../../../../../pipe/request-sort.pipe";
+import {ItemsService} from "../../../../../service/items.service";
+
+export type Sort = 'request added' | 'item' | 'cost';
 
 @Component({
   selector: 'requests-group',
   templateUrl: './requests-group.component.html',
   styleUrls: ['./requests-group.component.scss'],
   host: {
+    '[style.display]': "processedRequests && processedRequests.length ? 'block' : 'none'",
     '[class.md-elevation-z4]': 'true',
     '[@groupTransition]': "requestGroup.title",
     '(@groupTransition.done)': "groupTransitionAnimationDone($event, requestGroup)"
@@ -28,11 +43,41 @@ import {RequestsService} from "../../../../../service/requests.service";
   ]
 })
 export class RequestsGroupComponent {
+  requestSortPipe = new RequestSortPipe();
+  processedRequests: Request[] = [];
+  showRequests: boolean;
+
+  @Input() canEdit: boolean;
+
   @ViewChildren(RequestComponent) requestComponents: QueryList<RequestComponent>;
 
-  @Input() requestGroup: RequestGroup;
+  _filter: string;
+  @Input() set filter(filter: string) {
+    this._filter = filter;
+    if (this.requestGroup) { this.sortAndFilterRequests(); }
+  }
+  get filter(): string { return this._filter; }
 
-  constructor(private requestsService: RequestsService) { }
+  _sort: Sort;
+  @Input() set sort(sort: Sort) {
+    this._sort = sort;
+    if (this.requestGroup) { this.sortAndFilterRequests(); }
+  }
+  get sort(): Sort { return this._sort; }
+
+  _requestGroup: RequestGroup;
+  @Input() set requestGroup(requestGroup: RequestGroup) {
+    this._requestGroup = requestGroup;
+    this.sortAndFilterRequests();
+  }
+  get requestGroup(): RequestGroup { return this._requestGroup; }
+
+  @Input() requestViewOptions: RequestViewOptions;
+
+  @Output() filterTag = new EventEmitter<string>();
+
+  constructor(private requestsService: RequestsService,
+              private itemsService: ItemsService) {}
 
   showRequest(requestKey: string, scrollableContent: ElementRef) {
     const newRequest = this.requestComponents.find(requestComponent => {
@@ -45,7 +90,15 @@ export class RequestsGroupComponent {
 
     // Put the item on the bottom of the view and then scoot the view down a bit
     newRequest.scrollIntoView();
-    scrollableContent.nativeElement.scrollTop += 20;
+    scrollableContent.nativeElement.scrollTop += 80;
+  }
+
+  sortAndFilterRequests() {
+    this.itemsService.getItems().subscribe(items => {
+      const requests = this.requestGroup.requests;
+      this.processedRequests =
+          this.requestSortPipe.transform(requests, this.sort, this.filter, items);
+    });
   }
 
   getRequestKey(index: number, request: Request) {
@@ -68,9 +121,6 @@ export class RequestsGroupComponent {
     // When the group transition finishes, load in all the remaining requests
     if (e.toState == 'void') return;
 
-    setTimeout(() => {
-      // Show the remaining requests after a small delay after the animation finishes.
-      this.requestComponents.forEach(requestComponent => requestComponent.show());
-    }, 150);
+    setTimeout(() => { this.showRequests = true }, 150);
   }
 }

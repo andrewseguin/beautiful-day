@@ -1,6 +1,4 @@
-import {
-  Component, OnInit, animate, transition, style, state, trigger, Input
-} from '@angular/core';
+import {Component, OnInit, animate, transition, style, state, trigger, Input} from "@angular/core";
 import {HeaderService} from "../../../service/header.service";
 import {FirebaseAuth, FirebaseAuthState} from "angularfire2";
 import {MediaQueryService} from "../../../service/media-query.service";
@@ -9,7 +7,13 @@ import {ActivatedRoute, UrlSegment, Router, Event} from "@angular/router";
 import {TopLevelSection} from "../../../router.config";
 import {ProjectsService} from "../../../service/projects.service";
 import {Project} from "../../../model/project";
-import {MdSidenav} from "@angular/material";
+import {MdSidenav, MdDialog} from "@angular/material";
+import {UsersService} from "../../../service/users.service";
+import {User} from "../../../model/user";
+import {EditUserProfileComponent} from "../dialog/edit-user-profile/edit-user-profile.component";
+import {EditAdminComponent} from "../dialog/edit-admins/edit-admin.component";
+import {PromptDialogComponent} from "../dialog/prompt-dialog/prompt-dialog.component";
+import {FeedbackService} from "../../../service/feedback.service";
 
 @Component({
   selector: 'header',
@@ -23,14 +27,12 @@ import {MdSidenav} from "@angular/material";
         animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),
     ])
-  ],
-  host: {
-    '[style.display]': "user ? 'block' : 'none'"
-  }
+  ]
 })
 export class HeaderComponent implements OnInit {
   topLevel: TopLevelSection;
-  user: FirebaseAuthState;
+  authState: FirebaseAuthState;
+  user: User;
   project: Project;
   subheaderVisibility: 'visible'|'hidden' = 'visible';
 
@@ -41,12 +43,23 @@ export class HeaderComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private projectsService: ProjectsService,
+    private usersService: UsersService,
     private mediaQuery: MediaQueryService,
     private subheaderService: SubheaderService,
+    private mdDialog: MdDialog,
+    private feedbackService: FeedbackService,
     private headerService: HeaderService) { }
 
   ngOnInit() {
-    this.auth.subscribe(auth => this.user = auth );
+    this.auth.subscribe(authState => {
+      this.authState = authState;
+      if (this.authState) {
+        this.usersService.get(authState.auth.email).subscribe(user => {
+          this.user = user;
+        });
+      }
+    });
+
 
     this.subheaderService.visibilitySubject.subscribe(visibility => {
       this.subheaderVisibility = visibility ? 'visible' : 'hidden';
@@ -88,5 +101,37 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.auth.logout();
+
+    const logoutUrl = 'https://www.google.com/accounts/Logout';
+    const googleContinue = 'https://appengine.google.com/_ah/logout';
+    window.location.href =
+        `${logoutUrl}?continue=${googleContinue}?continue=${window.location.href}`;
+  }
+
+  editProfile(): void {
+    const dialogRef = this.mdDialog.open(EditUserProfileComponent);
+    dialogRef.componentInstance.user = this.user;
+  }
+
+  manageAdmins(): void {
+    this.mdDialog.open(EditAdminComponent);
+  }
+
+  sendFeedback(): void {
+    const dialogRef = this.mdDialog.open(PromptDialogComponent);
+    dialogRef.componentInstance.title = 'Send Feedback';
+    dialogRef.componentInstance.useTextArea = true;
+    dialogRef.componentInstance.onSave().subscribe(text => {
+      this.feedbackService.addFeedback(text);
+    });
+  }
+
+  reportIssue(): void {
+    const dialogRef = this.mdDialog.open(PromptDialogComponent);
+    dialogRef.componentInstance.title = 'Report Issue';
+    dialogRef.componentInstance.useTextArea = true;
+    dialogRef.componentInstance.onSave().subscribe(text => {
+      this.feedbackService.addIssue(text);
+    });
   }
 }

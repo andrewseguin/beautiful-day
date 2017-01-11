@@ -1,0 +1,17 @@
+<div class="header">
+  <div class="title">{{title}}</div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+<md-input-container *ngIf="!useTextArea">
+  <input md-input autofocus (keyup.Enter)="save()" [(ngModel)]="input"/>
+</md-input-container>
+
+<md-input-container *ngIf="useTextArea">
+  <textarea md-input autofocus [(ngModel)]="input"></textarea>
+</md-input-container>
+
+<div class="actions">
+  <button md-button (click)="close()">Cancel</button>
+  <button md-button (click)="save()">Save</button>
+</div>

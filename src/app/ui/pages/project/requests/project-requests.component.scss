@@ -3,6 +3,8 @@
 // Import your custom theme
 @import '../../../../theme';
 @import '../../../shared/constants';
+@import 'common';
+
 
 :host {
   display: block;
@@ -22,7 +24,11 @@ md-sidenav {
 
 .scrollable-content {
   overflow: auto;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: $budget-height;
+  right: 0;
+  left: 0;
 
   @media (max-width: $mobile-width) {
     padding-top: $subheader-height;
@@ -35,7 +41,7 @@ md-sidenav {
   flex-direction: column;
 
   @media (max-width: $mobile-width) {
-    padding-bottom: 120px;
+    padding-bottom: 70px;
   }
 }
 
@@ -53,6 +59,22 @@ md-sidenav {
   color: #222;
   font-weight: lighter;
 
+  .wide {
+    @media (max-width: $mobile-width) {
+      display: none;
+    }
+  }
+
+  .mobile {
+    @media (min-width: $mobile-width) {
+      display: none;
+    }
+  }
+
+  .instructions {
+    width: 230px;
+  }
+
   .getting-started {
     padding: 4px 16px;
     margin: 8px;
@@ -64,12 +86,10 @@ md-sidenav {
 
 .requests-header {
   display: flex;
-  padding: 0 8px;
   font-size: 14px;
   align-items: center;
   justify-content: center;
   background-color: md-color($bd-app-accent);
-  /* background: rgba(21, 133, 199, 0.8); */
   color: #FAFAFA;
   height: 48px;
   opacity: 0;
@@ -86,10 +106,13 @@ md-sidenav {
   }
 
   .buttons {
-    width: 100%;
+    @include content-width;
     display: flex;
     justify-content: space-between;
-    max-width: 650px;
+    button {
+      min-width: 0;
+      min-height: 36px;
+    }
   }
 }
 
@@ -97,7 +120,7 @@ button[md-fab] {
   position: absolute;
   bottom: 0;
   right: 0;
-  margin: 16px;
+  margin: 0 24px 56px 0;
   transition: 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
   transform: scale(1);
   opacity: 1;
@@ -108,25 +131,57 @@ button[md-fab] {
   }
 }
 
-.loading-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  md-progress-circle {
-    width: 60px;
-  }
-}
-
 .button-content {
   display: flex;
   align-items: center;
-  md-icon {
-    padding-right: 8px;
+  justify-content: center;
+  .text {
+    padding-left: 8px;
+    @media (max-width: 400px) {
+      display: none;
+    }
+  }
+}
+
+.filter-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F1F1F1;
+  height: 48px;
+
+  md-input-container {
+    @include content-width;
+    margin: 0;
+
+    .input-content {
+      display: flex;
+      height: 18px;
+      align-items: center;
+    }
+  }
+}
+
+button.active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.arrow-to-fab {
+  background: url(../../../../../assets/arrow_to_fab.png) no-repeat center;
+  background-size: contain;
+  position: absolute;
+  bottom: 80px;
+  right: 48px;
+  height: 100px;
+  width: 62px;
+
+  @media (min-height: 580px) {
+    height: 110px;
+    width: 68px;
+  }
+
+  @media (min-height: 640px) {
+    height: 150px;
+    width: 90px;
   }
 }

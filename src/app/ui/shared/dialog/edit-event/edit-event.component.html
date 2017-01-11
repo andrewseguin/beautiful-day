@@ -1,0 +1,34 @@
+<div class="header">
+  <div class="title">{{event ? 'Edit Event' : 'Create Event'}}</div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+
+<div class="datetime">
+  <md-input-container>
+    <input md-input placeholder="Date" type="date"
+           (keyup.Enter)="save()" [(ngModel)]="date"/>
+  </md-input-container>
+
+  <md-input-container>
+    <input md-input placeholder="Time (Optional)" type="text"
+           (keyup.Enter)="save()" [(ngModel)]="time"/>
+  </md-input-container>
+</div>
+
+<div class="info">
+  <md-input-container>
+    <input md-input placeholder="Event Info" type="text"
+           (keyup.Enter)="save()" [(ngModel)]="info"/>
+  </md-input-container>
+</div>
+
+<div class="actions">
+  <button md-button *ngIf="event" color="warn" (click)="remove()">Delete</button>
+  <button md-button (click)="close()">Cancel</button>
+  <button md-raised-button color="accent"
+          [disabled]="!canSave()"
+          (click)="save()">
+    {{event ? 'Save' : 'Create'}}
+  </button>
+</div>

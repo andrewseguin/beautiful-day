@@ -10,15 +10,19 @@ import {
   style,
   state,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  EventEmitter,
+  Output
 } from "@angular/core";
 import {ItemsService} from "../../../../../service/items.service";
 import {Request} from "../../../../../model/request";
 import {ActivatedRoute, Params} from "@angular/router";
 import {RequestsService} from "../../../../../service/requests.service";
 import {MdDialog} from "@angular/material";
-import {EditNoteComponent} from "../../../../shared/dialog/edit-note/edit-note.component";
 import {EditDropoffComponent} from "../../../../shared/dialog/edit-dropoff/edit-dropoff.component";
+import {RequestViewOptions} from "../project-requests.component";
+import {EditItemComponent} from "../../../../shared/dialog/edit-item/edit-item.component";
+import {Item} from "../../../../../model/item";
 
 @Component({
   selector: 'request',
@@ -43,17 +47,28 @@ import {EditDropoffComponent} from "../../../../shared/dialog/edit-dropoff/edit-
       ),
     ]),
   ],
+  host: {
+    '[style.pointer-events]': "canEdit ? '' : 'none'"
+  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestComponent implements OnInit {
-  item: string;
+  item: Item;
   projectId: string;
   highlightState: string = 'normal';
   displayState: string = 'hidden';
   request: Request;
 
+  @Input() canEdit: boolean;
   @Input() requestId: string;
   @Input() groupIndex: number;
+  @Input() requestViewOptions: RequestViewOptions;
+
+  @Input() set show(show: boolean) {
+    show ? this.setVisible() : this.displayState = 'hidden';
+  }
+
+  @Output() filterTag = new EventEmitter<string>();
 
   @ViewChild('quantityInput') quantityInput: ElementRef;
 
@@ -70,7 +85,7 @@ export class RequestComponent implements OnInit {
       this.cd.markForCheck();
 
       this.itemsService.getItem(this.request.item).subscribe(item => {
-        this.item = item.name;
+        this.item = item;
         this.cd.markForCheck();
       });
     });
@@ -84,7 +99,7 @@ export class RequestComponent implements OnInit {
     });
   }
 
-  show() {
+  setVisible() {
     // If one of the first 5 items, then immediately display. Otherwise, stagger the
     // display of the item to optimize rendering.
     if (this.groupIndex < 20) {
@@ -121,6 +136,7 @@ export class RequestComponent implements OnInit {
   }
 
   changeQuantity(quantity: number) {
+    quantity = Math.max(0, quantity);
     this.requestsService.update(this.request.$key, {quantity});
   }
 
@@ -134,10 +150,7 @@ export class RequestComponent implements OnInit {
 
   editNote(e: Event) {
     e.stopPropagation();
-
-    const dialogRef = this.mdDialog.open(EditNoteComponent);
-    dialogRef.componentInstance.requestIds = new Set([this.request.$key]);
-    dialogRef.componentInstance.note = this.request.note;
+    this.requestsService.editNote(new Set([this.request.$key]));
   }
 
   editDropoff(e: Event) {
@@ -148,5 +161,27 @@ export class RequestComponent implements OnInit {
     dialogRef.componentInstance.selectedDropoffLocation = this.request.dropoff;
     dialogRef.componentInstance.setDateFromRequest(this.request.date);
     dialogRef.componentInstance.project = this.projectId;
+  }
+
+  viewItem(e: Event) {
+    e.stopPropagation();
+
+    const dialogRef = this.mdDialog.open(EditItemComponent);
+    dialogRef.componentInstance.mode = 'view';
+    dialogRef.componentInstance.item = this.item;
+  }
+
+  getTagColor(tag: string) {
+    // Get string hash
+    let hash = 0;
+    for (let i = 0; i < tag.length; i++) {
+      hash = tag.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const r = (hash >> 16) & 255;
+    const g = (hash >> 8) & 255;
+    const b = hash & 255;
+
+    return `rgba(${[r, g, b].join(',')}, 0.15)`;
   }
 }

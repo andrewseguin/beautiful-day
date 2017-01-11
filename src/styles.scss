@@ -1,4 +1,5 @@
-@import 'app/ui/shared/constants.scss';
+@import 'app/ui/shared/constants';
+@import 'app/theme';
 
 body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
@@ -9,46 +10,56 @@ body {
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
-/* Project notes codemirror styles */
-project-notes .CodeMirror {
-  height: auto;
-}
-
-project-notes .CodeMirror-code {
-  min-height: 300px;
+  // Remove blue highlight on android
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* Menu syles */
-button.grouping-option {
-  font-size: 15px;
-  height: 40px;
-}
-
 .md-menu-panel.auth .md-menu-content {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-}
+  padding: 0;
 
-.md-menu-panel.auth button {
-  justify-content: flex-end;
-  font-size: 14px;
-  height: 24px;
-}
+  button {
+    font-size: 14px;
+    height: 40px;
+    display: inline-block;
+    text-align: right;
+    &.info {
+      height: 26px;
+      pointer-events: none;
+      background: #EAEAEA;
+      &.first {
+        padding-top: 8px;
+      }
+      &.last {
+        border-bottom: 1px solid #CCC;
+        padding-bottom: 8px;
+      }
+    }
+    &.logout {
+      color: #1565c0;
+    }
 
-.md-menu-panel.auth button.email {
-  pointer-events: none;
-}
-
-.md-menu-panel.auth button.logout {
-  color: #1565c0;
-  height: 30px;
+    md-icon {
+      color: red;
+      margin-right: 8px;
+      z-index: 1;
+    }
+  }
 }
 
 .md-menu-panel.notes-menu {
   max-height: 326px;
+  button.active {
+    font-weight: bold;
+    background: #F5F5F5;
+  }
+  button.new-note {
+    color: md-color($bd-app-accent);
+  }
 }
 
 /* Checkbox style */
@@ -88,7 +99,7 @@ app-root .md-checkbox-inner-container {
 }
 
 .project-requests-menu-title {
-  padding: 8px 16px 16px 16px;
+  padding: 6px 16px 12px 16px;
   border-bottom: 1px solid #DDD;
   font-weight: bold;
   font-size: 14px;
@@ -96,6 +107,10 @@ app-root .md-checkbox-inner-container {
 
 /* Request header menu options get selected */
 button.project-requests-option {
+  font-size: 14px;
+  height: 32px;
+  text-transform: capitalize;
+
   md-icon {
     visibility: hidden;
   }
