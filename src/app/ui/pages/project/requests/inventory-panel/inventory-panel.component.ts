@@ -23,7 +23,6 @@ export class InventoryPanelComponent implements OnInit {
   search: string = '';
 
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
-  @ViewChild('heading') heading: ElementRef;
 
   @Output('closeSidenav') closeSidenav = new EventEmitter<void>();
 
@@ -48,15 +47,6 @@ export class InventoryPanelComponent implements OnInit {
         this.subheaderVisibility = visibility;
       }
     });
-
-    console.log(this.heading.nativeElement.scrollLeft);
-  }
-
-  ngAfterContentChecked() {
-    // When the sidenav opens, the focus is automatically placed on the search input
-    // on iOS. On other browsers, focus is placed on the close button. Because of this, the scroll
-    // left is changed which it should never be. This is on material beta 0
-    this.heading.nativeElement.scrollLeft = 0;
   }
 
   getCategories(): string[] {
