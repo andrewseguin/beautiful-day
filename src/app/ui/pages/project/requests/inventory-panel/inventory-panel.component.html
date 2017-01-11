@@ -1,7 +1,7 @@
 <div class="container" [style.top]="subheaderVisibility ? '48px' : 0">
 
   <div class="categories-container">
-    <div class="heading">
+    <div class="heading" #heading>
       <button md-icon-button class="back" (click)="closeSidenav.emit()">
         <md-icon>keyboard_arrow_left</md-icon>
       </button>
@@ -25,7 +25,7 @@
     database bug where items would come in one by one on the subscription
     -->
     <div class="search-results"
-         [style.display]="search ? 'block' : 'none'">
+         [style.display]="search ? '' : 'none'">
       <inventory-list [search]="search"
                       (filteredItemCount)="searchResultCount = $event">
       </inventory-list>

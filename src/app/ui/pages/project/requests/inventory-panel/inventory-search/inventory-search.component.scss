@@ -17,10 +17,10 @@
   }
 }
 
-md-input {
+md-input-container {
   flex-grow: 1;
   font-weight: normal;
-  font-size: 14px;
+  height: 48px;
 }
 
 button.close, button.search {
