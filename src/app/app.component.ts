@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FirebaseAuth} from 'angularfire2';
-import {Router} from '@angular/router';
+import {Router, NavigationEnd} from '@angular/router';
+declare let ga:Function;
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,12 @@ import {Router} from '@angular/router';
 })
 export class AppComponent implements OnInit {
   constructor(private auth: FirebaseAuth,
-              private router: Router) {}
+              private router: Router) {
+    this.setupGoogleAnalytics();
+  }
 
   ngOnInit() {
+
     this.auth.subscribe(auth => {
       if (!auth) {
         // Store a redirect for post-login. If the current path is login, do not make this redirect.
@@ -23,6 +27,17 @@ export class AppComponent implements OnInit {
         return;
       }
     });
+  }
 
+  setupGoogleAnalytics() {
+    this.router.events.distinctUntilChanged((previous: any, current: any) => {
+      if (current instanceof NavigationEnd) {
+        return previous.url === current.url;
+      }
+      return true;
+    }).subscribe((x: any) => {
+      console.log('router.change', x);
+      ga('send', 'pageview', x.url);
+    });
   }
 }
