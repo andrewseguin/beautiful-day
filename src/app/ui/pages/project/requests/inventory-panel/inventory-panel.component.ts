@@ -1,14 +1,13 @@
-import {Component, OnInit, EventEmitter, Output, ViewChild} from '@angular/core';
-import {ItemsService, CategoryGroupCollection} from '../../../../../service/items.service';
-import {FirebaseObjectObservable} from 'angularfire2';
-import {Item} from '../../../../../model/item';
-import {ProjectsService} from '../../../../../service/projects.service';
-import {Project} from '../../../../../model/project';
-import {Params, ActivatedRoute} from '@angular/router';
-import {SubheaderService} from '../../../../../service/subheader.service';
-import {MediaQueryService} from '../../../../../service/media-query.service';
-import {SlidingPanelComponent} from './sliding-panel/sliding-panel.component';
-import {InventoryListComponent} from './inventory-list/inventory-list.component';
+import {Component, OnInit, EventEmitter, ViewChild, Output, ElementRef} from "@angular/core";
+import {ItemsService, CategoryGroupCollection} from "../../../../../service/items.service";
+import {FirebaseObjectObservable} from "angularfire2";
+import {Item} from "../../../../../model/item";
+import {ProjectsService} from "../../../../../service/projects.service";
+import {Project} from "../../../../../model/project";
+import {Params, ActivatedRoute} from "@angular/router";
+import {SubheaderService} from "../../../../../service/subheader.service";
+import {MediaQueryService} from "../../../../../service/media-query.service";
+import {SlidingPanelComponent} from "./sliding-panel/sliding-panel.component";
 
 @Component({
   selector: 'inventory-panel',
@@ -24,7 +23,7 @@ export class InventoryPanelComponent implements OnInit {
   search: string = '';
 
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
-  @ViewChild(InventoryListComponent) inventoryList: InventoryListComponent;
+  @ViewChild('heading') heading: ElementRef;
 
   @Output('closeSidenav') closeSidenav = new EventEmitter<void>();
 
@@ -48,7 +47,16 @@ export class InventoryPanelComponent implements OnInit {
       } else {
         this.subheaderVisibility = visibility;
       }
-    })
+    });
+
+    console.log(this.heading.nativeElement.scrollLeft);
+  }
+
+  ngAfterContentChecked() {
+    // When the sidenav opens, the focus is automatically placed on the search input
+    // on iOS. On other browsers, focus is placed on the close button. Because of this, the scroll
+    // left is changed which it should never be. This is on material beta 0
+    this.heading.nativeElement.scrollLeft = 0;
   }
 
   getCategories(): string[] {

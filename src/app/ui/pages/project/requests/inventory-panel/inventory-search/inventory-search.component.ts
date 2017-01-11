@@ -8,7 +8,7 @@ import {
   ViewChild,
   AnimationTransitionEvent,
   EventEmitter,
-  Output
+  Output, ElementRef
 } from '@angular/core';
 import {MdInput} from '@angular/material';
 
@@ -49,14 +49,13 @@ export type SearchState = 'open' | 'closed';
 export class InventorySearchComponent  {
   searchState: SearchState = 'closed';
 
-  @ViewChild('searchInput') searchInput: MdInput;
+  @ViewChild('searchInput') searchInput: ElementRef;
 
-  @Output('searchChanged') searchChanged =
-      new EventEmitter<string>();
+  @Output('searchChanged') searchChanged = new EventEmitter<string>();
 
   searchContainerAnimationDone(e: AnimationTransitionEvent) {
     if (e.toState == 'open' && this.searchState == 'open') {
-      this.searchInput.focus();
+      this.searchInput.nativeElement.focus();
     }
   }
 

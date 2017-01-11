@@ -5,12 +5,13 @@
   <md-icon>search</md-icon>
 </button>
 
-<md-input #searchInput
-          placeholder="Search"
-          [@searchInput]="searchState"
-          [(ngModel)]="search"
-          [floatingPlaceholder]="false">
-</md-input>
+<md-input-container [floatingPlaceholder]="false">
+  <input #searchInput md-input
+         placeholder="Search"
+         [disabled]="searchState != 'open'"
+         [@searchInput]="searchState"
+         [(ngModel)]="search"/>
+</md-input-container>
 
 <button md-icon-button class="close"
         (click)="searchState = 'closed'; search = ''">
