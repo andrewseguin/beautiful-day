@@ -3,7 +3,32 @@
 .selection-header-button-content {
   display: flex;
   align-items: center;
+}
+
+md-icon {
+  padding-right: 8px;
+}
+
+button.header-button {
+  min-width: 0;
+}
+
+@media (max-width: 400px) {
+  .selection-header-button-content {
+    justify-content: center;
+  }
+
+  button.header-button {
+    padding: 0;
+    height: 48px;
+    width: 48px;
+  }
+
   md-icon {
-    padding-right: 8px;
+    padding-right: 0;
+  }
+
+  .text {
+    display: none;
   }
 }

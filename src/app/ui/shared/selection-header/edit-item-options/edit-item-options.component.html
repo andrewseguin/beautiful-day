@@ -1,6 +1,7 @@
 <div *ngIf="isMultiSelect()">
-  <button md-icon-button [md-menu-trigger-for]="editMenu">
+  <button md-button [md-menu-trigger-for]="editMenu" class="header-button">
     <md-icon>edit</md-icon>
+    <div class="text">Edit</div>
   </button>
   <md-menu #editMenu="mdMenu" x-position="before">
     <button md-menu-item (click)="editCategory()"> Category </button>
@@ -8,16 +9,16 @@
   </md-menu>
 </div>
 
-<button *ngIf="!isMultiSelect()" md-button (click)="editItem()">
+<button *ngIf="!isMultiSelect()" md-button (click)="editItem()" class="header-button">
   <div class="selection-header-button-content">
     <md-icon>edit</md-icon>
-    Edit
+    <div class="text">Edit</div>
   </div>
 </button>
 
-<button *ngIf="!isMultiSelect()" md-button (click)="deleteItem()">
+<button *ngIf="!isMultiSelect()" md-button (click)="deleteItem()" class="header-button">
   <div class="selection-header-button-content">
     <md-icon>delete</md-icon>
-    Delete
+    <div class="text">Delete</div>
   </div>
 </button>

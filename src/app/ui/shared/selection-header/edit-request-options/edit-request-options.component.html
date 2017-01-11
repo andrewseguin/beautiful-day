@@ -1,14 +1,14 @@
-<button md-button [md-menu-trigger-for]="editMenu">
+<button md-button [md-menu-trigger-for]="editMenu" class="header-button">
   <div class="selection-header-button-content">
     <md-icon>edit</md-icon>
-    Edit
+    <div class="text">Edit</div>
   </div>
 </button>
 
-<button md-button (click)="deleteRequests()">
+<button md-button (click)="deleteRequests()" class="header-button">
   <div class="selection-header-button-content">
     <md-icon>delete</md-icon>
-    Delete
+    <div class="text">Delete</div>
   </div>
 </button>
 
