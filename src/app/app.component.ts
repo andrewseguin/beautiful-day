@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FirebaseAuth} from 'angularfire2';
 import {Router, NavigationEnd} from '@angular/router';
-import {Router} from '@angular/router';
 import {MdSnackBarConfig, MdSnackBar} from "@angular/material";
 declare let ga:Function;
 

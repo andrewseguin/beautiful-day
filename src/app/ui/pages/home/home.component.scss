@@ -1,12 +1,18 @@
 @import '../../shared/constants';
 
+:host {
+  max-width: 650px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+}
+
 md-card.project {
   position: relative;
-  margin: 16px 4px;
-  width: 200px;
-  height: 250px;
-  display: inline-block;
-  vertical-align: top;
+  margin: 8px;
   cursor: pointer;
   &:hover {
     background: #F5F5F5;
@@ -25,6 +31,8 @@ md-card.project {
   margin: 24px;
   border-bottom: 1px solid black;
   padding: 16px;
+  width: 100%;
+  text-align: center;
 
   @media (max-width: $mobile-width) {
     border: none;
@@ -38,9 +46,8 @@ md-card.project {
 
 .projects {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-around;
-  margin: 24px;
 
   @media (max-width: $mobile-width) {
     flex-wrap: nowrap;
