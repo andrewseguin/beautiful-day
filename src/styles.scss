@@ -16,7 +16,7 @@ body {
 }
 
 // iOS wants to zoom on input unless it is at least 16px font size
-@media screen and (-webkit-min-device-pixel-ratio:0) {
+@media screen and (-webkit-min-device-pixel-ratio:0) and (max-device-width : $mobile-width)  {
   select,
   textarea,
   input {

@@ -48,8 +48,11 @@
 }
 
 .left, .right {
-  min-width: 318px;
   margin: 0 16px;
+
+  @media (min-width: $mobile-width) {
+    min-width: 318px;
+  }
 }
 
 .section {
