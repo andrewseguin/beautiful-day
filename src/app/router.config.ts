@@ -22,8 +22,8 @@ export const ROUTER_CONFIG = [
       {path: 'requests', redirectTo: 'requests/all'},
       {path: 'requests/:group', component: ProjectRequestsComponent}
     ]},
-    {path: 'inventory', component: InventoryComponent},
-    {path: 'home', component: HomeComponent},
+    {path: 'inventory', component: InventoryComponent, canActivate: [CanActivateAuthGuard]},
+    {path: 'home', component: HomeComponent, canActivate: [CanActivateAuthGuard]},
     {path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateOwnerGuard]},
     {path: '', redirectTo: '/home', pathMatch: 'full'},
   ]},

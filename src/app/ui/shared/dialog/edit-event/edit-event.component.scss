@@ -2,12 +2,10 @@
 
 :host {
   display: block;
-  width: 300px;
 }
 
-.datetime {
-  display: flex;
-  margin-top: 16px;
+.header {
+  margin-bottom: 16px;
 }
 
 .info {
@@ -19,4 +17,16 @@ md-input-container {
   input {
     height: 26px;
   }
+}
+
+.date-input, .time-input {
+  flex-grow: 1;
+  height: 26px;
+  margin-bottom: 16px;
+
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 17px;
+  border: none;
+  border-bottom: 1px solid #888;
+  width: 100%;
 }

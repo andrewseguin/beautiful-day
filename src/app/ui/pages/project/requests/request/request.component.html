@@ -18,11 +18,13 @@
       <div class="quantity"
            (click)="$event.stopPropagation(); quantityInput.focus()">
         <input type="number" #quantityInput min="0"
-                  [value]="request?.quantity"
-                  (click)="quantityInput.select()"
-                  (keyup)="changeQuantity($event.target.value)"
-                  (keydown.Enter)="quantityInput.blur()"
-                  (change)="changeQuantity($event.target.value)">
+               *ngIf="canEdit"
+               [value]="request?.quantity"
+               (click)="quantityInput.select()"
+               (keyup)="changeQuantity($event.target.value)"
+               (keydown.Enter)="quantityInput.blur()"
+               (change)="changeQuantity($event.target.value)">
+        <div *ngIf="!canEdit">{{request?.quantity}}</div>
       </div>
 
       <div class="cost" *ngIf="requestViewOptions.cost">

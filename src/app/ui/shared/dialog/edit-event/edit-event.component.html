@@ -3,18 +3,11 @@
   <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
 </div>
 
+<input class="date-input" [(ngModel)]="date" placeholder="Date"
+       type="date" (keyup.Enter)="save()" (change)="date = $event.target.value">
 
-<div class="datetime">
-  <md-input-container>
-    <input md-input placeholder="Date" type="date"
-           (keyup.Enter)="save()" [(ngModel)]="date"/>
-  </md-input-container>
-
-  <md-input-container>
-    <input md-input placeholder="Time (Optional)" type="text"
-           (keyup.Enter)="save()" [(ngModel)]="time"/>
-  </md-input-container>
-</div>
+<input class="date-input" [(ngModel)]="time" placeholder="Time (Optional)"
+       type="text" (keyup.Enter)="save()">
 
 <div class="info">
   <md-input-container>

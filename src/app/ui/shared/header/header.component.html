@@ -30,7 +30,7 @@
     </button>
     <button md-menu-item class="option" (click)="sendFeedback()">Send Feedback</button>
     <button md-menu-item class="option" (click)="reportIssue()">Report Issue</button>
-    <button md-menu-item class="option" (click)="manageAdmins()">Manage Admins</button>
+    <button md-menu-item class="option" *ngIf="user?.isOwner" (click)="manageAdmins()">Manage Admins</button>
 
     <button md-menu-item class="logout" (click)="logout()">Logout</button>
   </md-menu>

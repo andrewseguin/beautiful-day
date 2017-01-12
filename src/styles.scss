@@ -153,3 +153,9 @@ md-sidenav-container.project {
     overflow: hidden;
   }
 }
+
+/* BetterDOM date input polyfill should always show up over content */
+.btr-dateinput-calendar {
+  z-index: 999 !important;
+  transition: none !important;
+}
