@@ -113,8 +113,10 @@
           *ngFor="let group of getGroups()"
           [class.selected]="grouping == group"
           (click)="setGroup(group)">
-    <md-icon>check</md-icon>
-    {{getGroupingName(group)}}
+    <div class="option-content">
+      <md-icon>check</md-icon>
+      {{getGroupingName(group)}}
+    </div>
   </button>
 </md-menu>
 
@@ -125,8 +127,10 @@
           *ngFor="let option of getRequestViewOptionKeys()"
           [class.selected]="requestViewOptions[option]"
           (click)="toggleRequestViewOption(option)">
-    <md-icon>check</md-icon>
-    {{option}}
+    <div class="option-content">
+      <md-icon>check</md-icon>
+      {{option}}
+    </div>
   </button>
 </md-menu>
 
@@ -137,7 +141,9 @@
           *ngFor="let sort of getSortOptions()"
           [class.selected]="sorting == sort"
           (click)="sorting = sort">
-    <md-icon>check</md-icon>
-    {{sort}}
+    <div class="option-content">
+      <md-icon>check</md-icon>
+      {{sort}}
+    </div>
   </button>
 </md-menu>

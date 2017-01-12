@@ -120,6 +120,11 @@ button.project-requests-option {
   height: 32px;
   text-transform: capitalize;
 
+  .option-content {
+    display: flex;
+    align-items: center;
+  }
+
   md-icon {
     visibility: hidden;
   }
