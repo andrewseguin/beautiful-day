@@ -1,6 +1,15 @@
 {
   "rules": {
     ".read": "true",
-    ".write": "true"
+    ".write": "true",
+    "users": {
+      ".indexOn": ["email"]
+    },
+    "requests": {
+      ".indexOn": ["project"]
+    },
+    "notes": {
+      ".indexOn": ["project"]
+    }
   }
 }
