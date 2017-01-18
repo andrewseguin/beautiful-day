@@ -66,25 +66,19 @@
   </div>
 
   <div class="right">
-    <div class="section md-elevation-z4">
-      <div class="title">
-        <div class="link" (click)="navigateToDates()">Upcoming</div>
-        <button md-icon-button *ngIf="canEditEvents" (click)="addEvent()">
-          <md-icon>add</md-icon>
-        </button>
-      </div>
+    <div class="section md-elevation-z4 upcoming-events" md-ripple (click)="navigateToDates()">
+      <div class="title">Upcoming Events</div>
 
-      <div class="event" *ngFor="let event of events">
-        <div>
-          <div class="date">
-            <span>{{event.date | eventDate}}</span>
-            <span *ngIf="event.time"> @ {{event.time}}</span>
+      <div class="events">
+        <div class="event" *ngFor="let event of events">
+          <div>
+            <div class="date">
+              <span>{{event.date | eventDate}}</span>
+              <span *ngIf="event.time"> - {{event.time}}</span>
+            </div>
+            <div class="event-info">{{event.info}}</div>
           </div>
-          <div class="event-info">{{event.info}}</div>
         </div>
-        <button *ngIf="canEditEvents" md-icon-button (click)="editEvent(event)">
-          <md-icon>edit</md-icon>
-        </button>
       </div>
     </div>
 

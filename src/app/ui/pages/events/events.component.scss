@@ -9,7 +9,7 @@
   background: white;
   padding: 16px;
   margin: 16px;
-  max-width: 650px;
+  max-width: 500px;
   width: 100%;
 
   @media (max-width: $mobile-width) {
@@ -19,17 +19,25 @@
 
 .page-title {
   font-size: 28px;
-  padding: 16px 0 64px 0;
+  padding: 16px 0 32px 0;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .text {
+    flex: 1;
+  }
 
   @media (max-width: $mobile-width) {
-    font-size: 18px;
-    padding-bottom: 32px;
+    font-size: 22px;
+    padding: 0 0 16px 0;
   }
 }
 
 .details {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   flex-grow: 1;
 
@@ -43,6 +51,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 14px;
 
   button {
     margin-left: 16px;
@@ -53,11 +62,17 @@
 
   &:not(:last-child) {
     border-bottom: 1px solid #ccc;
-    margin-bottom: 16px;
-    padding-bottom: 16px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+
+    @media (max-width: $mobile-width) {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+    }
   }
   .date {
-    font-weight: bold;
+    display: flex;
+    flex-direction: column;
     padding-bottom: 4px;
 
     @media (max-width: $mobile-width) {
@@ -69,6 +84,7 @@
     flex: 1;
     padding-left: 16px;
     text-align: right;
+    font-weight: bold;
 
     @media (max-width: $mobile-width) {
       text-align: center;

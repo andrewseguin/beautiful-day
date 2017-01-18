@@ -41,7 +41,6 @@ export class AppComponent implements OnInit {
       }
       return true;
     }).subscribe((x: any) => {
-      console.log('router.change', x);
       ga('send', 'pageview', x.url);
     });
   }

@@ -1,11 +1,16 @@
 <div class="page md-elevation-z4">
-  <div class="page-title">Important Dates</div>
+  <div class="page-title">
+    <div class="text">{{title}}</div>
+    <button md-icon-button *ngIf="canEditEvents" (click)="addEvent()">
+      <md-icon>add</md-icon>
+    </button>
+  </div>
 
   <div class="event" *ngFor="let event of events">
     <div class="details">
       <div class="date">
         <span>{{event.date | eventDate}}</span>
-        <span *ngIf="event.time"> @ {{event.time}}</span>
+        <span *ngIf="event.time">{{event.time}}</span>
       </div>
       <div class="event-info">{{event.info}}</div>
     </div>

@@ -48,6 +48,11 @@ export class PermissionsService {
         .map(user => user ? (user.isAdmin || user.isOwner) : false);
   }
 
+  canEditEvents(): Observable<boolean> {
+    return this.usersService.getCurrentUser()
+      .map(user => user ? (user.isAdmin || user.isOwner) : false);
+  }
+
   isOwner(): Observable<boolean> {
     return this.usersService.getCurrentUser()
         .map(user => user ? user.isOwner : false);
