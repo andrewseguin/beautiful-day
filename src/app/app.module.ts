@@ -66,6 +66,7 @@ import {FeedbackService} from "./service/feedback.service";
 import {EventsService} from "./service/events.service";
 import {EditEventComponent} from "./ui/shared/dialog/edit-event/edit-event.component";
 import {EventDatePipe} from "./pipe/event-date.pipe";
+import { EventsComponent } from './ui/pages/events/events.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import {EventDatePipe} from "./pipe/event-date.pipe";
     FeedbackComponent,
     EditEventComponent,
     EventDatePipe,
+    EventsComponent,
   ],
   entryComponents: [
     EditItemComponent,

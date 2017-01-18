@@ -9,6 +9,7 @@ import {HomeComponent} from "./ui/pages/home/home.component";
 import {PagesComponent} from "./ui/pages/pages.component";
 import {FeedbackComponent} from "./ui/pages/feedback/feedback.component";
 import {CanActivateOwnerGuard} from "./can-activate-owner-guard";
+import {EventsComponent} from './ui/pages/events/events.component';
 
 export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home';
 
@@ -25,6 +26,7 @@ export const ROUTER_CONFIG = [
     {path: 'inventory', component: InventoryComponent, canActivate: [CanActivateAuthGuard]},
     {path: 'home', component: HomeComponent, canActivate: [CanActivateAuthGuard]},
     {path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateOwnerGuard]},
+    {path: 'events', component: EventsComponent, canActivate: [CanActivateOwnerGuard]},
     {path: '', redirectTo: '/home', pathMatch: 'full'},
   ]},
   {path: 'login', component: LoginComponent},

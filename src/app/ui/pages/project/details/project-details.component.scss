@@ -75,6 +75,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .link:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
     md-icon {
       color: #888;
     }

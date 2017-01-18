@@ -68,7 +68,7 @@
   <div class="right">
     <div class="section md-elevation-z4">
       <div class="title">
-        Upcoming
+        <div class="link" (click)="navigateToDates()">Upcoming</div>
         <button md-icon-button *ngIf="canEditEvents" (click)="addEvent()">
           <md-icon>add</md-icon>
         </button>

@@ -1,0 +1,77 @@
+@import '../../shared/constants';
+
+:host {
+  display: flex;
+  justify-content: center;
+}
+
+.page {
+  background: white;
+  padding: 16px;
+  margin: 16px;
+  max-width: 650px;
+  width: 100%;
+
+  @media (max-width: $mobile-width) {
+    margin: 0;
+  }
+}
+
+.page-title {
+  font-size: 28px;
+  padding: 16px 0 64px 0;
+  text-align: center;
+
+  @media (max-width: $mobile-width) {
+    font-size: 18px;
+    padding-bottom: 32px;
+  }
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+
+  @media (max-width: $mobile-width) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.event {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    margin-left: 16px;
+    md-icon {
+      color: #888;
+    }
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+  }
+  .date {
+    font-weight: bold;
+    padding-bottom: 4px;
+
+    @media (max-width: $mobile-width) {
+      text-align: center;
+    }
+  }
+
+  .event-info {
+    flex: 1;
+    padding-left: 16px;
+    text-align: right;
+
+    @media (max-width: $mobile-width) {
+      text-align: center;
+    }
+  }
+}

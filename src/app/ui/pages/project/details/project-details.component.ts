@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Params, ActivatedRoute} from "@angular/router";
+import {Params, ActivatedRoute, Router} from "@angular/router";
 import {ProjectsService} from "../../../../service/projects.service";
 import {Request} from "../../../../model/request";
 import {Event} from "../../../../model/event";
@@ -39,6 +39,7 @@ export class ProjectDetailsComponent implements OnInit {
   remainingBudget: number;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private mdDialog: MdDialog,
               private auth: FirebaseAuth,
               private permissionsService: PermissionsService,
@@ -110,5 +111,9 @@ export class ProjectDetailsComponent implements OnInit {
   editEvent(event: Event) {
     const dialogRef = this.mdDialog.open(EditEventComponent);
     dialogRef.componentInstance.event = event;
+  }
+
+  navigateToDates() {
+    this.router.navigateByUrl('events');
   }
 }
