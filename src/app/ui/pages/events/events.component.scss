@@ -14,6 +14,7 @@
 
   @media (max-width: $mobile-width) {
     margin: 0;
+    max-width: $mobile-width;
   }
 }
 
@@ -88,6 +89,7 @@
 
     @media (max-width: $mobile-width) {
       text-align: center;
+      padding-left: 0;
     }
   }
 }

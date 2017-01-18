@@ -24,6 +24,10 @@ body {
   }
 }
 
+md-dialog-container {
+  max-height: 80vh;
+}
+
 /* Menu syles */
 .md-menu-panel.auth .md-menu-content {
   display: flex;

@@ -1,6 +1,6 @@
 export class Event {
   $key?: string;
-  date?: string;
+  date?: number;
   time?: string;
   info?: string;
 }

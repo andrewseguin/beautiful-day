@@ -19,6 +19,7 @@
 
   @media (max-width: $mobile-width) {
     margin: 0;
+    max-width: $mobile-width;
     border-bottom: 1px solid #CCC;
   }
 }
@@ -34,6 +35,7 @@
 .text {
   font-size: 14px;
   margin: 0;
+  white-space: normal;
 }
 
 .user {

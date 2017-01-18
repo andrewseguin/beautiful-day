@@ -16,7 +16,7 @@ export class EditEventComponent {
   _event: Event;
   set event(event: Event) {
     this._event = event;
-    this.date = this.event.date;
+    this.date = this.getDateFromEvent(this.event.date);
     this.time = this.event.time;
     this.info = this.event.info;
   }
@@ -38,11 +38,22 @@ export class EditEventComponent {
     return this.date && this.info;
   }
 
+  getDateFromEvent(eventDate: number) {
+    const date = new Date(eventDate);
+    const day = ("0" + date.getDate()).slice(-2);
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    return date.getFullYear()+"-"+(month)+"-"+(day) ;
+  }
+
   save() {
     if (!this.canSave()) { return; }
 
-    const event = {
-      date: this.date,
+    // Move the UTC date to user's time zone
+    const adjustedDate = new Date(this.date);
+    adjustedDate.setMinutes(adjustedDate.getMinutes() + adjustedDate.getTimezoneOffset());
+
+    const event: Event = {
+      date: adjustedDate.getTime(),
       time: this.time || '',
       info: this.info
     };

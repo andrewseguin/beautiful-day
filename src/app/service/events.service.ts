@@ -3,6 +3,7 @@ import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2";
 import {Event} from "../model/event";
 import {Observable} from "rxjs";
 
+
 @Injectable()
 export class EventsService {
 
@@ -16,6 +17,10 @@ export class EventsService {
         return dateA.getTime() - dateB.getTime();
       });
     });
+  }
+
+  getUpcomingEvents(): Observable<Event[]> {
+    return this.getEvents();
   }
 
   getEvent(id: string): FirebaseObjectObservable<Event> {
