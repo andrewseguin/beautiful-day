@@ -23,10 +23,10 @@ export class EventsComponent implements OnInit {
 
   ngOnInit() {
     this.headerService.title = this.title;
-    this.eventsService.getEvents()
+    this.eventsService.getSortedEvents()
         .subscribe(events => this.events = events);
     this.permissionsService.canEditEvents()
-        .subscribe(canEditEvents => this.canEditEvents = canEditEvents);
+        .subscribe(canEditEvents => this.canEditEvents = false);
   }
 
   addEvent() {

@@ -1,16 +1,20 @@
 import {Injectable} from "@angular/core";
-import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2";
+import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from "angularfire2";
 import {Event} from "../model/event";
 import {Observable} from "rxjs";
 
 
 @Injectable()
 export class EventsService {
+  events: FirebaseListObservable<Event>;
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase) {
+    this.events = this.db.list('events');
+  }
 
-  getEvents(): Observable<Event[]> {
-    return this.db.list('events').map(events => {
+  getSortedEvents(): Observable<Event[]> {
+    return this.events.map(events => {
+      console.log('updating sorted dates', events);
       return events.sort((eventA: Event, eventB: Event) => {
         const dateA = new Date(eventA.date);
         const dateB = new Date(eventB.date);
@@ -20,7 +24,17 @@ export class EventsService {
   }
 
   getUpcomingEvents(): Observable<Event[]> {
-    return this.getEvents();
+    return this.getSortedEvents().map(events => {
+      console.log('updating upcoming events', events);
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+      let upcomingEvents = events.filter(event => {
+        return yesterday < new Date(event.date);
+      });
+
+      return upcomingEvents.slice(0, 3);
+    });
   }
 
   getEvent(id: string): FirebaseObjectObservable<Event> {

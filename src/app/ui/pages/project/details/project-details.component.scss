@@ -91,13 +91,6 @@
   }
 }
 
-.upcoming-events {
-  cursor: pointer;
-  &:hover {
-    background: #F5F5F5;
-  }
-}
-
 .location {
   position: relative;
   height: 350px;
@@ -168,10 +161,8 @@
     margin-bottom: 16px;
     padding-bottom: 16px;
   }
-  .date {
-    padding-bottom: 4px;
-  }
   .event-info {
-    font-weight: bold;
+    font-size: 16px;
+    padding-bottom: 4px;
   }
 }

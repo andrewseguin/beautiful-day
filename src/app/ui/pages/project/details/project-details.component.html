@@ -66,17 +66,25 @@
   </div>
 
   <div class="right">
-    <div class="section md-elevation-z4 upcoming-events" md-ripple (click)="navigateToDates()">
-      <div class="title">Upcoming Events</div>
+    <div class="section md-elevation-z4 upcoming-events">
+      <div class="title">
+        Upcoming Events
+        <button md-icon-button (click)="navigateToDates()" [md-tooltip]="'View all events'">
+          <md-icon>open_in_browser</md-icon>
+        </button>
+      </div>
 
       <div class="events">
+        <div *ngIf="events?.length === 0">
+          There are no upcoming events.
+        </div>
         <div class="event" *ngFor="let event of events">
           <div>
+            <div class="event-info">{{event.info}}</div>
             <div class="date">
               <span>{{event.date | eventDate}}</span>
               <span *ngIf="event.time"> - {{event.time}}</span>
             </div>
-            <div class="event-info">{{event.info}}</div>
           </div>
         </div>
       </div>

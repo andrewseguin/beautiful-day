@@ -73,23 +73,40 @@
   }
   .date {
     display: flex;
-    flex-direction: column;
-    padding-bottom: 4px;
+    flex-direction: row-reverse;
+    text-align: right;
+    align-items: center;
+
+    & > *:not(:last-child) {
+      padding: 0 4px;
+    }
+
+    .time {
+      color: #555;
+      font-size: 13px;
+      padding-right: 4px;
+
+      @media (max-width: $mobile-width) {
+        padding-right: 0;
+        padding-left: 4px;
+      }
+    }
 
     @media (max-width: $mobile-width) {
       text-align: center;
+      flex-direction: row;
     }
   }
 
   .event-info {
     flex: 1;
-    padding-left: 16px;
-    text-align: right;
-    font-weight: bold;
+    font-size: 16px;
+    padding-right: 16px;
 
     @media (max-width: $mobile-width) {
       text-align: center;
-      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: 8px;
     }
   }
 }

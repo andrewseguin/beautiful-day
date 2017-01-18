@@ -13,9 +13,8 @@ import {
 import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/delete-project.component';
 import {PermissionsService, EditPermissions} from '../../../../service/permissions.service';
 import {EventsService} from '../../../../service/events.service';
-import {AdminsService} from '../../../../service/admins.service';
-import {UsersService} from '../../../../service/users.service';
 import {AccountingService} from '../../../../service/accounting.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'project-details',
@@ -36,19 +35,21 @@ export class ProjectDetailsComponent implements OnInit {
   noBudget: boolean;
   remainingBudget: number;
 
+  // Init subscriptions
+  authSubscription: Subscription;
+  upcomingEventsSubscription: Subscription;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private mdDialog: MdDialog,
               private auth: FirebaseAuth,
               private permissionsService: PermissionsService,
               private eventsService: EventsService,
-              private adminsService: AdminsService,
-              private usersService: UsersService,
               private accountingService: AccountingService,
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
-    this.auth.subscribe(auth => {
+    this.authSubscription = this.auth.subscribe(auth => {
       this.user = auth;
     });
 
@@ -69,11 +70,17 @@ export class ProjectDetailsComponent implements OnInit {
       });
     });
 
-    this.eventsService.getEvents().subscribe(events => this.events = events);
+    this.upcomingEventsSubscription = this.eventsService.getUpcomingEvents()
+        .subscribe(events => this.events = events);
 
     // Delay the HTML so that the page first shows up with a background.
     // This is significant for mobile
     setTimeout(() => { this.delayedShow = true }, 0);
+  }
+
+  ngOnDestroy() {
+    this.authSubscription.unsubscribe();
+    this.upcomingEventsSubscription.unsubscribe();
   }
 
   edit(type: EditType) {

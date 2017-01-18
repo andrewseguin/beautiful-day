@@ -8,11 +8,11 @@
 
   <div class="event" *ngFor="let event of events">
     <div class="details">
+      <div class="event-info">{{event.info}}</div>
       <div class="date">
         <span>{{event.date | eventDate}}</span>
-        <span *ngIf="event.time">{{event.time}}</span>
+        <span class="time" *ngIf="event.time">{{event.time}}</span>
       </div>
-      <div class="event-info">{{event.info}}</div>
     </div>
     <button *ngIf="canEditEvents" md-icon-button (click)="editEvent(event)">
       <md-icon>edit</md-icon>
