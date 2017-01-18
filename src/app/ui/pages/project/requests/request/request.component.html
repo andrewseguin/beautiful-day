@@ -15,12 +15,10 @@
         <span class="editable" (click)="viewItem($event)">{{item.name}}</span>
       </div>
 
-      <div class="quantity"
-           (click)="$event.stopPropagation(); quantityInput.focus()">
+      <div class="quantity" (click)="$event.stopPropagation()">
         <input type="number" #quantityInput min="0"
                *ngIf="canEdit"
                [value]="request?.quantity"
-               (click)="quantityInput.select()"
                (keyup)="changeQuantity($event.target.value)"
                (keydown.Enter)="quantityInput.blur()"
                (change)="changeQuantity($event.target.value)">
