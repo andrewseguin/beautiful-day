@@ -63,12 +63,5 @@ export class AccountingService {
           remaining: projectBudget - requestsCost
         };
       });
-
-    /* Would rather do a fork join but couldnt make it trigger
-    Observable.forkJoin(
-      this.projectsService.getBudget(projectId),
-      this.requestsService.getProjectRequests(projectId))
-      .subscribe(console.log);
-       */
   }
 }

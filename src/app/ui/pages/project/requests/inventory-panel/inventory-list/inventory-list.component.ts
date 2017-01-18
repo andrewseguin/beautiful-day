@@ -75,7 +75,7 @@ export class InventoryListComponent implements OnInit {
     // If less than the constant count, just show them without the loading
     if (this.filteredItems.length < 10) {
       this.itemsToShow = 10;
-      this.loadingValue = 100;
+      this.loadingValue = -1;
       return;
     }
 
@@ -86,20 +86,17 @@ export class InventoryListComponent implements OnInit {
   loadMoreItems() {
     this.loadingValue = 0;
     this.loadingInterval = window.setInterval(() => {
-      this.loadingValue += Math.random() * 10;
+      this.loadingValue += Math.random() * 50;
       if (this.loadingValue >= 100) {
         this.clearLoading();
         this.itemsToShow += ITEMS_TO_LOAD;
-
-        if (this.itemsToShow < this.filteredItems.length) {
-          this.loadMoreItems();
-        }
       }
-    }, 40);
+    }, 150);
   }
 
   clearLoading() {
     window.clearInterval(this.loadingInterval);
+    this.loadingValue = -1;
   }
 
   createItem() {

@@ -14,6 +14,12 @@
     </inventory-panel-item>
   </div>
 
+  <div class="create" *ngIf="filteredItems.length > itemsToShow && loadingValue === -1">
+    <button md-button color="primary" (click)="loadMoreItems()">
+      Show More
+    </button>
+  </div>
+
   <div class="create" *ngIf="filteredItems.length <= itemsToShow">
     <div class="text">Can't find what you're looking for?</div>
     <button md-button color="primary" class="new" (click)="createItem()">
@@ -22,7 +28,7 @@
   </div>
 </div>
 
-<div *ngIf="!filteredItems || loadingValue < 100">
+<div [style.display]="(!filteredItems || (loadingValue >= 0 && loadingValue < 100)) ? '' : 'none'">
   <md-progress-bar mode="determinate" [value]="loadingValue" color="primary">
   </md-progress-bar>
 
