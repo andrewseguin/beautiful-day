@@ -4,6 +4,9 @@
   margin-bottom: 16px;
 }
 
+.loading {
+  height: 80px;
+}
 
 .loading-text {
   padding: 16px;
@@ -13,7 +16,7 @@
   text-transform: uppercase;
 }
 
-.create {
+.create, .show-more {
   padding: 16px;
   font-size: 14px;
   color: #555;
