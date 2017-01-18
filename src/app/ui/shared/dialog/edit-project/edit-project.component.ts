@@ -9,7 +9,7 @@ export type EditType =
   'location' |
   'description' |
   'leads' |
-  'director' |
+  'directors' |
   'acquisitions';
 
 @Component({
@@ -24,7 +24,7 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
   description: string;
   location: string;
   leads: string[];
-  director: string;
+  directors: string[];
   acquisitions: string;
   type: EditType;
 
@@ -39,7 +39,7 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
     this.description = this.project.description;
     this.location = this.project.location;
     this.leads = this.project.leads ? this.project.leads.split(',') : [''];
-    this.director = this.project.director;
+    this.directors = this.project.directors ? this.project.directors.split(',') : [''];
     this.acquisitions = this.project.acquisitions;
   }
 
@@ -72,8 +72,11 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
         this.leads.forEach(lead => leadsArray.push(lead));
         update.leads = leadsArray.join();
         break;
-      case 'director':
-        update.director = this.director; break;
+      case 'directors':
+        const directorsArray = [];
+        this.directors.forEach(director => directorsArray.push(director));
+        update.directors = directorsArray.join();
+        break;
       case 'acquisitions':
         update.acquisitions = this.acquisitions; break;
     }
@@ -86,11 +89,15 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
     if (e.keyCode == 13 || e.key == 'Enter') { this.save(); return; }
   }
 
-  leadTrackBy(i: number): number {
+  indexTrackBy(i: number): number {
     return i;
   }
 
   removeLead(i: number) {
     this.leads.splice(i, 1);
+  }
+
+  removeDirector(i: number) {
+    this.directors.splice(i, 1);
   }
 }

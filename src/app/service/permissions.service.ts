@@ -29,11 +29,14 @@ export class PermissionsService {
       return this.projectsService.getProject(projectId);
     }).flatMap(project => {
       const isAdmin = admins.indexOf(user.email) != -1;
-      const isDirector = user.email == project.director;
 
       const leads = project.leads || '';
       const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());
       const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) != -1;
+
+      const directors = project.directors || '';
+      const lowercaseDirectors = directors.split(',').map(m => m.toLowerCase());
+      const isDirector = lowercaseDirectors.indexOf(user.email.toLowerCase()) != -1;
 
       return Observable.from([{
         details: isDirector || isAdmin || user.isOwner,

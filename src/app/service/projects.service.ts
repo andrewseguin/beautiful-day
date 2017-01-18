@@ -12,22 +12,6 @@ export class ProjectsService {
     return this.db.list('projects');
   }
 
-  getUsersProjects(email: string): Observable<Project[]> {
-    return this.getProjects().flatMap(projects => {
-
-      let usersProjects = [];
-      projects.forEach(project => {
-        let leads = project.leads ? project.leads.split(',') : [];
-        let isLead = leads.some(lead => lead == email);
-
-        if (isLead || project.director == email) {
-          usersProjects.push(project);
-        }
-      });
-      return [usersProjects];
-    });
-  }
-
   getProject(id: string): FirebaseObjectObservable<Project> {
     return this.db.object(`projects/${id}`);
   }

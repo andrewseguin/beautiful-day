@@ -28,7 +28,7 @@ export class ProjectDetailsComponent implements OnInit {
   requests: FirebaseListObservable<Request[]>;
   user: FirebaseAuthState;
   leads: string[];
-  director: string;
+  directors: string[];
   acquisitions: string;
   events: Event[];
 
@@ -96,6 +96,10 @@ export class ProjectDetailsComponent implements OnInit {
 
   getLeadEmails(): string[] {
     return this.project.leads ? this.project.leads.split(',') : [];
+  }
+
+  getDirectorEmails(): string[] {
+    return this.project.directors ? this.project.directors.split(',') : [];
   }
 
   deleteProject() {

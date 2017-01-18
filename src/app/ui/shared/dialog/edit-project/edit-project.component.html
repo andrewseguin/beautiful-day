@@ -30,7 +30,7 @@
 </div>
 
 <div *ngIf="type == 'leads'">
-  <div *ngFor="let lead of leads; let i = index; trackBy:leadTrackBy"
+  <div *ngFor="let lead of leads; let i = index; trackBy:indexTrackBy"
        class="lead-row">
     <md-input autofocus
               placeholder="lead@beautifulday.org" [floatingPlaceholder]="false"
@@ -43,10 +43,18 @@
   <button md-button (click)="leads.push('')">Add Lead</button>
 </div>
 
-<div *ngIf="type == 'director'">
-  <md-input autofocus
-            (keyup.Enter)="save()"
-            [(ngModel)]="director"></md-input>
+<div *ngIf="type == 'directors'">
+  <div *ngFor="let director of directors; let i = index; trackBy:indexTrackBy"
+       class="director-row">
+    <md-input autofocus
+              placeholder="director@beautifulday.org" [floatingPlaceholder]="false"
+              [(ngModel)]="directors[i]"
+              (keyup.Enter)="save()"></md-input>
+    <button md-icon-button [disabled]="i == 0" (click)="removeDirector(i)">
+      <md-icon>delete</md-icon>
+    </button>
+  </div>
+  <button md-button (click)="directors.push('')">Add Director</button>
 </div>
 
 <div *ngIf="type == 'acquisitions'">
