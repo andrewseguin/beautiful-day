@@ -49,13 +49,15 @@ export class RequestsService {
   }
 
   addRequest(project: Project, item: Item, quantity: number = 1) {
+    const defaultDate = new Date(1491030000000); // Hard-coded April 1, 2017
+
     this.db.list('requests').push({
       item: item.$key,
       project: project.$key,
       quantity: quantity,
       note: '',
-      dropoff: project.lastUsedDropoff || '',
-      date: project.lastUsedDate || ''
+      dropoff: 'Westgate Gym',
+      date: project.lastUsedDate || defaultDate.getTime()
     }).then(response => {
       this.requestAdded.next({key: response.getKey(), item});
     });

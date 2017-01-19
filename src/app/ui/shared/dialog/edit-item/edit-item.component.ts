@@ -52,11 +52,6 @@ export class EditItemComponent implements OnInit {
     if (this.mode == 'edit') {
       this.itemsService.getItem(this._item.$key).update(persistingItem);
     } else if (this.mode == 'new') {
-      // Set the dateMove the UTC date to user's time zone
-      const date = new Date();
-      date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
-      persistingItem.dateAdded = new Date().getTime();
-
       this.itemsService.createItem(persistingItem);
     }
 

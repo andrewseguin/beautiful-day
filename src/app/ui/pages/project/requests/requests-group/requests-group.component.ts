@@ -18,6 +18,7 @@ import {RequestsService} from "../../../../../service/requests.service";
 import {RequestViewOptions} from "../project-requests.component";
 import {RequestSortPipe} from "../../../../../pipe/request-sort.pipe";
 import {ItemsService} from "../../../../../service/items.service";
+import {Item} from '../../../../../model/item';
 
 export type Sort = 'request added' | 'item' | 'cost';
 
@@ -43,6 +44,7 @@ export type Sort = 'request added' | 'item' | 'cost';
   ]
 })
 export class RequestsGroupComponent {
+  items: Item[];
   requestSortPipe = new RequestSortPipe();
   processedRequests: Request[] = [];
   showRequests: boolean;
@@ -77,7 +79,12 @@ export class RequestsGroupComponent {
   @Output() filterTag = new EventEmitter<string>();
 
   constructor(private requestsService: RequestsService,
-              private itemsService: ItemsService) {}
+              private itemsService: ItemsService) {
+    this.itemsService.getItems().subscribe(items => {
+      this.items = items;
+      this.sortAndFilterRequests();
+    });
+  }
 
   showRequest(requestKey: string, scrollableContent: ElementRef) {
     const newRequest = this.requestComponents.find(requestComponent => {
@@ -94,11 +101,11 @@ export class RequestsGroupComponent {
   }
 
   sortAndFilterRequests() {
-    this.itemsService.getItems().subscribe(items => {
-      const requests = this.requestGroup.requests;
-      this.processedRequests =
-          this.requestSortPipe.transform(requests, this.sort, this.filter, items);
-    });
+    if (!this.items) return;
+
+    const requests = this.requestGroup.requests;
+    this.processedRequests =
+       this.requestSortPipe.transform(requests, this.sort, this.filter, this.items);
   }
 
   getRequestKey(index: number, request: Request) {

@@ -54,6 +54,11 @@ export class ItemsService {
   }
 
   createItem(item: Item) {
+    // Set the dateMove the UTC date to user's time zone
+    const date = new Date();
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+    item.dateAdded = new Date().getTime();
+
     this.getItems().push(item);
   }
 

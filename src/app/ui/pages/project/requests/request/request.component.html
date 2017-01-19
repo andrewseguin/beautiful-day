@@ -38,10 +38,7 @@
         <span class="editable"
               (click)="editDropoff($event)">
           <span *ngIf="request?.dropoff">
-            Dropoff @ {{request?.dropoff}}, {{request?.date | date}}
-          </span>
-          <span class="warn" *ngIf="!request?.dropoff">
-            Enter a dropoff location and date
+            Receive @ {{request?.dropoff}}, {{request?.date | date}}
           </span>
         </span>
       </div>
