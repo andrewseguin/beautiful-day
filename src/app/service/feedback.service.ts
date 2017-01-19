@@ -10,7 +10,7 @@ export class FeedbackService {
               private mdSnackbar: MdSnackBar,
               private auth: AngularFireAuth) { }
 
-  getFeedback(): FirebaseListObservable<Feedback[]> {
+  getAllFeedback(): FirebaseListObservable<Feedback[]> {
     return this.db.list('feedback');
   }
 
@@ -20,7 +20,8 @@ export class FeedbackService {
       this.db.list('feedback').push({
         type: 'feedback',
         user: auth.uid,
-        text: feedback
+        text: feedback,
+        dateAdded: new Date().getTime()
       });
       this.showSnackbar('Feedback sent!');
     });
@@ -32,7 +33,8 @@ export class FeedbackService {
       this.db.list('feedback').push({
         type: 'issue',
         user: auth.uid,
-        text: issue
+        text: issue,
+        dateAdded: new Date().getTime()
       });
       this.showSnackbar('Issue report sent.');
     });
@@ -42,5 +44,14 @@ export class FeedbackService {
     const snackbarConfig = new MdSnackBarConfig();
     snackbarConfig.duration = 2000;
     this.mdSnackbar.open(text, null, snackbarConfig);
+  }
+
+  update(feedback: Feedback) {
+    this.db.object(`feedback/${feedback.$key}`).update({
+      type: feedback.type,
+      user: feedback.user,
+      text: feedback.text,
+      reviewed: feedback.reviewed
+    });
   }
 }

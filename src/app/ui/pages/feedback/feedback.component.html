@@ -1,5 +1,28 @@
-<div class="feedback md-elevation-z2" *ngFor="let feedback of feedbacks">
-  <div class="type" *ngIf="feedback.type != 'feedback'">{{feedback.type}}</div>
-  <pre class="text">{{feedback.text}}</pre>
-  <div class="user">{{(userMap.get(feedback.user) | async)?.email}}</div>
-</div>
+<md-tab-group md-stretch-tabs dynamicHeight class="md-elevation-z2">
+  <md-tab label="New">
+    <div class="feedback-list">
+      <div class="no-feedback" *ngIf="newFeedback?.length === 0">
+        No new feedback
+      </div>
+      <div class="feedback" *ngFor="let feedback of newFeedback">
+        <div class="type" *ngIf="feedback.type != 'feedback'">{{feedback.type}}</div>
+        <pre class="text">{{feedback.text}}</pre>
+        <div class="user">{{(userMap.get(feedback.user) | async)?.email}}</div>
+        <div class="date">{{feedback.dateAdded | date}}</div>
+        <div class="action">
+          <button md-button (click)="setReviewed(feedback)">Mark Reviewed</button>
+        </div>
+      </div>
+    </div>
+  </md-tab>
+  <md-tab label="Reviewed">
+    <div class="feedback-list">
+      <div class="feedback" *ngFor="let feedback of reviewedFeedback">
+        <div class="type" *ngIf="feedback.type != 'feedback'">{{feedback.type}}</div>
+        <pre class="text">{{feedback.text}}</pre>
+        <div class="user">{{(userMap.get(feedback.user) | async)?.email}}</div>
+        <div class="date">{{feedback.dateAdded | date}}</div>
+      </div>
+    </div>
+  </md-tab>
+</md-tab-group>

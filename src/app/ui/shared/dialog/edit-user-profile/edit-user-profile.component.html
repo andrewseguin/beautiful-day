@@ -21,5 +21,5 @@
 
 <div class="actions">
   <button md-button (click)="close()">Cancel</button>
-  <button md-button (click)="save()" [disabled]="!phone">Save</button>
+  <button md-button (click)="save()" [disabled]="!name || !phone">Save</button>
 </div>

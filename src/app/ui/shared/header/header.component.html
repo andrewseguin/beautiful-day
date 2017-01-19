@@ -12,7 +12,7 @@
     <button md-button class="user" *ngIf="authState"
             [style.backgroundImage]="'url(' + authState.auth.photoURL + ')'"
             [md-menu-trigger-for]="menu">
-      <div class="badge" *ngIf="user && !user.phone">!</div>
+      <div class="badge" *ngIf="user && (!user.name || !user.phone)">!</div>
     </button>
   </div>
 

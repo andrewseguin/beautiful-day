@@ -3,4 +3,5 @@ export class Feedback {
   type?: string;
   user?: string;
   text?: string;
+  reviewed?: boolean;
 }

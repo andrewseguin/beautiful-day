@@ -12,7 +12,8 @@ import {HeaderService} from "../../../service/header.service";
   styleUrls: ['./feedback.component.scss']
 })
 export class FeedbackComponent implements OnInit {
-  feedbacks: Feedback[];
+  newFeedback: Feedback[];
+  reviewedFeedback: Feedback[];
   userMap = new Map<string, Observable<User>>();
 
   constructor(private feedbackService: FeedbackService,
@@ -21,13 +22,20 @@ export class FeedbackComponent implements OnInit {
 
   ngOnInit() {
     this.headerService.title = 'Feedback';
-    this.feedbackService.getFeedback().subscribe(feedbacks => {
-      this.feedbacks = feedbacks;
-      this.feedbacks.forEach(feedback => {
+    this.feedbackService.getAllFeedback().subscribe(allFeedback => {
+      allFeedback.forEach(feedback => {
         if (!this.userMap.get(feedback.user)) {
           this.userMap.set(feedback.user, this.usersService.getByUid(feedback.user));
         }
-      })
+      });
+
+      this.newFeedback = allFeedback.filter(feedback => !feedback.reviewed);
+      this.reviewedFeedback = allFeedback.filter(feedback => feedback.reviewed);
     });
+  }
+
+  setReviewed(feedback: Feedback) {
+    feedback.reviewed = true;
+    this.feedbackService.update(feedback);
   }
 }
