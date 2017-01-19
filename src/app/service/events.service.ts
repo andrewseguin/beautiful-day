@@ -14,7 +14,6 @@ export class EventsService {
 
   getSortedEvents(): Observable<Event[]> {
     return this.events.map(events => {
-      console.log('updating sorted dates', events);
       return events.sort((eventA: Event, eventB: Event) => {
         const dateA = new Date(eventA.date);
         const dateB = new Date(eventB.date);
@@ -25,7 +24,6 @@ export class EventsService {
 
   getUpcomingEvents(): Observable<Event[]> {
     return this.getSortedEvents().map(events => {
-      console.log('updating upcoming events', events);
       const today = new Date();
       const yesterday = new Date(today);
       yesterday.setDate(today.getDate() - 1);

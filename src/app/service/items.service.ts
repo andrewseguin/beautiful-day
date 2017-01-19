@@ -81,4 +81,8 @@ export class ItemsService {
   getSelectedItems(): Set<string> {
     return this.selectedItems;
   }
+
+  setAllItems(items: Item[]) {
+    this.db.object('items').set(items);
+  }
 }

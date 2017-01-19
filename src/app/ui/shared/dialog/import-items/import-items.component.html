@@ -1,0 +1,26 @@
+<div class="header">
+  <div class="title">Import Items</div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+<div class="content">
+  Select a CSV file to import items into the inventory.
+  This will <strong>remove</strong> all existing items and requests.
+</div>
+
+<div *ngIf="!items" class="input-container">
+  <input type="file" name="file" id="file"
+         (change)="importFile($event.target.files)"
+         [style.display]="'none'"/>
+  <label for="file" md-ripple class="md-elevation-z4">
+    Choose a file
+  </label>
+</div>
+<div *ngIf="items" class="confirmation">
+  Import {{items.length}} items?
+</div>
+
+<div class="actions">
+  <button md-button (click)="close()">Cancel</button>
+  <button md-raised-button color="accent" (click)="save()">Import</button>
+</div>

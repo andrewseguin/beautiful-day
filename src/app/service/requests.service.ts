@@ -5,7 +5,7 @@ import {Item} from "../model/item";
 import {Project} from "../model/project";
 import {Request} from "../model/request";
 import {Subject, Observable} from "rxjs";
-import {MdSnackBar, MdSnackBarConfig, MdDialog} from "@angular/material";
+import {MdSnackBar, MdDialog} from "@angular/material";
 import {PromptDialogComponent} from "../ui/shared/dialog/prompt-dialog/prompt-dialog.component";
 
 export class RequestAddedResponse {
@@ -114,5 +114,9 @@ export class RequestsService {
       requestIds.forEach(requestId => this.update(requestId, {note}));
       this.clearSelected();
     })
+  }
+
+  removeAllRequests() {
+    this.db.object('requests').set(null);
   }
 }

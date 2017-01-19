@@ -66,7 +66,8 @@ import {FeedbackService} from "./service/feedback.service";
 import {EventsService} from "./service/events.service";
 import {EditEventComponent} from "./ui/shared/dialog/edit-event/edit-event.component";
 import {EventDatePipe} from "./pipe/event-date.pipe";
-import { EventsComponent } from './ui/pages/events/events.component';
+import {EventsComponent} from "./ui/pages/events/events.component";
+import {ImportItemsComponent} from "./ui/shared/dialog/import-items/import-items.component";
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { EventsComponent } from './ui/pages/events/events.component';
     EditAdminComponent,
     FeedbackComponent,
     EditEventComponent,
+    ImportItemsComponent,
     EventDatePipe,
     EventsComponent,
   ],
@@ -123,6 +125,7 @@ import { EventsComponent } from './ui/pages/events/events.component';
     EditTagsComponent,
     EditUserProfileComponent,
     DeleteNoteComponent,
+    ImportItemsComponent,
     DeleteProjectComponent,
     PromptDialogComponent,
     EditAdminComponent,

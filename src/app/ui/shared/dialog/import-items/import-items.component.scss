@@ -1,0 +1,27 @@
+@import '../dialog-common';
+
+.content {
+  max-width: 300px;
+  padding: 16px 0;
+}
+
+.input-container {
+  text-align: center;
+  margin: 16px 0;
+
+  label {
+    position: relative;
+    background: #EAEAEA;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 16px 0;
+  }
+  label:hover {
+    background: #E5E5E5;
+  }
+}
+
+.confirmation {
+  margin-bottom: 16px;
+}

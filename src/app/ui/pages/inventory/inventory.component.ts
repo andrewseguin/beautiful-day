@@ -5,6 +5,7 @@ import {Item} from '../../../model/item';
 import {MdDialog} from '@angular/material';
 import {EditItemComponent} from '../../shared/dialog/edit-item/edit-item.component';
 import {HeaderService} from '../../../service/header.service';
+import {ImportItemsComponent} from "../../shared/dialog/import-items/import-items.component";
 
 @Component({
   selector: 'inventory',
@@ -70,5 +71,9 @@ export class InventoryComponent implements OnInit {
 
   setSelected(item: Item, checked: boolean) {
     this.itemsService.setSelected(item.$key, checked);
+  }
+
+  openItemImportDialog() {
+    this.mdDialog.open(ImportItemsComponent);
   }
 }
