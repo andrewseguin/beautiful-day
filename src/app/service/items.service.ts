@@ -17,7 +17,7 @@ export class ItemsService {
   constructor(private db: AngularFireDatabase) {}
 
   getItems(): FirebaseListObservable<Item[]> {
-    return this.db.list('items', { query: { orderByChild: 'dateAdded' } });
+    return this.db.list('items');
   }
 
   getItemsWithCategory(category: string): FirebaseListObservable<Item[]> {

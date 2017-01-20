@@ -51,7 +51,6 @@ export class InventoryListComponent implements OnInit {
   ngOnInit() {
     this.itemsService.getItems().subscribe(items => {
       this.items = items;
-      this.filterItems();
     });
   }
 
