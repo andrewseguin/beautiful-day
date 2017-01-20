@@ -1,6 +1,11 @@
 <div class="section-title">2017 Projects</div>
 
 <div class="projects">
+  <md-progress-circle *ngIf="!projects"
+                      mode="indeterminate"
+                      color="accent">
+  </md-progress-circle>
+
   <md-card class="project" *ngFor="let project of projects"
            md-ripple (click)="navigateToProject(project.$key)">
     <md-card-title> {{project.name}} </md-card-title>
