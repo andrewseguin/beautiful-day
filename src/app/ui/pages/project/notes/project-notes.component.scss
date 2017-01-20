@@ -1,4 +1,6 @@
+@import '../../../shared/keyframes';
 @import '../../../shared/constants';
+
 
 :host {
   background: #CCC;
@@ -13,6 +15,17 @@
   @media (max-width: $mobile-width) {
     top: $subheader-height;
   }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 24px;
+  color: #666;
+  font-weight: bold;
+  @include breathing;
 }
 
 .notes-container {

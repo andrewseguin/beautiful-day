@@ -15,10 +15,7 @@ export interface NoteChange {
 @Component({
   selector: 'project-notes',
   templateUrl: './project-notes.component.html',
-  styleUrls: ['./project-notes.component.scss'],
-  host: {
-    '[style.opacity]': '!!notes ? 1 : 0'
-  }
+  styleUrls: ['./project-notes.component.scss']
 })
 export class ProjectNotesComponent implements OnInit {
   projectId: string;

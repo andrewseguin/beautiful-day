@@ -1,4 +1,8 @@
-<div class="nav md-elevation-z1">
+<div class="loading" *ngIf="!notes">
+  Loading Notes...
+</div>
+
+<div class="nav md-elevation-z1" *ngIf="notes">
   <button md-button *ngFor="let projectNote of notes"
           routerLink="../{{projectNote.$key}}"
           routerLinkActive="active">
@@ -9,9 +13,7 @@
   </button>
 </div>
 
-{{changes}}
-
-<div class="notes-container md-elevation-z4">
+<div class="notes-container md-elevation-z4" *ngIf="notes">
   <div class="editor" *ngIf="noteId">
     <div class="header">
       <div class="title mobile" [md-menu-trigger-for]="notesMenu">

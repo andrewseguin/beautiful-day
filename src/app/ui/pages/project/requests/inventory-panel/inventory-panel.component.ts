@@ -33,10 +33,8 @@ export class InventoryPanelComponent implements OnInit {
               private projectsService: ProjectsService) {}
 
   ngOnInit() {
-    console.time('inventoryPanel');
     this.itemsService.getItemsByCategory().subscribe(collection => {
       this.collection = collection;
-      console.timeEnd('inventoryPanel');
     });
     this.route.parent.params.forEach((params: Params) => {
       this.project = this.projectsService.getProject(params['id']);

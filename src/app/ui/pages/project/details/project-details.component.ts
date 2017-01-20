@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, animate, transition, style, state, trigger} from '@angular/core';
 import {Params, ActivatedRoute, Router} from '@angular/router';
 import {ProjectsService} from '../../../../service/projects.service';
 import {Request} from '../../../../model/request';
@@ -20,6 +20,19 @@ import {Subscription} from 'rxjs';
   selector: 'project-details',
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.scss'],
+  animations: [
+    trigger('loadTrigger', [
+      state('loaded', style({opacity: 1, transform: 'translate3d(0, 0, 0)'})),
+      state('void, loading', style({opacity: 0, transform: 'translate3d(0, 3%, 0)'})),
+      transition('* <=> loaded', [
+        style({opacity: 0, transform: 'translate3d(0, 3%, 0)'}),
+        animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')]
+      ),
+    ])
+  ],
+  host: {
+    '[@loadTrigger]': "project && delayedShow ? 'loaded' : 'loading'"
+  }
 })
 export class ProjectDetailsComponent implements OnInit {
   delayedShow: boolean;
