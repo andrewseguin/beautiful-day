@@ -4,7 +4,7 @@ import {FirebaseObjectObservable} from "angularfire2";
 import {Project} from "../../../../model/project";
 import {RequestsService, RequestAddedResponse} from "../../../../service/requests.service";
 import {ProjectsService} from "../../../../service/projects.service";
-import {MdMenu, MdInput} from "@angular/material";
+import {MdMenu, MdInput, MdSidenav} from "@angular/material";
 import {MediaQueryService} from "../../../../service/media-query.service";
 import {
   Group,
@@ -57,6 +57,7 @@ export class ProjectRequestsComponent implements OnInit {
   @ViewChild('groupingMenu') groupingMenu: MdMenu;
   @ViewChild('scrollableContent') scrollableContent: ElementRef;
   @ViewChild('filterInput') filterInput: ElementRef;
+  @ViewChild(MdSidenav) inventoryPanel: MdSidenav;
   @ViewChildren(RequestsGroupComponent) requestsGroups: QueryList<RequestsGroupComponent>;
 
   constructor(private route: ActivatedRoute,
@@ -181,5 +182,15 @@ export class ProjectRequestsComponent implements OnInit {
 
   getSortOptions(): Sort[] {
     return ['request added', 'cost', 'item'];
+  }
+
+  openInventory() {
+    if (this.inventoryPanel.opened ||
+        this.hasSelectedRequests() ||
+        !this.editPermissions.requests) {
+      return;
+    }
+
+    this.inventoryPanel.open();
   }
 }

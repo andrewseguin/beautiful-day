@@ -1,5 +1,6 @@
 <md-sidenav-container *ngIf="editPermissions && delayedShow">
-  <div class="scrollable-content" #scrollableContent (scroll)="checkSubheader($event)">
+  <div class="scrollable-content" #scrollableContent (scroll)="checkSubheader($event)"
+       (swipeleft)="openInventory()">
     <div class="requests-header md-elevation-z1"
          [class.visible]="requestGroups && getAllRequests()?.length !== 0">
       <div class="buttons">
