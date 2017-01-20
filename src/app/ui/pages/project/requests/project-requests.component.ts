@@ -4,7 +4,7 @@ import {FirebaseObjectObservable} from "angularfire2";
 import {Project} from "../../../../model/project";
 import {RequestsService, RequestAddedResponse} from "../../../../service/requests.service";
 import {ProjectsService} from "../../../../service/projects.service";
-import {MdMenu, MdInput, MdSidenav} from "@angular/material";
+import {MdMenu, MdSidenav} from "@angular/material";
 import {MediaQueryService} from "../../../../service/media-query.service";
 import {
   Group,
@@ -182,15 +182,5 @@ export class ProjectRequestsComponent implements OnInit {
 
   getSortOptions(): Sort[] {
     return ['request added', 'cost', 'item'];
-  }
-
-  openInventory() {
-    if (this.inventoryPanel.opened ||
-        this.hasSelectedRequests() ||
-        !this.editPermissions.requests) {
-      return;
-    }
-
-    this.inventoryPanel.open();
   }
 }
