@@ -3,13 +3,25 @@
   <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
 </div>
 
-<div class="name">
-  <md-input [disabled]="mode == 'view'" [(ngModel)]="_item.name" placeholder="Name"></md-input>
-  <md-input [disabled]="mode == 'view'" [(ngModel)]="_item.type" placeholder="(Optional) Type"></md-input>
-</div>
-<md-input [disabled]="mode == 'view'" [(ngModel)]="_item.cost" placeholder="Cost ($)" type="number"></md-input>
-<md-input [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.category" placeholder="Category"></md-input>
-<md-input [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL"></md-input>
+<md-input-container>
+  <input md-input [disabled]="mode == 'view'" [(ngModel)]="_item.name" placeholder="Name">
+</md-input-container>
+
+<md-input-container>
+  <input md-input [disabled]="mode == 'view'" [(ngModel)]="_item.type" placeholder="(Optional) Type">
+</md-input-container>
+
+<md-input-container>
+  <input md-input [disabled]="mode == 'view'" [(ngModel)]="_item.cost" placeholder="Cost ($)" type="number">
+</md-input-container>
+
+<md-input-container>
+  <input md-input [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.category" placeholder="Category">
+</md-input-container>
+
+<md-input-container>
+  <input md-input [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL">
+</md-input-container>
 
 <div class="actions" *ngIf="mode != 'view'">
   <button md-button (click)="close()">Cancel</button>
