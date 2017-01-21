@@ -36,10 +36,15 @@
 
   & > div {
     padding: 4px 0;
+    width: 100%;
   }
   .property-title {
     font-weight: bold;
   }
+  a {
+    word-wrap: break-word;
+  }
+
 }
 
 .request-row {
