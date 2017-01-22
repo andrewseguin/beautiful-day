@@ -14,7 +14,7 @@ import {Project} from "../../../model/project";
 })
 export class NavComponent implements OnInit {
   canCreateProjects: boolean;
-  isOwner: boolean;
+  canViewFeedback: boolean;
   projects: Project[];
 
   constructor(private projectsService: ProjectsService,
@@ -30,8 +30,8 @@ export class NavComponent implements OnInit {
     this.permissionsService.canCreateProjects()
         .subscribe(canCreateProjects => this.canCreateProjects = canCreateProjects);
 
-    this.permissionsService.isOwner()
-        .subscribe(isOwner => this.isOwner = isOwner);
+    this.permissionsService.canViewFeedback()
+        .subscribe(canViewFeedback => this.canViewFeedback = canViewFeedback);
   }
 
   addProject() {

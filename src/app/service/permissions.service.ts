@@ -3,7 +3,7 @@ import {User} from "../model/user";
 import {ProjectsService} from "./projects.service";
 import {Observable} from "rxjs";
 import {UsersService} from "./users.service";
-import {AdminsService} from "./admins.service";
+import {GroupsService} from "./groups.service";
 
 export interface EditPermissions {
   details?: boolean;
@@ -14,7 +14,7 @@ export interface EditPermissions {
 @Injectable()
 export class PermissionsService {
   constructor(private projectsService: ProjectsService,
-              private adminsService: AdminsService,
+              private groupsService: GroupsService,
               private usersService: UsersService) { }
 
   getEditPermissions(projectId: string): Observable<EditPermissions> {
@@ -23,9 +23,9 @@ export class PermissionsService {
 
     return this.usersService.getCurrentUser().flatMap(u => {
       user = u;
-      return this.adminsService.getAdmins();
-    }).flatMap(a => {
-      admins = a;
+      return this.groupsService.get('admins');
+    }).flatMap(members => {
+      admins = members;
       return this.projectsService.getProject(projectId);
     }).flatMap(project => {
       const isAdmin = admins.indexOf(user.email) != -1;
@@ -47,17 +47,36 @@ export class PermissionsService {
   }
 
   canCreateProjects(): Observable<boolean> {
-    return this.usersService.getCurrentUser()
-        .map(user => user ? (user.isAdmin || user.isOwner) : false);
+    return this.isCurrentUserOwnerOrAdmin();
   }
 
   canEditEvents(): Observable<boolean> {
-    return this.usersService.getCurrentUser()
-      .map(user => user ? (user.isAdmin || user.isOwner) : false);
+    return this.isCurrentUserOwnerOrAdmin();
   }
 
-  isOwner(): Observable<boolean> {
+  canManageAcqusitions(): Observable<boolean> {
+    return this.isCurrentUserOwnerOrAdmin();
+  }
+
+  canManageAdmins(): Observable<boolean> {
+    return this.isOwner();
+  }
+
+  canViewFeedback(): Observable<boolean> {
+    return this.isOwner();
+  }
+
+  private isOwner(): Observable<boolean> {
     return this.usersService.getCurrentUser()
         .map(user => user ? user.isOwner : false);
+  }
+
+  private isCurrentUserOwnerOrAdmin(): Observable<boolean> {
+    let isOwner = false;
+    return this.usersService.getCurrentUser()
+      .flatMap(user => {
+        isOwner = user.isOwner;
+        return this.groupsService.isMember('admins', user.email);
+      }).map(isAdmin => isOwner || isAdmin);
   }
 }

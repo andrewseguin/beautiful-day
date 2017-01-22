@@ -58,8 +58,6 @@ import {EditUserProfileComponent} from "./ui/shared/dialog/edit-user-profile/edi
 import {RemainingBudgetComponent} from "./ui/pages/project/requests/remaining-budget/remaining-budget.component";
 import {AccountingService} from "./service/accounting.service";
 import {PermissionsService} from "./service/permissions.service";
-import {AdminsService} from "./service/admins.service";
-import {EditAdminComponent} from "./ui/shared/dialog/edit-admins/edit-admin.component";
 import {FeedbackComponent} from "./ui/pages/feedback/feedback.component";
 import {CanActivateOwnerGuard} from "./can-activate-owner-guard";
 import {FeedbackService} from "./service/feedback.service";
@@ -68,6 +66,8 @@ import {EditEventComponent} from "./ui/shared/dialog/edit-event/edit-event.compo
 import {EventDatePipe} from "./pipe/event-date.pipe";
 import {EventsComponent} from "./ui/pages/events/events.component";
 import {ImportItemsComponent} from "./ui/shared/dialog/import-items/import-items.component";
+import {EditGroupComponent} from "./ui/shared/dialog/edit-group/edit-group.component";
+import {GroupsService} from "./service/groups.service";
 
 @NgModule({
   declarations: [
@@ -109,7 +109,7 @@ import {ImportItemsComponent} from "./ui/shared/dialog/import-items/import-items
     SetValuesPipe,
     PromptDialogComponent,
     RemainingBudgetComponent,
-    EditAdminComponent,
+    EditGroupComponent,
     FeedbackComponent,
     EditEventComponent,
     ImportItemsComponent,
@@ -128,7 +128,7 @@ import {ImportItemsComponent} from "./ui/shared/dialog/import-items/import-items
     ImportItemsComponent,
     DeleteProjectComponent,
     PromptDialogComponent,
-    EditAdminComponent,
+    EditGroupComponent,
     EditEventComponent,
   ],
   imports: [
@@ -155,7 +155,7 @@ import {ImportItemsComponent} from "./ui/shared/dialog/import-items/import-items
     AccountingService,
     PermissionsService,
     FeedbackService,
-    AdminsService,
+    GroupsService,
     EventsService,
   ],
   bootstrap: [AppComponent]

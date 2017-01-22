@@ -25,8 +25,8 @@
         *ngIf="canCreateProjects"
         (click)="addProject()">+ New Project</button>
 
-<div class="section-title" *ngIf="isOwner">Feedback</div>
-<button md-button class="nav-link" *ngIf="isOwner"
+<div class="section-title" *ngIf="canViewFeedback">Feedback</div>
+<button md-button class="nav-link" *ngIf="canViewFeedback"
         (click)="sidenav.close()"
         routerLink="/feedback"
         routerLinkActive="active">

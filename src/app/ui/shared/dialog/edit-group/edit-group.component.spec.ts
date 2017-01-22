@@ -1,20 +1,20 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-import {EditAdminComponent} from "./edit-admin.component";
+import {EditGroupComponent} from "./edit-group.component";
 
-describe('EditAdminComponent', () => {
-  let component: EditAdminComponent;
-  let fixture: ComponentFixture<EditAdminComponent>;
+describe('EditGroupComponent', () => {
+  let component: EditGroupComponent;
+  let fixture: ComponentFixture<EditGroupComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditAdminComponent ]
+      declarations: [ EditGroupComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditAdminComponent);
+    fixture = TestBed.createComponent(EditGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

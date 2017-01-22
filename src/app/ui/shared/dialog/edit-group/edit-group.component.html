@@ -1,14 +1,14 @@
 <div class="header">
-  <div class="title">Edit Admins</div>
+  <div class="title">Edit {{getMemberName(true)}}</div>
   <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
 </div>
 
-<div class="admins">
-  <div *ngFor="let admin of admins; let index = index; trackBy:trackByIndex" class="admin">
+<div class="members">
+  <div *ngFor="let member of members; let index = index; trackBy:trackByIndex" class="member">
     <md-input-container [floatingPlaceholder]="false">
       <input md-input
              (keyup.Enter)="save()"
-             [(ngModel)]="admins[index]">
+             [(ngModel)]="members[index]">
     </md-input-container>
     <button md-icon-button (click)="remove(index)">
       <md-icon>delete</md-icon>
@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<button md-button (click)="admins.push('')">Add Admin</button>
+<button md-button (click)="members.push('')">Add {{getMemberName()}}</button>
 
 <div class="actions">
   <button md-button (click)="close()">Cancel</button>

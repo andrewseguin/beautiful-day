@@ -11,9 +11,11 @@ import {MdSidenav, MdDialog} from "@angular/material";
 import {UsersService} from "../../../service/users.service";
 import {User} from "../../../model/user";
 import {EditUserProfileComponent} from "../dialog/edit-user-profile/edit-user-profile.component";
-import {EditAdminComponent} from "../dialog/edit-admins/edit-admin.component";
 import {PromptDialogComponent} from "../dialog/prompt-dialog/prompt-dialog.component";
 import {FeedbackService} from "../../../service/feedback.service";
+import {EditGroupComponent} from "../dialog/edit-group/edit-group.component";
+import {Observable} from "rxjs";
+import {PermissionsService} from "../../../service/permissions.service";
 
 @Component({
   selector: 'header',
@@ -34,6 +36,8 @@ export class HeaderComponent implements OnInit {
   authState: FirebaseAuthState;
   user: User;
   project: Project;
+  canManageAcquisitions: boolean;
+  canManageAdmins: boolean;
   subheaderVisibility: 'visible'|'hidden' = 'visible';
 
   @Input() sidenav: MdSidenav;
@@ -48,6 +52,7 @@ export class HeaderComponent implements OnInit {
     private subheaderService: SubheaderService,
     private mdDialog: MdDialog,
     private feedbackService: FeedbackService,
+    private permissionsService: PermissionsService,
     private headerService: HeaderService) { }
 
   ngOnInit() {
@@ -60,7 +65,6 @@ export class HeaderComponent implements OnInit {
       }
     });
 
-
     this.subheaderService.visibilitySubject.subscribe(visibility => {
       this.subheaderVisibility = visibility ? 'visible' : 'hidden';
     });
@@ -70,6 +74,12 @@ export class HeaderComponent implements OnInit {
         this.handleRouteChange(this.route.firstChild);
       }
     });
+
+    this.permissionsService.canManageAdmins()
+      .subscribe(canManageAdmins => this.canManageAdmins = canManageAdmins);
+
+    this.permissionsService.canManageAcqusitions()
+      .subscribe(canManageAcquisitions => this.canManageAcquisitions = canManageAcquisitions);
   }
 
   handleRouteChange(route: ActivatedRoute) {
@@ -114,7 +124,13 @@ export class HeaderComponent implements OnInit {
   }
 
   manageAdmins(): void {
-    this.mdDialog.open(EditAdminComponent);
+    const dialogRef = this.mdDialog.open(EditGroupComponent);
+    dialogRef.componentInstance.group = 'admins';
+  }
+
+  manageAcquisitions(): void {
+    const dialogRef = this.mdDialog.open(EditGroupComponent);
+    dialogRef.componentInstance.group = 'acquisitions';
   }
 
   sendFeedback(): void {
