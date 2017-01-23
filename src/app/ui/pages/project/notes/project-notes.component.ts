@@ -6,6 +6,7 @@ import {MdDialog} from "@angular/material";
 import {DeleteNoteComponent} from "../../../shared/dialog/delete-note/delete-note.component";
 import {Subject} from "rxjs";
 import {PromptDialogComponent} from "../../../shared/dialog/prompt-dialog/prompt-dialog.component";
+import {PermissionsService} from "../../../../service/permissions.service";
 
 export interface NoteChange {
   noteId: string;
@@ -46,6 +47,7 @@ export class ProjectNotesComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.noteId = params['noteId'];
+
       this.notesService.getNote(this.noteId).subscribe((note: Note) => {
         if (this.noteId != params['noteId']) { return; /* Subscription no longer relevant  */ }
         if (!note.$exists()) {

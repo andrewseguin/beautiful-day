@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {PermissionsService} from "../../../../service/permissions.service";
 
 export class ProjectNavLink {
   link: string;
@@ -13,13 +14,18 @@ export class ProjectNavLink {
 export class ProjectNavComponent {
   projectNavLinks: ProjectNavLink[];
 
+  constructor(private permissionsService: PermissionsService) {}
+
   @Input('projectId') set id(id: string) {
     if (!id) { this.projectNavLinks = null; return; }
 
-    this.projectNavLinks = [
-      {link: `/project/${id}/details`, title: 'Details'},
-      {link: `/project/${id}/notes`, title: 'Notes'},
-      {link: `/project/${id}/requests`, title: 'Requests'}
-    ];
+    this.permissionsService.getEditPermissions(id).subscribe(editPermissions => {
+      const details = {link: `/project/${id}/details`, title: 'Details'};
+      const notes = {link: `/project/${id}/notes`, title: 'Notes'};
+      const requests = {link: `/project/${id}/requests`, title: 'Requests'};
+
+      this.projectNavLinks =
+          editPermissions.notes ? [details, notes, requests] : [details, requests];
+    });
   }
 }

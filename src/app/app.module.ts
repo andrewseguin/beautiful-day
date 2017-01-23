@@ -68,6 +68,7 @@ import {EventsComponent} from "./ui/pages/events/events.component";
 import {ImportItemsComponent} from "./ui/shared/dialog/import-items/import-items.component";
 import {EditGroupComponent} from "./ui/shared/dialog/edit-group/edit-group.component";
 import {GroupsService} from "./service/groups.service";
+import {CanActivateNotesGuard} from "./can-activate-notes-guard";
 
 @NgModule({
   declarations: [
@@ -150,6 +151,7 @@ import {GroupsService} from "./service/groups.service";
     UsersService,
     CanActivateAuthGuard,
     CanActivateFeedbackGuard,
+    CanActivateNotesGuard,
     HeaderService,
     NotesService,
     AccountingService,

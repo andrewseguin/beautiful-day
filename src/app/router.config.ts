@@ -10,6 +10,7 @@ import {PagesComponent} from "./ui/pages/pages.component";
 import {FeedbackComponent} from "./ui/pages/feedback/feedback.component";
 import {CanActivateFeedbackGuard} from "./can-activate-feedback-guard";
 import {EventsComponent} from './ui/pages/events/events.component';
+import {CanActivateNotesGuard} from "./can-activate-notes-guard";
 
 export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home';
 
@@ -18,7 +19,7 @@ export const ROUTER_CONFIG = [
     {path: 'project/:id', component: ProjectComponent, canActivate: [CanActivateAuthGuard], children: [
       {path: '', redirectTo: 'details', pathMatch: 'full'},
       {path: 'details', component: ProjectDetailsComponent},
-      {path: 'notes', component: ProjectNotesComponent},
+      {path: 'notes', component: ProjectNotesComponent, canActivate: [CanActivateNotesGuard]},
       {path: 'notes/:noteId', component: ProjectNotesComponent},
       {path: 'requests', redirectTo: 'requests/all'},
       {path: 'requests/:group', component: ProjectRequestsComponent}
