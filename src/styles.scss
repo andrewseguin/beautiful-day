@@ -155,7 +155,7 @@ inventory-search .md-input-underline {
 /* Make header NOT responsive by material's definition */
 .md-toolbar-layout md-toolbar-row {
   height: 64px !important; // Material wants to override this to be responsive
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     height: 48px !important;
   }
 }

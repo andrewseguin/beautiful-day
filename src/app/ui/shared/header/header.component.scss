@@ -17,7 +17,7 @@ md-toolbar {
     height: $subheader-height;
     z-index: 1;
 
-    @media (max-width: $mobile-width) {
+    @media (max-width: $mobile-width - 1) {
       display: flex;
       padding: 0;
     }
@@ -34,9 +34,6 @@ md-toolbar {
     height: 48px;
     width: 48px;
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .name {
@@ -78,7 +75,7 @@ md-toolbar {
       margin-right: 14px;
       padding: 0;
 
-      @media (max-width: $mobile-width) {
+      @media (max-width: $mobile-width - 1) {
         min-width: 32px;
         height: 32px;
         background-size: 32px;

@@ -12,7 +12,7 @@
   overflow: auto;
   display: flex;
 
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     top: $subheader-height;
   }
 }
@@ -40,7 +40,7 @@
   background: #CCC;
   padding: 16px;
 
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     display: none;
   }
 }
@@ -65,7 +65,7 @@
       font-weight: bold;
 
       &.mobile {
-        @media (max-width: $mobile-width) {
+        @media (max-width: $mobile-width - 1) {
           display: flex;
         }
       }

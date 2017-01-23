@@ -26,7 +26,7 @@
     border-radius: 32px;
 
     // Always show delete when on mobile
-    @media (max-width: $mobile-width) {
+    @media (max-width: $mobile-width - 1) {
       opacity: 1;
     }
 

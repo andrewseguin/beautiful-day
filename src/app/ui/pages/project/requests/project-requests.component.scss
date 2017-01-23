@@ -30,7 +30,7 @@ md-sidenav {
   right: 0;
   left: 0;
 
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     padding-top: $subheader-height;
   }
 }
@@ -40,7 +40,7 @@ md-sidenav {
   align-items: center;
   flex-direction: column;
 
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     padding-bottom: 70px;
   }
 }
@@ -60,7 +60,7 @@ md-sidenav {
   font-weight: lighter;
 
   .wide {
-    @media (max-width: $mobile-width) {
+    @media (max-width: $mobile-width - 1) {
       display: none;
     }
   }

@@ -18,7 +18,7 @@ md-card.project {
     background: #F5F5F5;
   }
 
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     margin: 0;
     width: initial;
     height: inherit;
@@ -34,7 +34,7 @@ md-card.project {
   width: 100%;
   text-align: center;
 
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     border: none;
   }
 }
@@ -44,7 +44,7 @@ md-card.project {
   flex-direction: column;
   justify-content: space-around;
 
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     flex-wrap: nowrap;
     flex-direction: column;
     margin: 0;

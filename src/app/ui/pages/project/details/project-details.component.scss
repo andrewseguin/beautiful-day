@@ -13,19 +13,19 @@
   padding: 32px 0;
   flex-grow: 1;
 
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     padding-top: ($subheader-height + 16px);
     padding-bottom: 0;
   }
 }
 
 .delayed-show {
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     padding-top: $subheader-height;
   }
 }
 
-@media (max-width: $mobile-width) {
+@media (max-width: $mobile-width - 1) {
   .info {
     flex-direction: column;
   }
@@ -64,7 +64,7 @@
   padding: 16px;
   position: relative;
 
-  @media (max-width: $mobile-width) {
+  @media (max-width: $mobile-width - 1) {
     margin-bottom: 16px;
     max-width: 100%;
   }
