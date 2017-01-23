@@ -5,11 +5,11 @@ import "rxjs/add/operator/take";
 import {PermissionsService} from "./service/permissions.service";
 
 @Injectable()
-export class CanActivateOwnerGuard implements CanActivate {
+export class CanActivateFeedbackGuard implements CanActivate {
 
   constructor(private permissionsService: PermissionsService) {}
 
   canActivate(): Observable<boolean> {
-    return this.permissionsService.isOwner();
+    return this.permissionsService.canViewFeedback();
   }
 }

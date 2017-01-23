@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {ItemsService} from "../../../service/items.service";
-import {FirebaseListObservable} from "angularfire2";
-import {Item} from '../../../model/item';
-import {MdDialog} from '@angular/material';
-import {EditItemComponent} from '../../shared/dialog/edit-item/edit-item.component';
-import {HeaderService} from '../../../service/header.service';
-import {ImportItemsComponent} from "../../shared/dialog/import-items/import-items.component";
+import {Item} from "../../../model/item";
+import {MdDialog} from "@angular/material";
+import {EditItemComponent} from "../../shared/dialog/edit-item/edit-item.component";
+import {HeaderService} from "../../../service/header.service";
+import {PermissionsService} from "../../../service/permissions.service";
+import {ItemSearchPipe} from "../../../pipe/item-search.pipe";
 
 @Component({
   selector: 'inventory',
@@ -13,31 +13,38 @@ import {ImportItemsComponent} from "../../shared/dialog/import-items/import-item
   styleUrls: ['./inventory.component.scss']
 })
 export class InventoryComponent implements OnInit {
-  items: FirebaseListObservable<any[]>;
-  categories: any[] = [];
-  categorizedItems: Map<string, Item[]> = new Map();
+  itemsToShow: number = 10;
+  items: Item[];
+  searchItems: Item[];
+  canImportItems: boolean;
+  categories: string[] = [];
+  itemSearch = new ItemSearchPipe();
+
+  _search: string = '';
+  set search(search: string) {
+    this._search = search;
+    this.searchItems = this.itemSearch.transform(this.items, search);
+  }
+  get search(): string { return this._search; }
 
   constructor(private mdDialog: MdDialog,
               private headerService: HeaderService,
+              private permissionsService: PermissionsService,
               private itemsService: ItemsService) { }
 
   ngOnInit() {
     this.headerService.title = 'Inventory';
 
-    this.itemsService.getItems().subscribe((items: Item[])=> {
-      this.categorizedItems = new Map();
+    this.itemsService.getItems()
+        .subscribe(items=> this.items = items);
 
-      items.forEach((item: Item) => {
-        const category = item.category;
-        if (!this.categorizedItems.has(category)) {
-          this.categorizedItems.set(category, []);
-        }
-        this.categorizedItems.get(category).push(item);
-      });
+    this.permissionsService.canImportItems()
+        .subscribe(canImportItems => this.canImportItems = canImportItems);
 
-      this.categories = [];
-      this.categorizedItems.forEach((items, category) => this.categories.push(category));
-    });
+    this.itemsService.getItemsByCategory()
+        .subscribe(categoryGroupCollection => {
+          this.categories = Object.keys(categoryGroupCollection);
+        })
   }
 
   ngOnDestroy() {
@@ -73,7 +80,15 @@ export class InventoryComponent implements OnInit {
     this.itemsService.setSelected(item.$key, checked);
   }
 
-  openItemImportDialog() {
-    this.mdDialog.open(ImportItemsComponent);
+  hasAllSelectedItems(): boolean {
+    return this.searchItems.every(item => {
+      return this.itemsService.isSelected(item.$key);
+    })
+  }
+
+  toggleGroupSelection(select: boolean) {
+    this.searchItems.forEach(item => {
+      this.itemsService.setSelected(item.$key, select);
+    })
   }
 }

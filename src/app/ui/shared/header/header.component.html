@@ -32,6 +32,7 @@
     <button md-menu-item class="option" (click)="reportIssue()">Report Issue</button>
     <button md-menu-item class="option" *ngIf="canManageAdmins" (click)="manageAdmins()">Manage Admins</button>
     <button md-menu-item class="option" *ngIf="canManageAcquisitions" (click)="manageAcquisitions()">Manage Acquisitions Team</button>
+    <button md-menu-item class="option" *ngIf="canImportItems" (click)="importItems()">Import Inventory</button>
 
     <button md-menu-item class="logout" (click)="logout()">Logout</button>
   </md-menu>

@@ -59,7 +59,7 @@ import {RemainingBudgetComponent} from "./ui/pages/project/requests/remaining-bu
 import {AccountingService} from "./service/accounting.service";
 import {PermissionsService} from "./service/permissions.service";
 import {FeedbackComponent} from "./ui/pages/feedback/feedback.component";
-import {CanActivateOwnerGuard} from "./can-activate-owner-guard";
+import {CanActivateFeedbackGuard} from "./can-activate-feedback-guard";
 import {FeedbackService} from "./service/feedback.service";
 import {EventsService} from "./service/events.service";
 import {EditEventComponent} from "./ui/shared/dialog/edit-event/edit-event.component";
@@ -149,7 +149,7 @@ import {GroupsService} from "./service/groups.service";
     SubheaderService,
     UsersService,
     CanActivateAuthGuard,
-    CanActivateOwnerGuard,
+    CanActivateFeedbackGuard,
     HeaderService,
     NotesService,
     AccountingService,

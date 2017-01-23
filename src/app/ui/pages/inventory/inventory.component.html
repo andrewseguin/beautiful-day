@@ -1,16 +1,24 @@
-<div class="inventory-header md-elevation-z1">
-  <button md-button (click)="openItemImportDialog()">
-    <md-icon>file_download</md-icon>
-    Import Inventory
-  </button>
+<div class="search-container md-elevation-z1">
+  <md-input-container class="inventory-page-search" [floatingPlaceholder]="false">
+    <div class="search-box-content">
+      <input md-input [(ngModel)]="search"
+             (ngModelChange)="itemsToShow = 10"
+             placeholder="Search inventory">
+      <button md-icon-button *ngIf="search" (click)="search = ''"><md-icon>close</md-icon></button>
+    </div>
+  </md-input-container>
 </div>
 
-<div class="items-container">
-  <div *ngFor="let category of categories; trackBy:categoryTrackBy " class="categorized-items">
-    <div class="category-title">{{category}}</div>
+<div class="page">
+  <div class="search-results-container" *ngIf="search">
+    <div class="title">
+      <md-checkbox [checked]="hasAllSelectedItems()"
+                   (change)="toggleGroupSelection($event.checked)">
+      </md-checkbox>
+      Search Results ({{searchItems.length}})
+    </div>
     <div class="items">
-
-      <div *ngFor="let item of categorizedItems.get(category)"
+      <div *ngFor="let item of searchItems | slice:0:itemsToShow"
            (click)="setSelected(item, !isSelected(item))"
            class="item">
         <md-checkbox [checked]="isSelected(item)"
@@ -19,13 +27,29 @@
 
         <div class="name">
           {{getItemName(item)}}
-          <md-icon (click)="$event.stopPropagation(); editItem(item)">edit</md-icon>
-          <md-icon (click)="$event.stopPropagation(); openItemUrl(item)">open_in_new</md-icon>
+          <md-icon class="md-18" (click)="$event.stopPropagation(); editItem(item)">edit</md-icon>
+          <md-icon class="md-18" (click)="$event.stopPropagation(); openItemUrl(item)">open_in_new</md-icon>
         </div>
 
-        <div class="cost">${{item.cost}}</div>
+        <div class="cost">{{item.cost | currency:'USD':true:'1.2-2'}}</div>
       </div>
 
+      <button md-button color="primary"
+              *ngIf="itemsToShow < searchItems.length"
+              (click)="itemsToShow = itemsToShow + 20"
+              class="show-more">Show More</button>
     </div>
   </div>
+
+  <div class="empty-search" *ngIf="!search">
+    <div class="title">Categories</div>
+    <div class="suggested-searches">
+      <button md-button *ngFor="let category of categories"
+              (click)="search = '[category]:' + category.replace(' ', '_')"
+              class="search-category md-elevation-z4">
+        {{category}}
+      </button>
+    </div>
+  </div>
+
 </div>

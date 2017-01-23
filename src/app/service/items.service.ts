@@ -31,7 +31,7 @@ export class ItemsService {
 
   getItemsByCategory(): Observable<CategoryGroupCollection> {
     return this.getItems().map(items => {
-      const categoryGroupsMap: CategoryGroupCollection= {};
+      const categoryGroupsMap: CategoryGroupCollection = {};
 
       items.forEach(item => {
         const category = item.category;

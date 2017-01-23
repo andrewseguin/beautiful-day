@@ -14,8 +14,8 @@ import {EditUserProfileComponent} from "../dialog/edit-user-profile/edit-user-pr
 import {PromptDialogComponent} from "../dialog/prompt-dialog/prompt-dialog.component";
 import {FeedbackService} from "../../../service/feedback.service";
 import {EditGroupComponent} from "../dialog/edit-group/edit-group.component";
-import {Observable} from "rxjs";
 import {PermissionsService} from "../../../service/permissions.service";
+import {ImportItemsComponent} from "../dialog/import-items/import-items.component";
 
 @Component({
   selector: 'header',
@@ -36,9 +36,12 @@ export class HeaderComponent implements OnInit {
   authState: FirebaseAuthState;
   user: User;
   project: Project;
+
+  subheaderVisibility: 'visible'|'hidden' = 'visible';
+
   canManageAcquisitions: boolean;
   canManageAdmins: boolean;
-  subheaderVisibility: 'visible'|'hidden' = 'visible';
+  canImportItems: boolean;
 
   @Input() sidenav: MdSidenav;
 
@@ -80,6 +83,9 @@ export class HeaderComponent implements OnInit {
 
     this.permissionsService.canManageAcqusitions()
       .subscribe(canManageAcquisitions => this.canManageAcquisitions = canManageAcquisitions);
+
+    this.permissionsService.canImportItems()
+      .subscribe(canImportItems => this.canImportItems = canImportItems);
   }
 
   handleRouteChange(route: ActivatedRoute) {
@@ -149,5 +155,9 @@ export class HeaderComponent implements OnInit {
     dialogRef.componentInstance.onSave().subscribe(text => {
       this.feedbackService.addIssue(text);
     });
+  }
+
+  importItems(): void {
+    this.mdDialog.open(ImportItemsComponent);
   }
 }

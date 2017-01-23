@@ -26,7 +26,7 @@ export class EventsComponent implements OnInit {
     this.eventsService.getSortedEvents()
         .subscribe(events => this.events = events);
     this.permissionsService.canEditEvents()
-        .subscribe(canEditEvents => this.canEditEvents = false);
+        .subscribe(canEditEvents => this.canEditEvents = canEditEvents);
   }
 
   addEvent() {

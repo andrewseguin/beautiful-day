@@ -66,6 +66,10 @@ export class PermissionsService {
     return this.isOwner();
   }
 
+  canImportItems(): Observable<boolean> {
+    return this.isCurrentUserOwnerOrAdmin();
+  }
+
   private isOwner(): Observable<boolean> {
     return this.usersService.getCurrentUser()
         .map(user => user ? user.isOwner : false);

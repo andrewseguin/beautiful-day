@@ -1,7 +1,9 @@
 <div *ngIf="isMultiSelect()">
   <button md-button [md-menu-trigger-for]="editMenu" class="header-button">
-    <md-icon>edit</md-icon>
-    <div class="text">Edit</div>
+    <div class="selection-header-button-content">
+      <md-icon>edit</md-icon>
+      <div class="text">Edit</div>
+    </div>
   </button>
   <md-menu #editMenu="mdMenu" x-position="before">
     <button md-menu-item (click)="editCategory()"> Category </button>
