@@ -1,12 +1,11 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Note} from "../../../../model/note";
 import {NotesService} from "../../../../service/notes.service";
-import {MdDialog} from "@angular/material";
+import {MdDialog, MdMenu} from "@angular/material";
 import {DeleteNoteComponent} from "../../../shared/dialog/delete-note/delete-note.component";
 import {Subject} from "rxjs";
 import {PromptDialogComponent} from "../../../shared/dialog/prompt-dialog/prompt-dialog.component";
-import {PermissionsService} from "../../../../service/permissions.service";
 
 export interface NoteChange {
   noteId: string;
@@ -21,6 +20,7 @@ export interface NoteChange {
 export class ProjectNotesComponent implements OnInit {
   projectId: string;
   notes : Note[];
+  hoveringNavNoteId: string;
 
   title: string;
   noteId: string;
@@ -28,6 +28,8 @@ export class ProjectNotesComponent implements OnInit {
 
   noteChanged = new Subject<NoteChange>();
   noteFocused: boolean;
+
+  @ViewChild('editNoteMenu') editNoteMenu: MdMenu;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -39,10 +41,13 @@ export class ProjectNotesComponent implements OnInit {
       this.saveNoteText(noteChange.noteId, noteChange.text);
     });
 
-    this.route.parent.params.subscribe(params => {
+    this.route.parent.params.flatMap(params => {
       this.projectId = params['id'];
-      this.notesService.getProjectNotes(this.projectId)
-          .subscribe(notes => this.notes = notes);
+      console.log(params)
+      return this.notesService.getProjectNotes(this.projectId)
+    }).subscribe(notes => {
+      console.log(notes)
+      this.notes = notes;
     });
 
     this.route.params.subscribe(params => {
@@ -77,23 +82,33 @@ export class ProjectNotesComponent implements OnInit {
     this.notesService.update(noteId, {text});
   }
 
-  openEditTitleDialog() {
+  openEditTitleDialog(id: string) {
+    const note = this.getNote(id);
+    console.log(id)
     const dialogRef = this.mdDialog.open(PromptDialogComponent);
     dialogRef.componentInstance.title = 'Edit Title';
-    dialogRef.componentInstance.input = this.title;
+    dialogRef.componentInstance.input = note.title;
     dialogRef.componentInstance.onSave().subscribe(title => {
-      this.notesService.update(this.noteId, {title});
+      console.log(note.$key)
+      this.notesService.update(note.$key, {title});
     });
   }
 
-  openDeleteNoteDialog() {
+  openDeleteNoteDialog(id: string) {
+    const note = this.getNote(id);
     const dialogRef = this.mdDialog.open(DeleteNoteComponent);
-    dialogRef.componentInstance.noteId = this.noteId;
-    dialogRef.componentInstance.title = this.title;
+    dialogRef.componentInstance.noteId = note.$key;
+    dialogRef.componentInstance.title = note.title;
 
     dialogRef.componentInstance.onDelete().subscribe(() => {
       this.gotoDefaultNote(true);
     });
+  }
+
+  getNote(id: string): Note {
+    let note = null;
+    this.notes.forEach(n => { if (n.$key == id) note = n});
+    return note;
   }
 
   gotoDefaultNote(replaceNote: boolean) {
