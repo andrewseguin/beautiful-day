@@ -9,4 +9,6 @@ export interface Item {
   isRental?: boolean;
   addedBy?: string;
   dateAdded?: number;
+  keywords?: string;
+  quantityOwned?: number;
 }

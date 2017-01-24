@@ -22,6 +22,9 @@
 <md-input-container>
   <input md-input [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL">
 </md-input-container>
+<div class="error" *ngIf="mode != 'view' && _item.url && !isValidUrl(_item.url)">
+  Please enter a valid website.
+</div>
 
 <div class="actions" *ngIf="mode != 'view'">
   <button md-button (click)="close()">Cancel</button>
