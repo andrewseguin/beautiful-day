@@ -83,6 +83,10 @@ export class ProjectRequestsComponent implements OnInit {
 
       this.requestsService.getProjectRequests(projectId).subscribe(requests => {
         this.requestsCount = requests.length;
+        if (requests.length == 0) {
+          this.showFilter = false;
+          this.filter = '';
+        }
       });
     });
 
