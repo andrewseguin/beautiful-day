@@ -19,7 +19,7 @@ export class ItemSearchPipe implements PipeTransform {
     const type = `[type]:${item.type}`;
     const url = `[url]:${item.url}`;
 
-    let itemStr = (name + type + categorySearch + url).toLowerCase();
+    let itemStr = (name + type + categorySearch + url + item.keywords).toLowerCase();
     return itemStr.indexOf(token.toLowerCase()) != -1;
   }
 }
