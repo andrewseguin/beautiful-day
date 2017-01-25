@@ -70,6 +70,7 @@ import {EditGroupComponent} from "./ui/shared/dialog/edit-group/edit-group.compo
 import {GroupsService} from "./service/groups.service";
 import {CanActivateNotesGuard} from "./can-activate-notes-guard";
 import {DeleteRequestsComponent} from "./ui/shared/dialog/delete-requests/delete-requests.component";
+import {AnalyticsService} from "./service/analytics.service";
 
 @NgModule({
   declarations: [
@@ -162,6 +163,7 @@ import {DeleteRequestsComponent} from "./ui/shared/dialog/delete-requests/delete
     FeedbackService,
     GroupsService,
     EventsService,
+    AnalyticsService,
   ],
   bootstrap: [AppComponent]
 })

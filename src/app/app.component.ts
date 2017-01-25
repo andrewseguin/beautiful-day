@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FirebaseAuth} from 'angularfire2';
 import {Router, NavigationEnd} from '@angular/router';
 import {MdSnackBarConfig, MdSnackBar} from "@angular/material";
-declare let ga:Function;
+import {AnalyticsService} from "./service/analytics.service";
 
 @Component({
   selector: 'app-root',
@@ -11,6 +11,7 @@ declare let ga:Function;
 })
 export class AppComponent implements OnInit {
   constructor(private auth: FirebaseAuth,
+              private analyticsService: AnalyticsService,
               private mdSnackbar: MdSnackBar,
               private router: Router) {
     this.setupGoogleAnalytics();
@@ -41,7 +42,7 @@ export class AppComponent implements OnInit {
       }
       return true;
     }).subscribe((x: any) => {
-      ga('send', 'pageview', x.url);
+      this.analyticsService.sendPageview(x.url);
     });
   }
 }
