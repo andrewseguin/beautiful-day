@@ -33,6 +33,7 @@ md-card.project {
   padding: 16px;
   width: 100%;
   text-align: center;
+  box-sizing: border-box;
 
   @media (max-width: $mobile-width - 1) {
     border: none;
@@ -47,7 +48,7 @@ md-card.project {
   @media (max-width: $mobile-width - 1) {
     flex-wrap: nowrap;
     flex-direction: column;
-    margin: 0;
+    margin: 16px;
   }
 }
 
