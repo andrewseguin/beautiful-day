@@ -38,21 +38,33 @@ export class ImportItemsComponent {
     reader.readAsText(file);
   }
 
-  extractItems(csvFileData: string): Item[] {
-    const itemRows = csvFileData.split('\n');
+  extractItems(tsvFileData: string): Item[] {
+    const itemRows = tsvFileData.split('\n');
     itemRows.shift(); // Take out the header row
 
     return itemRows.map(itemRow => {
-      const itemInfo = itemRow.split(',');
+      const itemInfo = itemRow.split('\t');
 
       itemInfo[3] = itemInfo[3].replace('$', '');
-      return {
+      if (itemInfo[3] == 'Landscaping') console.log(itemInfo[0], itemInfo[3])
+
+      let item: Item = {
         name: itemInfo[0],
         type: itemInfo[1],
-        category: itemInfo[2],
-        cost: +itemInfo[3],
+        categories: itemInfo[2],
         url: itemInfo[4],
+        keywords: itemInfo[6]
       };
+
+      if (itemInfo[3]) {
+        item.cost = +itemInfo[3];
+      }
+
+      if (itemInfo[5]) {
+        item.quantityOwned = +itemInfo[5];
+      }
+
+      return item;
     });
   }
 }

@@ -46,7 +46,7 @@ export class RequestSortPipe implements PipeTransform {
 
   requestMatchesSearch(request: Request, item: Item, token: string) {
     const requestStr = (request.dropoff + request.note + request.quantity + request.tags).toLowerCase();
-    const itemStr = (item.name + item.type + item.category + item.url).toLowerCase();
+    const itemStr = (item.name + item.type + item.categories + item.url).toLowerCase();
     return requestStr.indexOf(token.toLowerCase()) != -1 ||
         itemStr.indexOf(token.toLowerCase()) != -1;
   }

@@ -20,7 +20,7 @@ export class EditItemCategoryComponent {
 
   save() {
     this.itemIds.forEach(itemId => {
-      this.itemsService.getItem(itemId).update({category: this.category});
+      this.itemsService.getItem(itemId).update({categories: this.category});
     });
     this.close();
     this.itemsService.clearSelected();

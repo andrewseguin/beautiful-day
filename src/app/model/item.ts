@@ -2,7 +2,7 @@ export interface Item {
   $key?: string,
   name?: string;
   type?: string;
-  category?: string;
+  categories?: string;
   url?: string;
   cost?: number;
   isApproved?: boolean;

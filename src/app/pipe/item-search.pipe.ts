@@ -12,12 +12,14 @@ export class ItemSearchPipe implements PipeTransform {
   }
 
   itemMatchesSearch(item: Item, token: string) {
+    let categories = item.categories.split(';');
+    let categorySearch = categories.map(category => `[category]:${category.replace(' ', '_')}`);
+
     const name = `[name]:${item.name}`;
     const type = `[type]:${item.type}`;
-    const category = `[category]:${item.category.replace(' ', '_')}`;
     const url = `[url]:${item.url}`;
 
-    let itemStr = (name + type + category + url).toLowerCase();
+    let itemStr = (name + type + categorySearch + url).toLowerCase();
     return itemStr.indexOf(token.toLowerCase()) != -1;
   }
 }

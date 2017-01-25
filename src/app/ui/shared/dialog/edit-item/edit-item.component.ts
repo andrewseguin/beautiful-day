@@ -36,16 +36,21 @@ export class EditItemComponent implements OnInit {
   canSave() {
     return this._item.name != undefined
         && this._item.cost != undefined
-        && this._item.category != undefined
+        && this._item.categories != undefined
         && this._item.url != undefined;
   }
 
   save() {
+    // Title case each category
+    let categories = this._item.categories.split(';');
+    categories = categories.map(category => this.toTitleCase(category));
+    const titleCasedCategories = categories.join(';');
+
     const persistingItem: Item = {
       name: this.toTitleCase(this._item.name),
       type: this.toTitleCase(this._item.type || ''),
       cost: this._item.cost,
-      category: this.toTitleCase(this._item.category),
+      categories: titleCasedCategories,
       url: this._item.url
     };
 

@@ -16,7 +16,6 @@ export class InventoryComponent implements OnInit {
   itemsToShow: number = 10;
   items: Item[];
   searchItems: Item[];
-  canImportItems: boolean;
   categories: string[] = [];
   itemSearch = new ItemSearchPipe();
 
@@ -29,7 +28,6 @@ export class InventoryComponent implements OnInit {
 
   constructor(private mdDialog: MdDialog,
               private headerService: HeaderService,
-              private permissionsService: PermissionsService,
               private itemsService: ItemsService) { }
 
   ngOnInit() {
@@ -37,9 +35,6 @@ export class InventoryComponent implements OnInit {
 
     this.itemsService.getItems()
         .subscribe(items=> this.items = items);
-
-    this.permissionsService.canImportItems()
-        .subscribe(canImportItems => this.canImportItems = canImportItems);
 
     this.itemsService.getItemsByCategory()
         .subscribe(categoryGroupCollection => {

@@ -59,7 +59,7 @@ export class InventoryListComponent implements OnInit {
 
     if (this.category) {
       this.filteredItems =
-          this.items.filter(item => item.category == this.category);
+          this.itemSearch.transform(this.items, `[category]:${this.category.replace(' ', '_')}`);
     }
 
     if (this.search) {
@@ -102,7 +102,7 @@ export class InventoryListComponent implements OnInit {
     const dialogRef = this.mdDialog.open(EditItemComponent);
 
     if (this.category) {
-      dialogRef.componentInstance.item = {category: this.category};
+      dialogRef.componentInstance.item = {categories: this.category};
       dialogRef.componentInstance.disableCategory = true;
     }
 

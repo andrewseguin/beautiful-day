@@ -34,15 +34,17 @@ export class ItemsService {
       const categoryGroupsMap: CategoryGroupCollection = {};
 
       items.forEach(item => {
-        const category = item.category;
-        if (!categoryGroupsMap[category]) {
-          categoryGroupsMap[category] = {
-            category: category,
-            items: []
+        const categories = item.categories.split(';');
+        categories.forEach(category => {
+          if (!categoryGroupsMap[category]) {
+            categoryGroupsMap[category] = {
+              category: category,
+              items: []
+            }
           }
-        }
 
-        categoryGroupsMap[category].items.push(item);
+          categoryGroupsMap[category].items.push(item);
+        })
       });
 
       return categoryGroupsMap;
