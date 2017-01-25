@@ -1,7 +1,9 @@
 <md-sidenav-container *ngIf="editPermissions && delayedShow">
-  <div class="scrollable-content" #scrollableContent (scroll)="checkSubheader($event)">
+  <div class="scrollable-content" #scrollableContent
+       [style.bottom]="showBudget() ? '' : '0'"
+       (scroll)="checkSubheader($event)">
     <div class="requests-header md-elevation-z1"
-         [class.visible]="requestGroups && getAllRequests()?.length !== 0">
+         [class.visible]="requestGroups && requestsCount !== 0">
       <div class="buttons">
         <button md-button
                 (click)="showFilter = !showFilter; filter = ''"
@@ -35,7 +37,7 @@
       </div>
     </div>
 
-    <div *ngIf="getAllRequests()?.length === 0" class="empty-requests">
+    <div *ngIf="requestsCount === 0" class="empty-requests">
       <div *ngIf="editPermissions.requests">
         <div class="wide">
           <div class="getting-started">
@@ -90,7 +92,7 @@
     </div>
   </div>
 
-  <remaining-budget [projectId]="projectId"></remaining-budget>
+  <remaining-budget *ngIf="showBudget()" [projectId]="projectId"></remaining-budget>
 
   <button md-fab color="accent"
           [class.hide]="sidenav.opened || hasSelectedRequests() || !editPermissions.requests"

@@ -4,7 +4,7 @@ import {FirebaseObjectObservable} from "angularfire2";
 import {Project} from "../../../../model/project";
 import {RequestsService, RequestAddedResponse} from "../../../../service/requests.service";
 import {ProjectsService} from "../../../../service/projects.service";
-import {MdMenu, MdSidenav} from "@angular/material";
+import {MdMenu} from "@angular/material";
 import {MediaQueryService} from "../../../../service/media-query.service";
 import {
   Group,
@@ -13,8 +13,8 @@ import {
 } from "../../../../service/request-grouping.service";
 import {SubheaderService} from "../../../../service/subheader.service";
 import {RequestsGroupComponent, Sort} from "./requests-group/requests-group.component";
-import {Request} from "../../../../model/request";
 import {PermissionsService, EditPermissions} from "../../../../service/permissions.service";
+import {Observable} from "rxjs";
 
 
 export class RequestViewOptions {
@@ -52,12 +52,12 @@ export class ProjectRequestsComponent implements OnInit {
 
   latestScrollPosition = 0;
 
+  requestsCount: number = null;
   requestGroups: Map<Group, RequestGroup[]>;
 
   @ViewChild('groupingMenu') groupingMenu: MdMenu;
   @ViewChild('scrollableContent') scrollableContent: ElementRef;
   @ViewChild('filterInput') filterInput: ElementRef;
-  @ViewChild(MdSidenav) inventoryPanel: MdSidenav;
   @ViewChildren(RequestsGroupComponent) requestsGroups: QueryList<RequestsGroupComponent>;
 
   constructor(private route: ActivatedRoute,
@@ -70,10 +70,20 @@ export class ProjectRequestsComponent implements OnInit {
               private subheaderService: SubheaderService) { }
 
   ngOnInit() {
-    this.route.parent.params.subscribe((params: Params) => {
-      this.projectId = params['id'];
-      this.project = this.projectsService.getProject(params['id']);
-      this.requestGroups = this.requestGroupingService.getRequestGroups(params['id']);
+    this.route.parent.params.flatMap((params: Params) => {
+      return Observable.from([params['id']]);
+    }).subscribe(projectId => {
+      this.projectId = projectId;
+      this.project = this.projectsService.getProject(projectId);
+      this.requestGroups = this.requestGroupingService.getRequestGroups(projectId);
+
+      this.permissionsService.getEditPermissions(projectId).subscribe(editPermissions => {
+        this.editPermissions = editPermissions;
+      });
+
+      this.requestsService.getProjectRequests(projectId).subscribe(requests => {
+        this.requestsCount = requests.length;
+      });
     });
 
     this.route.params.subscribe((params: Params) => {
@@ -82,10 +92,6 @@ export class ProjectRequestsComponent implements OnInit {
 
     this.requestsService.getRequestAddedStream().subscribe(response => {
       this.requestCreated(response);
-    });
-
-    this.permissionsService.getEditPermissions(this.projectId).subscribe(editPermissions => {
-      this.editPermissions = editPermissions;
     });
 
     // Delay the HTML so that the page first shows up with a background.
@@ -112,24 +118,6 @@ export class ProjectRequestsComponent implements OnInit {
 
   getGroups(): string[] {
     return this.requestGroupingService.getGroupNames();
-  }
-
-  isLoadingRequests(): boolean {
-    return !!this.requestGroups;
-  }
-
-  getAllRequests(): Request[] | null {
-    if (!this.requestGroups) { return; }
-
-    const allRequests = this.requestGroups.get('all') && this.requestGroups.get('all')[0];
-    if (!allRequests) { return; }
-
-    return allRequests.requests;
-  }
-
-  hasRequests(): boolean {
-    const allRequests = this.requestGroups.get('all');
-    return !!allRequests && allRequests[0] && allRequests[0].requests.length > 0;
   }
 
   getGroupingName(grouping: string): string {
@@ -182,5 +170,9 @@ export class ProjectRequestsComponent implements OnInit {
 
   getSortOptions(): Sort[] {
     return ['request added', 'cost', 'item'];
+  }
+
+  showBudget(): boolean {
+    return this.editPermissions.requests;
   }
 }

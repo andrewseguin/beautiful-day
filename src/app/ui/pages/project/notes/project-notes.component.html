@@ -2,7 +2,7 @@
   Loading Notes...
 </div>
 
-<div class="nav md-elevation-z1" *ngIf="notes">
+<div class="nav" *ngIf="notes">
   <div class="nav-note" *ngFor="let projectNote of notes"
        (mouseover)="hoveringNavNoteId = projectNote.$key">
     <button md-button class="note-route-link"
@@ -26,11 +26,11 @@
         <div>{{title}}</div>
         <md-icon>arrow_drop_down</md-icon>
       </div>
-      <div class="title web">
+      <div class="title web" (click)="openEditTitleDialog(noteId)">
         <div>{{title}}</div>
       </div>
 
-      <button md-icon-button
+      <button md-icon-button class="title-edit-menu"
               [md-menu-trigger-for]="editCurrentNoteMenu">
         <md-icon>edit</md-icon>
       </button>

@@ -51,10 +51,10 @@
       </div>
     </div>
 
-    <div class="section title-only md-elevation-z4">
+    <div class="section title-only md-elevation-z4" *ngIf="canEdit()">
       <div class="title">
         <div>Remaining Budget</div>
-        <div *ngIf="canEdit() && noBudget">
+        <div *ngIf="noBudget">
           <button md-raised-button (click)="edit('budget')" color="accent">
             Add Budget
           </button>

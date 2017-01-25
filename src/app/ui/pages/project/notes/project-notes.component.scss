@@ -32,13 +32,14 @@
   flex-grow: 1;
   background-color: white;
   display: flex;
+  margin: 16px;
 }
 
 .nav {
   display: flex;
   flex-direction: column;
   background: #CCC;
-  padding: 16px 8px 16px 24px;
+  padding: 16px 0 16px 32px;
 
   .nav-note {
     align-items: center;
@@ -101,6 +102,13 @@
     border-bottom: 1px solid #CCC;
     padding: 16px;
 
+    .title-edit-menu {
+      display: none;
+      @media (max-width: $mobile-width - 1) {
+        display: block;
+      }
+    }
+
     .title {
       display: none;
       align-items: center;
@@ -113,6 +121,10 @@
         }
       }
       &.web {
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
         @media (min-width: $mobile-width) {
           display: flex;
         }
