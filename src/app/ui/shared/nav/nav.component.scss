@@ -1,3 +1,5 @@
+@import '../constants';
+
 :host {
   padding-bottom: 32px;
   display: block;
@@ -29,6 +31,10 @@
   font-weight: bold;
   padding: 16px 0 8px 16px;
   color: #AAA;
+
+  @media (max-width: $mobile-width - 1) {
+    font-size: 18px;
+  }
 }
 
 .nav-link {
@@ -38,6 +44,11 @@
   line-height: 28px;
   font-weight: normal;
   text-transform: capitalize;
+
+  @media (max-width: $mobile-width - 1) {
+    font-size: 18px;
+    line-height: 40px;
+  }
 
   &.active {
     font-weight: bold;

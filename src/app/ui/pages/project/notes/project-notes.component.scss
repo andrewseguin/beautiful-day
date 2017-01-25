@@ -41,7 +41,6 @@
   padding: 16px 8px 16px 24px;
 
   .nav-note {
-    margin: 2px 0;
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -58,7 +57,7 @@
     }
 
     &:hover button.note-route-link {
-      transform: scale(1.1);
+      font-size: 15px;
     }
   }
 
@@ -70,9 +69,6 @@
   }
 
   button.note-route-link {
-    transition: transform 250ms;
-    transform: scale(1);
-
     &.active {
       background: #e0e0e0;
       font-weight: bold;
