@@ -25,8 +25,8 @@ export class RequestGroupingService {
       // Get all unique categories from the set of items.
       const categoriesSet = new Set();
       items.forEach(item => {
-        const itemCategories = item.categories.split(';');
-        itemCategories.forEach(itemCategory => categoriesSet.add(itemCategory));
+        const itemCategories = item.categories.split(',');
+        itemCategories.forEach(itemCategory => categoriesSet.add(itemCategory.trim()));
       });
 
       this.categories = [];
@@ -125,7 +125,7 @@ export class RequestGroupingService {
 
     // Create map of all requests keyed by item
     requests.forEach(request => {
-      const category = itemMap.get(request.item).categories.split(';')[0];
+      const category = itemMap.get(request.item).categories.split(',')[0].trim();
       if (!categoryGroups.has(category)) {
         categoryGroups.set(category, []);
       }

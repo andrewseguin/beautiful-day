@@ -12,8 +12,8 @@ export class ItemSearchPipe implements PipeTransform {
   }
 
   itemMatchesSearch(item: Item, token: string) {
-    let categories = item.categories.split(';');
-    let categorySearch = categories.map(category => `[category]:${category.replace(' ', '_')}`);
+    let categories = item.categories.split(',');
+    let categorySearch = categories.map(category => `[category]:${category.trim().replace(' ', '_')}`);
 
     const name = `[name]:${item.name}`;
     const type = `[type]:${item.type}`;

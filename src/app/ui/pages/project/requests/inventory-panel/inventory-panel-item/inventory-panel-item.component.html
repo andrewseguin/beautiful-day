@@ -6,19 +6,21 @@
 
   <div class="info-row">
     <div>
-      <span class="property-title">Category:</span>
+      <span class="property-title">
+        {{item.categories.split(',').length > 1 ? 'Categories: ' : 'Category: '}}
+      </span>
       {{item.categories}}
     </div>
 
     <div>
       <span class="property-title">Cost:</span>
-      ${{item.cost || ' --'}}
+      {{item.cost ? (item.cost  | currency:'USD':true:'1.2-2') : '--'}}
     </div>
 
-    <div>
+    <div *ngIf="item.url">
       <span class="property-title">Website:</span>
       <a target="_blank" href="{{item.url}}">
-        {{item.url || 'https://www.homedepot.com/item'}}
+        {{item.url}}
       </a>
     </div>
   </div>
