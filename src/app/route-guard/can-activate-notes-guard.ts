@@ -3,7 +3,7 @@ import {CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot} from "@angular
 import {FirebaseAuthState, FirebaseAuth} from "angularfire2";
 import {Observable} from "rxjs";
 import "rxjs/add/operator/take";
-import {PermissionsService} from "./service/permissions.service";
+import {PermissionsService} from "../service/permissions.service";
 
 @Injectable()
 export class CanActivateNotesGuard implements CanActivate {

@@ -3,14 +3,16 @@
   <div class="app-title">Management</div>
 </div>
 
-<div class="section-title">Acquisitions</div>
-<button md-button
-        class="nav-link"
-        (click)="sidenav.close()"
-        routerLink="/inventory"
-        routerLinkActive="active">
-  Inventory
-</button>
+<div *ngIf="canManageAcqusitions">
+  <div class="section-title">Acquisitions</div>
+  <button md-button
+          class="nav-link"
+          (click)="sidenav.close()"
+          routerLink="/inventory"
+          routerLinkActive="active">
+    Inventory
+  </button>
+</div>
 
 <div class="section-title">Projects</div>
 <button md-button class="nav-link"

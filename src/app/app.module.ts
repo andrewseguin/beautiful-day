@@ -25,7 +25,7 @@ import {SelectionHeaderComponent} from "./ui/shared/selection-header/selection-h
 import {EditDropoffComponent} from "./ui/shared/dialog/edit-dropoff/edit-dropoff.component";
 import {MediaQueryService} from "./service/media-query.service";
 import {RequestGroupingService} from "./service/request-grouping.service";
-import {CanActivateAuthGuard} from "./can-activate-auth-guard";
+import {CanActivateAuthGuard} from "./route-guard/can-activate-auth-guard";
 import {LoginComponent} from "./ui/login/login.component";
 import {SubheaderService} from "./service/subheader.service";
 import {EditProjectComponent} from "./ui/shared/dialog/edit-project/edit-project.component";
@@ -59,7 +59,7 @@ import {RemainingBudgetComponent} from "./ui/pages/project/requests/remaining-bu
 import {AccountingService} from "./service/accounting.service";
 import {PermissionsService} from "./service/permissions.service";
 import {FeedbackComponent} from "./ui/pages/feedback/feedback.component";
-import {CanActivateFeedbackGuard} from "./can-activate-feedback-guard";
+import {CanActivateFeedbackGuard} from "./route-guard/can-activate-feedback-guard";
 import {FeedbackService} from "./service/feedback.service";
 import {EventsService} from "./service/events.service";
 import {EditEventComponent} from "./ui/shared/dialog/edit-event/edit-event.component";
@@ -68,9 +68,10 @@ import {EventsComponent} from "./ui/pages/events/events.component";
 import {ImportItemsComponent} from "./ui/shared/dialog/import-items/import-items.component";
 import {EditGroupComponent} from "./ui/shared/dialog/edit-group/edit-group.component";
 import {GroupsService} from "./service/groups.service";
-import {CanActivateNotesGuard} from "./can-activate-notes-guard";
+import {CanActivateNotesGuard} from "./route-guard/can-activate-notes-guard";
 import {DeleteRequestsComponent} from "./ui/shared/dialog/delete-requests/delete-requests.component";
 import {AnalyticsService} from "./service/analytics.service";
+import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisitions-guard";
 
 @NgModule({
   declarations: [
@@ -156,6 +157,7 @@ import {AnalyticsService} from "./service/analytics.service";
     CanActivateAuthGuard,
     CanActivateFeedbackGuard,
     CanActivateNotesGuard,
+    CanActivateAcquisitionsGuard,
     HeaderService,
     NotesService,
     AccountingService,
