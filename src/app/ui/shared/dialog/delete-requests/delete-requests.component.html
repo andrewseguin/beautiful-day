@@ -1,0 +1,13 @@
+<div class="header">
+  <div class="title">Delete {{(requests.size > 1) ? 'Requests' : 'Request'}} </div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+<div class="content">
+  Are you sure you want to delete {{(requests.size > 1) ? ' these requests?' : 'this request?'}}
+</div>
+
+<div class="actions">
+  <button md-button (click)="close()">Cancel</button>
+  <button md-raised-button color="warn" (click)="deleteRequests()">Delete</button>
+</div>

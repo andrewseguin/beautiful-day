@@ -3,6 +3,7 @@ import {MdSnackBar, MdDialog, MdSnackBarConfig} from "@angular/material";
 import {RequestsService} from "../../../../service/requests.service";
 import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.component";
 import {EditTagsComponent} from "../../dialog/edit-tags/edit-tags.component";
+import {DeleteRequestsComponent} from "../../dialog/delete-requests/delete-requests.component";
 
 @Component({
   selector: 'edit-request-options',
@@ -16,15 +17,21 @@ export class EditRequestOptionsComponent {
               private snackBar: MdSnackBar) { }
 
   deleteRequests() {
-    this.requestsService.getSelectedRequests().forEach(id => {
-      this.requestsService.removeRequest(id);
+    const dialogRef = this.mdDialog.open(DeleteRequestsComponent);
+    dialogRef.componentInstance.requests =
+      this.requestsService.getSelectedRequests();
+
+    dialogRef.componentInstance.onDelete().subscribe(() => {
+      this.requestsService.getSelectedRequests().forEach(id => {
+        this.requestsService.removeRequest(id);
+      });
+
+      const message = `Removed ${this.requestsService.getSelectedRequests().size} requests`;
+      const config: MdSnackBarConfig = {duration: 3000};
+      this.snackBar.open(message, null, config);
+
+      this.requestsService.clearSelected();
     });
-
-    const message = `Removed ${this.requestsService.getSelectedRequests().size} requests`;
-    const config: MdSnackBarConfig = {duration: 3000};
-    this.snackBar.open(message, null, config);
-
-    this.requestsService.clearSelected();
   }
 
   editNote() {

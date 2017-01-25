@@ -69,6 +69,7 @@ import {ImportItemsComponent} from "./ui/shared/dialog/import-items/import-items
 import {EditGroupComponent} from "./ui/shared/dialog/edit-group/edit-group.component";
 import {GroupsService} from "./service/groups.service";
 import {CanActivateNotesGuard} from "./can-activate-notes-guard";
+import {DeleteRequestsComponent} from "./ui/shared/dialog/delete-requests/delete-requests.component";
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import {CanActivateNotesGuard} from "./can-activate-notes-guard";
     HeaderComponent,
     DetailUserComponent,
     DeleteNoteComponent,
+    DeleteRequestsComponent,
     EditItemComponent,
     EditRequestOptionsComponent,
     EditItemOptionsComponent,
@@ -126,6 +128,7 @@ import {CanActivateNotesGuard} from "./can-activate-notes-guard";
     EditTagsComponent,
     EditUserProfileComponent,
     DeleteNoteComponent,
+    DeleteRequestsComponent,
     ImportItemsComponent,
     DeleteProjectComponent,
     PromptDialogComponent,
