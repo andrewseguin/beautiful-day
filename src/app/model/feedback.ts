@@ -4,4 +4,6 @@ export class Feedback {
   user?: string;
   text?: string;
   reviewed?: boolean;
+  dateAdded?: number;
+  appVersion?: string;
 }

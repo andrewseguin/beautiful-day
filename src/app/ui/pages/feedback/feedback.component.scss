@@ -56,9 +56,9 @@ md-tab-group {
   white-space: normal;
 }
 
-.user, .date {
+.user, .date, .version {
   text-align: right;
-  margin-top: 16px;
+  margin-top: 8px;
   font-size: 14px;
   color: #888;
   margin-right: 16px;
@@ -67,4 +67,5 @@ md-tab-group {
 .action {
   display: flex;
   justify-content: flex-end;
+  margin-top: 8px;
 }

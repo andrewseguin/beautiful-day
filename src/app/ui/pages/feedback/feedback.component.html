@@ -9,6 +9,7 @@
         <pre class="text">{{feedback.text}}</pre>
         <div class="user">{{(userMap.get(feedback.user) | async)?.email}}</div>
         <div class="date">{{feedback.dateAdded | date}}</div>
+        <div class="version">App Version v.{{feedback.appVersion}}</div>
         <div class="action">
           <button md-button (click)="setReviewed(feedback)">Mark Reviewed</button>
         </div>
@@ -22,6 +23,7 @@
         <pre class="text">{{feedback.text}}</pre>
         <div class="user">{{(userMap.get(feedback.user) | async)?.email}}</div>
         <div class="date">{{feedback.dateAdded | date}}</div>
+        <div class="version">App Version v.{{feedback.appVersion}}</div>
       </div>
     </div>
   </md-tab>

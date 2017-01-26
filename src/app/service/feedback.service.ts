@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {AngularFireDatabase, AngularFireAuth, FirebaseListObservable} from "angularfire2";
 import {Feedback} from "../model/feedback";
 import {MdSnackBar, MdSnackBarConfig} from "@angular/material";
+import {APP_VERSION} from "../app.component";
 
 @Injectable()
 export class FeedbackService {
@@ -21,7 +22,8 @@ export class FeedbackService {
         type: 'feedback',
         user: auth.uid,
         text: feedback,
-        dateAdded: new Date().getTime()
+        dateAdded: new Date().getTime(),
+        appVersion: APP_VERSION
       });
       this.showSnackbar('Feedback sent!');
     });
@@ -34,7 +36,8 @@ export class FeedbackService {
         type: 'issue',
         user: auth.uid,
         text: issue,
-        dateAdded: new Date().getTime()
+        dateAdded: new Date().getTime(),
+        appVersion: APP_VERSION
       });
       this.showSnackbar('Issue report sent.');
     });
