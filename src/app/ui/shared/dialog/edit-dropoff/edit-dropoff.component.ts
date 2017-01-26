@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from "@angular/core";
 import {RequestsService} from "../../../../service/requests.service";
 import {MdDialogRef} from "@angular/material";
 import {ProjectsService} from "../../../../service/projects.service";
@@ -16,6 +16,8 @@ export class EditDropoffComponent implements OnInit {
   selectedDropoffLocation: string;
   dropoffLocations: Set<string>;
   newDropoff: string;
+
+  @ViewChild('dateInput') dateInput: ElementRef;
 
   constructor(private dialogRef: MdDialogRef<EditDropoffComponent>,
               private projectsService: ProjectsService,
@@ -42,10 +44,6 @@ export class EditDropoffComponent implements OnInit {
   }
 
   canSave(): boolean {
-    if (!this.dateNeeded) {
-      return false;
-    }
-
     if (this.selectedDropoffLocation == 'new' && !this.newDropoff) {
       return false;
     }
@@ -58,6 +56,9 @@ export class EditDropoffComponent implements OnInit {
   }
 
   save() {
+    // The third-party date picker doesn't play nice with ngModel. Grab the value directly for now.
+    this.dateNeeded = this.dateInput.nativeElement.value;
+
     if (!this.canSave()) { return }
 
     if (this.selectedDropoffLocation == 'new') {

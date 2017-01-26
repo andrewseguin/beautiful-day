@@ -104,7 +104,7 @@ export class ProjectDetailsComponent implements OnInit {
 
   canEdit(): boolean {
     if (!this.user || !this.project || !this.editPermissions) return false;
-    return this.editPermissions.details;
+    return this.editPermissions.requests;
   }
 
   getLeadEmails(): string[] {
