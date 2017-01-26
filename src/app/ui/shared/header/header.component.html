@@ -22,11 +22,13 @@
     <button md-menu-item class="info last">{{authState?.auth.email}}</button>
 
     <button md-menu-item class="option" (click)="editProfile()">
-      <md-icon *ngIf="user && !user.phone"
-               mdTooltip="Missing phone number">
-        error_outline
-      </md-icon>
-      Edit Profile
+      <div class="edit-warn">
+        <md-icon *ngIf="user && !user.phone"
+                 mdTooltip="Missing phone number">
+          error_outline
+        </md-icon>
+        Edit Profile
+      </div>
     </button>
     <button md-menu-item class="option" (click)="sendFeedback()">Send Feedback</button>
     <button md-menu-item class="option" (click)="reportIssue()">Report Issue</button>

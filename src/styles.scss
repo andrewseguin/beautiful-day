@@ -60,6 +60,12 @@ md-dialog-container {
       color: #1565c0;
     }
 
+    .edit-warn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
     md-icon {
       color: red;
       margin-right: 8px;
