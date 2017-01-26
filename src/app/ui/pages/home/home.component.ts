@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.headerService.title = 'Home';
 
-    this.projectsService.getProjects()
+    this.projectsService.getSortedProjects()
         .subscribe(projects => this.projects = projects);
   }
 

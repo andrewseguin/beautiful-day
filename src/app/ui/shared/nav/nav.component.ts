@@ -25,7 +25,7 @@ export class NavComponent implements OnInit {
   @Input() sidenav: MdSidenav;
 
   ngOnInit() {
-    this.projectsService.getProjects()
+    this.projectsService.getSortedProjects()
         .subscribe(projects => this.projects = projects);
 
     this.permissionsService.canCreateProjects()

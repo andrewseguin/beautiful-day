@@ -8,8 +8,16 @@ import {Observable} from "rxjs";
 export class ProjectsService {
   constructor(private db: AngularFireDatabase) {}
 
-  getProjects(): FirebaseListObservable<Project[]> {
+  getProjects(): FirebaseListObservable<Project> {
     return this.db.list('projects');
+  }
+
+  getSortedProjects(): Observable<Project[]> {
+    return this.getProjects().map(projects => {
+      return projects.sort((a: Project, b: Project) => {
+        return (a.name < b.name) ? -1 : 1;
+      });
+    });
   }
 
   getProject(id: string): FirebaseObjectObservable<Project> {

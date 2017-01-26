@@ -46,7 +46,6 @@ export class ImportItemsComponent {
       const itemInfo = itemRow.split('\t');
 
       itemInfo[3] = itemInfo[3].replace('$', '');
-      if (itemInfo[3] == 'Landscaping') console.log(itemInfo[0], itemInfo[3])
 
       let item: Item = {
         name: itemInfo[0],

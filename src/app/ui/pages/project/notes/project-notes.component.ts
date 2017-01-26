@@ -43,10 +43,8 @@ export class ProjectNotesComponent implements OnInit {
 
     this.route.parent.params.flatMap(params => {
       this.projectId = params['id'];
-      console.log(params)
       return this.notesService.getProjectNotes(this.projectId)
     }).subscribe(notes => {
-      console.log(notes)
       this.notes = notes;
     });
 
@@ -84,12 +82,10 @@ export class ProjectNotesComponent implements OnInit {
 
   openEditTitleDialog(id: string) {
     const note = this.getNote(id);
-    console.log(id)
     const dialogRef = this.mdDialog.open(PromptDialogComponent);
     dialogRef.componentInstance.title = 'Edit Title';
     dialogRef.componentInstance.input = note.title;
     dialogRef.componentInstance.onSave().subscribe(title => {
-      console.log(note.$key)
       this.notesService.update(note.$key, {title});
     });
   }
