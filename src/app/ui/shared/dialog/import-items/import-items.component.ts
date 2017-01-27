@@ -60,7 +60,7 @@ export class ImportItemsComponent {
       }
 
       if (itemInfo[5]) {
-        item.quantityOwned = +itemInfo[5];
+        item.quantityOwned = itemInfo[5];
       }
 
       return item;

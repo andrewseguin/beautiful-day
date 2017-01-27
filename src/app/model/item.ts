@@ -10,5 +10,5 @@ export interface Item {
   addedBy?: string;
   dateAdded?: number;
   keywords?: string;
-  quantityOwned?: number;
+  quantityOwned?: string;
 }
