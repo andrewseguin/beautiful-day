@@ -60,7 +60,7 @@ export class DisplayOptionsHeaderComponent implements OnInit {
       filter: this.filter,
       grouping: this.grouping,
       sorting: this.sorting,
-      viewing: this.viewing,
+      viewing: this.viewing.clone(),
     });
   }
 
