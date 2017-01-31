@@ -72,6 +72,7 @@ import {CanActivateNotesGuard} from "./route-guard/can-activate-notes-guard";
 import {DeleteRequestsComponent} from "./ui/shared/dialog/delete-requests/delete-requests.component";
 import {AnalyticsService} from "./service/analytics.service";
 import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisitions-guard";
+import { DisplayOptionsHeaderComponent } from './ui/pages/project/requests/display-options-header/display-options-header.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +121,7 @@ import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisiti
     ImportItemsComponent,
     EventDatePipe,
     EventsComponent,
+    DisplayOptionsHeaderComponent,
   ],
   entryComponents: [
     EditItemComponent,

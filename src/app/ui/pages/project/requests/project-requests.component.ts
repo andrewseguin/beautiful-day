@@ -1,37 +1,24 @@
-import {Component, OnInit, ViewChild, ElementRef, QueryList, ViewChildren} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
-import {FirebaseObjectObservable} from "angularfire2";
-import {Project} from "../../../../model/project";
-import {RequestsService, RequestAddedResponse} from "../../../../service/requests.service";
-import {ProjectsService} from "../../../../service/projects.service";
-import {MdMenu} from "@angular/material";
-import {MediaQueryService} from "../../../../service/media-query.service";
+import {Component, OnInit, ViewChild, ElementRef, QueryList, ViewChildren} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {FirebaseObjectObservable} from 'angularfire2';
+import {Project} from '../../../../model/project';
+import {RequestsService, RequestAddedResponse} from '../../../../service/requests.service';
+import {ProjectsService} from '../../../../service/projects.service';
+import {MdMenu} from '@angular/material';
+import {MediaQueryService} from '../../../../service/media-query.service';
 import {
   Group,
   RequestGroup,
   RequestGroupingService
-} from "../../../../service/request-grouping.service";
-import {SubheaderService} from "../../../../service/subheader.service";
-import {RequestsGroupComponent, Sort} from "./requests-group/requests-group.component";
-import {PermissionsService, EditPermissions} from "../../../../service/permissions.service";
-import {Observable} from "rxjs";
-
-
-export class RequestViewOptions {
-  cost: boolean = true;
-  dropoff: boolean = true;
-  notes: boolean = true;
-  tags: boolean = true;
-
-  clone(): RequestViewOptions {
-    const clone = new RequestViewOptions();
-    clone.cost = this.cost;
-    clone.dropoff = this.dropoff;
-    clone.notes = this.notes;
-    clone.tags = this.tags;
-    return clone;
-  }
-}
+} from '../../../../service/request-grouping.service';
+import {SubheaderService} from '../../../../service/subheader.service';
+import {RequestsGroupComponent, Sort} from './requests-group/requests-group.component';
+import {PermissionsService, EditPermissions} from '../../../../service/permissions.service';
+import {Observable} from 'rxjs';
+import {
+  RequestViewOptions,
+  DisplayOptions
+} from './display-options-header/display-options-header.component';
 
 @Component({
   selector: 'project-requests',
@@ -42,7 +29,6 @@ export class ProjectRequestsComponent implements OnInit {
   delayedShow: boolean;
   editPermissions: EditPermissions;
   project: FirebaseObjectObservable<Project>;
-  grouping: Group = 'all';
   sorting: Sort = 'request added';
   projectId: string;
   requestViewOptions: RequestViewOptions = new RequestViewOptions();
@@ -54,6 +40,13 @@ export class ProjectRequestsComponent implements OnInit {
 
   requestsCount: number = null;
   requestGroups: Map<Group, RequestGroup[]>;
+
+  displayOptions: DisplayOptions = {
+    filter: '',
+    grouping: 'all',
+    sorting: 'request added',
+    viewing: new RequestViewOptions(),
+  };
 
   @ViewChild('groupingMenu') groupingMenu: MdMenu;
   @ViewChild('scrollableContent') scrollableContent: ElementRef;
@@ -84,14 +77,14 @@ export class ProjectRequestsComponent implements OnInit {
       this.requestsService.getProjectRequests(projectId).subscribe(requests => {
         this.requestsCount = requests.length;
         if (requests.length == 0) {
-          this.showFilter = false;
-          this.filter = '';
+          this.setFilter('');
         }
       });
     });
 
     this.route.params.subscribe((params: Params) => {
-      this.grouping = params['group'];
+      // Get display options here
+      this.displayOptions.grouping = params['group'];
     });
 
     this.requestsService.getRequestAddedStream().subscribe(response => {
@@ -117,20 +110,6 @@ export class ProjectRequestsComponent implements OnInit {
 
     if (scrollPosition > this.latestScrollPosition) {
       this.latestScrollPosition = scrollPosition;
-    }
-  }
-
-  getGroups(): string[] {
-    return this.requestGroupingService.getGroupNames();
-  }
-
-  getGroupingName(grouping: string): string {
-    switch (grouping) {
-      case 'all': return 'All';
-      case 'category': return 'Category';
-      case 'date': return 'Date Needed';
-      case 'dropoff': return 'Dropoff Location';
-      case 'tags': return 'Tags';
     }
   }
 
@@ -161,10 +140,6 @@ export class ProjectRequestsComponent implements OnInit {
     }, 0)
   }
 
-  getRequestViewOptionKeys() {
-    return Object.keys(this.requestViewOptions);
-  }
-
   toggleRequestViewOption(option: string) {
     // Create new set of options so that the children components are passed a new
     // reference and they will know to update.
@@ -172,11 +147,22 @@ export class ProjectRequestsComponent implements OnInit {
     this.requestViewOptions[option] = !this.requestViewOptions[option];
   }
 
-  getSortOptions(): Sort[] {
-    return ['request added', 'cost', 'item'];
-  }
-
   showBudget(): boolean {
     return this.editPermissions.requests;
+  }
+
+  setFilter(filter: string) {
+    // Make a new object so that the display options can see the change in reference.
+    this.displayOptions = {
+      filter: filter,
+      grouping: this.displayOptions.grouping,
+      sorting: this.displayOptions.sorting,
+      viewing: this.displayOptions.viewing,
+    }
+  }
+
+  updateDisplayOptions(displayOptions) {
+    console.log('Updating:', displayOptions)
+    this.displayOptions = displayOptions;
   }
 }
