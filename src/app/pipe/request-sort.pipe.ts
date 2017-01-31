@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from "@angular/core";
-import {Sort} from "../ui/pages/project/requests/requests-group/requests-group.component";
+import {Sort} from "../ui/shared/requests-list/requests-group/requests-group.component";
 import {Request} from "../model/request";
 import {Item} from "../model/item";
 

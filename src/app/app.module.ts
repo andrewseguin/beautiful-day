@@ -15,7 +15,7 @@ import {ProjectsService} from "./service/projects.service";
 import {InventoryComponent} from "./ui/pages/inventory/inventory.component";
 import {ItemsService} from "./service/items.service";
 import {RequestsService} from "./service/requests.service";
-import {RequestComponent} from "./ui/pages/project/requests/request/request.component";
+import {RequestComponent} from "./ui/shared/requests-list/request/request.component";
 import {ProjectDetailsComponent} from "./ui/pages/project/details/project-details.component";
 import {ProjectNotesComponent} from "./ui/pages/project/notes/project-notes.component";
 import {ProjectRequestsComponent} from "./ui/pages/project/requests/project-requests.component";
@@ -48,7 +48,7 @@ import {ItemSearchPipe} from "./pipe/item-search.pipe";
 import {InventoryPanelItemComponent} from "./ui/pages/project/requests/inventory-panel/inventory-panel-item/inventory-panel-item.component";
 import {InventorySearchComponent} from "./ui/pages/project/requests/inventory-panel/inventory-search/inventory-search.component";
 import {InventoryListComponent} from "./ui/pages/project/requests/inventory-panel/inventory-list/inventory-list.component";
-import {RequestsGroupComponent} from "./ui/pages/project/requests/requests-group/requests-group.component";
+import {RequestsGroupComponent} from "./ui/shared/requests-list/requests-group/requests-group.component";
 import {PagesComponent} from "./ui/pages/pages.component";
 import {RequestSortPipe} from "./pipe/request-sort.pipe";
 import {EditTagsComponent} from "./ui/shared/dialog/edit-tags/edit-tags.component";
@@ -72,7 +72,8 @@ import {CanActivateNotesGuard} from "./route-guard/can-activate-notes-guard";
 import {DeleteRequestsComponent} from "./ui/shared/dialog/delete-requests/delete-requests.component";
 import {AnalyticsService} from "./service/analytics.service";
 import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisitions-guard";
-import { DisplayOptionsHeaderComponent } from './ui/pages/project/requests/display-options-header/display-options-header.component';
+import { DisplayOptionsHeaderComponent } from './ui/shared/requests-list/display-options-header/display-options-header.component';
+import { RequestsListComponent } from './ui/shared/requests-list/requests-list.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { DisplayOptionsHeaderComponent } from './ui/pages/project/requests/displ
     EventDatePipe,
     EventsComponent,
     DisplayOptionsHeaderComponent,
+    RequestsListComponent,
   ],
   entryComponents: [
     EditItemComponent,

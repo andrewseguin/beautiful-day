@@ -1,11 +1,8 @@
 <md-sidenav-container *ngIf="editPermissions && delayedShow">
-  <div class="scrollable-content" #scrollableContent
-       [style.bottom]="showBudget() ? '' : '0'"
-       (scroll)="checkSubheader($event)">
-    <display-options-header [class.visible]="requestGroups && requestsCount !== 0"
-                            [displayOptions]="displayOptions"
-                            (optionsChanged)="updateDisplayOptions($event)">
-    </display-options-header>
+  <div #scrollableContent class="scrollable-content"
+       (scroll)="checkSubheader($event)"
+       [style.bottom]="showBudget() ? '' : '0'">
+    <requests-list [projectId]="projectId"></requests-list>
 
     <div *ngIf="requestsCount === 0" class="empty-requests">
       <div *ngIf="editPermissions.requests">
@@ -32,18 +29,6 @@
           No requests have been made.
         </div>
       </div>
-    </div>
-
-    <div class="requests-container">
-      <requests-group *ngFor="let requestGroup of requestGroups.get(displayOptions.grouping);
-                              trackBy:getRequestGroupKey"
-                      [requestGroup]="requestGroup"
-                      [canEdit]="editPermissions.requests"
-                      [sort]="displayOptions.sorting"
-                      [filter]="displayOptions.filter"
-                      [requestViewOptions]="displayOptions.viewing"
-                      (filterTag)="setFilter($event)">
-      </requests-group>
     </div>
   </div>
 

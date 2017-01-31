@@ -14,15 +14,15 @@ import {
   EventEmitter,
   Output
 } from '@angular/core';
-import {ItemsService} from '../../../../../service/items.service';
-import {Request} from '../../../../../model/request';
 import {ActivatedRoute, Params} from '@angular/router';
-import {RequestsService} from '../../../../../service/requests.service';
 import {MdDialog} from '@angular/material';
-import {EditDropoffComponent} from '../../../../shared/dialog/edit-dropoff/edit-dropoff.component';
-import {EditItemComponent} from '../../../../shared/dialog/edit-item/edit-item.component';
-import {Item} from '../../../../../model/item';
 import {RequestViewOptions} from '../display-options-header/display-options-header.component';
+import {Item} from '../../../../model/item';
+import {RequestsService} from '../../../../service/requests.service';
+import {Request} from '../../../../model/request';
+import {ItemsService} from '../../../../service/items.service';
+import {EditDropoffComponent} from '../../dialog/edit-dropoff/edit-dropoff.component';
+import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
 
 @Component({
   selector: 'request',

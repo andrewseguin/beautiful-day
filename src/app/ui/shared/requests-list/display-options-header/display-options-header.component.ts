@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import {Sort} from '../requests-group/requests-group.component';
-import {Group, RequestGroupingService} from '../../../../../service/request-grouping.service';
+import {Group, RequestGroupingService} from '../../../../service/request-grouping.service';
 
 export class RequestViewOptions {
   cost: boolean = true;
