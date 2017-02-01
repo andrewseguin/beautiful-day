@@ -14,7 +14,7 @@ import {
   EventEmitter,
   Output
 } from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MdDialog} from '@angular/material';
 import {RequestViewOptions} from '../display-options-header/display-options-header.component';
 import {Item} from '../../../../model/item';
@@ -23,6 +23,7 @@ import {Request} from '../../../../model/request';
 import {ItemsService} from '../../../../service/items.service';
 import {EditDropoffComponent} from '../../dialog/edit-dropoff/edit-dropoff.component';
 import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
+import {ProjectsService} from "../../../../service/projects.service";
 
 @Component({
   selector: 'request',
@@ -57,8 +58,10 @@ export class RequestComponent implements OnInit {
   highlightState: string = 'normal';
   displayState: string = 'hidden';
   request: Request;
+  projectName: string;
 
   @Input() canEdit: boolean;
+  @Input() isReporting: boolean;
   @Input() requestId: string;
   @Input() groupIndex: number;
   @Input() requestViewOptions: RequestViewOptions;
@@ -71,11 +74,12 @@ export class RequestComponent implements OnInit {
 
   @ViewChild('quantityInput') quantityInput: ElementRef;
 
-  constructor(private route: ActivatedRoute,
+  constructor(private router: Router,
               private cd: ChangeDetectorRef,
               private mdDialog: MdDialog,
               private elementRef: ElementRef,
               private requestsService: RequestsService,
+              private projectsService: ProjectsService,
               private itemsService: ItemsService) { }
 
   ngOnInit() {
@@ -87,6 +91,11 @@ export class RequestComponent implements OnInit {
         this.item = item;
         this.cd.markForCheck();
       });
+    });
+
+    this.projectsService.getProject(this.request.project).subscribe(project => {
+      this.projectName = project.name;
+      this.cd.markForCheck();
     });
 
     this.requestsService.selectionChange().subscribe(() => {
@@ -178,5 +187,9 @@ export class RequestComponent implements OnInit {
     const b = hash & 255;
 
     return `rgba(${[r, g, b].join(',')}, 0.15)`;
+  }
+
+  navigateToProject(projectId: string) {
+    this.router.navigateByUrl(`project/${projectId}/requests`);
   }
 }

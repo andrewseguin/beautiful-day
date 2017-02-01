@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 export class ProjectsService {
   constructor(private db: AngularFireDatabase) {}
 
-  getProjects(): FirebaseListObservable<Project> {
+  getProjects(): FirebaseListObservable<Project[]> {
     return this.db.list('projects');
   }
 

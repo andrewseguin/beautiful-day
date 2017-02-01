@@ -49,6 +49,7 @@ export class RequestsListComponent {
       }
     });
   }
+  get projectId(): string { return this._projectId; }
 
   constructor(private requestGroupingService: RequestGroupingService,
               private requestsService: RequestsService,

@@ -19,6 +19,9 @@ import {Request} from '../../../../model/request';
 import {RequestGroup} from '../../../../service/request-grouping.service';
 import {RequestsService} from '../../../../service/requests.service';
 import {ItemsService} from '../../../../service/items.service';
+import {PermissionsService} from "../../../../service/permissions.service";
+import {ProjectsService} from "../../../../service/projects.service";
+import {Project} from "../../../../model/project";
 
 export type Sort = 'request added' | 'item' | 'cost';
 
@@ -45,6 +48,7 @@ export type Sort = 'request added' | 'item' | 'cost';
 })
 export class RequestsGroupComponent {
   items: Item[];
+  projects: Project[];
   requestSortPipe = new RequestSortPipe();
   processedRequests: Request[] = [];
   showRequests: boolean;
@@ -76,12 +80,34 @@ export class RequestsGroupComponent {
 
   @Input() requestViewOptions: RequestViewOptions;
 
+  _projectId: string;
+  @Input() set projectId(projectId: string) {
+    this._projectId = projectId;
+
+    if (projectId == 'all') {
+      this.canEdit = true;
+    }
+
+    else {
+      this.permissionsService.getEditPermissions(projectId)
+          .subscribe(editPermissions => this.canEdit = editPermissions.requests);
+    }
+  }
+  get projectId(): string { return this._projectId; }
+
   @Output() filterTag = new EventEmitter<string>();
 
   constructor(private requestsService: RequestsService,
-              private itemsService: ItemsService) {
+              private itemsService: ItemsService,
+              private projectsService: ProjectsService,
+              private permissionsService: PermissionsService) {
     this.itemsService.getItems().subscribe(items => {
       this.items = items;
+      this.sortAndFilterRequests();
+    });
+
+    this.projectsService.getProjects().subscribe(projects => {
+      this.projects = projects;
       this.sortAndFilterRequests();
     });
   }
@@ -101,11 +127,12 @@ export class RequestsGroupComponent {
   }
 
   sortAndFilterRequests() {
-    if (!this.items) return;
+    if (!this.items || !this.projects) return;
 
     const requests = this.requestGroup.requests;
-    this.processedRequests =
-       this.requestSortPipe.transform(requests, this.sort, this.filter, this.items);
+    this.processedRequests = this.requestSortPipe.transform(requests, this.sort,
+         this.filter, this.items, this.projects);
+    console.log(this.processedRequests)
   }
 
   getRequestKey(index: number, request: Request) {

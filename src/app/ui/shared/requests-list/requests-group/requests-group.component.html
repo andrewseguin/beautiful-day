@@ -12,6 +12,7 @@
          [groupIndex]="index"
          [id]="request.$key"
          [canEdit]="canEdit"
+         [isReporting]="projectId == 'all'"
          (filterTag)="filterTag.emit($event)">
 </request>
 

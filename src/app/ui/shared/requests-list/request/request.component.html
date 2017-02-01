@@ -34,6 +34,12 @@
     </div>
 
     <div class="details">
+      <div *ngIf="isReporting">
+        <span class="editable" (click)="navigateToProject(request.project)">
+          Project: {{projectName}}
+        </span>
+      </div>
+
       <div *ngIf="requestViewOptions.dropoff">
         <span class="editable"
               (click)="editDropoff($event)">
