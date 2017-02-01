@@ -54,7 +54,6 @@ import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
 })
 export class RequestComponent implements OnInit {
   item: Item;
-  projectId: string;
   highlightState: string = 'normal';
   displayState: string = 'hidden';
   request: Request;
@@ -92,10 +91,6 @@ export class RequestComponent implements OnInit {
 
     this.requestsService.selectionChange().subscribe(() => {
       this.cd.markForCheck()
-    });
-
-    this.route.parent.params.forEach((params: Params) => {
-      this.projectId = params['id'];
     });
   }
 
@@ -160,7 +155,7 @@ export class RequestComponent implements OnInit {
     dialogRef.componentInstance.requestIds = new Set([this.request.$key]);
     dialogRef.componentInstance.selectedDropoffLocation = this.request.dropoff;
     dialogRef.componentInstance.setDateFromRequest(this.request.date);
-    dialogRef.componentInstance.project = this.projectId;
+    dialogRef.componentInstance.project = this.request.project;
   }
 
   viewItem(e: Event) {
