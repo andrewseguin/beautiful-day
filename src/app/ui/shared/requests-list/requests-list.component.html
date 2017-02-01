@@ -1,0 +1,18 @@
+<div class="scrollable-content">
+  <display-options-header [class.visible]="requestGroups && requestsCount !== 0"
+                          [displayOptions]="displayOptions"
+                          (optionsChanged)="updateDisplayOptions($event)">
+  </display-options-header>
+
+  <div class="requests-container">
+    <requests-group *ngFor="let requestGroup of requestGroups.get(displayOptions.grouping);
+                            trackBy:getRequestGroupKey"
+                    [requestGroup]="requestGroup"
+                    [canEdit]="editPermissions?.requests"
+                    [sort]="displayOptions.sorting"
+                    [filter]="displayOptions.filter"
+                    [requestViewOptions]="displayOptions.viewing"
+                    (filterTag)="setFilter($event)">
+    </requests-group>
+  </div>
+</div>

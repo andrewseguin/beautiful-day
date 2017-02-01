@@ -11,14 +11,14 @@ import {
   state,
   trigger, EventEmitter, Output
 } from "@angular/core";
-import {RequestGroup} from "../../../../../service/request-grouping.service";
 import {RequestComponent} from "../request/request.component";
-import {Request} from "../../../../../model/request";
-import {RequestsService} from "../../../../../service/requests.service";
-import {RequestViewOptions} from "../project-requests.component";
-import {RequestSortPipe} from "../../../../../pipe/request-sort.pipe";
-import {ItemsService} from "../../../../../service/items.service";
-import {Item} from '../../../../../model/item';
+import {RequestViewOptions} from '../display-options-header/display-options-header.component';
+import {Item} from '../../../../model/item';
+import {RequestSortPipe} from '../../../../pipe/request-sort.pipe';
+import {Request} from '../../../../model/request';
+import {RequestGroup} from '../../../../service/request-grouping.service';
+import {RequestsService} from '../../../../service/requests.service';
+import {ItemsService} from '../../../../service/items.service';
 
 export type Sort = 'request added' | 'item' | 'cost';
 

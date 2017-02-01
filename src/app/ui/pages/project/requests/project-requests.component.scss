@@ -3,7 +3,7 @@
 // Import your custom theme
 @import '../../../../theme';
 @import '../../../shared/constants';
-@import 'common';
+@import '../../../shared/requests-list/common';
 
 
 :host {
@@ -32,16 +32,21 @@ md-sidenav {
 
   @media (max-width: $mobile-width - 1) {
     padding-top: $subheader-height;
+    padding-bottom: 70px;
   }
 }
 
-.requests-container {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
-  @media (max-width: $mobile-width - 1) {
-    padding-bottom: 70px;
+display-options-header {
+  opacity: 0;
+  & > * {
+    opacity: 0;
+  }
+  &.visible {
+    opacity: 1;
+    & > * {
+      opacity: 1;
+      transition: opacity 500ms ease-in;
+    }
   }
 }
 
@@ -84,37 +89,6 @@ md-sidenav {
   }
 }
 
-.requests-header {
-  display: flex;
-  font-size: 14px;
-  align-items: center;
-  justify-content: center;
-  background-color: md-color($bd-app-accent);
-  color: #FAFAFA;
-  height: 48px;
-  opacity: 0;
-
-  & > * {
-    opacity: 0;
-  }
-  &.visible {
-    opacity: 1;
-    & > * {
-      opacity: 1;
-      transition: opacity 500ms ease-in;
-    }
-  }
-
-  .buttons {
-    @include content-width;
-    display: flex;
-    justify-content: space-between;
-    button {
-      min-width: 0;
-      min-height: 36px;
-    }
-  }
-}
 
 button[md-fab] {
   position: absolute;
@@ -131,36 +105,6 @@ button[md-fab] {
   }
 }
 
-.button-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .text {
-    padding-left: 8px;
-    @media (max-width: 400px) {
-      display: none;
-    }
-  }
-}
-
-.filter-input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #F1F1F1;
-  height: 48px;
-
-  md-input-container {
-    @include content-width;
-    margin: 0;
-
-    .input-content {
-      display: flex;
-      height: 18px;
-      align-items: center;
-    }
-  }
-}
 
 button.active {
   background-color: rgba(0, 0, 0, 0.2);

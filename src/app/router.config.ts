@@ -12,8 +12,9 @@ import {CanActivateFeedbackGuard} from "./route-guard/can-activate-feedback-guar
 import {EventsComponent} from './ui/pages/events/events.component';
 import {CanActivateNotesGuard} from "./route-guard/can-activate-notes-guard";
 import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisitions-guard";
+import {ReportComponent} from './ui/pages/report/report.component';
 
-export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home';
+export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home' | 'report';
 
 export const ROUTER_CONFIG = [
   {path: '', component: PagesComponent, children: [
@@ -29,6 +30,8 @@ export const ROUTER_CONFIG = [
     {path: 'home', component: HomeComponent, canActivate: [CanActivateAuthGuard]},
     {path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateAuthGuard, CanActivateFeedbackGuard]},
     {path: 'events', component: EventsComponent},
+    {path: 'report', component: ReportComponent},
+    {path: 'report/:id', component: ReportComponent},
     {path: '', redirectTo: '/home', pathMatch: 'full'},
   ]},
   {path: 'login', component: LoginComponent},

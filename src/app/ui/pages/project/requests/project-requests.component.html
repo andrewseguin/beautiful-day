@@ -1,41 +1,8 @@
 <md-sidenav-container *ngIf="editPermissions && delayedShow">
-  <div class="scrollable-content" #scrollableContent
-       [style.bottom]="showBudget() ? '' : '0'"
-       (scroll)="checkSubheader($event)">
-    <div class="requests-header md-elevation-z1"
-         [class.visible]="requestGroups && requestsCount !== 0">
-      <div class="buttons">
-        <button md-button
-                (click)="showFilter = !showFilter; filter = ''"
-                [class.active]="showFilter">
-          <div class="button-content">
-            <md-icon>filter_list</md-icon>
-            <span class="text"> Filter </span>
-          </div>
-        </button>
-
-        <button md-button [md-menu-trigger-for]="groupingMenu">
-          <div class="button-content">
-            <md-icon>view_stream</md-icon>
-            <span class="text"> Group </span>
-          </div>
-        </button>
-
-        <button md-button [md-menu-trigger-for]="viewingMenu">
-          <div class="button-content">
-            <md-icon>remove_red_eye</md-icon>
-            <span class="text"> View </span>
-          </div>
-        </button>
-
-        <button md-button [md-menu-trigger-for]="sortingMenu">
-          <div class="button-content">
-            <md-icon>sort</md-icon>
-            <span class="text"> Sort </span>
-          </div>
-        </button>
-      </div>
-    </div>
+  <div #scrollableContent class="scrollable-content"
+       (scroll)="checkSubheader($event)"
+       [style.bottom]="showBudget() ? '' : '0'">
+    <requests-list [projectId]="projectId"></requests-list>
 
     <div *ngIf="requestsCount === 0" class="empty-requests">
       <div *ngIf="editPermissions.requests">
@@ -63,31 +30,6 @@
         </div>
       </div>
     </div>
-
-    <div [style.display]="showFilter ? '' : 'none'"
-         class="filter-input md-elevation-z1">
-      <md-input-container [floatingPlaceholder]="false">
-        <div class="input-content">
-          <input md-input [(ngModel)]="filter"
-                 autofocus placeholder="Enter keywords to filter requests">
-          <button md-icon-button (click)="showFilter = false; filter = ''">
-            <md-icon>close</md-icon>
-          </button>
-        </div>
-      </md-input-container>
-    </div>
-
-    <div class="requests-container">
-      <requests-group *ngFor="let requestGroup of requestGroups.get(grouping);
-                              trackBy:getRequestGroupKey"
-                      [requestGroup]="requestGroup"
-                      [canEdit]="editPermissions.requests"
-                      [sort]="sorting"
-                      [filter]="filter"
-                      [requestViewOptions]="requestViewOptions"
-                      (filterTag)="showFilter = true; filter = $event">
-      </requests-group>
-    </div>
   </div>
 
   <remaining-budget *ngIf="showBudget()" [projectId]="projectId"></remaining-budget>
@@ -105,45 +47,3 @@
     </inventory-panel>
   </md-sidenav>
 </md-sidenav-container>
-
-<!-- Group Menu -->
-<md-menu #groupingMenu="mdMenu">
-  <div class="project-requests-menu-title">Group requests by:</div>
-  <button class="grouping-option project-requests-option" md-menu-item
-          *ngFor="let group of getGroups()"
-          [class.selected]="grouping == group"
-          (click)="setGroup(group)">
-    <div class="option-content">
-      <md-icon>check</md-icon>
-      {{getGroupingName(group)}}
-    </div>
-  </button>
-</md-menu>
-
-<!-- View Menu -->
-<md-menu #viewingMenu="mdMenu">
-  <div class="project-requests-menu-title">View request details:</div>
-  <button class="project-requests-option" md-menu-item
-          *ngFor="let option of getRequestViewOptionKeys()"
-          [class.selected]="requestViewOptions[option]"
-          (click)="toggleRequestViewOption(option)">
-    <div class="option-content">
-      <md-icon>check</md-icon>
-      {{option}}
-    </div>
-  </button>
-</md-menu>
-
-<!-- Sort Menu -->
-<md-menu #sortingMenu="mdMenu" x-position="before">
-  <div class="project-requests-menu-title">Sort requests by:</div>
-  <button class="project-requests-option" md-menu-item
-          *ngFor="let sort of getSortOptions()"
-          [class.selected]="sorting == sort"
-          (click)="sorting = sort">
-    <div class="option-content">
-      <md-icon>check</md-icon>
-      {{sort}}
-    </div>
-  </button>
-</md-menu>
