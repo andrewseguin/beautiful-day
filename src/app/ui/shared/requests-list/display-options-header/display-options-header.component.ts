@@ -44,6 +44,7 @@ export class DisplayOptionsHeaderComponent implements OnInit {
   @Input()
   set displayOptions(displayOptions: DisplayOptions) {
     this.filter = displayOptions.filter;
+    this.showFilter = !!this.filter;
     this.grouping = displayOptions.grouping;
     this.sorting = displayOptions.sorting;
     this.viewing = displayOptions.viewing;

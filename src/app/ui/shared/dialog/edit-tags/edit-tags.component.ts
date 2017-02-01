@@ -37,16 +37,17 @@ export class EditTagsComponent {
     // If spaces exist (from mobile), then title case and remove spaces
     this.newTag = this.toTitleCase(this.newTag).replace(/\s+/g, '');
 
-    // Add a hash tag if there is none
-    if (this.newTag.charAt(0) != '#') { this.newTag = '#' + this.newTag; }
-
     if (this.newTag) {
+      // Add a hash tag if there is none
+      if (this.newTag.charAt(0) != '#') { this.newTag = '#' + this.newTag; }
+
       this.requestTags.forEach(tags => {
         tags.add(this.newTag);
       });
     }
 
     this.requestTags.forEach((tags, requestKey) => {
+      console.log(tags)
       this.requestsService.update(requestKey, {tags: Array.from(tags).join(',')});
     });
 
@@ -55,6 +56,8 @@ export class EditTagsComponent {
   }
 
   removeTag(tag: string) {
+    console.log(this.requestTags);
+    console.log(tag);
     this.requestTags.forEach(tags => tags.delete(tag));
     this.updateCommonTags();
   }
