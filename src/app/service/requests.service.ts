@@ -1,12 +1,12 @@
-import {Injectable} from "@angular/core";
-import {FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase} from "angularfire2";
-import {Router} from "@angular/router";
-import {Item} from "../model/item";
-import {Project} from "../model/project";
-import {Request} from "../model/request";
-import {Subject, Observable} from "rxjs";
-import {MdSnackBar, MdDialog} from "@angular/material";
-import {PromptDialogComponent} from "../ui/shared/dialog/prompt-dialog/prompt-dialog.component";
+import {Injectable} from '@angular/core';
+import {FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase} from 'angularfire2';
+import {Router} from '@angular/router';
+import {Item} from '../model/item';
+import {Project} from '../model/project';
+import {Request} from '../model/request';
+import {Subject, Observable} from 'rxjs';
+import {MdDialog} from '@angular/material';
+import {PromptDialogComponent} from '../ui/shared/dialog/prompt-dialog/prompt-dialog.component';
 
 export class RequestAddedResponse {
   item: Item;
@@ -21,8 +21,7 @@ export class RequestsService {
 
   constructor(private db: AngularFireDatabase,
               private router: Router,
-              private mdDialog: MdDialog,
-              private snackBar: MdSnackBar) {
+              private mdDialog: MdDialog) {
     // Clear selected requests when route changes.
     this.router.events.subscribe(() => this.clearSelected());
   }
@@ -32,6 +31,10 @@ export class RequestsService {
   }
 
   getProjectRequests(projectId: string): FirebaseListObservable<Request[]> {
+    if (projectId == 'all') {
+      return this.getAllRequests();
+    }
+
     return this.db.list('requests', {
       query: {
         orderByChild: 'project',

@@ -38,7 +38,9 @@ export class RequestsListComponent {
     this.requestGroups = this.requestGroupingService.getRequestGroups(projectId);
 
     this.permissionsService.getEditPermissions(projectId)
-      .subscribe(editPermissions => { this.editPermissions = editPermissions });
+      .subscribe(editPermissions => {
+        this.editPermissions = editPermissions
+      });
 
     this.requestsService.getProjectRequests(projectId).subscribe(requests => {
       this.requestsCount = requests.length;

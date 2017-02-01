@@ -8,7 +8,7 @@
     <requests-group *ngFor="let requestGroup of requestGroups.get(displayOptions.grouping);
                             trackBy:getRequestGroupKey"
                     [requestGroup]="requestGroup"
-                    [canEdit]="editPermissions.requests"
+                    [canEdit]="editPermissions?.requests"
                     [sort]="displayOptions.sorting"
                     [filter]="displayOptions.filter"
                     [requestViewOptions]="displayOptions.viewing"

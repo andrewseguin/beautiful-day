@@ -74,6 +74,7 @@ import {AnalyticsService} from "./service/analytics.service";
 import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisitions-guard";
 import { DisplayOptionsHeaderComponent } from './ui/shared/requests-list/display-options-header/display-options-header.component';
 import { RequestsListComponent } from './ui/shared/requests-list/requests-list.component';
+import { ReportComponent } from './ui/pages/report/report.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { RequestsListComponent } from './ui/shared/requests-list/requests-list.c
     EventsComponent,
     DisplayOptionsHeaderComponent,
     RequestsListComponent,
+    ReportComponent,
   ],
   entryComponents: [
     EditItemComponent,
