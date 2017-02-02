@@ -9,10 +9,10 @@ import {HomeComponent} from "./ui/pages/home/home.component";
 import {PagesComponent} from "./ui/pages/pages.component";
 import {FeedbackComponent} from "./ui/pages/feedback/feedback.component";
 import {CanActivateFeedbackGuard} from "./route-guard/can-activate-feedback-guard";
-import {EventsComponent} from './ui/pages/events/events.component';
+import {EventsComponent} from "./ui/pages/events/events.component";
 import {CanActivateNotesGuard} from "./route-guard/can-activate-notes-guard";
 import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisitions-guard";
-import {ReportComponent} from './ui/pages/report/report.component';
+import {ReportingComponent} from "./ui/pages/reporting/reporting.component";
 
 export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home' | 'report';
 
@@ -36,8 +36,8 @@ export const ROUTER_CONFIG = [
 
     // Acquisitions
     {path: 'inventory', component: InventoryComponent, canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
-    {path: 'report', component: ReportComponent, canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
-    {path: 'report/:id', component: ReportComponent, canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+    {path: 'reporting', component: ReportingComponent, canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+    {path: 'reporting/:id', component: ReportingComponent, canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
 
     // Owner
     {path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateAuthGuard, CanActivateFeedbackGuard]},

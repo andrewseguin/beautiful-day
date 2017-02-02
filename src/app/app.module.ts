@@ -72,9 +72,9 @@ import {CanActivateNotesGuard} from "./route-guard/can-activate-notes-guard";
 import {DeleteRequestsComponent} from "./ui/shared/dialog/delete-requests/delete-requests.component";
 import {AnalyticsService} from "./service/analytics.service";
 import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisitions-guard";
-import { DisplayOptionsHeaderComponent } from './ui/shared/requests-list/display-options-header/display-options-header.component';
-import { RequestsListComponent } from './ui/shared/requests-list/requests-list.component';
-import { ReportComponent } from './ui/pages/report/report.component';
+import {DisplayOptionsHeaderComponent} from "./ui/shared/requests-list/display-options-header/display-options-header.component";
+import {RequestsListComponent} from "./ui/shared/requests-list/requests-list.component";
+import {ReportingComponent} from "./ui/pages/reporting/reporting.component";
 
 @NgModule({
   declarations: [
@@ -125,7 +125,7 @@ import { ReportComponent } from './ui/pages/report/report.component';
     EventsComponent,
     DisplayOptionsHeaderComponent,
     RequestsListComponent,
-    ReportComponent,
+    ReportingComponent,
   ],
   entryComponents: [
     EditItemComponent,

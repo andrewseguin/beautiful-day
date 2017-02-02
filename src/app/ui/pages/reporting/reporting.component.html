@@ -1,0 +1,24 @@
+
+<md-sidenav-container>
+  <div class="scrollable-content">
+    <requests-list [projectId]="'all'"></requests-list>
+  </div>
+
+  <button md-fab color="accent"
+          [class.hide]="sidenav.opened"
+          (click)="sidenav.open()"><md-icon>filter_list</md-icon>
+  </button>
+
+  <md-sidenav #sidenav
+              [opened]="!hideQueries()"
+              [mode]="hideQueries() ? 'over' : 'side'"
+              align="end">
+    <div class="heading">
+      <button md-icon-button class="back" (click)="sidenav.close()">
+        <md-icon>keyboard_arrow_left</md-icon>
+      </button>
+      <span class="title">Report Name</span>
+    </div>
+    Queries
+  </md-sidenav>
+</md-sidenav-container>
