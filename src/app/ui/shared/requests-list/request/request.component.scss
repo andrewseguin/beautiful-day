@@ -65,24 +65,24 @@
   }
 
   .editable {
-    cursor: pointer;
     display: inline-block;
     padding: 2px 4px;
     border-radius: 2px;
-    @media (max-width: $mobile-width - 1) {
-      pointer-events: none;
-    }
-    &:hover {
-      background: rgba(0, 0, 0, 0.1) !important;
-    }
-    &:active {
-      background: rgba(0, 0, 0, 0.15) !important;
-    }
 
-    .warn {
-      color: #b90000;
-      font-style: italic;
-      font-weight: bold;
+    // Default so that if not clickable, the click event will not trigger
+    pointer-events: none;
+
+    &.clickable {
+      cursor: pointer;
+      @media (min-width: $mobile-width) {
+        pointer-events: auto;
+      }
+      &:hover {
+        background: rgba(0, 0, 0, 0.1) !important;
+      }
+      &:active {
+        background: rgba(0, 0, 0, 0.15) !important;
+      }
     }
   }
 

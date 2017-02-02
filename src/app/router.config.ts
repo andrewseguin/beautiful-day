@@ -18,6 +18,7 @@ export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home' | 'repo
 
 export const ROUTER_CONFIG = [
   {path: '', component: PagesComponent, children: [
+    // Projects
     {path: 'project/:id', component: ProjectComponent, canActivate: [CanActivateAuthGuard], children: [
       {path: '', redirectTo: 'details', pathMatch: 'full'},
       {path: 'details', component: ProjectDetailsComponent},
@@ -26,12 +27,22 @@ export const ROUTER_CONFIG = [
       {path: 'requests', redirectTo: 'requests/all'},
       {path: 'requests/:group', component: ProjectRequestsComponent}
     ]},
-    {path: 'inventory', component: InventoryComponent, canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+
+    // Home
     {path: 'home', component: HomeComponent, canActivate: [CanActivateAuthGuard]},
+
+    // Events
+    {path: 'events', component: EventsComponent, canActivate: [CanActivateAuthGuard]},
+
+    // Acquisitions
+    {path: 'inventory', component: InventoryComponent, canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+    {path: 'report', component: ReportComponent, canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+    {path: 'report/:id', component: ReportComponent, canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+
+    // Owner
     {path: 'feedback', component: FeedbackComponent, canActivate: [CanActivateAuthGuard, CanActivateFeedbackGuard]},
-    {path: 'events', component: EventsComponent},
-    {path: 'report', component: ReportComponent},
-    {path: 'report/:id', component: ReportComponent},
+
+    // Redirect
     {path: '', redirectTo: '/home', pathMatch: 'full'},
   ]},
   {path: 'login', component: LoginComponent},

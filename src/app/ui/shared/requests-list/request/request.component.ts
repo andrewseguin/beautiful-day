@@ -24,6 +24,7 @@ import {ItemsService} from '../../../../service/items.service';
 import {EditDropoffComponent} from '../../dialog/edit-dropoff/edit-dropoff.component';
 import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
 import {ProjectsService} from "../../../../service/projects.service";
+import {PermissionsService} from '../../../../service/permissions.service';
 
 @Component({
   selector: 'request',
@@ -59,8 +60,8 @@ export class RequestComponent implements OnInit {
   displayState: string = 'hidden';
   request: Request;
   projectName: string;
+  canEdit: boolean;
 
-  @Input() canEdit: boolean;
   @Input() isReporting: boolean;
   @Input() requestId: string;
   @Input() groupIndex: number;
@@ -80,6 +81,7 @@ export class RequestComponent implements OnInit {
               private elementRef: ElementRef,
               private requestsService: RequestsService,
               private projectsService: ProjectsService,
+              private permissionsService: PermissionsService,
               private itemsService: ItemsService) { }
 
   ngOnInit() {
@@ -87,9 +89,13 @@ export class RequestComponent implements OnInit {
       this.request = request;
       this.cd.markForCheck();
 
-      this.itemsService.getItem(this.request.item).subscribe(item => {
+      this.itemsService.getItem(request.item).subscribe(item => {
         this.item = item;
         this.cd.markForCheck();
+      });
+
+      this.permissionsService.getEditPermissions(request.project).subscribe(editPermissions => {
+        this.canEdit = editPermissions.requests;
       });
     });
 
@@ -187,9 +193,5 @@ export class RequestComponent implements OnInit {
     const b = hash & 255;
 
     return `rgba(${[r, g, b].join(',')}, 0.15)`;
-  }
-
-  navigateToProject(projectId: string) {
-    this.router.navigateByUrl(`project/${projectId}/requests`);
   }
 }

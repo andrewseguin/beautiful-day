@@ -12,17 +12,17 @@
       </md-checkbox>
 
       <div class="name">
-        <span class="editable" (click)="viewItem($event)">{{item.name}}</span>
+        <span class="editable clickable" (click)="viewItem($event)">{{item.name}}</span>
       </div>
 
       <div class="quantity" (click)="$event.stopPropagation()">
         <input type="number" #quantityInput min="0"
-               *ngIf="canEdit"
+               *ngIf="canEdit && !isReporting"
                [value]="request?.quantity"
                (keyup)="changeQuantity($event.target.value)"
                (keydown.Enter)="quantityInput.blur()"
                (change)="changeQuantity($event.target.value)">
-        <div *ngIf="!canEdit">{{request?.quantity}}</div>
+        <div *ngIf="!canEdit || isReporting">x {{request?.quantity}}</div>
       </div>
 
       <div class="cost" *ngIf="requestViewOptions.cost">
@@ -35,13 +35,14 @@
 
     <div class="details">
       <div *ngIf="isReporting">
-        <span class="editable" (click)="navigateToProject(request.project)">
+        <span class="editable">
           Project: {{projectName}}
         </span>
       </div>
 
       <div *ngIf="requestViewOptions.dropoff">
         <span class="editable"
+              [class.clickable]="canEdit && !isReporting"
               (click)="editDropoff($event)">
           <span *ngIf="request?.dropoff">
             Receive @ {{request?.dropoff}}, {{request?.date | date}}
@@ -50,12 +51,13 @@
       </div>
       <div *ngIf="request?.note && requestViewOptions.notes">
         <span class="editable"
+              [class.clickable]="canEdit && !isReporting"
               (click)="editNote($event)">
           {{request?.note}}
         </span>
       </div>
       <div *ngIf="request?.tags && requestViewOptions.tags" class="tags">
-        <span class="editable tag" *ngFor="let tag of request.tags.split(',').sort()"
+        <span class="editable clickable tag" *ngFor="let tag of request.tags.split(',').sort()"
               [style.background]="getTagColor(tag)"
               (click)="$event.stopPropagation(); filterTag.emit(tag)">
           {{tag}}
