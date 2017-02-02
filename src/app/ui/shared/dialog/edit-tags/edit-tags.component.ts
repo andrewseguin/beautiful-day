@@ -47,7 +47,6 @@ export class EditTagsComponent {
     }
 
     this.requestTags.forEach((tags, requestKey) => {
-      console.log(tags)
       this.requestsService.update(requestKey, {tags: Array.from(tags).join(',')});
     });
 
@@ -56,8 +55,6 @@ export class EditTagsComponent {
   }
 
   removeTag(tag: string) {
-    console.log(this.requestTags);
-    console.log(tag);
     this.requestTags.forEach(tags => tags.delete(tag));
     this.updateCommonTags();
   }

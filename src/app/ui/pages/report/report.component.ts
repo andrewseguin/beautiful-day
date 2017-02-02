@@ -17,7 +17,6 @@ export class ReportComponent implements OnInit {
     this.headerService.title = 'Reports';
     this.route.params.subscribe((params: Params) => {
       this.reportId = params['id'];
-      console.log(this.reportId);
     });
   }
 }

@@ -49,11 +49,7 @@ export class AccountingService {
         // Convert all requests to their cost
           .map(request => {
             const item = this.items.get(request.item);
-            if (!item.cost) {
-              console.log(`Missing cost for ${item.name}`);
-              return 0;
-            }
-            return request.quantity * item.cost;
+            return item.cost ? request.quantity * item.cost : 0;
           })
           // Add all costs
           .reduce((totalCost, requestCost) => totalCost + requestCost);

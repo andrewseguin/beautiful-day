@@ -132,7 +132,6 @@ export class RequestsGroupComponent {
     const requests = this.requestGroup.requests;
     this.processedRequests = this.requestSortPipe.transform(requests, this.sort,
          this.filter, this.items, this.projects);
-    console.log(this.processedRequests)
   }
 
   getRequestKey(index: number, request: Request) {
