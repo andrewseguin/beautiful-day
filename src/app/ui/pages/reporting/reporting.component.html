@@ -1,7 +1,9 @@
 
 <md-sidenav-container>
   <div class="scrollable-content">
-    <requests-list [projectId]="'all'"></requests-list>
+    <requests-list [requests]="requests"
+                   [projectId]="'all'">
+    </requests-list>
   </div>
 
   <button md-fab color="accent"

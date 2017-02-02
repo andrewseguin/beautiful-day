@@ -8,6 +8,7 @@ import {MediaQueryService} from '../../../../service/media-query.service';
 import {SubheaderService} from '../../../../service/subheader.service';
 import {PermissionsService, EditPermissions} from '../../../../service/permissions.service';
 import {RequestsListComponent} from '../../../shared/requests-list/requests-list.component';
+import {Request} from "../../../../model/request";
 
 @Component({
   selector: 'project-requests',
@@ -20,8 +21,7 @@ export class ProjectRequestsComponent implements OnInit {
   project: FirebaseObjectObservable<Project>;
   projectId: string;
   latestScrollPosition = 0;
-
-  requestsCount: number = null;
+  requests: Request[] = [];
 
   @ViewChild('scrollableContent') scrollableContent: ElementRef;
   @ViewChild(RequestsListComponent) requestsListComponent: RequestsListComponent;
@@ -39,10 +39,10 @@ export class ProjectRequestsComponent implements OnInit {
       this.project = this.projectsService.getProject(this.projectId);
 
       this.permissionsService.getEditPermissions(this.projectId)
-          .subscribe(editPermissions => { this.editPermissions = editPermissions; });
+          .subscribe(editPermissions => this.editPermissions = editPermissions);
 
       this.requestsService.getProjectRequests(this.projectId)
-          .subscribe(requests => { this.requestsCount = requests.length; });
+          .subscribe(requests => this.requests = requests);
     });
 
     this.requestsService.getRequestAddedStream().subscribe(response => {

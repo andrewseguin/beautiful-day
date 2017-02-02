@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HeaderService} from '../../../service/header.service';
 import {ActivatedRoute, Params} from '@angular/router';
 import {MediaQueryService} from "../../../service/media-query.service";
+import {Request} from "../../../model/request";
+import {RequestsService} from "../../../service/requests.service";
 
 @Component({
   selector: 'reporting',
@@ -10,9 +12,11 @@ import {MediaQueryService} from "../../../service/media-query.service";
 })
 export class ReportingComponent implements OnInit {
   reportId: string;
+  requests: Request[] = [];
 
   constructor(private route: ActivatedRoute,
               private mediaQuery: MediaQueryService,
+              private requestsService: RequestsService,
               private headerService: HeaderService) { }
 
   ngOnInit() {
@@ -20,6 +24,9 @@ export class ReportingComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.reportId = params['id'];
     });
+
+    this.requestsService.getAllRequests()
+        .subscribe(requests => this.requests = requests);
   }
 
   hideQueries(): boolean {

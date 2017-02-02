@@ -11,6 +11,7 @@ import {
   Group
 } from '../../../service/request-grouping.service';
 import {RequestsGroupComponent} from './requests-group/requests-group.component';
+import {Request} from "../../../model/request";
 
 @Component({
   selector: 'requests-list',
@@ -32,27 +33,23 @@ export class RequestsListComponent {
 
   @ViewChildren(RequestsGroupComponent) requestsGroups: QueryList<RequestsGroupComponent>;
 
+  @Input() set requests(requests: Request[]) {
+    this.requestGroups = this.requestGroupingService.getRequestGroups(requests);
+    this.requestsCount = requests.length;
+    if (requests.length == 0) {
+      this.setFilter('');
+    }
+  }
+
   _projectId: string;
   @Input() set projectId(projectId: string) {
     this._projectId = projectId;
-    this.requestGroups = this.requestGroupingService.getRequestGroups(projectId);
-
     this.permissionsService.getEditPermissions(projectId)
-      .subscribe(editPermissions => {
-        this.editPermissions = editPermissions
-      });
-
-    this.requestsService.getProjectRequests(projectId).subscribe(requests => {
-      this.requestsCount = requests.length;
-      if (requests.length == 0) {
-        this.setFilter('');
-      }
-    });
+        .subscribe(editPermissions => this.editPermissions = editPermissions);
   }
   get projectId(): string { return this._projectId; }
 
   constructor(private requestGroupingService: RequestGroupingService,
-              private requestsService: RequestsService,
               private permissionsService: PermissionsService) {}
 
   setFilter(filter: string) {

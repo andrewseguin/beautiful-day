@@ -2,9 +2,11 @@
   <div #scrollableContent class="scrollable-content"
        (scroll)="checkSubheader($event)"
        [style.bottom]="showBudget() ? '' : '0'">
-    <requests-list [projectId]="projectId"></requests-list>
+    <requests-list [requests]="requests"
+                   [projectId]="projectId">
+    </requests-list>
 
-    <div *ngIf="requestsCount === 0" class="empty-requests">
+    <div *ngIf="requests?.length === 0" class="empty-requests">
       <div *ngIf="editPermissions.requests">
         <div class="wide">
           <div class="getting-started">
