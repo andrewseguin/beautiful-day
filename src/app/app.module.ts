@@ -24,7 +24,6 @@ import {ProjectNavComponent} from "./ui/shared/header/project-nav/project-nav.co
 import {SelectionHeaderComponent} from "./ui/shared/selection-header/selection-header.component";
 import {EditDropoffComponent} from "./ui/shared/dialog/edit-dropoff/edit-dropoff.component";
 import {MediaQueryService} from "./service/media-query.service";
-import {RequestGroupingService} from "./service/request-grouping.service";
 import {CanActivateAuthGuard} from "./route-guard/can-activate-auth-guard";
 import {LoginComponent} from "./ui/login/login.component";
 import {SubheaderService} from "./service/subheader.service";
@@ -158,7 +157,6 @@ import {ReportsService} from "./service/reports.service";
     ItemsService,
     RequestsService,
     MediaQueryService,
-    RequestGroupingService,
     SubheaderService,
     UsersService,
     CanActivateAuthGuard,

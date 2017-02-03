@@ -16,7 +16,8 @@ import {Request} from "../../../model/request";
 @Component({
   selector: 'requests-list',
   templateUrl: './requests-list.component.html',
-  styleUrls: ['./requests-list.component.scss']
+  styleUrls: ['./requests-list.component.scss'],
+  providers: [RequestGroupingService]
 })
 export class RequestsListComponent {
   requestViewOptions: RequestViewOptions = new RequestViewOptions();
@@ -34,7 +35,7 @@ export class RequestsListComponent {
   @ViewChildren(RequestsGroupComponent) requestsGroups: QueryList<RequestsGroupComponent>;
 
   @Input() set requests(requests: Request[]) {
-    this.requestGroups = this.requestGroupingService.getRequestGroups(requests);
+    this.requestGroupingService.requests = requests;
     this.requestsCount = requests.length;
     if (requests.length == 0) {
       this.setFilter('');
@@ -50,7 +51,9 @@ export class RequestsListComponent {
   get projectId(): string { return this._projectId; }
 
   constructor(private requestGroupingService: RequestGroupingService,
-              private permissionsService: PermissionsService) {}
+              private permissionsService: PermissionsService) {
+    this.requestGroups = this.requestGroupingService.requestGroups;
+  }
 
   setFilter(filter: string) {
     // Make a new object so that the display options can see the change in reference.
