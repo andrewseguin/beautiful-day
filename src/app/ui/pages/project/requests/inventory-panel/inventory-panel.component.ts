@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, ViewChild, Output, ElementRef} from "@angular/core";
+import {Component, OnInit, EventEmitter, ViewChild, Output} from "@angular/core";
 import {ItemsService, CategoryGroupCollection} from "../../../../../service/items.service";
 import {FirebaseObjectObservable} from "angularfire2";
 import {Item} from "../../../../../model/item";

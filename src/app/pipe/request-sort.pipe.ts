@@ -3,6 +3,7 @@ import {Sort} from "../ui/shared/requests-list/requests-group/requests-group.com
 import {Request} from "../model/request";
 import {Item} from "../model/item";
 import {Project} from "../model/project";
+import {RequestSearchTransformer} from "../utility/request-search-transformer";
 
 @Pipe({name: 'requestSort'})
 export class RequestSortPipe implements PipeTransform {
@@ -54,9 +55,9 @@ export class RequestSortPipe implements PipeTransform {
 
 
   requestMatchesSearch(request: Request, item: Item, project: Project, token: string) {
-    const requestStr = (request.dropoff + request.note + request.quantity + request.tags + project.name).toLowerCase();
-    const itemStr = (item.name + item.type + item.categories + item.url).toLowerCase();
-    return requestStr.indexOf(token.toLowerCase()) != -1 ||
-        itemStr.indexOf(token.toLowerCase()) != -1;
+    const requestStr = RequestSearchTransformer.transform(request, item, project);
+
+    // Remove spaces, change to lowercase
+    return requestStr.indexOf(token.toLowerCase()) != -1;
   }
 }

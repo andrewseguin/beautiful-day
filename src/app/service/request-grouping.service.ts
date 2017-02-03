@@ -64,7 +64,7 @@ export class RequestGroupingService {
     if (!allRequestGroup) {
       allRequestGroups.push({
         id: 'all',
-        title: 'All',
+        title: `All (${requests.length} requests)`,
         requests: requests
       });
     } else {
