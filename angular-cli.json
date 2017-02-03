@@ -29,8 +29,7 @@
       "mobile": false,
       "styles": [
         "styles.scss",
-        "app/theme.scss",
-        "../node_modules/codemirror/lib/codemirror.css"
+        "app/theme.scss"
       ],
       "scripts": [
       ],
