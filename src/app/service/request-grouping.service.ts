@@ -3,6 +3,7 @@ import {RequestsService} from "./requests.service";
 import {Request} from "../model/request";
 import {ItemsService} from "./items.service";
 import {Item} from "../model/item";
+import {Subject} from 'rxjs';
 
 export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff' | 'tags';
 
@@ -17,6 +18,8 @@ export class RequestGroupingService {
   requestGroups: Map<Group, RequestGroup[]> = new Map();
   items: Item[];
   categories: string[];
+
+  groupsUpdated: Subject<Map<Group, RequestGroup[]>> = new Subject();
 
   _requests: Request[] = [];
   set requests(r) { this._requests = r; this.updateGroups(); }
@@ -49,28 +52,24 @@ export class RequestGroupingService {
   getGroupNames(): string[] {
     return ['all', 'category', 'date', 'dropoff', 'tags'];
   }
+
   updateGroups() {
     this.updateGroupAll();
     this.updateGroupDropoffLocation();
     this.updateGroupDateNeeded();
     this.updateGroupCategory();
     this.updateGroupTags();
+
+    // Return a clone of the map of request groups so that change detection will know to run.
+    this.groupsUpdated.next(new Map(this.requestGroups));
   }
 
   updateGroupAll() {
-    const allRequestGroups = this.requestGroups.get('all');
-    const allRequestGroup = allRequestGroups
-      .find(requestGroup => requestGroup.id === 'all');
-
-    if (!allRequestGroup) {
-      allRequestGroups.push({
-        id: 'all',
-        title: `All (${this.requests.length} requests)`,
-        requests: this.requests
-      });
-    } else {
-      allRequestGroup.requests = this.requests;
-    }
+    this.requestGroups.set('all', [{
+      id: 'all',
+      title: `All (${this.requests.length} requests)`,
+      requests: this.requests
+    }]);
   }
 
   updateGroupDropoffLocation() {

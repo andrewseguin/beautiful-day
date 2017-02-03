@@ -52,7 +52,8 @@ export class RequestsListComponent {
 
   constructor(private requestGroupingService: RequestGroupingService,
               private permissionsService: PermissionsService) {
-    this.requestGroups = this.requestGroupingService.requestGroups;
+    this.requestGroupingService.groupsUpdated
+        .subscribe(requestGroups => this.requestGroups = requestGroups);
   }
 
   setFilter(filter: string) {
