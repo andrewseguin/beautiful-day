@@ -1,7 +1,7 @@
 
 <md-sidenav-container>
   <div class="scrollable-content">
-    <requests-list [requests]="requests"
+    <requests-list [requests]="filteredRequests"
                    [projectId]="'all'">
     </requests-list>
   </div>
@@ -22,6 +22,35 @@
       </button>
       <span class="title">Report Name</span>
     </div>
-    Queries
+    <div *ngFor="let queryStage of queryStages; let queryStageIndex = index; let lastQueryStage = last"
+          class="query-stage-container">
+      <div [class.has-following-query-stage]="!lastQueryStage && queryStages.length > 1"
+           class="query-stage md-elevation-z1">
+        <div *ngFor="let query of queryStage.querySet; let querySetIndex = index; let lastQuerySet = last">
+          <div class="query-input-container">
+            <md-input-container>
+              <input md-input [(ngModel)]="query[querySetIndex]">
+            </md-input-container>
+            <button md-icon-button><md-icon>close</md-icon></button>
+          </div>
+          <div *ngIf="!lastQuerySet && queryStage.querySet.length > 1"
+               class="or-label">
+            or
+          </div>
+        </div>
+        <button md-button class="add-or"
+                (click)="queryStage.querySet.push('')">
+          + OR
+        </button>
+      </div>
+      <div *ngIf="!lastQueryStage && queryStages.length > 1"
+           class="and-label">
+        and
+      </div>
+    </div>
+    <button md-button class="add-and"
+            (click)="queryStages.push({querySet: ['']})">
+      + AND
+    </button>
   </md-sidenav>
 </md-sidenav-container>

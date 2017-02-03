@@ -15,6 +15,42 @@ md-sidenav {
   overflow: hidden;
   width: 100%;
   max-width: 300px;
+
+  .query-stage-container {
+    .and-label {
+      font-size: 16px;
+      height: 20px;
+      padding-top: 8px;
+      color: #666;
+      text-align: center;
+    }
+
+    .query-stage {
+      margin: 16px 8px;
+      background: #f1f1f1;
+      padding: 24px 4px 8px 16px;
+
+      .query-input-container {
+        display: flex;
+        align-items: center;
+
+        md-input-container {
+          flex-grow: 1;
+        }
+      }
+
+      .or-label {
+        font-size: 13px;
+        height: 20px;
+        padding-top: 8px;
+        color: #666;
+      }
+    }
+  }
+
+  button.add-and {
+    width: 100%;
+  }
 }
 
 .scrollable-content {
