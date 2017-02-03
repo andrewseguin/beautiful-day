@@ -75,6 +75,7 @@ import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisiti
 import {DisplayOptionsHeaderComponent} from "./ui/shared/requests-list/display-options-header/display-options-header.component";
 import {RequestsListComponent} from "./ui/shared/requests-list/requests-list.component";
 import {ReportingComponent} from "./ui/pages/reporting/reporting.component";
+import {ReportsService} from "./service/reports.service";
 
 @NgModule({
   declarations: [
@@ -172,6 +173,7 @@ import {ReportingComponent} from "./ui/pages/reporting/reporting.component";
     GroupsService,
     EventsService,
     AnalyticsService,
+    ReportsService,
   ],
   bootstrap: [AppComponent]
 })

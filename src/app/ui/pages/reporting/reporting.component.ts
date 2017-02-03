@@ -10,10 +10,7 @@ import {ProjectsService} from '../../../service/projects.service';
 import {ItemsService} from '../../../service/items.service';
 import {Item} from '../../../model/item';
 import {Project} from '../../../model/project';
-
-export interface QueryStage {
-  querySet: string[];
-}
+import {QueryStage} from "../../../model/report";
 
 @Component({
   selector: 'reporting',
