@@ -13,7 +13,7 @@ export class ProjectsService {
   }
 
   getSortedProjects(): Observable<Project[]> {
-    return this.getProjects().map(projects => {
+    return this.db.list('projects').map(projects => {
       return projects.sort((a: Project, b: Project) => {
         return (a.name < b.name) ? -1 : 1;
       });

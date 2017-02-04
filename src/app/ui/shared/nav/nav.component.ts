@@ -32,10 +32,10 @@ export class NavComponent implements OnInit {
         .subscribe(canCreateProjects => this.canCreateProjects = canCreateProjects);
 
     this.permissionsService.canViewFeedback()
-      .subscribe(canViewFeedback => this.canViewFeedback = canViewFeedback);
+        .subscribe(canViewFeedback => this.canViewFeedback = canViewFeedback);
 
     this.permissionsService.canManageAcqusitions()
-      .subscribe(canManageAcqusitions => this.canManageAcqusitions = canManageAcqusitions);
+        .subscribe(canManageAcqusitions => this.canManageAcqusitions = canManageAcqusitions);
   }
 
   addProject() {
