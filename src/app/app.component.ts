@@ -4,7 +4,7 @@ import {Router, NavigationEnd} from '@angular/router';
 import {MdSnackBarConfig, MdSnackBar} from "@angular/material";
 import {AnalyticsService} from "./service/analytics.service";
 
-export const APP_VERSION = 8;
+export const APP_VERSION = 9;
 
 @Component({
   selector: 'app-root',
