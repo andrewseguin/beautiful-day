@@ -12,7 +12,7 @@
       </md-checkbox>
 
       <div class="name">
-        <span class="editable clickable" (click)="viewItem($event)">{{item.name}}</span>
+        <span class="editable clickable" (click)="viewItem($event)">{{itemDisplayName}}</span>
       </div>
 
       <div class="quantity" (click)="$event.stopPropagation()">

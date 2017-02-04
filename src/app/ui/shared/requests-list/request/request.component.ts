@@ -61,6 +61,7 @@ export class RequestComponent implements OnInit {
   request: Request;
   projectName: string;
   canEdit: boolean;
+  itemDisplayName: string;
 
   @Input() isReporting: boolean;
   @Input() requestId: string;
@@ -91,6 +92,8 @@ export class RequestComponent implements OnInit {
 
       this.itemsService.getItem(request.item).subscribe(item => {
         this.item = item;
+        this.itemDisplayName = item.name;
+        if (this.item.type) { this.itemDisplayName += ` - ${item.type}`};
         this.cd.markForCheck();
       });
 
