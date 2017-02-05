@@ -75,6 +75,7 @@ import {DisplayOptionsHeaderComponent} from "./ui/shared/requests-list/display-o
 import {RequestsListComponent} from "./ui/shared/requests-list/requests-list.component";
 import {ReportingComponent} from "./ui/pages/reporting/reporting.component";
 import {ReportsService} from "./service/reports.service";
+import {QueryStagesComponent} from "./ui/pages/reporting/query-stages/query-stages.component";
 
 @NgModule({
   declarations: [
@@ -126,6 +127,7 @@ import {ReportsService} from "./service/reports.service";
     DisplayOptionsHeaderComponent,
     RequestsListComponent,
     ReportingComponent,
+    QueryStagesComponent,
   ],
   entryComponents: [
     EditItemComponent,

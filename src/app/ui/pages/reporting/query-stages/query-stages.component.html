@@ -1,0 +1,37 @@
+<div *ngFor="let queryStage of queryStages; let queryStageIndex = index; let lastQueryStage = last; trackBy:trackByIndex"
+     class="query-stage-container">
+  <div [class.has-following-query-stage]="!lastQueryStage && queryStages.length > 1"
+       class="query-stage md-elevation-z1">
+    <div *ngFor="let query of queryStage.querySet; let querySetIndex = index; let lastQuerySet = last; trackBy:trackByIndex">
+      <div class="query-input-container">
+        <md-input-container [floatingPlaceholder]="false">
+          <input md-input placeholder="Enter query"
+                 (ngModelChange)="queryStage.querySet[querySetIndex] = $event; notifyChange()"
+                 [(ngModel)]="queryStage.querySet[querySetIndex]">
+        </md-input-container>
+        <button md-icon-button
+                [disabled]="queryStages.length === 1 && queryStage.querySet.length === 1"
+                (click)="removeQuery(queryStageIndex, queryStage.querySet, querySetIndex)">
+          <md-icon>close</md-icon>
+        </button>
+      </div>
+      <div *ngIf="!lastQuerySet && queryStage.querySet.length > 1"
+           class="or-label">
+        OR
+      </div>
+    </div>
+    <button md-button class="add-or"
+            (click)="queryStage.querySet.push('')">
+      + OR
+    </button>
+  </div>
+  <div *ngIf="!lastQueryStage && queryStages.length > 1"
+       class="and-label">
+    AND
+  </div>
+</div>
+
+<button md-button class="add-and"
+        (click)="queryStages.push({querySet: ['']})">
+  + AND
+</button>

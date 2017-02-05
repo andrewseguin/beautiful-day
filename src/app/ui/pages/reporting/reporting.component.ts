@@ -54,22 +54,6 @@ export class ReportingComponent implements OnInit {
     });
   }
 
-  removeQuery(queryStageIndex: number, querySet: string[], queryIndex: number) {
-    // If the query set has more than one query, just remove this one query.
-    if (querySet.length > 1) {
-      querySet.splice(queryIndex, 1);
-    } else {
-      // This is the last query of the stage. If there is only one stage, then return. Otherwise,
-      // remove the stage.
-      if (this.queryStages.length != 1) {
-        // Remove the query stage since the last query is being removed.
-        this.queryStages.splice(queryStageIndex, 1);
-      }
-    }
-
-    this.performQuery();
-  }
-
   hideQueries(): boolean {
     return this.mediaQuery.isMobile();
   }
@@ -93,6 +77,4 @@ export class ReportingComponent implements OnInit {
       requestSet.forEach(request => this.filteredRequests.push(request));
     }
   }
-
-  trackByIndex(i: number) { return i; }
 }
