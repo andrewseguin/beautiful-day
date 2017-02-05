@@ -1,5 +1,6 @@
 import {Component, Input, EventEmitter, Output} from "@angular/core";
 import {QueryStage} from "../../../../model/report";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'query-stages',
@@ -7,12 +8,17 @@ import {QueryStage} from "../../../../model/report";
   styleUrls: ['query-stages.component.scss']
 })
 export class QueryStagesComponent {
+  inputChange = new Subject<void>();
 
   @Input() queryStages: QueryStage[];
 
   @Output() queryStagesChange: EventEmitter<QueryStage[]> = new EventEmitter();
 
-  constructor() { }
+  constructor() {
+    this.inputChange.asObservable().debounceTime(250).subscribe(() => {
+      this.queryStagesChange.emit(this.queryStages);
+    });
+  }
 
   removeQuery(queryStageIndex: number, querySet: string[], queryIndex: number) {
     // If the query set has more than one query, just remove this one query.
@@ -27,11 +33,7 @@ export class QueryStagesComponent {
       }
     }
 
-    this.notifyChange();
-  }
-
-  notifyChange() {
-    this.queryStagesChange.emit(this.queryStages);
+    this.inputChange.next();
   }
 
   trackByIndex(i: number) { return i; }

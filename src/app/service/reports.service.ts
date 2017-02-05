@@ -11,15 +11,22 @@ export class ReportsService {
     return this.db.list('reports');
   }
 
-  get(id: string): FirebaseObjectObservable<Report[]> {
-    return this.db.object(`report/${id}`);
+  get(id: string): FirebaseObjectObservable<Report> {
+    return this.db.object(`reports/${id}`);
   }
 
   update(id, update: Report): void {
     this.get(id).update(update);
   }
 
-  delete(id: string) {
+  remove(id: string) {
     this.get(id).remove();
+  }
+
+  create() {
+    return this.getAll().push({
+      name: 'New Report',
+      queryStages: [{querySet: ['']}]
+    })
   }
 }

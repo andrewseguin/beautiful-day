@@ -76,6 +76,8 @@ import {RequestsListComponent} from "./ui/shared/requests-list/requests-list.com
 import {ReportingComponent} from "./ui/pages/reporting/reporting.component";
 import {ReportsService} from "./service/reports.service";
 import {QueryStagesComponent} from "./ui/pages/reporting/query-stages/query-stages.component";
+import {ReportComponent} from "./ui/pages/reporting/report/report.component";
+import {ReportListComponent} from "./ui/pages/reporting/report-list/report-list.component";
 
 @NgModule({
   declarations: [
@@ -128,6 +130,8 @@ import {QueryStagesComponent} from "./ui/pages/reporting/query-stages/query-stag
     RequestsListComponent,
     ReportingComponent,
     QueryStagesComponent,
+    ReportComponent,
+    ReportListComponent
   ],
   entryComponents: [
     EditItemComponent,

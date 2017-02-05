@@ -14,7 +14,7 @@ import {CanActivateNotesGuard} from "./route-guard/can-activate-notes-guard";
 import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisitions-guard";
 import {ReportingComponent} from "./ui/pages/reporting/reporting.component";
 
-export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home' | 'report';
+export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home' | 'reporting';
 
 export const ROUTER_CONFIG = [
   {path: '', component: PagesComponent, children: [

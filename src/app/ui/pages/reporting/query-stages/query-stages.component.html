@@ -6,7 +6,7 @@
       <div class="query-input-container">
         <md-input-container [floatingPlaceholder]="false">
           <input md-input placeholder="Enter query"
-                 (ngModelChange)="queryStage.querySet[querySetIndex] = $event; notifyChange()"
+                 (ngModelChange)="queryStage.querySet[querySetIndex] = $event; inputChange.next()"
                  [(ngModel)]="queryStage.querySet[querySetIndex]">
         </md-input-container>
         <button md-icon-button
