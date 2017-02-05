@@ -54,7 +54,7 @@ export class ReportingComponent implements OnInit {
     });
   }
 
-  hideQueries(): boolean {
+  isMobile(): boolean {
     return this.mediaQuery.isMobile();
   }
 
