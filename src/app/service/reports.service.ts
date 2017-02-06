@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
-import {Report} from "../model/report";
+import {Report, QueryStage} from "../model/report";
 
 @Injectable()
 export class ReportsService {
@@ -15,7 +15,7 @@ export class ReportsService {
     return this.db.object(`reports/${id}`);
   }
 
-  update(id, update: Report): void {
+  update(id, update: any): void {
     this.get(id).update(update);
   }
 
@@ -23,10 +23,22 @@ export class ReportsService {
     this.get(id).remove();
   }
 
-  create() {
-    return this.getAll().push({
+  create(user: string) {
+    // Create a new report with an empty query
+    const initialQueryStage: QueryStage = {
+      querySet: [{queryString: '', type: 'any'}],
+      exclude: false,
+    };
+
+    const newReport: Report = {
       name: 'New Report',
-      queryStages: [{querySet: ['']}]
-    })
+      queryStages: [initialQueryStage],
+      createdBy: user,
+      modifiedBy: user,
+      createdDate: new Date().getTime().toString(),
+      modifiedDate: new Date().getTime().toString(),
+    };
+
+    return this.getAll().push(newReport)
   }
 }

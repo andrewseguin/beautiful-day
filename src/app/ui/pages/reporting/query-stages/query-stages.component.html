@@ -6,8 +6,8 @@
       <div class="query-input-container">
         <md-input-container [floatingPlaceholder]="false">
           <input md-input placeholder="Enter query"
-                 (ngModelChange)="queryStage.querySet[querySetIndex] = $event; inputChange.next()"
-                 [(ngModel)]="queryStage.querySet[querySetIndex]">
+                 (ngModelChange)="queryStage.querySet[querySetIndex].queryString = $event; inputChange.next()"
+                 [(ngModel)]="queryStage.querySet[querySetIndex].queryString">
         </md-input-container>
         <button md-icon-button
                 [disabled]="queryStages.length === 1 && queryStage.querySet.length === 1"
@@ -21,7 +21,7 @@
       </div>
     </div>
     <button md-button class="add-or"
-            (click)="queryStage.querySet.push('')">
+            (click)="queryStage.querySet.push({queryString: '', type: 'any'})">
       + OR
     </button>
   </div>
