@@ -1,0 +1,139 @@
+@import '../../../shared/constants';
+@import '../../../../theme';
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.report-heading {
+  background-color: md-color($bd-app-primary);
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  font-weight: bold;
+
+  // Get the shadow to show, use position absolute on this and the sidenav
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
+  .left {
+    display: flex;
+    align-items: center;
+
+    button.close-report {
+      height: 40px;
+      width: 40px;
+      margin: 0 4px 0 12px;
+    }
+
+    .name {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      padding: 0 8px;
+      height: 40px;
+      border-radius: 4px;
+
+      md-icon {
+        padding-left: 8px;
+        visibility: hidden;
+      }
+
+      &:hover {
+        .text {
+          text-decoration: underline;
+        }
+        md-icon {
+          visibility: visible;
+        }
+      }
+    }
+  }
+
+  .actions button {
+    height: 48px;
+    width: 48px;
+  }
+}
+
+:host md-sidenav-container {
+  background: #CCC;
+  position: absolute;
+  top: 48px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  .getting-started {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .scrollable-content {
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    @media (max-width: $mobile-width - 1) {
+      padding-bottom: 70px;
+    }
+  }
+
+  button[md-fab] {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0 24px 24px 0;
+    transition: 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: scale(1);
+    opacity: 1;
+
+    &.hide {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+
+  md-sidenav {
+    overflow: hidden;
+    width: 100%;
+    max-width: 300px;
+
+    .heading {
+      font-weight: bold;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+
+      button.back {
+        height: 48px;
+        width: 48px;
+        @media (min-width: $mobile-width) {
+          display: none;
+        }
+      }
+
+      .title {
+        flex-grow: 1;
+        @media (min-width: $mobile-width) {
+          padding-left: 16px;
+        }
+      }
+    }
+  }
+}

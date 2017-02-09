@@ -13,6 +13,7 @@
   padding: 4px;
   position: relative;
   cursor: pointer;
+  page-break-inside: avoid;
 
   .top-row, .details {
     z-index: 1; // Place above md ripple background to allow clicking

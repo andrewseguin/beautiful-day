@@ -1,0 +1,80 @@
+<div class="report-heading md-elevation-z1">
+  <div class="left">
+    <button md-icon-button class="close-report"
+            (click)="navigateToReportList()"
+            [md-tooltip]="'Close Report'">
+      <md-icon>close</md-icon>
+    </button>
+    <div class="name" md-ripple
+         (click)="openEditNameDialog()"
+         [md-tooltip]="'Edit Report Name'">
+      <div class="text">{{report?.name}}</div>
+      <md-icon>edit</md-icon>
+    </div>
+  </div>
+  <div class="actions" *ngIf="!isMobile()">
+    <button md-icon-button
+            (click)="print()"
+            [md-tooltip]="'Print'">
+      <md-icon>print</md-icon>
+    </button>
+    <button md-icon-button
+            (click)="duplicateReport()"
+            [md-tooltip]="'Duplicate Report'">
+      <md-icon>content_copy</md-icon>
+    </button>
+  </div>
+  <div class="actions" *ngIf="isMobile()">
+    <button md-icon-button [md-menu-trigger-for]="editMenu">
+      <md-icon>more_vertical</md-icon>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="!report">
+  Loading
+</div>
+
+<md-sidenav-container *ngIf="report">
+  <div class="scrollable-content">
+    <div *ngIf="!hasQuery()" class="getting-started">
+      Enter a search query to begin creating a report.
+    </div>
+    <requests-list *ngIf="hasQuery()" #requestsList
+                   [requests]="filteredRequests"
+                   [projectId]="'all'">
+    </requests-list>
+  </div>
+
+  <button md-fab color="accent"
+          [class.hide]="sidenav.opened"
+          (click)="sidenav.open()">
+    <md-icon>assignment</md-icon>
+  </button>
+
+  <md-sidenav #sidenav
+              [opened]="!isMobile()"
+              [mode]="isMobile() ? 'over' : 'side'"
+              align="end">
+    <div class="heading">
+      <button md-icon-button class="back" (click)="sidenav.close()">
+        <md-icon>keyboard_arrow_left</md-icon>
+      </button>
+      <span class="title">Report Query</span>
+    </div>
+
+    <query-stages [queryStages]="report.queryStages"
+                  (queryStagesChange)="performQuery(); saveQueryStages()">
+    </query-stages>
+  </md-sidenav>
+</md-sidenav-container>
+
+<md-menu #editMenu="mdMenu" x-position="before">
+  <button md-menu-item (click)="openEditNameDialog()">
+    <md-icon>edit</md-icon> Edit Name
+  </button>
+  <button md-menu-item (click)="print()"> <md-icon>print</md-icon> Print </button>
+  <button md-menu-item (click)="duplicateReport()">
+    <md-icon>content_copy</md-icon> Duplicate Report
+  </button>
+</md-menu>

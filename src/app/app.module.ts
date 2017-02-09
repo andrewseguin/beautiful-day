@@ -78,6 +78,8 @@ import {ReportsService} from "./service/reports.service";
 import {QueryStagesComponent} from "./ui/pages/reporting/query-stages/query-stages.component";
 import {ReportComponent} from "./ui/pages/reporting/report/report.component";
 import {ReportListComponent} from "./ui/pages/reporting/report-list/report-list.component";
+import {PrintComponent} from "./ui/print/print.component";
+import {ReportQueryService} from "./service/report-query.service";
 
 @NgModule({
   declarations: [
@@ -131,7 +133,8 @@ import {ReportListComponent} from "./ui/pages/reporting/report-list/report-list.
     ReportingComponent,
     QueryStagesComponent,
     ReportComponent,
-    ReportListComponent
+    ReportListComponent,
+    PrintComponent
   ],
   entryComponents: [
     EditItemComponent,
@@ -178,6 +181,7 @@ import {ReportListComponent} from "./ui/pages/reporting/report-list/report-list.
     EventsService,
     AnalyticsService,
     ReportsService,
+    ReportQueryService,
   ],
   bootstrap: [AppComponent]
 })

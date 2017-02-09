@@ -1,0 +1,44 @@
+@import '../../../shared/constants';
+@import '../../../../theme';
+
+.report-heading {
+  background-color: md-color($bd-app-primary);
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  font-weight: bold;
+  padding-left: 64px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 32px 0;
+}
+
+.report-item {
+  max-width: 650px;
+  width: 100%;
+  background: white;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    background: #F5F5F5;
+  }
+
+  .report-name {
+    padding-left: 16px;
+  }
+}
+
+button {
+  height: 100%;
+  width: 100%;
+}

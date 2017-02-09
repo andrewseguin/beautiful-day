@@ -23,16 +23,15 @@ export class ReportsService {
     this.get(id).remove();
   }
 
-  create(user: string) {
-    // Create a new report with an empty query
-    const initialQueryStage: QueryStage = {
+  create(user: string, optReportTemplate?: Report) {
+    const emptyQueryStage: QueryStage = {
       querySet: [{queryString: '', type: 'any'}],
       exclude: false,
     };
 
     const newReport: Report = {
-      name: 'New Report',
-      queryStages: [initialQueryStage],
+      name: optReportTemplate ? `Copy of ${optReportTemplate.name}` : 'New Report',
+      queryStages: optReportTemplate ? optReportTemplate.queryStages : [emptyQueryStage],
       createdBy: user,
       modifiedBy: user,
       createdDate: new Date().getTime().toString(),

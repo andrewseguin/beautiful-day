@@ -13,6 +13,7 @@ import {EventsComponent} from "./ui/pages/events/events.component";
 import {CanActivateNotesGuard} from "./route-guard/can-activate-notes-guard";
 import {CanActivateAcquisitionsGuard} from "./route-guard/can-activate-acquisitions-guard";
 import {ReportingComponent} from "./ui/pages/reporting/reporting.component";
+import {PrintComponent} from "./ui/print/print.component";
 
 export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home' | 'reporting';
 
@@ -46,4 +47,5 @@ export const ROUTER_CONFIG = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
   ]},
   {path: 'login', component: LoginComponent},
+  {path: 'print/:reportId', component: PrintComponent}
 ];

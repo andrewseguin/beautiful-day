@@ -1,0 +1,18 @@
+<div class="report-heading md-elevation-z1">
+  <div class="title">Select a Report</div>
+</div>
+
+<div class="list">
+  <div *ngIf="!reports"
+       class="report-item md-elevation-z1s">Loading Reports...</div>
+  <div *ngFor="let report of reports" md-ripple
+       (click)="navigateToReport(report.$key)"
+       class="report-item md-elevation-z1">
+    <div class="report-name">{{report.name}}</div>
+  </div>
+  <div class="report-item md-elevation-z1">
+    <button md-button color="accent" (click)="createReport()">+ New Report</button>
+  </div>
+</div>
+
+
