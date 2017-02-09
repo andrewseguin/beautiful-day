@@ -13,18 +13,16 @@ import {
   ChangeDetectorRef,
   EventEmitter,
   Output
-} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {MdDialog} from '@angular/material';
-import {RequestViewOptions} from '../display-options-header/display-options-header.component';
-import {Item} from '../../../../model/item';
-import {RequestsService} from '../../../../service/requests.service';
-import {Request} from '../../../../model/request';
-import {ItemsService} from '../../../../service/items.service';
-import {EditDropoffComponent} from '../../dialog/edit-dropoff/edit-dropoff.component';
-import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
+} from "@angular/core";
+import {MdDialog} from "@angular/material";
+import {RequestViewOptions} from "../display-options-header/display-options-header.component";
+import {Item} from "../../../../model/item";
+import {RequestsService} from "../../../../service/requests.service";
+import {Request} from "../../../../model/request";
+import {ItemsService} from "../../../../service/items.service";
+import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.component";
+import {EditItemComponent} from "../../dialog/edit-item/edit-item.component";
 import {ProjectsService} from "../../../../service/projects.service";
-import {PermissionsService} from '../../../../service/permissions.service';
 
 @Component({
   selector: 'request',
@@ -72,6 +70,13 @@ export class RequestComponent implements OnInit {
     show ? this.setVisible() : this.displayState = 'hidden';
   }
 
+  @Input() set printMode(v) {
+    if (v) {
+      this.displayState = 'visible';
+      this.cd.markForCheck();
+    }
+  }
+
   @Output() filterTag = new EventEmitter<string>();
 
   @ViewChild('quantityInput') quantityInput: ElementRef;
@@ -81,7 +86,6 @@ export class RequestComponent implements OnInit {
               private elementRef: ElementRef,
               private requestsService: RequestsService,
               private projectsService: ProjectsService,
-              private permissionsService: PermissionsService,
               private itemsService: ItemsService) { }
 
   ngOnInit() {

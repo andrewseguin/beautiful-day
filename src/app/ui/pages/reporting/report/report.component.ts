@@ -122,6 +122,6 @@ export class ReportComponent {
   }
 
   print() {
-    this.router.navigate([`print/${this.reportId}`]);
+    window.open(`print/${this.reportId}`, 'print', 'width=650, height=500');
   }
 }

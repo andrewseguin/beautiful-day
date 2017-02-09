@@ -55,6 +55,8 @@ export class RequestsGroupComponent {
 
   @Input() canEdit: boolean;
 
+  @Input() set printMode(v) { if (v) { this.showRequests = true; }}
+
   @ViewChildren(RequestComponent) requestComponents: QueryList<RequestComponent>;
 
   _filter: string;

@@ -58,6 +58,10 @@ export class PrintComponent implements OnInit {
 
     this.reportRequests = this.reportQueryService.query(
       this.report.queryStages, this.requests, this.items, this.projects);
+
+    setTimeout(() => {
+      window.print();
+    }, 2000)
   }
 
 }
