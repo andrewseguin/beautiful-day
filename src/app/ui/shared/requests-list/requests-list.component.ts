@@ -42,6 +42,8 @@ export class RequestsListComponent {
     }
   }
 
+  @Input() printMode: boolean;
+
   _projectId: string;
   @Input() set projectId(projectId: string) {
     this._projectId = projectId;

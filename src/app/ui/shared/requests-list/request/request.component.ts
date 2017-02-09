@@ -60,10 +60,10 @@ export class RequestComponent implements OnInit {
   displayState: string = 'hidden';
   request: Request;
   projectName: string;
-  canEdit: boolean;
   itemDisplayName: string;
 
   @Input() isReporting: boolean;
+  @Input() canEdit: boolean;
   @Input() requestId: string;
   @Input() groupIndex: number;
   @Input() requestViewOptions: RequestViewOptions;
@@ -76,8 +76,7 @@ export class RequestComponent implements OnInit {
 
   @ViewChild('quantityInput') quantityInput: ElementRef;
 
-  constructor(private router: Router,
-              private cd: ChangeDetectorRef,
+  constructor(private cd: ChangeDetectorRef,
               private mdDialog: MdDialog,
               private elementRef: ElementRef,
               private requestsService: RequestsService,
@@ -95,10 +94,6 @@ export class RequestComponent implements OnInit {
         this.itemDisplayName = item.name;
         if (this.item.type) { this.itemDisplayName += ` - ${item.type}`};
         this.cd.markForCheck();
-      });
-
-      this.permissionsService.getEditPermissions(request.project).subscribe(editPermissions => {
-        this.canEdit = editPermissions.requests;
       });
     });
 
