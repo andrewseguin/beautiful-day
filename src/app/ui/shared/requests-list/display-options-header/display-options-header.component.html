@@ -33,12 +33,12 @@
 </div>
 
 <div [style.display]="showFilter ? '' : 'none'"
-     class="filter-input md-elevation-z1">
-  <md-input-container [floatingPlaceholder]="false">
+     class="filter-input mat-elevation-z1">
+  <md-input-container [floatPlaceholder]="'never'">
     <div class="input-content">
-      <input md-input [(ngModel)]="filter"
+      <input mdInput [(ngModel)]="filter"
              (ngModelChange)="notify()"
-             autofocus placeholder="Enter keywords to filter requests">
+             autofocus placeholder="Enter keywords to filter requests"/>
       <button md-icon-button
               (click)="showFilter = false; filter = ''; notify()">
         <md-icon>close</md-icon>

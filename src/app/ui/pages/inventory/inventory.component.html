@@ -1,7 +1,7 @@
-<div class="search-container md-elevation-z1">
-  <md-input-container class="inventory-page-search" [floatingPlaceholder]="false">
+<div class="search-container mat-elevation-z1">
+  <md-input-container class="inventory-page-search" [floatPlaceholder]="'never'">
     <div class="search-box-content">
-      <input md-input [(ngModel)]="search"
+      <input mdInput [(ngModel)]="search"
              (ngModelChange)="itemsToShow = 10"
              placeholder="Search inventory">
       <button md-icon-button *ngIf="search" (click)="search = ''"><md-icon>close</md-icon></button>
@@ -47,7 +47,7 @@
     <div class="suggested-searches">
       <button md-button *ngFor="let category of categories"
               (click)="search = '[category]:' + category.replace(' ', '_')"
-              class="search-category md-elevation-z4">
+              class="search-category mat-elevation-z4">
         {{category}}
       </button>
     </div>

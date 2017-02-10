@@ -10,12 +10,12 @@
     {{dropoffLocation}}
   </md-radio-button>
   <md-radio-button value="new">
-    <md-input [(ngModel)]="newDropoff"
-              (keyup.Enter)="save()"
-              (click)="selectedDropoffLocation = 'new'"
-              placeholder="New Dropoff Location"
-              [floatingPlaceholder]="false">
-    </md-input>
+    <md-input-container [floatPlaceholder]="'never'">
+      <input mdInput [(ngModel)]="newDropoff"
+                (keyup.Enter)="save()"
+                (click)="selectedDropoffLocation = 'new'"
+                placeholder="New Dropoff Location"/>
+    </md-input-container>
   </md-radio-button>
 </md-radio-group>
 

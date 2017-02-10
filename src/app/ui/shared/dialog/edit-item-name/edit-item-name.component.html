@@ -3,9 +3,11 @@
   <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
 </div>
 
-<md-input autofocus
-          (keyup.Enter)="save()"
-          [(ngModel)]="name"></md-input>
+<md-input-container>
+<input mdInput autofocus
+       (keyup.Enter)="save()"
+       [(ngModel)]="name"/>
+</md-input-container>
 
 <div class="actions">
   <button md-button (click)="close()">Cancel</button>

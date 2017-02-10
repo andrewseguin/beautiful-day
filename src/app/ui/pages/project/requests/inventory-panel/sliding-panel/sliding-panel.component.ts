@@ -21,7 +21,7 @@ export type SlidingPanelState = 'open' | 'closed';
   ],
   host: {
     '[@state]': 'state',
-    '[class.md-elevation-z5]': 'true'
+    '[class.mat-elevation-z5]': 'true'
   }
 })
 export class SlidingPanelComponent {

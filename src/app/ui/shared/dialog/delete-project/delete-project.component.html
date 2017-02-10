@@ -10,7 +10,9 @@
 <div class="text">
   To confirm, type the word 'DELETE' into the input below.
 </div>
-<md-input autofocus [(ngModel)]="deleteCheck"></md-input>
+<md-input-container>
+  <input mdInput autofocus [(ngModel)]="deleteCheck"/>
+</md-input-container>
 
 <div class="actions">
   <button md-button (click)="close()">Cancel</button>

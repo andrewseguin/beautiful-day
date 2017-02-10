@@ -10,8 +10,8 @@
   </button>
 </div>
 
-<md-input-container [floatingPlaceholder]="false">
-  <input md-input placeholder="Enter a new tag" autofocus maxlength="100"
+<md-input-container [floatPlaceholder]="'never'">
+  <input mdInput placeholder="Enter a new tag" autofocus maxlength="100"
          (keyup.Enter)="save()"
          [(ngModel)]="newTag">
 </md-input-container>

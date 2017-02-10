@@ -24,7 +24,7 @@ body {
   }
 }
 
-.md-tab-body-content{
+.mat-tab-body-content{
   height: 100%;
 }
 
@@ -33,7 +33,7 @@ md-dialog-container {
 }
 
 /* Menu syles */
-.md-menu-panel.auth .md-menu-content {
+.mat-menu-panel.auth .mat-menu-content {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -42,12 +42,14 @@ md-dialog-container {
   button {
     font-size: 14px;
     height: 40px;
+    line-height: 40px;
     display: inline-block;
     text-align: right;
     &.info {
-      height: 26px;
+      height: 32px;
       pointer-events: none;
       background: #EAEAEA;
+      line-height: 18px;
       &.first {
         padding-top: 8px;
       }
@@ -74,14 +76,14 @@ md-dialog-container {
   }
 }
 
-.md-menu-panel.notes-menu {
+.mat-menu-panel.notes-menu {
   max-height: 326px;
   button.active {
     font-weight: bold;
     background: #F5F5F5;
   }
   button.new-note {
-    color: md-color($bd-app-accent);
+    color: mat-color($bd-app-accent);
   }
 }
 
@@ -93,11 +95,11 @@ app-root md-checkbox {
   margin: 8px 12px 8px 8px;
 }
 
-app-root .md-checkbox-frame {
+app-root .mat-checkbox-frame {
   border-color: #888;
 }
 
-app-root .md-checkbox-inner-container {
+app-root .mat-checkbox-inner-container {
   height: 16px;
   width: 16px;
   margin-right: 0;
@@ -105,17 +107,17 @@ app-root .md-checkbox-inner-container {
 
 /* App header styles that couldn't go in because ViewEncapsulation.None breaks AoT */
 @media (max-width: 700px) {
-  header .md-toolbar-layout md-toolbar-row {
+  header .mat-toolbar-layout md-toolbar-row {
     height: 48px;
   }
 }
 
 /* Wrap button text if the width grows too long */
-.md-button-wrapper {
+.mat-button-wrapper {
   white-space: normal;
 }
 
-.inventory-category .md-button-wrapper {
+.inventory-category .mat-button-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -152,14 +154,14 @@ button.project-requests-option {
 }
 
 /* Inventory panel's search underline should extend past icons */
-inventory-search .md-input-underline {
+inventory-search .mat-input-underline {
   margin-top: 8px;
   left: -32px;
   width: calc(100% + 72px);
 }
 
 /* Make header NOT responsive by material's definition */
-.md-toolbar-layout md-toolbar-row {
+.mat-toolbar-layout md-toolbar-row {
   height: 64px !important; // Material wants to override this to be responsive
   @media (max-width: $mobile-width - 1) {
     height: 48px !important;
@@ -168,7 +170,7 @@ inventory-search .md-input-underline {
 
 /* Sidenav will handle its own overflow. */
 md-sidenav-container.project {
-  .md-sidenav-content {
+  .mat-sidenav-content {
     overflow: hidden;
   }
 }
@@ -180,12 +182,12 @@ md-sidenav-container.project {
 }
 
 /* Inventory page search */
-.inventory-page-search .md-input-underline {
+.inventory-page-search .mat-input-underline {
   margin-top: 8px;
 }
 
 /* Reporting query panel inputs */
-.query-input-container .md-input-wrapper {
+.query-input-container .mat-input-wrapper {
   margin: 0;
   margin-right: 40px;
 }

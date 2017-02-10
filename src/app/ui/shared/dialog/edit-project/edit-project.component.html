@@ -4,38 +4,43 @@
 </div>
 
 <div *ngIf="type == 'name'">
-  <md-input autofocus
-            (keyup.Enter)="save()"
-            [(ngModel)]="name"></md-input>
+  <md-input-container>
+  <input mdInput autofocus (keyup.Enter)="save()" [(ngModel)]="name"/>
+  </md-input-container>
 </div>
 
 <div *ngIf="type == 'budget'">
-  <md-input autofocus min="0"
-            (keyup.Enter)="save()"
-            [(ngModel)]="budget">
+  <md-input-container>
+    <input mdInput autofocus min="0" (keyup.Enter)="save()" [(ngModel)]="budget"/>
     <span md-prefix>$&nbsp;</span>
-  </md-input>
+  </md-input-container>
 </div>
 
 <div *ngIf="type == 'description'" style="display: flex">
-  <textarea autofocus md-autosize
+  <md-input-container>
+  <textarea mdInput autofocus md-autosize
             (keydown)="onTextareaKeydown($event)"
             [(ngModel)]="description"></textarea>
+  </md-input-container>
 </div>
 
 <div *ngIf="type == 'location'">
-  <md-input autofocus
-            (keyup.Enter)="save()"
-            [(ngModel)]="location"></md-input>
+  <md-input-container>
+    <input mdInput autofocus
+           (keyup.Enter)="save()"
+           [(ngModel)]="location"/>
+  </md-input-container>
 </div>
 
 <div *ngIf="type == 'leads'">
   <div *ngFor="let lead of leads; let i = index; trackBy:indexTrackBy"
        class="lead-row">
-    <md-input autofocus
-              placeholder="lead@beautifulday.org" [floatingPlaceholder]="false"
-              [(ngModel)]="leads[i]"
-              (keyup.Enter)="save()"></md-input>
+    <md-input-container [floatPlaceholder]="'never'">
+      <input mdInput autofocus
+             placeholder="lead@beautifulday.org"
+             [(ngModel)]="leads[i]"
+             (keyup.Enter)="save()"/>
+    </md-input-container>
     <button md-icon-button [disabled]="i == 0" (click)="removeLead(i)">
       <md-icon>delete</md-icon>
     </button>
@@ -46,10 +51,12 @@
 <div *ngIf="type == 'directors'">
   <div *ngFor="let director of directors; let i = index; trackBy:indexTrackBy"
        class="director-row">
-    <md-input autofocus
-              placeholder="director@beautifulday.org" [floatingPlaceholder]="false"
-              [(ngModel)]="directors[i]"
-              (keyup.Enter)="save()"></md-input>
+    <md-input-container [floatPlaceholder]="'never'">
+      <input mdInput autofocus
+             placeholder="director@beautifulday.org"
+             [(ngModel)]="directors[i]"
+             (keyup.Enter)="save()"/>
+    </md-input-container>
     <button md-icon-button [disabled]="i == 0" (click)="removeDirector(i)">
       <md-icon>delete</md-icon>
     </button>
@@ -58,9 +65,11 @@
 </div>
 
 <div *ngIf="type == 'acquisitions'">
-  <md-input autofocus
-            (keyup.Enter)="save()"
-            [(ngModel)]="acquisitions"></md-input>
+  <md-input-container>
+    <input mdInput autofocus
+           (keyup.Enter)="save()"
+           [(ngModel)]="acquisitions"/>
+  </md-input-container>
 </div>
 
 <div class="actions">

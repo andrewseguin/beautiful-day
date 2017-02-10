@@ -31,7 +31,7 @@ export type Sort = 'request added' | 'item' | 'cost';
   styleUrls: ['./requests-group.component.scss'],
   host: {
     '[style.display]': "processedRequests && processedRequests.length ? 'block' : 'none'",
-    '[class.md-elevation-z4]': 'true',
+    '[class.mat-elevation-z4]': 'true',
     '[@groupTransition]': "requestGroup.title",
     '(@groupTransition.done)': "groupTransitionAnimationDone($event, requestGroup)"
   },

@@ -4,23 +4,23 @@
 </div>
 
 <md-input-container>
-  <input md-input [disabled]="mode == 'view'" [(ngModel)]="_item.name" placeholder="Name">
+  <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.name" placeholder="Name">
 </md-input-container>
 
 <md-input-container>
-  <input md-input [disabled]="mode == 'view'" [(ngModel)]="_item.type" placeholder="(Optional) Type">
+  <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.type" placeholder="(Optional) Type">
 </md-input-container>
 
 <md-input-container>
-  <input md-input [disabled]="mode == 'view'" [(ngModel)]="_item.cost" placeholder="Cost ($)" type="number">
+  <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.cost" placeholder="Cost ($)" type="number">
 </md-input-container>
 
 <md-input-container>
-  <input md-input [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.categories" placeholder="Category">
+  <input mdInput [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.categories" placeholder="Category">
 </md-input-container>
 
 <md-input-container>
-  <input md-input [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL">
+  <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL">
 </md-input-container>
 <div class="error" *ngIf="mode != 'view' && _item.url && !isValidUrl(_item.url)">
   Please enter a valid website.

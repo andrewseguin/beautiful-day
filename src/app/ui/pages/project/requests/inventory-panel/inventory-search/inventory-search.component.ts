@@ -10,7 +10,6 @@ import {
   EventEmitter,
   Output, ElementRef
 } from '@angular/core';
-import {MdInput} from '@angular/material';
 
 export type SearchState = 'open' | 'closed';
 

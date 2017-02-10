@@ -22,8 +22,8 @@ export type InventoryPanelItemState = 'collapsed' | 'expanded';
   templateUrl: './inventory-panel-item.component.html',
   styleUrls: ['./inventory-panel-item.component.scss'],
   host: {
-    '[class.md-elevation-z1]': "state == 'collapsed'",
-    '[class.md-elevation-z10]': "state == 'expanded'",
+    '[class.mat-elevation-z1]': "state == 'collapsed'",
+    '[class.mat-elevation-z10]': "state == 'expanded'",
     '[@size]': 'state',
     '(@size.done)': 'sizeAnimationDone($event)',
   },

@@ -4,11 +4,11 @@
 </div>
 
 <md-input-container *ngIf="!useTextArea">
-  <input md-input autofocus (keyup.Enter)="save()" [(ngModel)]="input"/>
+  <input mdInput autofocus (keyup.Enter)="save()" [(ngModel)]="input"/>
 </md-input-container>
 
 <md-input-container *ngIf="useTextArea">
-  <textarea md-input autofocus [(ngModel)]="input"></textarea>
+  <textarea mdInput autofocus [(ngModel)]="input"></textarea>
 </md-input-container>
 
 <div class="actions">

@@ -103,7 +103,7 @@
 
     &:focus {
       outline: none;
-      border-color: md-color($bd-app-accent);
+      border-color: mat-color($bd-app-accent);
       border-bottom-width: 2px;
       padding-bottom: 1px;
     }

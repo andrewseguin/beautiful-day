@@ -8,7 +8,7 @@ import {Subscription} from "rxjs";
   templateUrl: './remaining-budget.component.html',
   styleUrls: ['./remaining-budget.component.scss'],
   host: {
-    '[class.md-elevation-z10]': 'true',
+    '[class.mat-elevation-z10]': 'true',
     '[class.negative]': 'currentRemainingBudget < 0',
     '[class.positive]': 'currentRemainingBudget > 0',
     '[class.loaded]': 'budgetLoaded'

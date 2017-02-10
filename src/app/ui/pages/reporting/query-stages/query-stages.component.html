@@ -1,11 +1,11 @@
 <div *ngFor="let queryStage of queryStages; let queryStageIndex = index; let lastQueryStage = last; trackBy:trackByIndex"
      class="query-stage-container">
   <div [class.has-following-query-stage]="!lastQueryStage && queryStages.length > 1"
-       class="query-stage md-elevation-z1">
+       class="query-stage mat-elevation-z1">
     <div *ngFor="let query of queryStage.querySet; let querySetIndex = index; let lastQuerySet = last; trackBy:trackByIndex">
       <div class="query-input-container">
-        <md-input-container [floatingPlaceholder]="false">
-          <input md-input placeholder="Enter query"
+        <md-input-container [floatPlaceholder]="'never'">
+          <input mdInput placeholder="Enter query"
                  (ngModelChange)="queryStage.querySet[querySetIndex].queryString = $event; inputChange.next()"
                  [(ngModel)]="queryStage.querySet[querySetIndex].queryString">
         </md-input-container>

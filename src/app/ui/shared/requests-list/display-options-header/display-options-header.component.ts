@@ -30,7 +30,7 @@ export interface DisplayOptions {
   templateUrl: './display-options-header.component.html',
   styleUrls: ['./display-options-header.component.scss'],
   host: {
-    'class': 'md-elevation-z1',
+    'class': 'mat-elevation-z1',
   }
 })
 export class DisplayOptionsHeaderComponent implements OnInit {

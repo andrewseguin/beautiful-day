@@ -5,8 +5,8 @@
   <md-icon>search</md-icon>
 </button>
 
-<md-input-container [floatingPlaceholder]="false">
-  <input #searchInput md-input
+<md-input-container [floatPlaceholder]="'never'">
+  <input #searchInput mdInput
          placeholder="Search"
          [disabled]="searchState != 'open'"
          [@searchInput]="searchState"

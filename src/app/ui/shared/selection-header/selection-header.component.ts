@@ -11,7 +11,7 @@ export type SelectionType = 'request' | 'item';
   styleUrls: ['./selection-header.component.scss'],
   host: {
     '[style.display]': 'none',
-    '[class.md-elevation-z1]': 'true',
+    '[class.mat-elevation-z1]': 'true',
     '[@state]': 'getSelectionState()'
   },
   animations: [
