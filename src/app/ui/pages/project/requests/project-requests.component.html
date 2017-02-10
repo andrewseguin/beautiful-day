@@ -41,8 +41,9 @@
           (click)="sidenav.open()"><md-icon>add</md-icon></button>
 
   <md-sidenav #sidenav
-              [opened]="!hideInventory()"
-              [mode]="hideInventory() ? 'over' : 'side'"
+              class="mat-elevation-z8"
+              [opened]="true"
+              [mode]="'side'"
               (close)="inventoryPanel.reset()"
               align="end">
     <inventory-panel #inventoryPanel (closeSidenav)="sidenav.close()">
