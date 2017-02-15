@@ -17,4 +17,7 @@
   <button md-menu-item (click)="editNote()"> Note </button>
   <button md-menu-item (click)="editDropoff()"> Dropoff </button>
   <button md-menu-item (click)="editTags()"> Tags </button>
+  <button md-menu-item (click)="editPurchaser()" *ngIf="isAcquistionsUser"> Purchaser </button>
+  <button md-menu-item (click)="editPurchasedStatus()" *ngIf="isAcquistionsUser"> Purchase Status </button>
+
 </md-menu>

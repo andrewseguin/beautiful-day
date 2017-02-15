@@ -1,9 +1,11 @@
 import {Component} from "@angular/core";
 import {MdSnackBar, MdDialog, MdSnackBarConfig} from "@angular/material";
 import {RequestsService} from "../../../../service/requests.service";
+import {GroupsService} from "../../../../service/groups.service";
 import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.component";
 import {EditTagsComponent} from "../../dialog/edit-tags/edit-tags.component";
 import {DeleteRequestsComponent} from "../../dialog/delete-requests/delete-requests.component";
+import {PromptDialogComponent} from "../../dialog/prompt-dialog/prompt-dialog.component";
 
 @Component({
   selector: 'edit-request-options',
@@ -11,10 +13,15 @@ import {DeleteRequestsComponent} from "../../dialog/delete-requests/delete-reque
   styleUrls: ['./edit-request-options.component.scss']
 })
 export class EditRequestOptionsComponent {
+  isAcquistionsUser: boolean;
 
   constructor(private requestsService: RequestsService,
               private mdDialog: MdDialog,
-              private snackBar: MdSnackBar) { }
+              private groupsService: GroupsService,
+              private snackBar: MdSnackBar) {
+    this.groupsService.isAcquistionsUser()
+        .subscribe(isAcquistionsUser => this.isAcquistionsUser = isAcquistionsUser);
+  }
 
   deleteRequests() {
     const dialogRef = this.mdDialog.open(DeleteRequestsComponent);
@@ -59,5 +66,30 @@ export class EditRequestOptionsComponent {
     const dialogRef = this.mdDialog.open(EditTagsComponent);
     dialogRef.componentInstance.requestIds =
         this.requestsService.getSelectedRequests();
+  }
+
+  editPurchaser() {
+    const dialogRef = this.mdDialog.open(PromptDialogComponent);
+
+    dialogRef.componentInstance.title = 'Set Purchaser';
+
+    const selectedRequests = this.requestsService.getSelectedRequests();
+    const firstRequest = selectedRequests.values().next().value;
+    this.requestsService.getRequest(firstRequest).subscribe(request => {
+      if (selectedRequests.size == 1) {
+        dialogRef.componentInstance.input = request.purchaser;
+      }
+    });
+
+    dialogRef.componentInstance.onSave().subscribe(text => {
+      selectedRequests.forEach(requestId => {
+        this.requestsService.update(requestId, {purchaser: text});
+      });
+      this.requestsService.clearSelected();
+    });
+  }
+
+  editPurchasedStatus() {
+
   }
 }

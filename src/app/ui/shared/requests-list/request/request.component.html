@@ -40,6 +40,12 @@
         </span>
       </div>
 
+      <div *ngIf="isReporting && request.purchaser">
+        <span class="editable">
+          Purchaser: {{request.purchaser}}
+        </span>
+      </div>
+
       <div *ngIf="requestViewOptions.dropoff">
         <span class="editable"
               [class.clickable]="canEdit && !isReporting"

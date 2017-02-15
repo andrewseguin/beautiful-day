@@ -7,4 +7,6 @@ export interface Request {
   note?: string;
   date?: string;
   tags?: string;
+  purchaser?: string;
+  purchased?: boolean;
 }
