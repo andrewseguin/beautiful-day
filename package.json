@@ -15,15 +15,15 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^2.4.6",
-    "@angular/compiler": "^2.4.6",
-    "@angular/core": "^2.4.6",
-    "@angular/forms": "^2.4.6",
-    "@angular/http": "^2.4.6",
+    "@angular/common": "^2.4.7",
+    "@angular/compiler": "^2.4.7",
+    "@angular/core": "^2.4.7",
+    "@angular/forms": "^2.4.7",
+    "@angular/http": "^2.4.7",
     "@angular/material": "angular/material2-builds",
-    "@angular/platform-browser": "^2.4.6",
-    "@angular/platform-browser-dynamic": "^2.4.6",
-    "@angular/router": "^3.4.6",
+    "@angular/platform-browser": "^2.4.7",
+    "@angular/platform-browser-dynamic": "^2.4.7",
+    "@angular/router": "^3.4.7",
     "angularfire2": "^2.0.0-beta.7.1-pre",
     "better-dateinput-polyfill": "^2.0.2",
     "better-dom": "^3.0.0-rc.1",
@@ -36,10 +36,12 @@
     "rxjs": "5.1.0",
     "ts-helpers": "^1.1.1",
     "web-animations-js": "^2.2.2",
-    "zone.js": "^0.7.6"
+    "zone.js": "^0.7.7"
   },
   "devDependencies": {
-    "@angular/cli": "1.0.0-beta.30",
+    "@angular/cli": "1.0.0-beta.31",
+    "@angular/compiler-cli": "^2.4.7",
+    "@angular/tsc-wrapped": "^0.5.2",
     "@types/hammerjs": "^2.0.34",
     "@types/jasmine": "^2.5.41",
     "@types/node": "^7.0.4",
@@ -55,8 +57,8 @@
     "live-server": "^1.2.0",
     "protractor": "5.1.0",
     "sw-precache": "^4.3.0",
-    "ts-node": "2.0.0",
+    "ts-node": "2.1.0",
     "tslint": "4.4.2",
-    "typescript": "~2.1.5"
+    "typescript": "~2.1.6"
   }
 }
