@@ -8,5 +8,6 @@ export interface Request {
   date?: string;
   tags?: string;
   purchaser?: string;
-  purchased?: boolean;
+  isPurchased?: boolean;
+  isApproved?: boolean;
 }

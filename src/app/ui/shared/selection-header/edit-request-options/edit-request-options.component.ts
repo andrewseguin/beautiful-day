@@ -6,6 +6,7 @@ import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.compo
 import {EditTagsComponent} from "../../dialog/edit-tags/edit-tags.component";
 import {DeleteRequestsComponent} from "../../dialog/delete-requests/delete-requests.component";
 import {PromptDialogComponent} from "../../dialog/prompt-dialog/prompt-dialog.component";
+import {EditRequestStatusDialogComponent} from "../../dialog/edit-request-status/edit-request-status";
 
 @Component({
   selector: 'edit-request-options',
@@ -89,7 +90,10 @@ export class EditRequestOptionsComponent {
     });
   }
 
-  editPurchasedStatus() {
+  editStatus() {
+    const dialogRef = this.mdDialog.open(EditRequestStatusDialogComponent);
 
+    const selectedRequests = this.requestsService.getSelectedRequests();
+    dialogRef.componentInstance.requestIds = selectedRequests;
   }
 }
