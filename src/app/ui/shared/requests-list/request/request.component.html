@@ -12,7 +12,10 @@
       </md-checkbox>
 
       <div class="name">
-        <span class="editable clickable" (click)="viewItem($event)">{{itemDisplayName}}</span>
+        <span class="editable clickable" (click)="viewItem($event)">
+          {{itemDisplayName}}
+        </span>
+
       </div>
 
       <div class="quantity" (click)="$event.stopPropagation()">
@@ -34,6 +37,7 @@
     </div>
 
     <div class="details">
+
       <div *ngIf="isReporting">
         <span class="editable">
           Project: {{projectName}}
@@ -46,18 +50,6 @@
         </span>
       </div>
 
-      <div *ngIf="isReporting && request.isApproved">
-        <span class="editable">
-          Approved
-        </span>
-      </div>
-
-      <div *ngIf="isReporting && request.isPurchased">
-        <span class="editable">
-          Purchased
-        </span>
-      </div>
-
       <div *ngIf="requestViewOptions.dropoff">
         <span class="editable"
               [class.clickable]="canEdit && !isReporting"
@@ -67,6 +59,7 @@
           </span>
         </span>
       </div>
+
       <div *ngIf="request?.note && requestViewOptions.notes">
         <span class="editable"
               [class.clickable]="canEdit && !isReporting"
@@ -74,6 +67,23 @@
           {{request?.note}}
         </span>
       </div>
+
+      <div class="status">
+        <md-icon *ngIf="request.isApproved"
+                 mdTooltip="Request has been approved"
+                 [mdTooltipPosition]="'after'"
+                 class="md-14">
+          thumb_up
+        </md-icon>
+
+        <md-icon *ngIf="request.isPurchased"
+                 mdTooltip="Request has been purchased"
+                 [mdTooltipPosition]="'after'"
+                 class="md-14">
+          attach_money
+        </md-icon>
+      </div>
+
       <div *ngIf="request?.tags && requestViewOptions.tags" class="tags">
         <span class="editable clickable tag" *ngFor="let tag of request.tags.split(',').sort()"
               [style.background]="getTagColor(tag)"

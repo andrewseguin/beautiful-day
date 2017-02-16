@@ -162,7 +162,7 @@ import {EditPurchaseStatusDialogComponent} from "./ui/shared/dialog/edit-purchas
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG, FIREBASE_AUTH),
     RouterModule.forRoot(ROUTER_CONFIG),
   ],
