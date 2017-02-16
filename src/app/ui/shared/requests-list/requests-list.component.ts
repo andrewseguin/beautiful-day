@@ -1,17 +1,21 @@
-import {Component, Input, ViewChildren, QueryList, ElementRef} from '@angular/core';
 import {
-  RequestViewOptions,
-  DisplayOptions
-} from './display-options-header/display-options-header.component';
-import {PermissionsService, EditPermissions} from '../../../service/permissions.service';
-import {RequestsService} from '../../../service/requests.service';
+  Component,
+  Input,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  EventEmitter,
+  Output
+} from "@angular/core";
+import {PermissionsService, EditPermissions} from "../../../service/permissions.service";
 import {
   RequestGroupingService,
   RequestGroup,
   Group
-} from '../../../service/request-grouping.service';
-import {RequestsGroupComponent} from './requests-group/requests-group.component';
+} from "../../../service/request-grouping.service";
+import {RequestsGroupComponent} from "./requests-group/requests-group.component";
 import {Request} from "../../../model/request";
+import {DisplayOptions} from "../../../model/display-options";
 
 @Component({
   selector: 'requests-list',
@@ -20,13 +24,6 @@ import {Request} from "../../../model/request";
   providers: [RequestGroupingService]
 })
 export class RequestsListComponent {
-  requestViewOptions: RequestViewOptions = new RequestViewOptions();
-  displayOptions: DisplayOptions = {
-    filter: '',
-    grouping: 'all',
-    sorting: 'request added',
-    viewing: new RequestViewOptions(),
-  };
   editPermissions: EditPermissions;
 
   requestGroups: Map<Group, RequestGroup[]>;
@@ -34,12 +31,27 @@ export class RequestsListComponent {
 
   @ViewChildren(RequestsGroupComponent) requestsGroups: QueryList<RequestsGroupComponent>;
 
+  @Output() displayOptionsChanged = new EventEmitter<DisplayOptions>();
+
+  _displayOptions: DisplayOptions =  {
+    filter: '',
+    grouping: 'all',
+    sorting: 'request added',
+    viewing: {
+      cost: true,
+      dropoff: true,
+      notes: true,
+      tags: true,
+    },
+  };
+  @Input() set displayOptions(displayOptions: DisplayOptions) {
+    if (displayOptions) { this._displayOptions = displayOptions; }
+  }
+  get displayOptions(): DisplayOptions { return this._displayOptions; }
+
   @Input() set requests(requests: Request[]) {
     this.requestGroupingService.requests = requests;
     this.requestsCount = requests.length;
-    if (requests.length == 0) {
-      this.setFilter('');
-    }
   }
 
   @Input() printMode: boolean;
@@ -59,13 +71,15 @@ export class RequestsListComponent {
   }
 
   setFilter(filter: string) {
+    console.log(this.displayOptions.filter, filter)
     // Make a new object so that the display options can see the change in reference.
     this.displayOptions = {
       filter: filter,
       grouping: this.displayOptions.grouping,
       sorting: this.displayOptions.sorting,
       viewing: this.displayOptions.viewing,
-    }
+    };
+    this.displayOptionsChanged.next(this.displayOptions);
   }
 
   getRequestGroupKey(index: number, requestGroup: RequestGroup) {
@@ -74,6 +88,7 @@ export class RequestsListComponent {
 
   updateDisplayOptions(displayOptions) {
     this.displayOptions = displayOptions;
+    this.displayOptionsChanged.next(displayOptions);
   }
 
   showRequest(requestId: string, scrollableContent: ElementRef) {

@@ -15,7 +15,6 @@ import {
   Output
 } from "@angular/core";
 import {MdDialog} from "@angular/material";
-import {RequestViewOptions} from "../display-options-header/display-options-header.component";
 import {Item} from "../../../../model/item";
 import {RequestsService} from "../../../../service/requests.service";
 import {Request} from "../../../../model/request";
@@ -23,6 +22,7 @@ import {ItemsService} from "../../../../service/items.service";
 import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.component";
 import {EditItemComponent} from "../../dialog/edit-item/edit-item.component";
 import {ProjectsService} from "../../../../service/projects.service";
+import {RequestViewOptions} from "../../../../model/request-view-options";
 
 @Component({
   selector: 'request',

@@ -12,7 +12,6 @@ import {
   trigger, EventEmitter, Output
 } from "@angular/core";
 import {RequestComponent} from "../request/request.component";
-import {RequestViewOptions} from '../display-options-header/display-options-header.component';
 import {Item} from '../../../../model/item';
 import {RequestSortPipe} from '../../../../pipe/request-sort.pipe';
 import {Request} from '../../../../model/request';
@@ -22,6 +21,7 @@ import {ItemsService} from '../../../../service/items.service';
 import {PermissionsService} from "../../../../service/permissions.service";
 import {ProjectsService} from "../../../../service/projects.service";
 import {Project} from "../../../../model/project";
+import {RequestViewOptions} from "../../../../model/request-view-options";
 
 export type Sort = 'request added' | 'item' | 'cost';
 

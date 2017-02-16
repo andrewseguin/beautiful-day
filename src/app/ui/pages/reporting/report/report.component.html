@@ -42,6 +42,8 @@
     </div>
     <requests-list *ngIf="hasQuery()" #requestsList
                    [requests]="filteredRequests"
+                   [displayOptions]="report.displayOptions"
+                   (displayOptionsChanged)="updateDisplayOptions($event)"
                    [projectId]="'all'">
     </requests-list>
   </div>

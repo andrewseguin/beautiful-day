@@ -20,11 +20,6 @@
     min-width: 0;
     min-height: 36px;
 
-    &.active {
-      background: rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-    }
-
     .button-content {
       display: flex;
       align-items: center;

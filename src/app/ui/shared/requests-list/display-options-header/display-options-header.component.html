@@ -1,8 +1,8 @@
 <div class="button-toolbar">
   <div class="buttons">
     <button md-button
-            (click)="showFilter = !showFilter; filter = ''"
-            [class.active]="showFilter">
+            (click)="showFilter = true"
+            [disabled]="showFilter">
       <div class="button-content">
         <md-icon>filter_list</md-icon>
         <span class="text"> Filter </span>

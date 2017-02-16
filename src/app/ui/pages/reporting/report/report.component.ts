@@ -15,6 +15,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {UsersService} from "../../../../service/users.service";
 import {User} from "../../../../model/user";
 import {ReportQueryService} from "../../../../service/report-query.service";
+import {DisplayOptions} from "../../../../model/display-options";
 
 @Component({
   selector: 'report',
@@ -28,8 +29,6 @@ export class ReportComponent {
   requests: Request[] = [];
   filteredRequests: Request[] = [];
   user: User;
-
-  arbitrarySort: Sort = 'request added';
 
   _reportId: string;
   @Input() set reportId(reportId: string) {
@@ -123,5 +122,10 @@ export class ReportComponent {
 
   print() {
     window.open(`print/${this.reportId}`, 'print', 'width=650, height=500');
+  }
+
+  updateDisplayOptions(displayOptions: DisplayOptions) {
+    console.log('update')
+    this.reportsService.update(this.reportId, {displayOptions});
   }
 }

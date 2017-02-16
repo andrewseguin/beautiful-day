@@ -1,29 +1,8 @@
 import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import {Sort} from '../requests-group/requests-group.component';
 import {Group, RequestGroupingService} from '../../../../service/request-grouping.service';
-
-export class RequestViewOptions {
-  cost: boolean = true;
-  dropoff: boolean = true;
-  notes: boolean = true;
-  tags: boolean = true;
-
-  clone(): RequestViewOptions {
-    const clone = new RequestViewOptions();
-    clone.cost = this.cost;
-    clone.dropoff = this.dropoff;
-    clone.notes = this.notes;
-    clone.tags = this.tags;
-    return clone;
-  }
-}
-
-export interface DisplayOptions {
-  filter?: string;
-  grouping?: Group;
-  sorting?: Sort;
-  viewing?: RequestViewOptions;
-}
+import {DisplayOptions} from "../../../../model/display-options";
+import {RequestViewOptions} from "../../../../model/request-view-options";
 
 @Component({
   selector: 'display-options-header',
@@ -61,7 +40,12 @@ export class DisplayOptionsHeaderComponent implements OnInit {
       filter: this.filter,
       grouping: this.grouping,
       sorting: this.sorting,
-      viewing: this.viewing.clone(),
+      viewing: {
+        cost: this.viewing.cost,
+        dropoff: this.viewing.dropoff,
+        notes: this.viewing.notes,
+        tags: this.viewing.tags
+      }
     });
   }
 
