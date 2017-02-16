@@ -80,7 +80,8 @@ import {ReportComponent} from "./ui/pages/reporting/report/report.component";
 import {ReportListComponent} from "./ui/pages/reporting/report-list/report-list.component";
 import {PrintComponent} from "./ui/print/print.component";
 import {ReportQueryService} from "./service/report-query.service";
-import {EditRequestStatusDialogComponent} from "./ui/shared/dialog/edit-request-status/edit-request-status";
+import {EditApprovalStatusDialogComponent} from "./ui/shared/dialog/edit-approval-status/edit-approval-status";
+import {EditPurchaseStatusDialogComponent} from "./ui/shared/dialog/edit-purchase-status/edit-purchase-status";
 
 @NgModule({
   declarations: [
@@ -136,7 +137,8 @@ import {EditRequestStatusDialogComponent} from "./ui/shared/dialog/edit-request-
     ReportComponent,
     ReportListComponent,
     PrintComponent,
-    EditRequestStatusDialogComponent,
+    EditApprovalStatusDialogComponent,
+    EditPurchaseStatusDialogComponent,
   ],
   entryComponents: [
     EditItemComponent,
@@ -153,7 +155,8 @@ import {EditRequestStatusDialogComponent} from "./ui/shared/dialog/edit-request-
     PromptDialogComponent,
     EditGroupComponent,
     EditEventComponent,
-    EditRequestStatusDialogComponent,
+    EditApprovalStatusDialogComponent,
+    EditPurchaseStatusDialogComponent,
   ],
   imports: [
     BrowserModule,

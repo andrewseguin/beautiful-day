@@ -12,8 +12,10 @@ export class RequestSearchTransformer {
     const tags = request.tags ? request.tags.split(',').map(tag => `[tag]:${tag}`) : '';
     const projectName = `[project]:${project.name}`;
     const purchaser = `[purchaser]:${request.purchaser}`;
+    const isPurchased = `[isPurchased]:${!!request.isPurchased}`;
+    const isApproved = `[isApproved]:${!!request.isApproved}`;
 
-    const requestStr = dropoff + note + quantity + tags + projectName + purchaser;
+    const requestStr = dropoff + note + quantity + tags + projectName + purchaser + isPurchased + isApproved;
     const itemStr = ItemSearchTransformer.transform(item);
 
     return (requestStr + itemStr).replace(/ /g, '').toLowerCase();

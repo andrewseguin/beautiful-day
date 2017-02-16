@@ -1,20 +1,20 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-import {EditRequestStatusDialogComponent} from "./edit-request-status";
+import {EditApprovalStatusDialogComponent} from "./edit-approval-status";
 
-describe('EditRequestStatusDialogComponent', () => {
-  let component: EditRequestStatusDialogComponent;
-  let fixture: ComponentFixture<EditRequestStatusDialogComponent>;
+describe('EditApprovalStatus', () => {
+  let component: EditApprovalStatusDialogComponent;
+  let fixture: ComponentFixture<EditApprovalStatusDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditRequestStatusDialogComponent ]
+      declarations: [ EditApprovalStatusDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditRequestStatusDialogComponent);
+    fixture = TestBed.createComponent(EditApprovalStatusDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

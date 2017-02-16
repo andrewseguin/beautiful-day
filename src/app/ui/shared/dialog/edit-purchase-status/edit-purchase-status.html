@@ -1,0 +1,19 @@
+<div class="header">
+  <div class="title">Purchase Status</div>
+  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+</div>
+
+<div class="content">
+  Set the selected {{requestIds.size > 1 ? 'requests' : 'request'}} as purchased?
+</div>
+
+<md-slide-toggle class="request-status"
+                 [(ngModel)]="isPurchased"
+                 [color]="'accent'">
+  Purchased
+</md-slide-toggle>
+
+<div class="actions">
+  <button md-button (click)="close()">Cancel</button>
+  <button md-button (click)="save()">Save</button>
+</div>

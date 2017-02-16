@@ -46,6 +46,18 @@
         </span>
       </div>
 
+      <div *ngIf="isReporting && request.isApproved">
+        <span class="editable">
+          Approved
+        </span>
+      </div>
+
+      <div *ngIf="isReporting && request.isPurchased">
+        <span class="editable">
+          Purchased
+        </span>
+      </div>
+
       <div *ngIf="requestViewOptions.dropoff">
         <span class="editable"
               [class.clickable]="canEdit && !isReporting"

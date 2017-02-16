@@ -6,7 +6,8 @@ import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.compo
 import {EditTagsComponent} from "../../dialog/edit-tags/edit-tags.component";
 import {DeleteRequestsComponent} from "../../dialog/delete-requests/delete-requests.component";
 import {PromptDialogComponent} from "../../dialog/prompt-dialog/prompt-dialog.component";
-import {EditRequestStatusDialogComponent} from "../../dialog/edit-request-status/edit-request-status";
+import {EditPurchaseStatusDialogComponent} from "../../dialog/edit-purchase-status/edit-purchase-status";
+import {EditApprovalStatusDialogComponent} from "../../dialog/edit-approval-status/edit-approval-status";
 
 @Component({
   selector: 'edit-request-options',
@@ -90,10 +91,13 @@ export class EditRequestOptionsComponent {
     });
   }
 
-  editStatus() {
-    const dialogRef = this.mdDialog.open(EditRequestStatusDialogComponent);
+  editApprovalStatus() {
+    const dialogRef = this.mdDialog.open(EditApprovalStatusDialogComponent);
+    dialogRef.componentInstance.requestIds = this.requestsService.getSelectedRequests();
+  }
 
-    const selectedRequests = this.requestsService.getSelectedRequests();
-    dialogRef.componentInstance.requestIds = selectedRequests;
+  editPurchaseStatus() {
+    const dialogRef = this.mdDialog.open(EditPurchaseStatusDialogComponent);
+    dialogRef.componentInstance.requestIds = this.requestsService.getSelectedRequests();
   }
 }
