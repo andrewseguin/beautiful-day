@@ -1,4 +1,6 @@
-<requests-list [requests]="reportRequests"
+<requests-list *ngIf="report"
+               [requests]="reportRequests"
+               [displayOptions]="report.displayOptions"
                [projectId]="'all'"
                [printMode]="true">
 </requests-list>
