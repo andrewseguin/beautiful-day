@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
 
   subheaderVisibility: 'visible'|'hidden' = 'visible';
 
-  canManageAcquisitions: boolean;
+  canManageAcqusitionsTeam: boolean;
   canManageAdmins: boolean;
   canImportItems: boolean;
 
@@ -81,8 +81,8 @@ export class HeaderComponent implements OnInit {
     this.permissionsService.canManageAdmins()
       .subscribe(canManageAdmins => this.canManageAdmins = canManageAdmins);
 
-    this.permissionsService.canManageAcqusitions()
-      .subscribe(canManageAcquisitions => this.canManageAcquisitions = canManageAcquisitions);
+    this.permissionsService.canManageAcqusitionsTeam()
+      .subscribe(canManageAcqusitionsTeam => this.canManageAcqusitionsTeam = canManageAcqusitionsTeam);
 
     this.permissionsService.canImportItems()
       .subscribe(canImportItems => this.canImportItems = canImportItems);

@@ -40,11 +40,11 @@ export class PermissionsService {
       const lowercaseDirectors = directors.split(',').map(m => m.toLowerCase());
       const isDirector = lowercaseDirectors.indexOf(user.email.toLowerCase()) != -1;
 
-      return Observable.from([{
+      return Observable.of({
         details: isDirector || isAdminOrOwner,
         notes: isLead || isDirector || isAdminOrOwner,
         requests: isLead || isDirector || isAdminOrOwner || isAcquisitions
-      }]);
+      });
     });
   }
 
@@ -60,6 +60,10 @@ export class PermissionsService {
     return this.usersService.getCurrentUser().flatMap(user => {
       return this.groupsService.isMember(user.email, 'admins', 'owners', 'acquisitions');
     });
+  }
+
+  canManageAcqusitionsTeam(): Observable<boolean> {
+    return this.isCurrentUserOwnerOrAdmin();
   }
 
   canManageAdmins(): Observable<boolean> {
