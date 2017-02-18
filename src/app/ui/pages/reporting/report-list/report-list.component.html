@@ -19,7 +19,7 @@
   </div>
 
   <div *ngIf="!reports"
-       class="report-item mat-elevation-z1s">Loading Reports...</div>
+       class="report-item mat-elevation-z1">Loading Reports...</div>
   <div *ngFor="let report of reports | reportSearch:search:sort:reverseSort" md-ripple
        (click)="navigateToReport(report.$key)"
        class="report-item mat-elevation-z1">
