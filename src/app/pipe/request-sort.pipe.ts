@@ -37,7 +37,7 @@ export class RequestSortPipe implements PipeTransform {
         return (a: Request, b: Request) => {
           return a.$key < b.$key ? -1 : 1;
         };
-      case 'cost':
+      case 'request cost':
         return (a: Request, b: Request) => {
           const itemA = itemMap.get(a.item);
           const itemB = itemMap.get(b.item);
@@ -46,11 +46,21 @@ export class RequestSortPipe implements PipeTransform {
           const costB = b.quantity * (itemB.cost || 0);
           return costA < costB ? -1 : 1;
         };
-      case 'item':
+      case 'item cost':
+        return (a: Request, b: Request) => {
+          const costA = itemMap.get(a.item).cost || 0;
+          const costB = itemMap.get(b.item).cost || 0;
+          return costA < costB ? -1 : 1;
+        };
+      case 'item name':
         return (a: Request, b: Request) => {
           const itemA = itemMap.get(a.item);
           const itemB = itemMap.get(b.item);
           return itemA.name < itemB.name ? -1 : 1;
+        };
+      case 'date needed':
+        return (a: Request, b: Request) => {
+          return a.date < b.date ? -1 : 1;
         };
     }
   }

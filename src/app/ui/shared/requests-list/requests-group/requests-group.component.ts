@@ -23,7 +23,7 @@ import {ProjectsService} from "../../../../service/projects.service";
 import {Project} from "../../../../model/project";
 import {RequestViewOptions} from "../../../../model/request-view-options";
 
-export type Sort = 'request added' | 'item' | 'cost';
+export type Sort = 'request added' | 'item cost' | 'item name' | 'request cost' | 'date needed';
 
 @Component({
   selector: 'requests-group',

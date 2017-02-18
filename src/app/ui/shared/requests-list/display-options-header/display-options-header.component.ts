@@ -61,7 +61,7 @@ export class DisplayOptionsHeaderComponent implements OnInit {
   }
 
   getSortOptions(): Sort[] {
-    return ['request added', 'cost', 'item'];
+    return ['request added', 'request cost', 'item cost', 'item name', 'date needed'];
   }
 
   getGroupingName(grouping: string): string {
