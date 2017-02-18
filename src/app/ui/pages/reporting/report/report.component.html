@@ -23,6 +23,11 @@
             [md-tooltip]="'Duplicate Report'">
       <md-icon>content_copy</md-icon>
     </button>
+    <button md-icon-button
+            (click)="deleteReport()"
+            [md-tooltip]="'Delete Report'">
+      <md-icon>delete</md-icon>
+    </button>
   </div>
   <div class="actions" *ngIf="isMobile()">
     <button md-icon-button [md-menu-trigger-for]="editMenu">
@@ -76,8 +81,13 @@
   <button md-menu-item (click)="openEditNameDialog()">
     <md-icon>edit</md-icon> Edit Name
   </button>
-  <button md-menu-item (click)="print()"> <md-icon>print</md-icon> Print </button>
+  <button md-menu-item (click)="print()">
+    <md-icon>print</md-icon> Print
+  </button>
   <button md-menu-item (click)="duplicateReport()">
     <md-icon>content_copy</md-icon> Duplicate Report
+  </button>
+  <button md-menu-item (click)="deleteReport()">
+    <md-icon>delete</md-icon> Delete Report
   </button>
 </md-menu>

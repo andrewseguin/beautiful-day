@@ -43,7 +43,6 @@ export class EditRequestOptionsComponent {
     this.requestsService.getRequest(requestId).flatMap(request => {
       return this.itemsService.getItem(request.item);
     }).subscribe(item => {
-      console.log(item)
       dialogRef.componentInstance.item = item;
     });
   }

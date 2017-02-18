@@ -16,16 +16,50 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 32px 0;
+  margin: 16px 0 112px;
+}
+
+.options {
+  max-width: 650px;
+  width: 100%;
+  display: flex;
+  padding-left: 16px;
+  box-sizing: border-box;
+  align-items: center;
+
+  md-input-container {
+    flex-grow: 1;
+  }
+}
+
+.detail-header {
+  width: 100%;
+  max-width: 650px;
+  display: flex;
+  padding: 16px;
+  box-sizing: border-box;
+  font-size: 14px;
+  text-transform: uppercase;
+
+  & > div {
+    font-weight: lighter;
+  }
+}
+
+.query-display {
+  font-weight: lighter;
+  font-size: 14px;
+  padding-top: 8px;
 }
 
 .report-item {
   max-width: 650px;
   width: 100%;
+  box-sizing: border-box;
   background: white;
-  height: 48px;
+  padding: 16px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   cursor: pointer;
   position: relative;
 
@@ -34,11 +68,35 @@
   }
 
   .report-name {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  .report-details {
+    font-size: 12px;
+    padding-top: 4px;
     padding-left: 16px;
   }
 }
 
-button {
-  height: 100%;
-  width: 100%;
+button.sort {
+  height: 36px;
+  margin-left: 8px;
+}
+
+.sort-option {
+  text-align: right;
+  width: 180px;
+
+  &.active {
+    font-weight: bold;
+  }
+}
+
+button.mat-fab {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  margin: 32px;
 }

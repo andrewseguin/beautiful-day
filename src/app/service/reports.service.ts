@@ -15,7 +15,8 @@ export class ReportsService {
     return this.db.object(`reports/${id}`);
   }
 
-  update(id, update: any): void {
+  update(id, update: Report): void {
+    update.modifiedDate = new Date().getTime().toString();
     this.get(id).update(update);
   }
 

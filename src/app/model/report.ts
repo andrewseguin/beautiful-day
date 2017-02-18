@@ -14,6 +14,7 @@ export interface QueryStage {
 
 export class Report {
   $key?: string;
+  $exists?: Function;
   name?: string;
   displayOptions?: DisplayOptions;
   queryStages?: QueryStage[];

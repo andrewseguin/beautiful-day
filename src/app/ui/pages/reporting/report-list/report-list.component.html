@@ -3,16 +3,50 @@
 </div>
 
 <div class="list">
+  <div class="options">
+    <md-input-container [floatPlaceholder]="'never'">
+      <input mdInput [(ngModel)]="search" placeholder="Filter Reports">
+    </md-input-container>
+    <button md-button class="sort" [md-menu-trigger-for]="sortMenu">
+      <md-icon>sort</md-icon> Sort
+    </button>
+  </div>
+
+  <div class="detail-header">
+    <div [style.flex-grow]="1">Name</div>
+    <div *ngIf="sort == 'createdDate'">Creation Date</div>
+    <div *ngIf="sort != 'createdDate'">Last Modified</div>
+  </div>
+
   <div *ngIf="!reports"
        class="report-item mat-elevation-z1s">Loading Reports...</div>
-  <div *ngFor="let report of reports" md-ripple
+  <div *ngFor="let report of reports | reportSearch:search:sort:reverseSort" md-ripple
        (click)="navigateToReport(report.$key)"
        class="report-item mat-elevation-z1">
-    <div class="report-name">{{report.name}}</div>
-  </div>
-  <div class="report-item mat-elevation-z1">
-    <button md-button color="accent" (click)="createReport()">+ New Report</button>
+    <div style="display: flex">
+      <div class="report-name">{{report.name}}</div>
+      <div class="report-details">
+        <div *ngIf="sort == 'createdDate'">{{report.createdDate | date}}</div>
+        <div *ngIf="sort != 'createdDate'">{{report.modifiedDate | date}}</div>
+      </div>
+    </div>
+    <div class="query-display">
+      Query: "{{queryStrings.get(report)}}"
+    </div>
   </div>
 </div>
 
+<button md-fab (click)="createReport()">
+  <md-icon>add</md-icon>
+</button>
 
+<md-menu #sortMenu="mdMenu" x-position="before">
+  <button md-menu-item *ngFor="let sortOption of sortOptions"
+          class="sort-option"
+          [class.active]="sortOption == sort"
+          (click)="setSort(sortOption)">
+    <md-icon *ngIf="sortOption == sort && !reverseSort">arrow_downward</md-icon>
+    <md-icon *ngIf="sortOption == sort && reverseSort">arrow_upward</md-icon>
+    {{getSortName(sortOption)}}
+  </button>
+</md-menu>

@@ -72,7 +72,6 @@ export class ProjectRequestsComponent implements OnInit {
   }
 
   hideInventory(): boolean {
-    console.log(`${this.mediaQuery.isMobile() } || ${!this.editPermissions.requests}`);
     return this.mediaQuery.isMobile() || !this.editPermissions.requests;
   }
 

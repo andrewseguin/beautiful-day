@@ -16,6 +16,7 @@ import {UsersService} from "../../../../service/users.service";
 import {User} from "../../../../model/user";
 import {ReportQueryService} from "../../../../service/report-query.service";
 import {DisplayOptions} from "../../../../model/display-options";
+import {DeleteReportComponent} from "../../../shared/dialog/delete-report/delete-report.component";
 
 @Component({
   selector: 'report',
@@ -35,7 +36,9 @@ export class ReportComponent {
     this._reportId = reportId;
 
     this.reportsService.get(reportId).subscribe(report => {
-      this.report = report; this.performQuery();
+      if (report.$exists()) {
+        this.report = report; this.performQuery();
+      }
     });
 
     this.requestsService.getAllRequests().subscribe(requests => {
@@ -125,7 +128,11 @@ export class ReportComponent {
   }
 
   updateDisplayOptions(displayOptions: DisplayOptions) {
-    console.log('update')
     this.reportsService.update(this.reportId, {displayOptions});
+  }
+
+  deleteReport() {
+    const dialogRef = this.mdDialog.open(DeleteReportComponent);
+    dialogRef.componentInstance.report = this.report;
   }
 }

@@ -82,6 +82,8 @@ import {PrintComponent} from "./ui/print/print.component";
 import {ReportQueryService} from "./service/report-query.service";
 import {EditApprovalStatusDialogComponent} from "./ui/shared/dialog/edit-approval-status/edit-approval-status";
 import {EditPurchaseStatusDialogComponent} from "./ui/shared/dialog/edit-purchase-status/edit-purchase-status";
+import {DeleteReportComponent} from "./ui/shared/dialog/delete-report/delete-report.component";
+import {ReportSearchPipe} from "./pipe/report-search.pipe";
 
 @NgModule({
   declarations: [
@@ -139,6 +141,8 @@ import {EditPurchaseStatusDialogComponent} from "./ui/shared/dialog/edit-purchas
     PrintComponent,
     EditApprovalStatusDialogComponent,
     EditPurchaseStatusDialogComponent,
+    DeleteReportComponent,
+    ReportSearchPipe,
   ],
   entryComponents: [
     EditItemComponent,
@@ -157,6 +161,7 @@ import {EditPurchaseStatusDialogComponent} from "./ui/shared/dialog/edit-purchas
     EditEventComponent,
     EditApprovalStatusDialogComponent,
     EditPurchaseStatusDialogComponent,
+    DeleteReportComponent,
   ],
   imports: [
     BrowserModule,
