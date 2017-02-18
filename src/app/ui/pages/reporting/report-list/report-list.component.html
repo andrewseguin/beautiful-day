@@ -36,7 +36,9 @@
   </div>
 </div>
 
-<button md-fab (click)="createReport()">
+<button md-fab (click)="createReport()"
+        [mdTooltip]="'Create New Report'"
+        [mdTooltipPosition]="'left'">
   <md-icon>add</md-icon>
 </button>
 
