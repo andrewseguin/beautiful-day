@@ -20,16 +20,16 @@ export class PermissionsService {
   getEditPermissions(projectId: string): Observable<EditPermissions> {
     let user: User;
     let isAdminOrOwner: boolean;
-    let isAcquisitions: boolean;
+    let isRequestEditor: boolean;
 
     return this.usersService.getCurrentUser().flatMap(u => {
       user = u;
-      return this.groupsService.isMember(user.email, 'admins', 'owners');
+      return this.groupsService.isMember('admins', 'owners');
     }).flatMap(result => {
       isAdminOrOwner = result;
-      return this.groupsService.isMember(user.email, 'acquisitions');
+      return this.groupsService.isMember('acquisitions', 'approvers');
     }).flatMap(result => {
-      isAcquisitions = result;
+      isRequestEditor = result;
       return this.projectsService.getProject(projectId);
     }).flatMap(project => {
       const leads = project.leads || '';
@@ -43,7 +43,7 @@ export class PermissionsService {
       return Observable.of({
         details: isDirector || isAdminOrOwner,
         notes: isLead || isDirector || isAdminOrOwner,
-        requests: isLead || isDirector || isAdminOrOwner || isAcquisitions
+        requests: isLead || isDirector || isAdminOrOwner || isRequestEditor
       });
     });
   }
@@ -57,9 +57,7 @@ export class PermissionsService {
   }
 
   canManageAcqusitions(): Observable<boolean> {
-    return this.usersService.getCurrentUser().flatMap(user => {
-      return this.groupsService.isMember(user.email, 'admins', 'owners', 'acquisitions');
-    });
+    return this.groupsService.isMember('admins', 'owners', 'acquisitions');
   }
 
   canManageAcqusitionsTeam(): Observable<boolean> {
@@ -79,14 +77,10 @@ export class PermissionsService {
   }
 
   private isOwner(): Observable<boolean> {
-    return this.usersService.getCurrentUser().flatMap(user => {
-      return this.groupsService.isMember(user.email, 'owners')
-    });
+    return this.groupsService.isMember('owners')
   }
 
   private isCurrentUserOwnerOrAdmin(): Observable<boolean> {
-    return this.usersService.getCurrentUser().flatMap(user => {
-      return this.groupsService.isMember(user.email, 'admins', 'owners')
-    });
+    return this.groupsService.isMember('admins', 'owners')
   }
 }

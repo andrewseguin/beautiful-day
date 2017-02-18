@@ -18,14 +18,17 @@ import {ItemsService} from "../../../../service/items.service";
 })
 export class EditRequestOptionsComponent {
   isAcquistionsUser: boolean;
+  isApproversUser: boolean;
 
   constructor(private requestsService: RequestsService,
               private itemsService: ItemsService,
               private mdDialog: MdDialog,
               private groupsService: GroupsService,
               private snackBar: MdSnackBar) {
-    this.groupsService.isAcquistionsUser()
+    this.groupsService.isMember('admins', 'acquisitions')
         .subscribe(isAcquistionsUser => this.isAcquistionsUser = isAcquistionsUser);
+    this.groupsService.isMember('admins', 'acquisitions', 'approvers')
+        .subscribe(isApproversUser => this.isApproversUser = isApproversUser);
   }
 
   getSelectedRequestsCount() {

@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {AngularFireDatabase} from "angularfire2";
 import {UsersService} from "./users.service";
 
-export type Group = 'admins' | 'acquisitions' | 'owners';
+export type Group = 'admins' | 'acquisitions' | 'owners' | 'approvers';
 
 @Injectable()
 export class GroupsService {
@@ -21,21 +21,19 @@ export class GroupsService {
     this.db.object(`groups/${group}`).set(members.join(','));
   }
 
-  isMember(email: string, ...groups: Group[]): Observable<boolean> {
-    const groupChecks: Observable<boolean>[] = [];
-    for (let group of groups) {
-      const groupCheck = this.get(group).map(members => members.indexOf(email) != -1);
-      groupChecks.push(groupCheck)
-    }
+  isMember(...groups: Group[]): Observable<boolean> {
+    if (groups.indexOf('owners') == -1) groups.push('owners');
 
-    // TODO: Add all group checks in here
-    return Observable.combineLatest.apply(this, groupChecks)
-        .map((checks: boolean[]) => checks.some(check => check));
-  }
-
-  isAcquistionsUser(): Observable<boolean> {
     return this.usersService.getCurrentUser().flatMap(user => {
-      return this.isMember(user.email, 'acquisitions', 'owners');
-    });
+      const groupChecks: Observable<boolean>[] = [];
+      for (let group of groups) {
+        const groupCheck = this.get(group).map(members => members.indexOf(user.email) != -1);
+        groupChecks.push(groupCheck)
+      }
+
+      return Observable.combineLatest.apply(this, groupChecks)
+          .map((checks: boolean[]) => checks.some(check => check));
+    })
+
   }
 }

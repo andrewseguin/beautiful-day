@@ -40,6 +40,7 @@ export class EditGroupComponent implements OnInit {
     switch (this.group) {
       case 'admins': return plural ? 'Admins' : 'Admin';
       case 'acquisitions': return plural ? 'Acquisition Team' : 'Acquisition Member';
+      case 'approvers': return plural ? 'Approver Team' : 'Approver Member';
     }
   }
 }

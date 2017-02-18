@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit {
   subheaderVisibility: 'visible'|'hidden' = 'visible';
 
   canManageAcqusitionsTeam: boolean;
+  canManageApproversTeam: boolean;
   canManageAdmins: boolean;
   canImportItems: boolean;
 
@@ -79,10 +80,13 @@ export class HeaderComponent implements OnInit {
     });
 
     this.permissionsService.canManageAdmins()
-      .subscribe(canManageAdmins => this.canManageAdmins = canManageAdmins);
+      .subscribe(canManageAdmins => {
+        this.canManageAdmins = canManageAdmins;
+        this.canManageApproversTeam = canManageAdmins;
+      });
 
     this.permissionsService.canManageAcqusitionsTeam()
-      .subscribe(canManageAcqusitionsTeam => this.canManageAcqusitionsTeam = canManageAcqusitionsTeam);
+      .subscribe(canManageAcquisitionsTeam => this.canManageAcqusitionsTeam = canManageAcquisitionsTeam);
 
     this.permissionsService.canImportItems()
       .subscribe(canImportItems => this.canImportItems = canImportItems);
@@ -137,6 +141,11 @@ export class HeaderComponent implements OnInit {
   manageAcquisitions(): void {
     const dialogRef = this.mdDialog.open(EditGroupComponent);
     dialogRef.componentInstance.group = 'acquisitions';
+  }
+
+  manageApprovers(): void {
+    const dialogRef = this.mdDialog.open(EditGroupComponent);
+    dialogRef.componentInstance.group = 'approvers';
   }
 
   sendFeedback(): void {
