@@ -10,6 +10,7 @@ export class RequestSortPipe implements PipeTransform {
 
   transform(requests: Request[],
             sort: Sort,
+            reverseSort: boolean,
             filter: string,
             items: Item[],
             projects: Project[]): Request[] {
@@ -26,7 +27,8 @@ export class RequestSortPipe implements PipeTransform {
       return filterTokens.every(token => this.requestMatchesSearch(request, item, project, token));
     });
 
-    return filteredRequests.sort(this.getSortFunction(sort, itemMap));
+    const sortedRequests = filteredRequests.sort(this.getSortFunction(sort, itemMap));
+    return reverseSort ? sortedRequests.reverse() : sortedRequests;
   }
 
   getSortFunction(sort: Sort, itemMap: Map<string, Item>) {

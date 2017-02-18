@@ -19,6 +19,7 @@ export class DisplayOptionsHeaderComponent implements OnInit {
   grouping: Group;
   sorting: Sort;
   viewing: RequestViewOptions;
+  reverseSort: boolean;
 
   @Input()
   set displayOptions(displayOptions: DisplayOptions) {
@@ -26,6 +27,7 @@ export class DisplayOptionsHeaderComponent implements OnInit {
     this.showFilter = !!this.filter;
     this.grouping = displayOptions.grouping;
     this.sorting = displayOptions.sorting;
+    this.reverseSort = displayOptions.reverseSort;
     this.viewing = displayOptions.viewing;
   }
 
@@ -40,6 +42,7 @@ export class DisplayOptionsHeaderComponent implements OnInit {
       filter: this.filter,
       grouping: this.grouping,
       sorting: this.sorting,
+      reverseSort: this.reverseSort,
       viewing: {
         cost: this.viewing.cost,
         dropoff: this.viewing.dropoff,
@@ -69,5 +72,11 @@ export class DisplayOptionsHeaderComponent implements OnInit {
       case 'dropoff': return 'Dropoff Location';
       case 'tags': return 'Tags';
     }
+  }
+
+  setSort(sort: Sort) {
+    this.reverseSort = this.sorting == sort ? !this.reverseSort : false;
+    this.sorting = sort;
+    this.notify();
   }
 }

@@ -20,7 +20,7 @@ export class ReportQueryService {
       let requestSet = new Set<Request>();
       queryStage.querySet.forEach(query => {
         let requestArray = this.requestSortPipe.transform(filteredRequests,
-          'request added', this.transformQuery(query), items, projects);
+          'request added', false, this.transformQuery(query), items, projects);
         requestArray.forEach(request => requestSet.add(request));
       });
 

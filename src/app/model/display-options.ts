@@ -6,5 +6,6 @@ export interface DisplayOptions {
   filter?: string;
   grouping?: Group;
   sorting?: Sort;
+  reverseSort?: boolean;
   viewing?: RequestViewOptions;
 }

@@ -37,6 +37,7 @@ export class RequestsListComponent {
     filter: '',
     grouping: 'all',
     sorting: 'request added',
+    reverseSort: false,
     viewing: {
       cost: true,
       dropoff: true,
@@ -71,12 +72,12 @@ export class RequestsListComponent {
   }
 
   setFilter(filter: string) {
-    console.log(this.displayOptions.filter, filter)
     // Make a new object so that the display options can see the change in reference.
     this.displayOptions = {
       filter: filter,
       grouping: this.displayOptions.grouping,
       sorting: this.displayOptions.sorting,
+      reverseSort: this.displayOptions.reverseSort,
       viewing: this.displayOptions.viewing,
     };
     this.displayOptionsChanged.next(this.displayOptions);
