@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FirebaseAuth, FirebaseDatabase, AngularFireDatabase} from 'angularfire2';
-import {Router, NavigationEnd} from '@angular/router';
+import {Component, OnInit} from "@angular/core";
+import {FirebaseAuth, AngularFireDatabase} from "angularfire2";
+import {Router, NavigationEnd} from "@angular/router";
 import {MdSnackBarConfig, MdSnackBar} from "@angular/material";
 import {AnalyticsService} from "./service/analytics.service";
 
-export const APP_VERSION = 11;
+export const APP_VERSION = 12;
 
 @Component({
   selector: 'app-root',
