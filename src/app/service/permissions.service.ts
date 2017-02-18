@@ -19,17 +19,15 @@ export class PermissionsService {
 
   getEditPermissions(projectId: string): Observable<EditPermissions> {
     let user: User;
-    let admins: string[];
+    let isAdminOrOwner: boolean;
 
     return this.usersService.getCurrentUser().flatMap(u => {
       user = u;
-      return this.groupsService.get('admins');
-    }).flatMap(members => {
-      admins = members;
+      return this.groupsService.isMember(user.email, 'admins', 'owners');
+    }).flatMap(result => {
+      isAdminOrOwner = result;
       return this.projectsService.getProject(projectId);
     }).flatMap(project => {
-      const isAdmin = admins.indexOf(user.email) != -1;
-
       const leads = project.leads || '';
       const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());
       const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) != -1;
@@ -39,9 +37,9 @@ export class PermissionsService {
       const isDirector = lowercaseDirectors.indexOf(user.email.toLowerCase()) != -1;
 
       return Observable.from([{
-        details: isDirector || isAdmin || user.isOwner,
-        notes: isLead || isDirector || isAdmin || user.isOwner,
-        requests: isLead || isDirector || isAdmin || user.isOwner
+        details: isDirector || isAdminOrOwner,
+        notes: isLead || isDirector || isAdminOrOwner,
+        requests: isLead || isDirector || isAdminOrOwner
       }]);
     });
   }
@@ -71,16 +69,14 @@ export class PermissionsService {
   }
 
   private isOwner(): Observable<boolean> {
-    return this.usersService.getCurrentUser()
-        .map(user => user ? user.isOwner : false);
+    return this.usersService.getCurrentUser().flatMap(user => {
+      return this.groupsService.isMember(user.email, 'owners')
+    });
   }
 
   private isCurrentUserOwnerOrAdmin(): Observable<boolean> {
-    let isOwner = false;
-    return this.usersService.getCurrentUser()
-      .flatMap(user => {
-        isOwner = user.isOwner;
-        return this.groupsService.isMember(user.email, 'admins');
-      }).map(isAdmin => isOwner || isAdmin);
+    return this.usersService.getCurrentUser().flatMap(user => {
+      return this.groupsService.isMember(user.email, 'admins', 'owners')
+    });
   }
 }

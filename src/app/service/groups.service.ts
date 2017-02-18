@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {AngularFireDatabase} from "angularfire2";
 import {UsersService} from "./users.service";
 
-export type Group = 'admins' | 'acquisitions';
+export type Group = 'admins' | 'acquisitions' | 'owners';
 
 @Injectable()
 export class GroupsService {
@@ -29,15 +29,13 @@ export class GroupsService {
     }
 
     // TODO: Add all group checks in here
-    return Observable.combineLatest(
-      groupChecks[0]
-    ).map((checks: boolean[]) => checks.every(check => check));
+    return Observable.combineLatest.apply(this, groupChecks)
+        .map((checks: boolean[]) => checks.some(check => check));
   }
 
   isAcquistionsUser(): Observable<boolean> {
     return this.usersService.getCurrentUser().flatMap(user => {
-      if (user.isOwner) return Observable.of(true);
-      return this.isMember(user.email, 'acquisitions');
+      return this.isMember(user.email, 'acquisitions', 'owners');
     });
   }
 }

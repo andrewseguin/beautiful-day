@@ -15,12 +15,12 @@
         <span class="editable clickable" (click)="viewItem($event)">
           {{itemDisplayName}}
         </span>
-        <md-icon class="goto-url md-18"
+        <md-icon *ngIf="canEdit"
+                 class="goto-url md-18"
                  [mdTooltip]="'Open URL: ' + item.url"
                  (click)="$event.stopPropagation(); navigateToUrl(item.url)">
           open_in_new_window
         </md-icon>
-        <div></div> <!-- Bug? Otherwise the tooltip shows in the deadspace after icon -->
       </div>
 
       <div class="quantity" (click)="$event.stopPropagation()">
