@@ -8,6 +8,8 @@ import {DeleteRequestsComponent} from "../../dialog/delete-requests/delete-reque
 import {PromptDialogComponent} from "../../dialog/prompt-dialog/prompt-dialog.component";
 import {EditPurchaseStatusDialogComponent} from "../../dialog/edit-purchase-status/edit-purchase-status";
 import {EditApprovalStatusDialogComponent} from "../../dialog/edit-approval-status/edit-approval-status";
+import {EditItemComponent} from "../../dialog/edit-item/edit-item.component";
+import {ItemsService} from "../../../../service/items.service";
 
 @Component({
   selector: 'edit-request-options',
@@ -18,6 +20,7 @@ export class EditRequestOptionsComponent {
   isAcquistionsUser: boolean;
 
   constructor(private requestsService: RequestsService,
+              private itemsService: ItemsService,
               private mdDialog: MdDialog,
               private groupsService: GroupsService,
               private snackBar: MdSnackBar) {
@@ -25,10 +28,27 @@ export class EditRequestOptionsComponent {
         .subscribe(isAcquistionsUser => this.isAcquistionsUser = isAcquistionsUser);
   }
 
+  getSelectedRequestsCount() {
+    return this.requestsService.getSelectedRequests().size;
+  }
+
+  viewSelectedRequestItem() {
+    const dialogRef = this.mdDialog.open(EditItemComponent);
+    dialogRef.componentInstance.mode = this.isAcquistionsUser ? 'edit' : 'view';
+
+    const requestId = this.requestsService.getSelectedRequests().values().next().value;
+    this.requestsService.getRequest(requestId).flatMap(request => {
+      return this.itemsService.getItem(request.item);
+    }).subscribe(item => {
+      console.log(item)
+      dialogRef.componentInstance.item = item;
+    });
+  }
+
   deleteRequests() {
     const dialogRef = this.mdDialog.open(DeleteRequestsComponent);
     dialogRef.componentInstance.requests =
-      this.requestsService.getSelectedRequests();
+        this.requestsService.getSelectedRequests();
 
     dialogRef.componentInstance.onDelete().subscribe(() => {
       this.requestsService.getSelectedRequests().forEach(id => {

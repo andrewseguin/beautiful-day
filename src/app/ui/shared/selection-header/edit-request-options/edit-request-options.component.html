@@ -1,3 +1,12 @@
+<button md-button class="header-button"
+        (click)="viewSelectedRequestItem()"
+        *ngIf="getSelectedRequestsCount() == 1">
+  <div class="selection-header-button-content">
+    <md-icon>info</md-icon>
+    <div class="text">Item</div>
+  </div>
+</button>
+
 <button md-button [md-menu-trigger-for]="editMenu" class="header-button">
   <div class="selection-header-button-content">
     <md-icon>edit</md-icon>
