@@ -25,3 +25,10 @@ input {
   font-size: 12px;
   margin-top: -8px;
 }
+
+.url-input {
+  display: flex;
+  md-input-container {
+    flex-grow: 1;
+  }
+}

@@ -64,6 +64,10 @@ export class EditItemComponent implements OnInit {
     this.close();
   }
 
+  gotoUrl() {
+    window.open(this._item.url);
+  }
+
   toTitleCase(str: string): string {
     return str.replace(/\w\S*/g, word => {
       return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();

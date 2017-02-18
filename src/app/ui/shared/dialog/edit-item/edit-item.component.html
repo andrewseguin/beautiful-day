@@ -19,9 +19,14 @@
   <input mdInput [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.categories" placeholder="Category">
 </md-input-container>
 
-<md-input-container>
-  <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL">
-</md-input-container>
+<div class="url-input">
+  <md-input-container>
+    <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL">
+  </md-input-container>
+  <button md-icon-button *ngIf="isValidUrl(_item.url)" (click)="gotoUrl()">
+    <md-icon>open_in_new_window</md-icon>
+  </button>
+</div>
 <div class="error" *ngIf="mode != 'view' && _item.url && !isValidUrl(_item.url)">
   Please enter a valid website.
 </div>
