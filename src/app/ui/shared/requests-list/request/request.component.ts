@@ -196,4 +196,8 @@ export class RequestComponent implements OnInit {
 
     return `rgba(${[r, g, b].join(',')}, 0.15)`;
   }
+
+  navigateToUrl(url: string) {
+    window.open(url);
+  }
 }

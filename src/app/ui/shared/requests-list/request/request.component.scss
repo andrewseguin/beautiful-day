@@ -28,6 +28,8 @@
     }
 
     .name {
+      display: flex;
+      align-items: center;
       flex-grow: 1;
       font-weight: bold;
     }
@@ -107,6 +109,24 @@
       border-bottom-width: 2px;
       padding-bottom: 1px;
     }
+  }
+}
+
+.goto-url {
+  padding: 8px;
+  border-radius: 16px;
+  visibility: hidden;
+
+  &:hover {
+    background: rgba(0, 0, 0, .1);
+    padding: 8px;
+    border-radius: 16px;
+  }
+  &:active {
+    background: rgba(0, 0, 0, .2);
+  }
+  :host:hover & {
+    visibility: visible;
   }
 }
 
