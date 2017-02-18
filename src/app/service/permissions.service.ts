@@ -80,7 +80,7 @@ export class PermissionsService {
     return this.usersService.getCurrentUser()
       .flatMap(user => {
         isOwner = user.isOwner;
-        return this.groupsService.isMember('admins', user.email);
+        return this.groupsService.isMember(user.email, 'admins');
       }).map(isAdmin => isOwner || isAdmin);
   }
 }

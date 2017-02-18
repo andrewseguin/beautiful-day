@@ -21,14 +21,23 @@ export class GroupsService {
     this.db.object(`groups/${group}`).set(members.join(','));
   }
 
-  isMember(group: Group, email: string): Observable<boolean> {
-    return this.get(group).map(members => members.indexOf(email) != -1);
+  isMember(email: string, ...groups: Group[]): Observable<boolean> {
+    const groupChecks: Observable<boolean>[] = [];
+    for (let group of groups) {
+      const groupCheck = this.get(group).map(members => members.indexOf(email) != -1);
+      groupChecks.push(groupCheck)
+    }
+
+    // TODO: Add all group checks in here
+    return Observable.combineLatest(
+      groupChecks[0]
+    ).map((checks: boolean[]) => checks.every(check => check));
   }
 
   isAcquistionsUser(): Observable<boolean> {
     return this.usersService.getCurrentUser().flatMap(user => {
       if (user.isOwner) return Observable.of(true);
-      return this.isMember('acquisitions', user.email);
+      return this.isMember(user.email, 'acquisitions');
     });
   }
 }
