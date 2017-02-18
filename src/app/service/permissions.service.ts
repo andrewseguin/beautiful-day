@@ -20,12 +20,16 @@ export class PermissionsService {
   getEditPermissions(projectId: string): Observable<EditPermissions> {
     let user: User;
     let isAdminOrOwner: boolean;
+    let isAcquisitions: boolean;
 
     return this.usersService.getCurrentUser().flatMap(u => {
       user = u;
       return this.groupsService.isMember(user.email, 'admins', 'owners');
     }).flatMap(result => {
       isAdminOrOwner = result;
+      return this.groupsService.isMember(user.email, 'acquisitions');
+    }).flatMap(result => {
+      isAcquisitions = result;
       return this.projectsService.getProject(projectId);
     }).flatMap(project => {
       const leads = project.leads || '';
@@ -39,7 +43,7 @@ export class PermissionsService {
       return Observable.from([{
         details: isDirector || isAdminOrOwner,
         notes: isLead || isDirector || isAdminOrOwner,
-        requests: isLead || isDirector || isAdminOrOwner
+        requests: isLead || isDirector || isAdminOrOwner || isAcquisitions
       }]);
     });
   }
@@ -53,7 +57,9 @@ export class PermissionsService {
   }
 
   canManageAcqusitions(): Observable<boolean> {
-    return this.isCurrentUserOwnerOrAdmin();
+    return this.usersService.getCurrentUser().flatMap(user => {
+      return this.groupsService.isMember(user.email, 'admins', 'owners', 'acquisitions');
+    });
   }
 
   canManageAdmins(): Observable<boolean> {
