@@ -24,7 +24,7 @@
     <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL">
   </md-input-container>
   <button md-icon-button *ngIf="isValidUrl(_item.url)" (click)="gotoUrl()">
-    <md-icon>open_in_new_window</md-icon>
+    <md-icon>open_in_new</md-icon>
   </button>
 </div>
 <div class="error" *ngIf="mode != 'view' && _item.url && !isValidUrl(_item.url)">
