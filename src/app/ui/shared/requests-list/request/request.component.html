@@ -24,6 +24,7 @@
       </div>
 
       <div class="quantity" (click)="!request.isPurchased ? $event.stopPropagation() : null">
+        <div *ngIf="isReporting">{{item.cost | currency:'USD':true:'1.2-2'}}</div>
         <input type="number" #quantityInput min="0"
                *ngIf="canEdit && !isReporting"
                [disabled]="request.isPurchased"
