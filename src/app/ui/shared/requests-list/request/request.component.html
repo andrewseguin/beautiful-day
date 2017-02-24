@@ -26,14 +26,15 @@
       <div class="quantity" (click)="!request.isPurchased ? $event.stopPropagation() : null">
         <div *ngIf="isReporting">{{item.cost | currency:'USD':true:'1.2-2'}}</div>
         <input type="number" #quantityInput min="0"
-               *ngIf="canEdit && !isReporting"
-               [disabled]="request.isPurchased"
+               *ngIf="canEdit && !isReporting && !request.isPurchased"
                [value]="request?.quantity"
-               [title]="request.isPurchased ? 'This request has been purchased and quantity cannot be changed' : ''"
                (keyup)="changeQuantity($event.target.value)"
                (keydown.Enter)="quantityInput.blur()"
                (change)="changeQuantity($event.target.value)">
-        <div *ngIf="!canEdit || isReporting">x {{request?.quantity}}</div>
+        <div *ngIf="!(canEdit && !isReporting && !request.isPurchased)"
+             [title]="request.isPurchased ? 'This request has been purchased and quantity cannot be changed' : ''">
+          x {{request?.quantity}}
+        </div>
       </div>
 
       <div class="cost" *ngIf="requestViewOptions.cost">
