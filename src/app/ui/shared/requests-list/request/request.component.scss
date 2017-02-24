@@ -37,6 +37,7 @@
     .quantity {
       min-width: 50px;
       width: 50px;
+      text-align: right;
     }
 
     .cost {
@@ -116,6 +117,7 @@
   padding: 8px;
   border-radius: 16px;
   visibility: hidden;
+
   @media (max-width: $mobile-width - 1) {
     display: none;
   }

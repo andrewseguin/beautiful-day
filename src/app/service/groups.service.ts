@@ -13,7 +13,9 @@ export class GroupsService {
 
   get(group: Group): Observable<string[]> {
     return this.db.object(`groups/${group}`).map(members => {
-      return members.$value ? members.$value.split(',') : [];
+      if (!members.$value) { return []; }
+
+      return members.$value.split(',').map(member => this.normalizeEmail(member));
     });
   }
 
@@ -27,13 +29,17 @@ export class GroupsService {
     return this.usersService.getCurrentUser().flatMap(user => {
       const groupChecks: Observable<boolean>[] = [];
       for (let group of groups) {
-        const groupCheck = this.get(group).map(members => members.indexOf(user.email) != -1);
+        const groupCheck = this.get(group)
+            .map(members => members.indexOf(this.normalizeEmail(user.email)) != -1);
         groupChecks.push(groupCheck)
       }
 
       return Observable.combineLatest.apply(this, groupChecks)
           .map((checks: boolean[]) => checks.some(check => check));
     })
+  }
 
+  normalizeEmail(email: string): string {
+    return email.trim().toLowerCase();
   }
 }

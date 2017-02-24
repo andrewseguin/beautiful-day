@@ -22,8 +22,10 @@
   font-size: 18px;
   font-weight: bold;
   padding: 0 16px;
+
   @media (max-width: $mobile-width - 1) {
     padding: 0;
+    font-size: 16px;
   }
 }
 
