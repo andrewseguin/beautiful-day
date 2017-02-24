@@ -23,7 +23,7 @@
         </md-icon>
       </div>
 
-      <div class="quantity" (click)="$event.stopPropagation()">
+      <div class="quantity" (click)="!request.isPurchased ? $event.stopPropagation() : null">
         <input type="number" #quantityInput min="0"
                *ngIf="canEdit && !isReporting"
                [disabled]="request.isPurchased"
