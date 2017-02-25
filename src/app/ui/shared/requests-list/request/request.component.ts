@@ -23,6 +23,7 @@ import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.compo
 import {EditItemComponent} from "../../dialog/edit-item/edit-item.component";
 import {ProjectsService} from "../../../../service/projects.service";
 import {RequestViewOptions} from "../../../../model/request-view-options";
+import {GroupsService} from "../../../../service/groups.service";
 
 @Component({
   selector: 'request',
@@ -86,6 +87,7 @@ export class RequestComponent implements OnInit {
               private elementRef: ElementRef,
               private requestsService: RequestsService,
               private projectsService: ProjectsService,
+              private groupsService: GroupsService,
               private itemsService: ItemsService) { }
 
   ngOnInit() {
@@ -180,6 +182,12 @@ export class RequestComponent implements OnInit {
 
     const dialogRef = this.mdDialog.open(EditItemComponent);
     dialogRef.componentInstance.mode = 'view';
+
+    // If acquistions member, can edit the item
+    this.groupsService.isMember('acquisitions').subscribe(isAcquisitions => {
+      if (isAcquisitions) dialogRef.componentInstance.mode = 'edit';
+    });
+
     dialogRef.componentInstance.item = this.item;
   }
 
