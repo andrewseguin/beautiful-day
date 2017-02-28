@@ -29,5 +29,9 @@
   <button md-menu-item (click)="editPurchaser()" *ngIf="isAcquistionsUser"> Purchaser </button>
   <button md-menu-item (click)="editPurchaseStatus()" *ngIf="isAcquistionsUser"> Purchase Status </button>
   <button md-menu-item (click)="editApprovalStatus()" *ngIf="isApproversUser"> Approval </button>
+  <button md-menu-item (click)="editAllocation()"
+          [disabled]="getSelectedRequestsCount() > 1"
+          [mdTooltip]="getSelectedRequestsCount() > 1 ? 'Cannot allocate for more than one request' : ''"
+          *ngIf="isApproversUser"> Allocation </button>
 
 </md-menu>

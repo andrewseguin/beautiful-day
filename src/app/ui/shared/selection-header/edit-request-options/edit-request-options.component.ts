@@ -122,4 +122,19 @@ export class EditRequestOptionsComponent {
     const dialogRef = this.mdDialog.open(EditPurchaseStatusDialogComponent);
     dialogRef.componentInstance.requestIds = this.requestsService.getSelectedRequests();
   }
+
+  editAllocation() {
+    const dialogRef = this.mdDialog.open(PromptDialogComponent);
+    dialogRef.componentInstance.title = 'Edit Allocated Stock';
+    dialogRef.componentInstance.type = 'number';
+
+    const requestId = this.requestsService.getSelectedRequests().values().next().value;
+    this.requestsService.getRequest(requestId).subscribe(request => {
+      dialogRef.componentInstance.input = request.allocation;
+    });
+
+    dialogRef.componentInstance.onSave().subscribe(allocation => {
+      this.requestsService.update(requestId, {allocation});
+    });
+  }
 }

@@ -24,6 +24,7 @@ import {EditItemComponent} from "../../dialog/edit-item/edit-item.component";
 import {ProjectsService} from "../../../../service/projects.service";
 import {RequestViewOptions} from "../../../../model/request-view-options";
 import {GroupsService} from "../../../../service/groups.service";
+import {AccountingService} from "../../../../service/accounting.service";
 
 @Component({
   selector: 'request',
@@ -85,6 +86,7 @@ export class RequestComponent implements OnInit {
   constructor(private cd: ChangeDetectorRef,
               private mdDialog: MdDialog,
               private elementRef: ElementRef,
+              private accountingService: AccountingService,
               private requestsService: RequestsService,
               private projectsService: ProjectsService,
               private groupsService: GroupsService,
@@ -207,5 +209,11 @@ export class RequestComponent implements OnInit {
 
   navigateToUrl(url: string) {
     window.open(url);
+  }
+
+  getRequestCost() {
+    if (!this.item || !this.request) { return 0; }
+
+    return this.accountingService.getRequestCost(this.item, this.request);
   }
 }

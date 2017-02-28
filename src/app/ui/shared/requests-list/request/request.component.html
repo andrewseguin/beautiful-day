@@ -39,7 +39,7 @@
 
       <div class="cost" *ngIf="requestViewOptions.cost">
         <span *ngIf="item.cost">
-          {{item.cost*request?.quantity | currency:'USD':true:'1.2-2'}}
+          {{getRequestCost() | currency:'USD':true:'1.2-2'}}
         </span>
         <span *ngIf="!item.cost">--</span>
       </div>
@@ -56,6 +56,12 @@
       <div *ngIf="isReporting && request.purchaser">
         <span class="editable">
           Purchaser: {{request.purchaser}}
+        </span>
+      </div>
+
+      <div *ngIf="request.allocation">
+        <span class="editable">
+          Allocated from WestGate stock: {{request.allocation}}
         </span>
       </div>
 

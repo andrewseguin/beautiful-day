@@ -9,10 +9,11 @@ import {Subject, Observable} from "rxjs";
 })
 export class PromptDialogComponent {
   title = '';
-  input = '';
+  input: string|number = '';
   useTextArea: boolean;
+  type = 'text';
 
-  onSaveSubject = new Subject<string>();
+  onSaveSubject = new Subject<string|number>();
 
   constructor(private dialogRef: MdDialogRef<PromptDialogComponent>) {}
 

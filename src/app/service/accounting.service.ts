@@ -4,6 +4,7 @@ import {ItemsService} from "./items.service";
 import {Observable} from "rxjs";
 import {Item} from "../model/item";
 import {ProjectsService} from "./projects.service";
+import {Request} from "../model/request";
 
 export interface BudgetResponse {
   budget: number;
@@ -46,11 +47,8 @@ export class AccountingService {
         }
 
         const requestsCost = requests
-        // Convert all requests to their cost
-          .map(request => {
-            const item = this.items.get(request.item);
-            return item.cost ? request.quantity * item.cost : 0;
-          })
+          // Convert all requests to their cost
+          .map(request => this.getRequestCost(this.items.get(request.item), request))
           // Add all costs
           .reduce((totalCost, requestCost) => totalCost + requestCost);
 
@@ -59,5 +57,16 @@ export class AccountingService {
           remaining: projectBudget - requestsCost
         };
       });
+  }
+
+  getRequestCost(item: Item, request: Request) {
+    let quantityToPurchase = request.quantity;
+
+    if (request.allocation) {
+      quantityToPurchase -= request.allocation;
+      quantityToPurchase = Math.max(quantityToPurchase, 0);
+    }
+
+    return item.cost ? quantityToPurchase * item.cost : 0;
   }
 }
