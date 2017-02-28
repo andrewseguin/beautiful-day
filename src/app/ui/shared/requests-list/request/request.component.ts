@@ -185,7 +185,7 @@ export class RequestComponent implements OnInit {
     const dialogRef = this.mdDialog.open(EditItemComponent);
     dialogRef.componentInstance.mode = 'view';
 
-    // If acquistions member, can edit the item
+    // If acquisitions member, can edit the item
     this.groupsService.isMember('acquisitions').subscribe(isAcquisitions => {
       if (isAcquisitions) dialogRef.componentInstance.mode = 'edit';
     });

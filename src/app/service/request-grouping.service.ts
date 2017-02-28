@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import {RequestsService} from "./requests.service";
+import {Injectable} from "@angular/core";
 import {Request} from "../model/request";
 import {ItemsService} from "./items.service";
 import {Item} from "../model/item";
-import {Subject} from 'rxjs';
+import {Subject} from "rxjs";
+import {GroupsService} from "./groups.service";
 
-export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff' | 'tags';
+export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff' | 'tags' | 'item';
 
 export class RequestGroup {
   id: string;
@@ -18,6 +18,7 @@ export class RequestGroupingService {
   requestGroups: Map<Group, RequestGroup[]> = new Map();
   items: Item[];
   categories: string[];
+  isAcquisitions: boolean;
 
   groupsUpdated: Subject<Map<Group, RequestGroup[]>> = new Subject();
 
@@ -25,14 +26,18 @@ export class RequestGroupingService {
   set requests(r) { this._requests = r; this.updateGroups(); }
   get requests(): Request[] { return this._requests; }
 
-  constructor(private itemsService: ItemsService) {
+  constructor(private itemsService: ItemsService, private groupsService: GroupsService) {
     this.requestGroups.set('all', []);
     this.requestGroups.set('category', []);
     this.requestGroups.set('date', []);
     this.requestGroups.set('dropoff', []);
     this.requestGroups.set('tags', []);
+    this.requestGroups.set('item', []);
 
-    this.itemsService.getItems().subscribe(items => {
+    this.groupsService.isMember('acquisitions').flatMap(isAcquisitions => {
+      this.isAcquisitions = isAcquisitions;
+      return this.itemsService.getItems();
+    }).subscribe(items => {
       this.items = items;
 
       // Get all unique categories from the set of items.
@@ -50,7 +55,7 @@ export class RequestGroupingService {
   }
 
   getGroupNames(): string[] {
-    return ['all', 'category', 'date', 'dropoff', 'tags'];
+    return ['all', 'category', 'date', 'dropoff', 'tags', 'item'];
   }
 
   updateGroups() {
@@ -59,6 +64,7 @@ export class RequestGroupingService {
     this.updateGroupDateNeeded();
     this.updateGroupCategory();
     this.updateGroupTags();
+    this.updateGroupItem();
 
     // Return a clone of the map of request groups so that change detection will know to run.
     this.groupsUpdated.next(new Map(this.requestGroups));
@@ -160,6 +166,35 @@ export class RequestGroupingService {
         title: tag,
         requests: requests
       });
+    });
+  }
+
+  updateGroupItem() {
+    // Cannot build out this group if items is not populated yet
+    if (!this.items) { return; }
+
+    const itemMap: Map<string, Item> = new Map();
+    this.items.forEach(item => itemMap.set(item.$key, item));
+
+    const itemGroups: Map<string, Request[]> = new Map();
+
+    // Create map of all requests keyed by item
+    this.requests.forEach(request => {
+      if (!itemGroups.has(request.item)) {
+        itemGroups.set(request.item, []);
+      }
+
+      itemGroups.get(request.item).push(request);
+    });
+
+    this.requestGroups.set('item', []);
+    itemGroups.forEach((requests, itemKey) => {
+      const item = itemMap.get(itemKey);
+      let title = `${item.name} - ${item.type}`;
+
+      if (this.isAcquisitions) title += ` (${item.quantityOwned} in stock)`;
+
+      this.requestGroups.get('item').push({id: itemKey, title, requests});
     });
   }
 

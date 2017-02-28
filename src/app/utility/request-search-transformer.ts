@@ -14,8 +14,10 @@ export class RequestSearchTransformer {
     const purchaser = `[purchaser]:${request.purchaser}`;
     const isPurchased = `[isPurchased]:${!!request.isPurchased}`;
     const isApproved = `[isApproved]:${!!request.isApproved}`;
+    const hasAllocation = `[hasAllocation]:${request.allocation > 0}`;
 
-    const requestStr = dropoff + note + quantity + tags + projectName + purchaser + isPurchased + isApproved;
+    const requestStr = dropoff + note + quantity + tags +
+          projectName + purchaser + isPurchased + isApproved + hasAllocation;
     const itemStr = ItemSearchTransformer.transform(item);
 
     return (requestStr + itemStr).replace(/ /g, '').toLowerCase();

@@ -71,6 +71,7 @@ export class DisplayOptionsHeaderComponent implements OnInit {
       case 'date': return 'Date Needed';
       case 'dropoff': return 'Dropoff Location';
       case 'tags': return 'Tags';
+      case 'item': return 'Item';
     }
   }
 
