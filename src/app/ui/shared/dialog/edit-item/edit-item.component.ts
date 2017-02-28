@@ -59,7 +59,7 @@ export class EditItemComponent implements OnInit {
       cost: this._item.cost,
       categories: titleCasedCategories,
       url: this._item.url,
-      quantityOwned: this._item.quantityOwned
+      quantityOwned: this._item.quantityOwned || ''
     };
 
     if (this.mode == 'edit') {
