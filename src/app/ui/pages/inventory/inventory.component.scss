@@ -115,11 +115,18 @@ md-input-container.inventory-page-search {
 
 .item {
   padding: 8px 16px;
-  display: flex;
-  align-items: center;
   position: relative;
   cursor: pointer;
-  height: 24px;
+
+  .top-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .details {
+    padding-left: 36px;
+    color: #666;
+  }
 
   &:not(:last-child) {
     border-bottom: 1px solid #CCC;
@@ -140,7 +147,7 @@ md-input-container.inventory-page-search {
 
     md-icon {
       display: none;
-      font-size: 20px;
+      padding-left: 8px;
       color: #666;
 
       &:hover {

@@ -10,4 +10,5 @@ export interface Request {
   purchaser?: string;
   isPurchased?: boolean;
   isApproved?: boolean;
+  allocation?: number;
 }

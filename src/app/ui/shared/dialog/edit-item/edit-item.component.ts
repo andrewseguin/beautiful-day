@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Item} from '../../../../model/item';
 import {MdDialogRef} from '@angular/material';
 import {ItemsService} from '../../../../service/items.service';
+import {GroupsService} from '../../../../service/groups.service';
 
 export type Mode = 'new' | 'edit' | 'view';
 
@@ -14,6 +15,7 @@ export class EditItemComponent implements OnInit {
   _item: Item = {};
   disableCategory: boolean;
   mode: Mode;
+  isAcquisitions: boolean;
 
   set item(item: Item) {
     this._item = {};
@@ -23,7 +25,11 @@ export class EditItemComponent implements OnInit {
   }
 
   constructor(private dialogRef: MdDialogRef<EditItemComponent>,
-              private itemsService: ItemsService) { }
+              private groupsService: GroupsService,
+              private itemsService: ItemsService) {
+    this.groupsService.isMember('acquisitions')
+        .subscribe(isAcquisitions => this.isAcquisitions = isAcquisitions);
+  }
 
   ngOnInit() {
     if (!this.mode) throw Error('No mode set');
@@ -52,7 +58,8 @@ export class EditItemComponent implements OnInit {
       type: this.toTitleCase(this._item.type || ''),
       cost: this._item.cost,
       categories: titleCasedCategories,
-      url: this._item.url
+      url: this._item.url,
+      quantityOwned: this._item.quantityOwned
     };
 
     if (this.mode == 'edit') {

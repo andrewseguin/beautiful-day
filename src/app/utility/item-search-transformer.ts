@@ -9,7 +9,8 @@ export class ItemSearchTransformer {
     const name = `[name]:${item.name}`;
     const type = `[type]:${item.type}`;
     const url = `[url]:${item.url}`;
+    const hasOwnedQuantity = `[hasOwnedQuantity]:${+item.quantityOwned > 0}`;
 
-    return (itemStr + name + type + categorySearch + url + item.keywords).replace(/ /g, '').toLowerCase();
+    return (itemStr + name + type + categorySearch + url + item.keywords + hasOwnedQuantity).replace(/ /g, '').toLowerCase();
   }
 }

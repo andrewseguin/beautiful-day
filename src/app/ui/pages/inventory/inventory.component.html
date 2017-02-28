@@ -21,17 +21,23 @@
       <div *ngFor="let item of searchItems | slice:0:itemsToShow"
            (click)="setSelected(item, !isSelected(item))"
            class="item">
-        <md-checkbox [checked]="isSelected(item)"
-                     (click)="$event.stopPropagation()"
-                     (change)="setSelected(item, $event.checked)"></md-checkbox>
+        <div class="top-row">
+          <md-checkbox [checked]="isSelected(item)"
+                       (click)="$event.stopPropagation()"
+                       (change)="setSelected(item, $event.checked)"></md-checkbox>
 
-        <div class="name">
-          {{getItemName(item)}}
-          <md-icon class="md-18" (click)="$event.stopPropagation(); editItem(item)">edit</md-icon>
-          <md-icon class="md-18" (click)="$event.stopPropagation(); openItemUrl(item)">open_in_new</md-icon>
+          <div class="name">
+            <div>{{getItemName(item)}}</div>
+            <md-icon class="md-18" (click)="$event.stopPropagation(); editItem(item)">edit</md-icon>
+            <md-icon class="md-18" (click)="$event.stopPropagation(); openItemUrl(item)">open_in_new</md-icon>
+          </div>
+          <div class="cost">{{item.cost | currency:'USD':true:'1.2-2'}}</div>
         </div>
-
-        <div class="cost">{{item.cost | currency:'USD':true:'1.2-2'}}</div>
+        <div class="details">
+          <div class="owned" *ngIf="item.quantityOwned">
+            Owned: {{item.quantityOwned}}
+          </div>
+        </div>
       </div>
 
       <button md-button color="primary"

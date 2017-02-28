@@ -1,11 +1,10 @@
-import {Component, OnInit} from "@angular/core";
-import {ItemsService} from "../../../service/items.service";
-import {Item} from "../../../model/item";
-import {MdDialog} from "@angular/material";
-import {EditItemComponent} from "../../shared/dialog/edit-item/edit-item.component";
-import {HeaderService} from "../../../service/header.service";
-import {PermissionsService} from "../../../service/permissions.service";
-import {ItemSearchPipe} from "../../../pipe/item-search.pipe";
+import {Component, OnInit} from '@angular/core';
+import {ItemsService} from '../../../service/items.service';
+import {Item} from '../../../model/item';
+import {MdDialog} from '@angular/material';
+import {EditItemComponent} from '../../shared/dialog/edit-item/edit-item.component';
+import {HeaderService} from '../../../service/header.service';
+import {ItemSearchPipe} from '../../../pipe/item-search.pipe';
 
 @Component({
   selector: 'inventory',
@@ -34,7 +33,10 @@ export class InventoryComponent implements OnInit {
     this.headerService.title = 'Inventory';
 
     this.itemsService.getItems()
-        .subscribe(items=> this.items = items);
+        .subscribe(items => {
+          this.items = items;
+          this.searchItems = this.itemSearch.transform(this.items, this.search);
+        });
 
     this.itemsService.getItemsByCategory()
         .subscribe(categoryGroupCollection => {

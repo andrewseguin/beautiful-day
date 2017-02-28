@@ -19,6 +19,10 @@
   <input mdInput [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.categories" placeholder="Category">
 </md-input-container>
 
+<md-input-container *ngIf="isAcquisitions">
+  <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.quantityOwned" placeholder="Stock">
+</md-input-container>
+
 <div class="url-input">
   <md-input-container>
     <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL">
