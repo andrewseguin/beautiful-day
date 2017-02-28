@@ -16,7 +16,7 @@ export class FeedbackService {
   }
 
   addFeedback(feedback: string) {
-    this.auth.subscribe(auth => {
+    this.auth.first().subscribe(auth => {
       if (!auth) { return; }
       this.db.list('feedback').push({
         type: 'feedback',
@@ -30,7 +30,7 @@ export class FeedbackService {
   }
 
   addIssue(issue: string) {
-    this.auth.subscribe(auth => {
+    this.auth.first().subscribe(auth => {
       if (!auth) { return; }
       this.db.list('feedback').push({
         type: 'issue',
