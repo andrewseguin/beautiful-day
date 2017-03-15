@@ -192,7 +192,9 @@ export class RequestGroupingService {
       const item = itemMap.get(itemKey);
       let title = `${item.name} - ${item.type}`;
 
-      if (this.isAcquisitions) title += ` (${item.quantityOwned} in stock)`;
+      if (this.isAcquisitions) {
+        title += ` (${item.quantityOwned || 0} in stock)`;
+      }
 
       this.requestGroups.get('item').push({id: itemKey, title, requests});
     });
