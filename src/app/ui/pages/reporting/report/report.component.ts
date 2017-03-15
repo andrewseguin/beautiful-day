@@ -5,7 +5,7 @@ import {ProjectsService} from "../../../../service/projects.service";
 import {ItemsService} from "../../../../service/items.service";
 import {RequestsService} from "../../../../service/requests.service";
 import {MediaQueryService} from "../../../../service/media-query.service";
-import {MdDialog, MdSnackBar} from "@angular/material";
+import {MdDialog, MdSnackBar, MdSnackBarConfig} from "@angular/material";
 import {Sort} from "../../../shared/requests-list/requests-group/requests-group.component";
 import {Report} from "../../../../model/report";
 import {Project} from "../../../../model/project";
@@ -117,9 +117,10 @@ export class ReportComponent {
   duplicateReport() {
     this.reportsService.create(this.user.email, this.report).then(response => {
       this.router.navigate([`../${response.key}`], {relativeTo: this.route});
-      this.mdSnackBar.open('Report copied!', '', {
-        duration: 2000,
-      });
+
+      const snackbarConfig = new MdSnackBarConfig();
+      snackbarConfig.duration = 2000;
+      this.mdSnackBar.open('Report copied!', '', snackbarConfig);
     });
   }
 

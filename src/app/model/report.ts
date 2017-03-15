@@ -12,7 +12,7 @@ export interface QueryStage {
   exclude?: boolean;
 }
 
-export class Report {
+export interface Report {
   $key?: string;
   $exists?: Function;
   name?: string;
