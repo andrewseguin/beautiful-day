@@ -8,6 +8,7 @@ import {Request} from "../model/request";
 
 export interface BudgetResponse {
   budget: number;
+  cost: number;
   remaining: number;
 }
 
@@ -42,6 +43,7 @@ export class AccountingService {
         if (!this.items.size || !requests || !requests.length) {
           return {
             budget: projectBudget,
+            cost: 0,
             remaining: projectBudget,
           };
         }
@@ -54,6 +56,7 @@ export class AccountingService {
 
         return {
           budget: projectBudget,
+          cost: requestsCost,
           remaining: projectBudget - requestsCost
         };
       });

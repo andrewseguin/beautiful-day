@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {Item} from '../model/item';
-import {ItemSearchTransformer} from "../utility/item-search-transformer";
+import {ItemSearchTransformer} from "../utility/search/item-search-transformer";
 
 @Pipe({name: 'itemSearch'})
 export class ItemSearchPipe implements PipeTransform {

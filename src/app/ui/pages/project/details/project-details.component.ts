@@ -13,7 +13,7 @@ import {
 import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/delete-project.component';
 import {PermissionsService, EditPermissions} from '../../../../service/permissions.service';
 import {EventsService} from '../../../../service/events.service';
-import {AccountingService} from '../../../../service/accounting.service';
+import {AccountingService, BudgetResponse} from '../../../../service/accounting.service';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -46,6 +46,7 @@ export class ProjectDetailsComponent implements OnInit {
   events: Event[];
 
   noBudget: boolean;
+  budgetStream: BudgetResponse;
   remainingBudget: number;
 
   // Init subscriptions
@@ -78,7 +79,7 @@ export class ProjectDetailsComponent implements OnInit {
         this.accountingService.getBudgetStream(this.project.$key)
             .subscribe(budgetResponse => {
               this.noBudget = budgetResponse.budget == undefined;
-              this.remainingBudget = budgetResponse.remaining;
+              this.budgetStream = budgetResponse;
             });
       });
     });

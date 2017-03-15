@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from "@angular/core";
 import {Item} from "../model/item";
 import {Report} from "../model/report";
-import {ReportSearchTransformer} from "../utility/report-search-transformer";
+import {ReportSearchTransformer} from "../utility/search/report-search-transformer";
 
 // Should match the keys of a report.
 export type ReportSort = 'name' | 'modifiedDate' | 'createdDate';

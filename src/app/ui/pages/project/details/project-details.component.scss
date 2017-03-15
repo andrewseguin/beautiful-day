@@ -166,3 +166,13 @@
     padding-bottom: 4px;
   }
 }
+
+.budget-line {
+  display: flex;
+  font-size: 16px;
+  padding-bottom: 8px;
+
+  .type {
+    flex-grow: 1;
+  }
+}

@@ -47,5 +47,5 @@ export const ROUTER_CONFIG = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
   ]},
   {path: 'login', component: LoginComponent},
-  {path: 'print/:reportId', component: PrintComponent}
+  {path: 'print/:type/:id', component: PrintComponent}
 ];

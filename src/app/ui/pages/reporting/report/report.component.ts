@@ -125,7 +125,7 @@ export class ReportComponent {
   }
 
   print() {
-    window.open(`print/${this.reportId}`, 'print', 'width=650, height=500');
+    window.open(`print/report/${this.reportId}`, 'print', 'width=650, height=500');
   }
 
   updateDisplayOptions(displayOptions: DisplayOptions) {

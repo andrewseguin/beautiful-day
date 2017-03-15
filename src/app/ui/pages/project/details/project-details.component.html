@@ -51,16 +51,33 @@
       </div>
     </div>
 
-    <div class="section title-only mat-elevation-z4" *ngIf="canEdit()">
-      <div class="title">
-        <div>Remaining Budget</div>
-        <div *ngIf="noBudget">
-          <button md-raised-button (click)="edit('budget')" color="accent">
-            Add Budget
-          </button>
+    <div class="section mat-elevation-z4" *ngIf="canEdit()">
+      <div class="title"> Budget </div>
+      <div *ngIf="noBudget">
+        <button md-raised-button (click)="edit('budget')" color="accent">
+          Add Budget
+        </button>
+      </div>
+      <div *ngIf="!noBudget && budgetStream">
+        <div class="budget-line">
+          <div class="type">
+            Initial Budget:
+          </div>
+          <div>{{budgetStream.budget | currency:'USD':true:'1.2-2'}}</div>
         </div>
-        <div [style.color]="remainingBudget > 0 ? 'green' : 'red'">
-          {{remainingBudget | currency:'USD':true:'1.2-2'}}
+        <div class="budget-line">
+          <div class="type">
+            Requests Cost:
+          </div>
+          <div>{{budgetStream.cost | currency:'USD':true:'1.2-2'}}</div>
+        </div>
+        <div class="budget-line">
+          <div class="type">
+            Remaining Budget:
+          </div>
+          <span [style.color]="budgetStream.remaining > 0 ? 'green' : 'red'">
+            {{budgetStream.remaining | currency:'USD':true:'1.2-2'}}
+          </span>
         </div>
       </div>
     </div>

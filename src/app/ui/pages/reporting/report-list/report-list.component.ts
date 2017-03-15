@@ -5,6 +5,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {UsersService} from "../../../../service/users.service";
 import {User} from "../../../../model/user";
 import {ReportSort} from "../../../../pipe/report-search.pipe";
+import {QueryDisplay} from '../../../../utility/query-display';
 
 @Component({
   selector: 'report-list',
@@ -56,8 +57,6 @@ export class ReportListComponent {
   }
 
   getQueryDisplay(report: Report): string {
-    return report.queryStages.map(queryStage => {
-      return ` ${queryStage.querySet.map(query => query.queryString).join(' OR ')} `;
-    }).join(' AND ').trim();
+    return QueryDisplay.get(report.queryStages);
   }
 }

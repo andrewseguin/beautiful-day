@@ -1,4 +1,4 @@
-import {Item} from "../model/item";
+import {Item} from "../../model/item";
 
 export class ItemSearchTransformer {
   static transform(item: Item): string {

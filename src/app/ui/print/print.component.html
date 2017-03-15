@@ -1,6 +1,11 @@
-<requests-list *ngIf="report"
+<div class="query-display" style="text-align: center"
+     *ngIf="canPerformQuery() && type == 'report'">
+  Report Query: {{getQueryStagesDisplay()}}
+</div>
+
+<requests-list *ngIf="canPerformQuery()"
                [requests]="reportRequests"
-               [displayOptions]="report.displayOptions"
+               [displayOptions]="displayOptions"
                [projectId]="'all'"
                [printMode]="true">
 </requests-list>
