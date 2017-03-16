@@ -10,7 +10,8 @@ export type EditType =
   'description' |
   'leads' |
   'directors' |
-  'acquisitions';
+  'acquisitions' |
+  'receipts folder';
 
 @Component({
   selector: 'edit-project',
@@ -26,6 +27,7 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
   leads: string[];
   directors: string[];
   acquisitions: string;
+  receiptsFolder: string;
   type: EditType;
 
   @ViewChild(MdTextareaAutosize) descriptionTextArea: MdTextareaAutosize;
@@ -41,6 +43,7 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
     this.leads = this.project.leads ? this.project.leads.split(',') : [''];
     this.directors = this.project.directors ? this.project.directors.split(',') : [''];
     this.acquisitions = this.project.acquisitions;
+    this.receiptsFolder = this.project.receiptsFolder;
   }
 
   ngAfterViewChecked() {
@@ -79,6 +82,8 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
         break;
       case 'acquisitions':
         update.acquisitions = this.acquisitions; break;
+      case 'receipts folder':
+        update.receiptsFolder = this.receiptsFolder; break;
     }
 
     this.projectsService.update(this.project.$key, update);

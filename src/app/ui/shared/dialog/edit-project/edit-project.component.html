@@ -72,6 +72,14 @@
   </md-input-container>
 </div>
 
+<div *ngIf="type == 'receipts folder'">
+  <md-input-container>
+    <input mdInput autofocus
+           (keyup.Enter)="save()"
+           [(ngModel)]="receiptsFolder"/>
+  </md-input-container>
+</div>
+
 <div class="actions">
   <button md-button (click)="close()">Cancel</button>
   <button md-button (click)="save()">Save</button>

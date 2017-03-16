@@ -15,4 +15,5 @@ export interface Project {
   lastUsedDate?: string;
   auth?: string[];
   notes?: Note[];
+  receiptsFolder?: string;
 }

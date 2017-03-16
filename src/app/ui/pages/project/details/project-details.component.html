@@ -52,7 +52,15 @@
     </div>
 
     <div class="section mat-elevation-z4" *ngIf="canEdit()">
-      <div class="title"> Budget </div>
+      <div class="title">
+        Budget
+        <a md-button
+           *ngIf="project.receiptsFolder"
+           [href]="project.receiptsFolder"
+           target="_blank"
+           class="header-button"
+           color="accent">View Receipts</a>
+      </div>
       <div *ngIf="noBudget">
         <button md-raised-button (click)="edit('budget')" color="accent">
           Add Budget
@@ -82,10 +90,10 @@
       </div>
     </div>
 
-    <div class="section mat-elevation-z4" *ngIf="canEdit()">
+    <div class="section mat-elevation-z4" *ngIf="canEdit() && requests">
       <div class="title">
         Requests
-        <button class="print-requests"
+        <button class="header-button"
                 md-button color="accent"
                 (click)="printRequests()">
           Print Report
@@ -187,4 +195,5 @@
   <button md-menu-item (click)="edit('leads')"> Leads </button>
   <button md-menu-item (click)="edit('directors')"> Directors </button>
   <button md-menu-item (click)="edit('acquisitions')"> Acquisitions </button>
+  <button md-menu-item (click)="edit('receipts folder')"> Receipts Folder </button>
 </md-menu>

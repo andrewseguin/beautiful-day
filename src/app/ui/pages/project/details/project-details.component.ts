@@ -131,11 +131,11 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   getApprovedRequests() {
-    return this.requests.filter(request => request.isApproved);
+    return this.requests ? this.requests.filter(request => request.isApproved) : [];
   }
 
   getPurchasedRequests() {
-    return this.requests.filter(request => request.isPurchased);
+    return this.requests ? this.requests.filter(request => request.isPurchased) : [];
   }
 
   printRequests() {
