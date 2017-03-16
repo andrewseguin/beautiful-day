@@ -167,7 +167,7 @@
   }
 }
 
-.budget-line {
+.budget-line, .requests-line {
   display: flex;
   font-size: 16px;
   padding-bottom: 8px;
@@ -175,4 +175,9 @@
   .type {
     flex-grow: 1;
   }
+}
+
+.print-requests {
+  margin-right: -8px;
+  padding: 0 8px;
 }

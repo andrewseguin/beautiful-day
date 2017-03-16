@@ -25,7 +25,18 @@ export class PrintComponent implements OnInit {
   projects: Project[];
   requests: Request[];
   queryStages: QueryStage[];
-  displayOptions: DisplayOptions;
+  displayOptions: DisplayOptions = {
+    filter: '',
+    grouping: 'category',
+    sorting: 'request added',
+    reverseSort: false,
+    viewing: {
+      cost: true,
+      dropoff: true,
+      notes: true,
+      tags: true,
+    },
+  };
   reportRequests: Request[] = [];
 
   constructor(private route: ActivatedRoute,
@@ -48,9 +59,9 @@ export class PrintComponent implements OnInit {
         });
       } else if (this.type == 'project') {
         this.projectsService.getProject(params['id']).subscribe(project => {
-          const queryString = `[projectKey]:${project.$key}`;
-          this.queryStages = [{querySet: [{queryString}]}];
-          this.displayOptions = {grouping: params['grouping']};
+          debugger;
+          const queryString = `[projectId]:${project.$key}`;
+          this.queryStages = [{querySet: [{queryString, type: 'any'}]}];
           this.titleService.setTitle(project.name);
           this.performQuery();
         })
@@ -86,7 +97,7 @@ export class PrintComponent implements OnInit {
 
     setTimeout(() => {
       window.print();
-    }, 2000)
+    }, 3000)
   }
 
 }

@@ -15,6 +15,7 @@ import {PermissionsService, EditPermissions} from '../../../../service/permissio
 import {EventsService} from '../../../../service/events.service';
 import {AccountingService, BudgetResponse} from '../../../../service/accounting.service';
 import {Subscription} from 'rxjs';
+import {RequestsService} from "../../../../service/requests.service";
 
 @Component({
   selector: 'project-details',
@@ -38,7 +39,7 @@ export class ProjectDetailsComponent implements OnInit {
   delayedShow: boolean;
   editPermissions: EditPermissions;
   project: Project;
-  requests: FirebaseListObservable<Request[]>;
+  requests: Request[];
   user: FirebaseAuthState;
   leads: string[];
   directors: string[];
@@ -60,6 +61,7 @@ export class ProjectDetailsComponent implements OnInit {
               private permissionsService: PermissionsService,
               private eventsService: EventsService,
               private accountingService: AccountingService,
+              private requestsService: RequestsService,
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
@@ -70,6 +72,9 @@ export class ProjectDetailsComponent implements OnInit {
     this.route.parent.params.forEach((params: Params) => {
       this.projectsService.getProject(params['id']).subscribe((project: Project) => {
         this.project = project;
+
+        this.requestsService.getProjectRequests(project.$key)
+            .subscribe(requests => this.requests = requests);
 
         this.permissionsService.getEditPermissions(this.project.$key)
             .subscribe(editPermissions => {
@@ -123,5 +128,17 @@ export class ProjectDetailsComponent implements OnInit {
 
   navigateToDates() {
     this.router.navigateByUrl('events');
+  }
+
+  getApprovedRequests() {
+    return this.requests.filter(request => request.isApproved);
+  }
+
+  getPurchasedRequests() {
+    return this.requests.filter(request => request.isPurchased);
+  }
+
+  printRequests() {
+    window.open(`print/project/${this.project.$key}`, 'print', 'width=650, height=500');
   }
 }
