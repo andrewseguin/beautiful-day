@@ -6,6 +6,8 @@ import {RouterModule} from "@angular/router";
 import {MaterialModule, MdIconRegistry} from "@angular/material";
 import {AngularFireModule} from "angularfire2";
 import "hammerjs";
+
+//now work
 import {FIREBASE_CONFIG, FIREBASE_AUTH} from "./firebase.config";
 import {ROUTER_CONFIG} from "./router.config";
 import {AppComponent} from "./app.component";
