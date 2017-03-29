@@ -1,7 +1,7 @@
-import {Component, OnInit} from "@angular/core";
-import {FirebaseAuth} from "angularfire2";
-import {Router} from "@angular/router";
-import {UsersService} from "../../service/users.service";
+import { Component, OnInit } from "@angular/core";
+import { AngularFireAuth } from "angularfire2";
+import { Router } from "@angular/router";
+import { UsersService } from "../../service/users.service";
 
 @Component({
   selector: 'login',
@@ -11,9 +11,9 @@ import {UsersService} from "../../service/users.service";
 export class LoginComponent implements OnInit {
   checkingAuth: boolean = true;
 
-  constructor(private auth: FirebaseAuth,
-              private usersService: UsersService,
-              private route: Router) { }
+  constructor(private auth: AngularFireAuth,
+    private usersService: UsersService,
+    private route: Router) { }
 
   ngOnInit() {
     this.auth.subscribe(auth => {

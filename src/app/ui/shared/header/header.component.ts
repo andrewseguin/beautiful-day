@@ -1,21 +1,21 @@
-import {Component, OnInit, animate, transition, style, state, trigger, Input} from "@angular/core";
-import {HeaderService} from "../../../service/header.service";
-import {FirebaseAuth, FirebaseAuthState} from "angularfire2";
-import {MediaQueryService} from "../../../service/media-query.service";
-import {SubheaderService} from "../../../service/subheader.service";
-import {ActivatedRoute, UrlSegment, Router, Event} from "@angular/router";
-import {TopLevelSection} from "../../../router.config";
-import {ProjectsService} from "../../../service/projects.service";
-import {Project} from "../../../model/project";
-import {MdSidenav, MdDialog} from "@angular/material";
-import {UsersService} from "../../../service/users.service";
-import {User} from "../../../model/user";
-import {EditUserProfileComponent} from "../dialog/edit-user-profile/edit-user-profile.component";
-import {PromptDialogComponent} from "../dialog/prompt-dialog/prompt-dialog.component";
-import {FeedbackService} from "../../../service/feedback.service";
-import {EditGroupComponent} from "../dialog/edit-group/edit-group.component";
-import {PermissionsService} from "../../../service/permissions.service";
-import {ImportItemsComponent} from "../dialog/import-items/import-items.component";
+import { Component, OnInit, animate, transition, style, state, trigger, Input } from "@angular/core";
+import { HeaderService } from "../../../service/header.service";
+import { AngularFireAuth, FirebaseAuthState } from "angularfire2";
+import { MediaQueryService } from "../../../service/media-query.service";
+import { SubheaderService } from "../../../service/subheader.service";
+import { ActivatedRoute, UrlSegment, Router, Event } from "@angular/router";
+import { TopLevelSection } from "../../../router.config";
+import { ProjectsService } from "../../../service/projects.service";
+import { Project } from "../../../model/project";
+import { MdSidenav, MdDialog } from "@angular/material";
+import { UsersService } from "../../../service/users.service";
+import { User } from "../../../model/user";
+import { EditUserProfileComponent } from "../dialog/edit-user-profile/edit-user-profile.component";
+import { PromptDialogComponent } from "../dialog/prompt-dialog/prompt-dialog.component";
+import { FeedbackService } from "../../../service/feedback.service";
+import { EditGroupComponent } from "../dialog/edit-group/edit-group.component";
+import { PermissionsService } from "../../../service/permissions.service";
+import { ImportItemsComponent } from "../dialog/import-items/import-items.component";
 
 @Component({
   selector: 'header',
@@ -23,8 +23,8 @@ import {ImportItemsComponent} from "../dialog/import-items/import-items.componen
   styleUrls: ['./header.component.scss'],
   animations: [
     trigger('subheader', [
-      state('visible', style({transform: 'translate3d(0, 0, 0)'})),
-      state('hidden', style({transform: 'translate3d(0, -100%, 0)'})),
+      state('visible', style({ transform: 'translate3d(0, 0, 0)' })),
+      state('hidden', style({ transform: 'translate3d(0, -100%, 0)' })),
       transition('visible <=> hidden', [
         animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),
@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
   user: User;
   project: Project;
 
-  subheaderVisibility: 'visible'|'hidden' = 'visible';
+  subheaderVisibility: 'visible' | 'hidden' = 'visible';
 
   canManageAcqusitionsTeam: boolean;
   canManageApproversTeam: boolean;
@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
   @Input() sidenav: MdSidenav;
 
   constructor(
-    private auth: FirebaseAuth,
+    private auth: AngularFireAuth,
     private route: ActivatedRoute,
     private router: Router,
     private projectsService: ProjectsService,
@@ -125,7 +125,7 @@ export class HeaderComponent implements OnInit {
     const logoutUrl = 'https://www.google.com/accounts/Logout';
     const googleContinue = 'https://appengine.google.com/_ah/logout';
     window.location.href =
-        `${logoutUrl}?continue=${googleContinue}?continue=${window.location.href}`;
+      `${logoutUrl}?continue=${googleContinue}?continue=${window.location.href}`;
   }
 
   editProfile(): void {
