@@ -15,7 +15,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Run Electron App!!!!
 
-Run `npm run electron` to execute Electron app, if you are right, remind this!
+Run `npm run electron` to execute Electron app in dev-mode, no packager, if you are right, remind this!
 
 
 ## Running unit tests
