@@ -46,14 +46,14 @@
     display: flex;
     justify-content: space-between;
 
-    button[md-icon-button] {
+    button[mat-icon-button] {
       visibility: hidden;
       height: 32px;
       line-height: 32px;
       width: 32px;
     }
 
-    &:hover button[md-icon-button] {
+    &:hover button[mat-icon-button] {
       visibility: visible;
     }
 

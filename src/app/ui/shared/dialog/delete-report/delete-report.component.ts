@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Project} from "../../../../model/project";
-import {MdDialogRef, MdSnackBar, MdSnackBarConfig} from "@angular/material";
+import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from "@angular/material";
 import {ProjectsService} from "../../../../service/projects.service";
 import {RequestsService} from "../../../../service/requests.service";
 import {NotesService} from "../../../../service/notes.service";
@@ -16,9 +16,9 @@ import {ReportsService} from "../../../../service/reports.service";
 export class DeleteReportComponent {
   report: Report;
 
-  constructor(private dialogRef: MdDialogRef<DeleteReportComponent>,
+  constructor(private dialogRef: MatDialogRef<DeleteReportComponent>,
               private router: Router,
-              private mdSnackbar: MdSnackBar,
+              private mdSnackbar: MatSnackBar,
               private reportsService: ReportsService) { }
 
   close() {
@@ -29,7 +29,7 @@ export class DeleteReportComponent {
     // Delete report
     this.reportsService.remove(this.report.$key);
 
-    const snackbarConfig = new MdSnackBarConfig();
+    const snackbarConfig = new MatSnackBarConfig();
     snackbarConfig.duration = 2000;
     this.mdSnackbar.open(`Report ${this.report.name} deleted`, null, snackbarConfig);
 

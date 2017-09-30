@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {MdSnackBar, MdDialog, MdSnackBarConfig} from "@angular/material";
+import {MatSnackBar, MatDialog, MatSnackBarConfig} from "@angular/material";
 import {RequestsService} from "../../../../service/requests.service";
 import {GroupsService} from "../../../../service/groups.service";
 import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.component";
@@ -22,9 +22,9 @@ export class EditRequestOptionsComponent {
 
   constructor(private requestsService: RequestsService,
               private itemsService: ItemsService,
-              private mdDialog: MdDialog,
+              private mdDialog: MatDialog,
               private groupsService: GroupsService,
-              private snackBar: MdSnackBar) {
+              private snackBar: MatSnackBar) {
     this.groupsService.isMember('admins', 'acquisitions')
         .subscribe(isAcquistionsUser => this.isAcquistionsUser = isAcquistionsUser);
     this.groupsService.isMember('admins', 'acquisitions', 'approvers')
@@ -58,7 +58,7 @@ export class EditRequestOptionsComponent {
       });
 
       const message = `Removed ${this.requestsService.getSelectedRequests().size} requests`;
-      const config: MdSnackBarConfig = {duration: 3000};
+      const config: MatSnackBarConfig = {duration: 3000};
       this.snackBar.open(message, null, config);
 
       this.requestsService.clearSelected();

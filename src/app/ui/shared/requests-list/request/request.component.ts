@@ -14,7 +14,7 @@ import {
   EventEmitter,
   Output
 } from "@angular/core";
-import {MdDialog} from "@angular/material";
+import {MatDialog} from "@angular/material";
 import {Item} from "../../../../model/item";
 import {RequestsService} from "../../../../service/requests.service";
 import {Request} from "../../../../model/request";
@@ -84,7 +84,7 @@ export class RequestComponent implements OnInit {
   @ViewChild('quantityInput') quantityInput: ElementRef;
 
   constructor(private cd: ChangeDetectorRef,
-              private mdDialog: MdDialog,
+              private mdDialog: MatDialog,
               private elementRef: ElementRef,
               private accountingService: AccountingService,
               private requestsService: RequestsService,

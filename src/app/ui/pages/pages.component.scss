@@ -12,7 +12,7 @@ button.toolbar-menu {
   justify-content: center;
 }
 
-button.toolbar-menu md-icon {
+button.toolbar-menu mat-icon {
   font-size: 32px;
   line-height: 32px;
   height: 32px;
@@ -21,11 +21,11 @@ button.toolbar-menu md-icon {
   padding: 4px;
 }
 
-md-sidenav {
+mat-sidenav {
   max-width: 85%;
 }
 
-md-sidenav-container {
+mat-sidenav-container {
   position: absolute;
   top: 0;
   left: 0;

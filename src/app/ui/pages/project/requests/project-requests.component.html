@@ -1,4 +1,4 @@
-<md-sidenav-container *ngIf="editPermissions && delayedShow">
+<mat-sidenav-container *ngIf="editPermissions && delayedShow">
   <div #scrollableContent class="scrollable-content"
        (scroll)="checkSubheader($event)"
        [style.bottom]="showBudget() ? '' : '0'">
@@ -36,11 +36,11 @@
 
   <remaining-budget *ngIf="showBudget()" [projectId]="projectId"></remaining-budget>
 
-  <button md-fab color="accent"
+  <button mat-fab color="accent"
           [class.hide]="sidenav.opened || hasSelectedRequests() || !editPermissions.requests"
-          (click)="sidenav.open()"><md-icon>add</md-icon></button>
+          (click)="sidenav.open()"><mat-icon>add</mat-icon></button>
 
-  <md-sidenav #sidenav
+  <mat-sidenav #sidenav
               class="mat-elevation-z8"
               [opened]="!hideInventory()"
               [mode]="hideInventory() ? 'over' : 'side'"
@@ -48,5 +48,5 @@
               align="end">
     <inventory-panel #inventoryPanel (closeSidenav)="sidenav.close()">
     </inventory-panel>
-  </md-sidenav>
-</md-sidenav-container>
+  </mat-sidenav>
+</mat-sidenav-container>

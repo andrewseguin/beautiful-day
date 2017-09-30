@@ -1,22 +1,23 @@
-import {Injectable} from "@angular/core";
-import {AngularFireDatabase, AngularFireAuth, FirebaseListObservable} from "angularfire2";
-import {Feedback} from "../model/feedback";
-import {MdSnackBar, MdSnackBarConfig} from "@angular/material";
-import {APP_VERSION} from "../app.component";
+import {Injectable} from '@angular/core';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {Feedback} from '../model/feedback';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {APP_VERSION} from '../app.component';
+import {AngularFireAuth} from 'angularfire2/auth';
 
 @Injectable()
 export class FeedbackService {
 
   constructor(private db: AngularFireDatabase,
-              private mdSnackbar: MdSnackBar,
+              private mdSnackbar: MatSnackBar,
               private auth: AngularFireAuth) { }
 
   getAllFeedback(): FirebaseListObservable<Feedback[]> {
     return this.db.list('feedback');
   }
 
-  addFeedback(feedback: string) {
-    this.auth.first().subscribe(auth => {
+  addFeedback(feedback: string|number) {
+    this.auth.authState.first().subscribe(auth => {
       if (!auth) { return; }
       this.db.list('feedback').push({
         type: 'feedback',
@@ -29,8 +30,8 @@ export class FeedbackService {
     });
   }
 
-  addIssue(issue: string) {
-    this.auth.first().subscribe(auth => {
+  addIssue(issue: string|number) {
+    this.auth.authState.first().subscribe(auth => {
       if (!auth) { return; }
       this.db.list('feedback').push({
         type: 'issue',
@@ -44,7 +45,7 @@ export class FeedbackService {
   }
 
   showSnackbar(text: string) {
-    const snackbarConfig = new MdSnackBarConfig();
+    const snackbarConfig = new MatSnackBarConfig();
     snackbarConfig.duration = 2000;
     this.mdSnackbar.open(text, null, snackbarConfig);
   }

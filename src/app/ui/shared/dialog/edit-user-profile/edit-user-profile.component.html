@@ -1,25 +1,25 @@
 <div class="header">
   <div class="title">Edit Profile</div>
-  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </div>
 
 <div class="profile-info">
-  <md-input-container>
-    <input mdInput
+  <mat-form-field>
+    <input matInput
            placeholder="Name"
            (keyup.Enter)="save()"
            [(ngModel)]="name">
-  </md-input-container>
+  </mat-form-field>
 
-  <md-input-container>
-    <input mdInput autofocus
+  <mat-form-field>
+    <input matInput autofocus
            placeholder="Phone"
            (keyup.Enter)="save()"
            [(ngModel)]="phone">
-  </md-input-container>
+  </mat-form-field>
 </div>
 
 <div class="actions">
-  <button md-button (click)="close()">Cancel</button>
-  <button md-button (click)="save()" [disabled]="!name || !phone">Save</button>
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button (click)="save()" [disabled]="!name || !phone">Save</button>
 </div>

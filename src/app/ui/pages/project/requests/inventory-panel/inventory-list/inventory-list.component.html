@@ -8,21 +8,23 @@
 </div>
 
 <div *ngIf="filteredItems && itemsToShow > 0" class="items">
+  <!-- Fix: Throw binding error
   <div *ngFor="let item of filteredItems | slice:0:itemsToShow; trackBy:itemTrackBy">
     <inventory-panel-item [item]="item">
       {{item.name}}
     </inventory-panel-item>
   </div>
+  -->
 
   <div class="show-more" *ngIf="filteredItems.length > itemsToShow && loadingValue === -1">
-    <button md-button color="primary" (click)="loadMoreItems()">
+    <button mat-button color="primary" (click)="loadMoreItems()">
       Show More
     </button>
   </div>
 
   <div class="create" *ngIf="filteredItems.length <= itemsToShow">
     <div class="text">Can't find what you're looking for?</div>
-    <button md-button color="primary" class="new" (click)="createItem()">
+    <button mat-button color="primary" class="new" (click)="createItem()">
       Add a new item to the inventory
     </button>
   </div>
@@ -30,8 +32,8 @@
 
 <div class="loading"
      [style.display]="(!filteredItems || (loadingValue >= 0 && loadingValue < 100)) ? '' : 'none'">
-  <md-progress-bar mode="determinate" [value]="loadingValue" color="primary">
-  </md-progress-bar>
+  <mat-progress-bar mode="determinate" [value]="loadingValue" color="primary">
+  </mat-progress-bar>
 
   <div class="loading-text">Loading items</div>
 </div>

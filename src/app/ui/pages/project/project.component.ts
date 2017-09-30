@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {FirebaseListObservable} from "angularfire2";
-import {ActivatedRoute, Params} from "@angular/router";
-import {Project} from "../../../model/project";
-import {ProjectsService} from "../../../service/projects.service";
+import {Component, OnInit} from '@angular/core';
+import {FirebaseListObservable} from 'angularfire2/database';
+import {ActivatedRoute, Params} from '@angular/router';
+import {Project} from '../../../model/project';
+import {ProjectsService} from '../../../service/projects.service';
 
 @Component({
   selector: 'project',

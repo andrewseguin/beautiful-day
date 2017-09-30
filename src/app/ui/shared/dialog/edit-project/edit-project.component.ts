@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, AfterViewChecked} from '@angular/core';
-import {MdDialogRef, MdTextareaAutosize} from "@angular/material";
+import {MatDialogRef, MatTextareaAutosize} from "@angular/material";
 import {Project} from "../../../../model/project";
 import {ProjectsService} from "../../../../service/projects.service";
 
@@ -30,9 +30,9 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
   receiptsFolder: string;
   type: EditType;
 
-  @ViewChild(MdTextareaAutosize) descriptionTextArea: MdTextareaAutosize;
+  @ViewChild(MatTextareaAutosize) descriptionTextArea: MatTextareaAutosize;
 
-  constructor(private dialogRef: MdDialogRef<EditProjectComponent>,
+  constructor(private dialogRef: MatDialogRef<EditProjectComponent>,
               private projectsService: ProjectsService) { }
 
   ngOnInit(): void {

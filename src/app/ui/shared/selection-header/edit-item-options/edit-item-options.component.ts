@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {ItemsService} from "../../../../service/items.service";
-import {MdDialog} from "@angular/material";
+import {MatDialog} from "@angular/material";
 import {EditItemComponent} from "../../dialog/edit-item/edit-item.component";
 import {EditItemCategoryComponent} from "../../dialog/edit-item-category/edit-item-category.component";
 import {EditItemNameComponent} from "../../dialog/edit-item-name/edit-item-name.component";
@@ -13,7 +13,7 @@ import {EditItemNameComponent} from "../../dialog/edit-item-name/edit-item-name.
 export class EditItemOptionsComponent {
 
   constructor(private itemsService: ItemsService,
-              private mdDialog: MdDialog) {}
+              private mdDialog: MatDialog) {}
 
   editName() {
     const dialogRef = this.mdDialog.open(EditItemNameComponent);

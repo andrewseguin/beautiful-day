@@ -1,7 +1,7 @@
-<md-toolbar color="primary" class="project-toolbar"
+<mat-toolbar color="primary" class="project-toolbar"
             [class.mat-elevation-z1]="!isMobile() && topLevel != 'reporting'">
-  <button md-button class="toolbar-menu" (click)="sidenav.open()">
-    <md-icon>menu</md-icon>
+  <button mat-button class="toolbar-menu" (click)="sidenav.open()">
+    <mat-icon>menu</mat-icon>
   </button>
 
   <div class="name"> {{getTitle()}} </div>
@@ -9,40 +9,40 @@
   <project-nav class="main" *ngIf="project" [projectId]="project?.$key"></project-nav>
 
   <div class="end">
-    <button md-button class="user" *ngIf="authState"
-            [style.backgroundImage]="'url(' + authState.auth.photoURL + ')'"
-            [md-menu-trigger-for]="menu">
+    <button mat-button class="user" *ngIf="authState"
+            [style.backgroundImage]="'url(' + authState.photoURL + ')'"
+            [mat-menu-trigger-for]="menu">
       <div class="badge" *ngIf="user && (!user.name || !user.phone)">!</div>
     </button>
   </div>
 
-  <md-menu #menu="mdMenu" x-position="before" class="auth">
-    <button md-menu-item class="info first">{{user?.name}}</button>
-    <button md-menu-item class="info" *ngIf="user?.phone">{{user?.phone}}</button>
-    <button md-menu-item class="info last">{{authState?.auth.email}}</button>
+  <mat-menu #menu="matMenu" x-position="before" class="auth">
+    <button mat-menu-item class="info first">{{user?.name}}</button>
+    <button mat-menu-item class="info" *ngIf="user?.phone">{{user?.phone}}</button>
+    <button mat-menu-item class="info last">{{authState?.email}}</button>
 
-    <button md-menu-item class="option" (click)="editProfile()">
+    <button mat-menu-item class="option" (click)="editProfile()">
       <div class="edit-warn">
-        <md-icon *ngIf="user && !user.phone"
-                 mdTooltip="Missing phone number">
+        <mat-icon *ngIf="user && !user.phone"
+                 matTooltip="Missing phone number">
           error_outline
-        </md-icon>
+        </mat-icon>
         Edit Profile
       </div>
     </button>
-    <button md-menu-item class="option" (click)="sendFeedback()">Send Feedback</button>
-    <button md-menu-item class="option" (click)="reportIssue()">Report Issue</button>
-    <button md-menu-item class="option" *ngIf="canManageAdmins" (click)="manageAdmins()">Manage Admins</button>
-    <button md-menu-item class="option" *ngIf="canManageAcqusitionsTeam" (click)="manageAcquisitions()">Manage Acquisitions Team</button>
-    <button md-menu-item class="option" *ngIf="canManageApproversTeam" (click)="manageApprovers()">Manage Approvers</button>
-    <button md-menu-item class="option" *ngIf="canImportItems" (click)="importItems()">Import Inventory</button>
+    <button mat-menu-item class="option" (click)="sendFeedback()">Send Feedback</button>
+    <button mat-menu-item class="option" (click)="reportIssue()">Report Issue</button>
+    <button mat-menu-item class="option" *ngIf="canManageAdmins" (click)="manageAdmins()">Manage Admins</button>
+    <button mat-menu-item class="option" *ngIf="canManageAcqusitionsTeam" (click)="manageAcquisitions()">Manage Acquisitions Team</button>
+    <button mat-menu-item class="option" *ngIf="canManageApproversTeam" (click)="manageApprovers()">Manage Approvers</button>
+    <button mat-menu-item class="option" *ngIf="canImportItems" (click)="importItems()">Import Inventory</button>
 
-    <button md-menu-item class="logout" (click)="logout()">Logout</button>
-  </md-menu>
-</md-toolbar>
+    <button mat-menu-item class="logout" (click)="logout()">Logout</button>
+  </mat-menu>
+</mat-toolbar>
 
-<md-toolbar class="sub-header" color="primary"
+<mat-toolbar class="sub-header" color="primary"
             *ngIf="project && project.$exists()"
             [@subheader]="subheaderVisibility">
   <project-nav [projectId]="project?.$key"></project-nav>
-</md-toolbar>
+</mat-toolbar>

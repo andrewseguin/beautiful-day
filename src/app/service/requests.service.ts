@@ -1,12 +1,15 @@
 import {Injectable} from '@angular/core';
-import {FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase} from 'angularfire2';
 import {Router} from '@angular/router';
 import {Item} from '../model/item';
 import {Project} from '../model/project';
 import {Request} from '../model/request';
 import {Subject, Observable} from 'rxjs';
-import {MdDialog} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {PromptDialogComponent} from '../ui/shared/dialog/prompt-dialog/prompt-dialog.component';
+import {
+  AngularFireDatabase, FirebaseListObservable,
+  FirebaseObjectObservable
+} from 'angularfire2/database';
 
 export class RequestAddedResponse {
   item: Item;
@@ -21,7 +24,7 @@ export class RequestsService {
 
   constructor(private db: AngularFireDatabase,
               private router: Router,
-              private mdDialog: MdDialog) {
+              private mdDialog: MatDialog) {
     // Clear selected requests when route changes.
     this.router.events.subscribe(() => this.clearSelected());
   }
@@ -31,7 +34,7 @@ export class RequestsService {
   }
 
   getProjectRequests(projectId: string): FirebaseListObservable<Request[]> {
-    if (projectId == 'all') {
+    if (projectId === 'all') {
       return this.getAllRequests();
     }
 
@@ -51,7 +54,7 @@ export class RequestsService {
     this.getAllRequests().remove(id);
   }
 
-  addRequest(project: Project, item: Item, quantity: number = 1) {
+  addRequest(project: Project, item: Item, quantity = 1) {
     const defaultDate = new Date(1491030000000); // Hard-coded April 1, 2017
 
     this.db.list('requests').push({

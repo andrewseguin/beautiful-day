@@ -12,12 +12,12 @@
 }
 
 .close {
-  md-icon {
+  mat-icon {
     font-size: 18px;
   }
 }
 
-md-input-container {
+mat-form-field {
   flex-grow: 1;
   font-weight: normal;
   height: 48px;

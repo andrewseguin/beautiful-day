@@ -1,7 +1,7 @@
-import {Component, animate, style, transition, state, trigger} from "@angular/core";
-import {ItemsService} from "../../../../../../service/items.service";
-import {FirebaseListObservable} from "angularfire2";
-import {Item} from "../../../../../../model/item";
+import {animate, Component, state, style, transition, trigger} from '@angular/core';
+import {ItemsService} from '../../../../../../service/items.service';
+import {FirebaseListObservable} from 'angularfire2/database';
+import {Item} from '../../../../../../model/item';
 
 export type SlidingPanelState = 'open' | 'closed';
 

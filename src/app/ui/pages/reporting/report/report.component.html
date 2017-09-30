@@ -1,37 +1,37 @@
 <div class="report-heading mat-elevation-z1">
   <div class="left">
-    <button md-icon-button class="close-report"
+    <button mat-icon-button class="close-report"
             (click)="navigateToReportList()"
-            [md-tooltip]="'Close Report'">
-      <md-icon>close</md-icon>
+            [matTooltip]="'Close Report'">
+      <mat-icon>close</mat-icon>
     </button>
-    <div class="name" md-ripple
+    <div class="name" matRipple
          (click)="openEditNameDialog()"
-         [md-tooltip]="'Edit Report Name'">
+         [matTooltip]="'Edit Report Name'">
       <div class="text">{{report?.name}}</div>
-      <md-icon>edit</md-icon>
+      <mat-icon>edit</mat-icon>
     </div>
   </div>
   <div class="actions" *ngIf="!isMobile()">
-    <button md-icon-button
+    <button mat-icon-button
             (click)="print()"
-            [md-tooltip]="'Print'">
-      <md-icon>print</md-icon>
+            [matTooltip]="'Print'">
+      <mat-icon>print</mat-icon>
     </button>
-    <button md-icon-button
+    <button mat-icon-button
             (click)="duplicateReport()"
-            [md-tooltip]="'Duplicate Report'">
-      <md-icon>content_copy</md-icon>
+            [matTooltip]="'Duplicate Report'">
+      <mat-icon>content_copy</mat-icon>
     </button>
-    <button md-icon-button
+    <button mat-icon-button
             (click)="deleteReport()"
-            [md-tooltip]="'Delete Report'">
-      <md-icon>delete</md-icon>
+            [matTooltip]="'Delete Report'">
+      <mat-icon>delete</mat-icon>
     </button>
   </div>
   <div class="actions" *ngIf="isMobile()">
-    <button md-icon-button [md-menu-trigger-for]="editMenu">
-      <md-icon>more_vertical</md-icon>
+    <button mat-icon-button [mat-menu-trigger-for]="editMenu">
+      <mat-icon>more_vertical</mat-icon>
     </button>
   </div>
 </div>
@@ -40,7 +40,7 @@
   Loading
 </div>
 
-<md-sidenav-container *ngIf="report">
+<mat-sidenav-container *ngIf="report">
   <div class="scrollable-content">
     <div *ngIf="!hasQuery()" class="getting-started">
       Enter a search query to begin creating a report.
@@ -53,20 +53,20 @@
     </requests-list>
   </div>
 
-  <button md-fab color="accent"
+  <button mat-fab color="accent"
           [class.hide]="sidenav.opened"
           (click)="sidenav.open()">
-    <md-icon>assignment</md-icon>
+    <mat-icon>assignment</mat-icon>
   </button>
 
-  <md-sidenav #sidenav
+  <mat-sidenav #sidenav
               class="mat-elevation-z8"
               [opened]="!isMobile()"
               [mode]="isMobile() ? 'over' : 'side'"
               align="end">
     <div class="heading">
-      <button md-icon-button class="back" (click)="sidenav.close()">
-        <md-icon>keyboard_arrow_left</md-icon>
+      <button mat-icon-button class="back" (click)="sidenav.close()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
       </button>
       <span class="title">Report Query</span>
     </div>
@@ -74,20 +74,20 @@
     <query-stages [queryStages]="report.queryStages"
                   (queryStagesChange)="performQuery(); saveQueryStages()">
     </query-stages>
-  </md-sidenav>
-</md-sidenav-container>
+  </mat-sidenav>
+</mat-sidenav-container>
 
-<md-menu #editMenu="mdMenu" x-position="before">
-  <button md-menu-item (click)="openEditNameDialog()">
-    <md-icon>edit</md-icon> Edit Name
+<mat-menu #editMenu="matMenu" x-position="before">
+  <button mat-menu-item (click)="openEditNameDialog()">
+    <mat-icon>edit</mat-icon> Edit Name
   </button>
-  <button md-menu-item (click)="print()">
-    <md-icon>print</md-icon> Print
+  <button mat-menu-item (click)="print()">
+    <mat-icon>print</mat-icon> Print
   </button>
-  <button md-menu-item (click)="duplicateReport()">
-    <md-icon>content_copy</md-icon> Duplicate Report
+  <button mat-menu-item (click)="duplicateReport()">
+    <mat-icon>content_copy</mat-icon> Duplicate Report
   </button>
-  <button md-menu-item (click)="deleteReport()">
-    <md-icon>delete</md-icon> Delete Report
+  <button mat-menu-item (click)="deleteReport()">
+    <mat-icon>delete</mat-icon> Delete Report
   </button>
-</md-menu>
+</mat-menu>

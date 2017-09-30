@@ -1,24 +1,24 @@
 <div class="header">
   <div class="title">Edit {{getMemberName(true)}}</div>
-  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </div>
 
 <div class="members">
   <div *ngFor="let member of members; let index = index; trackBy:trackByIndex" class="member">
-    <md-input-container [floatPlaceholder]="'never'">
-      <input mdInput
+    <mat-form-field [floatPlaceholder]="'never'">
+      <input matInput
              (keyup.Enter)="save()"
              [(ngModel)]="members[index]">
-    </md-input-container>
-    <button md-icon-button (click)="remove(index)">
-      <md-icon>delete</md-icon>
+    </mat-form-field>
+    <button mat-icon-button (click)="remove(index)">
+      <mat-icon>delete</mat-icon>
     </button>
   </div>
 </div>
 
-<button md-button (click)="members.push('')">Add {{getMemberName()}}</button>
+<button mat-button (click)="members.push('')">Add {{getMemberName()}}</button>
 
 <div class="actions">
-  <button md-button (click)="close()">Cancel</button>
-  <button md-button (click)="save()">Save</button>
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button (click)="save()">Save</button>
 </div>

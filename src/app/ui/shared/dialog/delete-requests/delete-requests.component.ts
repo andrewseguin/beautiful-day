@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MdDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs';
 import {NotesService} from '../../../../service/notes.service';
@@ -13,7 +13,7 @@ export class DeleteRequestsComponent {
   _onDelete: Subject<void> = new Subject<void>();
   requests: Set<string>;
 
-  constructor(private dialogRef: MdDialogRef<DeleteRequestsComponent>) { }
+  constructor(private dialogRef: MatDialogRef<DeleteRequestsComponent>) { }
 
   close() {
     this.dialogRef.close();

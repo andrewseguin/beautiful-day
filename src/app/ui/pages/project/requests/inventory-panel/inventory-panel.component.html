@@ -2,8 +2,8 @@
 
   <div class="categories-container">
     <div class="heading">
-      <button md-icon-button class="back" (click)="closeSidenav.emit()">
-        <md-icon>keyboard_arrow_left</md-icon>
+      <button mat-icon-button class="back" (click)="closeSidenav.emit()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
       </button>
       <span class="title">Inventory</span>
 
@@ -12,10 +12,10 @@
 
     <div class="categories" *ngIf="!search">
       <div *ngFor="let category of getCategories()">
-        <button md-button class="inventory-category"
+        <button mat-button class="inventory-category"
                 (click)="openSlidingPanel(category)">
           {{category}}
-          <md-icon>keyboard_arrow_right</md-icon>
+          <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
       </div>
     </div>

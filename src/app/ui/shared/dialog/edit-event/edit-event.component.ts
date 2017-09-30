@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {MdDialogRef} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {Event} from '../../../../model/event';
 import {EventsService} from "../../../../service/events.service";
 
@@ -22,7 +22,7 @@ export class EditEventComponent {
   }
   get event(): Event { return this._event; }
 
-  constructor(private dialogRef: MdDialogRef<EditEventComponent>,
+  constructor(private dialogRef: MatDialogRef<EditEventComponent>,
               private eventsService: EventsService) {}
 
   remove() {

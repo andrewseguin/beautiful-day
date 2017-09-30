@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Note} from "../../../../model/note";
 import {NotesService} from "../../../../service/notes.service";
-import {MdDialog, MdMenu} from "@angular/material";
+import {MatDialog, MatMenu} from "@angular/material";
 import {DeleteNoteComponent} from "../../../shared/dialog/delete-note/delete-note.component";
 import {Subject} from "rxjs";
 import {PromptDialogComponent} from "../../../shared/dialog/prompt-dialog/prompt-dialog.component";
@@ -29,11 +29,11 @@ export class ProjectNotesComponent implements OnInit {
   noteChanged = new Subject<NoteChange>();
   noteFocused: boolean;
 
-  @ViewChild('editNoteMenu') editNoteMenu: MdMenu;
+  @ViewChild('editNoteMenu') editNoteMenu: MatMenu;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private mdDialog: MdDialog,
+              private mdDialog: MatDialog,
               private notesService: NotesService) { }
 
   ngOnInit() {

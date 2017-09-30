@@ -1,7 +1,11 @@
-import {Injectable} from "@angular/core";
-import {FirebaseObjectObservable, FirebaseListObservable, AngularFireDatabase} from "angularfire2";
-import {Item} from "../model/item";
-import {Observable} from "rxjs";
+import {Injectable} from '@angular/core';
+import {
+  AngularFireDatabase,
+  FirebaseListObservable,
+  FirebaseObjectObservable
+} from 'angularfire2/database';
+import {Item} from '../model/item';
+import {Observable} from 'rxjs';
 
 export type CategoryGroupCollection = { [name: string]: CategoryGroup };
 

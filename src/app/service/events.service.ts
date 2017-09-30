@@ -1,12 +1,16 @@
-import {Injectable} from "@angular/core";
-import {AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable} from "angularfire2";
-import {Event} from "../model/event";
-import {Observable} from "rxjs";
+import {Injectable} from '@angular/core';
+import {Event} from '../model/event';
+import {Observable} from 'rxjs';
+import {
+  AngularFireDatabase,
+  FirebaseListObservable,
+  FirebaseObjectObservable
+} from 'angularfire2/database';
 
 
 @Injectable()
 export class EventsService {
-  events: FirebaseListObservable<Event>;
+  events: FirebaseListObservable<any[]>;
 
   constructor(private db: AngularFireDatabase) {
     this.events = this.db.list('events');

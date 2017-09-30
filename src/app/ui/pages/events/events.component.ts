@@ -3,7 +3,7 @@ import {HeaderService} from '../../../service/header.service';
 import {EventsService} from '../../../service/events.service';
 import {Event} from '../../../model/event';
 import {EditEventComponent} from '../../shared/dialog/edit-event/edit-event.component';
-import {MdDialog} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {PermissionsService} from '../../../service/permissions.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class EventsComponent implements OnInit {
   events: Event[];
   canEditEvents = false;
 
-  constructor(private mdDialog: MdDialog,
+  constructor(private mdDialog: MatDialog,
               private permissionsService: PermissionsService,
               private headerService: HeaderService,
               private eventsService: EventsService) { }

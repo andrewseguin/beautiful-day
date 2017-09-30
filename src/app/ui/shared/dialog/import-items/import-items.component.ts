@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {MdDialogRef} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {User} from "../../../../model/user";
 import {UsersService} from "../../../../service/users.service";
 import {Item} from "../../../../model/item";
@@ -14,7 +14,7 @@ import {RequestsService} from "../../../../service/requests.service";
 export class ImportItemsComponent {
   items: Item[];
 
-  constructor(private dialogRef: MdDialogRef<ImportItemsComponent>,
+  constructor(private dialogRef: MatDialogRef<ImportItemsComponent>,
               private itemsService: ItemsService,
               private requestsService: RequestsService) { }
 

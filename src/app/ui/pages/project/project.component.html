@@ -1,5 +1,5 @@
 <div *ngIf="!project">
-  <md-progress-bar mode="indeterminate" color="primary"></md-progress-bar>
+  <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
 </div>
 <div *ngIf="project && !project?.$exists()" class="not-found">
   This project does not exist.

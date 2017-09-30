@@ -4,15 +4,15 @@
        class="query-stage mat-elevation-z1">
     <div *ngFor="let query of queryStage.querySet; let querySetIndex = index; let lastQuerySet = last; trackBy:trackByIndex">
       <div class="query-input-container">
-        <md-input-container [floatPlaceholder]="'never'">
-          <input mdInput placeholder="Enter query"
+        <mat-form-field [floatPlaceholder]="'never'">
+          <input matInput placeholder="Enter query"
                  (ngModelChange)="queryStage.querySet[querySetIndex].queryString = $event; inputChange.next()"
                  [(ngModel)]="queryStage.querySet[querySetIndex].queryString">
-        </md-input-container>
-        <button md-icon-button
+        </mat-form-field>
+        <button mat-icon-button
                 [disabled]="queryStages.length === 1 && queryStage.querySet.length === 1"
                 (click)="removeQuery(queryStageIndex, queryStage.querySet, querySetIndex)">
-          <md-icon>close</md-icon>
+          <mat-icon>close</mat-icon>
         </button>
       </div>
       <div *ngIf="!lastQuerySet && queryStage.querySet.length > 1"
@@ -20,7 +20,7 @@
         OR
       </div>
     </div>
-    <button md-button class="add-or"
+    <button mat-button class="add-or"
             (click)="queryStage.querySet.push({queryString: '', type: 'any'})">
       + OR
     </button>
@@ -31,7 +31,7 @@
   </div>
 </div>
 
-<button md-button class="add-and"
+<button mat-button class="add-and"
         (click)="queryStages.push({querySet: [{queryString: '', type: 'any'}]})">
   + AND
 </button>

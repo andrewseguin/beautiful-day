@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Item} from '../../../../model/item';
-import {MdDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 import {ItemsService} from '../../../../service/items.service';
 import {GroupsService} from '../../../../service/groups.service';
 
@@ -24,7 +24,7 @@ export class EditItemComponent implements OnInit {
     }
   }
 
-  constructor(private dialogRef: MdDialogRef<EditItemComponent>,
+  constructor(private dialogRef: MatDialogRef<EditItemComponent>,
               private groupsService: GroupsService,
               private itemsService: ItemsService) {
     this.groupsService.isMember('acquisitions')

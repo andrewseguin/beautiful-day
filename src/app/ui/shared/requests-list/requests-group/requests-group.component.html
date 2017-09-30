@@ -1,8 +1,8 @@
 <div class="title">
-  <md-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
+  <mat-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
                [checked]="hasAllSelectedRequests()"
                (change)="toggleGroupSelection($event.checked)">
-  </md-checkbox>
+  </mat-checkbox>
   <div class="title-text">{{requestGroup.title}}</div>
 </div>
 <request *ngFor="let request of processedRequests; let index = index; trackBy:getRequestKey"

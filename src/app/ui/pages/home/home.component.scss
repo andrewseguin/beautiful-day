@@ -10,7 +10,7 @@
   margin: auto;
 }
 
-md-card.project {
+mat-card.project {
   position: relative;
   margin: 8px;
   cursor: pointer;
@@ -53,6 +53,6 @@ md-card.project {
   }
 }
 
-md-progress-circle {
+.mat-progress-spinner {
   margin-top: 64px;
 }

@@ -1,14 +1,14 @@
 <div class="section-title">2017 Projects</div>
 
 <div class="projects">
-  <md-progress-circle *ngIf="!projects"
+  <mat-progress-spinner *ngIf="!projects"
                       mode="indeterminate"
                       color="accent">
-  </md-progress-circle>
+  </mat-progress-spinner>
 
-  <md-card class="project" *ngFor="let project of projects"
-           md-ripple (click)="navigateToProject(project.$key)">
-    <md-card-title> {{project.name}} </md-card-title>
-    <md-card-content> {{project.description}} </md-card-content>
-  </md-card>
+  <mat-card class="project" *ngFor="let project of projects"
+           matRipple (click)="navigateToProject(project.$key)">
+    <mat-card-title> {{project.name}} </mat-card-title>
+    <mat-card-content> {{project.description}} </mat-card-content>
+  </mat-card>
 </div>

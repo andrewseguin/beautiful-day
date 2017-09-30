@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Project} from "../../../../model/project";
-import {MdDialogRef, MdSnackBar, MdSnackBarConfig} from "@angular/material";
+import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from "@angular/material";
 import {ProjectsService} from "../../../../service/projects.service";
 import {RequestsService} from "../../../../service/requests.service";
 import {NotesService} from "../../../../service/notes.service";
@@ -15,9 +15,9 @@ export class DeleteProjectComponent {
   project: Project;
   deleteCheck: string = '';
 
-  constructor(private dialogRef: MdDialogRef<DeleteProjectComponent>,
+  constructor(private dialogRef: MatDialogRef<DeleteProjectComponent>,
               private router: Router,
-              private mdSnackbar: MdSnackBar,
+              private mdSnackbar: MatSnackBar,
               private requestsService: RequestsService,
               private notesService: NotesService,
               private projectsService: ProjectsService) { }
@@ -42,7 +42,7 @@ export class DeleteProjectComponent {
     // Delete project
     this.projectsService.deleteProject(this.project.$key);
 
-    const snackbarConfig = new MdSnackBarConfig();
+    const snackbarConfig = new MatSnackBarConfig();
     snackbarConfig.duration = 2000;
     this.mdSnackbar.open(`Project ${this.project.name} deleted`, null, snackbarConfig);
 

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ItemsService} from '../../../../service/items.service';
-import {MdDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-edit-item-category',
@@ -11,7 +11,7 @@ export class EditItemCategoryComponent {
   itemIds: Set<string>;
   category: string = '';
 
-  constructor(private dialogRef: MdDialogRef<EditItemCategoryComponent>,
+  constructor(private dialogRef: MatDialogRef<EditItemCategoryComponent>,
               private itemsService: ItemsService) { }
 
   close() {

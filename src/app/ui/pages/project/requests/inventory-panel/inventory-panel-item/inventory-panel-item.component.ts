@@ -1,17 +1,18 @@
 import {
   Component,
   Input,
+  AnimationTransitionEvent, OnInit
+} from '@angular/core';
+import {
   animate,
   transition,
   style,
   state,
-  trigger,
-  AnimationTransitionEvent
-} from '@angular/core';
+  trigger} from '@angular/animations';
 import {Item} from '../../../../../../model/item';
 import {Params, ActivatedRoute} from '@angular/router';
 import {Project} from '../../../../../../model/project';
-import {FirebaseObjectObservable} from 'angularfire2';
+import {FirebaseObjectObservable} from 'angularfire2/database';
 import {RequestsService} from '../../../../../../service/requests.service';
 import {ProjectsService} from '../../../../../../service/projects.service';
 
@@ -22,8 +23,8 @@ export type InventoryPanelItemState = 'collapsed' | 'expanded';
   templateUrl: './inventory-panel-item.component.html',
   styleUrls: ['./inventory-panel-item.component.scss'],
   host: {
-    '[class.mat-elevation-z1]': "state == 'collapsed'",
-    '[class.mat-elevation-z10]': "state == 'expanded'",
+    '[class.mat-elevation-z1]': `state = 'collapsed'`,
+    '[class.mat-elevation-z10]': `state == 'expanded'`,
     '[@size]': 'state',
     '(@size.done)': 'sizeAnimationDone($event)',
   },
@@ -44,9 +45,9 @@ export type InventoryPanelItemState = 'collapsed' | 'expanded';
     ]),
   ]
 })
-export class InventoryPanelItemComponent {
+export class InventoryPanelItemComponent implements OnInit {
   state: InventoryPanelItemState = 'collapsed';
-  requestQuantity: number = 1;
+  requestQuantity = 1;
   requested: boolean;
   project: FirebaseObjectObservable<Project>;
 
@@ -72,7 +73,7 @@ export class InventoryPanelItemComponent {
   }
 
   toggleState() {
-    this.state = this.state == 'collapsed' ? 'expanded' : 'collapsed';
+    this.state = this.state === 'collapsed' ? 'expanded' : 'collapsed';
   }
 
   expand() {
@@ -88,7 +89,7 @@ export class InventoryPanelItemComponent {
   }
 
   sizeAnimationDone(e: AnimationTransitionEvent) {
-    if (e.toState == 'collapsed') {
+    if (e.toState === 'collapsed') {
       this.requested = false;
       this.requestQuantity = 1;
     }

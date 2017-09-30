@@ -1,20 +1,20 @@
 <div class="search-container mat-elevation-z1">
-  <md-input-container class="inventory-page-search" [floatPlaceholder]="'never'">
+  <mat-form-field class="inventory-page-search" [floatPlaceholder]="'never'">
     <div class="search-box-content">
-      <input mdInput [(ngModel)]="search"
+      <input matInput [(ngModel)]="search"
              (ngModelChange)="itemsToShow = 10"
              placeholder="Search inventory">
-      <button md-icon-button *ngIf="search" (click)="search = ''"><md-icon>close</md-icon></button>
+      <button mat-icon-button *ngIf="search" (click)="search = ''"><mat-icon>close</mat-icon></button>
     </div>
-  </md-input-container>
+  </mat-form-field>
 </div>
 
 <div class="page">
   <div class="search-results-container" *ngIf="search">
     <div class="title">
-      <md-checkbox [checked]="hasAllSelectedItems()"
+      <mat-checkbox [checked]="hasAllSelectedItems()"
                    (change)="toggleGroupSelection($event.checked)">
-      </md-checkbox>
+      </mat-checkbox>
       Search Results ({{searchItems.length}})
     </div>
     <div class="items">
@@ -22,14 +22,14 @@
            (click)="setSelected(item, !isSelected(item))"
            class="item">
         <div class="top-row">
-          <md-checkbox [checked]="isSelected(item)"
+          <mat-checkbox [checked]="isSelected(item)"
                        (click)="$event.stopPropagation()"
-                       (change)="setSelected(item, $event.checked)"></md-checkbox>
+                       (change)="setSelected(item, $event.checked)"></mat-checkbox>
 
           <div class="name">
             <div>{{getItemName(item)}}</div>
-            <md-icon class="md-18" (click)="$event.stopPropagation(); editItem(item)">edit</md-icon>
-            <md-icon class="md-18" (click)="$event.stopPropagation(); openItemUrl(item)">open_in_new</md-icon>
+            <mat-icon class="md-18" (click)="$event.stopPropagation(); editItem(item)">edit</mat-icon>
+            <mat-icon class="md-18" (click)="$event.stopPropagation(); openItemUrl(item)">open_in_new</mat-icon>
           </div>
           <div class="cost">{{item.cost | currency:'USD':true:'1.2-2'}}</div>
         </div>
@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <button md-button color="primary"
+      <button mat-button color="primary"
               *ngIf="itemsToShow < searchItems.length"
               (click)="itemsToShow = itemsToShow + 20"
               class="show-more">Show More</button>
@@ -51,7 +51,7 @@
 
     <div class="title">Categories</div>
     <div class="suggested-searches">
-      <button md-button *ngFor="let category of categories"
+      <button mat-button *ngFor="let category of categories"
               (click)="search = '[category]:' + category.replace(' ', '_')"
               class="search-category mat-elevation-z4">
         {{category}}

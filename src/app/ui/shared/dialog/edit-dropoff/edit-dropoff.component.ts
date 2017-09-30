@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild, ElementRef} from "@angular/core";
 import {RequestsService} from "../../../../service/requests.service";
-import {MdDialogRef} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {ProjectsService} from "../../../../service/projects.service";
 
 @Component({
@@ -19,7 +19,7 @@ export class EditDropoffComponent implements OnInit {
 
   @ViewChild('dateInput') dateInput: ElementRef;
 
-  constructor(private dialogRef: MdDialogRef<EditDropoffComponent>,
+  constructor(private dialogRef: MatDialogRef<EditDropoffComponent>,
               private projectsService: ProjectsService,
               private requestsService: RequestsService) { }
 

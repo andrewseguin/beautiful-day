@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {MdDialogRef} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {Subject, Observable} from "rxjs";
 
 @Component({
@@ -15,9 +15,9 @@ export class PromptDialogComponent {
 
   onSaveSubject = new Subject<string|number>();
 
-  constructor(private dialogRef: MdDialogRef<PromptDialogComponent>) {}
+  constructor(private dialogRef: MatDialogRef<PromptDialogComponent>) {}
 
-  onSave(): Observable<string> {
+  onSave(): Observable<string|number> {
     return this.onSaveSubject.asObservable();
   }
 

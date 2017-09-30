@@ -1,37 +1,37 @@
-<button md-button class="header-button"
+<button mat-button class="header-button"
         (click)="viewSelectedRequestItem()"
         *ngIf="getSelectedRequestsCount() == 1">
   <div class="selection-header-button-content">
-    <md-icon>info</md-icon>
+    <mat-icon>info</mat-icon>
     <div class="text">Item</div>
   </div>
 </button>
 
-<button md-button [md-menu-trigger-for]="editMenu" class="header-button">
+<button mat-button [mat-menu-trigger-for]="editMenu" class="header-button">
   <div class="selection-header-button-content">
-    <md-icon>edit</md-icon>
+    <mat-icon>edit</mat-icon>
     <div class="text">Edit</div>
   </div>
 </button>
 
-<button md-button (click)="deleteRequests()" class="header-button">
+<button mat-button (click)="deleteRequests()" class="header-button">
   <div class="selection-header-button-content">
-    <md-icon>delete</md-icon>
+    <mat-icon>delete</mat-icon>
     <div class="text">Delete</div>
   </div>
 </button>
 
 
-<md-menu #editMenu="mdMenu" x-position="before">
-  <button md-menu-item (click)="editNote()"> Note </button>
-  <button md-menu-item (click)="editDropoff()"> Dropoff </button>
-  <button md-menu-item (click)="editTags()"> Tags </button>
-  <button md-menu-item (click)="editPurchaser()" *ngIf="isAcquistionsUser"> Purchaser </button>
-  <button md-menu-item (click)="editPurchaseStatus()" *ngIf="isAcquistionsUser"> Purchase Status </button>
-  <button md-menu-item (click)="editApprovalStatus()" *ngIf="isApproversUser"> Approval </button>
-  <button md-menu-item (click)="editAllocation()"
+<mat-menu #editMenu="matMenu" x-position="before">
+  <button mat-menu-item (click)="editNote()"> Note </button>
+  <button mat-menu-item (click)="editDropoff()"> Dropoff </button>
+  <button mat-menu-item (click)="editTags()"> Tags </button>
+  <button mat-menu-item (click)="editPurchaser()" *ngIf="isAcquistionsUser"> Purchaser </button>
+  <button mat-menu-item (click)="editPurchaseStatus()" *ngIf="isAcquistionsUser"> Purchase Status </button>
+  <button mat-menu-item (click)="editApprovalStatus()" *ngIf="isApproversUser"> Approval </button>
+  <button mat-menu-item (click)="editAllocation()"
           [disabled]="getSelectedRequestsCount() > 1"
-          [mdTooltip]="getSelectedRequestsCount() > 1 ? 'Cannot allocate for more than one request' : ''"
+          [matTooltip]="getSelectedRequestsCount() > 1 ? 'Cannot allocate for more than one request' : ''"
           *ngIf="isApproversUser"> Allocation </button>
 
-</md-menu>
+</mat-menu>

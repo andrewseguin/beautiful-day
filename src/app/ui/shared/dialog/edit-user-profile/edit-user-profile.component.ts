@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {MdDialogRef} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {User} from "../../../../model/user";
 import {UsersService} from "../../../../service/users.service";
 
@@ -20,7 +20,7 @@ export class EditUserProfileComponent {
   }
   get user(): User { return this._user; }
 
-  constructor(private dialogRef: MdDialogRef<EditUserProfileComponent>,
+  constructor(private dialogRef: MatDialogRef<EditUserProfileComponent>,
               private usersService: UsersService) { }
 
   close() {

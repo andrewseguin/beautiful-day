@@ -1,14 +1,14 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {FirebaseObjectObservable} from 'angularfire2';
+import {FirebaseObjectObservable} from 'angularfire2/database';
 import {Project} from '../../../../model/project';
 import {RequestsService} from '../../../../service/requests.service';
 import {ProjectsService} from '../../../../service/projects.service';
 import {MediaQueryService} from '../../../../service/media-query.service';
 import {SubheaderService} from '../../../../service/subheader.service';
-import {PermissionsService, EditPermissions} from '../../../../service/permissions.service';
+import {EditPermissions, PermissionsService} from '../../../../service/permissions.service';
 import {RequestsListComponent} from '../../../shared/requests-list/requests-list.component';
-import {Request} from "../../../../model/request";
+import {Request} from '../../../../model/request';
 
 @Component({
   selector: 'project-requests',

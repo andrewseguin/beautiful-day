@@ -1,21 +1,23 @@
-import {Component, OnInit, animate, transition, style, state, trigger} from '@angular/core';
-import {Params, ActivatedRoute, Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ProjectsService} from '../../../../service/projects.service';
 import {Request} from '../../../../model/request';
 import {Event} from '../../../../model/event';
-import {FirebaseListObservable, FirebaseAuth, FirebaseAuthState} from 'angularfire2';
 import {Project} from '../../../../model/project';
-import {MdDialog} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {
   EditProjectComponent,
   EditType
 } from '../../../shared/dialog/edit-project/edit-project.component';
 import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/delete-project.component';
-import {PermissionsService, EditPermissions} from '../../../../service/permissions.service';
+import {EditPermissions, PermissionsService} from '../../../../service/permissions.service';
 import {EventsService} from '../../../../service/events.service';
 import {AccountingService, BudgetResponse} from '../../../../service/accounting.service';
 import {Subscription} from 'rxjs';
-import {RequestsService} from "../../../../service/requests.service";
+import {RequestsService} from '../../../../service/requests.service';
+import {AngularFireAuth} from 'angularfire2/auth';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'project-details',
@@ -40,7 +42,7 @@ export class ProjectDetailsComponent implements OnInit {
   editPermissions: EditPermissions;
   project: Project;
   requests: Request[];
-  user: FirebaseAuthState;
+  user: firebase.User;
   leads: string[];
   directors: string[];
   acquisitions: string;
@@ -56,8 +58,8 @@ export class ProjectDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private mdDialog: MdDialog,
-              private auth: FirebaseAuth,
+              private mdDialog: MatDialog,
+              private auth: AngularFireAuth,
               private permissionsService: PermissionsService,
               private eventsService: EventsService,
               private accountingService: AccountingService,
@@ -65,7 +67,7 @@ export class ProjectDetailsComponent implements OnInit {
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
-    this.authSubscription = this.auth.subscribe(auth => {
+    this.authSubscription = this.auth.authState.subscribe(auth => {
       this.user = auth;
     });
 

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ItemsService} from '../../../../service/items.service';
-import {MdDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-edit-item-type',
@@ -11,7 +11,7 @@ export class EditItemNameComponent {
   itemIds: Set<string>;
   name: string = '';
 
-  constructor(private dialogRef: MdDialogRef<EditItemNameComponent>,
+  constructor(private dialogRef: MatDialogRef<EditItemNameComponent>,
               private itemsService: ItemsService) { }
 
   close() {

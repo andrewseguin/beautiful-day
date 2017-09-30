@@ -1,31 +1,31 @@
 <div class="button-toolbar">
   <div class="buttons">
-    <button md-button
+    <button mat-button
             (click)="showFilter = true"
             [disabled]="showFilter">
       <div class="button-content">
-        <md-icon>filter_list</md-icon>
+        <mat-icon>filter_list</mat-icon>
         <span class="text"> Filter </span>
       </div>
     </button>
 
-    <button md-button [md-menu-trigger-for]="groupingMenu">
+    <button mat-button [mat-menu-trigger-for]="groupingMenu">
       <div class="button-content">
-        <md-icon>view_stream</md-icon>
+        <mat-icon>view_stream</mat-icon>
         <span class="text"> Group </span>
       </div>
     </button>
 
-    <button md-button [md-menu-trigger-for]="viewingMenu">
+    <button mat-button [mat-menu-trigger-for]="viewingMenu">
       <div class="button-content">
-        <md-icon>remove_red_eye</md-icon>
+        <mat-icon>remove_red_eye</mat-icon>
         <span class="text"> View </span>
       </div>
     </button>
 
-    <button md-button [md-menu-trigger-for]="sortingMenu">
+    <button mat-button [mat-menu-trigger-for]="sortingMenu">
       <div class="button-content">
-        <md-icon>sort</md-icon>
+        <mat-icon>sort</mat-icon>
         <span class="text"> Sort </span>
       </div>
     </button>
@@ -34,58 +34,58 @@
 
 <div [style.display]="showFilter ? '' : 'none'"
      class="filter-input mat-elevation-z1">
-  <md-input-container [floatPlaceholder]="'never'">
+  <mat-form-field [floatPlaceholder]="'never'">
     <div class="input-content">
-      <input mdInput [(ngModel)]="filter"
+      <input matInput [(ngModel)]="filter"
              (ngModelChange)="notify()"
              autofocus placeholder="Enter keywords to filter requests"/>
-      <button md-icon-button
+      <button mat-icon-button
               (click)="showFilter = false; filter = ''; notify()">
-        <md-icon>close</md-icon>
+        <mat-icon>close</mat-icon>
       </button>
     </div>
-  </md-input-container>
+  </mat-form-field>
 </div>
 
 <!-- Group Menu -->
-<md-menu #groupingMenu="mdMenu">
+<mat-menu #groupingMenu="matMenu">
   <div class="project-requests-menu-title">Group requests by:</div>
-  <button class="grouping-option project-requests-option" md-menu-item
+  <button class="grouping-option project-requests-option" mat-menu-item
           *ngFor="let group of getGroups()"
           [class.selected]="grouping == group"
           (click)="grouping = group; notify()">
     <div class="option-content">
-      <md-icon>check</md-icon>
+      <mat-icon>check</mat-icon>
       {{getGroupingName(group)}}
     </div>
   </button>
-</md-menu>
+</mat-menu>
 
 <!-- View Menu -->
-<md-menu #viewingMenu="mdMenu">
+<mat-menu #viewingMenu="matMenu">
   <div class="project-requests-menu-title">View request details:</div>
-  <button class="project-requests-option" md-menu-item
+  <button class="project-requests-option" mat-menu-item
           *ngFor="let option of getRequestViewOptionKeys()"
           [class.selected]="viewing[option]"
           (click)="viewing[option] = !viewing[option]; notify()">
     <div class="option-content">
-      <md-icon>check</md-icon>
+      <mat-icon>check</mat-icon>
       {{option}}
     </div>
   </button>
-</md-menu>
+</mat-menu>
 
 <!-- Sort Menu -->
-<md-menu #sortingMenu="mdMenu" x-position="before">
+<mat-menu #sortingMenu="matMenu" x-position="before">
   <div class="project-requests-menu-title">Sort requests by:</div>
-  <button class="project-requests-option" md-menu-item
+  <button class="project-requests-option" mat-menu-item
           *ngFor="let sort of getSortOptions()"
           [class.selected]="sorting == sort"
           (click)="setSort(sort)">
     <div class="option-content">
-      <md-icon *ngIf="!reverseSort">arrow_downward</md-icon>
-      <md-icon *ngIf="reverseSort">arrow_upward</md-icon>
+      <mat-icon *ngIf="!reverseSort">arrow_downward</mat-icon>
+      <mat-icon *ngIf="reverseSort">arrow_upward</mat-icon>
       {{sort}}
     </div>
   </button>
-</md-menu>
+</mat-menu>

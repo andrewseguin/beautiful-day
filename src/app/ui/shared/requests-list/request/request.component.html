@@ -1,26 +1,26 @@
-<div class="request" md-ripple
+<div class="request" matRipple
      (click)="setSelected(!isSelected())"
      [@highlightTrigger]="highlightState"
      [@displayTrigger]="displayState">
   <div *ngIf="displayState == 'visible'"
        [style.z-index]="1"> <!-- Be above the mdripple -->
     <div class="top-row">
-      <md-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
+      <mat-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
                    [checked]="isSelected()"
                    (click)="$event.stopPropagation()"
                    (change)="setSelected($event.checked)">
-      </md-checkbox>
+      </mat-checkbox>
 
       <div class="name">
         <span class="editable clickable" (click)="viewItem($event)">
           {{itemDisplayName}}
         </span>
-        <md-icon *ngIf="canEdit"
+        <mat-icon *ngIf="canEdit"
                  class="goto-url md-18"
-                 [mdTooltip]="'Open URL: ' + item.url"
+                 [matTooltip]="'Open URL: ' + item.url"
                  (click)="$event.stopPropagation(); navigateToUrl(item.url)">
           open_in_new
-        </md-icon>
+        </mat-icon>
       </div>
 
       <div class="quantity" (click)="!request.isPurchased ? $event.stopPropagation() : null">
@@ -84,19 +84,19 @@
       </div>
 
       <div class="status">
-        <md-icon *ngIf="request.isApproved"
-                 mdTooltip="Request has been approved"
-                 [mdTooltipPosition]="'after'"
+        <mat-icon *ngIf="request.isApproved"
+                 matTooltip="Request has been approved"
+                 [matTooltipPosition]="'after'"
                  class="md-14">
           thumb_up
-        </md-icon>
+        </mat-icon>
 
-        <md-icon *ngIf="request.isPurchased"
-                 mdTooltip="Request has been purchased"
-                 [mdTooltipPosition]="'after'"
+        <mat-icon *ngIf="request.isPurchased"
+                 matTooltip="Request has been purchased"
+                 [matTooltipPosition]="'after'"
                  class="md-14">
           attach_money
-        </md-icon>
+        </mat-icon>
       </div>
 
       <div *ngIf="request?.tags && requestViewOptions.tags" class="tags">

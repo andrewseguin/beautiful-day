@@ -1,34 +1,34 @@
 <div class="header">
   <div class="title">{{getTitle()}}</div>
-  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </div>
 
-<md-input-container>
-  <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.name" placeholder="Name">
-</md-input-container>
+<mat-form-field>
+  <input matInput [disabled]="mode == 'view'" [(ngModel)]="_item.name" placeholder="Name">
+</mat-form-field>
 
-<md-input-container>
-  <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.type" placeholder="(Optional) Type">
-</md-input-container>
+<mat-form-field>
+  <input matInput [disabled]="mode == 'view'" [(ngModel)]="_item.type" placeholder="(Optional) Type">
+</mat-form-field>
 
-<md-input-container>
-  <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.cost" placeholder="Cost ($)" type="number">
-</md-input-container>
+<mat-form-field>
+  <input matInput [disabled]="mode == 'view'" [(ngModel)]="_item.cost" placeholder="Cost ($)" type="number">
+</mat-form-field>
 
-<md-input-container>
-  <input mdInput [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.categories" placeholder="Category">
-</md-input-container>
+<mat-form-field>
+  <input matInput [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.categories" placeholder="Category">
+</mat-form-field>
 
-<md-input-container *ngIf="isAcquisitions">
-  <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.quantityOwned" placeholder="Stock">
-</md-input-container>
+<mat-form-field *ngIf="isAcquisitions">
+  <input matInput [disabled]="mode == 'view'" [(ngModel)]="_item.quantityOwned" placeholder="Stock">
+</mat-form-field>
 
 <div class="url-input">
-  <md-input-container>
-    <input mdInput [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL">
-  </md-input-container>
-  <button md-icon-button *ngIf="isValidUrl(_item.url)" (click)="gotoUrl()">
-    <md-icon>open_in_new</md-icon>
+  <mat-form-field>
+    <input matInput [disabled]="mode == 'view'" [(ngModel)]="_item.url" placeholder="URL">
+  </mat-form-field>
+  <button mat-icon-button *ngIf="isValidUrl(_item.url)" (click)="gotoUrl()">
+    <mat-icon>open_in_new</mat-icon>
   </button>
 </div>
 <div class="error" *ngIf="mode != 'view' && _item.url && !isValidUrl(_item.url)">
@@ -36,6 +36,6 @@
 </div>
 
 <div class="actions" *ngIf="mode != 'view'">
-  <button md-button (click)="close()">Cancel</button>
-  <button md-button [disabled]="!canSave()" (click)="save()">Save</button>
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button [disabled]="!canSave()" (click)="save()">Save</button>
 </div>

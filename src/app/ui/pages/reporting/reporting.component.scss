@@ -41,7 +41,7 @@
       height: 40px;
       border-radius: 4px;
 
-      md-icon {
+      mat-icon {
         padding-left: 8px;
         visibility: hidden;
       }
@@ -50,7 +50,7 @@
         .text {
           text-decoration: underline;
         }
-        md-icon {
+        mat-icon {
           visibility: visible;
         }
       }
@@ -63,7 +63,7 @@
   }
 }
 
-:host md-sidenav-container {
+:host mat-sidenav-container {
   background: #CCC;
   position: absolute;
   top: 48px;
@@ -84,7 +84,7 @@
     }
   }
 
-  button[md-fab] {
+  button[mat-fab] {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -99,7 +99,7 @@
     }
   }
 
-  md-sidenav {
+  mat-sidenav {
     overflow: hidden;
     width: 100%;
     max-width: 300px;

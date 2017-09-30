@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
-import {AngularFireDatabase} from "angularfire2";
-import {UsersService} from "./users.service";
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {UsersService} from './users.service';
 
 export type Group = 'admins' | 'acquisitions' | 'owners' | 'approvers';
 

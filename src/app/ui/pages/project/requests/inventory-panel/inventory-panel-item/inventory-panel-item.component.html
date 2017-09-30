@@ -1,7 +1,7 @@
 <div class="container">
   <div class="top-row" (click)="toggleState()">
     <div class="item-name">{{getItemName()}}</div>
-    <md-icon [@arrow]="state">expand_more</md-icon>
+    <mat-icon [@arrow]="state">expand_more</mat-icon>
   </div>
 
   <div class="info-row">
@@ -26,15 +26,15 @@
   </div>
 
   <div class="request-row">
-    <md-input-container>
-      <input mdInput type="number" min="0"
+    <mat-form-field>
+      <input matInput type="number" min="0"
              [(ngModel)]="requestQuantity"
              [disabled]="requested"
              (keyup.Enter)="request()"
              placeholder="quantity"/>
-    </md-input-container>
+    </mat-form-field>
 
-    <button md-raised-button
+    <button mat-raised-button
             color="accent"
             [disabled]="requestQuantity <= 0 || requested"
             (click)="request()">

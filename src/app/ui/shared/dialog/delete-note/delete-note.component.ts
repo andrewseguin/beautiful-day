@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MdDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs';
 import {NotesService} from '../../../../service/notes.service';
@@ -14,7 +14,7 @@ export class DeleteNoteComponent {
   noteId: string;
   title: string;
 
-  constructor(private dialogRef: MdDialogRef<DeleteNoteComponent>,
+  constructor(private dialogRef: MatDialogRef<DeleteNoteComponent>,
               private notesService: NotesService) { }
 
   close() {

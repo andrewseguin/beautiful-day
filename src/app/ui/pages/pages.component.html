@@ -1,7 +1,7 @@
-<md-sidenav-container>
-  <md-sidenav #sidenav>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
     <nav-content [sidenav]="sidenav"></nav-content>
-  </md-sidenav>
+  </mat-sidenav>
 
   <selection-header></selection-header>
   <header [sidenav]="sidenav"></header>
@@ -9,4 +9,4 @@
   <div class="router-content" #routerContent>
     <router-outlet></router-outlet>
   </div>
-</md-sidenav-container>
+</mat-sidenav-container>

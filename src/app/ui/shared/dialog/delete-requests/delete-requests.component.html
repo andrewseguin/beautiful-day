@@ -1,6 +1,6 @@
 <div class="header">
   <div class="title">Delete {{(requests.size > 1) ? 'Requests' : 'Request'}} </div>
-  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </div>
 
 <div class="content">
@@ -8,6 +8,6 @@
 </div>
 
 <div class="actions">
-  <button md-button (click)="close()">Cancel</button>
-  <button md-raised-button color="warn" (click)="deleteRequests()">Delete</button>
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-raised-button color="warn" (click)="deleteRequests()">Delete</button>
 </div>

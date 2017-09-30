@@ -1,17 +1,17 @@
 <div class="header">
   <div class="title">{{title}}</div>
-  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </div>
 
-<md-input-container *ngIf="!useTextArea">
-  <input [type]="type" mdInput autofocus (keyup.Enter)="save()" [(ngModel)]="input"/>
-</md-input-container>
+<mat-form-field *ngIf="!useTextArea">
+  <input [type]="type" matInput autofocus (keyup.Enter)="save()" [(ngModel)]="input"/>
+</mat-form-field>
 
-<md-input-container *ngIf="useTextArea">
-  <textarea mdInput autofocus [(ngModel)]="input"></textarea>
-</md-input-container>
+<mat-form-field *ngIf="useTextArea">
+  <textarea matInput autofocus [(ngModel)]="input"></textarea>
+</mat-form-field>
 
 <div class="actions">
-  <button md-button (click)="close()">Cancel</button>
-  <button md-button (click)="save()">Save</button>
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button (click)="save()">Save</button>
 </div>

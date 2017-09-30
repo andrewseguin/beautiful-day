@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ItemsService} from '../../../service/items.service';
 import {Item} from '../../../model/item';
-import {MdDialog} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {EditItemComponent} from '../../shared/dialog/edit-item/edit-item.component';
 import {HeaderService} from '../../../service/header.service';
 import {ItemSearchPipe} from '../../../pipe/item-search.pipe';
@@ -25,7 +25,7 @@ export class InventoryComponent implements OnInit {
   }
   get search(): string { return this._search; }
 
-  constructor(private mdDialog: MdDialog,
+  constructor(private mdDialog: MatDialog,
               private headerService: HeaderService,
               private itemsService: ItemsService) { }
 

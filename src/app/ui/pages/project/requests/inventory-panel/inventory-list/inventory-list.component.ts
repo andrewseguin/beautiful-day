@@ -1,9 +1,9 @@
-import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
-import {Item} from "../../../../../../model/item";
-import {EditItemComponent} from "../../../../../shared/dialog/edit-item/edit-item.component";
-import {MdDialog} from "@angular/material";
-import {ItemsService} from "../../../../../../service/items.service";
-import {ItemSearchPipe} from "../../../../../../pipe/item-search.pipe";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Item} from '../../../../../../model/item';
+import {EditItemComponent} from '../../../../../shared/dialog/edit-item/edit-item.component';
+import {MatDialog} from '@angular/material';
+import {ItemsService} from '../../../../../../service/items.service';
+import {ItemSearchPipe} from '../../../../../../pipe/item-search.pipe';
 
 /** Number of items to load each time. */
 const ITEMS_TO_LOAD = 20;
@@ -14,7 +14,7 @@ const ITEMS_TO_LOAD = 20;
   styleUrls: ['./inventory-list.component.scss']
 })
 export class InventoryListComponent implements OnInit {
-  loadingValue: number = 0;
+  loadingValue = 0;
   loadingInterval: number;
 
   itemSearch = new ItemSearchPipe();
@@ -45,7 +45,7 @@ export class InventoryListComponent implements OnInit {
 
   @Output() filteredItemCount: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private mdDialog: MdDialog,
+  constructor(private mdDialog: MatDialog,
               private itemsService: ItemsService) {}
 
   ngOnInit() {

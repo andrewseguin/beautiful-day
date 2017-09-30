@@ -4,7 +4,7 @@
       <div class="title">Description</div>
       <div *ngIf="project.description"> {{project?.description}} </div>
       <div *ngIf="!project.description && canEdit()">
-        <button md-raised-button color="accent" class="add-info"
+        <button mat-raised-button color="accent" class="add-info"
                 (click)="edit('description')">
           Add description
         </button>
@@ -22,7 +22,7 @@
         <div class="heading"> {{getLeadEmails().length > 1 ? 'Leads' : 'Lead'}} </div>
         <detail-user [userEmail]="lead"
                      *ngFor="let lead of getLeadEmails()"></detail-user>
-        <button md-raised-button color="accent" class="add-info"
+        <button mat-raised-button color="accent" class="add-info"
                 (click)="edit('leads')" *ngIf="canEdit() && getLeadEmails().length == 0">
           Add lead
         </button>
@@ -33,7 +33,7 @@
         <div class="heading"> {{getDirectorEmails().length > 1 ? 'Directors' : 'Director'}} </div>
         <detail-user [userEmail]="director"
                      *ngFor="let director of getDirectorEmails()"></detail-user>
-        <button md-raised-button color="accent" class="add-info"
+        <button mat-raised-button color="accent" class="add-info"
                 (click)="edit('directors')" *ngIf="canEdit() && getDirectorEmails().length == 0">
           Add director
         </button>
@@ -43,7 +43,7 @@
       <div class="contact" *ngIf="project.acquisitions">
         <div class="heading"> Acquisitions </div>
         <detail-user *ngIf="project.acquisitions" [userEmail]="project.acquisitions"></detail-user>
-        <button md-raised-button color="accent" class="add-info"
+        <button mat-raised-button color="accent" class="add-info"
                 (click)="edit('acquisitions')" *ngIf="canEdit() && !project.acquisitions">
           Add acquisitions contact
         </button>
@@ -54,7 +54,7 @@
     <div class="section mat-elevation-z4" *ngIf="canEdit()">
       <div class="title">
         Budget
-        <a md-button
+        <a mat-button
            *ngIf="project.receiptsFolder"
            [href]="project.receiptsFolder"
            target="_blank"
@@ -62,7 +62,7 @@
            color="accent">View Receipts</a>
       </div>
       <div *ngIf="noBudget">
-        <button md-raised-button (click)="edit('budget')" color="accent">
+        <button mat-raised-button (click)="edit('budget')" color="accent">
           Add Budget
         </button>
       </div>
@@ -94,7 +94,7 @@
       <div class="title">
         Requests
         <button class="header-button"
-                md-button color="accent"
+                mat-button color="accent"
                 (click)="printRequests()">
           Print Report
         </button>
@@ -126,8 +126,8 @@
     <div class="section mat-elevation-z4 upcoming-events">
       <div class="title">
         Upcoming Events
-        <button md-icon-button (click)="navigateToDates()" [md-tooltip]="'View all events'">
-          <md-icon>open_in_browser</md-icon>
+        <button mat-icon-button (click)="navigateToDates()" [matTooltip]="'View all events'">
+          <mat-icon>open_in_browser</mat-icon>
         </button>
       </div>
 
@@ -154,7 +154,7 @@
         <div *ngIf="project.location">
           <div class="loading">
             Loading map...
-            <md-progress-circle mode="indeterminate" color="primary"></md-progress-circle>
+            <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
           </div>
           <iframe class="map"
                   frameborder="0" style="border:0"
@@ -162,7 +162,7 @@
           </iframe>
         </div>
         <div *ngIf="!project.location && canEdit()" style="padding: 16px">
-          <button md-raised-button color="accent" class="add-info"
+          <button mat-raised-button color="accent" class="add-info"
                   (click)="edit('location')">
             Add location
           </button>
@@ -176,24 +176,24 @@
 </div>
 
 <div class="footer" *ngIf="canEdit() && delayedShow">
-  <button md-button color="primary" class="edit"
-          [md-menu-trigger-for]="editMenu">
-    <md-icon>edit</md-icon>
+  <button mat-button color="primary" class="edit"
+          [mat-menu-trigger-for]="editMenu">
+    <mat-icon>edit</mat-icon>
     Edit
   </button>
-  <button md-button color="warn" class="delete" (click)="deleteProject()">
-    <md-icon>delete</md-icon>
+  <button mat-button color="warn" class="delete" (click)="deleteProject()">
+    <mat-icon>delete</mat-icon>
     Delete
   </button>
 </div>
 
-<md-menu #editMenu="mdMenu" y-position="above">
-  <button md-menu-item (click)="edit('name')"> Name </button>
-  <button md-menu-item (click)="edit('location')"> Location </button>
-  <button md-menu-item (click)="edit('budget')"> Budget </button>
-  <button md-menu-item (click)="edit('description')"> Description </button>
-  <button md-menu-item (click)="edit('leads')"> Leads </button>
-  <button md-menu-item (click)="edit('directors')"> Directors </button>
-  <button md-menu-item (click)="edit('acquisitions')"> Acquisitions </button>
-  <button md-menu-item (click)="edit('receipts folder')"> Receipts Folder </button>
-</md-menu>
+<mat-menu #editMenu="matMenu" y-position="above">
+  <button mat-menu-item (click)="edit('name')"> Name </button>
+  <button mat-menu-item (click)="edit('location')"> Location </button>
+  <button mat-menu-item (click)="edit('budget')"> Budget </button>
+  <button mat-menu-item (click)="edit('description')"> Description </button>
+  <button mat-menu-item (click)="edit('leads')"> Leads </button>
+  <button mat-menu-item (click)="edit('directors')"> Directors </button>
+  <button mat-menu-item (click)="edit('acquisitions')"> Acquisitions </button>
+  <button mat-menu-item (click)="edit('receipts folder')"> Receipts Folder </button>
+</mat-menu>

@@ -28,7 +28,7 @@ input {
 
 .url-input {
   display: flex;
-  md-input-container {
+  mat-form-field {
     flex-grow: 1;
   }
 }

@@ -2,7 +2,7 @@
 @import '../../../../theme';
 
 // Import theming functions
-@import '../../../../../../node_modules/@angular/material/core/theming/theming';
+@import '~@angular/material/theming';
 
 .request {
   display: flex;
@@ -135,7 +135,7 @@
   }
 }
 
-md-checkbox {
+mat-checkbox {
   margin: 8px;
 }
 

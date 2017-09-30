@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {MdDialogRef} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {RequestsService} from "../../../../service/requests.service";
 
 @Component({
@@ -26,7 +26,7 @@ export class EditTagsComponent {
 
   newTag: string = '';
 
-  constructor(private dialogRef: MdDialogRef<EditTagsComponent>,
+  constructor(private dialogRef: MatDialogRef<EditTagsComponent>,
               private requestsService: RequestsService) {}
 
   close() {

@@ -1,11 +1,9 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {FirebaseListObservable} from "angularfire2";
-import {MdSidenav} from "@angular/material";
-
+import {Component, Input, OnInit} from '@angular/core';
+import {MatSidenav} from '@angular/material';
+import {Router} from '@angular/router';
+import {PermissionsService} from '../../../service/permissions.service';
+import {Project} from '../../../model/project';
 import {ProjectsService} from '../../../service/projects.service';
-import {Router} from "@angular/router";
-import {PermissionsService} from "../../../service/permissions.service";
-import {Project} from "../../../model/project";
 
 @Component({
   selector: 'nav-content',
@@ -22,7 +20,7 @@ export class NavComponent implements OnInit {
               private permissionsService: PermissionsService,
               private router: Router) { }
 
-  @Input() sidenav: MdSidenav;
+  @Input() sidenav: MatSidenav;
 
   ngOnInit() {
     this.projectsService.getSortedProjects()

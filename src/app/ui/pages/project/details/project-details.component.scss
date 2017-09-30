@@ -42,7 +42,7 @@
     margin: 0 24px;
   }
 
-  md-icon {
+  mat-icon {
     padding-right: 4px;
   }
 }
@@ -81,7 +81,7 @@
       cursor: pointer;
       text-decoration: underline;
     }
-    md-icon {
+    mat-icon {
       color: #888;
     }
   }
@@ -116,7 +116,7 @@
     font-weight: lighter;
     font-size: 18px;
 
-    md-progress-circle {
+    .mat-progress-spinner {
       height: 48px;
       width: 48px;
       padding: 16px;
@@ -151,7 +151,7 @@
 
   button {
     margin-left: 16px;
-    md-icon {
+    mat-icon {
       color: #888;
     }
   }

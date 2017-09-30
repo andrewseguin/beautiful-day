@@ -1,10 +1,10 @@
-import {Injectable} from "@angular/core";
-import {RequestsService} from "./requests.service";
-import {ItemsService} from "./items.service";
-import {Observable} from "rxjs";
-import {Item} from "../model/item";
-import {ProjectsService} from "./projects.service";
-import {Request} from "../model/request";
+import {Injectable} from '@angular/core';
+import {RequestsService} from './requests.service';
+import {ItemsService} from './items.service';
+import {Observable} from 'rxjs';
+import {Item} from '../model/item';
+import {ProjectsService} from './projects.service';
+import {Request} from '../model/request';
 
 export interface BudgetResponse {
   budget: number;

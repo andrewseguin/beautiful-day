@@ -1,5 +1,5 @@
-<md-tab-group md-stretch-tabs dynamicHeight class="mat-elevation-z2">
-  <md-tab label="New">
+<mat-tab-group mat-stretch-tabs dynamicHeight class="mat-elevation-z2">
+  <mat-tab label="New">
     <div class="feedback-list">
       <div class="no-feedback" *ngIf="newFeedback?.length === 0">
         No new feedback
@@ -11,12 +11,12 @@
         <div class="date">{{feedback.dateAdded | date}}</div>
         <div class="version">App Version v.{{feedback.appVersion}}</div>
         <div class="action">
-          <button md-button (click)="setReviewed(feedback)">Mark Reviewed</button>
+          <button mat-button (click)="setReviewed(feedback)">Mark Reviewed</button>
         </div>
       </div>
     </div>
-  </md-tab>
-  <md-tab label="Reviewed">
+  </mat-tab>
+  <mat-tab label="Reviewed">
     <div class="feedback-list">
       <div class="feedback" *ngFor="let feedback of reviewedFeedback">
         <div class="type" *ngIf="feedback.type != 'feedback'">{{feedback.type}}</div>
@@ -26,5 +26,5 @@
         <div class="version">App Version v.{{feedback.appVersion}}</div>
       </div>
     </div>
-  </md-tab>
-</md-tab-group>
+  </mat-tab>
+</mat-tab-group>

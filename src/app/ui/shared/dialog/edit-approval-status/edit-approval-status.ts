@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {MdDialogRef} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {RequestsService} from "../../../../service/requests.service";
 
 @Component({
@@ -11,7 +11,7 @@ export class EditApprovalStatusDialogComponent {
   requestIds: Set<string>;
   isApproved: boolean = true;
 
-  constructor(private dialogRef: MdDialogRef<EditApprovalStatusDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<EditApprovalStatusDialogComponent>,
               private requestsService: RequestsService) {}
 
   ngOnInit() {

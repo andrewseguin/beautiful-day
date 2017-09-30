@@ -5,14 +5,14 @@
 
 <div *ngIf="canManageAcqusitions">
   <div class="section-title">Acquisitions</div>
-  <button md-button
+  <button mat-button
           class="nav-link"
           (click)="sidenav.close()"
           routerLink="/inventory"
           routerLinkActive="active">
     Inventory
   </button>
-  <button md-button
+  <button mat-button
           class="nav-link"
           (click)="sidenav.close()"
           routerLink="/reporting"
@@ -22,7 +22,7 @@
 </div>
 
 <div class="section-title">Projects</div>
-<button md-button class="nav-link"
+<button mat-button class="nav-link"
         (click)="sidenav.close()"
         routerLink="/project/{{project.$key}}"
         routerLinkActive="active"
@@ -30,12 +30,12 @@
   {{project.name}}
 </button>
 
-<button md-button class="nav-link new"
+<button mat-button class="nav-link new"
         *ngIf="canCreateProjects"
         (click)="addProject()">+ New Project</button>
 
 <div class="section-title" *ngIf="canViewFeedback">Feedback</div>
-<button md-button class="nav-link" *ngIf="canViewFeedback"
+<button mat-button class="nav-link" *ngIf="canViewFeedback"
         (click)="sidenav.close()"
         routerLink="/feedback"
         routerLinkActive="active">

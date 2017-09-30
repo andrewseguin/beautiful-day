@@ -2,11 +2,11 @@
   <div class="logo"></div>
   <div class="app-title">Management</div>
 
-  <md-progress-circle *ngIf="checkingAuth"
+  <mat-progress-spinner *ngIf="checkingAuth"
                       mode="indeterminate">
-  </md-progress-circle>
+  </mat-progress-spinner>
 
-  <button md-raised-button color="primary"
+  <button mat-raised-button color="primary"
           *ngIf="!checkingAuth"
           (click)="login()">
     Login with Google

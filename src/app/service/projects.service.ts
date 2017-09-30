@@ -1,8 +1,12 @@
-import {Injectable} from "@angular/core";
-import {FirebaseListObservable, FirebaseObjectObservable, AngularFireDatabase} from "angularfire2";
-import * as firebase from "firebase";
-import {Project} from "../model/project";
-import {Observable} from "rxjs";
+import {Injectable} from '@angular/core';
+import * as firebase from 'firebase';
+import {Project} from '../model/project';
+import {Observable} from 'rxjs';
+import {
+  AngularFireDatabase,
+  FirebaseListObservable,
+  FirebaseObjectObservable
+} from 'angularfire2/database';
 
 @Injectable()
 export class ProjectsService {

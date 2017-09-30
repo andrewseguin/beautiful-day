@@ -5,7 +5,7 @@ import {ProjectsService} from "../../../../service/projects.service";
 import {ItemsService} from "../../../../service/items.service";
 import {RequestsService} from "../../../../service/requests.service";
 import {MediaQueryService} from "../../../../service/media-query.service";
-import {MdDialog, MdSnackBar, MdSnackBarConfig} from "@angular/material";
+import {MatDialog, MatSnackBar, MatSnackBarConfig} from "@angular/material";
 import {Sort} from "../../../shared/requests-list/requests-group/requests-group.component";
 import {Report} from "../../../../model/report";
 import {Project} from "../../../../model/project";
@@ -55,10 +55,10 @@ export class ReportComponent {
   };
   get reportId(): string { return this._reportId; }
 
-  constructor(private mdDialog: MdDialog,
+  constructor(private mdDialog: MatDialog,
               private router: Router,
               private route: ActivatedRoute,
-              private mdSnackBar: MdSnackBar,
+              private mdSnackBar: MatSnackBar,
               private usersService: UsersService,
               private mediaQuery: MediaQueryService,
               private requestsService: RequestsService,
@@ -90,6 +90,7 @@ export class ReportComponent {
     dialogRef.componentInstance.title = 'Edit Report Name';
     dialogRef.componentInstance.input = this.report.name;
     dialogRef.componentInstance.onSave().subscribe(name => {
+      name = name.toString();
       this.report.name = name;
       this.reportsService.update(this.report.$key, {name});
     });
@@ -118,7 +119,7 @@ export class ReportComponent {
     this.reportsService.create(this.user.email, this.report).then(response => {
       this.router.navigate([`../${response.key}`], {relativeTo: this.route});
 
-      const snackbarConfig = new MdSnackBarConfig();
+      const snackbarConfig = new MatSnackBarConfig();
       snackbarConfig.duration = 2000;
       this.mdSnackBar.open('Report copied!', '', snackbarConfig);
     });

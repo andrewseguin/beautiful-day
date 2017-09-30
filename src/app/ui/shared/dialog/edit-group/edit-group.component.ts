@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {MdDialogRef} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {GroupsService, Group} from "../../../../service/groups.service";
 
 @Component({
@@ -11,7 +11,7 @@ export class EditGroupComponent implements OnInit {
   group: Group;
   members: string[];
 
-  constructor(private dialogRef: MdDialogRef<EditGroupComponent>,
+  constructor(private dialogRef: MatDialogRef<EditGroupComponent>,
               private groupsService: GroupsService) {}
 
   ngOnInit() {

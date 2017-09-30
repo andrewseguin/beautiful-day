@@ -1,13 +1,13 @@
-import {Component, OnInit, EventEmitter, ViewChild, Output} from "@angular/core";
-import {ItemsService, CategoryGroupCollection} from "../../../../../service/items.service";
-import {FirebaseObjectObservable} from "angularfire2";
-import {Item} from "../../../../../model/item";
-import {ProjectsService} from "../../../../../service/projects.service";
-import {Project} from "../../../../../model/project";
-import {Params, ActivatedRoute} from "@angular/router";
-import {SubheaderService} from "../../../../../service/subheader.service";
-import {MediaQueryService} from "../../../../../service/media-query.service";
-import {SlidingPanelComponent} from "./sliding-panel/sliding-panel.component";
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {CategoryGroupCollection, ItemsService} from '../../../../../service/items.service';
+import {FirebaseObjectObservable} from 'angularfire2/database';
+import {Item} from '../../../../../model/item';
+import {ProjectsService} from '../../../../../service/projects.service';
+import {Project} from '../../../../../model/project';
+import {ActivatedRoute, Params} from '@angular/router';
+import {SubheaderService} from '../../../../../service/subheader.service';
+import {MediaQueryService} from '../../../../../service/media-query.service';
+import {SlidingPanelComponent} from './sliding-panel/sliding-panel.component';
 
 @Component({
   selector: 'inventory-panel',

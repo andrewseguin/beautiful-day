@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {MdDialogRef} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {RequestsService} from "../../../../service/requests.service";
 
 @Component({
@@ -11,7 +11,7 @@ export class EditPurchaseStatusDialogComponent {
   requestIds: Set<string>;
   isPurchased: boolean = true;
 
-  constructor(private dialogRef: MdDialogRef<EditPurchaseStatusDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<EditPurchaseStatusDialogComponent>,
               private requestsService: RequestsService) {}
 
   ngOnInit() {

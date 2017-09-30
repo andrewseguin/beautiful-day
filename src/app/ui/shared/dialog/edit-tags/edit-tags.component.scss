@@ -30,7 +30,7 @@
       opacity: 1;
     }
 
-    md-icon {
+    mat-icon {
       font-size: 20px;
     }
   }
@@ -40,7 +40,7 @@
   opacity: 1;
 }
 
-md-input-container {
+mat-form-field {
   display: flex;
   margin: 8px 16px 0 16px;
   min-width: 180px;

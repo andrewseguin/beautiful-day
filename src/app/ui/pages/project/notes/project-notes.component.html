@@ -5,16 +5,16 @@
 <div class="nav" *ngIf="notes">
   <div class="nav-note" *ngFor="let projectNote of notes"
        (mouseover)="hoveringNavNoteId = projectNote.$key">
-    <button md-button class="note-route-link"
+    <button mat-button class="note-route-link"
             routerLink="../{{projectNote.$key}}"
             routerLinkActive="active">
       {{projectNote.title}}
     </button>
-    <button md-icon-button [md-menu-trigger-for]="editNavNoteMenu">
-      <md-icon class="note-menu">more_vert</md-icon>
+    <button mat-icon-button [mat-menu-trigger-for]="editNavNoteMenu">
+      <mat-icon class="note-menu">more_vert</mat-icon>
     </button>
   </div>
-  <button md-raised-button color="accent" class="new" (click)="createNote()">
+  <button mat-raised-button color="accent" class="new" (click)="createNote()">
     + New Note
   </button>
 </div>
@@ -22,17 +22,17 @@
 <div class="notes-container mat-elevation-z4" *ngIf="notes">
   <div class="editor" *ngIf="noteId">
     <div class="header">
-      <div class="title mobile" [md-menu-trigger-for]="notesMenu">
+      <div class="title mobile" [mat-menu-trigger-for]="notesMenu">
         <div>{{title}}</div>
-        <md-icon>arrow_drop_down</md-icon>
+        <mat-icon>arrow_drop_down</mat-icon>
       </div>
       <div class="title web" (click)="openEditTitleDialog(noteId)">
         <div>{{title}}</div>
       </div>
 
-      <button md-icon-button class="title-edit-menu"
-              [md-menu-trigger-for]="editCurrentNoteMenu">
-        <md-icon>edit</md-icon>
+      <button mat-icon-button class="title-edit-menu"
+              [mat-menu-trigger-for]="editCurrentNoteMenu">
+        <mat-icon>edit</mat-icon>
       </button>
     </div>
 
@@ -45,25 +45,25 @@
     </textarea>
   </div>
 
-  <md-menu #notesMenu="mdMenu" class="notes-menu">
-    <button md-menu-item *ngFor="let projectNote of notes"
+  <mat-menu #notesMenu="matMenu" class="notes-menu">
+    <button mat-menu-item *ngFor="let projectNote of notes"
             routerLink="../{{projectNote.$key}}"
             routerLinkActive="active">
       {{projectNote.title}}
     </button>
-    <button md-menu-item class="new-note" (click)="createNote()">
+    <button mat-menu-item class="new-note" (click)="createNote()">
       + New Note
     </button>
-  </md-menu>
+  </mat-menu>
 
 </div>
 
-<md-menu #editNavNoteMenu="mdMenu" x-position="before">
-  <button md-menu-item (click)="openEditTitleDialog(hoveringNavNoteId)"> Edit Title </button>
-  <button md-menu-item (click)="openDeleteNoteDialog(hoveringNavNoteId)"> Delete Note </button>
-</md-menu>
+<mat-menu #editNavNoteMenu="matMenu" x-position="before">
+  <button mat-menu-item (click)="openEditTitleDialog(hoveringNavNoteId)"> Edit Title </button>
+  <button mat-menu-item (click)="openDeleteNoteDialog(hoveringNavNoteId)"> Delete Note </button>
+</mat-menu>
 
-<md-menu #editCurrentNoteMenu="mdMenu" x-position="before">
-  <button md-menu-item (click)="openEditTitleDialog(noteId)"> Edit Title </button>
-  <button md-menu-item (click)="openDeleteNoteDialog(noteId)"> Delete Note </button>
-</md-menu>
+<mat-menu #editCurrentNoteMenu="matMenu" x-position="before">
+  <button mat-menu-item (click)="openEditTitleDialog(noteId)"> Edit Title </button>
+  <button mat-menu-item (click)="openDeleteNoteDialog(noteId)"> Delete Note </button>
+</mat-menu>

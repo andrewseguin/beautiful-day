@@ -1,5 +1,6 @@
 // Import theming functions
-@import '../../../../../../node_modules/@angular/material/core/theming/theming';
+@import '~@angular/material/theming';
+
 // Import your custom theme
 @import '../../../../theme';
 @import '../../../shared/constants';
@@ -11,12 +12,12 @@
   height: 100%;
 }
 
-:host md-sidenav-container {
+:host mat-sidenav-container {
   height: 100%;
   background: #CCC;
 }
 
-md-sidenav {
+mat-sidenav {
   overflow: hidden;
   width: 100%;
   max-width: 300px;
@@ -90,7 +91,7 @@ display-options-header {
 }
 
 
-button[md-fab] {
+button[mat-fab] {
   position: absolute;
   bottom: 0;
   right: 0;

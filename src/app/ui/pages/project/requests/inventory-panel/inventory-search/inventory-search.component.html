@@ -1,19 +1,19 @@
-<button md-icon-button class="search"
+<button mat-icon-button class="search"
         [@searchIcon]="searchState"
         [disabled]="searchState == 'open'"
         (click)="searchState = 'open'">
-  <md-icon>search</md-icon>
+  <mat-icon>search</mat-icon>
 </button>
 
-<md-input-container [floatPlaceholder]="'never'">
-  <input #searchInput mdInput
+<mat-form-field [floatPlaceholder]="'never'">
+  <input #searchInput matInput
          placeholder="Search"
          [disabled]="searchState != 'open'"
          [@searchInput]="searchState"
          [(ngModel)]="search"/>
-</md-input-container>
+</mat-form-field>
 
-<button md-icon-button class="close"
+<button mat-icon-button class="close"
         (click)="searchState = 'closed'; search = ''">
-  <md-icon>close</md-icon>
+  <mat-icon>close</mat-icon>
 </button>

@@ -1,86 +1,86 @@
 <div class="header">
   <div class="title">Edit <span style="text-transform: capitalize">{{type}}</span></div>
-  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </div>
 
 <div *ngIf="type == 'name'">
-  <md-input-container>
-  <input mdInput autofocus (keyup.Enter)="save()" [(ngModel)]="name"/>
-  </md-input-container>
+  <mat-form-field>
+  <input matInput autofocus (keyup.Enter)="save()" [(ngModel)]="name"/>
+  </mat-form-field>
 </div>
 
 <div *ngIf="type == 'budget'">
-  <md-input-container>
-    <input mdInput autofocus min="0" (keyup.Enter)="save()" [(ngModel)]="budget"/>
-    <span md-prefix>$&nbsp;</span>
-  </md-input-container>
+  <mat-form-field>
+    <input matInput autofocus min="0" (keyup.Enter)="save()" [(ngModel)]="budget"/>
+    <span mat-prefix>$&nbsp;</span>
+  </mat-form-field>
 </div>
 
 <div *ngIf="type == 'description'" style="display: flex">
-  <md-input-container>
-  <textarea mdInput autofocus md-autosize
+  <mat-form-field>
+  <textarea matInput autofocus matTextareaAutosize
             (keydown)="onTextareaKeydown($event)"
             [(ngModel)]="description"></textarea>
-  </md-input-container>
+  </mat-form-field>
 </div>
 
 <div *ngIf="type == 'location'">
-  <md-input-container>
-    <input mdInput autofocus
+  <mat-form-field>
+    <input matInput autofocus
            (keyup.Enter)="save()"
            [(ngModel)]="location"/>
-  </md-input-container>
+  </mat-form-field>
 </div>
 
 <div *ngIf="type == 'leads'">
   <div *ngFor="let lead of leads; let i = index; trackBy:indexTrackBy"
        class="lead-row">
-    <md-input-container [floatPlaceholder]="'never'">
-      <input mdInput autofocus
+    <mat-form-field [floatPlaceholder]="'never'">
+      <input matInput autofocus
              placeholder="lead@beautifulday.org"
              [(ngModel)]="leads[i]"
              (keyup.Enter)="save()"/>
-    </md-input-container>
-    <button md-icon-button [disabled]="i == 0" (click)="removeLead(i)">
-      <md-icon>delete</md-icon>
+    </mat-form-field>
+    <button mat-icon-button [disabled]="i == 0" (click)="removeLead(i)">
+      <mat-icon>delete</mat-icon>
     </button>
   </div>
-  <button md-button (click)="leads.push('')">Add Lead</button>
+  <button mat-button (click)="leads.push('')">Add Lead</button>
 </div>
 
 <div *ngIf="type == 'directors'">
   <div *ngFor="let director of directors; let i = index; trackBy:indexTrackBy"
        class="director-row">
-    <md-input-container [floatPlaceholder]="'never'">
-      <input mdInput autofocus
+    <mat-form-field [floatPlaceholder]="'never'">
+      <input matInput autofocus
              placeholder="director@beautifulday.org"
              [(ngModel)]="directors[i]"
              (keyup.Enter)="save()"/>
-    </md-input-container>
-    <button md-icon-button [disabled]="i == 0" (click)="removeDirector(i)">
-      <md-icon>delete</md-icon>
+    </mat-form-field>
+    <button mat-icon-button [disabled]="i == 0" (click)="removeDirector(i)">
+      <mat-icon>delete</mat-icon>
     </button>
   </div>
-  <button md-button (click)="directors.push('')">Add Director</button>
+  <button mat-button (click)="directors.push('')">Add Director</button>
 </div>
 
 <div *ngIf="type == 'acquisitions'">
-  <md-input-container>
-    <input mdInput autofocus
+  <mat-form-field>
+    <input matInput autofocus
            (keyup.Enter)="save()"
            [(ngModel)]="acquisitions"/>
-  </md-input-container>
+  </mat-form-field>
 </div>
 
 <div *ngIf="type == 'receipts folder'">
-  <md-input-container>
-    <input mdInput autofocus
+  <mat-form-field>
+    <input matInput autofocus
            (keyup.Enter)="save()"
            [(ngModel)]="receiptsFolder"/>
-  </md-input-container>
+  </mat-form-field>
 </div>
 
 <div class="actions">
-  <button md-button (click)="close()">Cancel</button>
-  <button md-button (click)="save()">Save</button>
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button (click)="save()">Save</button>
 </div>

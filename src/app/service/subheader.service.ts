@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
-import {Router} from "@angular/router";
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class SubheaderService {

@@ -1,15 +1,15 @@
 <div class="header">
   <div class="title">Edit Category</div>
-  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </div>
 
-<md-input-container>
-  <input mdInput autofocus
+<mat-form-field>
+  <input matInput autofocus
          (keyup.Enter)="save()"
          [(ngModel)]="category"/>
-</md-input-container>
+</mat-form-field>
 
 <div class="actions">
-  <button md-button (click)="close()">Cancel</button>
-  <button md-button (click)="save()">Save</button>
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button (click)="save()">Save</button>
 </div>

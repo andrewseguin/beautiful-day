@@ -1,7 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {FirebaseAuth} from "angularfire2";
-import {Router} from "@angular/router";
-import {UsersService} from "../../service/users.service";
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {UsersService} from '../../service/users.service';
+import {AngularFireAuth} from 'angularfire2/auth';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'login',
@@ -9,21 +10,21 @@ import {UsersService} from "../../service/users.service";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  checkingAuth: boolean = true;
+  checkingAuth = true;
 
-  constructor(private auth: FirebaseAuth,
+  constructor(private afAuth: AngularFireAuth,
               private usersService: UsersService,
               private route: Router) { }
 
   ngOnInit() {
-    this.auth.subscribe(auth => {
+    this.afAuth.authState.subscribe(auth => {
       if (!auth) {
         this.checkingAuth = false;
         return;
       }
 
       // Store credentials if we do not already have them.
-      this.usersService.get(auth.auth.email).take(1).subscribe(user => {
+      this.usersService.get(auth.email).take(1).subscribe(user => {
         if (!user) { this.usersService.create(auth); }
 
         // Navigate out of login.
@@ -35,6 +36,6 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.checkingAuth = true;
-    this.auth.login();
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 }

@@ -1,26 +1,26 @@
 <div *ngIf="isMultiSelect()">
-  <button md-button [md-menu-trigger-for]="editMenu" class="header-button">
+  <button mat-button [mat-menu-trigger-for]="editMenu" class="header-button">
     <div class="selection-header-button-content">
-      <md-icon>edit</md-icon>
+      <mat-icon>edit</mat-icon>
       <div class="text">Edit</div>
     </div>
   </button>
-  <md-menu #editMenu="mdMenu" x-position="before">
-    <button md-menu-item (click)="editCategory()"> Category </button>
-    <button md-menu-item (click)="editName()"> Name </button>
-  </md-menu>
+  <mat-menu #editMenu="matMenu" x-position="before">
+    <button mat-menu-item (click)="editCategory()"> Category </button>
+    <button mat-menu-item (click)="editName()"> Name </button>
+  </mat-menu>
 </div>
 
-<button *ngIf="!isMultiSelect()" md-button (click)="editItem()" class="header-button">
+<button *ngIf="!isMultiSelect()" mat-button (click)="editItem()" class="header-button">
   <div class="selection-header-button-content">
-    <md-icon>edit</md-icon>
+    <mat-icon>edit</mat-icon>
     <div class="text">Edit</div>
   </div>
 </button>
 
-<button *ngIf="!isMultiSelect()" md-button (click)="deleteItem()" class="header-button">
+<button *ngIf="!isMultiSelect()" mat-button (click)="deleteItem()" class="header-button">
   <div class="selection-header-button-content">
-    <md-icon>delete</md-icon>
+    <mat-icon>delete</mat-icon>
     <div class="text">Delete</div>
   </div>
 </button>

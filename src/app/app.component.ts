@@ -1,8 +1,9 @@
-import {Component, OnInit} from "@angular/core";
-import {FirebaseAuth, AngularFireDatabase} from "angularfire2";
-import {Router, NavigationEnd} from "@angular/router";
-import {MdSnackBarConfig, MdSnackBar} from "@angular/material";
-import {AnalyticsService} from "./service/analytics.service";
+import {Component, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {AnalyticsService} from './service/analytics.service';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireAuth} from 'angularfire2/auth';
 
 export const APP_VERSION = 17;
 
@@ -12,10 +13,10 @@ export const APP_VERSION = 17;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private auth: FirebaseAuth,
+  constructor(private auth: AngularFireAuth,
               private db: AngularFireDatabase,
               private analyticsService: AnalyticsService,
-              private mdSnackbar: MdSnackBar,
+              private mdSnackbar: MatSnackBar,
               private router: Router) {
     this.setupGoogleAnalytics();
 
@@ -44,19 +45,19 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auth.subscribe(auth => {
+    this.auth.authState.subscribe(auth => {
       if (!auth) {
         // Store a redirect for post-login. If the current path is login, do not make this redirect.
-        let redirect = location.pathname != '/login' ? location.pathname : '';
+        let redirect = location.pathname !== '/login' ? location.pathname : '';
 
         // Navigate to the login and pass it the current location
         // so that after login, it can redirect back.
         this.router.navigate(['login'], {fragment: redirect});
         return;
       } else {
-        const snackbarConfig = new MdSnackBarConfig();
+        const snackbarConfig = new MatSnackBarConfig();
         snackbarConfig.duration = 2000;
-        this.mdSnackbar.open(`Logged in as ${auth.auth.email}`, null, snackbarConfig);
+        this.mdSnackbar.open(`Logged in as ${auth.email}`, null, snackbarConfig);
       }
     });
   }

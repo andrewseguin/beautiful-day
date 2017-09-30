@@ -4,11 +4,11 @@
 
 <div class="list">
   <div class="options">
-    <md-input-container [floatPlaceholder]="'never'">
-      <input mdInput [(ngModel)]="search" placeholder="Filter Reports">
-    </md-input-container>
-    <button md-button class="sort" [md-menu-trigger-for]="sortMenu">
-      <md-icon>sort</md-icon> Sort
+    <mat-form-field [floatPlaceholder]="'never'">
+      <input matInput [(ngModel)]="search" placeholder="Filter Reports">
+    </mat-form-field>
+    <button mat-button class="sort" [mat-menu-trigger-for]="sortMenu">
+      <mat-icon>sort</mat-icon> Sort
     </button>
   </div>
 
@@ -20,7 +20,7 @@
 
   <div *ngIf="!reports"
        class="report-item mat-elevation-z1">Loading Reports...</div>
-  <div *ngFor="let report of reports | reportSearch:search:sort:reverseSort" md-ripple
+  <div *ngFor="let report of reports | reportSearch:search:sort:reverseSort" matRipple
        (click)="navigateToReport(report.$key)"
        class="report-item mat-elevation-z1">
     <div style="display: flex">
@@ -36,19 +36,19 @@
   </div>
 </div>
 
-<button md-fab (click)="createReport()"
-        [mdTooltip]="'Create New Report'"
-        [mdTooltipPosition]="'left'">
-  <md-icon>add</md-icon>
+<button mat-fab (click)="createReport()"
+        [matTooltip]="'Create New Report'"
+        [matTooltipPosition]="'left'">
+  <mat-icon>add</mat-icon>
 </button>
 
-<md-menu #sortMenu="mdMenu" x-position="before">
-  <button md-menu-item *ngFor="let sortOption of sortOptions"
+<mat-menu #sortMenu="matMenu" x-position="before">
+  <button mat-menu-item *ngFor="let sortOption of sortOptions"
           class="sort-option"
           [class.active]="sortOption == sort"
           (click)="setSort(sortOption)">
-    <md-icon *ngIf="sortOption == sort && !reverseSort">arrow_downward</md-icon>
-    <md-icon *ngIf="sortOption == sort && reverseSort">arrow_upward</md-icon>
+    <mat-icon *ngIf="sortOption == sort && !reverseSort">arrow_downward</mat-icon>
+    <mat-icon *ngIf="sortOption == sort && reverseSort">arrow_upward</mat-icon>
     {{getSortName(sortOption)}}
   </button>
-</md-menu>
+</mat-menu>

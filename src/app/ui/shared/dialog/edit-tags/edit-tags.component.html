@@ -1,22 +1,22 @@
 <div class="header">
   <div class="title">Edit Tags</div>
-  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </div>
 
 <div *ngFor="let tag of commonTags | setValues" class="tag-pill">
   <div class="tag-text">{{tag}}</div>
-  <button md-icon-button (click)="removeTag(tag)">
-    <md-icon>delete</md-icon>
+  <button mat-icon-button (click)="removeTag(tag)">
+    <mat-icon>delete</mat-icon>
   </button>
 </div>
 
-<md-input-container [floatPlaceholder]="'never'">
-  <input mdInput placeholder="Enter a new tag" autofocus maxlength="100"
+<mat-form-field [floatPlaceholder]="'never'">
+  <input matInput placeholder="Enter a new tag" autofocus maxlength="100"
          (keyup.Enter)="save()"
          [(ngModel)]="newTag">
-</md-input-container>
+</mat-form-field>
 
 <div class="actions">
-  <button md-button (click)="close()">Cancel</button>
-  <button md-button (click)="save()">Save</button>
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button (click)="save()">Save</button>
 </div>

@@ -28,7 +28,7 @@ body {
   height: 100%;
 }
 
-md-dialog-container {
+mat-dialog-container {
   max-height: 80vh;
 }
 
@@ -68,7 +68,7 @@ md-dialog-container {
       justify-content: flex-end;
     }
 
-    md-icon {
+    mat-icon {
       color: red;
       margin-right: 8px;
       z-index: 1;
@@ -90,7 +90,7 @@ md-dialog-container {
 /* Checkbox style */
 
 
-app-root md-checkbox {
+app-root mat-checkbox {
   display: flex;
   margin: 8px 12px 8px 8px;
 }
@@ -107,7 +107,7 @@ app-root .mat-checkbox-inner-container {
 
 /* App header styles that couldn't go in because ViewEncapsulation.None breaks AoT */
 @media (max-width: 700px) {
-  header .mat-toolbar-layout md-toolbar-row {
+  header .mat-toolbar-layout mat-toolbar-row {
     height: 48px;
   }
 }
@@ -142,13 +142,13 @@ button.project-requests-option {
     align-items: center;
   }
 
-  md-icon {
+  mat-icon {
     visibility: hidden;
   }
 
   &.selected {
     font-weight: bold;
-    md-icon {
+    mat-icon {
       visibility: visible;
     }
   }
@@ -162,7 +162,7 @@ inventory-search .mat-input-underline {
 }
 
 /* Make header NOT responsive by material's definition */
-.mat-toolbar-layout md-toolbar-row {
+.mat-toolbar-layout mat-toolbar-row {
   height: 64px !important; // Material wants to override this to be responsive
   @media (max-width: $mobile-width - 1) {
     height: 48px !important;
@@ -170,7 +170,7 @@ inventory-search .mat-input-underline {
 }
 
 /* Sidenav will handle its own overflow. */
-md-sidenav-container.project {
+mat-sidenav-container.project {
   .mat-sidenav-content {
     overflow: hidden;
   }
@@ -194,7 +194,7 @@ md-sidenav-container.project {
 }
 
 /* Request status slide toggles */
-md-slide-toggle.request-status .mat-slide-toggle-content {
+mat-slide-toggle.request-status .mat-slide-toggle-content {
   font-size: 18px;
 }
 

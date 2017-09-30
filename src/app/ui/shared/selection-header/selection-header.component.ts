@@ -1,6 +1,6 @@
 import {Component, animate, style, transition, state, trigger} from '@angular/core';
 import {RequestsService} from '../../../service/requests.service';
-import {MdSnackBar, MdDialog} from '@angular/material';
+import {MatSnackBar, MatDialog} from '@angular/material';
 import {ItemsService} from '../../../service/items.service';
 
 export type SelectionType = 'request' | 'item';

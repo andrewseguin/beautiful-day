@@ -1,21 +1,23 @@
-import {Component, OnInit, animate, transition, style, state, trigger, Input} from "@angular/core";
-import {HeaderService} from "../../../service/header.service";
-import {FirebaseAuth, FirebaseAuthState} from "angularfire2";
-import {MediaQueryService} from "../../../service/media-query.service";
-import {SubheaderService} from "../../../service/subheader.service";
-import {ActivatedRoute, UrlSegment, Router, Event} from "@angular/router";
-import {TopLevelSection} from "../../../router.config";
-import {ProjectsService} from "../../../service/projects.service";
-import {Project} from "../../../model/project";
-import {MdSidenav, MdDialog} from "@angular/material";
-import {UsersService} from "../../../service/users.service";
-import {User} from "../../../model/user";
-import {EditUserProfileComponent} from "../dialog/edit-user-profile/edit-user-profile.component";
-import {PromptDialogComponent} from "../dialog/prompt-dialog/prompt-dialog.component";
-import {FeedbackService} from "../../../service/feedback.service";
-import {EditGroupComponent} from "../dialog/edit-group/edit-group.component";
-import {PermissionsService} from "../../../service/permissions.service";
-import {ImportItemsComponent} from "../dialog/import-items/import-items.component";
+import {Component, Input, OnInit} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {HeaderService} from '../../../service/header.service';
+import {MediaQueryService} from '../../../service/media-query.service';
+import {SubheaderService} from '../../../service/subheader.service';
+import {ActivatedRoute, Event, Router, UrlSegment} from '@angular/router';
+import {TopLevelSection} from '../../../router.config';
+import {ProjectsService} from '../../../service/projects.service';
+import {Project} from '../../../model/project';
+import {MatDialog, MatSidenav} from '@angular/material';
+import {UsersService} from '../../../service/users.service';
+import {User} from '../../../model/user';
+import {EditUserProfileComponent} from '../dialog/edit-user-profile/edit-user-profile.component';
+import {PromptDialogComponent} from '../dialog/prompt-dialog/prompt-dialog.component';
+import {FeedbackService} from '../../../service/feedback.service';
+import {EditGroupComponent} from '../dialog/edit-group/edit-group.component';
+import {PermissionsService} from '../../../service/permissions.service';
+import {ImportItemsComponent} from '../dialog/import-items/import-items.component';
+import {AngularFireAuth} from 'angularfire2/auth';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'header',
@@ -33,7 +35,7 @@ import {ImportItemsComponent} from "../dialog/import-items/import-items.componen
 })
 export class HeaderComponent implements OnInit {
   topLevel: TopLevelSection;
-  authState: FirebaseAuthState;
+  authState: firebase.User;
   user: User;
   project: Project;
 
@@ -44,26 +46,26 @@ export class HeaderComponent implements OnInit {
   canManageAdmins: boolean;
   canImportItems: boolean;
 
-  @Input() sidenav: MdSidenav;
+  @Input() sidenav: MatSidenav;
 
   constructor(
-    private auth: FirebaseAuth,
+    private afAuth: AngularFireAuth,
     private route: ActivatedRoute,
     private router: Router,
     private projectsService: ProjectsService,
     private usersService: UsersService,
     private mediaQuery: MediaQueryService,
     private subheaderService: SubheaderService,
-    private mdDialog: MdDialog,
+    private mdDialog: MatDialog,
     private feedbackService: FeedbackService,
     private permissionsService: PermissionsService,
     private headerService: HeaderService) { }
 
   ngOnInit() {
-    this.auth.subscribe(authState => {
+    this.afAuth.authState.subscribe(authState => {
       this.authState = authState;
       if (this.authState) {
-        this.usersService.get(authState.auth.email).subscribe(user => {
+        this.usersService.get(authState.email).subscribe(user => {
           this.user = user;
         });
       }
@@ -97,7 +99,7 @@ export class HeaderComponent implements OnInit {
       this.topLevel = <TopLevelSection>url[0].path;
 
       this.project = null;
-      if (this.topLevel == 'project') {
+      if (this.topLevel === 'project') {
         this.headerService.title = 'Loading...';
         this.projectsService.getProject(url[1].path).subscribe(project => {
           this.project = project;
@@ -120,7 +122,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.auth.logout();
+    this.afAuth.auth.signOut();
 
     const logoutUrl = 'https://www.google.com/accounts/Logout';
     const googleContinue = 'https://appengine.google.com/_ah/logout';

@@ -1,6 +1,6 @@
 <div class="header">
   <div class="title">Delete Project - Are you sure?</div>
-  <button md-icon-button (click)="close()"><md-icon>close</md-icon></button>
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </div>
 
 <div class="text">
@@ -10,13 +10,13 @@
 <div class="text">
   To confirm, type the word 'DELETE' into the input below.
 </div>
-<md-input-container>
-  <input mdInput autofocus [(ngModel)]="deleteCheck"/>
-</md-input-container>
+<mat-form-field>
+  <input matInput autofocus [(ngModel)]="deleteCheck"/>
+</mat-form-field>
 
 <div class="actions">
-  <button md-button (click)="close()">Cancel</button>
-  <button md-raised-button (click)="deleteProject()" color="warn"
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-raised-button (click)="deleteProject()" color="warn"
           [disabled]="deleteCheck.toLowerCase().trim() != 'delete'">
     Delete
   </button>
