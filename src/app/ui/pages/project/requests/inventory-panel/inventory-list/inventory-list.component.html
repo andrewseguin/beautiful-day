@@ -8,13 +8,11 @@
 </div>
 
 <div *ngIf="filteredItems && itemsToShow > 0" class="items">
-  <!-- Fix: Throw binding error
   <div *ngFor="let item of filteredItems | slice:0:itemsToShow; trackBy:itemTrackBy">
     <inventory-panel-item [item]="item">
       {{item.name}}
     </inventory-panel-item>
   </div>
-  -->
 
   <div class="show-more" *ngIf="filteredItems.length > itemsToShow && loadingValue === -1">
     <button mat-button color="primary" (click)="loadMoreItems()">
