@@ -80,6 +80,7 @@ export class HeaderComponent implements OnInit {
         this.handleRouteChange(this.route.firstChild);
       }
     });
+    this.handleRouteChange(this.route.firstChild);
 
     this.permissionsService.canManageAdmins()
       .subscribe(canManageAdmins => {

@@ -1,21 +1,21 @@
 import {
   Component,
-  Input,
-  ViewChildren,
-  QueryList,
   ElementRef,
   EventEmitter,
-  Output
-} from "@angular/core";
-import {PermissionsService, EditPermissions} from "../../../service/permissions.service";
+  Input,
+  Output,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
+import {EditPermissions, PermissionsService} from '../../../service/permissions.service';
 import {
-  RequestGroupingService,
+  Group,
   RequestGroup,
-  Group
-} from "../../../service/request-grouping.service";
-import {RequestsGroupComponent} from "./requests-group/requests-group.component";
-import {Request} from "../../../model/request";
-import {DisplayOptions} from "../../../model/display-options";
+  RequestGroupingService
+} from '../../../service/request-grouping.service';
+import {RequestsGroupComponent} from './requests-group/requests-group.component';
+import {Request} from '../../../model/request';
+import {DisplayOptions} from '../../../model/display-options';
 
 @Component({
   selector: 'requests-list',

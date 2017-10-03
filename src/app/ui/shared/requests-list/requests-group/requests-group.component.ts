@@ -1,27 +1,25 @@
 import {
-  Component,
-  Input,
   AnimationTransitionEvent,
-  ViewChildren,
-  QueryList,
+  Component,
   ElementRef,
-  animate,
-  style,
-  transition,
-  state,
-  trigger, EventEmitter, Output
-} from "@angular/core";
-import {RequestComponent} from "../request/request.component";
+  EventEmitter,
+  Input,
+  Output,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {RequestComponent} from '../request/request.component';
 import {Item} from '../../../../model/item';
 import {RequestSortPipe} from '../../../../pipe/request-sort.pipe';
 import {Request} from '../../../../model/request';
 import {RequestGroup} from '../../../../service/request-grouping.service';
 import {RequestsService} from '../../../../service/requests.service';
 import {ItemsService} from '../../../../service/items.service';
-import {PermissionsService} from "../../../../service/permissions.service";
-import {ProjectsService} from "../../../../service/projects.service";
-import {Project} from "../../../../model/project";
-import {RequestViewOptions} from "../../../../model/request-view-options";
+import {PermissionsService} from '../../../../service/permissions.service';
+import {ProjectsService} from '../../../../service/projects.service';
+import {Project} from '../../../../model/project';
+import {RequestViewOptions} from '../../../../model/request-view-options';
 
 export type Sort = 'request added' | 'item cost' | 'item name' | 'request cost' | 'date needed';
 
@@ -30,10 +28,10 @@ export type Sort = 'request added' | 'item cost' | 'item name' | 'request cost' 
   templateUrl: './requests-group.component.html',
   styleUrls: ['./requests-group.component.scss'],
   host: {
-    '[style.display]': "processedRequests && processedRequests.length ? 'block' : 'none'",
+    '[style.display]': `processedRequests && processedRequests.length ? 'block' : 'none'`,
     '[class.mat-elevation-z4]': 'true',
-    '[@groupTransition]': "requestGroup.title",
-    '(@groupTransition.done)': "groupTransitionAnimationDone($event, requestGroup)"
+    '[@groupTransition]': 'requestGroup.title',
+    '(@groupTransition.done)': 'groupTransitionAnimationDone($event, requestGroup)'
   },
   animations: [
     trigger('groupTransition', [
@@ -93,7 +91,7 @@ export class RequestsGroupComponent {
   @Input() set projectId(projectId: string) {
     this._projectId = projectId;
 
-    if (projectId == 'all') {
+    if (projectId === 'all') {
       this.canEdit = true;
     }
 
@@ -117,7 +115,9 @@ export class RequestsGroupComponent {
 
     this.projectsService.getProjects().subscribe(projects => {
       this.projects = projects;
-      this.sortAndFilterRequests();
+      if (this.requestGroup) {
+        this.sortAndFilterRequests();
+      }
     });
   }
 
@@ -136,7 +136,7 @@ export class RequestsGroupComponent {
   }
 
   sortAndFilterRequests() {
-    if (!this.items || !this.projects) return;
+    if (!this.items || !this.projects) { return; }
 
     const requests = this.requestGroup.requests;
     this.processedRequests = this.requestSortPipe.transform(requests, this.sort,
