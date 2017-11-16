@@ -12,9 +12,10 @@ import {
 import {Item} from '../../../../../../model/item';
 import {Params, ActivatedRoute} from '@angular/router';
 import {Project} from '../../../../../../model/project';
-import {FirebaseObjectObservable} from 'angularfire2/database';
 import {RequestsService} from '../../../../../../service/requests.service';
 import {ProjectsService} from '../../../../../../service/projects.service';
+import {Observable} from 'rxjs/Observable';
+import {transformSnapshotAction} from '../../../../../../utility/snapshot-tranform';
 
 export type InventoryPanelItemState = 'collapsed' | 'expanded';
 
@@ -49,7 +50,7 @@ export class InventoryPanelItemComponent implements OnInit {
   state: InventoryPanelItemState = 'collapsed';
   requestQuantity = 1;
   requested: boolean;
-  project: FirebaseObjectObservable<Project>;
+  project: Observable<Project>;
 
   @Input() item: Item;
 
@@ -59,7 +60,7 @@ export class InventoryPanelItemComponent implements OnInit {
 
   ngOnInit() {
     this.route.parent.params.subscribe((params: Params) => {
-      this.project = this.projectsService.getProject(params['id']);
+      this.project = this.projectsService.getProject(params['id']).snapshotChanges().map(transformSnapshotAction);
     });
   }
 

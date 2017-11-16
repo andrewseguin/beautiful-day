@@ -1,19 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Event} from '../model/event';
 import {Observable} from 'rxjs';
-import {
-  AngularFireDatabase,
-  FirebaseListObservable,
-  FirebaseObjectObservable
-} from 'angularfire2/database';
+import {AngularFireDatabase, AngularFireObject,} from 'angularfire2/database';
+import {transformSnapshotActionList} from '../utility/snapshot-tranform';
 
 
 @Injectable()
 export class EventsService {
-  events: FirebaseListObservable<any[]>;
+  events: Observable<Event[]>;
 
   constructor(private db: AngularFireDatabase) {
-    this.events = this.db.list('events');
+    this.events = this.db.list<Event>('events').snapshotChanges().map(transformSnapshotActionList);
   }
 
   getSortedEvents(): Observable<Event[]> {
@@ -39,8 +36,8 @@ export class EventsService {
     });
   }
 
-  getEvent(id: string): FirebaseObjectObservable<Event> {
-    return this.db.object(`events/${id}`);
+  getEvent(id: string): AngularFireObject<Event> {
+    return this.db.object<Event>(`events/${id}`);
   }
 
   add(event: Event) {

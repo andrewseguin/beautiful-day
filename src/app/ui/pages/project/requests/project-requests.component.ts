@@ -1,6 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {FirebaseObjectObservable} from 'angularfire2/database';
 import {Project} from '../../../../model/project';
 import {RequestsService} from '../../../../service/requests.service';
 import {ProjectsService} from '../../../../service/projects.service';
@@ -9,6 +8,8 @@ import {SubheaderService} from '../../../../service/subheader.service';
 import {EditPermissions, PermissionsService} from '../../../../service/permissions.service';
 import {RequestsListComponent} from '../../../shared/requests-list/requests-list.component';
 import {Request} from '../../../../model/request';
+import {Observable} from 'rxjs/Observable';
+import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'project-requests',
@@ -18,7 +19,7 @@ import {Request} from '../../../../model/request';
 export class ProjectRequestsComponent implements OnInit {
   delayedShow: boolean;
   editPermissions: EditPermissions;
-  project: FirebaseObjectObservable<Project>;
+  project: Observable<Project>;
   projectId: string;
   latestScrollPosition = 0;
   requests: Request[] = [];
@@ -36,7 +37,7 @@ export class ProjectRequestsComponent implements OnInit {
   ngOnInit() {
     this.route.parent.params.subscribe((params: Params) => {
       this.projectId = params['id'];
-      this.project = this.projectsService.getProject(this.projectId);
+      this.project = this.projectsService.getProject(this.projectId).snapshotChanges().map(transformSnapshotAction);
 
       this.permissionsService.getEditPermissions(this.projectId)
           .subscribe(editPermissions => this.editPermissions = editPermissions);

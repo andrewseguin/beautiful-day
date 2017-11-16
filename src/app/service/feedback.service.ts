@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {AngularFireDatabase} from 'angularfire2/database';
 import {Feedback} from '../model/feedback';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {APP_VERSION} from '../app.component';
 import {AngularFireAuth} from 'angularfire2/auth';
+import {Observable} from 'rxjs/Observable';
+import {transformSnapshotActionList} from '../utility/snapshot-tranform';
 
 @Injectable()
 export class FeedbackService {
@@ -12,8 +14,8 @@ export class FeedbackService {
               private mdSnackbar: MatSnackBar,
               private auth: AngularFireAuth) { }
 
-  getAllFeedback(): FirebaseListObservable<Feedback[]> {
-    return this.db.list('feedback');
+  getAllFeedback(): Observable<Feedback[]> {
+    return this.db.list<Feedback>('feedback').snapshotChanges().map(transformSnapshotActionList);
   }
 
   addFeedback(feedback: string|number) {

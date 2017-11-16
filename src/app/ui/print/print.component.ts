@@ -6,12 +6,16 @@ import {ReportQueryService} from "../../service/report-query.service";
 import {ProjectsService} from "../../service/projects.service";
 import {ItemsService} from "../../service/items.service";
 import {RequestsService} from "../../service/requests.service";
-import {Report, QueryStage} from "../../model/report";
+import {QueryStage, Report} from "../../model/report";
 import {Project} from "../../model/project";
 import {Item} from "../../model/item";
 import {DisplayOptions} from '../../model/display-options';
 import {Title} from '@angular/platform-browser';
 import {QueryDisplay} from '../../utility/query-display';
+import {
+  transformSnapshotAction,
+  transformSnapshotActionList
+} from '../../utility/snapshot-tranform';
 
 @Component({
   selector: 'print',
@@ -50,16 +54,15 @@ export class PrintComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.type = params['type'];
-      if (this.type == 'report') {
-        this.reportsService.get(params['id']).subscribe(report => {
+      if (this.type === 'report') {
+        this.reportsService.get(params['id']).snapshotChanges().map(transformSnapshotAction).subscribe((report: Report) => {
           this.queryStages = report.queryStages;
           this.displayOptions = report.displayOptions;
           this.titleService.setTitle(report.name);
           this.performQuery();
         });
-      } else if (this.type == 'project') {
-        this.projectsService.getProject(params['id']).subscribe(project => {
-          debugger;
+      } else if (this.type === 'project') {
+        this.projectsService.getProject(params['id']).snapshotChanges().map(transformSnapshotAction).subscribe((project: Project) => {
           const queryString = `[projectId]:${project.$key}`;
           this.queryStages = [{querySet: [{queryString, type: 'any'}]}];
           this.titleService.setTitle(project.name);
@@ -68,7 +71,7 @@ export class PrintComponent implements OnInit {
       }
     });
 
-    this.requestsService.getAllRequests().subscribe(requests => {
+    this.requestsService.getAllRequests().snapshotChanges().map(transformSnapshotActionList).subscribe(requests => {
       this.requests = requests; this.performQuery();
     });
 
@@ -76,7 +79,7 @@ export class PrintComponent implements OnInit {
       this.items = items; this.performQuery();
     });
 
-    this.projectsService.getProjects().subscribe(projects => {
+    this.projectsService.getProjects().snapshotChanges().map(transformSnapshotActionList).subscribe(projects => {
       this.projects = projects; this.performQuery();
     });
   }

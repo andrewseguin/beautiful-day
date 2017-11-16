@@ -25,6 +25,8 @@ import {ProjectsService} from "../../../../service/projects.service";
 import {RequestViewOptions} from "../../../../model/request-view-options";
 import {GroupsService} from "../../../../service/groups.service";
 import {AccountingService} from "../../../../service/accounting.service";
+import {Project} from '../../../../model/project';
+import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'request',
@@ -97,17 +99,17 @@ export class RequestComponent implements OnInit {
       this.request = request;
       this.cd.markForCheck();
 
-      this.itemsService.getItem(request.item).subscribe(item => {
+      this.itemsService.getItem(request.item).snapshotChanges().map(transformSnapshotAction).subscribe((item: Item) => {
         this.item = item;
         this.itemDisplayName = item.name;
         if (this.item.type) { this.itemDisplayName += ` - ${item.type}`};
         this.cd.markForCheck();
       });
-    });
 
-    this.projectsService.getProject(this.request.project).subscribe(project => {
-      this.projectName = project.name;
-      this.cd.markForCheck();
+      this.projectsService.getProject(this.request.project).snapshotChanges().map(transformSnapshotAction).subscribe((project: Project) => {
+        this.projectName = project.name;
+        this.cd.markForCheck();
+      });
     });
 
     this.requestsService.selectionChange().subscribe(() => {
@@ -131,10 +133,6 @@ export class RequestComponent implements OnInit {
     }
   }
 
-  getRequestKey(): string {
-    return this.request.$key;
-  }
-
   scrollIntoView(): void {
     this.elementRef.nativeElement.scrollIntoView(false);
     this.highlight();
@@ -153,27 +151,27 @@ export class RequestComponent implements OnInit {
 
   changeQuantity(quantity: number) {
     quantity = Math.max(0, quantity);
-    this.requestsService.update(this.request.$key, {quantity});
+    this.requestsService.update(this.requestId, {quantity});
   }
 
   isSelected() {
-    return this.requestsService.isSelected(this.request.$key);
+    return this.requestsService.isSelected(this.requestId);
   }
 
   setSelected(value: boolean) {
-    this.requestsService.setSelected(this.request.$key, value);
+    this.requestsService.setSelected(this.requestId, value);
   }
 
   editNote(e: Event) {
     e.stopPropagation();
-    this.requestsService.editNote(new Set([this.request.$key]));
+    this.requestsService.editNote(new Set([this.requestId]));
   }
 
   editDropoff(e: Event) {
     e.stopPropagation();
 
     const dialogRef = this.mdDialog.open(EditDropoffComponent);
-    dialogRef.componentInstance.requestIds = new Set([this.request.$key]);
+    dialogRef.componentInstance.requestIds = new Set([this.requestId]);
     dialogRef.componentInstance.selectedDropoffLocation = this.request.dropoff;
     dialogRef.componentInstance.setDateFromRequest(this.request.date);
     dialogRef.componentInstance.project = this.request.project;

@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {Item} from '../model/item';
 import {ProjectsService} from './projects.service';
 import {Request} from '../model/request';
+import 'rxjs/add/operator/debounceTime';
 
 export interface BudgetResponse {
   budget: number;

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {UsersService} from './users.service';
+import {transformSnapshotAction} from '../utility/snapshot-tranform';
 
 export type Group = 'admins' | 'acquisitions' | 'owners' | 'approvers';
 
@@ -12,10 +13,10 @@ export class GroupsService {
               private usersService: UsersService) { }
 
   get(group: Group): Observable<string[]> {
-    return this.db.object(`groups/${group}`).map(members => {
-      if (!members.$value) { return []; }
+    return this.db.object<string>(`groups/${group}`).valueChanges().map((members: string) => {
+      if (!members) { return []; }
 
-      return members.$value.split(',').map(member => this.normalizeEmail(member));
+      return members.split(',').map(member => this.normalizeEmail(member));
     });
   }
 
@@ -24,13 +25,13 @@ export class GroupsService {
   }
 
   isMember(...groups: Group[]): Observable<boolean> {
-    if (groups.indexOf('owners') == -1) groups.push('owners');
+    if (groups.indexOf('owners') === -1) { groups.push('owners'); }
 
     return this.usersService.getCurrentUser().flatMap(user => {
       const groupChecks: Observable<boolean>[] = [];
       for (let group of groups) {
         const groupCheck = this.get(group)
-            .map(members => members.indexOf(this.normalizeEmail(user.email)) != -1);
+            .map(members => members.indexOf(this.normalizeEmail(user.email)) !== -1);
         groupChecks.push(groupCheck)
       }
 

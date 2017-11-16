@@ -93,9 +93,7 @@ export class RequestsGroupComponent {
 
     if (projectId === 'all') {
       this.canEdit = true;
-    }
-
-    else {
+    } else {
       this.permissionsService.getEditPermissions(projectId)
           .subscribe(editPermissions => this.canEdit = editPermissions.requests);
     }
@@ -113,8 +111,12 @@ export class RequestsGroupComponent {
       this.sortAndFilterRequests();
     });
 
-    this.projectsService.getProjects().subscribe(projects => {
-      this.projects = projects;
+    this.projectsService.getProjects().snapshotChanges().subscribe(projects => {
+      this.projects = projects.map(project => {
+        let val: Project = project.payload.val();
+        val.$key = project.key;
+        return val;
+      });
       if (this.requestGroup) {
         this.sortAndFilterRequests();
       }
@@ -123,7 +125,7 @@ export class RequestsGroupComponent {
 
   showRequest(requestKey: string, scrollableContent: ElementRef) {
     const newRequest = this.requestComponents.find(requestComponent => {
-      return requestComponent.getRequestKey() == requestKey;
+      return requestComponent.requestId === requestKey;
     });
     if (!newRequest) return;
 
@@ -161,7 +163,7 @@ export class RequestsGroupComponent {
 
   groupTransitionAnimationDone(e: AnimationTransitionEvent) {
     // When the group transition finishes, load in all the remaining requests
-    if (e.toState == 'void') return;
+    if (e.toState === 'void') { return; }
 
     setTimeout(() => { this.showRequests = true }, 150);
   }

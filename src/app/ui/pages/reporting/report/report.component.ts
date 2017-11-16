@@ -17,6 +17,10 @@ import {User} from "../../../../model/user";
 import {ReportQueryService} from "../../../../service/report-query.service";
 import {DisplayOptions} from "../../../../model/display-options";
 import {DeleteReportComponent} from "../../../shared/dialog/delete-report/delete-report.component";
+import {
+  transformSnapshotAction,
+  transformSnapshotActionList
+} from '../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'report',
@@ -35,13 +39,13 @@ export class ReportComponent {
   @Input() set reportId(reportId: string) {
     this._reportId = reportId;
 
-    this.reportsService.get(reportId).subscribe(report => {
-      if (report.$exists()) {
+    this.reportsService.get(reportId).snapshotChanges().map(transformSnapshotAction).subscribe(report => {
+      if (report) {
         this.report = report; this.performQuery();
       }
     });
 
-    this.requestsService.getAllRequests().subscribe(requests => {
+    this.requestsService.getAllRequests().snapshotChanges().map(transformSnapshotActionList).subscribe(requests => {
       this.requests = requests; this.performQuery();
     });
 
@@ -49,7 +53,7 @@ export class ReportComponent {
       this.items = items; this.performQuery();
     });
 
-    this.projectsService.getProjects().subscribe(projects => {
+    this.projectsService.getProjects().snapshotChanges().map(transformSnapshotActionList).subscribe(projects => {
       this.projects = projects; this.performQuery();
     });
   };

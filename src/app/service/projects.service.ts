@@ -3,33 +3,37 @@ import * as firebase from 'firebase';
 import {Project} from '../model/project';
 import {Observable} from 'rxjs';
 import {
-  AngularFireDatabase,
-  FirebaseListObservable,
-  FirebaseObjectObservable
+  AngularFireDatabase, AngularFireList, AngularFireObject,
 } from 'angularfire2/database';
+import {transformSnapshotAction} from '../utility/snapshot-tranform';
 
 @Injectable()
 export class ProjectsService {
   constructor(private db: AngularFireDatabase) {}
 
-  getProjects(): FirebaseListObservable<Project[]> {
+  getProjects(): AngularFireList<Project> {
     return this.db.list('projects');
   }
 
+  getProject(id: string): AngularFireObject<Project> {
+    return this.db.object(`projects/${id}`);
+  }
+
   getSortedProjects(): Observable<Project[]> {
-    return this.db.list('projects').map(projects => {
-      return projects.sort((a: Project, b: Project) => {
+    return this.getProjects().snapshotChanges().map(projects => {
+      let projectsWithKeys = projects.map(project => {
+        let val: Project = project.payload.val();
+        val.$key = project.key;
+        return val;
+      })
+      return projectsWithKeys.sort((a: Project, b: Project) => {
         return (a.name < b.name) ? -1 : 1;
       });
     });
   }
 
-  getProject(id: string): FirebaseObjectObservable<Project> {
-    return this.db.object(`projects/${id}`);
-  }
-
   getBudget(id: string): Observable<number> {
-    return this.db.object(`projects/${id}/budget`).map(budget => budget['$value']);
+    return this.db.object(`projects/${id}/budget`).valueChanges();
   }
 
   createProject(): firebase.database.ThenableReference {

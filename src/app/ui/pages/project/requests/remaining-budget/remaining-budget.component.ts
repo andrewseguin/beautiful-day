@@ -44,11 +44,11 @@ export class RemainingBudgetComponent implements OnInit {
           this.projectBudget = budgetResponse.budget;
 
           this.previousRemainingBudget =
-              this.currentRemainingBudget != undefined ?
+              this.currentRemainingBudget !== undefined ?
                 this.currentRemainingBudget : budgetResponse.remaining;
           this.currentRemainingBudget = budgetResponse.remaining;
 
-          if (budgetResponse.budget != undefined) {
+          if (budgetResponse.budget !== undefined) {
             this.updateBudgetValue();
           }
         });

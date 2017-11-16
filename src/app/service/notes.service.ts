@@ -1,48 +1,36 @@
 import {Injectable} from '@angular/core';
-import {
-  AngularFireDatabase,
-  FirebaseListObservable,
-  FirebaseObjectObservable
-} from 'angularfire2/database';
+import {AngularFireDatabase,} from 'angularfire2/database';
 
 import {Note} from '../model/note';
 import {Observable, Subject} from 'rxjs';
 import * as firebase from 'firebase';
+import {transformSnapshotAction, transformSnapshotActionList} from '../utility/snapshot-tranform';
 
 @Injectable()
 export class NotesService {
 
   constructor(private db: AngularFireDatabase) {}
 
-  getProjectNotes(projectId: string): FirebaseListObservable<Note[]> {
-    return this.db.list('notes', {
-      query: {
-        orderByChild: 'project',
-        equalTo: projectId
-      }
-    });
+  getProjectNotes(projectId: string): Observable<Note[]> {
+    return this.db.list('notes', ref => ref.orderByChild('project').equalTo(projectId)).snapshotChanges().map(transformSnapshotActionList);
   }
 
   getDefaultProjectNoteId(projectId: string): Observable<string> {
-    return this.db.list('notes', {
-      query: {
-        orderByChild: 'project',
-        equalTo: projectId,
-        limitToFirst: 1
-      }
-    }).take(1).flatMap((notes: Note[]) => {
-      if (notes.length > 0) { return Observable.from([notes[0].$key]); }
+    return this.db.list('notes', ref => ref.orderByChild('project').equalTo(projectId).limitToFirst(1))
+      .snapshotChanges().map(transformSnapshotActionList)
+      .take(1).flatMap((notes: Note[]) => {
+        if (notes.length > 0) { return Observable.from([notes[0].$key]); }
 
-      // Create a new note and return the key.
-      const newNoteSubject = new Subject<string>();
-      this.addNote(projectId).then(response => newNoteSubject.next(response.key));
-      return newNoteSubject.asObservable();
-    });
+        // Create a new note and return the key.
+        const newNoteSubject = new Subject<string>();
+        this.addNote(projectId).then(response => newNoteSubject.next(response.key));
+        return newNoteSubject.asObservable();
+      });
 
   }
 
-  getNote(id: string): FirebaseObjectObservable<Note> {
-    return this.db.object(`notes/${id}`);
+  getNote(id: string): Observable<Note> {
+    return this.db.object(`notes/${id}`).snapshotChanges().map(transformSnapshotAction);
   }
 
   addNote(projectId: string): firebase.database.ThenableReference {
@@ -54,7 +42,7 @@ export class NotesService {
   }
 
   update(id: string, update: any) {
-    this.getNote(id).update(update);
+    this.db.object(`notes/${id}`).update(update);
   }
 
   delete(id) {

@@ -32,7 +32,7 @@ export class RequestSortPipe implements PipeTransform {
   }
 
   getSortFunction(sort: Sort, itemMap: Map<string, Item>) {
-    switch(sort) {
+    switch (sort) {
       case 'request added':
         return (a: Request, b: Request) => {
           return a.$key < b.$key ? -1 : 1;

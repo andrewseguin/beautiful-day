@@ -21,18 +21,25 @@
   </button>
 </div>
 
-<div class="section-title">Projects</div>
-<button mat-button class="nav-link"
-        (click)="sidenav.close()"
-        routerLink="/project/{{project.$key}}"
-        routerLinkActive="active"
-        *ngFor="let project of projects">
-  {{project.name}}
-</button>
+<div class="expandable-section"
+     *ngFor="let season of seasons"
+     [@expandableSection]="getExpansionState(season)">
+  <div class="section-title" (click)="toggleExpansion(season)">
+    {{season}} Projects
+    <mat-icon [@expansionIndicator]="getExpansionState(season)">keyboard_arrow_down</mat-icon>
+  </div>
+  <button mat-button class="nav-link"
+          (click)="sidenav.close()"
+          routerLink="/project/{{project.$key}}"
+          routerLinkActive="active"
+          *ngFor="let project of getProjects(season)">
+    {{project.name}}
+  </button>
 
-<button mat-button class="nav-link new"
-        *ngIf="canCreateProjects"
-        (click)="addProject()">+ New Project</button>
+  <button mat-button class="nav-link new"
+          *ngIf="canCreateProjects"
+          (click)="addProject()">+ New Project</button>
+</div>
 
 <div class="section-title" *ngIf="canViewFeedback">Feedback</div>
 <button mat-button class="nav-link" *ngIf="canViewFeedback"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material";
 import {RequestsService} from "../../../../service/requests.service";
 
@@ -16,7 +16,7 @@ export class EditTagsComponent {
     this._requestIds = requestIds;
     requestIds.forEach(requestId => {
       this.requestsService.getRequest(requestId).subscribe(request => {
-        const tags = new Set(request.tags ? request.tags.split(',') : []);
+        const tags = new Set<string>(request.tags ? request.tags.split(',') : []);
         this.requestTags.set(request.$key, tags);
         this.updateCommonTags();
       });
@@ -24,7 +24,7 @@ export class EditTagsComponent {
   }
   get requestIds(): Set<string> { return this._requestIds; }
 
-  newTag: string = '';
+  newTag = '';
 
   constructor(private dialogRef: MatDialogRef<EditTagsComponent>,
               private requestsService: RequestsService) {}

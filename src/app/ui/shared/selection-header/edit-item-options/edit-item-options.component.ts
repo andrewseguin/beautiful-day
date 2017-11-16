@@ -4,6 +4,7 @@ import {MatDialog} from "@angular/material";
 import {EditItemComponent} from "../../dialog/edit-item/edit-item.component";
 import {EditItemCategoryComponent} from "../../dialog/edit-item-category/edit-item-category.component";
 import {EditItemNameComponent} from "../../dialog/edit-item-name/edit-item-name.component";
+import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'edit-item-options',
@@ -30,7 +31,7 @@ export class EditItemOptionsComponent {
     const dialogRef = this.mdDialog.open(EditItemComponent);
     dialogRef.componentInstance.mode = 'edit';
 
-    this.itemsService.getItem(itemId).subscribe(item => {
+    this.itemsService.getItem(itemId).snapshotChanges().map(transformSnapshotAction).subscribe(item => {
       dialogRef.componentInstance.item = item;
     });
   }

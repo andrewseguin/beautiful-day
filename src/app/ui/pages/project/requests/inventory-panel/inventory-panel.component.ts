@@ -1,6 +1,5 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {CategoryGroupCollection, ItemsService} from '../../../../../service/items.service';
-import {FirebaseObjectObservable} from 'angularfire2/database';
 import {Item} from '../../../../../model/item';
 import {ProjectsService} from '../../../../../service/projects.service';
 import {Project} from '../../../../../model/project';
@@ -8,6 +7,11 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {SubheaderService} from '../../../../../service/subheader.service';
 import {MediaQueryService} from '../../../../../service/media-query.service';
 import {SlidingPanelComponent} from './sliding-panel/sliding-panel.component';
+import {Observable} from 'rxjs/Observable';
+import {
+  transformSnapshotAction,
+  transformSnapshotActionList
+} from '../../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'inventory-panel',
@@ -16,11 +20,11 @@ import {SlidingPanelComponent} from './sliding-panel/sliding-panel.component';
 })
 export class InventoryPanelComponent implements OnInit {
   collection: CategoryGroupCollection;
-  project: FirebaseObjectObservable<Project>;
-  subheaderVisibility: boolean = true;
+  project: Observable<Project>;
+  subheaderVisibility = true;
   items: Item[];
 
-  search: string = '';
+  search = '';
 
   @ViewChild('slidingPanel') slidingPanel: SlidingPanelComponent;
 
@@ -37,7 +41,7 @@ export class InventoryPanelComponent implements OnInit {
       this.collection = collection;
     });
     this.route.parent.params.forEach((params: Params) => {
-      this.project = this.projectsService.getProject(params['id']);
+      this.project = this.projectsService.getProject(params['id']).snapshotChanges().map(transformSnapshotAction);
     });
 
     this.subheaderService.visibilitySubject.subscribe(visibility => {

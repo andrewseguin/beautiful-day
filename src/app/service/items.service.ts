@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
-import {
-  AngularFireDatabase,
-  FirebaseListObservable,
-  FirebaseObjectObservable
-} from 'angularfire2/database';
+import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {Item} from '../model/item';
 import {Observable} from 'rxjs';
+import {transformSnapshotActionList} from '../utility/snapshot-tranform';
 
 export type CategoryGroupCollection = { [name: string]: CategoryGroup };
 
@@ -20,17 +17,18 @@ export class ItemsService {
 
   constructor(private db: AngularFireDatabase) {}
 
-  getItems(): FirebaseListObservable<Item[]> {
-    return this.db.list('items');
+  getItems(): Observable<Item[]> {
+    return this.db.list('items').snapshotChanges().map(items => {
+      return items.map(item => {
+        let val: Item = item.payload.val();
+        val.$key = item.key;
+        return val;
+      });
+    });
   }
 
-  getItemsWithCategory(category: string): FirebaseListObservable<Item[]> {
-    return this.db.list('items', {
-      query: {
-        orderByChild: 'category',
-        equalTo: category
-      }
-    });
+  getItemsWithCategory(category: string): Observable<Item[]> {
+    return this.db.list('items', ref => ref.orderByChild('category').equalTo(category)).snapshotChanges().map(transformSnapshotActionList);
   }
 
   getItemsByCategory(): Observable<CategoryGroupCollection> {
@@ -56,7 +54,7 @@ export class ItemsService {
     });
   }
 
-  getItem(id: string): FirebaseObjectObservable<Item> {
+  getItem(id: string): AngularFireObject<Item> {
     return this.db.object(`items/${id}`);
   }
 
@@ -66,7 +64,7 @@ export class ItemsService {
     date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
     item.dateAdded = new Date().getTime();
 
-    this.getItems().push(item);
+    this.db.list<Item>('items').push(item);
   }
 
   setSelected(id: string, value: boolean) {

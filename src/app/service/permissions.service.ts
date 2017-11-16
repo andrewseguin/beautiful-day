@@ -4,6 +4,8 @@ import {ProjectsService} from "./projects.service";
 import {Observable} from "rxjs";
 import {UsersService} from "./users.service";
 import {GroupsService} from "./groups.service";
+import {Project} from '../model/project';
+import {transformSnapshotAction} from '../utility/snapshot-tranform';
 
 export interface EditPermissions {
   details?: boolean;
@@ -30,15 +32,15 @@ export class PermissionsService {
       return this.groupsService.isMember('acquisitions', 'approvers');
     }).flatMap(result => {
       isRequestEditor = result;
-      return this.projectsService.getProject(projectId);
-    }).flatMap(project => {
+      return this.projectsService.getProject(projectId).snapshotChanges().map(transformSnapshotAction);
+    }).flatMap((project: Project) => {
       const leads = project.leads || '';
       const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());
-      const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) != -1;
+      const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) !== -1;
 
       const directors = project.directors || '';
       const lowercaseDirectors = directors.split(',').map(m => m.toLowerCase());
-      const isDirector = lowercaseDirectors.indexOf(user.email.toLowerCase()) != -1;
+      const isDirector = lowercaseDirectors.indexOf(user.email.toLowerCase()) !== -1;
 
       return Observable.of({
         details: isDirector || isAdminOrOwner,

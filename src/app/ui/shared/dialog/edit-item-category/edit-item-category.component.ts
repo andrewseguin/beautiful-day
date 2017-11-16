@@ -9,7 +9,7 @@ import {MatDialogRef} from '@angular/material';
 })
 export class EditItemCategoryComponent {
   itemIds: Set<string>;
-  category: string = '';
+  category = '';
 
   constructor(private dialogRef: MatDialogRef<EditItemCategoryComponent>,
               private itemsService: ItemsService) { }

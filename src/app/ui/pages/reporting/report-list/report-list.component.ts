@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {Report} from "../../../../model/report";
 import {ReportsService} from "../../../../service/reports.service";
-import {Router, ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {UsersService} from "../../../../service/users.service";
 import {User} from "../../../../model/user";
 import {ReportSort} from "../../../../pipe/report-search.pipe";
 import {QueryDisplay} from '../../../../utility/query-display';
+import {transformSnapshotActionList} from '../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'report-list',
@@ -15,9 +16,9 @@ import {QueryDisplay} from '../../../../utility/query-display';
 export class ReportListComponent {
   reports: Report[] = [];
   user: User;
-  search: string = '';
+  search = '';
   sort: ReportSort = 'modifiedDate';
-  reverseSort: boolean = true;
+  reverseSort = true;
   sortOptions: ReportSort[] = ['name', 'modifiedDate', 'createdDate'];
   queryStrings: Map<Report, string> = new Map<Report, string>();
 
@@ -26,7 +27,7 @@ export class ReportListComponent {
               private usersService: UsersService,
               private reportsService: ReportsService) {
     this.usersService.getCurrentUser().subscribe(user => this.user = user);
-    this.reportsService.getAll().subscribe(reports => {
+    this.reportsService.getAll().snapshotChanges().map(transformSnapshotActionList).subscribe(reports => {
       this.reports = reports;
       for (const report of reports) {
         this.queryStrings.set(report, this.getQueryDisplay(report));
@@ -44,7 +45,7 @@ export class ReportListComponent {
   }
 
   setSort(sort: ReportSort) {
-    this.reverseSort = this.sort == sort ? this.reverseSort = !this.reverseSort : false;
+    this.reverseSort = this.sort === sort ? this.reverseSort = !this.reverseSort : false;
     this.sort = sort;
   }
 

@@ -23,12 +23,12 @@ export class LoginComponent implements OnInit {
         return;
       }
 
-      // Store credentials if we do not already have them.
       this.usersService.get(auth.email).take(1).subscribe(user => {
         if (!user) { this.usersService.create(auth); }
 
         // Navigate out of login.
         let locationHash = window.location.hash.substr(1);
+        debugger;
         this.route.navigate([locationHash || '']);
       });
     });

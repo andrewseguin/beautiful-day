@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {AnalyticsService} from './service/analytics.service';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase, snapshotChanges} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
+import {transformSnapshotAction} from './utility/snapshot-tranform';
 
 export const APP_VERSION = 17;
 
@@ -20,8 +21,8 @@ export class AppComponent implements OnInit {
               private router: Router) {
     this.setupGoogleAnalytics();
 
-    this.db.object('app_version').subscribe(db_app_version => {
-      this.checkAppUpdates(db_app_version.$value);
+    this.db.object<number>('app_version').valueChanges().subscribe((db_app_version: number) => {
+      this.checkAppUpdates(db_app_version);
     })
   }
 

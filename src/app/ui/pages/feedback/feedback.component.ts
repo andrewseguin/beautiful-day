@@ -5,6 +5,7 @@ import {UsersService} from "../../../service/users.service";
 import {User} from "../../../model/user";
 import {Observable} from "rxjs";
 import {HeaderService} from "../../../service/header.service";
+import {transformSnapshotAction} from '../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'app-feedback',
@@ -25,7 +26,7 @@ export class FeedbackComponent implements OnInit {
     this.feedbackService.getAllFeedback().subscribe(allFeedback => {
       allFeedback.forEach(feedback => {
         if (!this.userMap.get(feedback.user)) {
-          this.userMap.set(feedback.user, this.usersService.getByUid(feedback.user));
+          this.userMap.set(feedback.user, this.usersService.getByUid(feedback.user).snapshotChanges().map(transformSnapshotAction));
         }
       });
 

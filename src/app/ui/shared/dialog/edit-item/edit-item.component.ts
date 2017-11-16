@@ -32,7 +32,7 @@ export class EditItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.mode) throw Error('No mode set');
+    if (!this.mode) { throw Error('No mode set'); }
   }
 
   close() {
@@ -40,10 +40,10 @@ export class EditItemComponent implements OnInit {
   }
 
   canSave() {
-    return this._item.name != undefined
-        && this._item.cost != undefined
-        && this._item.categories != undefined
-        && this._item.url != undefined
+    return this._item.name !== undefined
+        && this._item.cost !== undefined
+        && this._item.categories !== undefined
+        && this._item.url !== undefined
         && this.isValidUrl(this._item.url);
   }
 

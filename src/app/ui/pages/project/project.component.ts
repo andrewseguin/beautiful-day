@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FirebaseListObservable} from 'angularfire2/database';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Project} from '../../../model/project';
 import {ProjectsService} from '../../../service/projects.service';
+import {transformSnapshotAction} from '../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'project',
@@ -11,7 +11,7 @@ import {ProjectsService} from '../../../service/projects.service';
 })
 export class ProjectComponent implements OnInit {
   project: Project;
-  requests: FirebaseListObservable<any[]>;
+  loading = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,7 +19,8 @@ export class ProjectComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
-      this.projectsService.getProject(params['id']).subscribe(project => {
+      this.projectsService.getProject(params['id']).snapshotChanges().map(transformSnapshotAction).subscribe(project => {
+        this.loading = false;
         this.project = project;
       });
     });

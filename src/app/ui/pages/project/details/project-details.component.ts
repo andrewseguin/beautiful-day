@@ -18,6 +18,7 @@ import {Subscription} from 'rxjs';
 import {RequestsService} from '../../../../service/requests.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
+import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'project-details',
@@ -72,18 +73,18 @@ export class ProjectDetailsComponent implements OnInit {
     });
 
     this.route.parent.params.forEach((params: Params) => {
-      this.projectsService.getProject(params['id']).subscribe((project: Project) => {
+      this.projectsService.getProject(params['id']).snapshotChanges().map(transformSnapshotAction).subscribe((project: Project) => {
         this.project = project;
 
-        this.requestsService.getProjectRequests(project.$key)
+        this.requestsService.getProjectRequests(params['id'])
             .subscribe(requests => this.requests = requests);
 
-        this.permissionsService.getEditPermissions(this.project.$key)
+        this.permissionsService.getEditPermissions(params['id'])
             .subscribe(editPermissions => {
               this.editPermissions = editPermissions;
             });
 
-        this.accountingService.getBudgetStream(this.project.$key)
+        this.accountingService.getBudgetStream(params['id'])
             .subscribe(budgetResponse => {
               this.noBudget = budgetResponse.budget == undefined;
               this.budgetStream = budgetResponse;

@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase, FirebaseObjectObservable} from 'angularfire2/database';
+import {AngularFireDatabase, AngularFireObject,} from 'angularfire2/database';
 import {User} from '../model/user';
 import {Observable} from 'rxjs';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
+import 'rxjs/add/operator/mergeMap';
+import {transformSnapshotActionList} from '../utility/snapshot-tranform';
 
 @Injectable()
 export class UsersService {
@@ -18,17 +20,13 @@ export class UsersService {
     });
   }
 
-  getByUid(uid: string): FirebaseObjectObservable<User> {
+  getByUid(uid: string): AngularFireObject<User> {
     return this.db.object(`users/${uid}`);
   }
 
   get(email: string): Observable<User> {
-    return this.db.list('users', {
-      query: {
-        orderByChild: 'email',
-        equalTo: email
-      }
-    }).map(result => result[0]);
+    return this.db.list('users', ref => ref.orderByChild('email').equalTo(email)).snapshotChanges().map(transformSnapshotActionList)
+      .map(result => result[0]);
   }
 
   update(uid: string, update: any) {
@@ -36,7 +34,7 @@ export class UsersService {
   }
 
   getCurrentUser(): Observable<User> {
-    return this.auth.authState.flatMap(auth => {
+    return this.auth.authState.mergeMap(auth => {
       return auth ? this.get(auth.email) : Observable.from([null]);
     });
   }

@@ -1,10 +1,10 @@
-<div *ngIf="!project">
+<div *ngIf="loading">
   <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
 </div>
-<div *ngIf="project && !project?.$exists()" class="not-found">
+<div *ngIf="!loading && !project" class="not-found">
   This project does not exist.
 </div>
 <div class="project-router-outlet"
-     [style.visibility]="project?.$exists() ? 'visible' : 'hidden'">
+     [style.visibility]="project ? 'visible' : 'hidden'">
   <router-outlet></router-outlet>
 </div>

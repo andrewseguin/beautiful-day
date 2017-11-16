@@ -10,6 +10,7 @@ import {EditPurchaseStatusDialogComponent} from "../../dialog/edit-purchase-stat
 import {EditApprovalStatusDialogComponent} from "../../dialog/edit-approval-status/edit-approval-status";
 import {EditItemComponent} from "../../dialog/edit-item/edit-item.component";
 import {ItemsService} from "../../../../service/items.service";
+import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'edit-request-options',
@@ -41,7 +42,7 @@ export class EditRequestOptionsComponent {
 
     const requestId = this.requestsService.getSelectedRequests().values().next().value;
     this.requestsService.getRequest(requestId).flatMap(request => {
-      return this.itemsService.getItem(request.item);
+      return this.itemsService.getItem(request.item).snapshotChanges().map(transformSnapshotAction);
     }).subscribe(item => {
       dialogRef.componentInstance.item = item;
     });
@@ -78,7 +79,7 @@ export class EditRequestOptionsComponent {
     dialogRef.componentInstance.requestIds = selectedRequests;
     const firstRequest = selectedRequests.values().next().value;
     this.requestsService.getRequest(firstRequest).subscribe(request => {
-      if (selectedRequests.size == 1) {
+      if (selectedRequests.size === 1) {
         dialogRef.componentInstance.selectedDropoffLocation = request.dropoff;
         dialogRef.componentInstance.setDateFromRequest(request.date);
       }

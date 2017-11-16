@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
-  AngularFireDatabase,
-  FirebaseListObservable,
-  FirebaseObjectObservable
+  AngularFireDatabase, AngularFireList, AngularFireObject,
 } from 'angularfire2/database';
 import {QueryStage, Report} from '../model/report';
 
@@ -11,11 +9,11 @@ export class ReportsService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  getAll(): FirebaseListObservable<Report[]> {
+  getAll(): AngularFireList<Report> {
     return this.db.list('reports');
   }
 
-  get(id: string): FirebaseObjectObservable<Report> {
+  get(id: string): AngularFireObject<Report> {
     return this.db.object(`reports/${id}`);
   }
 

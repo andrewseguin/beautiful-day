@@ -2,7 +2,6 @@ import {Note} from "./note";
 
 export interface Project {
   $key?: string;
-  $exists?: Function;
   location?: string;
   name?: string;
   budget?: number;

@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
   topLevel: TopLevelSection;
   authState: firebase.User;
   user: User;
-  project: Project;
+  projectId = '';
 
   subheaderVisibility: 'visible'|'hidden' = 'visible';
 
@@ -99,13 +99,13 @@ export class HeaderComponent implements OnInit {
     route.url.take(1).subscribe((url: UrlSegment[]) => {
       this.topLevel = <TopLevelSection>url[0].path;
 
-      this.project = null;
+      this.projectId = '';
       if (this.topLevel === 'project') {
         this.headerService.title = 'Loading...';
-        this.projectsService.getProject(url[1].path).subscribe(project => {
-          this.project = project;
-          if (project.$exists()) {
-            this.headerService.title = project.name;
+        this.projectsService.getProject(url[1].path).snapshotChanges().subscribe(project => {
+          this.projectId = project.key;
+          if (project) {
+            this.headerService.title = project.payload.val().name;
           } else {
             this.headerService.title = '';
           }

@@ -6,7 +6,7 @@
 
   <div class="name"> {{getTitle()}} </div>
 
-  <project-nav class="main" *ngIf="project" [projectId]="project?.$key"></project-nav>
+  <project-nav class="main" *ngIf="projectId" [projectId]="projectId"></project-nav>
 
   <div class="end">
     <button mat-button class="user" *ngIf="authState"
@@ -42,7 +42,7 @@
 </mat-toolbar>
 
 <mat-toolbar class="sub-header" color="primary"
-            *ngIf="project && project.$exists()"
+            *ngIf="projectId"
             [@subheader]="subheaderVisibility">
-  <project-nav [projectId]="project?.$key"></project-nav>
+  <project-nav [projectId]="projectId"></project-nav>
 </mat-toolbar>

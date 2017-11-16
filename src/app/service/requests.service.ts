@@ -7,9 +7,9 @@ import {Subject, Observable} from 'rxjs';
 import {MatDialog} from '@angular/material';
 import {PromptDialogComponent} from '../ui/shared/dialog/prompt-dialog/prompt-dialog.component';
 import {
-  AngularFireDatabase, FirebaseListObservable,
-  FirebaseObjectObservable
+  AngularFireDatabase, AngularFireList
 } from 'angularfire2/database';
+import {transformSnapshotActionList, transformSnapshotAction} from '../utility/snapshot-tranform';
 
 export class RequestAddedResponse {
   item: Item;
@@ -29,29 +29,24 @@ export class RequestsService {
     this.router.events.subscribe(() => this.clearSelected());
   }
 
-  getAllRequests(): FirebaseListObservable<Request[]> {
+  getAllRequests(): AngularFireList<Request[]> {
     return this.db.list('requests');
   }
 
-  getProjectRequests(projectId: string): FirebaseListObservable<Request[]> {
+  getProjectRequests(projectId: string): Observable<Request[]> {
     if (projectId === 'all') {
-      return this.getAllRequests();
+      return this.getAllRequests().snapshotChanges().map(transformSnapshotActionList);
     }
 
-    return this.db.list('requests', {
-      query: {
-        orderByChild: 'project',
-        equalTo: projectId
-      }
-    });
+    return this.db.list('requests', ref => ref.orderByChild('project').equalTo(projectId)).snapshotChanges().map(transformSnapshotActionList);
   }
 
-  getRequest(id: string): FirebaseObjectObservable<Request> {
-    return this.db.object(`requests/${id}`);
+  getRequest(id: string): Observable<Request> {
+    return this.db.object(`requests/${id}`).snapshotChanges().map(transformSnapshotAction);
   }
 
   removeRequest(id: string): void {
-    this.getAllRequests().remove(id);
+    this.db.list(`requests`).remove(id);
   }
 
   addRequest(project: Project, item: Item, quantity = 1) {
@@ -74,7 +69,7 @@ export class RequestsService {
   }
 
   update(id: string, update: any) {
-    this.getRequest(id).update(update);
+    this.db.object(`requests/${id}`).update(update);
   }
 
   selectionChange(): Observable<void> {
@@ -108,7 +103,7 @@ export class RequestsService {
     const dialogRef = this.mdDialog.open(PromptDialogComponent);
 
     dialogRef.componentInstance.title = 'Edit Note';
-    if (requestIds.size == 1) {
+    if (requestIds.size === 1) {
       requestIds.forEach(id => {
         this.getRequest(id).subscribe(request => {
           dialogRef.componentInstance.input = request.note;

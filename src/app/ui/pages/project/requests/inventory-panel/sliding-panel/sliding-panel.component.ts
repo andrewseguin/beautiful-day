@@ -1,7 +1,8 @@
-import {animate, Component, state, style, transition, trigger} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {ItemsService} from '../../../../../../service/items.service';
-import {FirebaseListObservable} from 'angularfire2/database';
 import {Item} from '../../../../../../model/item';
+import {Observable} from 'rxjs/Observable';
+import {Component} from '@angular/core';
 
 export type SlidingPanelState = 'open' | 'closed';
 
@@ -25,10 +26,8 @@ export type SlidingPanelState = 'open' | 'closed';
   }
 })
 export class SlidingPanelComponent {
-  itemsObservable: FirebaseListObservable<Item[]>;
+  itemsObservable: Observable<Item[]>;
   state: SlidingPanelState = 'closed';
-
-  constructor(private itemsService: ItemsService) { }
 
   _category: string;
   set category(category: string) {
@@ -36,6 +35,8 @@ export class SlidingPanelComponent {
     this.itemsObservable = this.itemsService.getItemsWithCategory(category);
   }
   get category(): string { return this._category; }
+
+  constructor(private itemsService: ItemsService) { }
 
   open() { this.state = 'open' }
   close() { this.state = 'closed' }
