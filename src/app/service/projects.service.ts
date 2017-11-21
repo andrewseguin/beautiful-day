@@ -2,60 +2,53 @@ import {Injectable} from '@angular/core';
 import * as firebase from 'firebase';
 import {Project} from '../model/project';
 import {Observable} from 'rxjs';
-import {
-  AngularFireDatabase, AngularFireList, AngularFireObject,
-} from 'angularfire2/database';
-import {transformSnapshotAction} from '../utility/snapshot-tranform';
+import {AngularFireDatabase, AngularFireList, AngularFireObject} from 'angularfire2/database';
+import {transformSnapshotAction, transformSnapshotActionList} from '../utility/snapshot-tranform';
 
 @Injectable()
 export class ProjectsService {
-  constructor(private db: AngularFireDatabase) {}
+  projects: Observable<Project[]>;
 
-  getProjects(): AngularFireList<Project> {
-    return this.db.list('projects');
+  constructor(private db: AngularFireDatabase) {
+    this.projects = this._getListDao().snapshotChanges().map(transformSnapshotActionList);
   }
 
-  getProject(id: string): AngularFireObject<Project> {
+  getProject(id: string): Observable<Project> {
+    return this._getObjectDao(id).snapshotChanges().map(transformSnapshotAction);
+  }
+
+  _getObjectDao(id: string): AngularFireObject<Project> {
     return this.db.object(`projects/${id}`);
   }
 
-  getSortedProjects(): Observable<Project[]> {
-    return this.getProjects().snapshotChanges().map(projects => {
-      let projectsWithKeys = projects.map(project => {
-        let val: Project = project.payload.val();
-        val.$key = project.key;
-        return val;
-      })
-      return projectsWithKeys.sort((a: Project, b: Project) => {
-        return (a.name < b.name) ? -1 : 1;
-      });
-    });
+  _getListDao(): AngularFireList<Project> {
+    return this.db.list(`projects`);
   }
 
   getBudget(id: string): Observable<number> {
     return this.db.object(`projects/${id}/budget`).valueChanges();
   }
 
+  getSortedProjects(): Observable<Project[]> {
+    const sortFn = (a, b) => ((a.name < b.name) ? -1 : 1);
+    return this.projects.map(projects => projects.sort(sortFn));
+  }
+
   createProject(): firebase.database.ThenableReference {
-    return this.getProjects().push({
+    const newProject = {
       name: 'New Project',
       description: '',
       location: ''
-    });
+    };
+
+    return this._getListDao().push(newProject);
   }
 
-  setLastDropoff(id, dropoff, date): void {
-    this.getProject(id).update({
-      lastUsedDropoff: dropoff,
-      lastUsedDate: date
-    })
-  }
-
-  update(id, update: Project): void {
-    this.getProject(id).update(update);
+  updateProject(id, update: Project): void {
+    this._getObjectDao(id).update(update);
   }
 
   deleteProject(id: string) {
-    this.getProject(id).remove();
+    this._getObjectDao(id).remove();
   }
 }

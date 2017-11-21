@@ -62,7 +62,7 @@ export class PrintComponent implements OnInit {
           this.performQuery();
         });
       } else if (this.type === 'project') {
-        this.projectsService.getProject(params['id']).snapshotChanges().map(transformSnapshotAction).subscribe((project: Project) => {
+        this.projectsService.getProject(params['id']).subscribe((project: Project) => {
           const queryString = `[projectId]:${project.$key}`;
           this.queryStages = [{querySet: [{queryString, type: 'any'}]}];
           this.titleService.setTitle(project.name);
@@ -79,7 +79,7 @@ export class PrintComponent implements OnInit {
       this.items = items; this.performQuery();
     });
 
-    this.projectsService.getProjects().snapshotChanges().map(transformSnapshotActionList).subscribe(projects => {
+    this.projectsService.projects.subscribe(projects => {
       this.projects = projects; this.performQuery();
     });
   }

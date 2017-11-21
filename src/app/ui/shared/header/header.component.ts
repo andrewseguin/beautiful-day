@@ -112,13 +112,9 @@ export class HeaderComponent implements OnInit {
   loadProjectTitle(projectId: string) {
     this.projectId = projectId;
     this.headerService.title = 'Loading...';
-    this.projectsService.getProject(projectId).snapshotChanges().subscribe(project => {
-      this.projectId = project.key;
-      if (project) {
-        this.headerService.title = project.payload.val().name;
-      } else {
-        this.headerService.title = '';
-      }
+    this.projectsService.getProject(projectId).subscribe(project => {
+      this.projectId = project.$key;
+      this.headerService.title = project ? project.name : '';
     });
   }
 

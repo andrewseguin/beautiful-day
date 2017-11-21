@@ -37,7 +37,7 @@ export class ProjectRequestsComponent implements OnInit {
   ngOnInit() {
     this.route.parent.params.subscribe((params: Params) => {
       this.projectId = params['id'];
-      this.project = this.projectsService.getProject(this.projectId).snapshotChanges().map(transformSnapshotAction);
+      this.project = this.projectsService.getProject(this.projectId);
 
       this.permissionsService.getEditPermissions(this.projectId)
           .subscribe(editPermissions => this.editPermissions = editPermissions);

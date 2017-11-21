@@ -111,12 +111,8 @@ export class RequestsGroupComponent {
       this.sortAndFilterRequests();
     });
 
-    this.projectsService.getProjects().snapshotChanges().subscribe(projects => {
-      this.projects = projects.map(project => {
-        let val: Project = project.payload.val();
-        val.$key = project.key;
-        return val;
-      });
+    this.projectsService.projects.subscribe(projects => {
+      this.projects = projects;
       if (this.requestGroup) {
         this.sortAndFilterRequests();
       }

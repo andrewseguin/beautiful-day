@@ -8,10 +8,6 @@ import {SubheaderService} from '../../../../../service/subheader.service';
 import {MediaQueryService} from '../../../../../service/media-query.service';
 import {SlidingPanelComponent} from './sliding-panel/sliding-panel.component';
 import {Observable} from 'rxjs/Observable';
-import {
-  transformSnapshotAction,
-  transformSnapshotActionList
-} from '../../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'inventory-panel',
@@ -41,7 +37,7 @@ export class InventoryPanelComponent implements OnInit {
       this.collection = collection;
     });
     this.route.parent.params.forEach((params: Params) => {
-      this.project = this.projectsService.getProject(params['id']).snapshotChanges().map(transformSnapshotAction);
+      this.project = this.projectsService.getProject(params['id']);
     });
 
     this.subheaderService.visibilitySubject.subscribe(visibility => {

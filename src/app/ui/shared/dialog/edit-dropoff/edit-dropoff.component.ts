@@ -78,8 +78,10 @@ export class EditDropoffComponent implements OnInit {
     });
 
     // Store the setting to use as defaults for new requests
-    this.projectsService.setLastDropoff(this.project,
-      this.selectedDropoffLocation, date.getTime());
+    this.projectsService.updateProject(this.project, {
+      lastUsedDropoff: this.selectedDropoffLocation,
+      lastUsedDate: date.getTime().toString()
+    });
 
     this.close();
     this.requestsService.clearSelected();

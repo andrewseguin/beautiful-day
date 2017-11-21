@@ -1,30 +1,26 @@
 import {
-  Component,
-  OnInit,
-  Input,
-  ElementRef,
-  ViewChild,
-  trigger,
-  animate,
-  transition,
-  style,
-  state,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
+  ElementRef,
   EventEmitter,
-  Output
-} from "@angular/core";
-import {MatDialog} from "@angular/material";
-import {Item} from "../../../../model/item";
-import {RequestsService} from "../../../../service/requests.service";
-import {Request} from "../../../../model/request";
-import {ItemsService} from "../../../../service/items.service";
-import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.component";
-import {EditItemComponent} from "../../dialog/edit-item/edit-item.component";
-import {ProjectsService} from "../../../../service/projects.service";
-import {RequestViewOptions} from "../../../../model/request-view-options";
-import {GroupsService} from "../../../../service/groups.service";
-import {AccountingService} from "../../../../service/accounting.service";
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatDialog} from '@angular/material';
+import {Item} from '../../../../model/item';
+import {RequestsService} from '../../../../service/requests.service';
+import {Request} from '../../../../model/request';
+import {ItemsService} from '../../../../service/items.service';
+import {EditDropoffComponent} from '../../dialog/edit-dropoff/edit-dropoff.component';
+import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
+import {ProjectsService} from '../../../../service/projects.service';
+import {RequestViewOptions} from '../../../../model/request-view-options';
+import {GroupsService} from '../../../../service/groups.service';
+import {AccountingService} from '../../../../service/accounting.service';
 import {Project} from '../../../../model/project';
 import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 
@@ -102,11 +98,11 @@ export class RequestComponent implements OnInit {
       this.itemsService.getItem(request.item).snapshotChanges().map(transformSnapshotAction).subscribe((item: Item) => {
         this.item = item;
         this.itemDisplayName = item.name;
-        if (this.item.type) { this.itemDisplayName += ` - ${item.type}`};
+        if (this.item.type) { this.itemDisplayName += ` - ${item.type}`}
         this.cd.markForCheck();
       });
 
-      this.projectsService.getProject(this.request.project).snapshotChanges().map(transformSnapshotAction).subscribe((project: Project) => {
+      this.projectsService.getProject(this.request.project).subscribe((project: Project) => {
         this.projectName = project.name;
         this.cd.markForCheck();
       });

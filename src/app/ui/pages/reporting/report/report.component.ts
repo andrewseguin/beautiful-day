@@ -53,7 +53,7 @@ export class ReportComponent {
       this.items = items; this.performQuery();
     });
 
-    this.projectsService.getProjects().snapshotChanges().map(transformSnapshotActionList).subscribe(projects => {
+    this.projectsService.projects.subscribe(projects => {
       this.projects = projects; this.performQuery();
     });
   };
