@@ -59,3 +59,8 @@
     min-width: 100px;
   }
 }
+
+// Quantity input should inherit its width to fit the card
+:host ::ng-deep .mat-form-field-infix {
+  width: inherit;
+}
