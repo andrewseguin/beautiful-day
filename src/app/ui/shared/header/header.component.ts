@@ -3,10 +3,9 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {HeaderService} from '../../../service/header.service';
 import {MediaQueryService} from '../../../service/media-query.service';
 import {SubheaderService} from '../../../service/subheader.service';
-import {ActivatedRoute, Event, Router, UrlSegment} from '@angular/router';
+import {ActivatedRoute, Event, NavigationEnd, Router, UrlSegment} from '@angular/router';
 import {TopLevelSection} from '../../../router.config';
 import {ProjectsService} from '../../../service/projects.service';
-import {Project} from '../../../model/project';
 import {MatDialog, MatSidenav} from '@angular/material';
 import {UsersService} from '../../../service/users.service';
 import {User} from '../../../model/user';
@@ -76,7 +75,7 @@ export class HeaderComponent implements OnInit {
     });
 
     this.router.events.subscribe((event: Event) => {
-      if (this.route.firstChild) {
+      if (event instanceof NavigationEnd) {
         this.handleRouteChange(this.route.firstChild);
       }
     });
@@ -98,18 +97,27 @@ export class HeaderComponent implements OnInit {
   handleRouteChange(route: ActivatedRoute) {
     route.url.take(1).subscribe((url: UrlSegment[]) => {
       this.topLevel = <TopLevelSection>url[0].path;
+      if (this.topLevel !== 'project') {
+        this.projectId = '';
+        return;
+      }
 
-      this.projectId = '';
-      if (this.topLevel === 'project') {
-        this.headerService.title = 'Loading...';
-        this.projectsService.getProject(url[1].path).snapshotChanges().subscribe(project => {
-          this.projectId = project.key;
-          if (project) {
-            this.headerService.title = project.payload.val().name;
-          } else {
-            this.headerService.title = '';
-          }
-        });
+      const projectId = url[1].path;
+      if (this.projectId !== projectId) {
+        this.loadProjectTitle(projectId);
+      }
+    });
+  }
+
+  loadProjectTitle(projectId: string) {
+    this.projectId = projectId;
+    this.headerService.title = 'Loading...';
+    this.projectsService.getProject(projectId).snapshotChanges().subscribe(project => {
+      this.projectId = project.key;
+      if (project) {
+        this.headerService.title = project.payload.val().name;
+      } else {
+        this.headerService.title = '';
       }
     });
   }
