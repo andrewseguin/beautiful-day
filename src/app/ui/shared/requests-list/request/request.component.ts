@@ -208,6 +208,6 @@ export class RequestComponent implements OnInit {
   getRequestCost() {
     if (!this.item || !this.request) { return 0; }
 
-    return this.accountingService.getRequestCost(this.item, this.request);
+    return this.accountingService.getRequestCost(this.item.cost, this.request);
   }
 }

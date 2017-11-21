@@ -25,10 +25,6 @@ export class ProjectsService {
     return this.db.list(`projects`);
   }
 
-  getBudget(id: string): Observable<number> {
-    return this.db.object(`projects/${id}/budget`).valueChanges();
-  }
-
   getSortedProjects(): Observable<Project[]> {
     const sortFn = (a, b) => ((a.name < b.name) ? -1 : 1);
     return this.projects.map(projects => projects.sort(sortFn));

@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {RequestsService} from './requests.service';
 import {ItemsService} from './items.service';
-import {Observable} from 'rxjs';
-import {Item} from '../model/item';
+import {Observable} from 'rxjs/Observable';
 import {ProjectsService} from './projects.service';
 import {Request} from '../model/request';
-import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/observable/combineLatest';
 
 export interface BudgetResponse {
   budget: number;
@@ -15,55 +14,44 @@ export interface BudgetResponse {
 
 @Injectable()
 export class AccountingService {
-  items = new Map<string, Item>();
-
   constructor(private projectsService: ProjectsService,
               private requestsService: RequestsService,
-              private itemsService: ItemsService) {
-    this.itemsService.getItems().subscribe(items => this.saveItems(items));
-  }
+              private itemsService: ItemsService) { }
 
-  saveItems(items: Item[]) {
-    items.forEach(item => this.items.set(item.$key, item));
-  }
-
+  /** Returns a stream of a project's budget and costs. */
   getBudgetStream(projectId: string): Observable<BudgetResponse> {
-    let projectBudget;
-    return this.itemsService.getItems()
-      .debounceTime(100).flatMap(items => {
-        if (!this.items.size) { this.saveItems(items) }
-        return this.projectsService.getBudget(projectId)
-      })
-      .debounceTime(100).flatMap(budget => {
-        projectBudget = budget;
+    const changes = [
+      this.projectsService.getProject(projectId).map(project => project.budget),
+      this.requestsService.getProjectRequests(projectId),
+      this.itemsService.getItemCosts(),
+    ];
 
-        if (budget == null) { return Observable.from([null]) }
-        return this.requestsService.getProjectRequests(projectId);
-      })
-      .debounceTime(100).map(requests => {
-        if (!this.items.size || !requests || !requests.length) {
-          return {
-            budget: projectBudget,
-            cost: 0,
-            remaining: projectBudget,
-          };
-        }
+    return Observable.combineLatest(changes).map((result: any[]) => {
+      const budget: number = result[0];
+      const requests: Request[] = result[1];
+      const itemCosts: Map<string, number> = result[2];
 
-        const requestsCost = requests
-          // Convert all requests to their cost
-          .map(request => this.getRequestCost(this.items.get(request.item), request))
-          // Add all costs
-          .reduce((totalCost, requestCost) => totalCost + requestCost);
-
-        return {
-          budget: projectBudget,
-          cost: requestsCost,
-          remaining: projectBudget - requestsCost
-        };
-      });
+      const cost = this.getAllRequestsCost(requests, itemCosts);
+      return this._constructBudgetResponse(budget, cost);
+    });
   }
 
-  getRequestCost(item: Item, request: Request) {
+  /** Returns the cost of all requests. */
+  getAllRequestsCost(requests: Request[], itemCosts: Map<string, number>): number {
+    // No request cost if there is no inventory items or requests.
+    if (!itemCosts.size || !requests.length) {
+      return 0;
+    }
+
+    return requests
+      // Convert all requests to their cost
+      .map(request => this.getRequestCost(itemCosts.get(request.item), request))
+      // Add all costs
+      .reduce((totalCost, requestCost) => totalCost + requestCost);
+  }
+
+  /** Returns the cost of a request (quantity * item cost). */
+  getRequestCost(itemCost: number, request: Request) {
     let quantityToPurchase = request.quantity;
 
     if (request.allocation) {
@@ -71,6 +59,11 @@ export class AccountingService {
       quantityToPurchase = Math.max(quantityToPurchase, 0);
     }
 
-    return item.cost ? quantityToPurchase * item.cost : 0;
+    return itemCost ? quantityToPurchase * itemCost : 0;
+  }
+
+  /** Constructs a budget response with the budget, cost, and remaining balance. */
+  _constructBudgetResponse(budget: number, cost: number) {
+    return {budget, cost, remaining: budget - cost};
   }
 }

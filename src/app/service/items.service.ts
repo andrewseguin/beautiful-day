@@ -27,6 +27,15 @@ export class ItemsService {
     });
   }
 
+  /** Returns a map of the latest item costs. */
+  getItemCosts(): Observable<Map<string, number>> {
+    return this.db.list('items').snapshotChanges().map(transformSnapshotActionList).map(items => {
+      const itemCosts = new Map<string, number>();
+      items.forEach(item => itemCosts.set(item.$key, item.cost));
+      return itemCosts;
+    });
+  }
+
   getItemsWithCategory(category: string): Observable<Item[]> {
     return this.db.list('items', ref => ref.orderByChild('category').equalTo(category)).snapshotChanges().map(transformSnapshotActionList);
   }
