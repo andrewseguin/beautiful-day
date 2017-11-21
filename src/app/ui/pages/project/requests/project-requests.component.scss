@@ -12,12 +12,13 @@
   height: 100%;
 }
 
-:host mat-sidenav-container {
+:host mat-drawer-container {
   height: 100%;
   background: #CCC;
+  z-index: 0; // Resets the z-index so the subheader can show
 }
 
-mat-sidenav {
+mat-drawer {
   overflow: hidden;
   width: 100%;
   max-width: 300px;

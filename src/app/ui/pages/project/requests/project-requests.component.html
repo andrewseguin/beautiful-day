@@ -1,4 +1,4 @@
-<mat-sidenav-container *ngIf="editPermissions && delayedShow">
+<mat-drawer-container *ngIf="editPermissions && delayedShow">
   <div #scrollableContent class="scrollable-content"
        (scroll)="checkSubheader($event)"
        [style.bottom]="showBudget() ? '' : '0'">
@@ -40,7 +40,7 @@
           [class.hide]="sidenav.opened || hasSelectedRequests() || !editPermissions.requests"
           (click)="sidenav.open()"><mat-icon>add</mat-icon></button>
 
-  <mat-sidenav #sidenav
+  <mat-drawer #sidenav
               class="mat-elevation-z8"
               [opened]="!hideInventory()"
               [mode]="hideInventory() ? 'over' : 'side'"
@@ -48,5 +48,5 @@
               align="end">
     <inventory-panel #inventoryPanel (closeSidenav)="sidenav.close()">
     </inventory-panel>
-  </mat-sidenav>
-</mat-sidenav-container>
+  </mat-drawer>
+</mat-drawer-container>
