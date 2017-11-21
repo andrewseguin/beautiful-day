@@ -1,5 +1,5 @@
-import {Component, ElementRef, ViewChild} from "@angular/core";
-import {Router, NavigationEnd} from "@angular/router";
+import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Router, NavigationEnd} from '@angular/router';
 
 @Component({
   selector: 'app-pages',
@@ -15,7 +15,7 @@ export class PagesComponent {
         // When the router changes, scroll back to the top of the router content div
         this.routerContent.nativeElement.scrollTop = 0;
       }
-    })
+    });
   }
 
 

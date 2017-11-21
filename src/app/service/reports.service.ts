@@ -41,6 +41,6 @@ export class ReportsService {
       modifiedDate: new Date().getTime().toString(),
     };
 
-    return this.getAll().push(newReport)
+    return this.getAll().push(newReport);
   }
 }

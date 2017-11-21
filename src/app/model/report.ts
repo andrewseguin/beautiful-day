@@ -1,10 +1,10 @@
-import {DisplayOptions} from "./display-options";
+import {DisplayOptions} from './display-options';
 
 export type QueryType = 'any';
 
 export interface Query {
-  queryString?: string,
-  type?: QueryType
+  queryString?: string;
+  type?: QueryType;
 }
 
 export interface QueryStage {

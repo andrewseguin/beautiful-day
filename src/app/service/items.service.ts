@@ -37,7 +37,8 @@ export class ItemsService {
   }
 
   getItemsWithCategory(category: string): Observable<Item[]> {
-    return this.db.list('items', ref => ref.orderByChild('category').equalTo(category)).snapshotChanges().map(transformSnapshotActionList);
+    return this.db.list('items', ref => ref.orderByChild('category').equalTo(category))
+      .snapshotChanges().map(transformSnapshotActionList);
   }
 
   getItemsByCategory(): Observable<CategoryGroupCollection> {
@@ -52,11 +53,11 @@ export class ItemsService {
             categoryGroupsMap[category] = {
               category: category,
               items: []
-            }
+            };
           }
 
           categoryGroupsMap[category].items.push(item);
-        })
+        });
       });
 
       return categoryGroupsMap;

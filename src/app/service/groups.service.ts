@@ -32,12 +32,12 @@ export class GroupsService {
       for (let group of groups) {
         const groupCheck = this.get(group)
             .map(members => members.indexOf(this.normalizeEmail(user.email)) !== -1);
-        groupChecks.push(groupCheck)
+        groupChecks.push(groupCheck);
       }
 
       return Observable.combineLatest.apply(this, groupChecks)
           .map((checks: boolean[]) => checks.some(check => check));
-    })
+    });
   }
 
   normalizeEmail(email: string): string {

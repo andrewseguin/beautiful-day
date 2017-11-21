@@ -85,7 +85,7 @@ export class InventoryPanelItemComponent implements OnInit {
     this.requestQuantity = Math.max(0, this.requestQuantity);
     this.requested = true;
     this.project.first().subscribe(project => {
-      this.requestsService.addRequest(project, this.item, this.requestQuantity)
+      this.requestsService.addRequest(project, this.item, this.requestQuantity);
     });
   }
 

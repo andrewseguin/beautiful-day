@@ -1,7 +1,7 @@
-import {Component, OnInit, Input} from "@angular/core";
-import {AccountingService} from "../../../../../service/accounting.service";
-import * as CountUp from "countup.js";
-import {Subscription} from "rxjs";
+import {Component, OnInit, Input} from '@angular/core';
+import {AccountingService} from '../../../../../service/accounting.service';
+import * as CountUp from 'countup.js';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'remaining-budget',
@@ -18,7 +18,7 @@ export class RemainingBudgetComponent implements OnInit {
   budgetStream: Subscription;
   budgetLoaded: boolean;
   projectBudget: number;
-  previousRemainingBudget: number = 0;
+  previousRemainingBudget = 0;
   currentRemainingBudget: number;
 
   // Countup.js settings
@@ -65,7 +65,7 @@ export class RemainingBudgetComponent implements OnInit {
         this.decimals,
         this.duration,
         this.countUpOptions)
-        .start()
+        .start();
   }
 
 }

@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {MatDialogRef} from "@angular/material";
-import {RequestsService} from "../../../../service/requests.service";
+import {Component} from '@angular/core';
+import {MatDialogRef} from '@angular/material';
+import {RequestsService} from '../../../../service/requests.service';
 
 @Component({
   selector: 'edit-approval-status-dialog',
@@ -9,7 +9,7 @@ import {RequestsService} from "../../../../service/requests.service";
 })
 export class EditApprovalStatusDialogComponent {
   requestIds: Set<string>;
-  isApproved: boolean = true;
+  isApproved = true;
 
   constructor(private dialogRef: MatDialogRef<EditApprovalStatusDialogComponent>,
               private requestsService: RequestsService) {}

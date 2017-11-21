@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {MatDialogRef} from "@angular/material";
-import {GroupsService, Group} from "../../../../service/groups.service";
+import {Component, OnInit} from '@angular/core';
+import {MatDialogRef} from '@angular/material';
+import {GroupsService, Group} from '../../../../service/groups.service';
 
 @Component({
   selector: 'edit-group',

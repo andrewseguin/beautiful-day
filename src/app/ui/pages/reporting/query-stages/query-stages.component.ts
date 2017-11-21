@@ -1,6 +1,6 @@
-import {Component, Input, EventEmitter, Output} from "@angular/core";
-import {QueryStage} from "../../../../model/report";
-import {Subject} from "rxjs";
+import {Component, Input, EventEmitter, Output} from '@angular/core';
+import {QueryStage} from '../../../../model/report';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'query-stages',

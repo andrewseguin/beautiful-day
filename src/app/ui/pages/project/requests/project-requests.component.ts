@@ -52,7 +52,7 @@ export class ProjectRequestsComponent implements OnInit {
 
     // Delay the HTML so that the page first shows up with a background.
     // This is significant for mobile
-    setTimeout(() => { this.delayedShow = true }, 0);
+    setTimeout(() => { this.delayedShow = true; }, 0);
   }
 
   checkSubheader() {

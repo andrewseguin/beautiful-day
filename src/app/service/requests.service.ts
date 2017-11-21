@@ -107,14 +107,14 @@ export class RequestsService {
       requestIds.forEach(id => {
         this.getRequest(id).subscribe(request => {
           dialogRef.componentInstance.input = request.note;
-        })
+        });
       });
     }
 
     dialogRef.componentInstance.onSave().subscribe(note => {
       requestIds.forEach(requestId => this.update(requestId, {note}));
       this.clearSelected();
-    })
+    });
   }
 
   removeAllRequests() {

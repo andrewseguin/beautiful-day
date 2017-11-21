@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild, AfterViewChecked} from '@angular/core';
-import {MatDialogRef, MatTextareaAutosize} from "@angular/material";
-import {Project} from "../../../../model/project";
-import {ProjectsService} from "../../../../service/projects.service";
+import {MatDialogRef, MatTextareaAutosize} from '@angular/material';
+import {Project} from '../../../../model/project';
+import {ProjectsService} from '../../../../service/projects.service';
 
 export type EditType =
   'name' |

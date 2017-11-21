@@ -54,8 +54,8 @@ import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 })
 export class RequestComponent implements OnInit {
   item: Item;
-  highlightState: string = 'normal';
-  displayState: string = 'hidden';
+  highlightState = 'normal';
+  displayState = 'hidden';
   request: Request;
   projectName: string;
   itemDisplayName: string;
@@ -98,7 +98,7 @@ export class RequestComponent implements OnInit {
       this.itemsService.getItem(request.item).snapshotChanges().map(transformSnapshotAction).subscribe((item: Item) => {
         this.item = item;
         this.itemDisplayName = item.name;
-        if (this.item.type) { this.itemDisplayName += ` - ${item.type}`}
+        if (this.item.type) { this.itemDisplayName += ` - ${item.type}`;}
         this.cd.markForCheck();
       });
 
@@ -109,7 +109,7 @@ export class RequestComponent implements OnInit {
     });
 
     this.requestsService.selectionChange().subscribe(() => {
-      this.cd.markForCheck()
+      this.cd.markForCheck();
     });
   }
 
@@ -181,7 +181,7 @@ export class RequestComponent implements OnInit {
 
     // If acquisitions member, can edit the item
     this.groupsService.isMember('acquisitions').subscribe(isAcquisitions => {
-      if (isAcquisitions) dialogRef.componentInstance.mode = 'edit';
+      if (isAcquisitions) { dialogRef.componentInstance.mode = 'edit'; }
     });
 
     dialogRef.componentInstance.item = this.item;

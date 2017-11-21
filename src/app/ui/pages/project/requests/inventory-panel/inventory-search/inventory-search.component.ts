@@ -58,10 +58,10 @@ export class InventorySearchComponent  {
     }
   }
 
-  _search: string = '';
+  _search = '';
   set search(s: string) {
     this._search = s;
-    this.searchChanged.emit(s)
+    this.searchChanged.emit(s);
   }
   get search(): string { return this._search; }
 }

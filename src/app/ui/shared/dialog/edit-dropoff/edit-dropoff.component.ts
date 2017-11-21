@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild, ElementRef} from "@angular/core";
-import {RequestsService} from "../../../../service/requests.service";
-import {MatDialogRef} from "@angular/material";
-import {ProjectsService} from "../../../../service/projects.service";
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {RequestsService} from '../../../../service/requests.service';
+import {MatDialogRef} from '@angular/material';
+import {ProjectsService} from '../../../../service/projects.service';
 
 @Component({
   selector: 'edit-dropoff',
@@ -34,9 +34,9 @@ export class EditDropoffComponent implements OnInit {
 
   setDateFromRequest(requestDate: string) {
     const date = new Date(requestDate);
-    const day = ("0" + date.getDate()).slice(-2);
-    const month = ("0" + (date.getMonth() + 1)).slice(-2);
-    this.dateNeeded = date.getFullYear()+"-"+(month)+"-"+(day) ;
+    const day = ('0' + date.getDate()).slice(-2);
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    this.dateNeeded = date.getFullYear() + '-' + (month) + '-' + (day) ;
   }
 
   close() {
@@ -59,7 +59,7 @@ export class EditDropoffComponent implements OnInit {
     // The third-party date picker doesn't play nice with ngModel. Grab the value directly for now.
     this.dateNeeded = this.dateInput.nativeElement.value;
 
-    if (!this.canSave()) { return }
+    if (!this.canSave()) { return; }
 
     if (this.selectedDropoffLocation == 'new') {
       this.selectedDropoffLocation = this.newDropoff;

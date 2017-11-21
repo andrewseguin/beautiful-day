@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {Item} from "../model/item";
-import {Request} from "../model/request";
-import {QueryStage, Query} from "../model/report";
-import {RequestSortPipe} from "../pipe/request-sort.pipe";
-import {Project} from "../model/project";
+import {Injectable} from '@angular/core';
+import {Item} from '../model/item';
+import {Request} from '../model/request';
+import {QueryStage, Query} from '../model/report';
+import {RequestSortPipe} from '../pipe/request-sort.pipe';
+import {Project} from '../model/project';
 
 @Injectable()
 export class ReportQueryService {

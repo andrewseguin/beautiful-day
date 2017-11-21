@@ -1,15 +1,15 @@
-import {Component} from "@angular/core";
-import {MatSnackBar, MatDialog, MatSnackBarConfig} from "@angular/material";
-import {RequestsService} from "../../../../service/requests.service";
-import {GroupsService} from "../../../../service/groups.service";
-import {EditDropoffComponent} from "../../dialog/edit-dropoff/edit-dropoff.component";
-import {EditTagsComponent} from "../../dialog/edit-tags/edit-tags.component";
-import {DeleteRequestsComponent} from "../../dialog/delete-requests/delete-requests.component";
-import {PromptDialogComponent} from "../../dialog/prompt-dialog/prompt-dialog.component";
-import {EditPurchaseStatusDialogComponent} from "../../dialog/edit-purchase-status/edit-purchase-status";
-import {EditApprovalStatusDialogComponent} from "../../dialog/edit-approval-status/edit-approval-status";
-import {EditItemComponent} from "../../dialog/edit-item/edit-item.component";
-import {ItemsService} from "../../../../service/items.service";
+import {Component} from '@angular/core';
+import {MatSnackBar, MatDialog, MatSnackBarConfig} from '@angular/material';
+import {RequestsService} from '../../../../service/requests.service';
+import {GroupsService} from '../../../../service/groups.service';
+import {EditDropoffComponent} from '../../dialog/edit-dropoff/edit-dropoff.component';
+import {EditTagsComponent} from '../../dialog/edit-tags/edit-tags.component';
+import {DeleteRequestsComponent} from '../../dialog/delete-requests/delete-requests.component';
+import {PromptDialogComponent} from '../../dialog/prompt-dialog/prompt-dialog.component';
+import {EditPurchaseStatusDialogComponent} from '../../dialog/edit-purchase-status/edit-purchase-status';
+import {EditApprovalStatusDialogComponent} from '../../dialog/edit-approval-status/edit-approval-status';
+import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
+import {ItemsService} from '../../../../service/items.service';
 import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 
 @Component({

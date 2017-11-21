@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import {ReportSearchPipe} from "./report-search.pipe";
+import {ReportSearchPipe} from './report-search.pipe';
 
 describe('ReportSearchPipe', () => {
   it('create an instance', () => {

@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {MatDialogRef} from "@angular/material";
-import {RequestsService} from "../../../../service/requests.service";
+import {Component} from '@angular/core';
+import {MatDialogRef} from '@angular/material';
+import {RequestsService} from '../../../../service/requests.service';
 
 @Component({
   selector: 'edit-purchase-status-dialog',
@@ -9,7 +9,7 @@ import {RequestsService} from "../../../../service/requests.service";
 })
 export class EditPurchaseStatusDialogComponent {
   requestIds: Set<string>;
-  isPurchased: boolean = true;
+  isPurchased = true;
 
   constructor(private dialogRef: MatDialogRef<EditPurchaseStatusDialogComponent>,
               private requestsService: RequestsService) {}

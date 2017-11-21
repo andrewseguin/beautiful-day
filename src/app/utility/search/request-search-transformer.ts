@@ -1,7 +1,7 @@
-import {ItemSearchTransformer} from "./item-search-transformer";
-import {Project} from "../../model/project";
-import {Item} from "../../model/item";
-import {Request} from "../../model/request";
+import {ItemSearchTransformer} from './item-search-transformer';
+import {Project} from '../../model/project';
+import {Item} from '../../model/item';
+import {Request} from '../../model/request';
 
 export class RequestSearchTransformer {
   static transform(request: Request, item: Item, project: Project): string {

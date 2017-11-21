@@ -123,7 +123,7 @@ export class RequestsGroupComponent {
     const newRequest = this.requestComponents.find(requestComponent => {
       return requestComponent.requestId === requestKey;
     });
-    if (!newRequest) return;
+    if (!newRequest) { return; }
 
     // Highlight the new request
     newRequest.highlight();
@@ -148,19 +148,19 @@ export class RequestsGroupComponent {
   hasAllSelectedRequests(): boolean {
     return this.requestGroup.requests.every(request => {
       return this.requestsService.isSelected(request.$key);
-    })
+    });
   }
 
   toggleGroupSelection(select: boolean) {
     this.requestGroup.requests.forEach(request => {
       this.requestsService.setSelected(request.$key, select);
-    })
+    });
   }
 
   groupTransitionAnimationDone(e: AnimationTransitionEvent) {
     // When the group transition finishes, load in all the remaining requests
     if (e.toState === 'void') { return; }
 
-    setTimeout(() => { this.showRequests = true }, 150);
+    setTimeout(() => { this.showRequests = true; }, 150);
   }
 }

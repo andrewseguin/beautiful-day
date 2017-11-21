@@ -20,7 +20,7 @@ export class EditItemComponent implements OnInit {
   set item(item: Item) {
     this._item = {};
     for (const prop of Object.keys(item)) {
-      this._item[prop] = item[prop]
+      this._item[prop] = item[prop];
     }
   }
 

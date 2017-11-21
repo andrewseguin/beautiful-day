@@ -95,7 +95,7 @@ export class ProjectDetailsComponent implements OnInit {
 
     // Delay the HTML so that the page first shows up with a background.
     // This is significant for mobile
-    setTimeout(() => { this.delayedShow = true }, 0);
+    setTimeout(() => { this.delayedShow = true; }, 0);
   }
 
   ngOnDestroy() {
@@ -110,7 +110,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   canEdit(): boolean {
-    if (!this.user || !this.project || !this.editPermissions) return false;
+    if (!this.user || !this.project || !this.editPermissions) { return false; }
     return this.editPermissions.requests;
   }
 

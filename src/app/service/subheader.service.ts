@@ -8,7 +8,7 @@ export class SubheaderService {
 
   constructor(private router: Router) {
     this.router.events.subscribe(() => this.visibility(true));
-    window.addEventListener('resize', () => { this.visibility(true) });
+    window.addEventListener('resize', () => { this.visibility(true); });
   }
 
   visibility(v: boolean) {

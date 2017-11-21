@@ -1,16 +1,16 @@
-import {Injectable} from "@angular/core";
-import {Request} from "../model/request";
-import {ItemsService} from "./items.service";
-import {Item} from "../model/item";
-import {Subject} from "rxjs";
-import {GroupsService} from "./groups.service";
+import {Injectable} from '@angular/core';
+import {Request} from '../model/request';
+import {ItemsService} from './items.service';
+import {Item} from '../model/item';
+import {Subject} from 'rxjs';
+import {GroupsService} from './groups.service';
 
 export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff' | 'tags' | 'item';
 
 export class RequestGroup {
   id: string;
   title: string;
-  requests: Request[]
+  requests: Request[];
 }
 
 @Injectable()
@@ -97,7 +97,7 @@ export class RequestGroupingService {
         id: dropoff,
         title: dropoff,
         requests: requests
-      })
+      });
     });
   }
 
@@ -213,7 +213,7 @@ export class RequestGroupingService {
       'November', 'December'
     ];
 
-    const readableDate = `${monthNames[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
+    const readableDate = `${monthNames[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
     return readableDate + ` (${dayNames[d.getDay()]})`;
 
   }

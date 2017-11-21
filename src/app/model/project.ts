@@ -1,4 +1,4 @@
-import {Note} from "./note";
+import {Note} from './note';
 
 export interface Project {
   $key?: string;

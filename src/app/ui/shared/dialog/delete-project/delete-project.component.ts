@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Project} from "../../../../model/project";
-import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from "@angular/material";
-import {ProjectsService} from "../../../../service/projects.service";
-import {RequestsService} from "../../../../service/requests.service";
-import {NotesService} from "../../../../service/notes.service";
-import {Router} from "@angular/router";
+import {Project} from '../../../../model/project';
+import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {ProjectsService} from '../../../../service/projects.service';
+import {RequestsService} from '../../../../service/requests.service';
+import {NotesService} from '../../../../service/notes.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-delete-project',
@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
 })
 export class DeleteProjectComponent {
   project: Project;
-  deleteCheck: string = '';
+  deleteCheck = '';
 
   constructor(private dialogRef: MatDialogRef<DeleteProjectComponent>,
               private router: Router,
@@ -27,7 +27,7 @@ export class DeleteProjectComponent {
   }
 
   deleteProject() {
-    if (this.deleteCheck.toLowerCase().trim() != 'delete') return;
+    if (this.deleteCheck.toLowerCase().trim() != 'delete') { return; }
 
     // Delete requests
     this.requestsService.getProjectRequests(this.project.$key).subscribe(requests => {

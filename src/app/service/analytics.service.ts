@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-declare let ga:Function;
+import {environment} from '../../environments/environment';
+declare let ga: Function;
 
 @Injectable()
 export class AnalyticsService {

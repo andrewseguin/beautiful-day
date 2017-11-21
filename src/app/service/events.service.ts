@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Event} from '../model/event';
 import {Observable} from 'rxjs';
-import {AngularFireDatabase, AngularFireObject,} from 'angularfire2/database';
+import {AngularFireDatabase, AngularFireObject, } from 'angularfire2/database';
 import {transformSnapshotActionList} from '../utility/snapshot-tranform';
 
 

@@ -13,6 +13,6 @@ export class CanActivateAuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.auth.authState
       .take(1)
-      .map((authState: firebase.User) => !!authState)
+      .map((authState: firebase.User) => !!authState);
   }
 }

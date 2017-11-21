@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {User} from "../model/user";
-import {ProjectsService} from "./projects.service";
-import {Observable} from "rxjs";
-import {UsersService} from "./users.service";
-import {GroupsService} from "./groups.service";
+import {Injectable} from '@angular/core';
+import {User} from '../model/user';
+import {ProjectsService} from './projects.service';
+import {Observable} from 'rxjs';
+import {UsersService} from './users.service';
+import {GroupsService} from './groups.service';
 import {Project} from '../model/project';
 import {transformSnapshotAction} from '../utility/snapshot-tranform';
 
@@ -79,10 +79,10 @@ export class PermissionsService {
   }
 
   private isOwner(): Observable<boolean> {
-    return this.groupsService.isMember('owners')
+    return this.groupsService.isMember('owners');
   }
 
   private isCurrentUserOwnerOrAdmin(): Observable<boolean> {
-    return this.groupsService.isMember('admins', 'owners')
+    return this.groupsService.isMember('admins', 'owners');
   }
 }

@@ -1,14 +1,14 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params} from "@angular/router";
-import {Request} from "../../model/request";
-import {ReportsService} from "../../service/reports.service";
-import {ReportQueryService} from "../../service/report-query.service";
-import {ProjectsService} from "../../service/projects.service";
-import {ItemsService} from "../../service/items.service";
-import {RequestsService} from "../../service/requests.service";
-import {QueryStage, Report} from "../../model/report";
-import {Project} from "../../model/project";
-import {Item} from "../../model/item";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params} from '@angular/router';
+import {Request} from '../../model/request';
+import {ReportsService} from '../../service/reports.service';
+import {ReportQueryService} from '../../service/report-query.service';
+import {ProjectsService} from '../../service/projects.service';
+import {ItemsService} from '../../service/items.service';
+import {RequestsService} from '../../service/requests.service';
+import {QueryStage, Report} from '../../model/report';
+import {Project} from '../../model/project';
+import {Item} from '../../model/item';
 import {DisplayOptions} from '../../model/display-options';
 import {Title} from '@angular/platform-browser';
 import {QueryDisplay} from '../../utility/query-display';
@@ -67,7 +67,7 @@ export class PrintComponent implements OnInit {
           this.queryStages = [{querySet: [{queryString, type: 'any'}]}];
           this.titleService.setTitle(project.name);
           this.performQuery();
-        })
+        });
       }
     });
 
@@ -100,7 +100,7 @@ export class PrintComponent implements OnInit {
 
     setTimeout(() => {
       window.print();
-    }, 3000)
+    }, 3000);
   }
 
 }

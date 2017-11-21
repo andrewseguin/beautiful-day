@@ -1,11 +1,11 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Note} from "../../../../model/note";
-import {NotesService} from "../../../../service/notes.service";
-import {MatDialog, MatMenu} from "@angular/material";
-import {DeleteNoteComponent} from "../../../shared/dialog/delete-note/delete-note.component";
-import {Subject} from "rxjs";
-import {PromptDialogComponent} from "../../../shared/dialog/prompt-dialog/prompt-dialog.component";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Note} from '../../../../model/note';
+import {NotesService} from '../../../../service/notes.service';
+import {MatDialog, MatMenu} from '@angular/material';
+import {DeleteNoteComponent} from '../../../shared/dialog/delete-note/delete-note.component';
+import {Subject} from 'rxjs';
+import {PromptDialogComponent} from '../../../shared/dialog/prompt-dialog/prompt-dialog.component';
 
 export interface NoteChange {
   noteId: string;
@@ -19,7 +19,7 @@ export interface NoteChange {
 })
 export class ProjectNotesComponent implements OnInit {
   projectId: string;
-  notes : Note[];
+  notes: Note[];
   hoveringNavNoteId: string;
 
   title: string;
@@ -43,7 +43,7 @@ export class ProjectNotesComponent implements OnInit {
 
     this.route.parent.params.flatMap(params => {
       this.projectId = params['id'];
-      return this.notesService.getProjectNotes(this.projectId)
+      return this.notesService.getProjectNotes(this.projectId);
     }).subscribe(notes => {
       this.notes = notes;
     });
@@ -64,7 +64,7 @@ export class ProjectNotesComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.noteId) { this.saveNoteText(this.noteId, this.text) }
+    if (this.noteId) { this.saveNoteText(this.noteId, this.text); }
   }
 
   createNote() {
@@ -102,7 +102,7 @@ export class ProjectNotesComponent implements OnInit {
 
   getNote(id: string): Note {
     let note = null;
-    this.notes.forEach(n => { if (n.$key == id) note = n});
+    this.notes.forEach(n => { if (n.$key == id) { note = n; }});
     return note;
   }
 

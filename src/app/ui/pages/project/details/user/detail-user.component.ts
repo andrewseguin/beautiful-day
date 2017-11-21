@@ -14,7 +14,7 @@ export class DetailUserComponent {
   @Input('userEmail') set userEmail(userEmail: string) {
     this._userEmail = userEmail;
     this.user = null;
-    if (!this._userEmail) return;
+    if (!this._userEmail) { return; }
 
     this.usersService.get(this.userEmail).subscribe(user => {
       this.user = user ? user : {email: this.userEmail};

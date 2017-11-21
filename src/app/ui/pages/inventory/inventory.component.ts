@@ -12,13 +12,13 @@ import {ItemSearchPipe} from '../../../pipe/item-search.pipe';
   styleUrls: ['./inventory.component.scss']
 })
 export class InventoryComponent implements OnInit {
-  itemsToShow: number = 10;
+  itemsToShow = 10;
   items: Item[];
   searchItems: Item[];
   categories: string[] = [];
   itemSearch = new ItemSearchPipe();
 
-  _search: string = '';
+  _search = '';
   set search(search: string) {
     this._search = search;
     this.searchItems = this.itemSearch.transform(this.items, search);
@@ -41,7 +41,7 @@ export class InventoryComponent implements OnInit {
     this.itemsService.getItemsByCategory()
         .subscribe(categoryGroupCollection => {
           this.categories = Object.keys(categoryGroupCollection);
-        })
+        });
   }
 
   ngOnDestroy() {
@@ -80,12 +80,12 @@ export class InventoryComponent implements OnInit {
   hasAllSelectedItems(): boolean {
     return this.searchItems.every(item => {
       return this.itemsService.isSelected(item.$key);
-    })
+    });
   }
 
   toggleGroupSelection(select: boolean) {
     this.searchItems.forEach(item => {
       this.itemsService.setSelected(item.$key, select);
-    })
+    });
   }
 }

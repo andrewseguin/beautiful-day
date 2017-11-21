@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {HeaderService} from "../../../service/header.service";
-import {ActivatedRoute, Params} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {HeaderService} from '../../../service/header.service';
+import {ActivatedRoute, Params} from '@angular/router';
 
 @Component({
   selector: 'reporting',

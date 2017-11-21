@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {MatDialogRef} from "@angular/material";
-import {Subject, Observable} from "rxjs";
+import {Component} from '@angular/core';
+import {MatDialogRef} from '@angular/material';
+import {Subject, Observable} from 'rxjs';
 
 @Component({
   selector: 'prompt-dialog',

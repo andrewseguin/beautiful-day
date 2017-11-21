@@ -1,7 +1,7 @@
-import {Component} from "@angular/core";
-import {MatDialogRef} from "@angular/material";
+import {Component} from '@angular/core';
+import {MatDialogRef} from '@angular/material';
 import {Event} from '../../../../model/event';
-import {EventsService} from "../../../../service/events.service";
+import {EventsService} from '../../../../service/events.service';
 
 @Component({
   selector: 'edit-event',
@@ -40,9 +40,9 @@ export class EditEventComponent {
 
   getDateFromEvent(eventDate: number) {
     const date = new Date(eventDate);
-    const day = ("0" + date.getDate()).slice(-2);
-    const month = ("0" + (date.getMonth() + 1)).slice(-2);
-    return date.getFullYear()+"-"+(month)+"-"+(day) ;
+    const day = ('0' + date.getDate()).slice(-2);
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    return date.getFullYear() + '-' + (month) + '-' + (day) ;
   }
 
   save() {

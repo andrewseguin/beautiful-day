@@ -38,6 +38,6 @@ export class SlidingPanelComponent {
 
   constructor(private itemsService: ItemsService) { }
 
-  open() { this.state = 'open' }
-  close() { this.state = 'closed' }
+  open() { this.state = 'open'; }
+  close() { this.state = 'closed'; }
 }

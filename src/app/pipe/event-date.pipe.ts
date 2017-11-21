@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {DatePipe} from "@angular/common";
+import {DatePipe} from '@angular/common';
 
 @Pipe({
   name: 'eventDate'

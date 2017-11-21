@@ -1,4 +1,4 @@
-import {Report} from "../../model/report";
+import {Report} from '../../model/report';
 
 export class ReportSearchTransformer {
   static transform(report: Report): string {
