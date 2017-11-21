@@ -24,7 +24,7 @@
       </div>
 
       <div class="quantity" (click)="!request?.isPurchased ? $event.stopPropagation() : null">
-        <div *ngIf="isReporting">{{item?.cost | currency:'USD':true:'1.2-2'}}</div>
+        <div *ngIf="isReporting">{{item?.cost | currency:'USD'}}</div>
         <input type="number" #quantityInput min="0"
                *ngIf="canEdit && !isReporting && !request?.isPurchased"
                [value]="request?.quantity"
@@ -39,7 +39,7 @@
 
       <div class="cost" *ngIf="requestViewOptions.cost">
         <span *ngIf="item?.cost">
-          {{getRequestCost() | currency:'USD':true:'1.2-2'}}
+          {{getRequestCost() | currency:'USD'}}
         </span>
         <span *ngIf="!item?.cost">--</span>
       </div>

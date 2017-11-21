@@ -14,7 +14,7 @@
 
     <div>
       <span class="property-title">Cost:</span>
-      {{item.cost ? (item.cost  | currency:'USD':true:'1.2-2') : '--'}}
+      {{item.cost ? (item.cost  | currency:'USD') : '--'}}
     </div>
 
     <div *ngIf="item.url">

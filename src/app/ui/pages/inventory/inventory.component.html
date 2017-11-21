@@ -31,7 +31,7 @@
             <mat-icon class="md-18" (click)="$event.stopPropagation(); editItem(item)">edit</mat-icon>
             <mat-icon class="md-18" (click)="$event.stopPropagation(); openItemUrl(item)">open_in_new</mat-icon>
           </div>
-          <div class="cost">{{item.cost | currency:'USD':true:'1.2-2'}}</div>
+          <div class="cost">{{item.cost | currency:'USD'}}</div>
         </div>
         <div class="details">
           <div class="owned" *ngIf="item.quantityOwned">

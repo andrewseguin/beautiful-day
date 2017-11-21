@@ -71,20 +71,20 @@
           <div class="type">
             Initial Budget:
           </div>
-          <div>{{budgetStream.budget | currency:'USD':true:'1.2-2'}}</div>
+          <div>{{budgetStream.budget | currency:'USD'}}</div>
         </div>
         <div class="budget-line">
           <div class="type">
             Requests Cost:
           </div>
-          <div>{{budgetStream.cost | currency:'USD':true:'1.2-2'}}</div>
+          <div>{{budgetStream.cost | currency:'USD'}}</div>
         </div>
         <div class="budget-line">
           <div class="type">
             Remaining Budget:
           </div>
           <span [style.color]="budgetStream.remaining > 0 ? 'green' : 'red'">
-            {{budgetStream.remaining | currency:'USD':true:'1.2-2'}}
+            {{budgetStream.remaining | currency:'USD'}}
           </span>
         </div>
       </div>
