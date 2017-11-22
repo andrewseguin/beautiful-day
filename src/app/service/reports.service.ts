@@ -3,44 +3,46 @@ import {
   AngularFireDatabase, AngularFireList, AngularFireObject,
 } from 'angularfire2/database';
 import {QueryStage, Report} from '../model/report';
+import {DaoService} from './dao-service';
+import {UsersService} from './users.service';
+import {User} from '../model/user';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
-export class ReportsService {
+export class ReportsService extends DaoService<Report> {
+  user: User;
+  reports: Observable<Report[]>;
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(db: AngularFireDatabase, private usersService: UsersService) {
+    super(db, 'reports');
+    this.reports = this.getKeyedListDao();
+    this.usersService.getCurrentUser().subscribe(user => this.user = user);
+  }
 
   getAll(): AngularFireList<Report> {
     return this.db.list('reports');
   }
 
-  get(id: string): AngularFireObject<Report> {
-    return this.db.object(`reports/${id}`);
-  }
-
   update(id, update: Report): void {
     update.modifiedDate = new Date().getTime().toString();
-    this.get(id).update(update);
+    super.update(id, update);
   }
 
-  remove(id: string) {
-    this.get(id).remove();
-  }
-
-  create(user: string, optReportTemplate?: Report) {
+  add(report?: Report) {
     const emptyQueryStage: QueryStage = {
       querySet: [{queryString: '', type: 'any'}],
       exclude: false,
     };
 
     const newReport: Report = {
-      name: optReportTemplate ? `Copy of ${optReportTemplate.name}` : 'New Report',
-      queryStages: optReportTemplate ? optReportTemplate.queryStages : [emptyQueryStage],
-      createdBy: user,
-      modifiedBy: user,
+      name: report ? `Copy of ${report.name}` : 'New Report',
+      queryStages: report ? report.queryStages : [emptyQueryStage],
+      createdBy: this.user.email,
+      modifiedBy: this.user.email,
       createdDate: new Date().getTime().toString(),
       modifiedDate: new Date().getTime().toString(),
     };
 
-    return this.getAll().push(newReport);
+    return super.add(newReport);
   }
 }

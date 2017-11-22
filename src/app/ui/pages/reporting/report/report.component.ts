@@ -39,7 +39,7 @@ export class ReportComponent {
   @Input() set reportId(reportId: string) {
     this._reportId = reportId;
 
-    this.reportsService.get(reportId).snapshotChanges().map(transformSnapshotAction).subscribe(report => {
+    this.reportsService.get(reportId).subscribe(report => {
       if (report) {
         this.report = report; this.performQuery();
       }
@@ -120,7 +120,7 @@ export class ReportComponent {
   }
 
   duplicateReport() {
-    this.reportsService.create(this.user.email, this.report).then(response => {
+    this.reportsService.add(this.report).then(response => {
       this.router.navigate([`../${response.key}`], {relativeTo: this.route});
 
       const snackbarConfig = new MatSnackBarConfig();

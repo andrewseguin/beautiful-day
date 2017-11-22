@@ -55,7 +55,7 @@ export class PrintComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.type = params['type'];
       if (this.type === 'report') {
-        this.reportsService.get(params['id']).snapshotChanges().map(transformSnapshotAction).subscribe((report: Report) => {
+        this.reportsService.get(params['id']).subscribe((report: Report) => {
           this.queryStages = report.queryStages;
           this.displayOptions = report.displayOptions;
           this.titleService.setTitle(report.name);
