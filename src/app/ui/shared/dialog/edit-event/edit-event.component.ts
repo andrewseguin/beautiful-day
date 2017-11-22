@@ -26,7 +26,7 @@ export class EditEventComponent {
               private eventsService: EventsService) {}
 
   remove() {
-    this.eventsService.remove(this.event);
+    this.eventsService.remove(this.event.$key);
     this.close();
   }
 

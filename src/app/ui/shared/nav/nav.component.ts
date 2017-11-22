@@ -52,7 +52,13 @@ export class NavComponent implements OnInit {
   }
 
   addProject() {
-    this.projectsService.createProject().then(response => {
+    const newProject = {
+      name: 'New Project',
+      description: '',
+      location: ''
+    };
+
+    this.projectsService.add(newProject).then(response => {
       this.router.navigate([`project/${response.getKey()}`]);
       this.sidenav.close();
     });

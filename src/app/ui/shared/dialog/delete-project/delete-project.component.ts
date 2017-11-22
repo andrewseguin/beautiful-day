@@ -40,7 +40,7 @@ export class DeleteProjectComponent {
     });
 
     // Delete project
-    this.projectsService.deleteProject(this.project.$key);
+    this.projectsService.remove(this.project.$key);
 
     const snackbarConfig = new MatSnackBarConfig();
     snackbarConfig.duration = 2000;

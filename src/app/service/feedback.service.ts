@@ -5,59 +5,43 @@ import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {APP_VERSION} from '../app.component';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Observable} from 'rxjs/Observable';
-import {transformSnapshotActionList} from '../utility/snapshot-tranform';
+import {DaoService} from './dao-service';
+import 'rxjs/add/operator/first';
 
 @Injectable()
-export class FeedbackService {
+export class FeedbackService extends DaoService<Feedback> {
+  feedback: Observable<Feedback[]>;
 
-  constructor(private db: AngularFireDatabase,
+  constructor(db: AngularFireDatabase,
               private mdSnackbar: MatSnackBar,
-              private auth: AngularFireAuth) { }
-
-  getAllFeedback(): Observable<Feedback[]> {
-    return this.db.list<Feedback>('feedback').snapshotChanges().map(transformSnapshotActionList);
+              private auth: AngularFireAuth) {
+    super(db, 'feedback');
+    this.feedback = this.getKeyedListDao();
   }
 
-  addFeedback(feedback: string|number) {
+  addFeedback(type: 'issue' | 'feedback', text: string) {
     this.auth.authState.first().subscribe(auth => {
       if (!auth) { return; }
-      this.db.list('feedback').push({
-        type: 'feedback',
-        user: auth.uid,
-        text: feedback,
-        dateAdded: new Date().getTime(),
-        appVersion: APP_VERSION
-      });
-      this.showSnackbar('Feedback sent!');
-    });
-  }
 
-  addIssue(issue: string|number) {
-    this.auth.authState.first().subscribe(auth => {
-      if (!auth) { return; }
-      this.db.list('feedback').push({
-        type: 'issue',
+      const obj = {type, text,
         user: auth.uid,
-        text: issue,
         dateAdded: new Date().getTime(),
-        appVersion: APP_VERSION
+        appVersion: APP_VERSION.toString()
+      };
+
+      this.add(obj).then(() => {
+        const message = type === 'feedback' ?
+          'Feedback sent!' :
+          'Issue report sent!';
+        this.showSnackbar(message);
       });
-      this.showSnackbar('Issue report sent.');
     });
+
   }
 
   showSnackbar(text: string) {
     const snackbarConfig = new MatSnackBarConfig();
     snackbarConfig.duration = 2000;
     this.mdSnackbar.open(text, null, snackbarConfig);
-  }
-
-  update(feedback: Feedback) {
-    this.db.object(`feedback/${feedback.$key}`).update({
-      type: feedback.type,
-      user: feedback.user,
-      text: feedback.text,
-      reviewed: feedback.reviewed
-    });
   }
 }

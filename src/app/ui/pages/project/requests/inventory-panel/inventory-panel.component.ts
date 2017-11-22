@@ -37,7 +37,7 @@ export class InventoryPanelComponent implements OnInit {
       this.collection = collection;
     });
     this.route.parent.params.forEach((params: Params) => {
-      this.project = this.projectsService.getProject(params['id']);
+      this.project = this.projectsService.get(params['id']);
     });
 
     this.subheaderService.visibilitySubject.subscribe(visibility => {

@@ -62,7 +62,7 @@ export class PrintComponent implements OnInit {
           this.performQuery();
         });
       } else if (this.type === 'project') {
-        this.projectsService.getProject(params['id']).subscribe((project: Project) => {
+        this.projectsService.get(params['id']).subscribe((project: Project) => {
           const queryString = `[projectId]:${project.$key}`;
           this.queryStages = [{querySet: [{queryString, type: 'any'}]}];
           this.titleService.setTitle(project.name);

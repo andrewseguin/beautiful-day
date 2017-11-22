@@ -18,7 +18,7 @@ export class ProjectComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
-      this.projectsService.getProject(params['id']).subscribe(project => {
+      this.projectsService.get(params['id']).subscribe(project => {
         this.loading = false;
         this.project = project;
       });

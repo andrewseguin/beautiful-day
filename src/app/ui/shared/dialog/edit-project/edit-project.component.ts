@@ -86,7 +86,7 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
         update.receiptsFolder = this.receiptsFolder; break;
     }
 
-    this.projectsService.updateProject(this.project.$key, update);
+    this.projectsService.update(this.project.$key, update);
     this.close();
   }
 

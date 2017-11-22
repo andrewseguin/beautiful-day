@@ -112,7 +112,7 @@ export class HeaderComponent implements OnInit {
   loadProjectTitle(projectId: string) {
     this.projectId = projectId;
     this.headerService.title = 'Loading...';
-    this.projectsService.getProject(projectId).subscribe(project => {
+    this.projectsService.get(projectId).subscribe(project => {
       this.projectId = project.$key;
       this.headerService.title = project ? project.name : '';
     });
@@ -160,7 +160,7 @@ export class HeaderComponent implements OnInit {
     dialogRef.componentInstance.title = 'Send Feedback';
     dialogRef.componentInstance.useTextArea = true;
     dialogRef.componentInstance.onSave().subscribe(text => {
-      this.feedbackService.addFeedback(text);
+      this.feedbackService.addFeedback('feedback', <string>text);
     });
   }
 
@@ -169,7 +169,7 @@ export class HeaderComponent implements OnInit {
     dialogRef.componentInstance.title = 'Report Issue';
     dialogRef.componentInstance.useTextArea = true;
     dialogRef.componentInstance.onSave().subscribe(text => {
-      this.feedbackService.addIssue(text);
+      this.feedbackService.addFeedback('issue', <string>text);
     });
   }
 

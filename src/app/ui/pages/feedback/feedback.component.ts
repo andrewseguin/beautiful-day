@@ -23,7 +23,7 @@ export class FeedbackComponent implements OnInit {
 
   ngOnInit() {
     this.headerService.title = 'Feedback';
-    this.feedbackService.getAllFeedback().subscribe(allFeedback => {
+    this.feedbackService.feedback.subscribe(allFeedback => {
       allFeedback.forEach(feedback => {
         if (!this.userMap.get(feedback.user)) {
           this.userMap.set(feedback.user, this.usersService.getByUid(feedback.user).snapshotChanges().map(transformSnapshotAction));
@@ -36,7 +36,6 @@ export class FeedbackComponent implements OnInit {
   }
 
   setReviewed(feedback: Feedback) {
-    feedback.reviewed = true;
-    this.feedbackService.update(feedback);
+    this.feedbackService.update(feedback.$key, {reviewed: true});
   }
 }

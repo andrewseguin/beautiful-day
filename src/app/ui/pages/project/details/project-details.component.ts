@@ -73,7 +73,7 @@ export class ProjectDetailsComponent implements OnInit {
     });
 
     this.route.parent.params.forEach((params: Params) => {
-      this.projectsService.getProject(params['id']).subscribe((project: Project) => {
+      this.projectsService.get(params['id']).subscribe((project: Project) => {
         this.project = project;
 
         this.requestsService.getProjectRequests(params['id'])

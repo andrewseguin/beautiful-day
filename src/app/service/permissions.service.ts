@@ -32,7 +32,7 @@ export class PermissionsService {
       return this.groupsService.isMember('acquisitions', 'approvers');
     }).flatMap(result => {
       isRequestEditor = result;
-      return this.projectsService.getProject(projectId);
+      return this.projectsService.get(projectId);
     }).flatMap((project: Project) => {
       const leads = project.leads || '';
       const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());

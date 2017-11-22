@@ -21,7 +21,7 @@ export class AccountingService {
   /** Returns a stream of a project's budget and costs. */
   getBudgetStream(projectId: string): Observable<BudgetResponse> {
     const changes = [
-      this.projectsService.getProject(projectId).map(project => project.budget),
+      this.projectsService.get(projectId).map(project => project.budget),
       this.requestsService.getProjectRequests(projectId),
       this.itemsService.getItemCosts(),
     ];

@@ -102,7 +102,7 @@ export class RequestComponent implements OnInit {
         this.cd.markForCheck();
       });
 
-      this.projectsService.getProject(this.request.project).subscribe((project: Project) => {
+      this.projectsService.get(this.request.project).subscribe((project: Project) => {
         this.projectName = project.name;
         this.cd.markForCheck();
       });

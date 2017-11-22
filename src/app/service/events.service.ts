@@ -1,26 +1,27 @@
 import {Injectable} from '@angular/core';
 import {Event} from '../model/event';
 import {Observable} from 'rxjs';
-import {AngularFireDatabase, AngularFireObject, } from 'angularfire2/database';
-import {transformSnapshotActionList} from '../utility/snapshot-tranform';
+import {AngularFireDatabase,} from 'angularfire2/database';
+import {DaoService} from './dao-service';
 
 
 @Injectable()
-export class EventsService {
+export class EventsService extends DaoService<Event> {
   events: Observable<Event[]>;
 
-  constructor(private db: AngularFireDatabase) {
-    this.events = this.db.list<Event>('events').snapshotChanges().map(transformSnapshotActionList);
+  constructor(db: AngularFireDatabase) {
+    super(db, 'events');
+    this.events = this.getKeyedListDao();
   }
 
   getSortedEvents(): Observable<Event[]> {
-    return this.events.map(events => {
-      return events.sort((eventA: Event, eventB: Event) => {
-        const dateA = new Date(eventA.date);
-        const dateB = new Date(eventB.date);
-        return dateA.getTime() - dateB.getTime();
-      });
-    });
+    const sortFn = (a: Event, b: Event) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateA.getTime() - dateB.getTime();
+    };
+
+    return this.events.map(events => events.sort(sortFn));
   }
 
   getUpcomingEvents(): Observable<Event[]> {
@@ -34,21 +35,5 @@ export class EventsService {
 
       return upcomingEvents.slice(0, 3);
     });
-  }
-
-  getEvent(id: string): AngularFireObject<Event> {
-    return this.db.object<Event>(`events/${id}`);
-  }
-
-  add(event: Event) {
-    this.db.list('events').push(event);
-  }
-
-  remove(event: Event) {
-    this.getEvent(event.$key).remove();
-  }
-
-  update(id: string, update: Event) {
-    this.getEvent(id).update(update);
   }
 }

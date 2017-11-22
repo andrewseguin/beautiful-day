@@ -60,7 +60,7 @@ export class InventoryPanelItemComponent implements OnInit {
 
   ngOnInit() {
     this.route.parent.params.subscribe((params: Params) => {
-      this.project = this.projectsService.getProject(params['id']);
+      this.project = this.projectsService.get(params['id']);
     });
   }
 
