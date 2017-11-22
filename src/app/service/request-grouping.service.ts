@@ -34,8 +34,8 @@ export class RequestGroupingService {
     this.requestGroups.set('tags', []);
     this.requestGroups.set('item', []);
 
-    this.groupsService.isMember('acquisitions').flatMap(isAcquisitions => {
-      this.isAcquisitions = isAcquisitions;
+    this.groupsService.membership.flatMap(membership => {
+      this.isAcquisitions = membership.acquisitions;
       return this.itemsService.getItems();
     }).subscribe(items => {
       this.items = items;

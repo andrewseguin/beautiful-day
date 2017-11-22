@@ -3,37 +3,77 @@ import {User} from '../model/user';
 import {ProjectsService} from './projects.service';
 import {Observable} from 'rxjs';
 import {UsersService} from './users.service';
-import {GroupsService} from './groups.service';
+import {GroupsService, Membership} from './groups.service';
 import {Project} from '../model/project';
 import {transformSnapshotAction} from '../utility/snapshot-tranform';
+import {Subject} from 'rxjs/Subject';
+import {SnapshotAction} from 'angularfire2/database';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
-export interface EditPermissions {
+export interface EditProjectPermissions {
   details?: boolean;
   notes?: boolean;
   requests?: boolean;
 }
 
+export interface Permissions {
+  owner?: boolean;
+  admin?: boolean;
+  acquisition?: boolean;
+  approver?: boolean;
+}
+
+
 @Injectable()
 export class PermissionsService {
+  permissions = new BehaviorSubject<Permissions>({});
+
   constructor(private projectsService: ProjectsService,
               private groupsService: GroupsService,
-              private usersService: UsersService) { }
+              private usersService: UsersService) {
+    this.groupsService.membership
+        .subscribe(membership => this.updatePermissions(membership));
+  }
 
-  getEditPermissions(projectId: string): Observable<EditPermissions> {
-    let user: User;
-    let isAdminOrOwner: boolean;
-    let isRequestEditor: boolean;
+  updatePermissions(membership: Membership) {
+    const permissions: Permissions = {
+      owner: membership.owners,
+      admin: membership.admins,
+      acquisition: membership.acquisitions,
+      approver: membership.approvers
+    };
 
-    return this.usersService.getCurrentUser().flatMap(u => {
-      user = u;
-      return this.groupsService.isMember('admins', 'owners');
-    }).flatMap(result => {
-      isAdminOrOwner = result;
-      return this.groupsService.isMember('acquisitions', 'approvers');
-    }).flatMap(result => {
-      isRequestEditor = result;
-      return this.projectsService.get(projectId);
-    }).flatMap((project: Project) => {
+    // Owners are higher level admins
+    if (membership.owners) {
+      permissions.admin = true;
+    }
+
+    // Admins automatically have permission as other groups
+    if (membership.admins) {
+      permissions.acquisition = true;
+      permissions.approver = true;
+    }
+
+    // All of the acquisitions team can be approvers
+    if (membership.acquisitions) {
+      permissions.approver = true;
+    }
+
+    this.permissions.next(permissions);
+  }
+
+  getEditPermissions(projectId: string): Observable<EditProjectPermissions> {
+    const changes = [
+      this.permissions,
+      this.projectsService.get(projectId),
+      this.usersService.getCurrentUser(),
+    ];
+
+    return Observable.combineLatest(changes).map((result: any[]) => {
+      const permissions: Permissions = result[0];
+      const project: Project = result[1];
+      const user: User = result[2];
+
       const leads = project.leads || '';
       const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());
       const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) !== -1;
@@ -42,28 +82,12 @@ export class PermissionsService {
       const lowercaseDirectors = directors.split(',').map(m => m.toLowerCase());
       const isDirector = lowercaseDirectors.indexOf(user.email.toLowerCase()) !== -1;
 
-      return Observable.of({
-        details: isDirector || isAdminOrOwner,
-        notes: isLead || isDirector || isAdminOrOwner,
-        requests: isLead || isDirector || isAdminOrOwner || isRequestEditor
-      });
+      return {
+        details: isDirector || permissions.admin,
+        notes: isLead || isDirector || permissions.admin,
+        requests: isLead || isDirector || permissions.approver
+      };
     });
-  }
-
-  canCreateProjects(): Observable<boolean> {
-    return this.isCurrentUserOwnerOrAdmin();
-  }
-
-  canEditEvents(): Observable<boolean> {
-    return this.isCurrentUserOwnerOrAdmin();
-  }
-
-  canManageAcqusitions(): Observable<boolean> {
-    return this.groupsService.isMember('admins', 'owners', 'acquisitions');
-  }
-
-  canManageAcqusitionsTeam(): Observable<boolean> {
-    return this.isCurrentUserOwnerOrAdmin();
   }
 
   canManageAdmins(): Observable<boolean> {
@@ -74,15 +98,35 @@ export class PermissionsService {
     return this.isOwner();
   }
 
+  canCreateProjects(): Observable<boolean> {
+    return this.isAdmin();
+  }
+
   canImportItems(): Observable<boolean> {
-    return this.isCurrentUserOwnerOrAdmin();
+    return this.isAdmin();
+  }
+
+  canEditEvents(): Observable<boolean> {
+    return this.isAdmin();
+  }
+
+  canManageAcquisitionsTeam(): Observable<boolean> {
+    return this.isAdmin();
+  }
+
+  canManageAcquisitions(): Observable<boolean> {
+    return this.isAcquisitions();
   }
 
   private isOwner(): Observable<boolean> {
-    return this.groupsService.isMember('owners');
+    return this.permissions.map(permissions => permissions.owner);
   }
 
-  private isCurrentUserOwnerOrAdmin(): Observable<boolean> {
-    return this.groupsService.isMember('admins', 'owners');
+  private isAdmin(): Observable<boolean> {
+    return this.permissions.map(permissions => permissions.admin);
+  }
+
+  private isAcquisitions(): Observable<boolean> {
+    return this.permissions.map(permissions => permissions.acquisition);
   }
 }

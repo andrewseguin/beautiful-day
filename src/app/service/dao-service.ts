@@ -20,8 +20,14 @@ export abstract class DaoService<T> {
     this.getObjectDao(id).remove();
   }
 
+  /** Updates the values passed through the update object. */
   update(id: string, update: T) {
     this.getObjectDao(id).update(update);
+  }
+
+  /** Sets the object exactly as provided. */
+  set(id: string, update: T) {
+    this.getObjectDao(id).set(update);
   }
 
   protected getObjectDao(id: string): AngularFireObject<T> {

@@ -5,7 +5,7 @@ import {RequestsService} from '../../../../service/requests.service';
 import {ProjectsService} from '../../../../service/projects.service';
 import {MediaQueryService} from '../../../../service/media-query.service';
 import {SubheaderService} from '../../../../service/subheader.service';
-import {EditPermissions, PermissionsService} from '../../../../service/permissions.service';
+import {EditProjectPermissions, PermissionsService} from '../../../../service/permissions.service';
 import {RequestsListComponent} from '../../../shared/requests-list/requests-list.component';
 import {Request} from '../../../../model/request';
 import {Observable} from 'rxjs/Observable';
@@ -18,7 +18,7 @@ import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 })
 export class ProjectRequestsComponent implements OnInit {
   delayedShow: boolean;
-  editPermissions: EditPermissions;
+  editPermissions: EditProjectPermissions;
   project: Observable<Project>;
   projectId: string;
   latestScrollPosition = 0;

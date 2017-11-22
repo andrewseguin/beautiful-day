@@ -10,6 +10,6 @@ export class CanActivateAcquisitionsGuard implements CanActivate {
   constructor(private permissionsService: PermissionsService) {}
 
   canActivate(): Observable<boolean> {
-    return this.permissionsService.canManageAcqusitions();
+    return this.permissionsService.canManageAcquisitions();
   }
 }

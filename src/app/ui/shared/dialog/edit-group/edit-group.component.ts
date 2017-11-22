@@ -15,7 +15,7 @@ export class EditGroupComponent implements OnInit {
               private groupsService: GroupsService) {}
 
   ngOnInit() {
-    this.groupsService.get(this.group)
+    this.groupsService.getGroup(this.group)
         .subscribe(members => this.members = members);
   }
 

@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit {
 
         // Navigate out of login.
         let locationHash = window.location.hash.substr(1);
-        debugger;
         this.route.navigate([locationHash || '']);
       });
     });

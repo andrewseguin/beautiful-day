@@ -47,7 +47,7 @@ export class NavComponent implements OnInit {
     this.permissionsService.canViewFeedback()
         .subscribe(canViewFeedback => this.canViewFeedback = canViewFeedback);
 
-    this.permissionsService.canManageAcqusitions()
+    this.permissionsService.canManageAcquisitions()
         .subscribe(canManageAcqusitions => this.canManageAcqusitions = canManageAcqusitions);
   }
 

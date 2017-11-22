@@ -7,7 +7,7 @@ import {
   QueryList,
   ViewChildren
 } from '@angular/core';
-import {EditPermissions, PermissionsService} from '../../../service/permissions.service';
+import {EditProjectPermissions, PermissionsService} from '../../../service/permissions.service';
 import {
   Group,
   RequestGroup,
@@ -24,7 +24,7 @@ import {DisplayOptions} from '../../../model/display-options';
   providers: [RequestGroupingService]
 })
 export class RequestsListComponent {
-  editPermissions: EditPermissions;
+  editPermissions: EditProjectPermissions;
 
   requestGroups: Map<Group, RequestGroup[]>;
   requestsCount: number = null;

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatSnackBar, MatDialog, MatSnackBarConfig} from '@angular/material';
 import {RequestsService} from '../../../../service/requests.service';
-import {GroupsService} from '../../../../service/groups.service';
+import {GroupsService, Membership} from '../../../../service/groups.service';
 import {EditDropoffComponent} from '../../dialog/edit-dropoff/edit-dropoff.component';
 import {EditTagsComponent} from '../../dialog/edit-tags/edit-tags.component';
 import {DeleteRequestsComponent} from '../../dialog/delete-requests/delete-requests.component';
@@ -20,16 +20,36 @@ import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 export class EditRequestOptionsComponent {
   isAcquistionsUser: boolean;
   isApproversUser: boolean;
+  canEditPurchaser: boolean;
+  canEditItems: boolean;
+  canEditApproval: boolean;
+  canEditAllocation: boolean;
+  canEditRequests: boolean;
+  membership: Membership;
 
   constructor(private requestsService: RequestsService,
               private itemsService: ItemsService,
               private mdDialog: MatDialog,
               private groupsService: GroupsService,
               private snackBar: MatSnackBar) {
+    this.groupsService.membership.subscribe(membership => {
+
+    });
     this.groupsService.isMember('admins', 'acquisitions')
         .subscribe(isAcquistionsUser => this.isAcquistionsUser = isAcquistionsUser);
     this.groupsService.isMember('admins', 'acquisitions', 'approvers')
         .subscribe(isApproversUser => this.isApproversUser = isApproversUser);
+  }
+
+  updatePermissions(membership: Membership) {
+    const isAcquisitionsUser = membership.acquisitions;
+    const isApproversUser = membership.acquisitions || membership.approvers;
+
+    this.canEditPurchaser = false;
+    this.canEditItems = false;
+    this.canEditApproval = false;
+    this.canEditAllocation = false;
+    this.canEditRequests = false;
   }
 
   getSelectedRequestsCount() {
@@ -38,7 +58,9 @@ export class EditRequestOptionsComponent {
 
   viewSelectedRequestItem() {
     const dialogRef = this.mdDialog.open(EditItemComponent);
-    dialogRef.componentInstance.mode = this.isAcquistionsUser ? 'edit' : 'view';
+
+    const canEdit = this.membership.acquisitions || this.membership.admins;
+    dialogRef.componentInstance.mode = canEdit ? 'edit' : 'view';
 
     const requestId = this.requestsService.getSelectedRequests().values().next().value;
     this.requestsService.getRequest(requestId).flatMap(request => {

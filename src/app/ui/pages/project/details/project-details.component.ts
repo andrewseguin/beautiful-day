@@ -11,7 +11,7 @@ import {
   EditType
 } from '../../../shared/dialog/edit-project/edit-project.component';
 import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/delete-project.component';
-import {EditPermissions, PermissionsService} from '../../../../service/permissions.service';
+import {EditProjectPermissions, PermissionsService} from '../../../../service/permissions.service';
 import {EventsService} from '../../../../service/events.service';
 import {AccountingService, BudgetResponse} from '../../../../service/accounting.service';
 import {Subscription} from 'rxjs';
@@ -40,7 +40,7 @@ import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 })
 export class ProjectDetailsComponent implements OnInit {
   delayedShow: boolean;
-  editPermissions: EditPermissions;
+  editPermissions: EditProjectPermissions;
   project: Project;
   requests: Request[];
   user: firebase.User;

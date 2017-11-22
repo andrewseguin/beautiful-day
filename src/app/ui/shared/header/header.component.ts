@@ -87,7 +87,7 @@ export class HeaderComponent implements OnInit {
         this.canManageApproversTeam = canManageAdmins;
       });
 
-    this.permissionsService.canManageAcqusitionsTeam()
+    this.permissionsService.canManageAcquisitionsTeam()
       .subscribe(canManageAcquisitionsTeam => this.canManageAcqusitionsTeam = canManageAcquisitionsTeam);
 
     this.permissionsService.canImportItems()

@@ -16,8 +16,7 @@ export class ProjectNavComponent {
 
   constructor(private permissionsService: PermissionsService) {}
 
-  @Input('projectId') set id(id: string) {
-    if (!id) { this.projectNavLinks = null; return; }
+  @Input('projectId') set id(id: string) {    if (!id) { this.projectNavLinks = null; return; }
 
     this.permissionsService.getEditPermissions(id).subscribe(editPermissions => {
       const details = {link: `/project/${id}/details`, title: 'Details'};
