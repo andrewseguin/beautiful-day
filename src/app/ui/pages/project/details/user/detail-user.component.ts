@@ -16,7 +16,7 @@ export class DetailUserComponent {
     this.user = null;
     if (!this._userEmail) { return; }
 
-    this.usersService.get(this.userEmail).subscribe(user => {
+    this.usersService.getByEmail(this.userEmail).subscribe(user => {
       this.user = user ? user : {email: this.userEmail};
     });
   }

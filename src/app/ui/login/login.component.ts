@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
         return;
       }
 
-      this.usersService.get(auth.email).take(1).subscribe(user => {
+      this.usersService.getByEmail(auth.email).take(1).subscribe(user => {
         if (!user) { this.usersService.create(auth); }
 
         // Navigate out of login.

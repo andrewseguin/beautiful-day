@@ -26,7 +26,7 @@ export class FeedbackComponent implements OnInit {
     this.feedbackService.feedback.subscribe(allFeedback => {
       allFeedback.forEach(feedback => {
         if (!this.userMap.get(feedback.user)) {
-          this.userMap.set(feedback.user, this.usersService.getByUid(feedback.user).snapshotChanges().map(transformSnapshotAction));
+          this.userMap.set(feedback.user, this.usersService.get(feedback.user));
         }
       });
 

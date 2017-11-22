@@ -64,7 +64,7 @@ export class HeaderComponent implements OnInit {
     this.afAuth.authState.subscribe(authState => {
       this.authState = authState;
       if (this.authState) {
-        this.usersService.get(authState.email).subscribe(user => {
+        this.usersService.getByEmail(authState.email).subscribe(user => {
           this.user = user;
         });
       }
