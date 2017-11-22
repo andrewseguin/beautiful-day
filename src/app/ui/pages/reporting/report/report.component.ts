@@ -49,7 +49,7 @@ export class ReportComponent {
       this.requests = requests; this.performQuery();
     });
 
-    this.itemsService.getItems().subscribe(items => {
+    this.itemsService.items.subscribe(items => {
       this.items = items; this.performQuery();
     });
 

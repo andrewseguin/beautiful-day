@@ -1,4 +1,9 @@
-import {AngularFireDatabase, AngularFireList, AngularFireObject} from 'angularfire2/database';
+import {
+  AngularFireDatabase,
+  AngularFireList,
+  AngularFireObject,
+  QueryFn
+} from 'angularfire2/database';
 import * as firebase from 'firebase';
 import {transformSnapshotAction, transformSnapshotActionList} from '../utility/snapshot-tranform';
 import {Observable} from 'rxjs/Observable';
@@ -30,6 +35,11 @@ export abstract class DaoService<T> {
     this.getObjectDao(id).set(update);
   }
 
+  queryList(queryFn: QueryFn) {
+    return this.db.list(this.ref, queryFn)
+        .snapshotChanges().map(transformSnapshotActionList);
+  }
+
   protected getObjectDao(id: string): AngularFireObject<T> {
     return this.db.object<T>(`${this.ref}/${id}`);
   }
@@ -40,6 +50,6 @@ export abstract class DaoService<T> {
 
   protected getKeyedListDao(): Observable<T[]> {
     return this.db.list<T>(`${this.ref}`)
-      .snapshotChanges().map(transformSnapshotActionList);
+        .snapshotChanges().map(transformSnapshotActionList);
   }
 }

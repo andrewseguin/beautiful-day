@@ -35,13 +35,13 @@ export class SelectionHeaderComponent {
 
   getSelectionCount() {
     return this.requestsService.getSelectedRequests().size ||
-      this.itemsService.getSelectedItems().size;
+      this.itemsService.selection.selected.length;
   }
 
   getSelectionType(): SelectionType {
     if (this.requestsService.getSelectedRequests().size) {
       return 'request';
-    } else if (this.itemsService.getSelectedItems().size) {
+    } else if (this.itemsService.selection.selected.length) {
       return 'item';
     }
 
@@ -50,6 +50,6 @@ export class SelectionHeaderComponent {
 
   clearSelection() {
     this.requestsService.clearSelected();
-    this.itemsService.clearSelected();
+    this.itemsService.selection.clear();
   }
 }

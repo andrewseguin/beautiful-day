@@ -106,7 +106,7 @@ export class RequestsGroupComponent {
               private itemsService: ItemsService,
               private projectsService: ProjectsService,
               private permissionsService: PermissionsService) {
-    this.itemsService.getItems().subscribe(items => {
+    this.itemsService.items.subscribe(items => {
       this.items = items;
       this.sortAndFilterRequests();
     });

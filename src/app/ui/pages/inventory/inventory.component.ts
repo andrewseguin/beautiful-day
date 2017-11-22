@@ -32,11 +32,10 @@ export class InventoryComponent implements OnInit {
   ngOnInit() {
     this.headerService.title = 'Inventory';
 
-    this.itemsService.getItems()
-        .subscribe(items => {
-          this.items = items;
-          this.searchItems = this.itemSearch.transform(this.items, this.search);
-        });
+    this.itemsService.items.subscribe(items => {
+      this.items = items;
+      this.searchItems = this.itemSearch.transform(this.items, this.search);
+    });
 
     this.itemsService.getItemsByCategory()
         .subscribe(categoryGroupCollection => {
@@ -45,7 +44,7 @@ export class InventoryComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.itemsService.clearSelected();
+    this.itemsService.selection.clear();
   }
 
   categoryTrackBy(i: number, c: string) { return c; }
@@ -70,22 +69,22 @@ export class InventoryComponent implements OnInit {
   }
 
   isSelected(item: Item): boolean {
-    return this.itemsService.isSelected(item.$key);
+    return this.itemsService.selection.isSelected(item.$key);
   }
 
   setSelected(item: Item, checked: boolean) {
-    this.itemsService.setSelected(item.$key, checked);
+    const selection = this.itemsService.selection;
+    checked ? selection.select(item.$key) : selection.deselect(item.$key);
   }
 
   hasAllSelectedItems(): boolean {
     return this.searchItems.every(item => {
-      return this.itemsService.isSelected(item.$key);
+      return this.itemsService.selection.isSelected(item.$key);
     });
   }
 
   toggleGroupSelection(select: boolean) {
-    this.searchItems.forEach(item => {
-      this.itemsService.setSelected(item.$key, select);
-    });
+    const itemKeys = this.searchItems.map(item => item.$key);
+    this.itemsService.selection.select(...itemKeys);
   }
 }

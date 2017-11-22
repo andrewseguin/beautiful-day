@@ -63,9 +63,9 @@ export class EditItemComponent implements OnInit {
     };
 
     if (this.mode == 'edit') {
-      this.itemsService.getItem(this._item.$key).update(persistingItem);
+      this.itemsService.update(this._item.$key, persistingItem);
     } else if (this.mode == 'new') {
-      this.itemsService.createItem(persistingItem);
+      this.itemsService.add(persistingItem);
     }
 
     this.close();

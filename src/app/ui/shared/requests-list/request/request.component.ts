@@ -95,7 +95,7 @@ export class RequestComponent implements OnInit {
       this.request = request;
       this.cd.markForCheck();
 
-      this.itemsService.getItem(request.item).snapshotChanges().map(transformSnapshotAction).subscribe((item: Item) => {
+      this.itemsService.get(request.item).subscribe((item: Item) => {
         this.item = item;
         this.itemDisplayName = item.name;
         if (this.item.type) { this.itemDisplayName += ` - ${item.type}`;}

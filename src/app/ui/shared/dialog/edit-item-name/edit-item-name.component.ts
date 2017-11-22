@@ -8,7 +8,7 @@ import {MatDialogRef} from '@angular/material';
   styleUrls: ['./edit-item-name.component.scss']
 })
 export class EditItemNameComponent {
-  itemIds: Set<string>;
+  itemIds: string[];
   name = '';
 
   constructor(private dialogRef: MatDialogRef<EditItemNameComponent>,
@@ -20,9 +20,9 @@ export class EditItemNameComponent {
 
   save() {
     this.itemIds.forEach(itemId => {
-      this.itemsService.getItem(itemId).update({name: this.name});
+      this.itemsService.update(itemId, {name: this.name});
     });
     this.close();
-    this.itemsService.clearSelected();
+    this.itemsService.selection.clear();
   }
 }

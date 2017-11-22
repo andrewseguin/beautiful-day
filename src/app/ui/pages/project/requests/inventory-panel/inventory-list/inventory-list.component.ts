@@ -49,7 +49,7 @@ export class InventoryListComponent implements OnInit {
               private itemsService: ItemsService) {}
 
   ngOnInit() {
-    this.itemsService.getItems().subscribe(items => {
+    this.itemsService.items.subscribe(items => {
       this.items = items;
       this.filterItems();
     });

@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
+import {AngularFireDatabase} from 'angularfire2/database';
 import {Item} from '../model/item';
-import {Observable} from 'rxjs';
-import {transformSnapshotActionList} from '../utility/snapshot-tranform';
+import {Observable} from 'rxjs/Observable';
+import {DaoService} from './dao-service';
+import * as firebase from 'firebase';
+import {SelectionModel} from '@angular/cdk/collections';
 
 export type CategoryGroupCollection = { [name: string]: CategoryGroup };
 
@@ -12,24 +14,18 @@ export class CategoryGroup {
 }
 
 @Injectable()
-export class ItemsService {
-  selectedItems: Set<string> = new Set();
+export class ItemsService extends DaoService<Item> {
+  items: Observable<Item[]>;
+  selection = new SelectionModel<string>(true);
 
-  constructor(private db: AngularFireDatabase) {}
-
-  getItems(): Observable<Item[]> {
-    return this.db.list('items').snapshotChanges().map(items => {
-      return items.map(item => {
-        let val: Item = item.payload.val();
-        val.$key = item.key;
-        return val;
-      });
-    });
+  constructor(db: AngularFireDatabase) {
+    super(db, 'items');
+    this.items = this.getKeyedListDao();
   }
 
   /** Returns a map of the latest item costs. */
   getItemCosts(): Observable<Map<string, number>> {
-    return this.db.list('items').snapshotChanges().map(transformSnapshotActionList).map(items => {
+    return this.items.map(items => {
       const itemCosts = new Map<string, number>();
       items.forEach(item => itemCosts.set(item.$key, item.cost));
       return itemCosts;
@@ -37,12 +33,12 @@ export class ItemsService {
   }
 
   getItemsWithCategory(category: string): Observable<Item[]> {
-    return this.db.list('items', ref => ref.orderByChild('category').equalTo(category))
-      .snapshotChanges().map(transformSnapshotActionList);
+    const queryFn = ref => ref.orderByChild('category').equalTo(category);
+    return this.queryList(queryFn);
   }
 
   getItemsByCategory(): Observable<CategoryGroupCollection> {
-    return this.getItems().map(items => {
+    return this.items.map(items => {
       const categoryGroupsMap: CategoryGroupCollection = {};
 
       items.forEach(item => {
@@ -64,40 +60,20 @@ export class ItemsService {
     });
   }
 
-  getItem(id: string): AngularFireObject<Item> {
-    return this.db.object(`items/${id}`);
-  }
-
-  createItem(item: Item) {
+  add(item: Item): firebase.database.ThenableReference {
     // Set the dateMove the UTC date to user's time zone
     const date = new Date();
     date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
     item.dateAdded = new Date().getTime();
 
-    this.db.list<Item>('items').push(item);
-  }
-
-  setSelected(id: string, value: boolean) {
-    if (value) {
-      this.selectedItems.add(id);
-    } else {
-      this.selectedItems.delete(id);
-    }
-  }
-
-  isSelected(id: string): boolean {
-    return this.selectedItems.has(id);
-  }
-
-  clearSelected() {
-    this.selectedItems = new Set();
-  }
-
-  getSelectedItems(): Set<string> {
-    return this.selectedItems;
+    return super.add(item);
   }
 
   setAllItems(items: Item[]) {
-    this.db.object('items').set(items);
+    this.db.object(this.ref).set(items);
+  }
+
+  getSelectedItems(): string[] {
+    return this.selection.selected;
   }
 }

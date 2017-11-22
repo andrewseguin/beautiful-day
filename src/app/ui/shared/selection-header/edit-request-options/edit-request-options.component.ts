@@ -64,7 +64,7 @@ export class EditRequestOptionsComponent {
 
     const requestId = this.requestsService.getSelectedRequests().values().next().value;
     this.requestsService.getRequest(requestId).flatMap(request => {
-      return this.itemsService.getItem(request.item).snapshotChanges().map(transformSnapshotAction);
+      return this.itemsService.get(request.item)
     }).subscribe(item => {
       dialogRef.componentInstance.item = item;
     });
