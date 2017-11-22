@@ -30,7 +30,7 @@ export class DeleteProjectComponent {
 
     // Delete requests
     this.requestsService.getProjectRequests(this.project.$key).subscribe(requests => {
-      requests.forEach(request => this.requestsService.removeRequest(request.$key));
+      requests.forEach(request => this.requestsService.remove(request.$key));
     });
 
     // Delete notes

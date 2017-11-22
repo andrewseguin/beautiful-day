@@ -34,12 +34,12 @@ export class SelectionHeaderComponent {
   }
 
   getSelectionCount() {
-    return this.requestsService.getSelectedRequests().size ||
+    return this.requestsService.selection.selected.length ||
       this.itemsService.selection.selected.length;
   }
 
   getSelectionType(): SelectionType {
-    if (this.requestsService.getSelectedRequests().size) {
+    if (this.requestsService.selection.selected.length) {
       return 'request';
     } else if (this.itemsService.selection.selected.length) {
       return 'item';
@@ -49,7 +49,7 @@ export class SelectionHeaderComponent {
   }
 
   clearSelection() {
-    this.requestsService.clearSelected();
+    this.requestsService.selection.clear();
     this.itemsService.selection.clear();
   }
 }

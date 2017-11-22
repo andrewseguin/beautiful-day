@@ -147,13 +147,15 @@ export class RequestsGroupComponent {
 
   hasAllSelectedRequests(): boolean {
     return this.requestGroup.requests.every(request => {
-      return this.requestsService.isSelected(request.$key);
+      return this.requestsService.selection.isSelected(request.$key);
     });
   }
 
   toggleGroupSelection(select: boolean) {
     this.requestGroup.requests.forEach(request => {
-      this.requestsService.setSelected(request.$key, select);
+      select ?
+        this.requestsService.selection.select(request.$key) :
+        this.requestsService.selection.deselect(request.$key);
     });
   }
 

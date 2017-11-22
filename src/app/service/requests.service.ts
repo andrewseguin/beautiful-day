@@ -3,13 +3,12 @@ import {Router} from '@angular/router';
 import {Item} from '../model/item';
 import {Project} from '../model/project';
 import {Request} from '../model/request';
-import {Subject, Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {MatDialog} from '@angular/material';
 import {PromptDialogComponent} from '../ui/shared/dialog/prompt-dialog/prompt-dialog.component';
-import {
-  AngularFireDatabase, AngularFireList
-} from 'angularfire2/database';
-import {transformSnapshotActionList, transformSnapshotAction} from '../utility/snapshot-tranform';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {DaoService} from './dao-service';
+import {SelectionModel} from '@angular/cdk/collections';
 
 export class RequestAddedResponse {
   item: Item;
@@ -17,49 +16,38 @@ export class RequestAddedResponse {
 }
 
 @Injectable()
-export class RequestsService {
+export class RequestsService extends DaoService<Request> {
   requestAdded = new Subject<RequestAddedResponse>();
-  selectedRequests = new Set<string>();
-  selectionChangeSubject = new Subject<void>();
+  requests: Observable<Request[]>;
+  selection = new SelectionModel<string>(true);
 
-  constructor(private db: AngularFireDatabase,
+  constructor(protected db: AngularFireDatabase,
               private router: Router,
               private mdDialog: MatDialog) {
-    // Clear selected requests when route changes.
-    this.router.events.subscribe(() => this.clearSelected());
-  }
+    super(db, 'requests');
+    this.requests = this.getKeyedListDao();
 
-  getAllRequests(): AngularFireList<Request[]> {
-    return this.db.list('requests');
+    // Clear selected requests when route changes.
+    this.router.events.subscribe(() => this.selection.clear());
   }
 
   getProjectRequests(projectId: string): Observable<Request[]> {
-    if (projectId === 'all') {
-      return this.getAllRequests().snapshotChanges().map(transformSnapshotActionList);
-    }
-
-    return this.db.list('requests', ref => ref.orderByChild('project').equalTo(projectId)).snapshotChanges().map(transformSnapshotActionList);
-  }
-
-  getRequest(id: string): Observable<Request> {
-    return this.db.object(`requests/${id}`).snapshotChanges().map(transformSnapshotAction);
-  }
-
-  removeRequest(id: string): void {
-    this.db.list(`requests`).remove(id);
+    const queryFn = ref => ref.orderByChild('project').equalTo(projectId);
+    return this.queryList(queryFn);
   }
 
   addRequest(project: Project, item: Item, quantity = 1) {
     const defaultDate = new Date(1491030000000); // Hard-coded April 1, 2017
 
-    this.db.list('requests').push({
+    const request: Request = {
       item: item.$key,
       project: project.$key,
       quantity: quantity,
       note: '',
       dropoff: 'Westgate Gym',
-      date: project.lastUsedDate || defaultDate.getTime()
-    }).then(response => {
+      date: (project.lastUsedDate || defaultDate.getTime()).toString()
+    };
+    this.add(request).then(response => {
       this.requestAdded.next({key: response.getKey(), item});
     });
   }
@@ -68,56 +56,25 @@ export class RequestsService {
     return this.requestAdded.asObservable();
   }
 
-  update(id: string, update: any) {
-    this.db.object(`requests/${id}`).update(update);
-  }
-
-  selectionChange(): Observable<void> {
-    return this.selectionChangeSubject.asObservable();
-  }
-
-  setSelected(id: string, value: boolean) {
-    if (value) {
-      this.selectedRequests.add(id);
-    } else {
-      this.selectedRequests.delete(id);
-    }
-
-    this.selectionChangeSubject.next();
-  }
-
-  isSelected(id: string): boolean {
-    return this.selectedRequests.has(id);
-  }
-
-  clearSelected() {
-    this.selectedRequests = new Set();
-    this.selectionChangeSubject.next();
-  }
-
-  getSelectedRequests(): Set<string> {
-    return this.selectedRequests;
-  }
-
-  editNote(requestIds: Set<string>) {
+  editNote(requestIds: string[]) {
     const dialogRef = this.mdDialog.open(PromptDialogComponent);
 
     dialogRef.componentInstance.title = 'Edit Note';
-    if (requestIds.size === 1) {
+    if (requestIds.length === 1) {
       requestIds.forEach(id => {
-        this.getRequest(id).subscribe(request => {
+        this.get(id).subscribe(request => {
           dialogRef.componentInstance.input = request.note;
         });
       });
     }
 
     dialogRef.componentInstance.onSave().subscribe(note => {
-      requestIds.forEach(requestId => this.update(requestId, {note}));
-      this.clearSelected();
+      requestIds.forEach(requestId => this.update(requestId, {note: <string>note}));
+      this.selection.clear();
     });
   }
 
   removeAllRequests() {
-    this.db.object('requests').set(null);
+    this.db.object(this.ref).set(null);
   }
 }

@@ -11,18 +11,18 @@ export class EditTagsComponent {
   commonTags: Set<string> = new Set();
   requestTags: Map<string, Set<string>> = new Map();
 
-  _requestIds: Set<string>;
-  set requestIds(requestIds: Set<string>) {
+  _requestIds: string[];
+  set requestIds(requestIds: string[]) {
     this._requestIds = requestIds;
     requestIds.forEach(requestId => {
-      this.requestsService.getRequest(requestId).subscribe(request => {
+      this.requestsService.get(requestId).subscribe(request => {
         const tags = new Set<string>(request.tags ? request.tags.split(',') : []);
         this.requestTags.set(request.$key, tags);
         this.updateCommonTags();
       });
     });
   }
-  get requestIds(): Set<string> { return this._requestIds; }
+  get requestIds(): string[] { return this._requestIds; }
 
   newTag = '';
 
@@ -51,7 +51,7 @@ export class EditTagsComponent {
     });
 
     this.close();
-    this.requestsService.clearSelected();
+    this.requestsService.selection.clear();
   }
 
   removeTag(tag: string) {

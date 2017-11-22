@@ -45,7 +45,7 @@ export class ReportComponent {
       }
     });
 
-    this.requestsService.getAllRequests().snapshotChanges().map(transformSnapshotActionList).subscribe(requests => {
+    this.requestsService.requests.subscribe(requests => {
       this.requests = requests; this.performQuery();
     });
 

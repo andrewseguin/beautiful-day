@@ -8,7 +8,7 @@ import {RequestsService} from '../../../../service/requests.service';
   styleUrls: ['edit-purchase-status.scss']
 })
 export class EditPurchaseStatusDialogComponent {
-  requestIds: Set<string>;
+  requestIds: string[];
   isPurchased = true;
 
   constructor(private dialogRef: MatDialogRef<EditPurchaseStatusDialogComponent>,
@@ -16,8 +16,8 @@ export class EditPurchaseStatusDialogComponent {
 
   ngOnInit() {
     this.requestIds.forEach(requestId => {
-      this.requestsService.getRequest(requestId).subscribe(request => {
-        this.isPurchased = this.isPurchased && !!request.isPurchased;
+      this.requestsService.get(requestId).subscribe(request => {
+        this.isPurchased = this.isPurchased && request.isPurchased;
       });
     });
   }

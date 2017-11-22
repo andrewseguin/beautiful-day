@@ -77,7 +77,7 @@ export class ProjectRequestsComponent implements OnInit {
   }
 
   hasSelectedRequests(): boolean {
-    return this.requestsService.getSelectedRequests().size > 0;
+    return this.requestsService.selection.selected.length > 0;
   }
 
   showBudget(): boolean {

@@ -11,7 +11,7 @@ import {NotesService} from '../../../../service/notes.service';
 })
 export class DeleteRequestsComponent {
   _onDelete: Subject<void> = new Subject<void>();
-  requests: Set<string>;
+  requests: string[];
 
   constructor(private dialogRef: MatDialogRef<DeleteRequestsComponent>) { }
 

@@ -8,7 +8,7 @@ import {RequestsService} from '../../../../service/requests.service';
   styleUrls: ['edit-approval-status.scss']
 })
 export class EditApprovalStatusDialogComponent {
-  requestIds: Set<string>;
+  requestIds: string[];
   isApproved = true;
 
   constructor(private dialogRef: MatDialogRef<EditApprovalStatusDialogComponent>,
@@ -16,8 +16,8 @@ export class EditApprovalStatusDialogComponent {
 
   ngOnInit() {
     this.requestIds.forEach(requestId => {
-      this.requestsService.getRequest(requestId).subscribe(request => {
-        this.isApproved = this.isApproved && !!request.isApproved;
+      this.requestsService.get(requestId).subscribe(request => {
+        this.isApproved = this.isApproved && request.isApproved;
       });
     });
   }

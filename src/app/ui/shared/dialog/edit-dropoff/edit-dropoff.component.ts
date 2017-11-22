@@ -9,7 +9,7 @@ import {ProjectsService} from '../../../../service/projects.service';
   styleUrls: ['./edit-dropoff.component.scss']
 })
 export class EditDropoffComponent implements OnInit {
-  requestIds: Set<string>;
+  requestIds: string[];
   project: string;
   dateNeeded: string;
 
@@ -73,7 +73,7 @@ export class EditDropoffComponent implements OnInit {
     this.requestIds.forEach(requestId => {
       this.requestsService.update(requestId, {
         dropoff: this.selectedDropoffLocation,
-        date: date.getTime()
+        date: date.getTime().toString()
       });
     });
 
@@ -84,6 +84,6 @@ export class EditDropoffComponent implements OnInit {
     });
 
     this.close();
-    this.requestsService.clearSelected();
+    this.requestsService.selection.clear();
   }
 }

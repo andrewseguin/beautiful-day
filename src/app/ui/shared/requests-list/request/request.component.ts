@@ -91,14 +91,14 @@ export class RequestComponent implements OnInit {
               private itemsService: ItemsService) { }
 
   ngOnInit() {
-    this.requestsService.getRequest(this.requestId).subscribe(request => {
+    this.requestsService.get(this.requestId).subscribe(request => {
       this.request = request;
       this.cd.markForCheck();
 
       this.itemsService.get(request.item).subscribe((item: Item) => {
         this.item = item;
         this.itemDisplayName = item.name;
-        if (this.item.type) { this.itemDisplayName += ` - ${item.type}`;}
+        if (this.item.type) { this.itemDisplayName += ` - ${item.type}`; }
         this.cd.markForCheck();
       });
 
@@ -108,7 +108,7 @@ export class RequestComponent implements OnInit {
       });
     });
 
-    this.requestsService.selectionChange().subscribe(() => {
+    this.requestsService.selection.onChange.subscribe(() => {
       this.cd.markForCheck();
     });
   }
@@ -151,23 +151,25 @@ export class RequestComponent implements OnInit {
   }
 
   isSelected() {
-    return this.requestsService.isSelected(this.requestId);
+    return this.requestsService.selection.isSelected(this.requestId);
   }
 
   setSelected(value: boolean) {
-    this.requestsService.setSelected(this.requestId, value);
+    value ?
+      this.requestsService.selection.select(this.requestId) :
+      this.requestsService.selection.deselect(this.requestId);
   }
 
   editNote(e: Event) {
     e.stopPropagation();
-    this.requestsService.editNote(new Set([this.requestId]));
+    this.requestsService.editNote([this.requestId]);
   }
 
   editDropoff(e: Event) {
     e.stopPropagation();
 
     const dialogRef = this.mdDialog.open(EditDropoffComponent);
-    dialogRef.componentInstance.requestIds = new Set([this.requestId]);
+    dialogRef.componentInstance.requestIds = [this.requestId];
     dialogRef.componentInstance.selectedDropoffLocation = this.request.dropoff;
     dialogRef.componentInstance.setDateFromRequest(this.request.date);
     dialogRef.componentInstance.project = this.request.project;
