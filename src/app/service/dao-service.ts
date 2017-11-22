@@ -35,7 +35,7 @@ export abstract class DaoService<T> {
     this.getObjectDao(id).set(update);
   }
 
-  queryList(queryFn: QueryFn) {
+  queryList(queryFn: QueryFn): Observable<T[]> {
     return this.db.list(this.ref, queryFn)
         .snapshotChanges().map(transformSnapshotActionList);
   }

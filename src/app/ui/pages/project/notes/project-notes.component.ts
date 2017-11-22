@@ -54,7 +54,7 @@ export class ProjectNotesComponent implements OnInit {
       if (!this.noteId) {
         this.gotoDefaultNote(!!this.noteId);
       }
-      this.notesService.getNote(this.noteId).subscribe((note: Note) => {
+      this.notesService.get(this.noteId).subscribe((note: Note) => {
         if (this.noteId !== params['noteId']) { return; /* Subscription no longer relevant  */ }
 
         this.title = note.title;
@@ -85,7 +85,7 @@ export class ProjectNotesComponent implements OnInit {
     dialogRef.componentInstance.title = 'Edit Title';
     dialogRef.componentInstance.input = note.title;
     dialogRef.componentInstance.onSave().subscribe(title => {
-      this.notesService.update(note.$key, {title});
+      this.notesService.update(note.$key, {title: <string>title});
     });
   }
 

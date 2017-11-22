@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {Project} from '../../../../model/project';
 import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {ProjectsService} from '../../../../service/projects.service';
@@ -16,7 +16,6 @@ export class DeleteProjectComponent {
   deleteCheck = '';
 
   constructor(private dialogRef: MatDialogRef<DeleteProjectComponent>,
-              private router: Router,
               private mdSnackbar: MatSnackBar,
               private requestsService: RequestsService,
               private notesService: NotesService,
@@ -36,7 +35,7 @@ export class DeleteProjectComponent {
 
     // Delete notes
     this.notesService.getProjectNotes(this.project.$key).subscribe(notes => {
-      notes.forEach(note => this.notesService.delete(note.$key));
+      notes.forEach(note => this.notesService.remove(note.$key));
     });
 
     // Delete project

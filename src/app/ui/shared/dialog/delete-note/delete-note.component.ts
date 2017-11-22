@@ -22,7 +22,7 @@ export class DeleteNoteComponent {
   }
 
   deleteNote() {
-    this.notesService.delete(this.noteId);
+    this.notesService.remove(this.noteId);
     this._onDelete.next();
     this.close();
   }
