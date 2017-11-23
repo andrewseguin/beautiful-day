@@ -29,7 +29,7 @@
   text-transform: uppercase;
   font-size: 14px;
   font-weight: bold;
-  padding: 8px 0 8px 16px;
+  padding: 16px 0 8px 16px;
   color: #AAA;
 
   @media (max-width: $mobile-width - 1) {
@@ -53,25 +53,6 @@
 
   &.active {
     font-weight: bold;
-  }
-}
-
-.expandable-section {
-  overflow: hidden;
-
-  .section-title {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-right: 16px;
-
-    &:hover {
-     background: #eeeeee;
-    }
-    &:active {
-      background: #f5f5f5;
-    }
   }
 }
 

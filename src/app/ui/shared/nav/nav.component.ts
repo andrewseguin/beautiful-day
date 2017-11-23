@@ -3,7 +3,7 @@ import {MatSidenav} from '@angular/material';
 import {Router} from '@angular/router';
 import {PermissionsService} from '../../../service/permissions.service';
 import {Project} from '../../../model/project';
-import {ProjectsService} from '../../../service/projects.service';
+import {ProjectsService, sortProjectsByName} from '../../../service/projects.service';
 import {animate, transition, state, style, trigger} from '@angular/animations';
 
 @Component({
@@ -28,9 +28,6 @@ export class NavComponent implements OnInit {
   canManageAcqusitions: boolean;
   projects: Project[];
 
-  seasons = ['2017', '2016'];
-  expandedSeasons = new Set<string>();
-
   constructor(private projectsService: ProjectsService,
               private permissionsService: PermissionsService,
               private router: Router) { }
@@ -38,8 +35,8 @@ export class NavComponent implements OnInit {
   @Input() sidenav: MatSidenav;
 
   ngOnInit() {
-    this.projectsService.getSortedProjects()
-        .subscribe(projects => this.projects = projects);
+    this.projectsService.getProjectsBySeason('2017')
+        .subscribe(projects => this.projects = sortProjectsByName(projects));
 
     this.permissionsService.canCreateProjects()
         .subscribe(canCreateProjects => this.canCreateProjects = canCreateProjects);
@@ -67,19 +64,5 @@ export class NavComponent implements OnInit {
   nagivateToHome() {
     this.router.navigate(['/home']);
     this.sidenav.close();
-  }
-
-  getExpansionState(season: string) {
-    return this.expandedSeasons.has(season) ? 'expanded' : 'collapsed';
-  }
-
-  toggleExpansion(season: string) {
-    this.expandedSeasons.has(season) ?
-      this.expandedSeasons.delete(season) :
-      this.expandedSeasons.add(season);
-  }
-
-  getProjects(season: string) {
-    return this.projects;
   }
 }

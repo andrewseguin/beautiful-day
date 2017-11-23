@@ -13,8 +13,17 @@ export class ProjectsService extends DaoService<Project> {
     this.projects = this.getKeyedListDao();
   }
 
-  getSortedProjects(): Observable<Project[]> {
-    const sortFn = (a: Project, b: Project) => ((a.name < b.name) ? -1 : 1);
-    return this.projects.map(projects => projects.sort(sortFn));
+  getProjectsBySeason(season: string): Observable<Project[]> {
+    const queryFn = ref => ref.orderByChild('season').equalTo(season);
+    return this.queryList(queryFn);
   }
+
+  getSortedProjects(): Observable<Project[]> {
+    return this.projects.map(sortProjectsByName);
+  }
+}
+
+export function sortProjectsByName(projects: Project[]) {
+  const sortFn = (a: Project, b: Project) => ((a.name < b.name) ? -1 : 1);
+  return projects.sort(sortFn);
 }
