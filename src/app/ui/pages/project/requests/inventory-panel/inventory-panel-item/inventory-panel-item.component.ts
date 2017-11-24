@@ -19,6 +19,8 @@ import {transformSnapshotAction} from '../../../../../../utility/snapshot-tranfo
 
 export type InventoryPanelItemState = 'collapsed' | 'expanded';
 
+const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
+
 @Component({
   selector: 'inventory-panel-item',
   templateUrl: './inventory-panel-item.component.html',
@@ -26,23 +28,23 @@ export type InventoryPanelItemState = 'collapsed' | 'expanded';
   host: {
     '[class.mat-elevation-z1]': `state == 'collapsed'`,
     '[class.mat-elevation-z10]': `state == 'expanded'`,
-    '[@size]': 'state',
-    '(@size.done)': 'sizeAnimationDone($event)',
+    '[@container]': 'state',
   },
   animations: [
-    trigger('size', [
-      state('collapsed', style({height: '48px', margin: '0 8px'})),
-      state('expanded', style({height: '*', margin: '16px 8px'})),
-      transition('collapsed <=> expanded', [
-        animate('250ms cubic-bezier(0.35, 0, 0.25, 1)')
-      ]),
+    trigger('container', [
+      state('void, collapsed', style({margin: '0 8px'})),
+      state('expanded', style({margin: '16px 8px'})),
+      transition('collapsed <=> expanded', animate(ANIMATION_DURATION)),
+    ]),
+    trigger('info', [
+      state('void, collapsed', style({height: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('collapsed <=> expanded', animate(ANIMATION_DURATION)),
     ]),
     trigger('arrow', [
-      state('collapsed', style({transform: 'rotateX(0deg)'})),
+      state('void, collapsed', style({transform: 'rotateX(0deg)'})),
       state('expanded', style({transform: 'rotateX(180deg)'})),
-      transition('collapsed <=> expanded', [
-        animate('250ms cubic-bezier(0.35, 0, 0.25, 1)')
-      ]),
+      transition('collapsed <=> expanded', animate(ANIMATION_DURATION)),
     ]),
   ]
 })
@@ -53,6 +55,8 @@ export class InventoryPanelItemComponent implements OnInit {
   project: Observable<Project>;
 
   @Input() item: Item;
+
+  @Input() showCategory: boolean;
 
   constructor(private route: ActivatedRoute,
               private projectsService: ProjectsService,
@@ -68,6 +72,10 @@ export class InventoryPanelItemComponent implements OnInit {
     let name = this.item.name;
     if (this.item.type) {
       name += ` - ${this.item.type}`;
+    }
+
+    if (this.showCategory) {
+      name = this.item.categories.split(',')[0] + ' > ' + name;
     }
 
     return name;
@@ -87,13 +95,10 @@ export class InventoryPanelItemComponent implements OnInit {
     this.project.first().subscribe(project => {
       this.requestsService.addRequest(project, this.item, this.requestQuantity);
     });
-  }
 
-  sizeAnimationDone(e: AnimationTransitionEvent) {
-    if (e.toState === 'collapsed') {
+    window.setTimeout(() => {
       this.requested = false;
       this.requestQuantity = 1;
-    }
+    }, 1500);
   }
-
 }

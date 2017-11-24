@@ -116,6 +116,7 @@ import {ReportSearchPipe} from './pipe/report-search.pipe';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SubcategoryListComponent} from './ui/pages/project/requests/inventory-panel/subcategory-list/subcategory-list.component';
 
 @NgModule({
   declarations: [
@@ -174,6 +175,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     EditApprovalStatusDialogComponent,
     EditPurchaseStatusDialogComponent,
     DeleteReportComponent,
+    SubcategoryListComponent,
     ReportSearchPipe,
   ],
   entryComponents: [

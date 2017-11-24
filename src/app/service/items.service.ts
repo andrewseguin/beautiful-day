@@ -9,8 +9,14 @@ import {SelectionModel} from '@angular/cdk/collections';
 export type CategoryGroupCollection = { [name: string]: CategoryGroup };
 
 export class CategoryGroup {
-  category: string;
+  category?: string;
+  items?: Item[];
+  subcategories: CategoryGroupCollection;
+}
+
+export class Category {
   items: Item[];
+  subcategories: string[];
 }
 
 @Injectable()
@@ -37,27 +43,78 @@ export class ItemsService extends DaoService<Item> {
     return this.queryList(queryFn);
   }
 
-  getItemsByCategory(): Observable<CategoryGroupCollection> {
-    return this.items.map(items => {
-      const categoryGroupsMap: CategoryGroupCollection = {};
+  getCategoryGroup(filter = ''): Observable<Category> {
+    return this.items.map(allItems => {
+      const categoryStrings = new Set<string>();
+      const items = [];
+      allItems.map(item => {
+        item.categories.split(',')
+          .filter(c => c.indexOf(filter) === 0)
+          .forEach(c => {
+            // Add the remaining slice of the string without the filter
+            categoryStrings.add(c.slice(filter.length));
+            if (c === filter) { items.push(item); }
+          });
+      });
 
+      const subcategoriesSet = new Set<string>();
+      categoryStrings.forEach(categoryString => {
+        const splitCategoryString = categoryString.split(' > ');
+        const subcategory = filter ? splitCategoryString[1] : splitCategoryString[0];
+        if (subcategory) {
+          subcategoriesSet.add(subcategory);
+        }
+      });
+
+      const subcategories: string[] = [];
+      subcategoriesSet.forEach(s => subcategories.push(s));
+      return {items, subcategories};
+    });
+  }
+
+  getItemsByCategory(): Observable<CategoryGroup> {
+    return this.items.map(items => {
+      const categoryGroups: CategoryGroup = {
+        category: 'all',
+        items: [],
+        subcategories: {}
+      };
       items.forEach(item => {
         const categories = item.categories.split(',');
         categories.forEach(category => {
-          category = category.trim();
-          if (!categoryGroupsMap[category]) {
-            categoryGroupsMap[category] = {
-              category: category,
-              items: []
-            };
-          }
-
-          categoryGroupsMap[category].items.push(item);
+          this.addItemToCategoryGroupMap(categoryGroups, item, category);
         });
       });
-
-      return categoryGroupsMap;
+      return categoryGroups;
     });
+  }
+
+  private addItemToCategoryGroupMap(categoryGroups: CategoryGroup, item: Item, category: string) {
+    const subcategories = category.trim().split('>');
+
+    let prevGroup = categoryGroups;
+    let group = categoryGroups;
+    let subcategory;
+    while (subcategory = subcategories.shift()) {
+      group = this.getSubcategoryGroupCollection(prevGroup, subcategory);
+      prevGroup = group;
+    }
+
+    group.items.push(item);
+  }
+
+  getSubcategoryGroupCollection(group: CategoryGroup, subcategory: string): CategoryGroup {
+    subcategory = subcategory.trim();
+    let subcategoryGroup = group.subcategories[subcategory];
+    if (!subcategoryGroup) {
+      group.subcategories[subcategory] = {
+        category: subcategory,
+        subcategories: {},
+        items: []
+      };
+    }
+
+    return group.subcategories[subcategory];
   }
 
   add(item: Item): firebase.database.ThenableReference {

@@ -7,18 +7,13 @@
       </button>
       <span class="title">Inventory</span>
 
-      <inventory-search (searchChanged)="search = $event"></inventory-search>
+      <inventory-search (searchChanged)="search = $event">
+      </inventory-search>
     </div>
 
-    <div class="categories" *ngIf="!search">
-      <div *ngFor="let category of getCategories()">
-        <button mat-button class="inventory-category"
-                (click)="openSlidingPanel(category)">
-          {{category}}
-          <mat-icon>keyboard_arrow_right</mat-icon>
-        </button>
-      </div>
-    </div>
+    <subcategory-list *ngIf="subcategories?.length && !search"
+                      [subcategories]="subcategories">
+    </subcategory-list>
 
     <!--
     Must always be displayed because the inventory list had a firebase
@@ -26,11 +21,11 @@
     -->
     <div class="search-results"
          [style.display]="search ? '' : 'none'">
-      <inventory-list [search]="search"
-                      (filteredItemCount)="searchResultCount = $event">
-      </inventory-list>
+      <inventory-list [search]="search"></inventory-list>
     </div>
   </div>
 
-  <sliding-panel #slidingPanel></sliding-panel>
+  <sliding-panel *ngFor="let category of panelsService.panels; let index = index"
+                 [category]="category" (closed)="panelsService.closePanel(index)">
+  </sliding-panel>
 </div>

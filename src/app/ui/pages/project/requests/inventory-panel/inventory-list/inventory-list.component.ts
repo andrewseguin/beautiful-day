@@ -6,7 +6,7 @@ import {ItemsService} from '../../../../../../service/items.service';
 import {ItemSearchPipe} from '../../../../../../pipe/item-search.pipe';
 
 /** Number of items to load each time. */
-const ITEMS_TO_LOAD = 20;
+const ITEMS_TO_LOAD = 10;
 
 @Component({
   selector: 'inventory-list',
@@ -21,6 +21,8 @@ export class InventoryListComponent implements OnInit {
 
   itemsToShow: number;
   items: Item[] = [];
+  allItems: Item[] = [];
+  subcategories: string[];
   filteredItems: Item[];
 
   _category: string;
@@ -49,8 +51,16 @@ export class InventoryListComponent implements OnInit {
               private itemsService: ItemsService) {}
 
   ngOnInit() {
+    this.itemsService.getCategoryGroup(this.category).subscribe(group => {
+      this.items = group.items;
+      this.subcategories = group.subcategories;
+      this.filterItems();
+      this.beginLoading();
+    });
+
+    // For search - use all items in search
     this.itemsService.items.subscribe(items => {
-      this.items = items;
+      this.allItems = items;
       this.filterItems();
     });
   }
@@ -58,14 +68,9 @@ export class InventoryListComponent implements OnInit {
   filterItems() {
     this.filteredItems = this.items;
 
-    if (this.category) {
-      this.filteredItems =
-          this.itemSearch.transform(this.items, `[category]:${this.category.replace(' ', '_')}`);
-    }
-
+    // When searching, use all items
     if (this.search) {
-      this.filteredItems =
-          this.itemSearch.transform(this.filteredItems, this.search);
+      this.filteredItems = this.itemSearch.transform(this.allItems, this.search);
     }
 
     this.filteredItemCount.emit(this.filteredItems.length);

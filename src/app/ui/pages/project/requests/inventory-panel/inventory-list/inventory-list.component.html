@@ -7,10 +7,11 @@
   </div>
 </div>
 
+<subcategory-list *ngIf="!search" [subcategories]="subcategories"></subcategory-list>
+
 <div *ngIf="filteredItems && itemsToShow > 0" class="items">
   <div *ngFor="let item of filteredItems | slice:0:itemsToShow; trackBy:itemTrackBy">
-    <inventory-panel-item [item]="item">
-      {{item.name}}
+    <inventory-panel-item [item]="item" [showCategory]="search">
     </inventory-panel-item>
   </div>
 

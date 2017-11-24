@@ -13,7 +13,7 @@
   justify-content: space-between;
   position: relative;
   padding: 0 8px 0 16px;
-  height: 48px;
+  min-height: 48px;
   cursor: pointer;
   &:hover {
     background: #FAFAFA;
@@ -23,8 +23,7 @@
   }
 
   .item-name {
-    max-height: 48px;
-    padding-right: 8px;
+    padding: 8px 8px 8px 0;
   }
 }
 

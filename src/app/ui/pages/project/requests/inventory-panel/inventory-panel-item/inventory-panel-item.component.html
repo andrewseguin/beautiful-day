@@ -4,42 +4,44 @@
     <mat-icon [@arrow]="state">expand_more</mat-icon>
   </div>
 
-  <div class="info-row">
-    <div>
-      <span class="property-title">
-        {{item.categories.split(',').length > 1 ? 'Categories: ' : 'Category: '}}
-      </span>
-      {{item.categories}}
+  <div [@info]="state">
+    <div class="info-row">
+      <div>
+        <span class="property-title">
+          {{item.categories.split(',').length > 1 ? 'Categories: ' : 'Category: '}}
+        </span>
+        {{item.categories}}
+      </div>
+
+      <div>
+        <span class="property-title">Cost:</span>
+        {{item.cost ? (item.cost  | currency:'USD') : '--'}}
+      </div>
+
+      <div *ngIf="item.url">
+        <span class="property-title">Website:</span>
+        <a target="_blank" href="{{item.url}}">
+          {{item.url}}
+        </a>
+      </div>
     </div>
 
-    <div>
-      <span class="property-title">Cost:</span>
-      {{item.cost ? (item.cost  | currency:'USD') : '--'}}
+    <div class="request-row">
+      <mat-form-field>
+        <input matInput type="number" min="0"
+               [(ngModel)]="requestQuantity"
+               [disabled]="requested"
+               (keyup.Enter)="request()"
+               placeholder="quantity"/>
+      </mat-form-field>
+
+      <button mat-raised-button
+              color="accent"
+              [disabled]="requestQuantity <= 0 || requested"
+              (click)="request()">
+        <span *ngIf="requested">Requested</span>
+        <span *ngIf="!requested">Request</span>
+      </button>
     </div>
-
-    <div *ngIf="item.url">
-      <span class="property-title">Website:</span>
-      <a target="_blank" href="{{item.url}}">
-        {{item.url}}
-      </a>
-    </div>
-  </div>
-
-  <div class="request-row">
-    <mat-form-field>
-      <input matInput type="number" min="0"
-             [(ngModel)]="requestQuantity"
-             [disabled]="requested"
-             (keyup.Enter)="request()"
-             placeholder="quantity"/>
-    </mat-form-field>
-
-    <button mat-raised-button
-            color="accent"
-            [disabled]="requestQuantity <= 0 || requested"
-            (click)="request()">
-      <span *ngIf="requested">Requested</span>
-      <span *ngIf="!requested">Request</span>
-    </button>
   </div>
 </div>
