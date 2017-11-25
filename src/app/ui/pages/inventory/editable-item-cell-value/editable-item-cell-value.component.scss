@@ -1,0 +1,15 @@
+@import '../shared';
+
+// Gives space to click on for edit when no value
+.view {
+  width: 100%;
+  min-height: 16px;
+
+  &:hover {
+    @include input-underline;
+  }
+}
+
+input {
+  @include cell-input;
+}

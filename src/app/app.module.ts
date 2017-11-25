@@ -19,7 +19,7 @@ import {
   MatInputModule,
   MatListModule,
   MatMenuModule,
-  MatNativeDateModule,
+  MatNativeDateModule, MatPaginatorModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatRadioModule,
@@ -29,6 +29,8 @@ import {
   MatSliderModule,
   MatSlideToggleModule,
   MatSnackBarModule,
+  MatSortModule,
+  MatTableModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule
@@ -117,6 +119,7 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SubcategoryListComponent} from './ui/pages/project/requests/inventory-panel/subcategory-list/subcategory-list.component';
+import {EditableItemCellValueComponent} from './ui/pages/inventory/editable-item-cell-value/editable-item-cell-value.component';
 
 @NgModule({
   declarations: [
@@ -177,6 +180,7 @@ import {SubcategoryListComponent} from './ui/pages/project/requests/inventory-pa
     DeleteReportComponent,
     SubcategoryListComponent,
     ReportSearchPipe,
+    EditableItemCellValueComponent,
   ],
   entryComponents: [
     EditItemComponent,
@@ -221,6 +225,7 @@ import {SubcategoryListComponent} from './ui/pages/project/requests/inventory-pa
     MatIconModule,
     MatInputModule,
     MatListModule,
+    MatPaginatorModule,
     MatMenuModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
@@ -232,6 +237,8 @@ import {SubcategoryListComponent} from './ui/pages/project/requests/inventory-pa
     MatSliderModule,
     MatSnackBarModule,
     MatTabsModule,
+    MatTableModule,
+    MatSortModule,
     MatToolbarModule,
     MatTooltipModule,
     MatNativeDateModule,

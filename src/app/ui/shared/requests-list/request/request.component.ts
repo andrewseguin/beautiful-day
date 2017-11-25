@@ -98,7 +98,6 @@ export class RequestComponent implements OnInit {
       this.itemsService.get(request.item).subscribe((item: Item) => {
         this.item = item;
         this.itemDisplayName = item.name;
-        if (this.item.type) { this.itemDisplayName += ` - ${item.type}`; }
         this.cd.markForCheck();
       });
 

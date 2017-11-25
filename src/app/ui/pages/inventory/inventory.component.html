@@ -1,62 +1,103 @@
-<div class="search-container mat-elevation-z1">
-  <mat-form-field class="inventory-page-search" [floatPlaceholder]="'never'">
-    <div class="search-box-content">
-      <input matInput [(ngModel)]="search"
-             (ngModelChange)="itemsToShow = 10"
-             placeholder="Search inventory">
-      <button mat-icon-button *ngIf="search" (click)="search = ''"><mat-icon>close</mat-icon></button>
-    </div>
-  </mat-form-field>
-</div>
-
-<div class="page">
-  <div class="search-results-container" *ngIf="search">
-    <div class="title">
-      <mat-checkbox [checked]="hasAllSelectedItems()"
-                   (change)="toggleGroupSelection($event.checked)">
-      </mat-checkbox>
-      Search Results ({{searchItems.length}})
-    </div>
-    <div class="items">
-      <div *ngFor="let item of searchItems | slice:0:itemsToShow"
-           (click)="setSelected(item, !isSelected(item))"
-           class="item">
-        <div class="top-row">
-          <mat-checkbox [checked]="isSelected(item)"
-                       (click)="$event.stopPropagation()"
-                       (change)="setSelected(item, $event.checked)"></mat-checkbox>
-
-          <div class="name">
-            <div>{{getItemName(item)}}</div>
-            <mat-icon class="md-18" (click)="$event.stopPropagation(); editItem(item)">edit</mat-icon>
-            <mat-icon class="md-18" (click)="$event.stopPropagation(); openItemUrl(item)">open_in_new</mat-icon>
-          </div>
-          <div class="cost">{{item.cost | currency:'USD'}}</div>
-        </div>
-        <div class="details">
-          <div class="owned" *ngIf="item.quantityOwned">
-            Owned: {{item.quantityOwned}}
-          </div>
-        </div>
-      </div>
-
-      <button mat-button color="primary"
-              *ngIf="itemsToShow < searchItems.length"
-              (click)="itemsToShow = itemsToShow + 20"
-              class="show-more">Show More</button>
+<div class="table-container">
+  <div class="filter">
+    <div class="search-container">
+      <input [(ngModel)]="search" placeholder="Search inventory">
     </div>
   </div>
 
-  <div class="empty-search" *ngIf="!search">
+  <mat-table [dataSource]="dataSource" matSort [trackBy]="itemTrackBy">
 
-    <div class="title">Categories</div>
-    <div class="suggested-searches">
-      <button mat-button *ngFor="let category of categories"
-              (click)="search = '[category]:' + category.replace(' ', '_')"
-              class="search-category mat-elevation-z4">
-        {{category}}
-      </button>
-    </div>
-  </div>
+    <!-- Column: Edit Actions -->
+    <ng-container matColumnDef="editActions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        <span *ngIf="!editing.get(item.$key)" class="edit-button">
+          <button mat-icon-button (click)="editItem(item)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </span>
+        <span *ngIf="editing.get(item.$key)">
+          <button mat-icon-button (click)="editing.delete(item.$key)">
+            <mat-icon>close</mat-icon>
+          </button>
+          <button mat-icon-button (click)="save(item.$key)">
+            <mat-icon>save</mat-icon>
+          </button>
+        </span>
+      </mat-cell>
+    </ng-container>
 
+    <!-- Column: Categories -->
+    <ng-container matColumnDef="categories">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Categories</mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        <!-- View Mode -->
+        <div *ngIf="!editing.get(item.$key)" (click)="editItem(item)">
+          {{item.categories}}
+        </div>
+        <!-- Edit Mode -->
+        <div *ngIf="editing.get(item.$key)" class="category-inputs">
+          <input *ngFor="let category of getCategories(item); let index = index"
+                 class="item-value"
+                 [value]="category" (keyup)="saveCategory(item, index, $event)">
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Column: Name -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        <editable-item-cell-value [editing]="editing.get(item.$key)"
+                                  (action)="handleEditableItemCellEvent($event, item)"
+                                  [item]="item" [property]="'name'">
+        </editable-item-cell-value>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Column: Name -->
+    <ng-container matColumnDef="keywords">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Keywords</mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        <editable-item-cell-value [editing]="editing.get(item.$key)"
+                                  (action)="handleEditableItemCellEvent($event, item)"
+                                  [item]="item" [property]="'keywords'">
+        </editable-item-cell-value>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Column: Cost -->
+    <ng-container matColumnDef="cost">
+      <mat-header-cell *matHeaderCellDef mat-sort-header [arrowPosition]="'before'">Cost</mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        {{item.cost | currency:'USD'}}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Column: Url -->
+    <ng-container matColumnDef="url">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Website</mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        <editable-item-cell-value [editing]="editing.get(item.$key)"
+                                  (action)="handleEditableItemCellEvent($event, item)"
+                                  [item]="item" [property]="'url'" [isLink]="true">
+        </editable-item-cell-value>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Column: Is Approved -->
+    <ng-container matColumnDef="isApproved">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Approved</mat-header-cell>
+      <mat-cell *matCellDef="let item" (click)="setIsApproved(item, !item.isApproved)">
+        <button mat-icon-button>
+          <mat-icon>{{item.isApproved ? 'checked' : ''}}</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+    <mat-row *matRowDef="let item; columns: columns"></mat-row>
+  </mat-table>
+
+  <mat-paginator></mat-paginator>
 </div>

@@ -1,0 +1,14 @@
+<!-- View Mode -->
+<ng-container *ngIf="!editing">
+    <div *ngIf="!isLink" class="view" (click)="edit()">
+      {{item[property]}}
+    </div>
+    <ng-container *ngIf="isLink">
+      <a href="{{item[property]}}">{{item[property]}}</a>
+    </ng-container>
+</ng-container>
+
+<!-- Edit Mode -->
+<div *ngIf="editing">
+  <input class="item-value" [value]="item[property] || ''" (keyup)="onKeyup($event)">
+</div>

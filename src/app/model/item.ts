@@ -1,7 +1,6 @@
 export interface Item {
   $key?: string;
   name?: string;
-  type?: string;
   categories?: string;
   url?: string;
   cost?: number;

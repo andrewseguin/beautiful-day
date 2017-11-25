@@ -49,7 +49,6 @@ export class ImportItemsComponent {
 
       let item: Item = {
         name: itemInfo[0],
-        type: itemInfo[1],
         categories: itemInfo[2],
         url: itemInfo[4],
         keywords: itemInfo[6]

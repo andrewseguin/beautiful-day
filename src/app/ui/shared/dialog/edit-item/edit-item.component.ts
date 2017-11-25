@@ -55,7 +55,6 @@ export class EditItemComponent implements OnInit {
 
     const persistingItem: Item = {
       name: this.toTitleCase(this._item.name),
-      type: this.toTitleCase(this._item.type || ''),
       cost: this._item.cost,
       categories: titleCasedCategories,
       url: this._item.url,

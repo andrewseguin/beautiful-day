@@ -190,7 +190,7 @@ export class RequestGroupingService {
     this.requestGroups.set('item', []);
     itemGroups.forEach((requests, itemKey) => {
       const item = itemMap.get(itemKey);
-      let title = `${item.name} - ${item.type}`;
+      let title = `${item.name}`;
 
       if (this.isAcquisitions) {
         title += ` (${item.quantityOwned || 0} in stock)`;

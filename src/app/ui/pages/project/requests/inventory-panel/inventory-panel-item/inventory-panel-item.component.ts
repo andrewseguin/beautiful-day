@@ -70,9 +70,6 @@ export class InventoryPanelItemComponent implements OnInit {
 
   getItemName() {
     let name = this.item.name;
-    if (this.item.type) {
-      name += ` - ${this.item.type}`;
-    }
 
     if (this.showCategory) {
       name = this.item.categories.split(',')[0] + ' > ' + name;
