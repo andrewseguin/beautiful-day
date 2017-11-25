@@ -31,7 +31,7 @@ export class PermissionsService {
   constructor(private projectsService: ProjectsService,
               private groupsService: GroupsService,
               private usersService: UsersService) {
-    this.groupsService.membership
+    this.groupsService.membership$
         .subscribe(membership => this.updatePermissions(membership));
   }
 

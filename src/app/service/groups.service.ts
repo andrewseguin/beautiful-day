@@ -17,57 +17,70 @@ export type Membership = {
 
 @Injectable()
 export class GroupsService extends DaoService<string> {
-  membership = new Subject<Membership>();
+  membership$: Observable<Membership>;
 
   constructor(db: AngularFireDatabase,
               private usersService: UsersService) {
     super(db, 'groups');
+    this.setupMembershipStream();
+  }
 
+  private setupMembershipStream() {
     const changes = [
       this.usersService.getCurrentUser(),
       this.getListDao().snapshotChanges()
     ];
 
-    Observable.combineLatest(changes).subscribe((result: any[]) => {
-      const user: User = result[0];
-      const actions: SnapshotAction[] = result[1];
+    this.usersService.getCurrentUser().subscribe(console.log);
+    this.getListDao().snapshotChanges().subscribe(console.log);
 
-      const membership: Membership = {};
-
-      actions.forEach(action => {
-        const memberList = action.payload.val();
-        const member = user.email;
-
-        switch (action.key) {
-          case 'admins':
-            membership.admins = this.containsUser(memberList, member); break;
-          case 'acquisitions':
-            membership.acquisitions = this.containsUser(memberList, member); break;
-          case 'owners':
-            membership.owners = this.containsUser(memberList, member); break;
-          case 'approvers':
-            membership.approvers = this.containsUser(memberList, member); break;
-        }
-      });
-
-      // Owners are a higher level of admin
-      if (membership.owners) {
-        membership.admins = true;
-      }
-
-      // Admins automatically have permission as other groups
-      if (membership.admins) {
-        membership.acquisitions = true;
-        membership.approvers = true;
-      }
-
-      // All of the acquisitions team are part of the approvers team
-      if (membership.acquisitions) {
-        membership.approvers = true;
-      }
-
-      this.membership.next(membership);
+    this.membership$ = Observable.combineLatest(changes).map((result: any[]) => {
+      return this.getMembership(result[0], result[1]);
     });
+  }
+
+  private getMembership(user: User, actions: SnapshotAction[]) {
+    const membership = this.constructInitialMembership(user.email, actions);
+
+    // Owners are a higher level of admin
+    if (membership.owners) {
+      membership.admins = true;
+    }
+
+    // Admins automatically have permission as other groups
+    if (membership.admins) {
+      membership.acquisitions = true;
+      membership.approvers = true;
+    }
+
+    // All of the acquisitions team are part of the approvers team
+    if (membership.acquisitions) {
+      membership.approvers = true;
+    }
+
+    return membership;
+  }
+
+  /** Constructs membership based on where the user fits into the database's groups. */
+  private constructInitialMembership(userEmail: string, actions: SnapshotAction[]) {
+    const membership: Membership = {};
+
+    actions.forEach(action => {
+      const memberList = action.payload.val();
+
+      switch (action.key) {
+        case 'admins':
+          membership.admins = this.containsUser(memberList, userEmail); break;
+        case 'acquisitions':
+          membership.acquisitions = this.containsUser(memberList, userEmail); break;
+        case 'owners':
+          membership.owners = this.containsUser(memberList, userEmail); break;
+        case 'approvers':
+          membership.approvers = this.containsUser(memberList, userEmail); break;
+      }
+    });
+
+    return membership;
   }
 
   getGroup(group: Group): Observable<string[]> {
