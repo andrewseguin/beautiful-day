@@ -35,30 +35,8 @@ export class GroupsService extends DaoService<string> {
     this.getListDao().snapshotChanges().subscribe(console.log);
 
     this.membership$ = Observable.combineLatest(changes).map((result: any[]) => {
-      return this.getMembership(result[0], result[1]);
+      return this.constructInitialMembership(result[0].email, result[1]);
     });
-  }
-
-  private getMembership(user: User, actions: SnapshotAction[]) {
-    const membership = this.constructInitialMembership(user.email, actions);
-
-    // Owners are a higher level of admin
-    if (membership.owners) {
-      membership.admins = true;
-    }
-
-    // Admins automatically have permission as other groups
-    if (membership.admins) {
-      membership.acquisitions = true;
-      membership.approvers = true;
-    }
-
-    // All of the acquisitions team are part of the approvers team
-    if (membership.acquisitions) {
-      membership.approvers = true;
-    }
-
-    return membership;
   }
 
   /** Constructs membership based on where the user fits into the database's groups. */
