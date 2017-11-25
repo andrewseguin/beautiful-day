@@ -27,7 +27,7 @@ export class InventoryComponent implements OnInit, AfterViewInit {
     this.filterItems();
   }
   get search(): string { return this._search; }
-  _search = 'putty knife';
+  _search = '';
 
   constructor(private headerService: HeaderService,
               private itemsService: ItemsService) { }
@@ -58,28 +58,33 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   }
 
   editItem(item: Item) {
-    const clonedItem: Item = {
-      name: item.name,
-      categories: item.categories,
-      url: item.url,
-      cost: item.cost,
-      keywords: item.keywords
-    };
-
-    this.editing.set(item.$key, clonedItem);
+    this.editing.set(item.$key, {...item});
   }
 
   handleEditableItemCellEvent(event: EditableItemCellAction, item: Item) {
     switch (event) {
-      case 'save': this.save(item.$key); break;
-      case 'cancel': this.editing.delete(item.$key); break;
-      case 'edit': this.editItem(item);
+      case 'save': this.save(item); break;
+      case 'cancel': this.cancel(item); break;
+      case 'edit': this.editItem(item); break;
     }
   }
 
-  save(itemId: string) {
-    this.itemsService.update(itemId, this.editing.get(itemId));
-    this.editing.delete(itemId);
+  private cancel(item: Item) {
+    // Restore item properties
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].$key !== item.$key) { continue; }
+      this.items[i] = this.editing.get(item.$key);
+      this.editing.delete(item.$key);
+      this.filterItems();
+      break;
+    }
+  }
+
+  private save(item: Item) {
+    const {name, categories, url, keywords} = item;
+
+    this.itemsService.update(item.$key, {name, categories, url, keywords});
+    this.editing.delete(item.$key);
   }
 
   getCategories(item: Item) {
@@ -93,14 +98,15 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   saveCategory(item: Item, categoryIndex: number, e: KeyboardEvent) {
     const categories = item.categories.split(',');
     categories[categoryIndex] = (<HTMLInputElement>e.target).value;
-    this.editing.get(item.$key).categories = categories.join(',');
+    item.categories = categories.join(',');
 
-    if (e.keyCode === 13 /* Enter */) {
-      this.save(item.$key);
+    switch (e.keyCode) {
+      case 13: this.save(item); break;
+      case 27: this.cancel(item); break;
     }
   }
 
   setIsApproved(item: Item, isApproved: boolean) {
-    this.itemsService.update(item.$key, {isApproved: isApproved});
+    this.itemsService.update(item.$key, {isApproved});
   }
 }

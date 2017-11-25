@@ -50,7 +50,7 @@
       <mat-cell *matCellDef="let item">
         <editable-item-cell-value [editing]="editing.get(item.$key)"
                                   (action)="handleEditableItemCellEvent($event, item)"
-                                  [item]="item" [property]="'name'">
+                                  [item]="item" property="name">
         </editable-item-cell-value>
       </mat-cell>
     </ng-container>
@@ -61,7 +61,7 @@
       <mat-cell *matCellDef="let item">
         <editable-item-cell-value [editing]="editing.get(item.$key)"
                                   (action)="handleEditableItemCellEvent($event, item)"
-                                  [item]="item" [property]="'keywords'">
+                                  [item]="item" property="keywords">
         </editable-item-cell-value>
       </mat-cell>
     </ng-container>
@@ -72,7 +72,7 @@
       <mat-cell *matCellDef="let item">
         <editable-item-cell-value [editing]="editing.get(item.$key)"
                                   (action)="handleEditableItemCellEvent($event, item)"
-                                  [item]="item" [property]="'cost'" [align]="'after'">
+                                  [item]="item" property="cost" type="currency" align="after">
         </editable-item-cell-value>
       </mat-cell>
     </ng-container>
@@ -83,7 +83,7 @@
       <mat-cell *matCellDef="let item">
         <editable-item-cell-value [editing]="editing.get(item.$key)"
                                   (action)="handleEditableItemCellEvent($event, item)"
-                                  [item]="item" [property]="'url'" [isLink]="true">
+                                  [item]="item" property="url" type="link">
         </editable-item-cell-value>
       </mat-cell>
     </ng-container>
@@ -126,5 +126,5 @@
     <mat-row *matRowDef="let item; columns: columns"></mat-row>
   </mat-table>
 
-  <mat-paginator [pageSize]="1"></mat-paginator>
+  <mat-paginator [pageSize]="25" [pageSizeOptions]="[25, 50, 100, 250]"></mat-paginator>
 </div>

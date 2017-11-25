@@ -12,7 +12,7 @@ export class EditableItemCellValueComponent {
   @Input() item: Item;
   @Input() property: string;
   @Input() editing: boolean;
-  @Input() isLink: boolean;
+  @Input() type: 'text' | 'link' | 'currency' = 'text';
   @Input() align: 'before' | 'after' = 'before';
   @Output() action = new EventEmitter<EditableItemCellAction>();
 

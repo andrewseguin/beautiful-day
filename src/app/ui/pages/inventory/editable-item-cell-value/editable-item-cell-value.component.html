@@ -1,11 +1,14 @@
 <!-- View Mode -->
 <ng-container *ngIf="!editing">
-    <div *ngIf="!isLink" class="view" (click)="edit()">
-      {{item[property]}}
-    </div>
-    <ng-container *ngIf="isLink">
-      <a href="{{item[property]}}">{{item[property]}}</a>
-    </ng-container>
+  <div *ngIf="type == 'text'" class="view" (click)="edit()">
+    {{item[property]}}
+  </div>
+  <div *ngIf="type == 'currency'" class="view" (click)="edit()">
+    {{item[property] | currency:'USD'}}
+  </div>
+  <ng-container *ngIf="type == 'link'">
+    <a href="{{item[property]}}">{{item[property]}}</a>
+  </ng-container>
 </ng-container>
 
 <!-- Edit Mode -->
