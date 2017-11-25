@@ -13,6 +13,7 @@ export class EditableItemCellValueComponent {
   @Input() property: string;
   @Input() editing: boolean;
   @Input() isLink: boolean;
+  @Input() align: 'before' | 'after' = 'before';
   @Output() action = new EventEmitter<EditableItemCellAction>();
 
   constructor(private elementRef: ElementRef) {}

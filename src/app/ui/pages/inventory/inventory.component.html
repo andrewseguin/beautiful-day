@@ -70,7 +70,10 @@
     <ng-container matColumnDef="cost">
       <mat-header-cell *matHeaderCellDef mat-sort-header [arrowPosition]="'before'">Cost</mat-header-cell>
       <mat-cell *matCellDef="let item">
-        {{item.cost | currency:'USD'}}
+        <editable-item-cell-value [editing]="editing.get(item.$key)"
+                                  (action)="handleEditableItemCellEvent($event, item)"
+                                  [item]="item" [property]="'cost'" [align]="'after'">
+        </editable-item-cell-value>
       </mat-cell>
     </ng-container>
 
@@ -82,6 +85,30 @@
                                   (action)="handleEditableItemCellEvent($event, item)"
                                   [item]="item" [property]="'url'" [isLink]="true">
         </editable-item-cell-value>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Column: Added By -->
+    <ng-container matColumnDef="addedBy">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Added By</mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        {{item.addedBy}}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Column: Date Added -->
+    <ng-container matColumnDef="dateAdded">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        {{item.dateAdded}}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Column: Quantity Owned -->
+    <ng-container matColumnDef="quantityOwned">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Owned</mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        {{item.quantityOwned}}
       </mat-cell>
     </ng-container>
 
@@ -99,5 +126,5 @@
     <mat-row *matRowDef="let item; columns: columns"></mat-row>
   </mat-table>
 
-  <mat-paginator></mat-paginator>
+  <mat-paginator [pageSize]="1"></mat-paginator>
 </div>

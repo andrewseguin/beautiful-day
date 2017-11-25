@@ -10,5 +10,8 @@
 
 <!-- Edit Mode -->
 <div *ngIf="editing">
-  <input class="item-value" [value]="item[property] || ''" (keyup)="onKeyup($event)">
+  <input class="item-value"
+         [style.textAlign]="align === 'before' ? 'left' : 'right'"
+         [value]="item[property] || ''"
+         (keyup)="onKeyup($event)">
 </div>

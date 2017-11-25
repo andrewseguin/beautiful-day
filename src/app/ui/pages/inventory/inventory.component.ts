@@ -12,7 +12,7 @@ import {EditableItemCellAction} from './editable-item-cell-value/editable-item-c
   styleUrls: ['./inventory.component.scss']
 })
 export class InventoryComponent implements OnInit, AfterViewInit {
-  columns = ['editActions', 'categories', 'name', 'keywords', 'cost', 'url', 'isApproved'];
+  columns = ['editActions', 'categories', 'name', 'keywords', 'cost', 'url', 'isApproved', 'addedBy', 'dateAdded', 'quantityOwned'];
   dataSource = new MatTableDataSource<Item>();
   items: Item[];
   itemSearch = new ItemSearchPipe();
@@ -27,7 +27,7 @@ export class InventoryComponent implements OnInit, AfterViewInit {
     this.filterItems();
   }
   get search(): string { return this._search; }
-  _search = '';
+  _search = 'putty knife';
 
   constructor(private headerService: HeaderService,
               private itemsService: ItemsService) { }
@@ -65,6 +65,7 @@ export class InventoryComponent implements OnInit, AfterViewInit {
       cost: item.cost,
       keywords: item.keywords
     };
+
     this.editing.set(item.$key, clonedItem);
   }
 
