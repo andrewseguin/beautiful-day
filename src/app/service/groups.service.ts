@@ -34,37 +34,14 @@ export class GroupsService extends DaoService<string> {
     this.usersService.getCurrentUser().subscribe(console.log);
     this.getListDao().snapshotChanges().subscribe(console.log);
 
-    this.membership$ = Observable.combineLatest(changes).map((result: any[]) => {
-      return this.constructInitialMembership(result[0].email, result[1]);
-    });
-  }
-
-  /** Constructs membership based on where the user fits into the database's groups. */
-  private constructInitialMembership(userEmail: string, actions: SnapshotAction[]) {
-    const membership: Membership = {};
-
-    actions.forEach(action => {
-      const memberList = action.payload.val();
-
-      switch (action.key) {
-        case 'admins':
-          membership.admins = this.containsUser(memberList, userEmail); break;
-        case 'acquisitions':
-          membership.acquisitions = this.containsUser(memberList, userEmail); break;
-        case 'owners':
-          membership.owners = this.containsUser(memberList, userEmail); break;
-        case 'approvers':
-          membership.approvers = this.containsUser(memberList, userEmail); break;
-      }
-    });
-
-    return membership;
+    this.membership$ = Observable.combineLatest(changes)
+        .map((result: any[]) => constructInitialMembership(result[0].email, result[1]));
   }
 
   getGroup(group: Group): Observable<string[]> {
     return this.getObjectDao(group).valueChanges().map((members: string) => {
       if (!members) { return []; }
-      return members.split(',').map(this.normalizeEmail);
+      return members.split(',').map(normalizeEmail);
     });
   }
 
@@ -80,7 +57,7 @@ export class GroupsService extends DaoService<string> {
       const groupChecks: Observable<boolean>[] = [];
       for (let group of groups) {
         const groupCheck = this.getGroup(group)
-            .map(members => members.indexOf(this.normalizeEmail(user.email)) !== -1);
+            .map(members => members.indexOf(normalizeEmail(user.email)) !== -1);
         groupChecks.push(groupCheck);
       }
 
@@ -88,13 +65,35 @@ export class GroupsService extends DaoService<string> {
           .map((checks: boolean[]) => checks.some(check => check));
     });
   }
+}
 
-  containsUser(memberList = '', userEmail: string) {
-    const members = memberList.split(',').map(this.normalizeEmail);
-    return members.indexOf(userEmail) !== -1;
-  }
+/** Constructs membership based on where the user fits into the database's groups. */
+function constructInitialMembership(userEmail: string, actions: SnapshotAction[]) {
+  const membership: Membership = {};
 
-  normalizeEmail(email: string): string {
-    return email.trim().toLowerCase();
-  }
+  actions.forEach(action => {
+    const memberList = action.payload.val();
+
+    switch (action.key) {
+      case 'admins':
+        membership.admins = containsUser(memberList, userEmail); break;
+      case 'acquisitions':
+        membership.acquisitions = containsUser(memberList, userEmail); break;
+      case 'owners':
+        membership.owners = containsUser(memberList, userEmail); break;
+      case 'approvers':
+        membership.approvers = containsUser(memberList, userEmail); break;
+    }
+  });
+
+  return membership;
+}
+
+function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
+function containsUser(memberList = '', userEmail: string) {
+  const members = memberList.split(',').map(normalizeEmail);
+  return members.indexOf(userEmail) !== -1;
 }

@@ -31,7 +31,7 @@
 </button>
 
 <button mat-button class="nav-link new"
-        *ngIf="this.permissionsService.canCreateProjects() | async"
+          *ngIf="canCreateProjects"
         (click)="addProject()">+ New Project</button>
 
 

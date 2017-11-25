@@ -26,16 +26,15 @@ export interface Permissions {
 
 @Injectable()
 export class PermissionsService {
-  permissions = new BehaviorSubject<Permissions>({});
+  permissions: Observable<Permissions>;
 
   constructor(private projectsService: ProjectsService,
               private groupsService: GroupsService,
               private usersService: UsersService) {
-    this.groupsService.membership$
-        .subscribe(membership => this.updatePermissions(membership));
+    this.permissions = this.groupsService.membership$.map(m => this.getPermissions(m));
   }
 
-  updatePermissions(membership: Membership) {
+  getPermissions(membership: Membership) {
     const permissions: Permissions = {
       owner: membership.owners,
       admin: membership.admins,
@@ -44,22 +43,22 @@ export class PermissionsService {
     };
 
     // Owners are higher level admins
-    if (membership.owners) {
+    if (permissions.owner) {
       permissions.admin = true;
     }
 
     // Admins automatically have permission as other groups
-    if (membership.admins) {
+    if (permissions.admin) {
       permissions.acquisition = true;
       permissions.approver = true;
     }
 
     // All of the acquisitions team can be approvers
-    if (membership.acquisitions) {
+    if (permissions.acquisition) {
       permissions.approver = true;
     }
 
-    this.permissions.next(permissions);
+    return permissions;
   }
 
   getEditPermissions(projectId: string): Observable<EditProjectPermissions> {
