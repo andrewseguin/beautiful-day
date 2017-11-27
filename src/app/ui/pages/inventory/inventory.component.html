@@ -27,63 +27,31 @@
       </mat-cell>
     </ng-container>
 
-    <!-- Column: Categories -->
-    <ng-container matColumnDef="categories">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Categories</mat-header-cell>
+    <!-- Column: Console Log Action -->
+    <ng-container matColumnDef="consoleLog">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let item">
-        <!-- View Mode -->
-        <div *ngIf="!editing.get(item.$key)" (click)="editItem(item)">
-          {{item.categories}}
-        </div>
-        <!-- Edit Mode -->
-        <div *ngIf="editing.get(item.$key)" class="category-inputs">
-          <input *ngFor="let category of getCategories(item); let index = index"
-                 class="item-value"
-                 [value]="category" (keyup)="saveCategory(item, index, $event)">
-        </div>
+        <button mat-icon-button (click)="log(item)">
+          <mat-icon>print</mat-icon>
+        </button>
       </mat-cell>
     </ng-container>
 
-    <!-- Column: Name -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let item">
-        <editable-item-cell-value [editing]="editing.get(item.$key)"
-                                  (action)="handleEditableItemCellEvent($event, item)"
-                                  [item]="item" property="name">
-        </editable-item-cell-value>
-      </mat-cell>
-    </ng-container>
 
-    <!-- Column: Name -->
-    <ng-container matColumnDef="keywords">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Keywords</mat-header-cell>
+    <!-- Column: Editable fields -->
+    <ng-container [matColumnDef]="editableColumn.property" *ngFor="let editableColumn of editableColumns">
+      <mat-header-cell *matHeaderCellDef
+                       mat-sort-header
+                       [arrowPosition]="editableColumn.align === 'after' ? 'before' : 'after'">
+        {{editableColumn.header}}
+      </mat-header-cell>
       <mat-cell *matCellDef="let item">
         <editable-item-cell-value [editing]="editing.get(item.$key)"
                                   (action)="handleEditableItemCellEvent($event, item)"
-                                  [item]="item" property="keywords">
-        </editable-item-cell-value>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Column: Cost -->
-    <ng-container matColumnDef="cost">
-      <mat-header-cell *matHeaderCellDef mat-sort-header [arrowPosition]="'before'">Cost</mat-header-cell>
-      <mat-cell *matCellDef="let item">
-        <editable-item-cell-value [editing]="editing.get(item.$key)"
-                                  (action)="handleEditableItemCellEvent($event, item)"
-                                  [item]="item" property="cost" type="currency" align="after">
-        </editable-item-cell-value>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Column: Url -->
-    <ng-container matColumnDef="url">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Website</mat-header-cell>
-      <mat-cell *matCellDef="let item">
-        <editable-item-cell-value [editing]="editing.get(item.$key)"
-                                  (action)="handleEditableItemCellEvent($event, item)"
-                                  [item]="item" property="url" type="link">
+                                  [item]="item"
+                                  [property]="editableColumn.property"
+                                  [type]="editableColumn.type || 'text'"
+                                  [align]="editableColumn.align || 'before'">
         </editable-item-cell-value>
       </mat-cell>
     </ng-container>
@@ -100,15 +68,7 @@
     <ng-container matColumnDef="dateAdded">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
       <mat-cell *matCellDef="let item">
-        {{item.dateAdded}}
-      </mat-cell>
-    </ng-container>
-
-    <!-- Column: Quantity Owned -->
-    <ng-container matColumnDef="quantityOwned">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Owned</mat-header-cell>
-      <mat-cell *matCellDef="let item">
-        {{item.quantityOwned}}
+        {{item.dateAdded | date}}
       </mat-cell>
     </ng-container>
 

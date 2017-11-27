@@ -12,12 +12,21 @@ import {EditableItemCellAction} from './editable-item-cell-value/editable-item-c
   styleUrls: ['./inventory.component.scss']
 })
 export class InventoryComponent implements OnInit, AfterViewInit {
-  columns = ['editActions', 'categories', 'name', 'keywords', 'cost', 'url', 'isApproved', 'addedBy', 'dateAdded', 'quantityOwned'];
+  columns = ['editActions', 'consoleLog', 'categories', 'name', 'keywords', 'cost', 'url', 'isApproved', 'addedBy', 'dateAdded', 'quantityOwned'];
   dataSource = new MatTableDataSource<Item>();
   items: Item[];
   itemSearch = new ItemSearchPipe();
   itemCategoryCache = new Map<Item, string[]>();
   editing = new Map<string, Item>();
+
+  editableColumns = [
+    { header: 'Categories', property: 'categories',    type: 'multi' },
+    { header: 'Name',       property: 'name' },
+    { header: 'Keywords',   property: 'keywords' },
+    { header: 'Cost',       property: 'cost',          type: 'currency', align: 'after' },
+    { header: 'Url',        property: 'url',           type: 'link' },
+    { header: 'Owned',      property: 'quantityOwned', align: 'after' },
+  ];
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,7 +39,18 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   _search = '';
 
   constructor(private headerService: HeaderService,
-              private itemsService: ItemsService) { }
+              private itemsService: ItemsService) {
+    this.dataSource.sortingDataAccessor = (item: Item, property: string) => {
+      switch (property) {
+        case 'cost':
+        case 'dateAdded':
+        case 'quantityOwned':
+          return item[property] === undefined ? -1 : item[property];
+        default:
+          return item[property] === undefined ? 'ZZZ' : item[property];
+      }
+    };
+  }
 
   itemTrackBy = (_, item: Item) => item.$key;
 
@@ -69,6 +89,10 @@ export class InventoryComponent implements OnInit, AfterViewInit {
     }
   }
 
+  log(item: Item) {
+    console.log(item);
+  }
+
   private cancel(item: Item) {
     // Restore item properties
     for (let i = 0; i < this.items.length; i++) {
@@ -81,29 +105,15 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   }
 
   private save(item: Item) {
-    const {name, categories, url, keywords} = item;
+    let {name, categories, url, keywords, cost} = item;
+    name = name || '';
+    categories = categories || '';
+    url = url || '';
+    keywords = keywords || '';
+    cost = cost || 0;
 
-    this.itemsService.update(item.$key, {name, categories, url, keywords});
+    this.itemsService.update(item.$key, {name, categories, url, keywords, cost});
     this.editing.delete(item.$key);
-  }
-
-  getCategories(item: Item) {
-    if (!this.itemCategoryCache.has(item)) {
-      this.itemCategoryCache.set(item, item.categories.split(','));
-    }
-
-    return this.itemCategoryCache.get(item);
-  }
-
-  saveCategory(item: Item, categoryIndex: number, e: KeyboardEvent) {
-    const categories = item.categories.split(',');
-    categories[categoryIndex] = (<HTMLInputElement>e.target).value;
-    item.categories = categories.join(',');
-
-    switch (e.keyCode) {
-      case 13: this.save(item); break;
-      case 27: this.cancel(item); break;
-    }
   }
 
   setIsApproved(item: Item, isApproved: boolean) {

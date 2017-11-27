@@ -1,6 +1,6 @@
 <!-- View Mode -->
 <ng-container *ngIf="!editing">
-  <div *ngIf="type == 'text'" class="view" (click)="edit()">
+  <div *ngIf="type === 'text' || type === 'multi'" class="view" (click)="edit()">
     {{item[property]}}
   </div>
   <div *ngIf="type == 'currency'" class="view" (click)="edit()">
@@ -13,8 +13,15 @@
 
 <!-- Edit Mode -->
 <div *ngIf="editing">
-  <input class="item-value"
+  <input class="item-value" *ngIf="type !== 'multi'"
          [style.textAlign]="align === 'before' ? 'left' : 'right'"
          [value]="item[property] || ''"
          (keyup)="onKeyup($event)">
+
+  <div class="multi-line-inputs" *ngIf="type === 'multi'">
+    <input *ngFor="let category of getSplitValue(); let index = index"
+           class="item-value"
+           [value]="category.trim()"
+           (keyup)="onKeyup($event, index)">
+  </div>
 </div>

@@ -8,6 +8,7 @@ export class ItemSearchTransformer {
     const itemStr = `[item]:${item.name}`;
     const name = `[name]:${item.name}`;
     const url = `[url]:${item.url}`;
+    const cost = `[cost]:${item.cost}`;
     const hasOwnedQuantity = `[hasOwnedQuantity]:${+item.quantityOwned > 0}`;
 
     return (itemStr + name + categorySearch + url + item.keywords + hasOwnedQuantity).replace(/ /g, '').toLowerCase();
