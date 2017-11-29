@@ -1,8 +1,8 @@
 import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import {Sort} from '../requests-group/requests-group.component';
-import {Group, RequestGroupingService} from '../../../../service/request-grouping.service';
-import {DisplayOptions} from '../../../../model/display-options';
-import {RequestViewOptions} from '../../../../model/request-view-options';
+import {Group, RequestGroupingService} from 'app/service/request-grouping.service';
+import {DisplayOptions} from 'app/model/display-options';
+import {RequestViewOptions} from 'app/model/request-view-options';
 
 @Component({
   selector: 'display-options-header',

@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
-import {Project} from '../../../../model/project';
+import {Project} from 'app/model/project';
 import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {ProjectsService} from '../../../../service/projects.service';
-import {RequestsService} from '../../../../service/requests.service';
-import {NotesService} from '../../../../service/notes.service';
-import {Router} from '@angular/router';
+import {ProjectsService} from 'app/service/projects.service';
+import {RequestsService} from 'app/service/requests.service';
+import {NotesService} from 'app/service/notes.service';
 
 @Component({
   selector: 'app-delete-project',

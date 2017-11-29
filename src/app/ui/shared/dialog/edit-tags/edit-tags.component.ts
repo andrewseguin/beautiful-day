@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import {RequestsService} from '../../../../service/requests.service';
+import {RequestsService} from 'app/service/requests.service';
 
 @Component({
   selector: 'edit-tags',

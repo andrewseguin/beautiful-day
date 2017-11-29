@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs';
-import {NotesService} from '../../../../service/notes.service';
 
 @Component({
   selector: 'app-delete-requests',

@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {Project} from '../../../../model/project';
+import {Component} from '@angular/core';
 import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {ProjectsService} from '../../../../service/projects.service';
-import {RequestsService} from '../../../../service/requests.service';
-import {NotesService} from '../../../../service/notes.service';
 import {Router} from '@angular/router';
-import {Report} from '../../../../model/report';
-import {ReportsService} from '../../../../service/reports.service';
+import {Report} from 'app/model/report';
+import {ReportsService} from 'app/service/reports.service';
 
 @Component({
   selector: 'app-delete-report',

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import {User} from '../../../../model/user';
-import {UsersService} from '../../../../service/users.service';
+import {User} from 'app/model/user';
+import {UsersService} from 'app/service/users.service';
 
 @Component({
   selector: 'edit-user-profile',

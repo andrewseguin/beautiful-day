@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {RequestsService} from '../../../../service/requests.service';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {RequestsService} from 'app/service/requests.service';
 import {MatDialogRef} from '@angular/material';
-import {ProjectsService} from '../../../../service/projects.service';
+import {ProjectsService} from 'app/service/projects.service';
 
 @Component({
   selector: 'edit-dropoff',

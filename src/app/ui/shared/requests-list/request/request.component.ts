@@ -11,18 +11,17 @@ import {
 } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog} from '@angular/material';
-import {Item} from '../../../../model/item';
-import {RequestsService} from '../../../../service/requests.service';
-import {Request} from '../../../../model/request';
-import {ItemsService} from '../../../../service/items.service';
+import {Item} from 'app/model/item';
+import {RequestsService} from 'app/service/requests.service';
+import {Request} from 'app/model/request';
+import {ItemsService} from 'app/service/items.service';
 import {EditDropoffComponent} from '../../dialog/edit-dropoff/edit-dropoff.component';
 import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
-import {ProjectsService} from '../../../../service/projects.service';
-import {RequestViewOptions} from '../../../../model/request-view-options';
-import {GroupsService} from '../../../../service/groups.service';
-import {AccountingService} from '../../../../service/accounting.service';
-import {Project} from '../../../../model/project';
-import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
+import {ProjectsService} from 'app/service/projects.service';
+import {RequestViewOptions} from 'app/model/request-view-options';
+import {GroupsService} from 'app/service/groups.service';
+import {AccountingService} from 'app/service/accounting.service';
+import {Project} from 'app/model/project';
 
 @Component({
   selector: 'request',

@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatSidenav} from '@angular/material';
 import {Router} from '@angular/router';
-import {PermissionsService} from '../../../service/permissions.service';
-import {Project} from '../../../model/project';
-import {ProjectsService, sortProjectsByName} from '../../../service/projects.service';
+import {PermissionsService} from 'app/service/permissions.service';
+import {Project} from 'app/model/project';
+import {ProjectsService, sortProjectsByName} from 'app/service/projects.service';
 import {animate, transition, state, style, trigger} from '@angular/animations';
 
 @Component({

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {PermissionsService} from '../../../../service/permissions.service';
+import {PermissionsService} from 'app/service/permissions.service';
 
 export class ProjectNavLink {
   link: string;

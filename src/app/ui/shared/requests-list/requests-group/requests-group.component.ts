@@ -10,16 +10,16 @@ import {
 } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {RequestComponent} from '../request/request.component';
-import {Item} from '../../../../model/item';
-import {RequestSortPipe} from '../../../../pipe/request-sort.pipe';
-import {Request} from '../../../../model/request';
-import {RequestGroup} from '../../../../service/request-grouping.service';
-import {RequestsService} from '../../../../service/requests.service';
-import {ItemsService} from '../../../../service/items.service';
-import {PermissionsService} from '../../../../service/permissions.service';
-import {ProjectsService} from '../../../../service/projects.service';
-import {Project} from '../../../../model/project';
-import {RequestViewOptions} from '../../../../model/request-view-options';
+import {Item} from 'app/model/item';
+import {RequestSortPipe} from 'app/pipe/request-sort.pipe';
+import {Request} from 'app/model/request';
+import {RequestGroup} from 'app/service/request-grouping.service';
+import {RequestsService} from 'app/service/requests.service';
+import {ItemsService} from 'app/service/items.service';
+import {PermissionsService} from 'app/service/permissions.service';
+import {ProjectsService} from 'app/service/projects.service';
+import {Project} from 'app/model/project';
+import {RequestViewOptions} from 'app/model/request-view-options';
 
 export type Sort = 'request added' | 'item cost' | 'item name' | 'request cost' | 'date needed';
 

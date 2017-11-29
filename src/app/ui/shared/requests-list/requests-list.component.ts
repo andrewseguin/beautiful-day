@@ -7,15 +7,15 @@ import {
   QueryList,
   ViewChildren
 } from '@angular/core';
-import {EditProjectPermissions, PermissionsService} from '../../../service/permissions.service';
+import {EditProjectPermissions, PermissionsService} from 'app/service/permissions.service';
 import {
   Group,
   RequestGroup,
   RequestGroupingService
-} from '../../../service/request-grouping.service';
+} from 'app/service/request-grouping.service';
 import {RequestsGroupComponent} from './requests-group/requests-group.component';
-import {Request} from '../../../model/request';
-import {DisplayOptions} from '../../../model/display-options';
+import {Request} from 'app/model/request';
+import {DisplayOptions} from 'app/model/display-options';
 
 @Component({
   selector: 'requests-list',

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import {Event} from '../../../../model/event';
-import {EventsService} from '../../../../service/events.service';
+import {Event} from 'app/model/event';
+import {EventsService} from 'app/service/events.service';
 
 @Component({
   selector: 'edit-event',

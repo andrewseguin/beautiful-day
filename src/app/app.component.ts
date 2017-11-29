@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {AnalyticsService} from './service/analytics.service';
-import {AngularFireDatabase, snapshotChanges} from 'angularfire2/database';
+import {AnalyticsService} from 'app/service/analytics.service';
+import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {transformSnapshotAction} from './utility/snapshot-tranform';
 
 export const APP_VERSION = 17;
 

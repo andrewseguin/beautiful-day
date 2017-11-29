@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ItemsService} from '../../../../service/items.service';
+import {ItemsService} from 'app/service/items.service';
 import {MatDialog} from '@angular/material';
 import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
 import {EditItemCategoryComponent} from '../../dialog/edit-item-category/edit-item-category.component';

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ItemsService} from '../../../../service/items.service';
+import {ItemsService} from 'app/service/items.service';
 import {MatDialogRef} from '@angular/material';
 
 @Component({

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Item} from '../../../../model/item';
+import {Item} from 'app/model/item';
 import {MatDialogRef} from '@angular/material';
-import {ItemsService} from '../../../../service/items.service';
-import {GroupsService} from '../../../../service/groups.service';
+import {ItemsService} from 'app/service/items.service';
+import {GroupsService} from 'app/service/groups.service';
 
 export type Mode = 'new' | 'edit' | 'view';
 

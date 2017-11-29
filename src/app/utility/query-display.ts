@@ -1,4 +1,4 @@
-import {QueryStage} from '../model/report';
+import {QueryStage} from 'app/model/report';
 
 export class QueryDisplay {
   static get(queryStages: QueryStage[]): string {
