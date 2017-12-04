@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase,} from 'angularfire2/database';
 import {User} from '../model/user';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
-import 'rxjs/add/operator/mergeMap';
 import {DaoService} from './dao-service';
+import {from} from 'rxjs/observable/from';
+import {mergeMap} from 'rxjs/operators';
 
 @Injectable()
 export class UsersService extends DaoService<User> {
@@ -28,8 +29,8 @@ export class UsersService extends DaoService<User> {
   }
 
   getCurrentUser(): Observable<User> {
-    return this.auth.authState.mergeMap(auth => {
-      return auth ? this.getByEmail(auth.email) : Observable.from([null]);
-    });
+    return this.auth.authState.pipe(mergeMap(auth => {
+      return auth ? this.getByEmail(auth.email) : from([null]);
+    }));
   }
 }

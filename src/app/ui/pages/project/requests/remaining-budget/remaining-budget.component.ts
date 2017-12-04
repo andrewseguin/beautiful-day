@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {AccountingService} from '../../../../../service/accounting.service';
 import * as CountUp from 'countup.js';
-import {Subscription} from 'rxjs';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'remaining-budget',

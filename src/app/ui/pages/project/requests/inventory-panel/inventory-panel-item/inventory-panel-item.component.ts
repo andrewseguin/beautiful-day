@@ -16,6 +16,7 @@ import {RequestsService} from '../../../../../../service/requests.service';
 import {ProjectsService} from '../../../../../../service/projects.service';
 import {Observable} from 'rxjs/Observable';
 import {transformSnapshotAction} from '../../../../../../utility/snapshot-tranform';
+import {first} from 'rxjs/operators';
 
 export type InventoryPanelItemState = 'collapsed' | 'expanded';
 
@@ -89,7 +90,7 @@ export class InventoryPanelItemComponent implements OnInit {
   request() {
     this.requestQuantity = Math.max(0, this.requestQuantity);
     this.requested = true;
-    this.project.first().subscribe(project => {
+    this.project.pipe(first()).subscribe(project => {
       this.requestsService.addRequest(project, this.item, this.requestQuantity);
     });
 

@@ -36,7 +36,7 @@ export class EditGroupComponent implements OnInit {
     return index;
   }
 
-  getMemberName(plural: boolean) {
+  getMemberName(plural = false) {
     switch (this.group) {
       case 'admins': return plural ? 'Admins' : 'Admin';
       case 'acquisitions': return plural ? 'Acquisition Team' : 'Acquisition Member';

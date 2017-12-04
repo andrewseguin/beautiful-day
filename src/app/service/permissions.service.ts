@@ -1,14 +1,12 @@
 import {Injectable} from '@angular/core';
 import {User} from '../model/user';
 import {ProjectsService} from './projects.service';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import {UsersService} from './users.service';
 import {GroupsService, Membership} from './groups.service';
 import {Project} from '../model/project';
-import {transformSnapshotAction} from '../utility/snapshot-tranform';
-import {Subject} from 'rxjs/Subject';
-import {SnapshotAction} from 'angularfire2/database';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {map} from 'rxjs/operators';
+import {combineLatest} from 'rxjs/observable/combineLatest';
 
 export interface EditProjectPermissions {
   details?: boolean;
@@ -68,7 +66,7 @@ export class PermissionsService {
       this.usersService.getCurrentUser(),
     ];
 
-    return Observable.combineLatest(changes).map((result: any[]) => {
+    return combineLatest(changes).pipe(map((result: any[]) => {
       const permissions: Permissions = result[0];
       const project: Project = result[1];
       const user: User = result[2];
@@ -86,7 +84,7 @@ export class PermissionsService {
         notes: isLead || isDirector || permissions.admin,
         requests: isLead || isDirector || permissions.approver
       };
-    });
+    }));
   }
 
   canManageAdmins(): Observable<boolean> {

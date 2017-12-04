@@ -6,7 +6,7 @@ import {APP_VERSION} from '../app.component';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Observable} from 'rxjs/Observable';
 import {DaoService} from './dao-service';
-import 'rxjs/add/operator/first';
+import {first} from 'rxjs/operators';
 
 @Injectable()
 export class FeedbackService extends DaoService<Feedback> {
@@ -20,7 +20,7 @@ export class FeedbackService extends DaoService<Feedback> {
   }
 
   addFeedback(type: 'issue' | 'feedback', text: string) {
-    this.auth.authState.first().subscribe(auth => {
+    this.auth.authState.pipe(first()).subscribe(auth => {
       if (!auth) { return; }
 
       const obj = {type, text,

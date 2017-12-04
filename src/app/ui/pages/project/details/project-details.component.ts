@@ -14,7 +14,7 @@ import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/dele
 import {EditProjectPermissions, PermissionsService} from '../../../../service/permissions.service';
 import {EventsService} from '../../../../service/events.service';
 import {AccountingService, BudgetResponse} from '../../../../service/accounting.service';
-import {Subscription} from 'rxjs';
+import {Subscription} from 'rxjs/Subscription';
 import {RequestsService} from '../../../../service/requests.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';

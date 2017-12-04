@@ -17,6 +17,7 @@ import {PermissionsService} from 'app/service/permissions.service';
 import {ImportItemsComponent} from '../dialog/import-items/import-items.component';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'header',
@@ -95,7 +96,7 @@ export class HeaderComponent implements OnInit {
   }
 
   handleRouteChange(route: ActivatedRoute) {
-    route.url.take(1).subscribe((url: UrlSegment[]) => {
+    route.url.pipe(take(1)).subscribe((url: UrlSegment[]) => {
       this.topLevel = <TopLevelSection>url[0].path;
       if (this.topLevel !== 'project') {
         this.projectId = '';

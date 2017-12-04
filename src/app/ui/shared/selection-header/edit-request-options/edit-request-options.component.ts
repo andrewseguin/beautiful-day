@@ -10,6 +10,7 @@ import {EditApprovalStatusDialogComponent} from '../../dialog/edit-approval-stat
 import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
 import {ItemsService} from 'app/service/items.service';
 import {PermissionsService} from 'app/service/permissions.service';
+import {mergeMap} from 'rxjs/operators';
 
 @Component({
   selector: 'edit-request-options',
@@ -40,11 +41,9 @@ export class EditRequestOptionsComponent {
     dialogRef.componentInstance.mode = this.isAcquistionsUser ? 'edit' : 'view';
 
     const requestId = this.requestsService.selection.selected[0];
-    this.requestsService.get(requestId).flatMap(request => {
-      return this.itemsService.get(request.item);
-    }).subscribe(item => {
-      dialogRef.componentInstance.item = item;
-    });
+    this.requestsService.get(requestId).pipe(
+      mergeMap(request => this.itemsService.get(request.item)))
+      .subscribe(item => dialogRef.componentInstance.item = item);
   }
 
   deleteRequests() {

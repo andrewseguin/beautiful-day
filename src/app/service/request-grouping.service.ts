@@ -2,8 +2,9 @@ import {Injectable} from '@angular/core';
 import {Request} from '../model/request';
 import {ItemsService} from './items.service';
 import {Item} from '../model/item';
-import {Subject} from 'rxjs';
+import {Subject} from 'rxjs/Subject';
 import {GroupsService} from './groups.service';
+import {mergeMap} from 'rxjs/operators';
 
 export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff' | 'tags' | 'item';
 
@@ -34,10 +35,10 @@ export class RequestGroupingService {
     this.requestGroups.set('tags', []);
     this.requestGroups.set('item', []);
 
-    this.groupsService.membership$.flatMap(membership => {
+    this.groupsService.membership$.pipe(mergeMap(membership => {
       this.isAcquisitions = membership.acquisitions;
       return this.itemsService.items;
-    }).subscribe(items => {
+    })).subscribe(items => {
       this.items = items;
 
       // Get all unique categories from the set of items.

@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {UsersService} from '../../service/users.service';
+import {UsersService} from 'app/service/users.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'login',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
         return;
       }
 
-      this.usersService.getByEmail(auth.email).take(1).subscribe(user => {
+      this.usersService.getByEmail(auth.email).pipe(take(1)).subscribe(user => {
         if (!user) { this.usersService.create(auth); }
 
         // Navigate out of login.

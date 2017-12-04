@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Note} from '../../../../model/note';
-import {NotesService} from '../../../../service/notes.service';
+import {Note} from 'app/model/note';
 import {MatDialog, MatMenu} from '@angular/material';
-import {DeleteNoteComponent} from '../../../shared/dialog/delete-note/delete-note.component';
-import {Subject} from 'rxjs';
-import {PromptDialogComponent} from '../../../shared/dialog/prompt-dialog/prompt-dialog.component';
+import {DeleteNoteComponent} from 'app/ui/shared/dialog/delete-note/delete-note.component';
+import {Subject} from 'rxjs/Subject';
+import {PromptDialogComponent} from 'app/ui/shared/dialog/prompt-dialog/prompt-dialog.component';
+import {NotesService} from 'app/service/notes.service';
+import {debounceTime, mergeMap} from 'rxjs/operators';
 
 export interface NoteChange {
   noteId: string;
@@ -37,16 +38,14 @@ export class ProjectNotesComponent implements OnInit {
               private notesService: NotesService) { }
 
   ngOnInit() {
-    this.noteChanged.asObservable().debounceTime(1000).subscribe(noteChange => {
+    this.noteChanged.asObservable().pipe(debounceTime(1000)).subscribe(noteChange => {
       this.saveNoteText(noteChange.noteId, noteChange.text);
     });
 
-    this.route.parent.params.flatMap(params => {
+    this.route.parent.params.pipe(mergeMap(params => {
       this.projectId = params['id'];
       return this.notesService.getProjectNotes(this.projectId);
-    }).subscribe(notes => {
-      this.notes = notes;
-    });
+    })).subscribe(notes => this.notes = notes);
 
     this.route.params.subscribe(params => {
       this.noteId = params['noteId'];

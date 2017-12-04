@@ -1,6 +1,7 @@
 import {Component, Input, EventEmitter, Output} from '@angular/core';
-import {QueryStage} from '../../../../model/report';
-import {Subject} from 'rxjs';
+import {QueryStage} from 'app/model/report';
+import {Subject} from 'rxjs/Subject';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'query-stages',
@@ -15,7 +16,7 @@ export class QueryStagesComponent {
   @Output() queryStagesChange: EventEmitter<QueryStage[]> = new EventEmitter();
 
   constructor() {
-    this.inputChange.asObservable().debounceTime(250).subscribe(() => {
+    this.inputChange.asObservable().pipe(debounceTime(250)).subscribe(() => {
       this.queryStagesChange.emit(this.queryStages);
     });
   }

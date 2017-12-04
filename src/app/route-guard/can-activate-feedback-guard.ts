@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CanActivate} from '@angular/router';
-import {Observable} from 'rxjs';
-import 'rxjs/add/operator/take';
+import {Observable} from 'rxjs/Observable';
 import {PermissionsService} from '../service/permissions.service';
 
 @Injectable()

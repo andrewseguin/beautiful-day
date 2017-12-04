@@ -4,7 +4,7 @@ import {ItemsService} from './items.service';
 import {Observable} from 'rxjs/Observable';
 import {ProjectsService} from './projects.service';
 import {Request} from '../model/request';
-import 'rxjs/add/observable/combineLatest';
+import {combineLatest} from 'rxjs/observable/combineLatest';
 
 export interface BudgetResponse {
   budget: number;
@@ -26,7 +26,7 @@ export class AccountingService {
       this.itemsService.getItemCosts(),
     ];
 
-    return Observable.combineLatest(changes).map((result: any[]) => {
+    return combineLatest(changes).map((result: any[]) => {
       const budget: number = result[0];
       const requests: Request[] = result[1];
       const itemCosts: Map<string, number> = result[2];

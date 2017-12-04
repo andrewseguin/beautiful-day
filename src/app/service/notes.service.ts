@@ -1,9 +1,12 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase,} from 'angularfire2/database';
+import {AngularFireDatabase} from 'angularfire2/database';
 import {Note} from '../model/note';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
 import * as firebase from 'firebase';
 import {DaoService} from './dao-service';
+import {from} from 'rxjs/observable/from';
+import {mergeMap, take} from 'rxjs/operators';
 
 @Injectable()
 export class NotesService extends DaoService<Note> {
@@ -19,14 +22,16 @@ export class NotesService extends DaoService<Note> {
 
   getDefaultProjectNoteId(projectId: string): Observable<string> {
     const queryFn = ref => ref.orderByChild('project').equalTo(projectId).limitToFirst(1);
-    return this.queryList(queryFn).take(1).flatMap((notes: Note[]) => {
-      if (notes.length > 0) { return Observable.from([notes[0].$key]); }
+    return this.queryList(queryFn).pipe(
+      take(1),
+      mergeMap((notes: Note[]) => {
+        if (notes.length > 0) { return from([notes[0].$key]); }
 
-      // Create a new note and return the key.
-      const newNoteSubject = new Subject<string>();
-      this.addNote(projectId).then(response => newNoteSubject.next(response.key));
-      return newNoteSubject.asObservable();
-    });
+        // Create a new note and return the key.
+        const newNoteSubject = new Subject<string>();
+        this.addNote(projectId).then(response => newNoteSubject.next(response.key));
+        return newNoteSubject.asObservable();
+      }));
   }
 
   addNote(project: string): firebase.database.ThenableReference {

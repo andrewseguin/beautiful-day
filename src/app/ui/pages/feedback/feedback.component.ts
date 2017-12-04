@@ -3,7 +3,7 @@ import {FeedbackService} from '../../../service/feedback.service';
 import {Feedback} from '../../../model/feedback';
 import {UsersService} from '../../../service/users.service';
 import {User} from '../../../model/user';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import {HeaderService} from '../../../service/header.service';
 import {transformSnapshotAction} from '../../../utility/snapshot-tranform';
 

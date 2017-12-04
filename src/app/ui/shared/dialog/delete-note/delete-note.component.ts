@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import {NotesService} from 'app/service/notes.service';
 
 @Component({
