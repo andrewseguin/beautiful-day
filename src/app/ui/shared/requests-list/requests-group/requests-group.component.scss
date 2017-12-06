@@ -21,3 +21,15 @@
 .title-text {
   padding: 16px 0;
 }
+
+.show-more {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+
+  button:not(.remaining) {
+    padding: 0;
+    min-width: 50px;
+    margin: 0 8px;
+  }
+}

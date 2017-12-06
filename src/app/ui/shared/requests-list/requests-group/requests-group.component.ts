@@ -28,10 +28,9 @@ export type Sort = 'request added' | 'item cost' | 'item name' | 'request cost' 
   templateUrl: './requests-group.component.html',
   styleUrls: ['./requests-group.component.scss'],
   host: {
-    '[style.display]': `processedRequests && processedRequests.length ? 'block' : 'none'`,
+    '[style.display]': `requests && requests.length ? 'block' : 'none'`,
     '[class.mat-elevation-z4]': 'true',
     '[@groupTransition]': 'requestGroup.title',
-    '(@groupTransition.done)': 'groupTransitionAnimationDone($event, requestGroup)'
   },
   animations: [
     trigger('groupTransition', [
@@ -45,15 +44,24 @@ export type Sort = 'request added' | 'item cost' | 'item name' | 'request cost' 
   ]
 })
 export class RequestsGroupComponent {
-  items: Item[];
-  projects: Project[];
+  items = new Map<string, Item>();
+  projects = new Map<string, Project>();
   requestSortPipe = new RequestSortPipe();
-  processedRequests: Request[] = [];
-  showRequests: boolean;
+  requests: Request[] = [];
+  displayedRequests: Request[] = [];
+
+  showAllRequests = false;
+
+  set requestsToDisplay(v: number) {
+    this._requestsToDisplay = v;
+    this.updateDisplayedRequests();
+  }
+  get requestsToDisplay(): number { return this._requestsToDisplay; }
+  _requestsToDisplay = 10;
 
   @Input() canEdit: boolean;
 
-  @Input() set printMode(v) { if (v) { this.showRequests = true; }}
+  @Input() set printMode(v) { if (v) { this.showAllRequests = true; }}
 
   @ViewChildren(RequestComponent) requestComponents: QueryList<RequestComponent>;
 
@@ -107,12 +115,12 @@ export class RequestsGroupComponent {
               private projectsService: ProjectsService,
               private permissionsService: PermissionsService) {
     this.itemsService.items.subscribe(items => {
-      this.items = items;
+      items.forEach(item => this.items.set(item.$key, item));
       this.sortAndFilterRequests();
     });
 
     this.projectsService.projects.subscribe(projects => {
-      this.projects = projects;
+      projects.forEach(project => this.projects.set(project.$key, project));
       if (this.requestGroup) {
         this.sortAndFilterRequests();
       }
@@ -121,7 +129,7 @@ export class RequestsGroupComponent {
 
   showRequest(requestKey: string, scrollableContent: ElementRef) {
     const newRequest = this.requestComponents.find(requestComponent => {
-      return requestComponent.requestId === requestKey;
+      return requestComponent.request.$key === requestKey;
     });
     if (!newRequest) { return; }
 
@@ -134,11 +142,18 @@ export class RequestsGroupComponent {
   }
 
   sortAndFilterRequests() {
-    if (!this.items || !this.projects) { return; }
-
+    if (!this.projects.size || !this.items.size) { return; }
     const requests = this.requestGroup.requests;
-    this.processedRequests = this.requestSortPipe.transform(requests, this.sort,
-        this.reverseSort, this.filter, this.items, this.projects);
+
+    const itemsList = [];
+    this.items.forEach(item => itemsList.push(item));
+
+    const projectsList = [];
+    this.projects.forEach(project => projectsList.push(project));
+
+    this.requests = this.requestSortPipe.transform(requests, this.sort,
+        this.reverseSort, this.filter, itemsList, projectsList);
+    this.updateDisplayedRequests();
   }
 
   getRequestKey(index: number, request: Request) {
@@ -159,10 +174,13 @@ export class RequestsGroupComponent {
     });
   }
 
-  groupTransitionAnimationDone(e: AnimationTransitionEvent) {
-    // When the group transition finishes, load in all the remaining requests
-    if (e.toState === 'void') { return; }
+  updateDisplayedRequests() {
+    if (this.requestsToDisplay >= this.requests.length) {
+      this.showAllRequests = true;
+    }
 
-    setTimeout(() => { this.showRequests = true; }, 150);
+    this.displayedRequests = this.showAllRequests ?
+      this.requests :
+      this.requests.slice(0, this.requestsToDisplay);
   }
 }

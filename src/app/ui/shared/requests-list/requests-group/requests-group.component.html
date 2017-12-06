@@ -5,9 +5,9 @@
   </mat-checkbox>
   <div class="title-text">{{requestGroup.title}}</div>
 </div>
-<request *ngFor="let request of processedRequests; let index = index; trackBy:getRequestKey"
-         [show]="showRequests"
-         [requestId]="request.$key"
+<request *ngFor="let request of displayedRequests; trackBy:getRequestKey"
+         [request]="request"
+         [item]="items.get(request.item)"
          [requestViewOptions]="requestViewOptions"
          [canEdit]="canEdit"
          [groupIndex]="index"
@@ -17,3 +17,22 @@
          (filterTag)="filterTag.emit($event)">
 </request>
 
+<div class="show-more" *ngIf="!showAllRequests">
+  <div>Show more:</div>
+  <button mat-button color="accent" *ngIf="requests.length - displayedRequests.length > 25"
+          (click)="requestsToDisplay = requestsToDisplay + 25">
+    +25
+  </button>
+  <button mat-button color="accent" *ngIf="requests.length - displayedRequests.length > 50"
+          (click)="requestsToDisplay = requestsToDisplay + 50">
+    +50
+  </button>
+  <button mat-button color="accent" *ngIf="requests.length - displayedRequests.length > 50"
+          (click)="requestsToDisplay = requestsToDisplay + 100">
+    +100
+  </button>
+  <button mat-button color="accent" class="remaining"
+          (click)="requestsToDisplay = requests.length">
+    remaining (+{{requests.length - displayedRequests.length}})
+  </button>
+</div>

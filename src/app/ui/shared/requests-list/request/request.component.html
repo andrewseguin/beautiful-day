@@ -1,9 +1,7 @@
 <div class="request" matRipple
      (click)="setSelected(!isSelected())"
-     [@highlightTrigger]="highlightState"
-     [@displayTrigger]="displayState">
-  <div *ngIf="displayState == 'visible'"
-       [style.z-index]="1"> <!-- Be above the mdripple -->
+     [@highlightTrigger]="highlightState">
+  <div [style.z-index]="1"> <!-- Be above the mdripple -->
     <div class="top-row">
       <mat-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
                    [checked]="isSelected()"
@@ -13,7 +11,7 @@
 
       <div class="name">
         <span class="editable clickable" (click)="viewItem($event)">
-          {{itemDisplayName}}
+          {{item.name}}
         </span>
         <mat-icon *ngIf="canEdit"
                  class="goto-url md-18"

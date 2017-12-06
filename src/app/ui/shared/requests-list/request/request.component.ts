@@ -38,13 +38,6 @@ import {Project} from 'app/model/project';
         animate('250ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),
     ]),
-    trigger('displayTrigger', [
-      state('hidden', style({opacity: 0, height: '50px'})),
-      state('visible', style({opacity: 1, height: '*'})),
-      transition('* => visible', [
-        animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
-      ),
-    ]),
   ],
   host: {
     '[style.pointer-events]': "canEdit ? '' : 'none'"
@@ -52,22 +45,30 @@ import {Project} from 'app/model/project';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestComponent implements OnInit {
-  item: Item;
   highlightState = 'normal';
   displayState = 'hidden';
-  request: Request;
   projectName: string;
-  itemDisplayName: string;
+
+  @Input()
+  set request(request: Request) {
+    this._request = request;
+
+    this.projectsService.get(this.request.project).subscribe((project: Project) => {
+      this.projectName = project.name;
+      this.cd.markForCheck();
+    });
+  }
+  get request(): Request {
+    return this._request;
+  }
+  _request: Request;
+
+  @Input() item: Item;
 
   @Input() isReporting: boolean;
   @Input() canEdit: boolean;
-  @Input() requestId: string;
   @Input() groupIndex: number;
   @Input() requestViewOptions: RequestViewOptions;
-
-  @Input() set show(show: boolean) {
-    show ? this.setVisible() : this.displayState = 'hidden';
-  }
 
   @Input() set printMode(v) {
     if (v) {
@@ -90,41 +91,9 @@ export class RequestComponent implements OnInit {
               private itemsService: ItemsService) { }
 
   ngOnInit() {
-    this.requestsService.get(this.requestId).subscribe(request => {
-      this.request = request;
-      this.cd.markForCheck();
-
-      this.itemsService.get(request.item).subscribe((item: Item) => {
-        this.item = item;
-        this.itemDisplayName = item.name;
-        this.cd.markForCheck();
-      });
-
-      this.projectsService.get(this.request.project).subscribe((project: Project) => {
-        this.projectName = project.name;
-        this.cd.markForCheck();
-      });
-    });
-
     this.requestsService.selection.onChange.subscribe(() => {
       this.cd.markForCheck();
     });
-  }
-
-  setVisible() {
-    // If one of the first 5 items, then immediately display. Otherwise, stagger the
-    // display of the item to optimize rendering.
-    if (this.groupIndex < 20) {
-      setTimeout(() => {
-        this.displayState = 'visible';
-        this.cd.markForCheck();
-      }, 20 * this.groupIndex);
-    } else {
-      setTimeout(() => {
-        this.displayState = 'visible';
-        this.cd.markForCheck();
-      }, (20 * 20) + 1000);
-    }
   }
 
   scrollIntoView(): void {
@@ -133,7 +102,6 @@ export class RequestComponent implements OnInit {
   }
 
   highlight(): void {
-    this.displayState = 'visible';
     this.highlightState = 'highlight';
     this.cd.markForCheck();
 
@@ -145,29 +113,29 @@ export class RequestComponent implements OnInit {
 
   changeQuantity(quantity: number) {
     quantity = Math.max(0, quantity);
-    this.requestsService.update(this.requestId, {quantity});
+    this.requestsService.update(this.request.$key, {quantity});
   }
 
   isSelected() {
-    return this.requestsService.selection.isSelected(this.requestId);
+    return this.requestsService.selection.isSelected(this.request.$key);
   }
 
   setSelected(value: boolean) {
     value ?
-      this.requestsService.selection.select(this.requestId) :
-      this.requestsService.selection.deselect(this.requestId);
+      this.requestsService.selection.select(this.request.$key) :
+      this.requestsService.selection.deselect(this.request.$key);
   }
 
   editNote(e: Event) {
     e.stopPropagation();
-    this.requestsService.editNote([this.requestId]);
+    this.requestsService.editNote([this.request.$key]);
   }
 
   editDropoff(e: Event) {
     e.stopPropagation();
 
     const dialogRef = this.mdDialog.open(EditDropoffComponent);
-    dialogRef.componentInstance.requestIds = [this.requestId];
+    dialogRef.componentInstance.requestIds = [this.request.$key];
     dialogRef.componentInstance.selectedDropoffLocation = this.request.dropoff;
     dialogRef.componentInstance.setDateFromRequest(this.request.date);
     dialogRef.componentInstance.project = this.request.project;
