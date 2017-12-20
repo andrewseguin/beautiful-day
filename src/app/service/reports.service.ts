@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
-import {
-  AngularFireDatabase, AngularFireList, AngularFireObject,
-} from 'angularfire2/database';
-import {QueryStage, Report} from '../model/report';
+import {AngularFireDatabase, AngularFireList,} from 'angularfire2/database';
+import {QueryStage, Report} from 'app/model/report';
 import {DaoService} from './dao-service';
 import {UsersService} from './users.service';
-import {User} from '../model/user';
+import {User} from 'app/model/user';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()

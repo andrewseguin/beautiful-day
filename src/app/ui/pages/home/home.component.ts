@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ProjectsService} from '../../../service/projects.service';
-import {Project} from '../../../model/project';
+import {ProjectsService} from 'app/service/projects.service';
+import {Project} from 'app/model/project';
 import {Router} from '@angular/router';
-import {HeaderService} from '../../../service/header.service';
+import {HeaderService} from 'app/service/header.service';
 
 @Component({
   selector: 'app-home',

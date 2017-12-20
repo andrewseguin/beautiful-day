@@ -9,8 +9,7 @@ export const APP_VERSION = 17;
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit {
   constructor(private auth: AngularFireAuth,
@@ -18,31 +17,42 @@ export class AppComponent implements OnInit {
               private mdSnackbar: MatSnackBar,
               private router: Router) {
     this.setupGoogleAnalytics();
+    this.unregisterServiceWorkers();
+  }
 
-    // Unregister all service workers until we can be confident they are all gone from prod.
-    // Would like to then move on to Angular's official SW solution.
+  ngOnInit() {
+    this.auth.authState.subscribe(auth => {
+      auth ? this.notifyLoggedInAs(auth.email) : this.navigateToLogin();
+    });
+  }
+
+  /**
+   * Unregister all service workers to set up for the time when we want to use Angular's official
+   * worker without worrying about issues.
+   */
+  unregisterServiceWorkers() {
     if ('serviceWorker' in navigator) {
       navigator['serviceWorker'].getRegistrations()
         .then(registrations => registrations.forEach(r => r.unregister()));
     }
   }
 
-  ngOnInit() {
-    this.auth.authState.subscribe(auth => {
-      if (!auth) {
-        // Store a redirect for post-login. If the current path is login, do not make this redirect.
-        let redirect = location.pathname !== '/login' ? location.pathname : '';
+  /** Send user to the login page and send current location for when they are logged in. */
+  navigateToLogin() {
+    // Store current location so that they redirect back here after logged in.
+    let redirect = '';
+    if (location.pathname !== '/login') {
+      redirect = location.pathname;
+    }
 
-        // Navigate to the login and pass it the current location
-        // so that after login, it can redirect back.
-        this.router.navigate(['login'], {fragment: redirect});
-        return;
-      } else {
-        const snackbarConfig = new MatSnackBarConfig();
-        snackbarConfig.duration = 2000;
-        this.mdSnackbar.open(`Logged in as ${auth.email}`, null, snackbarConfig);
-      }
-    });
+    this.router.navigate(['login'], {fragment: redirect});
+  }
+
+  /** Show snackbar showing the user who they are logged in as. */
+  notifyLoggedInAs(email: string) {
+    const snackbarConfig = new MatSnackBarConfig();
+    snackbarConfig.duration = 2000;
+    this.mdSnackbar.open(`Logged in as ${email}`, null, snackbarConfig);
   }
 
   setupGoogleAnalytics() {

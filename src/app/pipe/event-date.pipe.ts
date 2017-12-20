@@ -1,9 +1,7 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {DatePipe} from '@angular/common';
 
-@Pipe({
-  name: 'eventDate'
-})
+@Pipe({name: 'eventDate'})
 export class EventDatePipe implements PipeTransform {
   datePipe = new DatePipe('en-US');
 

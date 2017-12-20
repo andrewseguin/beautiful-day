@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Project} from '../model/project';
+import {Project} from 'app/model/project';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {DaoService} from './dao-service';
