@@ -14,11 +14,17 @@ export const APP_VERSION = 17;
 })
 export class AppComponent implements OnInit {
   constructor(private auth: AngularFireAuth,
-              private db: AngularFireDatabase,
               private analyticsService: AnalyticsService,
               private mdSnackbar: MatSnackBar,
               private router: Router) {
     this.setupGoogleAnalytics();
+
+    // Unregister all service workers until we can be confident they are all gone from prod.
+    // Would like to then move on to Angular's official SW solution.
+    if ('serviceWorker' in navigator) {
+      navigator['serviceWorker'].getRegistrations()
+        .then(registrations => registrations.forEach(r => r.unregister()));
+    }
   }
 
   ngOnInit() {
