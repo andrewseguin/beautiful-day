@@ -18,8 +18,7 @@
         "manifest.json",
         "mstile-150x150.png",
         "safari-pinned-tab.svg",
-        "favicon.ico",
-        "service-worker.js"
+        "favicon.ico"
       ],
       "index": "index.html",
       "main": "main.ts",

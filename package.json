@@ -9,9 +9,8 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "sw": "sw-precache --root=dist --config=sw-precache-config.js",
     "static-serve": "cd dist && live-server --port=4200 --host=localhost --entry-file=/index.html",
-    "deploy": "ng build -prod -aot; sw-precache --root=dist --config=sw-precache-config.js; firebase deploy"
+    "deploy": "ng build --prod; firebase deploy"
   },
   "private": true,
   "dependencies": {

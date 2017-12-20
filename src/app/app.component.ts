@@ -19,29 +19,6 @@ export class AppComponent implements OnInit {
               private mdSnackbar: MatSnackBar,
               private router: Router) {
     this.setupGoogleAnalytics();
-
-    this.db.object<number>('app_version').valueChanges().subscribe((dbAppVersion: number) => {
-      this.checkAppUpdates(dbAppVersion);
-    });
-  }
-
-  checkAppUpdates(dbVersion: number) {
-    console.log(`app.v.${APP_VERSION};db.v.${dbVersion}`);
-
-    // Verify that the app version is at least the version in the database
-    if (dbVersion <= APP_VERSION) { return; }
-
-    // If the database has a higher version number and we are using a service worker, then
-    // unregister the service worker and reload the new one.
-    if ('serviceWorker' in navigator) {
-      navigator['serviceWorker'].getRegistrations().then(function(registrations) {
-        const unregisterPromises = [];
-        for (let registration of registrations) {
-          unregisterPromises.push(registration.unregister());
-        }
-        Promise.all(unregisterPromises).then(() => location.reload());
-      });
-    }
   }
 
   ngOnInit() {
