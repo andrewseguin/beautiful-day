@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Event} from '../model/event';
 import {Observable} from 'rxjs/Observable';
-import {AngularFireDatabase,} from 'angularfire2/database';
+import {AngularFireDatabase, } from 'angularfire2/database';
 import {DaoService} from './dao-service';
 
 

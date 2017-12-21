@@ -12,10 +12,6 @@ import {Item} from '../../model/item';
 import {DisplayOptions} from '../../model/display-options';
 import {Title} from '@angular/platform-browser';
 import {QueryDisplay} from '../../utility/query-display';
-import {
-  transformSnapshotAction,
-  transformSnapshotActionList
-} from '../../utility/snapshot-tranform';
 
 @Component({
   selector: 'print',
