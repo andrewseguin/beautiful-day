@@ -50,7 +50,6 @@ export class ProjectDetailsComponent implements OnInit {
 
   noBudget: boolean;
   budgetStream: BudgetResponse;
-  remainingBudget: number;
 
   // Init subscriptions
   authSubscription: Subscription;
@@ -67,21 +66,21 @@ export class ProjectDetailsComponent implements OnInit {
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
-    this.authSubscription = this.auth.authState.subscribe(auth => {
-      this.user = auth;
-    });
+    this.authSubscription = this.auth.authState.subscribe(auth => this.user = auth);
 
     this.route.parent.params.forEach((params: Params) => {
-      this.projectsService.get(params['id']).subscribe((project: Project) => {
+      const projectId = params['id'];
+
+      this.projectsService.get(projectId).subscribe((project: Project) => {
         this.project = project;
 
-        this.requestsService.getProjectRequests(params['id'])
+        this.requestsService.getProjectRequests(projectId)
             .subscribe(requests => this.requests = requests);
 
-        this.permissionsService.getEditPermissions(params['id'])
+        this.permissionsService.getEditPermissions(projectId)
             .subscribe(editPermissions => this.editPermissions = editPermissions);
 
-        this.accountingService.getBudgetStream(params['id'])
+        this.accountingService.getBudgetStream(projectId)
             .subscribe(budgetResponse => {
               this.noBudget = budgetResponse.budget === undefined;
               this.budgetStream = budgetResponse;
