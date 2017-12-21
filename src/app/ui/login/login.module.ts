@@ -1,16 +1,14 @@
 import {NgModule} from '@angular/core';
-import {NavComponent} from './nav.component';
+import {LoginComponent} from './login.component';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
-    RouterModule,
   ],
-  declarations: [NavComponent],
-  exports: [NavComponent],
+  declarations: [LoginComponent],
+  exports: [LoginComponent],
 })
-export class NavModule { }
+export class LoginModule { }

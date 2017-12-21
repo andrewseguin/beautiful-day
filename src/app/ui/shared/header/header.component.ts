@@ -4,7 +4,7 @@ import {HeaderService} from 'app/service/header.service';
 import {MediaQueryService} from 'app/service/media-query.service';
 import {SubheaderService} from 'app/service/subheader.service';
 import {ActivatedRoute, Event, NavigationEnd, Router, UrlSegment} from '@angular/router';
-import {TopLevelSection} from 'app/router.config';
+import {TopLevelSection} from 'app/ui/pages/pages.routes';
 import {ProjectsService} from 'app/service/projects.service';
 import {MatDialog, MatSidenav} from '@angular/material';
 import {UsersService} from 'app/service/users.service';
@@ -88,8 +88,9 @@ export class HeaderComponent implements OnInit {
         this.canManageApproversTeam = canManageAdmins;
       });
 
-    this.permissionsService.canManageAcquisitionsTeam()
-      .subscribe(canManageAcquisitionsTeam => this.canManageAcqusitionsTeam = canManageAcquisitionsTeam);
+    this.permissionsService.canManageAcquisitionsTeam().subscribe(canManageAcquisitionsTeam => {
+      this.canManageAcqusitionsTeam = canManageAcquisitionsTeam;
+    });
 
     this.permissionsService.canImportItems()
       .subscribe(canImportItems => this.canImportItems = canImportItems);

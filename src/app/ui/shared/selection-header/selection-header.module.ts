@@ -1,4 +1,4 @@
-import {SelectionHeaderComponent} from 'app/ui/shared/selection-header/selection-header.component';
+import {SelectionHeaderComponent} from './selection-header.component';
 import {NgModule} from '@angular/core';
 import {EditRequestOptionsModule} from './edit-request-options/edit-request-options.module';
 import {EditItemOptionsModule} from './edit-item-options/edit-item-options.module';

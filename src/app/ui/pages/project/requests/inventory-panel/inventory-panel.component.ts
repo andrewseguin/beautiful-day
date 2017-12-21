@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ItemsService} from '../../../../../service/items.service';
-import {Item} from '../../../../../model/item';
-import {Project} from '../../../../../model/project';
-import {SubheaderService} from '../../../../../service/subheader.service';
-import {MediaQueryService} from '../../../../../service/media-query.service';
+import {ItemsService} from 'app/service/items.service';
+import {Item} from 'app/model/item';
+import {Project} from 'app/model/project';
+import {SubheaderService} from 'app/service/subheader.service';
+import {MediaQueryService} from 'app/service/media-query.service';
 import {Observable} from 'rxjs/Observable';
 import {PanelsService} from './panels.service';
 

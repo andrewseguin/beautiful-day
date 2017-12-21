@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RequestComponent} from './request.component';
+import {HomeComponent} from './home.component';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 
@@ -8,7 +8,7 @@ import {MaterialModule} from 'app/material.module';
     CommonModule,
     MaterialModule,
   ],
-  declarations: [RequestComponent],
-  exports: [RequestComponent],
+  declarations: [HomeComponent],
+  exports: [HomeComponent],
 })
-export class RequestModule { }
+export class HomeModule { }

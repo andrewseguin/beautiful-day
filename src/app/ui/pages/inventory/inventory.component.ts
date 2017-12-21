@@ -1,10 +1,12 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {ItemsService} from '../../../service/items.service';
-import {Item} from '../../../model/item';
+import {ItemsService} from 'app/service/items.service';
+import {Item} from 'app/model/item';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {HeaderService} from '../../../service/header.service';
-import {ItemSearchPipe} from '../../../pipe/item-search.pipe';
-import {EditableItemCellAction} from './editable-item-cell-value/editable-item-cell-value.component';
+import {HeaderService} from 'app/service/header.service';
+import {ItemSearchPipe} from 'app/pipe/item-search.pipe';
+import {
+  EditableItemCellAction
+} from './editable-item-cell-value/editable-item-cell-value.component';
 
 @Component({
   selector: 'inventory',
@@ -12,7 +14,8 @@ import {EditableItemCellAction} from './editable-item-cell-value/editable-item-c
   styleUrls: ['./inventory.component.scss']
 })
 export class InventoryComponent implements OnInit, AfterViewInit {
-  columns = ['editActions', 'consoleLog', 'categories', 'name', 'keywords', 'cost', 'url', 'isApproved', 'addedBy', 'dateAdded', 'quantityOwned'];
+  columns = ['editActions', 'consoleLog', 'categories', 'name', 'keywords',
+    'cost', 'url', 'isApproved', 'addedBy', 'dateAdded', 'quantityOwned'];
   dataSource = new MatTableDataSource<Item>();
   items: Item[];
   itemSearch = new ItemSearchPipe();

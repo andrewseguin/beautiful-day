@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {UsersService} from '../../../../../service/users.service';
-import {User} from '../../../../../model/user';
+import {UsersService} from 'app/service/users.service';
+import {User} from 'app/model/user';
 
 @Component({
   selector: 'detail-user',

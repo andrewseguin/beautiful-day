@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Item} from '../../../../../../model/item';
-import {EditItemComponent} from '../../../../../shared/dialog/edit-item/edit-item.component';
+import {Item} from 'app/model/item';
+import {EditItemComponent} from 'app/ui/shared/dialog/edit-item/edit-item.component';
 import {MatDialog} from '@angular/material';
-import {ItemsService} from '../../../../../../service/items.service';
-import {ItemSearchPipe} from '../../../../../../pipe/item-search.pipe';
+import {ItemsService} from 'app/service/items.service';
+import {ItemSearchPipe} from 'app/pipe/item-search.pipe';
 
 /** Number of items to load each time. */
 const ITEMS_TO_LOAD = 10;

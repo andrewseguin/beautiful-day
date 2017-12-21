@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
 import {ItemsService} from 'app/service/items.service';
 import {MatDialog} from '@angular/material';
-import {EditItemComponent} from '../../dialog/edit-item/edit-item.component';
-import {EditItemCategoryComponent} from '../../dialog/edit-item-category/edit-item-category.component';
-import {EditItemNameComponent} from '../../dialog/edit-item-name/edit-item-name.component';
+import {EditItemNameComponent} from 'app/ui/shared/dialog/edit-item-name/edit-item-name.component';
+import {
+  EditItemCategoryComponent
+} from 'app/ui/shared/dialog/edit-item-category/edit-item-category.component';
+import {EditItemComponent} from 'app/ui/shared/dialog/edit-item/edit-item.component';
 
 @Component({
   selector: 'edit-item-options',

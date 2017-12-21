@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {FeedbackService} from '../../../service/feedback.service';
-import {Feedback} from '../../../model/feedback';
-import {UsersService} from '../../../service/users.service';
-import {User} from '../../../model/user';
+import {Component, OnInit} from '@angular/core';
+import {FeedbackService} from 'app/service/feedback.service';
+import {Feedback} from 'app/model/feedback';
+import {UsersService} from 'app/service/users.service';
+import {User} from 'app/model/user';
 import {Observable} from 'rxjs/Observable';
-import {HeaderService} from '../../../service/header.service';
-import {transformSnapshotAction} from '../../../utility/snapshot-tranform';
+import {HeaderService} from 'app/service/header.service';
 
 @Component({
   selector: 'app-feedback',

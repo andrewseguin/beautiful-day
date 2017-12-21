@@ -1,9 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Item} from '../../../../../../model/item';
-import {EditItemComponent} from '../../../../../shared/dialog/edit-item/edit-item.component';
-import {MatDialog} from '@angular/material';
-import {ItemsService} from '../../../../../../service/items.service';
-import {ItemSearchPipe} from '../../../../../../pipe/item-search.pipe';
+import {Component, Input} from '@angular/core';
 import {PanelsService} from '../panels.service';
 
 @Component({

@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
-import {Item} from '../../../../model/item';
+import {Item} from 'app/model/item';
 
 export type EditableItemCellAction = 'save' | 'cancel' | 'edit';
 

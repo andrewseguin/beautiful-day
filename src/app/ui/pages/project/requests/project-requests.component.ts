@@ -1,15 +1,14 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {Project} from '../../../../model/project';
-import {RequestsService} from '../../../../service/requests.service';
-import {ProjectsService} from '../../../../service/projects.service';
-import {MediaQueryService} from '../../../../service/media-query.service';
-import {SubheaderService} from '../../../../service/subheader.service';
-import {EditProjectPermissions, PermissionsService} from '../../../../service/permissions.service';
-import {RequestsListComponent} from '../../../shared/requests-list/requests-list.component';
-import {Request} from '../../../../model/request';
+import {Project} from 'app/model/project';
+import {RequestsService} from 'app/service/requests.service';
+import {ProjectsService} from 'app/service/projects.service';
+import {MediaQueryService} from 'app/service/media-query.service';
+import {SubheaderService} from 'app/service/subheader.service';
+import {EditProjectPermissions, PermissionsService} from 'app/service/permissions.service';
+import {RequestsListComponent} from 'app/ui/shared/requests-list/requests-list.component';
+import {Request} from 'app/model/request';
 import {Observable} from 'rxjs/Observable';
-import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'project-requests',

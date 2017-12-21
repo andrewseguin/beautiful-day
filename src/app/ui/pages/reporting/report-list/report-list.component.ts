@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
-import {Report} from '../../../../model/report';
-import {ReportsService} from '../../../../service/reports.service';
+import {Report} from 'app/model/report';
+import {ReportsService} from 'app/service/reports.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ReportSort} from '../../../../pipe/report-search.pipe';
-import {QueryDisplay} from '../../../../utility/query-display';
-import {transformSnapshotActionList} from '../../../../utility/snapshot-tranform';
+import {ReportSort} from 'app/pipe/report-search.pipe';
+import {QueryDisplay} from 'app/utility/query-display';
 
 @Component({
   selector: 'report-list',

@@ -1,24 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {ProjectsService} from '../../../../service/projects.service';
-import {Request} from '../../../../model/request';
-import {Event} from '../../../../model/event';
-import {Project} from '../../../../model/project';
+import {ProjectsService} from 'app/service/projects.service';
+import {Request} from 'app/model/request';
+import {Event} from 'app/model/event';
+import {Project} from 'app/model/project';
 import {MatDialog} from '@angular/material';
 import {
   EditProjectComponent,
   EditType
-} from '../../../shared/dialog/edit-project/edit-project.component';
-import {DeleteProjectComponent} from '../../../shared/dialog/delete-project/delete-project.component';
-import {EditProjectPermissions, PermissionsService} from '../../../../service/permissions.service';
-import {EventsService} from '../../../../service/events.service';
-import {AccountingService, BudgetResponse} from '../../../../service/accounting.service';
+} from 'app/ui/shared/dialog/edit-project/edit-project.component';
+import {DeleteProjectComponent} from 'app/ui/shared/dialog/delete-project/delete-project.component';
+import {EditProjectPermissions, PermissionsService} from 'app/service/permissions.service';
+import {EventsService} from 'app/service/events.service';
+import {AccountingService, BudgetResponse} from 'app/service/accounting.service';
 import {Subscription} from 'rxjs/Subscription';
-import {RequestsService} from '../../../../service/requests.service';
+import {RequestsService} from 'app/service/requests.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
-import {transformSnapshotAction} from '../../../../utility/snapshot-tranform';
 
 @Component({
   selector: 'project-details',

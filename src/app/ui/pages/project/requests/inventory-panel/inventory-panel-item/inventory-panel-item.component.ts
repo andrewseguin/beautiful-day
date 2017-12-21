@@ -1,21 +1,11 @@
-import {
-  Component,
-  Input,
-  AnimationTransitionEvent, OnInit
-} from '@angular/core';
-import {
-  animate,
-  transition,
-  style,
-  state,
-  trigger} from '@angular/animations';
-import {Item} from '../../../../../../model/item';
-import {Params, ActivatedRoute} from '@angular/router';
-import {Project} from '../../../../../../model/project';
-import {RequestsService} from '../../../../../../service/requests.service';
-import {ProjectsService} from '../../../../../../service/projects.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Item} from 'app/model/item';
+import {ActivatedRoute, Params} from '@angular/router';
+import {Project} from 'app/model/project';
+import {RequestsService} from 'app/service/requests.service';
+import {ProjectsService} from 'app/service/projects.service';
 import {Observable} from 'rxjs/Observable';
-import {transformSnapshotAction} from '../../../../../../utility/snapshot-tranform';
 import {first} from 'rxjs/operators';
 
 export type InventoryPanelItemState = 'collapsed' | 'expanded';

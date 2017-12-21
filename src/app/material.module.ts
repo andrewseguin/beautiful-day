@@ -12,7 +12,6 @@ import {
   MatExpansionModule,
   MatGridListModule,
   MatIconModule,
-  MatIconRegistry,
   MatInputModule,
   MatListModule,
   MatMenuModule,

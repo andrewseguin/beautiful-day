@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {Request} from '../../model/request';
-import {ReportsService} from '../../service/reports.service';
-import {ReportQueryService} from '../../service/report-query.service';
-import {ProjectsService} from '../../service/projects.service';
-import {ItemsService} from '../../service/items.service';
-import {RequestsService} from '../../service/requests.service';
-import {QueryStage, Report} from '../../model/report';
-import {Project} from '../../model/project';
-import {Item} from '../../model/item';
-import {DisplayOptions} from '../../model/display-options';
+import {Request} from 'app/model/request';
+import {ReportsService} from 'app/service/reports.service';
+import {ReportQueryService} from 'app/service/report-query.service';
+import {ProjectsService} from 'app/service/projects.service';
+import {ItemsService} from 'app/service/items.service';
+import {RequestsService} from 'app/service/requests.service';
+import {QueryStage, Report} from 'app/model/report';
+import {Project} from 'app/model/project';
+import {Item} from 'app/model/item';
+import {DisplayOptions} from 'app/model/display-options';
 import {Title} from '@angular/platform-browser';
-import {QueryDisplay} from '../../utility/query-display';
+import {QueryDisplay} from 'app/utility/query-display';
 
 @Component({
   selector: 'print',
