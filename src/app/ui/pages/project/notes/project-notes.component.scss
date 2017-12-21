@@ -3,7 +3,7 @@
 
 
 :host {
-  background: #CCC;
+  background: $background;
   position: absolute;
   top: 0;
   left: 0;
@@ -38,7 +38,7 @@
 .nav {
   display: flex;
   flex-direction: column;
-  background: #CCC;
+  background: $background;
   padding: 16px 0 16px 32px;
 
   .nav-note {

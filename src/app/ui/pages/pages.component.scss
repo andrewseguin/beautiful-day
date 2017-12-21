@@ -40,7 +40,7 @@ mat-sidenav-container {
   left: 0;
   right: 0;
   overflow: auto;
-  background: #CCC;
+  background: $background;
   @media (max-width: $mobile-width - 1) {
     top: $subheader-height;
   }
