@@ -9,8 +9,8 @@ import {MatDialog} from '@angular/material';
 import {
   EditProjectComponent,
   EditType
-} from 'app/ui/shared/dialog/edit-project/edit-project.component';
-import {DeleteProjectComponent} from 'app/ui/shared/dialog/delete-project/delete-project.component';
+} from 'app/ui/pages/shared/dialog/edit-project/edit-project.component';
+import {DeleteProjectComponent} from 'app/ui/pages/shared/dialog/delete-project/delete-project.component';
 import {EditProjectPermissions, PermissionsService} from 'app/service/permissions.service';
 import {EventsService} from 'app/service/events.service';
 import {AccountingService, BudgetResponse} from 'app/service/accounting.service';

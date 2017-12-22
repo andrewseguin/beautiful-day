@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Request} from 'app/model/request';
-import {PromptDialogComponent} from 'app/ui/shared/dialog/prompt-dialog/prompt-dialog.component';
+import {PromptDialogComponent} from 'app/ui/pages/shared/dialog/prompt-dialog/prompt-dialog.component';
 import {ProjectsService} from 'app/service/projects.service';
 import {ItemsService} from 'app/service/items.service';
 import {RequestsService} from 'app/service/requests.service';
@@ -15,7 +15,7 @@ import {UsersService} from 'app/service/users.service';
 import {User} from 'app/model/user';
 import {ReportQueryService} from 'app/service/report-query.service';
 import {DisplayOptions} from 'app/model/display-options';
-import {DeleteReportComponent} from 'app/ui/shared/dialog/delete-report/delete-report.component';
+import {DeleteReportComponent} from 'app/ui/pages/shared/dialog/delete-report/delete-report.component';
 
 @Component({
   selector: 'report',

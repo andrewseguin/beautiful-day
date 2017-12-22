@@ -1,8 +1,8 @@
-@import '../../../shared/constants';
-@import '../../../../theme';
+@import '../../../../shared/constants';
+@import '../../../../../theme';
 
 // Import theming functions
-@import '~@angular/material/theming';
+@import '../../../../../../../node_modules/@angular/material/theming';
 
 .request {
   display: flex;

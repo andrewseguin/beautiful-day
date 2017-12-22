@@ -2,9 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Note} from 'app/model/note';
 import {MatDialog, MatMenu} from '@angular/material';
-import {DeleteNoteComponent} from 'app/ui/shared/dialog/delete-note/delete-note.component';
+import {DeleteNoteComponent} from 'app/ui/pages/shared/dialog/delete-note/delete-note.component';
 import {Subject} from 'rxjs/Subject';
-import {PromptDialogComponent} from 'app/ui/shared/dialog/prompt-dialog/prompt-dialog.component';
+import {PromptDialogComponent} from 'app/ui/pages/shared/dialog/prompt-dialog/prompt-dialog.component';
 import {NotesService} from 'app/service/notes.service';
 import {debounceTime, mergeMap} from 'rxjs/operators';
 

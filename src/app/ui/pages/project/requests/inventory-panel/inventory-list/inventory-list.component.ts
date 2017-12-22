@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Item} from 'app/model/item';
-import {EditItemComponent} from 'app/ui/shared/dialog/edit-item/edit-item.component';
+import {EditItemComponent} from 'app/ui/pages/shared/dialog/edit-item/edit-item.component';
 import {MatDialog} from '@angular/material';
 import {ItemsService} from 'app/service/items.service';
 import {ItemSearchPipe} from 'app/pipe/item-search.pipe';

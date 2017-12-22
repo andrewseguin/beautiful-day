@@ -6,7 +6,7 @@ import {ProjectsService} from 'app/service/projects.service';
 import {MediaQueryService} from 'app/service/media-query.service';
 import {SubheaderService} from 'app/service/subheader.service';
 import {EditProjectPermissions, PermissionsService} from 'app/service/permissions.service';
-import {RequestsListComponent} from 'app/ui/shared/requests-list/requests-list.component';
+import {RequestsListComponent} from 'app/ui/pages/shared/requests-list/requests-list.component';
 import {Request} from 'app/model/request';
 import {Observable} from 'rxjs/Observable';
 

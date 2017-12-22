@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {HeaderComponent} from './header.component';
 import {MaterialModule} from 'app/material.module';
-import {ProjectNavModule} from 'app/ui/shared/header/project-nav/project-nav.module';
+import {ProjectNavModule} from 'app/ui/pages/shared/header/project-nav/project-nav.module';
 import {CommonModule} from '@angular/common';
 
 @NgModule({

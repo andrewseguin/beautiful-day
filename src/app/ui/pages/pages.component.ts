@@ -17,6 +17,4 @@ export class PagesComponent {
       }
     });
   }
-
-
 }

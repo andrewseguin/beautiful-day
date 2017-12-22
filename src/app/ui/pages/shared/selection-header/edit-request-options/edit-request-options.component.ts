@@ -1,19 +1,19 @@
 import {Component} from '@angular/core';
 import {MatDialog, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {RequestsService} from 'app/service/requests.service';
-import {EditDropoffComponent} from 'app/ui/shared/dialog/edit-dropoff/edit-dropoff.component';
-import {EditTagsComponent} from 'app/ui/shared/dialog/edit-tags/edit-tags.component';
+import {EditDropoffComponent} from 'app/ui/pages/shared/dialog/edit-dropoff/edit-dropoff.component';
+import {EditTagsComponent} from 'app/ui/pages/shared/dialog/edit-tags/edit-tags.component';
 import {
   DeleteRequestsComponent
-} from 'app/ui/shared/dialog/delete-requests/delete-requests.component';
-import {PromptDialogComponent} from 'app/ui/shared/dialog/prompt-dialog/prompt-dialog.component';
+} from 'app/ui/pages/shared/dialog/delete-requests/delete-requests.component';
+import {PromptDialogComponent} from 'app/ui/pages/shared/dialog/prompt-dialog/prompt-dialog.component';
 import {
   EditPurchaseStatusDialogComponent
-} from 'app/ui/shared/dialog/edit-purchase-status/edit-purchase-status';
+} from 'app/ui/pages/shared/dialog/edit-purchase-status/edit-purchase-status';
 import {
   EditApprovalStatusDialogComponent
-} from 'app/ui/shared/dialog/edit-approval-status/edit-approval-status';
-import {EditItemComponent} from 'app/ui/shared/dialog/edit-item/edit-item.component';
+} from 'app/ui/pages/shared/dialog/edit-approval-status/edit-approval-status';
+import {EditItemComponent} from 'app/ui/pages/shared/dialog/edit-item/edit-item.component';
 import {ItemsService} from 'app/service/items.service';
 import {PermissionsService} from 'app/service/permissions.service';
 import {mergeMap} from 'rxjs/operators';
