@@ -10,7 +10,7 @@ import {PipeModule} from 'app/pipe/pipe.module';
     CommonModule,
     MaterialModule,
     PipeModule,
-    DetailUserModule
+    DetailUserModule,
   ],
   declarations: [ProjectDetailsComponent],
   exports: [ProjectDetailsComponent],
