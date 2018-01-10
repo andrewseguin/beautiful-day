@@ -38,7 +38,7 @@ export class RequestsService extends DaoService<Request> {
   }
 
   addRequest(project: Project, item: Item, quantity = 1) {
-    const defaultDate = new Date(1491030000000); // Hard-coded April 1, 2017
+    const defaultDate = new Date(1522566000000); // Hard-coded April 1, 2018
 
     const request: Request = {
       item: item.$key,

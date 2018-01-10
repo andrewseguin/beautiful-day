@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {ProjectsService} from 'app/service/projects.service';
-import {Project} from 'app/model/project';
-import {Router} from '@angular/router';
+import {Component} from '@angular/core';
 import {HeaderService} from 'app/service/header.service';
 
 @Component({
@@ -9,23 +6,10 @@ import {HeaderService} from 'app/service/header.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
-  projects: Project[];
+export class HomeComponent {
+  show2017Projects = false;
 
-  constructor(
-    private projectsService: ProjectsService,
-    private headerService: HeaderService,
-    private router: Router) { }
-
-  ngOnInit() {
-    this.headerService.title = 'Home';
-
-    this.projectsService.getSortedProjects()
-        .subscribe(projects => this.projects = projects);
+  constructor(headerService: HeaderService) {
+    headerService.title = 'Home';
   }
-
-  navigateToProject(id: string) {
-    this.router.navigate([`project/${id}`]);
-  }
-
 }

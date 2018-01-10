@@ -1,14 +1,8 @@
-<div class="section-title">2017 Projects</div>
+<project-list season="2018"></project-list>
 
-<div class="projects">
-  <mat-progress-spinner *ngIf="!projects"
-                      mode="indeterminate"
-                      color="accent">
-  </mat-progress-spinner>
+<button mat-button *ngIf="!show2017Projects"
+        (click)="show2017Projects = true">
+  Show 2017 Projects
+</button>
 
-  <mat-card class="project" *ngFor="let project of projects"
-           matRipple (click)="navigateToProject(project.$key)">
-    <mat-card-title> {{project.name}} </mat-card-title>
-    <mat-card-content> {{project.description}} </mat-card-content>
-  </mat-card>
-</div>
+<project-list *ngIf="show2017Projects" season="2017"></project-list>

@@ -18,8 +18,8 @@ export class ProjectsService extends DaoService<Project> {
     return this.queryList(queryFn);
   }
 
-  getSortedProjects(): Observable<Project[]> {
-    return this.projects.map(sortProjectsByName);
+  getSortedProjects(season: string): Observable<Project[]> {
+    return this.getProjectsBySeason(season).map(sortProjectsByName);
   }
 }
 

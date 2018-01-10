@@ -4,6 +4,7 @@ export interface Project {
   $key?: string;
   location?: string;
   name?: string;
+  season?: string;
   budget?: number;
   description?: string;
   leads?: string;

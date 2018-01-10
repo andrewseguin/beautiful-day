@@ -35,7 +35,7 @@ export class NavComponent implements OnInit {
   @Input() sidenav: MatSidenav;
 
   ngOnInit() {
-    this.projectsService.getProjectsBySeason('2017')
+    this.projectsService.getProjectsBySeason('2018')
         .subscribe(projects => this.projects = sortProjectsByName(projects));
 
     this.permissionsService.canCreateProjects()
@@ -49,10 +49,11 @@ export class NavComponent implements OnInit {
   }
 
   addProject() {
-    const newProject = {
+    const newProject: Project = {
       name: 'New Project',
       description: '',
-      location: ''
+      location: '',
+      season: '2018',
     };
 
     this.projectsService.add(newProject).then(response => {
