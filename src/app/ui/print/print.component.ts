@@ -92,7 +92,7 @@ export class PrintComponent implements OnInit {
     if (!this.canPerformQuery()) { return; }
 
     this.reportRequests = this.reportQueryService.query(
-      this.queryStages, this.requests, this.items, this.projects);
+      this.queryStages, this.requests, this.items, this.projects, this.report.season);
 
     setTimeout(() => {
       window.print();

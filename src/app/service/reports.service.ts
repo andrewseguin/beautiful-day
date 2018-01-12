@@ -39,6 +39,7 @@ export class ReportsService extends DaoService<Report> {
       modifiedBy: this.user.email,
       createdDate: new Date().getTime().toString(),
       modifiedDate: new Date().getTime().toString(),
+      season: '2018',
     };
 
     return super.add(newReport);

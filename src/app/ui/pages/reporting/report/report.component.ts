@@ -16,6 +16,8 @@ import {User} from 'app/model/user';
 import {ReportQueryService} from 'app/service/report-query.service';
 import {DisplayOptions} from 'app/model/display-options';
 import {DeleteReportComponent} from 'app/ui/pages/shared/dialog/delete-report/delete-report.component';
+import {SnapshotAction} from 'angularfire2/database';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'report',
@@ -111,7 +113,7 @@ export class ReportComponent {
     if (!this.items || !this.projects || !this.requests || !this.hasQuery()) { return; }
 
     this.filteredRequests = this.reportQueryService.query(
-        this.report.queryStages, this.requests, this.items, this.projects);
+        this.report.queryStages, this.requests, this.items, this.projects, this.report.season);
   }
 
   duplicateReport() {

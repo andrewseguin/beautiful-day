@@ -71,6 +71,10 @@
       <span class="title">Report Query</span>
     </div>
 
+    <div class="season">
+      Season: {{report.season}}
+    </div>
+
     <query-stages [queryStages]="report.queryStages"
                   (queryStagesChange)="performQuery(); saveQueryStages()">
     </query-stages>

@@ -21,4 +21,5 @@ export interface Report {
   createdDate?: string;
   modifiedBy?: string;
   modifiedDate?: string;
+  season?: string;
 }

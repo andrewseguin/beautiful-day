@@ -14,8 +14,17 @@ export class ReportQueryService {
   query(queryStages: QueryStage[],
         requests: Request[],
         items: Item[],
-        projects: Project[]) {
+        projects: Project[],
+        season: string) {
     let filteredRequests = requests;
+
+    // Filter for only requests of the season
+    if (season) {
+      const projectsMatchingSeason = new Set<string>();
+      projects.forEach(p => p.season === season ? projectsMatchingSeason.add(p.$key) : null);
+      filteredRequests = requests.filter(r => projectsMatchingSeason.has(r.project));
+    }
+
     queryStages.forEach(queryStage => {
       let requestSet = new Set<Request>();
       queryStage.querySet.forEach(query => {

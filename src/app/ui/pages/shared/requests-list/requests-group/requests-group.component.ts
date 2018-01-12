@@ -175,7 +175,7 @@ export class RequestsGroupComponent {
   }
 
   updateDisplayedRequests() {
-    if (this.requestsToDisplay >= this.requests.length) {
+    if (this.requests.length && this.requestsToDisplay >= this.requests.length) {
       this.showAllRequests = true;
     }
 
