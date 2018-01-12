@@ -49,7 +49,8 @@ export class ItemsService extends DaoService<Item> {
       const items = [];
       allItems.map(item => {
         item.categories.split(',')
-          .filter(c => c.indexOf(filter) === 0)
+          .map(c => c.trim())
+          .filter(c => c.indexOf(filter) !== -1)
           .forEach(c => {
             // Add the remaining slice of the string without the filter
             categoryStrings.add(c.slice(filter.length));
@@ -60,14 +61,15 @@ export class ItemsService extends DaoService<Item> {
       const subcategoriesSet = new Set<string>();
       categoryStrings.forEach(categoryString => {
         const splitCategoryString = categoryString.split(' > ');
-        const subcategory = filter ? splitCategoryString[1] : splitCategoryString[0];
+        let subcategory = filter ? splitCategoryString[1] : splitCategoryString[0];
         if (subcategory) {
-          subcategoriesSet.add(subcategory);
+          subcategoriesSet.add(subcategory.trim());
         }
       });
 
       const subcategories: string[] = [];
       subcategoriesSet.forEach(s => subcategories.push(s));
+      subcategories.sort();
       return {items, subcategories};
     });
   }

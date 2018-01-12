@@ -36,7 +36,6 @@ import {PagesComponent} from 'app/ui/pages/pages.component';
 import {PAGES_ROUTES} from 'app/ui/pages/pages.routes';
 import {PrintComponent} from 'app/ui/print/print.component';
 import {LoginComponent} from 'app/ui/login/login.component';
-import {DialogModule} from 'app/ui/pages/shared/dialog/dialog.module';
 
 @NgModule({
   declarations: [AppComponent],
