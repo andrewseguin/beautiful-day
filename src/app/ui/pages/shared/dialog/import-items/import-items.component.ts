@@ -4,6 +4,10 @@ import {Item} from 'app/model/item';
 import {ItemsService} from 'app/service/items.service';
 import {RequestsService} from 'app/service/requests.service';
 
+enum COLUMNS {
+  $KEY, NAME, CATEGORIES, URL, KEYWORDS, COST, QUANTITY_OWNED
+}
+
 @Component({
   selector: 'import-items',
   templateUrl: './import-items.component.html',
@@ -13,16 +17,14 @@ export class ImportItemsComponent {
   items: Item[];
 
   constructor(private dialogRef: MatDialogRef<ImportItemsComponent>,
-              private itemsService: ItemsService,
-              private requestsService: RequestsService) { }
+              private itemsService: ItemsService) { }
 
   close() {
     this.dialogRef.close();
   }
 
   save() {
-    this.itemsService.setAllItems(this.items);
-    this.requestsService.removeAllRequests();
+    this.itemsService.updateItems(this.items);
     this.close();
   }
 

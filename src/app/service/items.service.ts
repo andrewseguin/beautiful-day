@@ -128,8 +128,14 @@ export class ItemsService extends DaoService<Item> {
     return super.add(item);
   }
 
-  setAllItems(items: Item[]) {
-    this.db.object(this.ref).set(items);
+  updateItems(items: Item[]) {
+    items.forEach(item => {
+      if (item.$key) {
+        this.update(item.$key, item);
+      } else {
+        this.add(item);
+      }
+    })
   }
 
   getSelectedItems(): string[] {

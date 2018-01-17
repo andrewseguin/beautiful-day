@@ -36,6 +36,7 @@
     <button mat-menu-item class="option" *ngIf="canManageAcqusitionsTeam" (click)="manageAcquisitions()">Manage Acquisitions Team</button>
     <button mat-menu-item class="option" *ngIf="canManageApproversTeam" (click)="manageApprovers()">Manage Approvers</button>
     <button mat-menu-item class="option" *ngIf="canImportItems" (click)="importItems()">Import Inventory</button>
+    <button mat-menu-item class="option" *ngIf="canImportItems" (click)="exportItems()">Export Inventory</button>
 
     <button mat-menu-item class="logout" (click)="logout()">Logout</button>
   </mat-menu>

@@ -20,6 +20,7 @@ import {MaterialModule} from 'app/material.module';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {PipeModule} from 'app/pipe/pipe.module';
+import {ExportItemsComponent} from './export-items/export-items.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import {PipeModule} from 'app/pipe/pipe.module';
     EditPurchaseStatusDialogComponent,
     EditTagsComponent,
     EditUserProfileComponent,
+    ExportItemsComponent,
     ImportItemsComponent,
     PromptDialogComponent,
   ],
@@ -63,6 +65,7 @@ import {PipeModule} from 'app/pipe/pipe.module';
     EditPurchaseStatusDialogComponent,
     EditTagsComponent,
     EditUserProfileComponent,
+    ExportItemsComponent,
     ImportItemsComponent,
     PromptDialogComponent,
   ],
