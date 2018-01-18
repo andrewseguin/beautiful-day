@@ -2,9 +2,23 @@
   <tr>
     <th>Key</th>
     <th>Name</th>
+    <th>Categories</th>
+    <th>URL</th>
+    <th>Cost</th>
+    <th>Hidden</th>
+    <th>Keywords</th>
+    <th>Quantity Owned</th>
+    <th>Requests</th>
   </tr>
   <tr *ngFor="let item of items">
     <td>{{item.$key}}</td>
     <td>{{item.name}}</td>
+    <td>{{item.categories}}</td>
+    <td>{{item.url}}</td>
+    <td>{{item.cost}}</td>
+    <td>{{item.hidden}}</td>
+    <td>{{item.keywords}}</td>
+    <td>{{item.quantityOwned}}</td>
+    <td>{{itemRequestCount?.get(item.$key)}}</td>
   </tr>
 </table>

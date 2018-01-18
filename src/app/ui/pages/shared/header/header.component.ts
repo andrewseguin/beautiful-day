@@ -1,7 +1,4 @@
-import {
-  Component, ElementRef, Input, OnInit, QueryList, ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {HeaderService} from 'app/service/header.service';
 import {MediaQueryService} from 'app/service/media-query.service';
@@ -20,7 +17,7 @@ import {PermissionsService} from 'app/service/permissions.service';
 import {ImportItemsComponent} from '../dialog/import-items/import-items.component';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
-import {first, take} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
 import {ItemsService} from 'app/service/items.service';
 import {ExportItemsComponent} from 'app/ui/pages/shared/dialog/export-items/export-items.component';
 

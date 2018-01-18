@@ -5,7 +5,7 @@ import {ItemsService} from 'app/service/items.service';
 import {RequestsService} from 'app/service/requests.service';
 
 enum COLUMNS {
-  $KEY, NAME, CATEGORIES, URL, KEYWORDS, COST, QUANTITY_OWNED
+  $KEY, CATEGORIES, NAME, HIDDEN, URL, COST, KEYWORDS, QUANTITY
 }
 
 @Component({
@@ -45,24 +45,20 @@ export class ImportItemsComponent {
     return itemRows.map(itemRow => {
       const itemInfo = itemRow.split('\t');
 
-      itemInfo[3] = itemInfo[3].replace('$', '');
+      let $key = itemInfo[COLUMNS.$KEY];
+      let categories = itemInfo[COLUMNS.CATEGORIES];
+      let name = itemInfo[COLUMNS.NAME];
+      let hidden = itemInfo[COLUMNS.HIDDEN];
+      let url = itemInfo[COLUMNS.URL];
+      let cost: number = itemInfo[COLUMNS.COST] ?
+          +(itemInfo[COLUMNS.COST].replace('$', '')) :
+          undefined;
+      let keywords = itemInfo[COLUMNS.KEYWORDS] || undefined;
+      let quantityOwned = itemInfo[COLUMNS.QUANTITY] || undefined;
 
-      let item: Item = {
-        name: itemInfo[0],
-        categories: itemInfo[2],
-        url: itemInfo[4],
-        keywords: itemInfo[6]
-      };
 
-      if (itemInfo[3]) {
-        item.cost = +itemInfo[3];
-      }
 
-      if (itemInfo[5]) {
-        item.quantityOwned = itemInfo[5];
-      }
-
-      return item;
+      return {$key, name, categories, url, cost, keywords, quantityOwned};
     });
   }
 }

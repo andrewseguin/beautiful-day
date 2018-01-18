@@ -131,8 +131,12 @@ export class ItemsService extends DaoService<Item> {
   updateItems(items: Item[]) {
     items.forEach(item => {
       if (item.$key) {
+        const copiedItem = {...item};
+        delete copiedItem['$key'];
+        console.log(`Updating item with key ${item.$key}: `, copiedItem);
         this.update(item.$key, item);
       } else {
+        console.log('Adding item', item);
         this.add(item);
       }
     })
