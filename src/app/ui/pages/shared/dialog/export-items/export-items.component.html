@@ -1,4 +1,6 @@
-<table>
+<button mat-raised-button (click)="copyToClipboard(table)">Copy to clipboard</button>
+
+<table #table>
   <tr>
     <th>Key</th>
     <th>Name</th>
@@ -16,7 +18,7 @@
     <td>{{item.categories}}</td>
     <td>{{item.url}}</td>
     <td>{{item.cost}}</td>
-    <td>{{item.hidden}}</td>
+    <td>{{item.hidden ? true : ''}}</td>
     <td>{{item.keywords}}</td>
     <td>{{item.quantityOwned}}</td>
     <td>{{itemRequestCount?.get(item.$key)}}</td>

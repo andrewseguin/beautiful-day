@@ -3,14 +3,27 @@ import {Project} from 'app/model/project';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {DaoService} from './dao-service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ProjectsService extends DaoService<Project> {
   projects: Observable<Project[]>;
 
+  projectsMap = new BehaviorSubject<Map<string, Project>>(new Map());
+
   constructor(db: AngularFireDatabase) {
     super(db, 'projects');
     this.projects = this.getKeyedListDao();
+
+    this.projects.subscribe(projects => {
+      this.projectsMap.next(this.convertKeyedListToMap(projects));
+    });
+  }
+
+  convertKeyedListToMap(list: any[]) {
+    const map = new Map<string, any>();
+    list.forEach(item => map.set(item.$key, item));
+    return map;
   }
 
   getProjectsBySeason(season: string): Observable<Project[]> {

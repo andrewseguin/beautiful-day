@@ -10,6 +10,7 @@ import {PromptDialogComponent} from 'app/ui/pages/shared/dialog/prompt-dialog/pr
 import {AngularFireDatabase} from 'angularfire2/database';
 import {DaoService} from './dao-service';
 import {SelectionModel} from '@angular/cdk/collections';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 export class RequestAddedResponse {
   item: Item;
@@ -22,6 +23,8 @@ export class RequestsService extends DaoService<Request> {
   requests: Observable<Request[]>;
   selection = new SelectionModel<string>(true);
 
+  requestsByItem = new BehaviorSubject<Map<string, Request[]>>(new Map());
+
   constructor(protected db: AngularFireDatabase,
               private router: Router,
               private mdDialog: MatDialog) {
@@ -30,6 +33,16 @@ export class RequestsService extends DaoService<Request> {
 
     // Clear selected requests when route changes.
     this.router.events.subscribe(() => this.selection.clear());
+
+    this.requests.subscribe(requests => {
+      const requestsByItem = new Map<string, Request[]>();
+      requests.forEach(request => {
+        const currentRequestSet = requestsByItem.get(request.item) || [];
+        currentRequestSet.push(request);
+        requestsByItem.set(request.item, currentRequestSet);
+      });
+      this.requestsByItem.next(requestsByItem);
+    });
   }
 
   getProjectRequests(projectId: string): Observable<Request[]> {

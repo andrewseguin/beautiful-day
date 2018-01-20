@@ -2,10 +2,9 @@ import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Item} from 'app/model/item';
 import {ItemsService} from 'app/service/items.service';
-import {RequestsService} from 'app/service/requests.service';
 
 enum COLUMNS {
-  $KEY, CATEGORIES, NAME, HIDDEN, URL, COST, KEYWORDS, QUANTITY
+  $KEY, NAME, CATEGORIES, URL, COST, HIDDEN, KEYWORDS, QUANTITY
 }
 
 @Component({
@@ -48,17 +47,30 @@ export class ImportItemsComponent {
       let $key = itemInfo[COLUMNS.$KEY];
       let categories = itemInfo[COLUMNS.CATEGORIES];
       let name = itemInfo[COLUMNS.NAME];
-      let hidden = itemInfo[COLUMNS.HIDDEN];
-      let url = itemInfo[COLUMNS.URL];
+      let hidden = !!itemInfo[COLUMNS.HIDDEN];
+      let url = itemInfo[COLUMNS.URL] || '';
       let cost: number = itemInfo[COLUMNS.COST] ?
-          +(itemInfo[COLUMNS.COST].replace('$', '')) :
-          undefined;
-      let keywords = itemInfo[COLUMNS.KEYWORDS] || undefined;
-      let quantityOwned = itemInfo[COLUMNS.QUANTITY] || undefined;
+          +(itemInfo[COLUMNS.COST].replace('$', '').replace(',', '')) :
+          0;
+      let keywords = itemInfo[COLUMNS.KEYWORDS];
+      let quantityOwned = itemInfo[COLUMNS.QUANTITY];
 
+      const item = {$key, name, categories, url, cost, hidden, keywords, quantityOwned};
 
+      // Delete optional fields to avoid undefined setting
+      if (item.hidden) {
+        delete item.hidden;
+      }
 
-      return {$key, name, categories, url, cost, keywords, quantityOwned};
+      if (!item.keywords) {
+        delete item.keywords;
+      }
+
+      if (!item.quantityOwned) {
+        delete item.quantityOwned;
+      }
+
+      return item;
     });
   }
 }

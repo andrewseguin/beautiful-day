@@ -32,4 +32,15 @@ export class ExportItemsComponent {
   close() {
     this.dialogRef.close();
   }
+
+  copyToClipboard(table) {
+    const range = document.createRange();
+    const selection = window.getSelection();
+
+    range.selectNodeContents(table);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    document.execCommand('copy');
+  }
 }

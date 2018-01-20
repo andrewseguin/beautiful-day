@@ -1,125 +1,121 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {ItemsService} from 'app/service/items.service';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {CategoryGroup, ItemsService} from 'app/service/items.service';
 import {Item} from 'app/model/item';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatSelect} from '@angular/material';
 import {HeaderService} from 'app/service/header.service';
 import {ItemSearchPipe} from 'app/pipe/item-search.pipe';
-import {
-  EditableItemCellAction
-} from './editable-item-cell-value/editable-item-cell-value.component';
 
 @Component({
   selector: 'inventory',
   templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.scss']
+  styleUrls: ['./inventory.component.scss'],
 })
-export class InventoryComponent implements OnInit, AfterViewInit {
-  columns = ['editActions', 'consoleLog', 'categories', 'name', 'keywords',
-    'cost', 'url', 'isApproved', 'addedBy', 'dateAdded', 'quantityOwned'];
-  dataSource = new MatTableDataSource<Item>();
+export class InventoryComponent implements OnInit {
+  itemsToShow = 10;
   items: Item[];
+  categoryGroup: CategoryGroup;
   itemSearch = new ItemSearchPipe();
-  itemCategoryCache = new Map<Item, string[]>();
-  editing = new Map<string, Item>();
+  selectedCategories = [];
+  categorySelections = [];
+  displayedItems: Item[] = [];
 
-  editableColumns = [
-    { header: 'Categories', property: 'categories',    type: 'multi' },
-    { header: 'Name',       property: 'name' },
-    { header: 'Keywords',   property: 'keywords' },
-    { header: 'Cost',       property: 'cost',          type: 'currency', align: 'after' },
-    { header: 'Url',        property: 'url',           type: 'link' },
-    { header: 'Owned',      property: 'quantityOwned', align: 'after' },
-  ];
+  @ViewChildren('categorySelect') categorySelects: QueryList<MatSelect>;
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  _search = '';
   set search(search: string) {
     this._search = search;
-    this.filterItems();
+    this.updateDisplayedItems();
   }
   get search(): string { return this._search; }
-  _search = '';
 
   constructor(private headerService: HeaderService,
-              private itemsService: ItemsService) {
-    this.dataSource.sortingDataAccessor = (item: Item, property: string) => {
-      switch (property) {
-        case 'cost':
-        case 'dateAdded':
-        case 'quantityOwned':
-          return item[property] === undefined ? -1 : item[property];
-        default:
-          return item[property] === undefined ? 'ZZZ' : item[property];
-      }
-    };
-  }
-
-  itemTrackBy = (_, item: Item) => item.$key;
+              private itemsService: ItemsService) { }
 
   ngOnInit() {
     this.headerService.title = 'Inventory';
+
     this.itemsService.items.subscribe(items => {
       this.items = items;
-      this.filterItems();
-      this.itemCategoryCache.clear();
+      this.updateDisplayedItems();
+    });
+
+    this.itemsService.getItemsByCategory().subscribe(categoryGroup => {
+        this.categoryGroup = categoryGroup;
+        this.updateCategorySelectionOptions();
+      });
+  }
+
+  updateCategorySelectionOptions() {
+    let categoryGroup = this.categoryGroup;
+
+    // Reset the set of options to display, will rebuild
+    this.categorySelections = [];
+
+    // Set the number of selects to expect
+    let selects = this.selectedCategories.length + 1;
+
+    // For each select, fill in the selection options and stop when no more subcategories show
+    // or we run out of selected values
+    for (let i = 0; i < selects; i++) {
+      const subcategories = Object.keys(categoryGroup.subcategories);
+      categoryGroup = categoryGroup.subcategories[this.selectedCategories[i]];
+
+      // Fill in the subcategories if they exist, otherwise stop populating options
+      if (subcategories.length) {
+        this.categorySelections[i] = subcategories.sort();
+      } else {
+        break;
+      }
+    }
+
+    // In case categories changed from underneath the selection, make sure that the number of
+    // selected values don't exceed what is now shown.
+    if (this.selectedCategories.length > this.categorySelections.length) {
+      this.selectedCategories = this.selectedCategories.slice(0, this.categorySelections.length);
+      this.updateDisplayedItems();
+    }
+  }
+
+  onSelectedCategoryChange(value: string, i: number) {
+    // Reduce selection so that this change is the latest value.
+    this.selectedCategories = this.selectedCategories.slice(0, i);
+
+    if (value) {
+      this.selectedCategories[i] = value;
+    }
+
+    this.updateCategorySelectionOptions();
+    this.updateDisplayedItems();
+  }
+
+  updateDisplayedItems() {
+    this.displayedItems = this.items;
+
+    if (this.selectedCategories.length > 0) {
+      this.displayedItems = this.displayedItems.filter(i => {
+        const categories = i.categories.split('>').map(c => c.trim());
+
+        const exactMatch = categories.join() === this.selectedCategories.join();
+        const matchesSubcategory = categories.join().indexOf(this.selectedCategories.join() + ' >') == 0;
+        return exactMatch || matchesSubcategory;
+      });
+    }
+
+    this.displayedItems = this.itemSearch.transform(this.displayedItems, this.search);
+  }
+
+  ngOnDestroy() {
+    this.itemsService.selection.clear();
+  }
+
+  hasAllSelectedItems(): boolean {
+    return this.displayedItems.every(item => {
+      return this.itemsService.selection.isSelected(item.$key);
     });
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  filterItems() {
-    let items = this.items;
-    if (this.search) {
-      items = this.itemSearch.transform(this.items, this.search);
-    }
-
-    this.dataSource.data = items;
-  }
-
-  editItem(item: Item) {
-    this.editing.set(item.$key, {...item});
-  }
-
-  handleEditableItemCellEvent(event: EditableItemCellAction, item: Item) {
-    switch (event) {
-      case 'save': this.save(item); break;
-      case 'cancel': this.cancel(item); break;
-      case 'edit': this.editItem(item); break;
-    }
-  }
-
-  log(item: Item) {
-    console.log(item);
-  }
-
-  private cancel(item: Item) {
-    // Restore item properties
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].$key !== item.$key) { continue; }
-      this.items[i] = this.editing.get(item.$key);
-      this.editing.delete(item.$key);
-      this.filterItems();
-      break;
-    }
-  }
-
-  private save(item: Item) {
-    let {name, categories, url, keywords, cost} = item;
-    name = name || '';
-    categories = categories || '';
-    url = url || '';
-    keywords = keywords || '';
-    cost = cost || 0;
-
-    this.itemsService.update(item.$key, {name, categories, url, keywords, cost});
-    this.editing.delete(item.$key);
-  }
-
-  setIsApproved(item: Item, isApproved: boolean) {
-    this.itemsService.update(item.$key, {isApproved});
+  toggleGroupSelection(select: boolean) {
+    const itemKeys = this.displayedItems.map(item => item.$key);
+    this.itemsService.selection.select(...itemKeys);
   }
 }

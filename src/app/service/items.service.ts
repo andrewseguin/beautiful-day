@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {DaoService} from './dao-service';
 import * as firebase from 'firebase';
 import {SelectionModel} from '@angular/cdk/collections';
+import {UsersService} from 'app/service/users.service';
 
 export type CategoryGroupCollection = { [name: string]: CategoryGroup };
 
@@ -23,10 +24,15 @@ export class Category {
 export class ItemsService extends DaoService<Item> {
   items: Observable<Item[]>;
   selection = new SelectionModel<string>(true);
+  currentUser: string;
 
-  constructor(db: AngularFireDatabase) {
+  constructor(db: AngularFireDatabase, private usersService: UsersService) {
     super(db, 'items');
     this.items = this.getKeyedListDao();
+
+    this.usersService.getCurrentUser().subscribe(user => {
+      this.currentUser = user.email;
+    });
   }
 
   /** Returns a map of the latest item costs. */
@@ -119,25 +125,33 @@ export class ItemsService extends DaoService<Item> {
     return group.subcategories[subcategory];
   }
 
-  add(item: Item): firebase.database.ThenableReference {
+  add(item: Item, isBulk = false): firebase.database.ThenableReference {
     // Set the dateMove the UTC date to user's time zone
     const date = new Date();
     date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
     item.dateAdded = new Date().getTime();
+
+    // Add current user's email to the item
+    item.addedBy = this.currentUser;
+
+    // Unless this is a bulk add (import TSV)
+    if (isBulk) {
+      item.addedBy = '';
+    }
 
     return super.add(item);
   }
 
   updateItems(items: Item[]) {
     items.forEach(item => {
+      const copiedItem: Item = {...item};
+      delete copiedItem.$key;
       if (item.$key) {
-        const copiedItem = {...item};
-        delete copiedItem['$key'];
         console.log(`Updating item with key ${item.$key}: `, copiedItem);
-        this.update(item.$key, item);
+        this.update(item.$key, copiedItem);
       } else {
-        console.log('Adding item', item);
-        this.add(item);
+        console.log('Adding item', copiedItem);
+        this.add(copiedItem, true);
       }
     })
   }

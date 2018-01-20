@@ -1,18 +1,16 @@
 import {NgModule} from '@angular/core';
 import {InventoryComponent} from './inventory.component';
-import {
-  EditableItemCellValueModule
-} from './editable-item-cell-value/editable-item-cell-value.module';
 import {MaterialModule} from 'app/material.module';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {InventoryItemModule} from './inventory-item/inventory-item.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     MaterialModule,
-    EditableItemCellValueModule
+    InventoryItemModule,
   ],
   declarations: [InventoryComponent],
   exports: [InventoryComponent],

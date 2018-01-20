@@ -1,90 +1,49 @@
-<div class="table-container">
-  <div class="filter">
-    <div class="search-container">
-      <input [(ngModel)]="search" placeholder="Search inventory">
+
+
+<div class="filter mat-elevation-z1">
+    <mat-form-field slim class="inventory-page-search" [floatPlaceholder]="'never'">
+      <div class="search-box-content">
+        <input matInput [(ngModel)]="search"
+               (ngModelChange)="itemsToShow = 10"
+               placeholder="Search inventory">
+        <button mat-icon-button *ngIf="search" (click)="search = ''"><mat-icon>close</mat-icon></button>
+      </div>
+    </mat-form-field>
+
+  <mat-form-field slim class="category-select" [floatPlaceholder]="'never'"
+                  *ngFor="let categorySelection of categorySelections; let i = index">
+    <mat-select placeholder="Select category"
+                [value]="selectedCategories[i]"
+                (change)="onSelectedCategoryChange($event.value, i)">
+      <mat-option>--</mat-option>
+      <mat-option *ngFor="let category of categorySelection" [value]="category">
+        {{ category }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="page">
+  <div class="search-results-container" *ngIf="displayedItems.length > 0">
+    <div class="title">
+      <mat-checkbox [checked]="hasAllSelectedItems()"
+                    (change)="toggleGroupSelection($event.checked)">
+      </mat-checkbox>
+      {{displayedItems.length}} items
+    </div>
+    <div class="items">
+      <inventory-item *ngFor="let item of displayedItems | slice:0:itemsToShow"
+                      [item]="item">
+      </inventory-item>
+
+      <button mat-button color="primary"
+              *ngIf="itemsToShow < displayedItems.length"
+              (click)="itemsToShow = itemsToShow + 20"
+              class="show-more">Show More</button>
     </div>
   </div>
 
-  <mat-table [dataSource]="dataSource" matSort [trackBy]="itemTrackBy">
-
-    <!-- Column: Edit Actions -->
-    <ng-container matColumnDef="editActions">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let item">
-        <span *ngIf="!editing.get(item.$key)" class="edit-button">
-          <button mat-icon-button (click)="editItem(item)">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </span>
-        <span *ngIf="editing.get(item.$key)">
-          <button mat-icon-button (click)="editing.delete(item.$key)">
-            <mat-icon>close</mat-icon>
-          </button>
-          <button mat-icon-button (click)="save(item.$key)">
-            <mat-icon>save</mat-icon>
-          </button>
-        </span>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Column: Console Log Action -->
-    <ng-container matColumnDef="consoleLog">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let item">
-        <button mat-icon-button (click)="log(item)">
-          <mat-icon>print</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
-
-
-    <!-- Column: Editable fields -->
-    <ng-container [matColumnDef]="editableColumn.property" *ngFor="let editableColumn of editableColumns">
-      <mat-header-cell *matHeaderCellDef
-                       mat-sort-header
-                       [arrowPosition]="editableColumn.align === 'after' ? 'before' : 'after'">
-        {{editableColumn.header}}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let item">
-        <editable-item-cell-value [editing]="editing.get(item.$key)"
-                                  (action)="handleEditableItemCellEvent($event, item)"
-                                  [item]="item"
-                                  [property]="editableColumn.property"
-                                  [type]="editableColumn.type || 'text'"
-                                  [align]="editableColumn.align || 'before'">
-        </editable-item-cell-value>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Column: Added By -->
-    <ng-container matColumnDef="addedBy">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Added By</mat-header-cell>
-      <mat-cell *matCellDef="let item">
-        {{item.addedBy}}
-      </mat-cell>
-    </ng-container>
-
-    <!-- Column: Date Added -->
-    <ng-container matColumnDef="dateAdded">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
-      <mat-cell *matCellDef="let item">
-        {{item.dateAdded | date}}
-      </mat-cell>
-    </ng-container>
-
-    <!-- Column: Is Approved -->
-    <ng-container matColumnDef="isApproved">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Approved</mat-header-cell>
-      <mat-cell *matCellDef="let item" (click)="setIsApproved(item, !item.isApproved)">
-        <button mat-icon-button>
-          <mat-icon>{{item.isApproved ? 'checked' : ''}}</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-    <mat-row *matRowDef="let item; columns: columns"></mat-row>
-  </mat-table>
-
-  <mat-paginator [pageSize]="25" [pageSizeOptions]="[25, 50, 100, 250]"></mat-paginator>
+  <div class="empty-search" *ngIf="search && displayedItems.length === 0">
+    No items found matching search.
+  </div>
 </div>

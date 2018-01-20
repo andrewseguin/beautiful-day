@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {animate, animateChild, query, state, style, transition, trigger} from '@angular/animations';
 import {Item} from 'app/model/item';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Project} from 'app/model/project';
@@ -20,6 +20,7 @@ const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
     '[class.mat-elevation-z1]': `state == 'collapsed'`,
     '[class.mat-elevation-z10]': `state == 'expanded'`,
     '[@container]': 'state',
+    '[@animateChildren]': 'state',
   },
   animations: [
     trigger('container', [
@@ -28,7 +29,7 @@ const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
       transition('collapsed <=> expanded', animate(ANIMATION_DURATION)),
     ]),
     trigger('info', [
-      state('void, collapsed', style({height: '0'})),
+      state('void, collapsed', style({height: '0px'})),
       state('expanded', style({height: '*'})),
       transition('collapsed <=> expanded', animate(ANIMATION_DURATION)),
     ]),
@@ -37,6 +38,11 @@ const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
       state('expanded', style({transform: 'rotateX(180deg)'})),
       transition('collapsed <=> expanded', animate(ANIMATION_DURATION)),
     ]),
+    trigger('animateChildren', [
+      transition('* <=> *', [
+        query('@*', animateChild(), {optional: true})
+      ])
+    ])
   ]
 })
 export class InventoryPanelItemComponent implements OnInit {
