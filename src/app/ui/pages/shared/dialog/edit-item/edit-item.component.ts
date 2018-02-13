@@ -16,6 +16,7 @@ export class EditItemComponent implements OnInit {
   disableCategory: boolean;
   mode: Mode;
   isAcquisitions: boolean;
+  categories: string[];
 
   set item(item: Item) {
     this._item = {};
@@ -29,6 +30,10 @@ export class EditItemComponent implements OnInit {
               private itemsService: ItemsService) {
     this.groupsService.isMember('acquisitions')
         .subscribe(isAcquisitions => this.isAcquisitions = isAcquisitions);
+
+    this.itemsService.getItemsByCategory().subscribe(items => {
+      this.categories = Object.keys(items.subcategories);
+    });
   }
 
   ngOnInit() {

@@ -7,6 +7,7 @@ import {GroupsService, Membership} from './groups.service';
 import {Project} from '../model/project';
 import {map} from 'rxjs/operators';
 import {combineLatest} from 'rxjs/observable/combineLatest';
+import {AngularFireDatabase} from 'angularfire2/database';
 
 export interface EditProjectPermissions {
   details?: boolean;
@@ -24,12 +25,19 @@ export interface Permissions {
 
 @Injectable()
 export class PermissionsService {
+  /** Flag that allows all visitors the ability to access/change data as leads. For demo. */
+  allLeads = false;
   permissions: Observable<Permissions>;
 
   constructor(private projectsService: ProjectsService,
               private groupsService: GroupsService,
-              private usersService: UsersService) {
+              private usersService: UsersService,
+              protected db: AngularFireDatabase) {
     this.permissions = this.groupsService.membership$.map(m => this.getPermissions(m));
+
+    db.object<boolean>('allLeads').valueChanges().subscribe((val: boolean) => {
+      this.allLeads = val;
+    });
   }
 
   getPermissions(membership: Membership) {
@@ -73,7 +81,7 @@ export class PermissionsService {
 
       const leads = project.leads || '';
       const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());
-      const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) !== -1;
+      const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) !== -1 || this.allLeads;
 
       const directors = project.directors || '';
       const lowercaseDirectors = directors.split(',').map(m => m.toLowerCase());
@@ -96,6 +104,10 @@ export class PermissionsService {
   }
 
   canCreateProjects(): Observable<boolean> {
+    return this.isAdmin();
+  }
+
+  canViewPastProjects(): Observable<boolean> {
     return this.isAdmin();
   }
 

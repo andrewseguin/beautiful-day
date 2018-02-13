@@ -10,12 +10,25 @@
   </mat-form-field>
 </div>
 
-<div class="field">
+<div class="field" *ngIf="!isAcquisitions && mode === 'new' && !disableCategory; else freeFormCategoryInput">
   <div class="type">Category:</div>
-  <mat-form-field slim>
-    <input matInput [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.categories">
+  <mat-form-field>
+    <mat-select [(ngModel)]="_item.categories">
+      <mat-option *ngFor="let category of categories" [value]="category">
+        {{category}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 </div>
+
+<ng-template #freeFormCategoryInput>
+  <div class="field">
+    <div class="type">Category:</div>
+    <mat-form-field slim>
+      <input matInput [disabled]="mode == 'view' || disableCategory" [(ngModel)]="_item.categories">
+    </mat-form-field>
+  </div>
+</ng-template>
 
 <div class="field">
   <div class="type">Cost:</div>
@@ -25,9 +38,9 @@
   </mat-form-field>
 </div>
 
-<div class="field">
+<div class="field" *ngIf="isAcquisitions">
   <div class="type">Stock:</div>
-  <mat-form-field slim *ngIf="isAcquisitions">
+  <mat-form-field slim>
     <input matInput [disabled]="mode == 'view'" [(ngModel)]="_item.quantityOwned">
   </mat-form-field>
 </div>
