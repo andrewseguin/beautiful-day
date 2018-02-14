@@ -49,11 +49,13 @@ export class ItemsService extends DaoService<Item> {
     return this.queryList(queryFn);
   }
 
-  getCategoryGroup(filter = ''): Observable<Category> {
+  getCategoryGroup(filter = '', showHidden = false): Observable<Category> {
     return this.items.map(allItems => {
       const categoryStrings = new Set<string>();
       const items = [];
       allItems.map(item => {
+        if (item.hidden && !showHidden) { return; }
+
         item.categories.split(',')
           .map(c => c.trim())
           .filter(c => c.indexOf(filter) !== -1)
@@ -80,7 +82,7 @@ export class ItemsService extends DaoService<Item> {
     });
   }
 
-  getItemsByCategory(): Observable<CategoryGroup> {
+  getItemsByCategory(showHidden = false): Observable<CategoryGroup> {
     return this.items.map(items => {
       const categoryGroups: CategoryGroup = {
         category: 'all',
@@ -88,6 +90,8 @@ export class ItemsService extends DaoService<Item> {
         subcategories: {}
       };
       items.forEach(item => {
+        if (item.hidden && !showHidden) { return; }
+
         const categories = item.categories.split(',');
         categories.forEach(category => {
           this.addItemToCategoryGroupMap(categoryGroups, item, category);

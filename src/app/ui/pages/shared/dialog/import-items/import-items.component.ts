@@ -58,7 +58,7 @@ export class ImportItemsComponent {
       const item = {$key, name, categories, url, cost, hidden, keywords, quantityOwned};
 
       // Delete optional fields to avoid undefined setting
-      if (item.hidden) {
+      if (!item.hidden) {
         delete item.hidden;
       }
 
