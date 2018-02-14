@@ -116,7 +116,7 @@ export class RequestGroupingService {
 
     this.requestGroups.set('date', []);
     dateNeededGroups.forEach((requests, date) => {
-      const title = date ? this.getDateString(new Date(date)) : 'Unknown dropoff date';
+      const title = date ? this.getDateString(new Date(Number(date))) : 'Unknown dropoff date';
       this.requestGroups.get('date').push({id: date, title, requests});
     });
   }
