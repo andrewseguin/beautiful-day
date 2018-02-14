@@ -58,7 +58,21 @@ export class ItemsService extends DaoService<Item> {
 
         item.categories.split(',')
           .map(c => c.trim())
-          .filter(c => c.indexOf(filter) !== -1)
+          .filter(c => {
+            if (!filter) { return true; }
+
+            const filterIsPresent = c.indexOf(filter) !== -1;
+            if (filterIsPresent) {
+              const tokens = c.slice(filter.length);
+              const hasRemainingWords = !!tokens.split('>')[0].trim();
+              if (hasRemainingWords) {
+                // Matched something like "Paint" to "Paint Supplies"
+                return false;
+              }
+              //console.log(c.slice(filter.length));
+              return true;
+            }
+          })
           .forEach(c => {
             // Add the remaining slice of the string without the filter
             categoryStrings.add(c.slice(filter.length));
