@@ -32,7 +32,7 @@ export class EditDropoffComponent implements OnInit {
     });
   }
 
-  setDateFromRequest(requestDate: string) {
+  setDateFromRequest(requestDate: number) {
     const date = new Date(requestDate);
     const day = ('0' + date.getDate()).slice(-2);
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
