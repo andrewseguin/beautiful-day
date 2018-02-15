@@ -51,7 +51,7 @@ export class RequestsService extends DaoService<Request> {
   }
 
   addRequest(project: Project, item: Item, quantity = 1) {
-    const defaultDate = new Date(1522566000000); // Hard-coded April 1, 2018
+    const defaultDate = 1524898800000; // Hard-coded April 29, 2018
 
     const request: Request = {
       item: item.$key,
@@ -59,7 +59,7 @@ export class RequestsService extends DaoService<Request> {
       quantity: quantity,
       note: '',
       dropoff: 'Westgate Gym',
-      date: (project.lastUsedDate || defaultDate.getTime()).toString()
+      date: Number(project.lastUsedDate || defaultDate)
     };
     this.add(request).then(response => {
       this.requestAdded.next({key: response.getKey(), item});

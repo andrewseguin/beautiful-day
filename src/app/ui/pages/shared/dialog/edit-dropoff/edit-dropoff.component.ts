@@ -73,7 +73,7 @@ export class EditDropoffComponent implements OnInit {
     this.requestIds.forEach(requestId => {
       this.requestsService.update(requestId, {
         dropoff: this.selectedDropoffLocation,
-        date: date.getTime().toString()
+        date: date.getTime()
       });
     });
 

@@ -5,7 +5,7 @@ export interface Request {
   dropoff?: string;
   quantity?: number;
   note?: string;
-  date?: string;
+  date?: number;
   tags?: string;
   purchaser?: string;
   isPurchased?: boolean;

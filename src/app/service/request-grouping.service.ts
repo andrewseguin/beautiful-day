@@ -107,11 +107,12 @@ export class RequestGroupingService {
 
     // Create map of all requests keyed by date
     this.requests.forEach(request => {
-      if (!dateNeededGroups.has(request.date)) {
-        dateNeededGroups.set(request.date, []);
+      const dateStr = request.date.toString();
+      if (!dateNeededGroups.has(dateStr)) {
+        dateNeededGroups.set(dateStr, []);
       }
 
-      dateNeededGroups.get(request.date).push(request);
+      dateNeededGroups.get(dateStr).push(request);
     });
 
     this.requestGroups.set('date', []);
