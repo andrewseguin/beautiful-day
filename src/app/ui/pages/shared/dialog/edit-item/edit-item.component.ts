@@ -55,8 +55,8 @@ export class EditItemComponent implements OnInit {
   save() {
     // Title case each category
     let categories = this._item.categories.split(',');
-    categories = categories.map(category => this.toTitleCase(category).trim());
-    const titleCasedCategories = categories.join(';');
+    categories = categories.map(category => category.trim());
+    const titleCasedCategories = categories.join(',');
 
     const persistingItem: Item = {
       name: this.toTitleCase(this._item.name),
