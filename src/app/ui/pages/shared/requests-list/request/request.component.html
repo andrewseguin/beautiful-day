@@ -11,7 +11,7 @@
 
       <div class="name">
         <span class="editable clickable" (click)="viewItem($event)">
-          {{item.name}}
+          {{item.categories}} > {{item.name}}
         </span>
         <mat-icon *ngIf="canEdit"
                  class="goto-url md-18"
