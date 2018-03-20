@@ -12,6 +12,7 @@ import {Item} from 'app/model/item';
 import {DisplayOptions} from 'app/model/display-options';
 import {Title} from '@angular/platform-browser';
 import {QueryDisplay} from 'app/utility/query-display';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'print',
@@ -38,6 +39,7 @@ export class PrintComponent implements OnInit {
     },
   };
   reportRequests: Request[] = [];
+  season: string;
 
   constructor(private route: ActivatedRoute,
               private titleService: Title,
@@ -54,6 +56,7 @@ export class PrintComponent implements OnInit {
         this.reportsService.get(params['id']).subscribe((report: Report) => {
           this.queryStages = report.queryStages;
           this.displayOptions = report.displayOptions;
+          this.season = report.season;
           this.titleService.setTitle(report.name);
           this.performQuery();
         });
@@ -62,6 +65,7 @@ export class PrintComponent implements OnInit {
           const queryString = `[projectId]:${project.$key}`;
           this.queryStages = [{querySet: [{queryString, type: 'any'}]}];
           this.titleService.setTitle(project.name);
+          this.season = project.season;
           this.performQuery();
         });
       }
@@ -75,7 +79,7 @@ export class PrintComponent implements OnInit {
       this.items = items; this.performQuery();
     });
 
-    this.projectsService.projects.subscribe(projects => {
+    this.projectsService.projects.pipe(take(1)).subscribe(projects => {
       this.projects = projects; this.performQuery();
     });
   }
@@ -92,7 +96,7 @@ export class PrintComponent implements OnInit {
     if (!this.canPerformQuery()) { return; }
 
     this.reportRequests = this.reportQueryService.query(
-      this.queryStages, this.requests, this.items, this.projects, this.report.season);
+      this.queryStages, this.requests, this.items, this.projects, this.season);
 
     setTimeout(() => {
       window.print();

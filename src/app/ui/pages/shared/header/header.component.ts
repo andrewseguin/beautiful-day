@@ -48,6 +48,8 @@ export class HeaderComponent implements OnInit {
   canManageAdmins: boolean;
   canImportItems: boolean;
 
+  showPrintIcon: boolean;
+
   @Input() sidenav: MatSidenav;
 
   @ViewChildren('exportItems') exportItemsLink: QueryList<ElementRef>;
@@ -101,6 +103,10 @@ export class HeaderComponent implements OnInit {
       .subscribe(canImportItems => this.canImportItems = canImportItems);
   }
 
+  printRequests() {
+    window.open(`print/project/${this.projectId}`, 'print', 'width=650, height=500');
+  }
+
   handleRouteChange(route: ActivatedRoute) {
     route.url.pipe(take(1)).subscribe((url: UrlSegment[]) => {
       this.topLevel = <TopLevelSection>url[0].path;
@@ -108,6 +114,9 @@ export class HeaderComponent implements OnInit {
         this.projectId = '';
         return;
       }
+
+      const urlTokens = window.location.pathname.split('/');
+      this.showPrintIcon = urlTokens[3] === 'requests';
 
       const projectId = url[1].path;
       if (this.projectId !== projectId) {

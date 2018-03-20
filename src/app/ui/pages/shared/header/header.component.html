@@ -9,6 +9,11 @@
   <project-nav class="main" *ngIf="projectId" [projectId]="projectId"></project-nav>
 
   <div class="end">
+    <button *ngIf="showPrintIcon"
+            (click)="printRequests()"
+            mat-icon-button style="margin-right: 16px">
+      <mat-icon>print</mat-icon>
+    </button>
     <button mat-button class="user" *ngIf="authState"
             [style.backgroundImage]="'url(' + authState.photoURL + ')'"
             [mat-menu-trigger-for]="menu">
