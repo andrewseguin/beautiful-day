@@ -28,7 +28,7 @@ export class PrintComponent implements OnInit {
   queryStages: QueryStage[];
   displayOptions: DisplayOptions = {
     filter: '',
-    grouping: 'category',
+    grouping: 'all',
     sorting: 'request added',
     reverseSort: false,
     viewing: {
