@@ -20,6 +20,7 @@ import {PermissionsService} from 'app/service/permissions.service';
 import {ProjectsService} from 'app/service/projects.service';
 import {Project} from 'app/model/project';
 import {RequestViewOptions} from 'app/model/request-view-options';
+import {GroupsService} from 'app/service/groups.service';
 
 export type Sort = 'request added' | 'item cost' | 'item name' | 'request cost' | 'date needed';
 
@@ -49,6 +50,7 @@ export class RequestsGroupComponent {
   requestSortPipe = new RequestSortPipe();
   requests: Request[] = [];
   displayedRequests: Request[] = [];
+  isAcquisitions = false;
 
   showAllRequests = false;
 
@@ -113,11 +115,14 @@ export class RequestsGroupComponent {
   constructor(private requestsService: RequestsService,
               private itemsService: ItemsService,
               private projectsService: ProjectsService,
+              private groupsService: GroupsService,
               private permissionsService: PermissionsService) {
     this.itemsService.items.subscribe(items => {
       items.forEach(item => this.items.set(item.$key, item));
       this.sortAndFilterRequests();
     });
+
+    this.groupsService.isMember('acquisitions').subscribe(flag => this.isAcquisitions = flag);
 
     this.projectsService.projects.subscribe(projects => {
       projects.forEach(project => this.projects.set(project.$key, project));

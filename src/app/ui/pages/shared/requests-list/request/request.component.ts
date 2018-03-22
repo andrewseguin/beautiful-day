@@ -69,6 +69,7 @@ export class RequestComponent implements OnInit {
   @Input() canEdit: boolean;
   @Input() groupIndex: number;
   @Input() requestViewOptions: RequestViewOptions;
+  @Input() isAcquisitions: boolean;
 
   @Input() set printMode(v) {
     if (v) {
