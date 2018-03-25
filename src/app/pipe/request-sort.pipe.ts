@@ -62,6 +62,14 @@ export class RequestSortPipe implements PipeTransform {
         return (a: Request, b: Request) => {
           return a.date < b.date ? -1 : 1;
         };
+      case 'purchaser':
+        return (a: Request, b: Request) => {
+          if (!a.purchaser) { return 1; }
+          if (!b.purchaser) { return -1; }
+          if (a.purchaser === b.purchaser) { return 0; }
+
+          return a.purchaser < b.purchaser ? -1 : 1;
+        };
     }
   }
 

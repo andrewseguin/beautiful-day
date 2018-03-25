@@ -22,7 +22,7 @@ import {Project} from 'app/model/project';
 import {RequestViewOptions} from 'app/model/request-view-options';
 import {GroupsService} from 'app/service/groups.service';
 
-export type Sort = 'request added' | 'item cost' | 'item name' | 'request cost' | 'date needed';
+export type Sort = 'request added' | 'item cost' | 'item name' | 'request cost' | 'date needed' | 'purchaser';
 
 @Component({
   selector: 'requests-group',

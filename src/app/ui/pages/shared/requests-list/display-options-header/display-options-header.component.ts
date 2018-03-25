@@ -3,6 +3,7 @@ import {Sort} from '../requests-group/requests-group.component';
 import {Group, RequestGroupingService} from 'app/service/request-grouping.service';
 import {DisplayOptions} from 'app/model/display-options';
 import {RequestViewOptions} from 'app/model/request-view-options';
+import {GroupsService} from 'app/service/groups.service';
 
 @Component({
   selector: 'display-options-header',
@@ -14,6 +15,7 @@ import {RequestViewOptions} from 'app/model/request-view-options';
 })
 export class DisplayOptionsHeaderComponent implements OnInit {
   showFilter: boolean;
+  isAcquisitions: boolean;
 
   filter: string;
   grouping: Group;
@@ -33,7 +35,10 @@ export class DisplayOptionsHeaderComponent implements OnInit {
 
   @Output() optionsChanged = new EventEmitter<DisplayOptions>();
 
-  constructor(private requestGroupingService: RequestGroupingService) { }
+  constructor(private requestGroupingService: RequestGroupingService,
+              private groupsService: GroupsService) {
+    this.groupsService.isMember('acquisitions').subscribe(v => this.isAcquisitions = v);
+  }
 
   ngOnInit() { }
 
@@ -61,7 +66,13 @@ export class DisplayOptionsHeaderComponent implements OnInit {
   }
 
   getSortOptions(): Sort[] {
-    return ['request added', 'request cost', 'item cost', 'item name', 'date needed'];
+    const sortOptions: Sort[] =
+        ['request added', 'request cost', 'item cost', 'item name', 'date needed'];
+    if (this.isAcquisitions) {
+      sortOptions.push('purchaser');
+    }
+
+    return sortOptions;
   }
 
   getGroupingName(grouping: string): string {
