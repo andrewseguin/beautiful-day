@@ -1,15 +1,10 @@
 import {
   Component,
-  animate,
-  transition,
-  style,
-  state,
-  trigger,
   ViewChild,
-  AnimationTransitionEvent,
   EventEmitter,
   Output, ElementRef
 } from '@angular/core';
+import {animate, state, style, transition, trigger, AnimationEvent} from '@angular/animations';
 
 export type SearchState = 'open' | 'closed';
 
@@ -52,7 +47,7 @@ export class InventorySearchComponent  {
 
   @Output('searchChanged') searchChanged = new EventEmitter<string>();
 
-  searchContainerAnimationDone(e: AnimationTransitionEvent) {
+  searchContainerAnimationDone(e: AnimationEvent) {
     if (e.toState == 'open' && this.searchState == 'open') {
       this.searchInput.nativeElement.focus();
     }
