@@ -1,7 +1,7 @@
 
 
 <div class="filter mat-elevation-z1">
-    <mat-form-field slim class="inventory-page-search" [floatPlaceholder]="'never'">
+    <mat-form-field slim class="inventory-page-search" [floatLabel]="'never'">
       <div class="search-box-content">
         <input matInput [(ngModel)]="search"
                (ngModelChange)="itemsToShow = 10"
@@ -10,7 +10,7 @@
       </div>
     </mat-form-field>
 
-  <mat-form-field slim class="category-select" [floatPlaceholder]="'never'"
+  <mat-form-field slim class="category-select" [floatLabel]="'never'"
                   *ngFor="let categorySelection of categorySelections; let i = index">
     <mat-select placeholder="Select category"
                 [value]="selectedCategories[i]"

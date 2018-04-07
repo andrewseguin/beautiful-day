@@ -34,7 +34,7 @@
 
 <div [style.display]="showFilter ? '' : 'none'"
      class="filter-input mat-elevation-z1">
-  <mat-form-field [floatPlaceholder]="'never'">
+  <mat-form-field [floatLabel]="'never'">
     <div class="input-content">
       <input matInput [(ngModel)]="filter"
              (ngModelChange)="notify()"
