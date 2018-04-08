@@ -28,7 +28,7 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PrintModule} from 'app/ui/print/print.module';
-import {MatIconRegistry} from '@angular/material';
+import {MatIconRegistry, MatSortModule, MatTableModule} from '@angular/material';
 import {LoginModule} from 'app/ui/login/login.module';
 import {PagesModule} from 'app/ui/pages/pages.module';
 import {RouterModule} from '@angular/router';
@@ -36,19 +36,23 @@ import {PagesComponent} from 'app/ui/pages/pages.component';
 import {PAGES_ROUTES} from 'app/ui/pages/pages.routes';
 import {PrintComponent} from 'app/ui/print/print.component';
 import {LoginComponent} from 'app/ui/login/login.component';
+import {ExportPage} from 'app/ui/pages/export/export';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ExportPage],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     BrowserAnimationsModule,
+    MatTableModule,
+    MatSortModule,
 
     RouterModule.forRoot([
       {path: '', component: PagesComponent, children: PAGES_ROUTES},
       {path: 'login', component: LoginComponent},
+      {path: 'export', component: ExportPage},
       {path: 'print/:type/:id', component: PrintComponent}
     ]),
 

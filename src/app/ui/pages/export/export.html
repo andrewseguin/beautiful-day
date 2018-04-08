@@ -1,0 +1,21 @@
+<table mat-table [dataSource]="dataSource"
+       cellpadding="10"
+       [style.display]="showTable ? '' : 'none'">
+  <!-- Position Column -->
+  <ng-container *ngFor="let column of columns" matColumnDef="{{column}}">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let request">
+      <span *ngIf="column == 'requestCost' || column == 'itemCost'; else: normal">
+        {{request[column] | currency}}
+      </span>
+      <ng-template #normal>
+        {{request[column]}}
+      </ng-template>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<div class="load" *ngIf="!showTable">Loading data...</div>
