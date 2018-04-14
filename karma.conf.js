@@ -18,7 +18,7 @@ module.exports = function (config) {
       './src/test.ts': ['angular-cli']
     },
     remapIstanbulReporter: {
-      dir: require('path').join(__dirname, 'coverage'), reports: {
+      reports: {
         html: 'coverage',
         lcovonly: './coverage/coverage.lcov'
       }

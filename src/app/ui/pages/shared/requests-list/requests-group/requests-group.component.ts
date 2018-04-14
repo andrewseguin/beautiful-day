@@ -1,4 +1,5 @@
 import {
+  AnimationTransitionEvent,
   Component,
   ElementRef,
   EventEmitter,
