@@ -27,6 +27,10 @@ export interface Permissions {
 export class PermissionsService {
   /** Flag that allows all visitors the ability to access/change data as leads. For demo. */
   allLeads = false;
+
+  /** Flag that disables leads/directors from making request changes. */
+  editsDisabled: boolean;
+
   permissions: Observable<Permissions>;
 
   constructor(private projectsService: ProjectsService,
@@ -38,6 +42,15 @@ export class PermissionsService {
     db.object<boolean>('allLeads').valueChanges().subscribe((val: boolean) => {
       this.allLeads = val;
     });
+
+    // Disables changes from leads and directors
+    db.object<boolean>('editsDisabled').valueChanges().subscribe((val: boolean) => {
+      this.editsDisabled = val;
+    });
+  }
+
+  toggleEditsDisabled() {
+    this.db.object('editsDisabled').set(!this.editsDisabled);
   }
 
   getPermissions(membership: Membership) {
@@ -72,6 +85,7 @@ export class PermissionsService {
       this.permissions,
       this.projectsService.get(projectId),
       this.usersService.getCurrentUser(),
+      this.db.object<boolean>('editsDisabled').valueChanges(),
     ];
 
     return combineLatest(changes).pipe(map((result: any[]) => {
@@ -87,12 +101,37 @@ export class PermissionsService {
       const lowercaseDirectors = directors.split(',').map(m => m.toLowerCase());
       const isDirector = lowercaseDirectors.indexOf(user.email.toLowerCase()) !== -1;
 
+      let canEditRequests = isLead || isDirector;
+      if (this.editsDisabled) {
+        canEditRequests = this.isUserWhitelisted(user, project);
+      }
+      canEditRequests = canEditRequests || permissions.approver;
+
       return {
         details: isDirector || permissions.admin,
         notes: isLead || isDirector || permissions.admin,
-        requests: isLead || isDirector || permissions.approver
+        requests: canEditRequests
       };
     }));
+  }
+
+  isUserWhitelisted(user: User, project: Project): boolean {
+    const whitelist = project.whitelist || '';
+    const lowercaseWhitelist = whitelist.split(',').map(m => m.toLowerCase());
+    return lowercaseWhitelist.indexOf(user.email.toLowerCase()) !== -1;
+  }
+
+  toggleWhitelisted(user: User, project: Project) {
+    const whitelist = project.whitelist || '';
+    const whitelistSet = new Set(whitelist.split(','));
+
+    if (whitelistSet.has(user.email)) {
+      whitelistSet.delete(user.email);
+    } else {
+      whitelistSet.add(user.email);
+    }
+
+    this.projectsService.update(project.$key, {whitelist: Array.from(whitelistSet).join(',')});
   }
 
   canManageAdmins(): Observable<boolean> {

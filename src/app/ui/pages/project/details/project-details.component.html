@@ -20,7 +20,7 @@
 
       <div class="contact">
         <div class="heading"> {{getLeadEmails().length > 1 ? 'Leads' : 'Lead'}} </div>
-        <detail-user [userEmail]="lead"
+        <detail-user [userEmail]="lead" group="lead" [project]="project"
                      *ngFor="let lead of getLeadEmails()"></detail-user>
         <button mat-raised-button color="accent" class="add-info"
                 (click)="edit('leads')" *ngIf="canEdit() && getLeadEmails().length == 0">
@@ -31,7 +31,7 @@
 
       <div class="contact">
         <div class="heading"> {{getDirectorEmails().length > 1 ? 'Directors' : 'Director'}} </div>
-        <detail-user [userEmail]="director"
+        <detail-user [userEmail]="director" group="director" [project]="project"
                      *ngFor="let director of getDirectorEmails()"></detail-user>
         <button mat-raised-button color="accent" class="add-info"
                 (click)="edit('directors')" *ngIf="canEdit() && getDirectorEmails().length == 0">
@@ -42,7 +42,10 @@
 
       <div class="contact" *ngIf="project.acquisitions">
         <div class="heading"> Acquisitions </div>
-        <detail-user *ngIf="project.acquisitions" [userEmail]="project.acquisitions"></detail-user>
+        <detail-user *ngIf="project.acquisitions"
+                     [project]="project"
+                     [userEmail]="project.acquisitions"
+                     group="acquisitions"></detail-user>
         <button mat-raised-button color="accent" class="add-info"
                 (click)="edit('acquisitions')" *ngIf="canEdit() && !project.acquisitions">
           Add acquisitions contact

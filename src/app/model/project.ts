@@ -16,4 +16,5 @@ export interface Project {
   auth?: string[];
   notes?: Note[];
   receiptsFolder?: string;
+  whitelist?: string;
 }

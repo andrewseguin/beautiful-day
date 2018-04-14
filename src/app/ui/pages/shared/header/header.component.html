@@ -42,6 +42,10 @@
     <button mat-menu-item class="option" *ngIf="canManageApproversTeam" (click)="manageApprovers()">Manage Approvers</button>
     <button mat-menu-item class="option" *ngIf="canImportItems" (click)="importItems()">Import Inventory</button>
     <button mat-menu-item class="option" *ngIf="canImportItems" (click)="exportItems()">Export Inventory</button>
+    <button mat-menu-item class="option" *ngIf="canManageApproversTeam"
+            (click)="permissionsService.toggleEditsDisabled()">
+      {{permissionsService.editsDisabled ? 'Enable' : 'Disable'}} changes
+    </button>
 
     <button mat-menu-item class="logout" (click)="logout()">Logout</button>
   </mat-menu>

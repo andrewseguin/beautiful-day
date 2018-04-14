@@ -107,11 +107,13 @@ export class ExportPage {
       itemsService.items,
       projectsService.projects,
     ];
-    combineLatest(...streams).subscribe(([requests, items, projects]) => {
-      items.forEach(v => this.items.set(v.$key, v));
+    combineLatest(...streams).subscribe(result => {
+      const requests = result[0] as any as Request[];
+      const items = result[1] as Item[];
+      const projects = result[2] as any as Project[];
 
-      // Huh. Complains thinking that projects is a list of requests.
-      (projects as any as Project[]).forEach((v: Project) => this.projects.set(v.$key, v));
+      items.forEach(v => this.items.set(v.$key, v));
+      projects.forEach((v: Project) => this.projects.set(v.$key, v));
 
       requests.forEach((r: Request) => {
         const i = this.items.get(r.item);

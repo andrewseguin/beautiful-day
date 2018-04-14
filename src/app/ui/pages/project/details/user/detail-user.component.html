@@ -9,4 +9,7 @@
       {{user?.email}}
     </a>
   </div>
+  <div class="whitelist-toggle" *ngIf="showWhitelistToggle()">
+    <mat-slide-toggle [checked]="isWhitelisted" (change)="toggleWhitelisted()"></mat-slide-toggle>
+  </div>
 </div>

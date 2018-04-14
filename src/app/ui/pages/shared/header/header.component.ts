@@ -50,6 +50,8 @@ export class HeaderComponent implements OnInit {
 
   showPrintIcon: boolean;
 
+  editsEnabled: boolean;
+
   @Input() sidenav: MatSidenav;
 
   @ViewChildren('exportItems') exportItemsLink: QueryList<ElementRef>;
