@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {Request} from 'app/model/request';
 import {RequestsService} from 'app/service/requests.service';
-import {combineLatest} from 'rxjs';
 import {ItemsService} from 'app/service/items.service';
 import {Item} from 'app/model/item';
 import {MatTableDataSource} from '@angular/material';
 import {ProjectsService} from 'app/service/projects.service';
 import {Project} from 'app/model/project';
+import {combineLatest} from 'rxjs/observable/combineLatest';
 
 export interface ExportedRequest {
   item: string;
@@ -109,7 +109,9 @@ export class ExportPage {
     ];
     combineLatest(...streams).subscribe(([requests, items, projects]) => {
       items.forEach(v => this.items.set(v.$key, v));
-      projects.forEach(v => this.projects.set(v.$key, v));
+
+      // Huh. Complains thinking that projects is a list of requests.
+      (projects as any as Project[]).forEach((v: Project) => this.projects.set(v.$key, v));
 
       requests.forEach((r: Request) => {
         const i = this.items.get(r.item);
