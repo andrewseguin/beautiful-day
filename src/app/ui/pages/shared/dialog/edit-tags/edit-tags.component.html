@@ -10,7 +10,7 @@
   </button>
 </div>
 
-<mat-form-field [floatLabel]="'never'">
+<mat-form-field [floatPlaceholder]="'never'">
   <input matInput placeholder="Enter a new tag" autofocus maxlength="100"
          (keyup.Enter)="save()"
          [(ngModel)]="newTag">

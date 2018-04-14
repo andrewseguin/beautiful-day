@@ -45,7 +45,7 @@
               [opened]="!hideInventory()"
               [mode]="hideInventory() ? 'over' : 'side'"
               (close)="inventoryPanel.reset()"
-              position="end">
+              align="end">
     <inventory-panel #inventoryPanel (closeSidenav)="sidenav.close()">
     </inventory-panel>
   </mat-drawer>

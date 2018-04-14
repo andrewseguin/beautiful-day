@@ -5,7 +5,7 @@
 
 <div class="members">
   <div *ngFor="let member of members; let index = index; trackBy:trackByIndex" class="member">
-    <mat-form-field [floatLabel]="'never'">
+    <mat-form-field [floatPlaceholder]="'never'">
       <input matInput
              (keyup.Enter)="save()"
              [(ngModel)]="members[index]">

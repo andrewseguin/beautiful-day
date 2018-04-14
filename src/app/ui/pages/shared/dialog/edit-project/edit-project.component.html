@@ -35,7 +35,7 @@
 <div *ngIf="type == 'leads'">
   <div *ngFor="let lead of leads; let i = index; trackBy:indexTrackBy"
        class="lead-row">
-    <mat-form-field [floatLabel]="'never'">
+    <mat-form-field [floatPlaceholder]="'never'">
       <input matInput autofocus
              placeholder="lead@beautifulday.org"
              [(ngModel)]="leads[i]"
@@ -51,7 +51,7 @@
 <div *ngIf="type == 'directors'">
   <div *ngFor="let director of directors; let i = index; trackBy:indexTrackBy"
        class="director-row">
-    <mat-form-field [floatLabel]="'never'">
+    <mat-form-field [floatPlaceholder]="'never'">
       <input matInput autofocus
              placeholder="director@beautifulday.org"
              [(ngModel)]="directors[i]"
