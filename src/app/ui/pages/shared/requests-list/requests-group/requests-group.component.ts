@@ -1,4 +1,5 @@
 import {
+  AnimationTransitionEvent,
   Component,
   ElementRef,
   EventEmitter,
@@ -7,7 +8,7 @@ import {
   QueryList,
   ViewChildren
 } from '@angular/core';
-import {AnimationEvent, animate, state, style, transition, trigger} from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {RequestComponent} from '../request/request.component';
 import {Item} from 'app/model/item';
 import {RequestSortPipe} from 'app/pipe/request-sort.pipe';
