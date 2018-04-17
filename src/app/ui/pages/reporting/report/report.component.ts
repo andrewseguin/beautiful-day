@@ -60,14 +60,12 @@ export class ReportComponent {
               private router: Router,
               private route: ActivatedRoute,
               private mdSnackBar: MatSnackBar,
-              private usersService: UsersService,
               private mediaQuery: MediaQueryService,
               private requestsService: RequestsService,
               private itemsService: ItemsService,
               private projectsService: ProjectsService,
               private reportQueryService: ReportQueryService,
               private reportsService: ReportsService) {
-    this.usersService.getCurrentUser().subscribe(user => this.user = user);
   }
 
   isMobile(): boolean {
@@ -77,7 +75,6 @@ export class ReportComponent {
   saveQueryStages() {
     this.reportsService.update(this.report.$key, {
       queryStages: this.report.queryStages,
-      modifiedBy: this.user.email,
       modifiedDate: new Date().getTime().toString()
     });
   }

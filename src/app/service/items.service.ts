@@ -6,6 +6,7 @@ import {DaoService} from './dao-service';
 import * as firebase from 'firebase';
 import {SelectionModel} from '@angular/cdk/collections';
 import {UsersService} from 'app/service/users.service';
+import {AuthService} from 'app/service/auth-service';
 
 export type CategoryGroupCollection = { [name: string]: CategoryGroup };
 
@@ -26,12 +27,12 @@ export class ItemsService extends DaoService<Item> {
   selection = new SelectionModel<string>(true);
   currentUser: string;
 
-  constructor(db: AngularFireDatabase, private usersService: UsersService) {
+  constructor(db: AngularFireDatabase, private authSerice: AuthService) {
     super(db, 'items');
     this.items = this.getKeyedListDao();
 
-    this.usersService.getCurrentUser().subscribe(user => {
-      this.currentUser = user.email;
+    this.authSerice.user.subscribe(user => {
+      this.currentUser = user ? user.email : '';
     });
   }
 

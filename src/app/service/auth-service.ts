@@ -5,13 +5,15 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {User} from 'app/model/user';
 import {Observable} from 'rxjs/Observable';
 import {UsersService} from 'app/service/users.service';
+import {from} from 'rxjs/observable/from';
+import {mergeMap} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
-  // TODO: Use this stream for the current user
-  user: Observable<User>;
+  user: Observable<User> = this.auth.authState
+      .pipe(mergeMap(auth => auth ? this.usersService.getByEmail(auth.email) : from([null])));
 
-  constructor(private mdSnackbar: MatSnackBar,
+  constructor(private snackBar: MatSnackBar,
               private router: Router,
               private usersService: UsersService,
               private auth: AngularFireAuth) {}
@@ -33,7 +35,7 @@ export class AuthService {
   }
 
   /** Send user to the login page and send current location for when they are logged in. */
-  navigateToLogin() {
+  private navigateToLogin() {
     // Store current location so that they redirect back here after logged in.
     let redirect = '';
     if (location.pathname !== '/login') {
@@ -44,9 +46,9 @@ export class AuthService {
   }
 
   /** Show snackbar showing the user who they are logged in as. */
-  notifyLoggedInAs(email: string) {
+  private notifyLoggedInAs(email: string) {
     const snackbarConfig = new MatSnackBarConfig();
     snackbarConfig.duration = 2000;
-    this.mdSnackbar.open(`Logged in as ${email}`, null, snackbarConfig);
+    this.snackBar.open(`Logged in as ${email}`, null, snackbarConfig);
   }
 }

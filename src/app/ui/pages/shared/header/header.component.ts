@@ -146,11 +146,12 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.afAuth.auth.signOut();
-
+/**
     const logoutUrl = 'https://www.google.com/accounts/Logout';
     const googleContinue = 'https://appengine.google.com/_ah/logout';
     window.location.href =
         `${logoutUrl}?continue=${googleContinue}?continue=${window.location.href}`;
+ */
   }
 
   editProfile(): void {

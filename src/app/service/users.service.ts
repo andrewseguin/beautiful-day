@@ -38,10 +38,4 @@ export class UsersService extends DaoService<User> {
     const queryFn = ref => ref.orderByChild('email').equalTo(email);
     return this.queryList(queryFn).map(result => result[0]);
   }
-
-  getCurrentUser(): Observable<User> {
-    return this.auth.authState.pipe(mergeMap(auth => {
-      return auth ? this.getByEmail(auth.email) : from([null]);
-    }));
-  }
 }

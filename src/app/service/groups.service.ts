@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase, SnapshotAction} from 'angularfire2/database';
-import {UsersService} from './users.service';
 import {DaoService} from './dao-service';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {map, mergeMap} from 'rxjs/operators';
+import {AuthService} from 'app/service/auth-service';
 
 export type Group = 'admins' | 'acquisitions' | 'owners' | 'approvers';
 
@@ -20,22 +20,19 @@ export class GroupsService extends DaoService<string> {
   membership$: Observable<Membership>;
 
   constructor(db: AngularFireDatabase,
-              private usersService: UsersService) {
+              private authService: AuthService) {
     super(db, 'groups');
     this.setupMembershipStream();
   }
 
   private setupMembershipStream() {
     const changes = [
-      this.usersService.getCurrentUser(),
+      this.authService.user,
       this.getListDao().snapshotChanges()
     ];
 
-    this.usersService.getCurrentUser().subscribe(console.log);
-    this.getListDao().snapshotChanges().subscribe(console.log);
-
     this.membership$ = combineLatest(changes).pipe(
-        map((result: any[]) => constructInitialMembership(result[0].email, result[1])));
+        map(([user, list]: any[]) => user ? constructInitialMembership(user.email, list) : {}));
   }
 
   getGroup(group: Group): Observable<string[]> {
@@ -53,7 +50,7 @@ export class GroupsService extends DaoService<string> {
     // Always check if the member is an owner
     if (groups.indexOf('owners') === -1) { groups.push('owners'); }
 
-    return this.usersService.getCurrentUser().pipe(mergeMap(user => {
+    return this.authService.user.pipe(mergeMap(user => {
       const groupChecks: Observable<boolean>[] = [];
       for (let group of groups) {
         const groupCheck = this.getGroup(group)

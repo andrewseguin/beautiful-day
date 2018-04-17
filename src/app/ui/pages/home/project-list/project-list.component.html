@@ -4,9 +4,9 @@
   </mat-progress-spinner>
 
   <mat-card class="project" *ngFor="let project of projects"
-           matRipple (click)="navigateToProject(project.$key)">
-    <mat-card-title> {{project.name}} </mat-card-title>
-    <mat-card-content> {{project.description}} </mat-card-content>
+            (click)="navigateToProject(project.$key)">
+    <div class="project-title"> {{project.name}} </div>
+    <div class="project-description"> {{project.description}} </div>
   </mat-card>
 </div>
 

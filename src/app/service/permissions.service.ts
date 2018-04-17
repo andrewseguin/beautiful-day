@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {User} from 'app/model/user';
 import {ProjectsService} from './projects.service';
 import {Observable} from 'rxjs/Observable';
-import {UsersService} from './users.service';
 import {GroupsService, Membership} from './groups.service';
 import {Project} from '../model/project';
 import {map} from 'rxjs/operators';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {AngularFireDatabase} from 'angularfire2/database';
+import {AuthService} from 'app/service/auth-service';
 
 export interface EditProjectPermissions {
   details?: boolean;
@@ -35,7 +35,7 @@ export class PermissionsService {
 
   constructor(private projectsService: ProjectsService,
               private groupsService: GroupsService,
-              private usersService: UsersService,
+              private authService: AuthService,
               protected db: AngularFireDatabase) {
     this.permissions = this.groupsService.membership$.map(m => this.getPermissions(m));
 
@@ -84,7 +84,7 @@ export class PermissionsService {
     const changes = [
       this.permissions,
       this.projectsService.get(projectId),
-      this.usersService.getCurrentUser(),
+      this.authService.user,
       this.db.object<boolean>('editsDisabled').valueChanges(),
     ];
 

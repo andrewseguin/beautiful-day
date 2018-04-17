@@ -1,4 +1,5 @@
-import {animate, Component, state, style, transition, trigger} from '@angular/core';
+import {Component} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {RequestsService} from 'app/service/requests.service';
 import {ItemsService} from 'app/service/items.service';
 

@@ -9,10 +9,9 @@ import {PermissionsService} from 'app/service/permissions.service';
 })
 export class HomeComponent {
   show2017Projects = false;
-  canViewPastProjects = false;
+  canViewPastProjects = this.permissionsService.canViewPastProjects();
 
   constructor(headerService: HeaderService, public permissionsService: PermissionsService) {
     headerService.title = 'Home';
-    this.permissionsService.canViewPastProjects().subscribe(v => this.canViewPastProjects = v);
   }
 }
