@@ -2,7 +2,6 @@ import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {CategoryGroup, ItemsService} from 'app/service/items.service';
 import {Item} from 'app/model/item';
 import {MatSelect} from '@angular/material';
-import {HeaderService} from 'app/service/header.service';
 import {ItemSearchPipe} from 'app/pipe/item-search.pipe';
 
 @Component({
@@ -28,12 +27,9 @@ export class InventoryComponent implements OnInit {
   }
   get search(): string { return this._search; }
 
-  constructor(private headerService: HeaderService,
-              private itemsService: ItemsService) { }
+  constructor(private itemsService: ItemsService) { }
 
   ngOnInit() {
-    this.headerService.title = 'Inventory';
-
     this.itemsService.items.subscribe(items => {
       this.items = items;
       this.updateDisplayedItems();

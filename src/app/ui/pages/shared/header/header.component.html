@@ -4,7 +4,7 @@
     <mat-icon>menu</mat-icon>
   </button>
 
-  <div class="name"> {{getTitle()}} </div>
+  <div class="name"> {{titleService.title | async}} </div>
 
   <project-nav class="main" *ngIf="projectId" [projectId]="projectId"></project-nav>
 

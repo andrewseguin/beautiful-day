@@ -1,11 +1,10 @@
 import {Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {HeaderService} from 'app/service/header.service';
+import {TitleService} from 'app/service/header.service';
 import {MediaQueryService} from 'app/service/media-query.service';
 import {SubheaderService} from 'app/service/subheader.service';
 import {ActivatedRoute, Event, NavigationEnd, Router, UrlSegment} from '@angular/router';
 import {TopLevelSection} from 'app/ui/pages/pages.routes';
-import {ProjectsService} from 'app/service/projects.service';
 import {MatDialog, MatSidenav} from '@angular/material';
 import {UsersService} from 'app/service/users.service';
 import {User} from 'app/model/user';
@@ -18,7 +17,6 @@ import {ImportItemsComponent} from '../dialog/import-items/import-items.componen
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import {take} from 'rxjs/operators';
-import {ItemsService} from 'app/service/items.service';
 import {ExportItemsComponent} from 'app/ui/pages/shared/dialog/export-items/export-items.component';
 
 @Component({
@@ -60,15 +58,14 @@ export class HeaderComponent implements OnInit {
     private afAuth: AngularFireAuth,
     private route: ActivatedRoute,
     private router: Router,
-    private projectsService: ProjectsService,
+    private titleService: TitleService,
     private usersService: UsersService,
     private mediaQuery: MediaQueryService,
     private subheaderService: SubheaderService,
     private mdDialog: MatDialog,
     private feedbackService: FeedbackService,
-    private itemsService: ItemsService,
     private permissionsService: PermissionsService,
-    private headerService: HeaderService) { }
+    private headerService: TitleService) { }
 
   ngOnInit() {
     this.afAuth.authState.subscribe(authState => {
@@ -120,24 +117,8 @@ export class HeaderComponent implements OnInit {
       const urlTokens = window.location.pathname.split('/');
       this.showPrintIcon = urlTokens[3] === 'requests';
 
-      const projectId = url[1].path;
-      if (this.projectId !== projectId) {
-        this.loadProjectTitle(projectId);
-      }
+      this.projectId = url[1].path;
     });
-  }
-
-  loadProjectTitle(projectId: string) {
-    this.projectId = projectId;
-    this.headerService.title = 'Loading...';
-    this.projectsService.get(projectId).subscribe(project => {
-      this.projectId = project.$key;
-      this.headerService.title = project ? project.name : '';
-    });
-  }
-
-  getTitle(): string {
-    return this.headerService.title;
   }
 
   isMobile(): boolean {

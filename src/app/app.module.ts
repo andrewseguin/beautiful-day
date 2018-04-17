@@ -11,7 +11,7 @@ import {MediaQueryService} from './service/media-query.service';
 import {CanActivateAuthGuard} from './route-guard/can-activate-auth-guard';
 import {SubheaderService} from './service/subheader.service';
 import {UsersService} from './service/users.service';
-import {HeaderService} from './service/header.service';
+import {TitleService} from './service/header.service';
 import {NotesService} from './service/notes.service';
 import {AccountingService} from './service/accounting.service';
 import {PermissionsService} from './service/permissions.service';
@@ -74,7 +74,7 @@ import {AuthService} from 'app/service/auth-service';
     CanActivateFeedbackGuard,
     CanActivateNotesGuard,
     CanActivateAcquisitionsGuard,
-    HeaderService,
+    TitleService,
     NotesService,
     AccountingService,
     PermissionsService,

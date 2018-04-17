@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HeaderService} from 'app/service/header.service';
+import {TitleService} from 'app/service/header.service';
 import {ActivatedRoute, Params} from '@angular/router';
 
 @Component({
@@ -10,11 +10,9 @@ import {ActivatedRoute, Params} from '@angular/router';
 export class ReportingComponent implements OnInit {
   reportId: string;
 
-  constructor(private route: ActivatedRoute,
-              private headerService: HeaderService) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.headerService.title = 'Reporting';
     this.route.params.subscribe((params: Params) => {
       this.reportId = params['id'];
     });

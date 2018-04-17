@@ -4,7 +4,6 @@ import {Feedback} from 'app/model/feedback';
 import {UsersService} from 'app/service/users.service';
 import {User} from 'app/model/user';
 import {Observable} from 'rxjs/Observable';
-import {HeaderService} from 'app/service/header.service';
 
 @Component({
   selector: 'app-feedback',
@@ -17,11 +16,9 @@ export class FeedbackComponent implements OnInit {
   userMap = new Map<string, Observable<User>>();
 
   constructor(private feedbackService: FeedbackService,
-              private headerService: HeaderService,
               private usersService: UsersService) { }
 
   ngOnInit() {
-    this.headerService.title = 'Feedback';
     this.feedbackService.feedback.subscribe(allFeedback => {
       allFeedback.forEach(feedback => {
         if (!this.userMap.get(feedback.user)) {
