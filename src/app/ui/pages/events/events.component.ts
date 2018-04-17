@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {TitleService} from 'app/service/header.service';
 import {EventsService} from 'app/service/events.service';
 import {Event} from 'app/model/event';
@@ -9,7 +9,8 @@ import {PermissionsService} from 'app/service/permissions.service';
 @Component({
   selector: 'events-page',
   templateUrl: './events.component.html',
-  styleUrls: ['./events.component.scss']
+  styleUrls: ['./events.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsComponent {
   sortedEvents = this.eventsService.getSortedEvents();
