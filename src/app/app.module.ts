@@ -37,6 +37,7 @@ import {PAGES_ROUTES} from 'app/ui/pages/pages.routes';
 import {PrintComponent} from 'app/ui/print/print.component';
 import {LoginComponent} from 'app/ui/login/login.component';
 import {ExportPage} from 'app/ui/pages/export/export';
+import {AuthService} from 'app/service/auth-service';
 
 @NgModule({
   declarations: [AppComponent, ExportPage],
@@ -61,6 +62,7 @@ import {ExportPage} from 'app/ui/pages/export/export';
     PrintModule,
   ],
   providers: [
+    AuthService,
     MatIconRegistry,
     ProjectsService,
     ItemsService,

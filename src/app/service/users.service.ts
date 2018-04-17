@@ -6,7 +6,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import {DaoService} from './dao-service';
 import {from} from 'rxjs/observable/from';
-import {mergeMap} from 'rxjs/operators';
+import {mergeMap, take} from 'rxjs/operators';
 
 @Injectable()
 export class UsersService extends DaoService<User> {
@@ -14,13 +14,24 @@ export class UsersService extends DaoService<User> {
     super(db, 'users');
   }
 
-  create(authState: firebase.User) {
+  private create(authState: firebase.User) {
     this.getObjectDao(authState.uid).set({
       uid: authState.uid,
       email: authState.email,
       name: authState.displayName,
       pic: authState.photoURL
     });
+  }
+
+  /** Checks if the user is in the DB and if not, add their info. */
+  addUserData(authState: firebase.User) {
+    this.getObjectDao(authState.uid).valueChanges()
+        .pipe(take(1))
+        .subscribe(val => {
+          if (!val) {
+            this.create(authState);
+          }
+        });
   }
 
   getByEmail(email: string): Observable<User> {

@@ -87,8 +87,4 @@ export class RequestsService extends DaoService<Request> {
       this.selection.clear();
     });
   }
-
-  removeAllRequests() {
-    this.db.object(this.ref).set(null);
-  }
 }
