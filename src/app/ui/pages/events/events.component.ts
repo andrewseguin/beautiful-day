@@ -11,20 +11,13 @@ import {PermissionsService} from 'app/service/permissions.service';
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss']
 })
-export class EventsComponent implements OnInit {
-  events: Event[];
-  canEditEvents = false;
+export class EventsComponent {
+  sortedEvents = this.eventsService.getSortedEvents();
+  canEditEvents = this.permissionsService.canEditEvents();
 
   constructor(private mdDialog: MatDialog,
               private permissionsService: PermissionsService,
               private eventsService: EventsService) { }
-
-  ngOnInit() {
-    this.eventsService.getSortedEvents()
-        .subscribe(events => this.events = events);
-    this.permissionsService.canEditEvents()
-        .subscribe(canEditEvents => this.canEditEvents = canEditEvents);
-  }
 
   addEvent() {
     this.mdDialog.open(EditEventComponent);

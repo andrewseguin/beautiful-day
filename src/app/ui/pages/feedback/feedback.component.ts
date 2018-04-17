@@ -1,34 +1,35 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {FeedbackService} from 'app/service/feedback.service';
 import {Feedback} from 'app/model/feedback';
 import {UsersService} from 'app/service/users.service';
+import {Subscription} from 'rxjs/Subscription';
 import {User} from 'app/model/user';
-import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.scss']
+  styleUrls: ['./feedback.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FeedbackComponent implements OnInit {
-  newFeedback: Feedback[];
-  reviewedFeedback: Feedback[];
-  userMap = new Map<string, Observable<User>>();
+export class FeedbackComponent implements OnDestroy {
+  newFeedback = this.feedbackService.feedback.pipe(map(v => v.filter(f => !f.reviewed)));
+  reviewedFeedback = this.feedbackService.feedback.pipe(map(v => v.filter(f => f.reviewed)));
+
+  usersMap = new Map<string, User>();
+  usersMapSubscription: Subscription;
 
   constructor(private feedbackService: FeedbackService,
-              private usersService: UsersService) { }
-
-  ngOnInit() {
-    this.feedbackService.feedback.subscribe(allFeedback => {
-      allFeedback.forEach(feedback => {
-        if (!this.userMap.get(feedback.user)) {
-          this.userMap.set(feedback.user, this.usersService.get(feedback.user));
-        }
-      });
-
-      this.newFeedback = allFeedback.filter(feedback => !feedback.reviewed);
-      this.reviewedFeedback = allFeedback.filter(feedback => feedback.reviewed);
+              private changeDetectionRef: ChangeDetectorRef,
+              public usersService: UsersService) {
+    this.usersMapSubscription = this.usersService.usersMap.subscribe(v => {
+      this.usersMap = v;
+      this.changeDetectionRef.markForCheck();
     });
+  }
+
+  ngOnDestroy() {
+    this.usersMapSubscription.unsubscribe();
   }
 
   setReviewed(feedback: Feedback) {

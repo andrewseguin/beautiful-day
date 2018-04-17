@@ -1,12 +1,12 @@
 <div class="page mat-elevation-z4">
   <div class="page-title">
     <div class="text"> Events </div>
-    <button mat-icon-button *ngIf="canEditEvents" (click)="addEvent()">
+    <button mat-icon-button *ngIf="canEditEvents | async" (click)="addEvent()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
 
-  <div class="event" *ngFor="let event of events">
+  <div class="event" *ngFor="let event of sortedEvents | async">
     <div class="details">
       <div class="event-info">{{event.info}}</div>
       <div class="date">
@@ -14,7 +14,7 @@
         <span class="time" *ngIf="event.time">{{event.time}}</span>
       </div>
     </div>
-    <button *ngIf="canEditEvents" mat-icon-button (click)="editEvent(event)">
+    <button *ngIf="canEditEvents | async" mat-icon-button (click)="editEvent(event)">
       <mat-icon>edit</mat-icon>
     </button>
   </div>

@@ -4,10 +4,10 @@
       <div class="no-feedback" *ngIf="newFeedback?.length === 0">
         No new feedback
       </div>
-      <div class="feedback" *ngFor="let feedback of newFeedback">
+      <div class="feedback" *ngFor="let feedback of newFeedback | async">
         <div class="type" *ngIf="feedback.type != 'feedback'">{{feedback.type}}</div>
         <pre class="text">{{feedback.text}}</pre>
-        <div class="user">{{(userMap.get(feedback.user) | async)?.email}}</div>
+        <div class="user">{{usersMap.get(feedback.user)?.email}}</div>
         <div class="date">{{feedback.dateAdded | date}}</div>
         <div class="version">App Version v.{{feedback.appVersion}}</div>
         <div class="action">
@@ -18,10 +18,10 @@
   </mat-tab>
   <mat-tab label="Reviewed">
     <div class="feedback-list">
-      <div class="feedback" *ngFor="let feedback of reviewedFeedback">
+      <div class="feedback" *ngFor="let feedback of reviewedFeedback | async">
         <div class="type" *ngIf="feedback.type != 'feedback'">{{feedback.type}}</div>
         <pre class="text">{{feedback.text}}</pre>
-        <div class="user">{{(userMap.get(feedback.user) | async)?.email}}</div>
+        <div class="user">{{usersMap.get(feedback.user)?.email}}</div>
         <div class="date">{{feedback.dateAdded | date}}</div>
         <div class="version">App Version v.{{feedback.appVersion}}</div>
       </div>

@@ -2,15 +2,21 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {User} from 'app/model/user';
 import {Observable} from 'rxjs/Observable';
-import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import {DaoService} from './dao-service';
-import {from} from 'rxjs/observable/from';
-import {mergeMap, take} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
+import {transformSnapshotActionList} from 'app/utility/snapshot-tranform';
 
 @Injectable()
 export class UsersService extends DaoService<User> {
-  constructor(protected db: AngularFireDatabase, private auth: AngularFireAuth) {
+  users = this.getListDao().snapshotChanges().map(transformSnapshotActionList);
+  usersMap = this.users.map(users => {
+    const usersMap = new Map<string, User>();
+    users.forEach(user => usersMap.set(user.$key, user));
+    return usersMap;
+  });
+
+  constructor(protected db: AngularFireDatabase) {
     super(db, 'users');
   }
 
