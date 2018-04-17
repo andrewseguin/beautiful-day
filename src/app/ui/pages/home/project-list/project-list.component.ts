@@ -1,29 +1,27 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ProjectsService} from 'app/service/projects.service';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Project} from 'app/model/project';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import {ProjectsService} from 'app/service/projects.service';
 
 @Component({
   selector: 'project-list',
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.scss']
+  styleUrls: ['./project-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectListComponent implements OnInit {
-  projects: Project[];
+export class ProjectListComponent {
+  projects: Observable<Project[]>;
 
-  @Input() season;
+  @Input() season: string;
 
-  constructor(
-    private projectsService: ProjectsService,
-    private router: Router) { }
+  constructor(private router: Router, private projectsService: ProjectsService) { }
 
   ngOnInit() {
-    this.projectsService.getSortedProjects(this.season)
-        .subscribe(projects => this.projects = projects);
+    this.projects = this.projectsService.getSortedProjects(this.season);
   }
 
   navigateToProject(id: string) {
     this.router.navigate([`project/${id}`]);
   }
-
 }

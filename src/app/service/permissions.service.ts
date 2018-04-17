@@ -26,28 +26,20 @@ export interface Permissions {
 @Injectable()
 export class PermissionsService {
   /** Flag that allows all visitors the ability to access/change data as leads. For demo. */
-  allLeads = false;
+  allLeads = this.db.object<boolean>('allLeads').valueChanges();
 
   /** Flag that disables leads/directors from making request changes. */
-  editsDisabled: boolean;
+  editsDisabled = this.db.object<boolean>('editsDisabled').valueChanges();
 
-  permissions: Observable<Permissions>;
+  permissions = this.groupsService.membership$.map(m => this.getPermissions(m));
+  isOwner = this.permissions.map(p => p.owner);
+  isAdmin = this.permissions.map(p => p.admin);
+  isAcquisitions = this.permissions.map(p => p.acquisition);
 
   constructor(private projectsService: ProjectsService,
               private groupsService: GroupsService,
               private authService: AuthService,
-              protected db: AngularFireDatabase) {
-    this.permissions = this.groupsService.membership$.map(m => this.getPermissions(m));
-
-    db.object<boolean>('allLeads').valueChanges().subscribe((val: boolean) => {
-      this.allLeads = val;
-    });
-
-    // Disables changes from leads and directors
-    db.object<boolean>('editsDisabled').valueChanges().subscribe((val: boolean) => {
-      this.editsDisabled = val;
-    });
-  }
+              protected db: AngularFireDatabase) { }
 
   toggleEditsDisabled() {
     this.db.object('editsDisabled').set(!this.editsDisabled);
@@ -85,24 +77,27 @@ export class PermissionsService {
       this.permissions,
       this.projectsService.get(projectId),
       this.authService.user,
-      this.db.object<boolean>('editsDisabled').valueChanges(),
+      this.editsDisabled,
+      this.allLeads,
     ];
 
-    return combineLatest(changes).pipe(map((result: any[]) => {
+    return combineLatest(changes).pipe<any>(map(result => {
       const permissions: Permissions = result[0];
       const project: Project = result[1];
       const user: User = result[2];
+      const editsDisabled = result[3];
+      const allLeads = result[4];
 
       const leads = project.leads || '';
       const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());
-      const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) !== -1 || this.allLeads;
+      const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) !== -1 || allLeads;
 
       const directors = project.directors || '';
       const lowercaseDirectors = directors.split(',').map(m => m.toLowerCase());
       const isDirector = lowercaseDirectors.indexOf(user.email.toLowerCase()) !== -1;
 
       let canEditRequests = isLead || isDirector;
-      if (this.editsDisabled) {
+      if (editsDisabled) {
         canEditRequests = this.isUserWhitelisted(user, project);
       }
       canEditRequests = canEditRequests || permissions.approver;
@@ -135,46 +130,34 @@ export class PermissionsService {
   }
 
   canManageAdmins(): Observable<boolean> {
-    return this.isOwner();
+    return this.isOwner;
   }
 
   canViewFeedback(): Observable<boolean> {
-    return this.isOwner();
+    return this.isOwner;
   }
 
   canCreateProjects(): Observable<boolean> {
-    return this.isAdmin();
+    return this.isAdmin;
   }
 
   canViewPastProjects(): Observable<boolean> {
-    return this.isAdmin();
+    return this.isAdmin;
   }
 
   canImportItems(): Observable<boolean> {
-    return this.isAdmin();
+    return this.isAdmin;
   }
 
   canEditEvents(): Observable<boolean> {
-    return this.isAdmin();
+    return this.isAdmin;
   }
 
   canManageAcquisitionsTeam(): Observable<boolean> {
-    return this.isAdmin();
+    return this.isAdmin;
   }
 
   canManageAcquisitions(): Observable<boolean> {
-    return this.isAcquisitions();
-  }
-
-  private isOwner(): Observable<boolean> {
-    return this.permissions.map(permissions => permissions.owner);
-  }
-
-  private isAdmin(): Observable<boolean> {
-    return this.permissions.map(permissions => permissions.admin);
-  }
-
-  private isAcquisitions(): Observable<boolean> {
-    return this.permissions.map(permissions => permissions.acquisition);
+    return this.isAcquisitions;
   }
 }

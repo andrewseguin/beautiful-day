@@ -1,9 +1,9 @@
 <div class="section-title">{{season}} Projects</div>
 <div class="projects">
-  <mat-progress-spinner *ngIf="!projects" mode="indeterminate" color="accent">
+  <mat-progress-spinner *ngIf="!projects | async" mode="indeterminate" color="accent">
   </mat-progress-spinner>
 
-  <mat-card class="project" *ngFor="let project of projects"
+  <mat-card class="project" *ngFor="let project of projects | async"
             (click)="navigateToProject(project.$key)">
     <div class="project-title"> {{project.name}} </div>
     <div class="project-description"> {{project.description}} </div>

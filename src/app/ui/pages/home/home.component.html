@@ -1,7 +1,6 @@
 <project-list season="2018"></project-list>
 
-<button mat-button
-        *ngIf="(canViewPastProjects | async) && !show2017Projects"
+<button mat-button *ngIf="(canViewPastProjects | async) && !show2017Projects"
         (click)="show2017Projects = true">
   Show 2017 Projects
 </button>
