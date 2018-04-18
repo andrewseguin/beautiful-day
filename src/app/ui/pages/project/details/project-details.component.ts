@@ -42,23 +42,21 @@ export class ProjectDetailsComponent implements OnInit {
   editPermissions: EditProjectPermissions;
   project: Project;
   requests: Request[];
-  user: firebase.User;
   leads: string[];
   directors: string[];
   acquisitions: string;
   events: Event[];
+  canEdit = false;
 
   noBudget: boolean;
   budgetStream: BudgetResponse;
 
   // Init subscriptions
-  authSubscription: Subscription;
   upcomingEventsSubscription: Subscription;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private mdDialog: MatDialog,
-              private auth: AngularFireAuth,
               private permissionsService: PermissionsService,
               private eventsService: EventsService,
               private accountingService: AccountingService,
@@ -66,8 +64,6 @@ export class ProjectDetailsComponent implements OnInit {
               private projectsService: ProjectsService) { }
 
   ngOnInit() {
-    this.authSubscription = this.auth.authState.subscribe(auth => this.user = auth);
-
     this.route.parent.params.forEach((params: Params) => {
       const projectId = params['id'];
 
@@ -78,7 +74,7 @@ export class ProjectDetailsComponent implements OnInit {
             .subscribe(requests => this.requests = requests);
 
         this.permissionsService.getEditPermissions(projectId)
-            .subscribe(editPermissions => this.editPermissions = editPermissions);
+            .subscribe(editPermissions => this.canEdit = editPermissions.requests);
 
         this.accountingService.getBudgetStream(projectId)
             .subscribe(budgetResponse => {
@@ -97,7 +93,6 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.authSubscription.unsubscribe();
     this.upcomingEventsSubscription.unsubscribe();
   }
 
@@ -105,11 +100,6 @@ export class ProjectDetailsComponent implements OnInit {
     const dialogRef = this.mdDialog.open(EditProjectComponent);
     dialogRef.componentInstance.project = this.project;
     dialogRef.componentInstance.type = type;
-  }
-
-  canEdit(): boolean {
-    if (!this.user || !this.project || !this.editPermissions) { return false; }
-    return this.editPermissions.requests;
   }
 
   getLeadEmails(): string[] {

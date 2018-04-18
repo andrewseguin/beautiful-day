@@ -3,19 +3,19 @@
     <div class="section mat-elevation-z4">
       <div class="title">Description</div>
       <div *ngIf="project.description"> {{project?.description}} </div>
-      <div *ngIf="!project.description && canEdit()">
+      <div *ngIf="!project.description && canEdit">
         <button mat-raised-button color="accent" class="add-info"
                 (click)="edit('description')">
           Add description
         </button>
       </div>
-      <div *ngIf="!project.description && !canEdit()">
+      <div *ngIf="!project.description && !canEdit">
         No project description provided.
       </div>
     </div>
 
     <div class="section mat-elevation-z4"
-         *ngIf="canEdit() || getLeadEmails() || getDirectorEmails() || project.acquisitions">
+         *ngIf="canEdit || getLeadEmails() || getDirectorEmails() || project.acquisitions">
       <div class="title"> Contacts </div>
 
       <div class="contact">
@@ -23,10 +23,10 @@
         <detail-user [userEmail]="lead" group="lead" [project]="project"
                      *ngFor="let lead of getLeadEmails()"></detail-user>
         <button mat-raised-button color="accent" class="add-info"
-                (click)="edit('leads')" *ngIf="canEdit() && getLeadEmails().length == 0">
+                (click)="edit('leads')" *ngIf="canEdit && getLeadEmails().length == 0">
           Add lead
         </button>
-        <div *ngIf="!canEdit() && getLeadEmails().length == 0"> No leads assigned </div>
+        <div *ngIf="!canEdit && getLeadEmails().length == 0"> No leads assigned </div>
       </div>
 
       <div class="contact">
@@ -34,10 +34,10 @@
         <detail-user [userEmail]="director" group="director" [project]="project"
                      *ngFor="let director of getDirectorEmails()"></detail-user>
         <button mat-raised-button color="accent" class="add-info"
-                (click)="edit('directors')" *ngIf="canEdit() && getDirectorEmails().length == 0">
+                (click)="edit('directors')" *ngIf="canEdit && getDirectorEmails().length == 0">
           Add director
         </button>
-        <div *ngIf="!canEdit() && getDirectorEmails().length == 0"> No director assigned </div>
+        <div *ngIf="!canEdit && getDirectorEmails().length == 0"> No director assigned </div>
       </div>
 
       <div class="contact" *ngIf="project.acquisitions">
@@ -47,14 +47,14 @@
                      [userEmail]="project.acquisitions"
                      group="acquisitions"></detail-user>
         <button mat-raised-button color="accent" class="add-info"
-                (click)="edit('acquisitions')" *ngIf="canEdit() && !project.acquisitions">
+                (click)="edit('acquisitions')" *ngIf="canEdit && !project.acquisitions">
           Add acquisitions contact
         </button>
-        <div *ngIf="!canEdit() && !project.acquisitions"> No acquisitions contact assigned </div>
+        <div *ngIf="!canEdit && !project.acquisitions"> No acquisitions contact assigned </div>
       </div>
     </div>
 
-    <div class="section mat-elevation-z4" *ngIf="canEdit()">
+    <div class="section mat-elevation-z4" *ngIf="canEdit">
       <div class="title">
         Budget
         <a mat-button
@@ -93,7 +93,7 @@
       </div>
     </div>
 
-    <div class="section mat-elevation-z4" *ngIf="canEdit() && requests">
+    <div class="section mat-elevation-z4" *ngIf="canEdit && requests">
       <div class="title">
         Requests
         <button class="header-button"
@@ -164,13 +164,13 @@
                   [src]="('https://www.google.com/maps/embed/v1/place?key=AIzaSyCfJRi0cZyvlXwK6d8q2_KHXGIpxrhcDKY&q=' + (project)?.location) | safeUrl" allowfullscreen>
           </iframe>
         </div>
-        <div *ngIf="!project.location && canEdit()" style="padding: 16px">
+        <div *ngIf="!project.location && canEdit" style="padding: 16px">
           <button mat-raised-button color="accent" class="add-info"
                   (click)="edit('location')">
             Add location
           </button>
         </div>
-        <div *ngIf="!project.location && !canEdit()" style="padding: 16px">
+        <div *ngIf="!project.location && !canEdit" style="padding: 16px">
           No location provided.
         </div>
       </div>
@@ -178,7 +178,7 @@
   </div>
 </div>
 
-<div class="footer" *ngIf="canEdit() && delayedShow">
+<div class="footer" *ngIf="canEdit && delayedShow">
   <button mat-button color="primary" class="edit"
           [mat-menu-trigger-for]="editMenu">
     <mat-icon>edit</mat-icon>
