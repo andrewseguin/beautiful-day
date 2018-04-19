@@ -21,6 +21,7 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {PipeModule} from 'app/pipe/pipe.module';
 import {ExportItemsComponent} from './export-items/export-items.component';
+import {EditDistributionStatusDialogComponent} from 'app/ui/pages/shared/dialog/edit-distribution-status/edit-distribution-status';
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import {ExportItemsComponent} from './export-items/export-items.component';
     ExportItemsComponent,
     ImportItemsComponent,
     PromptDialogComponent,
+    EditDistributionStatusDialogComponent,
   ],
   entryComponents: [
     DeleteNoteComponent,
@@ -68,6 +70,7 @@ import {ExportItemsComponent} from './export-items/export-items.component';
     ExportItemsComponent,
     ImportItemsComponent,
     PromptDialogComponent,
+    EditDistributionStatusDialogComponent
   ],
 })
 export class DialogModule { }

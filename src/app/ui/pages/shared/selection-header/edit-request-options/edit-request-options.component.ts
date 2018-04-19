@@ -17,6 +17,7 @@ import {EditItemComponent} from 'app/ui/pages/shared/dialog/edit-item/edit-item.
 import {ItemsService} from 'app/service/items.service';
 import {PermissionsService} from 'app/service/permissions.service';
 import {mergeMap} from 'rxjs/operators';
+import {EditDistributionStatusDialogComponent} from "app/ui/pages/shared/dialog/edit-distribution-status/edit-distribution-status";
 
 @Component({
   selector: 'edit-request-options',
@@ -124,6 +125,11 @@ export class EditRequestOptionsComponent {
 
   editPurchaseStatus() {
     const dialogRef = this.mdDialog.open(EditPurchaseStatusDialogComponent);
+    dialogRef.componentInstance.requestIds = this.requestsService.selection.selected;
+  }
+
+  editDistributionStatus() {
+    const dialogRef = this.mdDialog.open(EditDistributionStatusDialogComponent);
     dialogRef.componentInstance.requestIds = this.requestsService.selection.selected;
   }
 

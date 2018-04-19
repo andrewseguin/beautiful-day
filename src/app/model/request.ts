@@ -11,4 +11,6 @@ export interface Request {
   isPurchased?: boolean;
   isApproved?: boolean;
   allocation?: number;
+  distributionDate?: number;
+  isDistributed?: boolean;
 }

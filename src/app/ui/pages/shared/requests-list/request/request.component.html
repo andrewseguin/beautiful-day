@@ -81,6 +81,12 @@
         </span>
       </div>
 
+      <div *ngIf="request?.isDistributed">
+        <span class="editable">
+          Distributed {{request?.distributionDate | date}}
+        </span>
+      </div>
+
       <div class="status">
         <mat-icon *ngIf="request?.isApproved"
                  matTooltip="Request has been approved"

@@ -1,0 +1,28 @@
+<div class="header">
+  <div class="title">Distribution Status</div>
+  <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
+</div>
+
+<div class="content">
+  Set the selected {{requestIds.length > 1 ? 'requests' : 'request'}} as distributed?
+</div>
+
+<mat-slide-toggle class="request-status"
+                 [(ngModel)]="isDistributed"
+                 [color]="'accent'">
+  Distributed
+</mat-slide-toggle>
+
+<div class="content" *ngIf="isDistributed">
+  <mat-form-field>
+    <input matInput [(ngModel)]="distributionDate"
+           [matDatepicker]="picker" placeholder="Distribution date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker touchUi  #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+
+<div class="actions">
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-button (click)="save()">Save</button>
+</div>

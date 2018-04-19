@@ -33,5 +33,6 @@
           [disabled]="getSelectedRequestsCount() > 1"
           [matTooltip]="getSelectedRequestsCount() > 1 ? 'Cannot allocate for more than one request' : ''"
           *ngIf="isApproversUser"> Allocation </button>
+  <button mat-menu-item (click)="editDistributionStatus()" *ngIf="isAcquistionsUser"> Distribution </button>
 
 </mat-menu>

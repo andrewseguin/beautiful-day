@@ -13,11 +13,12 @@ export class RequestSearchTransformer {
     const projectName = `[project]:${project.name}`;
     const projectKey = `[projectId]:${project.$key}`;
     const purchaser = `[purchaser]:${request.purchaser}`;
+    const isDistributed = `[isDistributed]:${request.isDistributed}`;
     const isPurchased = `[isPurchased]:${!!request.isPurchased}`;
     const isApproved = `[isApproved]:${!!request.isApproved}`;
     const hasAllocation = `[hasAllocation]:${request.allocation > 0}`;
 
-    const requestStr = dropoff + note + quantity + tags +
+    const requestStr = dropoff + note + quantity + tags + isDistributed +
           projectName + projectKey + purchaser + isPurchased + isApproved + hasAllocation;
     const itemStr = ItemSearchTransformer.transform(item);
 
