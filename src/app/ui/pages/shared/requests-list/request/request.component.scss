@@ -15,6 +15,13 @@
   cursor: pointer;
   page-break-inside: avoid;
 
+  &:hover {
+    background: #F5F5F5 !important;
+  }
+  &:active {
+    background: #EFEFEF !important;
+  }
+
   .top-row, .details {
     z-index: 1; // Place above md ripple background to allow clicking
   }

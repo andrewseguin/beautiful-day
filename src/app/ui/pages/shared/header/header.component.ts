@@ -48,24 +48,21 @@ export class HeaderComponent implements OnInit {
 
   showPrintIcon: boolean;
 
-  editsEnabled: boolean;
-
   @Input() sidenav: MatSidenav;
 
-  @ViewChildren('exportItems') exportItemsLink: QueryList<ElementRef>;
-
   constructor(
+    public titleService: TitleService,
     private afAuth: AngularFireAuth,
     private route: ActivatedRoute,
     private router: Router,
-    private titleService: TitleService,
     private usersService: UsersService,
     private mediaQuery: MediaQueryService,
     private subheaderService: SubheaderService,
     private mdDialog: MatDialog,
     private feedbackService: FeedbackService,
-    private permissionsService: PermissionsService,
-    private headerService: TitleService) { }
+    private permissionsService: PermissionsService) { }
+
+  @ViewChildren('exportItems') exportItemsLink: QueryList<ElementRef>;
 
   ngOnInit() {
     this.afAuth.authState.subscribe(authState => {
@@ -127,12 +124,10 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.afAuth.auth.signOut();
-/**
     const logoutUrl = 'https://www.google.com/accounts/Logout';
     const googleContinue = 'https://appengine.google.com/_ah/logout';
     window.location.href =
         `${logoutUrl}?continue=${googleContinue}?continue=${window.location.href}`;
- */
   }
 
   editProfile(): void {

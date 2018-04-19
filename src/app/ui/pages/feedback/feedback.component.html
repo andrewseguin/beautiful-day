@@ -1,7 +1,7 @@
 <mat-tab-group mat-stretch-tabs dynamicHeight class="mat-elevation-z2">
   <mat-tab label="New">
     <div class="feedback-list">
-      <div class="no-feedback" *ngIf="newFeedback?.length === 0">
+      <div class="no-feedback" *ngIf="(newFeedback | async)?.length === 0">
         No new feedback
       </div>
       <div class="feedback" *ngFor="let feedback of newFeedback | async">
