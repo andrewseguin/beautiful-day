@@ -59,7 +59,7 @@ export class EditItemComponent implements OnInit {
     const titleCasedCategories = categories.join(',');
 
     const persistingItem: Item = {
-      name: this.toTitleCase(this._item.name),
+      name: this._item.name.trim(),
       cost: this._item.cost,
       categories: titleCasedCategories,
       url: this._item.url,
@@ -77,12 +77,6 @@ export class EditItemComponent implements OnInit {
 
   gotoUrl() {
     window.open(this._item.url);
-  }
-
-  toTitleCase(str: string): string {
-    return str.replace(/\w\S*/g, word => {
-      return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
-    });
   }
 
   getTitle() {

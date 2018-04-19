@@ -35,7 +35,7 @@ export class EditTagsComponent {
 
   save() {
     // If spaces exist (from mobile), then title case and remove spaces
-    this.newTag = this.toTitleCase(this.newTag).replace(/\s+/g, '');
+    this.newTag = this.newTag.trim();
 
     if (this.newTag) {
       // Add a hash tag if there is none
@@ -66,10 +66,5 @@ export class EditTagsComponent {
       // Save intersection from commonTags and these tags
       this.commonTags = new Set([...Array.from(this.commonTags)].filter(tag => tags.has(tag)));
     });
-  }
-
-  toTitleCase(str: string): string {
-    return str.replace(/\w\S*/g,
-        (txt) => (txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()));
   }
 }
