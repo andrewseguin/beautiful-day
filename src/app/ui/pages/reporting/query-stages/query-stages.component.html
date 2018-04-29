@@ -4,7 +4,7 @@
        class="query-stage mat-elevation-z1">
     <div *ngFor="let query of queryStage.querySet; let querySetIndex = index; let lastQuerySet = last; trackBy:trackByIndex">
       <div class="query-input-container">
-        <mat-form-field [floatPlaceholder]="'never'">
+        <mat-form-field [floatLabel]="'never'">
           <input matInput placeholder="Enter query"
                  (ngModelChange)="queryStage.querySet[querySetIndex].queryString = $event; inputChange.next()"
                  [(ngModel)]="queryStage.querySet[querySetIndex].queryString">
