@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from 'environments/environment';
 import {NavigationEnd, Router} from '@angular/router';
+import {distinctUntilChanged} from 'rxjs/operators';
 declare let ga: Function;
 
 @Injectable()
@@ -9,12 +10,12 @@ export class AnalyticsService {
   constructor(private router: Router) {}
 
   setupGoogleAnalytics() {
-    this.router.events.distinctUntilChanged((previous: any, current: any) => {
+    this.router.events.pipe(distinctUntilChanged((previous: any, current: any) => {
       if (current instanceof NavigationEnd) {
         return previous.url === current.url;
       }
       return true;
-    }).subscribe((x: any) => {
+    })).subscribe((x: any) => {
       this.sendPageview(x.url);
     });
   }

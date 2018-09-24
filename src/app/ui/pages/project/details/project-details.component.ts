@@ -16,7 +16,7 @@ import {EventsService} from 'app/service/events.service';
 import {AccountingService, BudgetResponse} from 'app/service/accounting.service';
 import {Subscription} from 'rxjs/Subscription';
 import {RequestsService} from 'app/service/requests.service';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase';
 
 @Component({

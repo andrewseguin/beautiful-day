@@ -1,20 +1,20 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase} from '@angular/fire/database';
 import {User} from 'app/model/user';
 import {Observable} from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import {DaoService} from './dao-service';
-import {take} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {transformSnapshotActionList} from 'app/utility/snapshot-tranform';
 
 @Injectable()
 export class UsersService extends DaoService<User> {
-  users = this.getListDao().snapshotChanges().map(transformSnapshotActionList);
-  usersMap = this.users.map(users => {
+  users = this.getListDao().snapshotChanges().pipe(map(transformSnapshotActionList));
+  usersMap = this.users.pipe(map(users => {
     const usersMap = new Map<string, User>();
     users.forEach(user => usersMap.set(user.$key, user));
     return usersMap;
-  });
+  }));
 
   constructor(protected db: AngularFireDatabase) {
     super(db, 'users');
@@ -42,6 +42,6 @@ export class UsersService extends DaoService<User> {
 
   getByEmail(email: string): Observable<User> {
     const queryFn = ref => ref.orderByChild('email').equalTo(email);
-    return this.queryList(queryFn).map(result => result[0]);
+    return this.queryList(queryFn).pipe(map(result => result[0]));
   }
 }

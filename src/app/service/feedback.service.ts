@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase} from '@angular/fire/database';
 import {Feedback} from '../model/feedback';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from '@angular/fire/auth';
 import {Observable} from 'rxjs/Observable';
 import {DaoService} from './dao-service';
 import {first} from 'rxjs/operators';

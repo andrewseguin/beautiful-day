@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Event} from '../model/event';
 import {Observable} from 'rxjs/Observable';
-import {AngularFireDatabase, } from 'angularfire2/database';
+import {AngularFireDatabase, } from '@angular/fire/database';
 import {DaoService} from './dao-service';
+import {map} from 'rxjs/operators';
 
 
 @Injectable()
@@ -21,11 +22,11 @@ export class EventsService extends DaoService<Event> {
       return dateA.getTime() - dateB.getTime();
     };
 
-    return this.events.map(events => events.sort(sortFn));
+    return this.events.pipe(map(events => events.sort(sortFn)));
   }
 
   getUpcomingEvents(): Observable<Event[]> {
-    return this.getSortedEvents().map(events => {
+    return this.getSortedEvents().pipe(map(events => {
       const today = new Date();
       const yesterday = new Date(today);
       yesterday.setDate(today.getDate() - 1);
@@ -34,6 +35,6 @@ export class EventsService extends DaoService<Event> {
       });
 
       return upcomingEvents.slice(0, 3);
-    });
+    }));
   }
 }

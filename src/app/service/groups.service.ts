@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {AngularFireDatabase, SnapshotAction} from 'angularfire2/database';
+import {AngularFireDatabase, SnapshotAction} from '@angular/fire/database';
 import {DaoService} from './dao-service';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {map, mergeMap} from 'rxjs/operators';
@@ -36,10 +36,10 @@ export class GroupsService extends DaoService<string> {
   }
 
   getGroup(group: Group): Observable<string[]> {
-    return this.getObjectDao(group).valueChanges().map((members: string) => {
+    return this.getObjectDao(group).valueChanges().pipe(map((members: string) => {
       if (!members) { return []; }
       return members.split(',').map(normalizeEmail);
-    });
+    }));
   }
 
   setMembers(group: Group, members: string[]) {
@@ -54,7 +54,7 @@ export class GroupsService extends DaoService<string> {
       const groupChecks: Observable<boolean>[] = [];
       for (let group of groups) {
         const groupCheck = this.getGroup(group)
-            .map(members => members.indexOf(normalizeEmail(user.email)) !== -1);
+            .pipe(map(members => members.indexOf(normalizeEmail(user.email)) !== -1));
         groupChecks.push(groupCheck);
       }
 
@@ -65,7 +65,7 @@ export class GroupsService extends DaoService<string> {
 }
 
 /** Constructs membership based on where the user fits into the database's groups. */
-function constructInitialMembership(userEmail: string, actions: SnapshotAction[]) {
+function constructInitialMembership(userEmail: string, actions: SnapshotAction<string>[]) {
   const membership: Membership = {};
 
   actions.forEach(action => {

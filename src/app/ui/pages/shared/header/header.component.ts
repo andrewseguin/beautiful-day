@@ -14,7 +14,7 @@ import {FeedbackService} from 'app/service/feedback.service';
 import {EditGroupComponent} from '../dialog/edit-group/edit-group.component';
 import {PermissionsService} from 'app/service/permissions.service';
 import {ImportItemsComponent} from '../dialog/import-items/import-items.component';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase';
 import {take} from 'rxjs/operators';
 import {ExportItemsComponent} from 'app/ui/pages/shared/dialog/export-items/export-items.component';

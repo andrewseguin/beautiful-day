@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Project} from 'app/model/project';
 import {Observable} from 'rxjs/Observable';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase} from '@angular/fire/database';
 import {DaoService} from './dao-service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class ProjectsService extends DaoService<Project> {
@@ -32,7 +33,7 @@ export class ProjectsService extends DaoService<Project> {
   }
 
   getSortedProjects(season: string): Observable<Project[]> {
-    return this.getProjectsBySeason(season).map(sortProjectsByName);
+    return this.getProjectsBySeason(season).pipe(map(sortProjectsByName));
   }
 }
 

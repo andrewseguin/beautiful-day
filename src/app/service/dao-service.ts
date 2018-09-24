@@ -3,10 +3,11 @@ import {
   AngularFireList,
   AngularFireObject,
   QueryFn
-} from 'angularfire2/database';
+} from '@angular/fire/database';
 import * as firebase from 'firebase';
 import {transformSnapshotAction, transformSnapshotActionList} from '../utility/snapshot-tranform';
 import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators';
 
 export abstract class DaoService<T> {
   constructor(protected db: AngularFireDatabase,
@@ -14,7 +15,7 @@ export abstract class DaoService<T> {
 
   get(id: string): Observable<T> {
     return this.getObjectDao(id)
-      .snapshotChanges().map(transformSnapshotAction);
+      .snapshotChanges().pipe(map(transformSnapshotAction));
   }
 
   add(obj: T): firebase.database.ThenableReference {
@@ -37,7 +38,7 @@ export abstract class DaoService<T> {
 
   queryList(queryFn: QueryFn): Observable<T[]> {
     return this.db.list(this.ref, queryFn)
-        .snapshotChanges().map(transformSnapshotActionList);
+        .snapshotChanges().pipe(map(transformSnapshotActionList));
   }
 
   protected getObjectDao(id: string): AngularFireObject<T> {
@@ -50,6 +51,6 @@ export abstract class DaoService<T> {
 
   protected getKeyedListDao(): Observable<T[]> {
     return this.db.list<T>(`${this.ref}`)
-        .snapshotChanges().map(transformSnapshotActionList);
+        .snapshotChanges().pipe(map(transformSnapshotActionList));
   }
 }

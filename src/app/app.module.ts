@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {AngularFireModule} from 'angularfire2';
+import {AngularFireModule} from '@angular/fire';
 import 'hammerjs';
 import {FIREBASE_CONFIG} from './firebase.config';
 import {AppComponent} from './app.component';
@@ -24,8 +24,8 @@ import {AnalyticsService} from './service/analytics.service';
 import {CanActivateAcquisitionsGuard} from './route-guard/can-activate-acquisitions-guard';
 import {ReportsService} from './service/reports.service';
 import {ReportQueryService} from './service/report-query.service';
-import {AngularFireAuthModule} from 'angularfire2/auth';
-import {AngularFireDatabaseModule} from 'angularfire2/database';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PrintModule} from 'app/ui/print/print.module';
 import {MatIconRegistry, MatSortModule, MatTableModule} from '@angular/material';

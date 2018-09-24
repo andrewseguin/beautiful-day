@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase} from '@angular/fire/database';
 import {Item} from '../model/item';
 import {Observable} from 'rxjs/Observable';
 import {DaoService} from './dao-service';
@@ -7,6 +7,7 @@ import * as firebase from 'firebase';
 import {SelectionModel} from '@angular/cdk/collections';
 import {UsersService} from 'app/service/users.service';
 import {AuthService} from 'app/service/auth-service';
+import {map} from 'rxjs/operators';
 
 export type CategoryGroupCollection = { [name: string]: CategoryGroup };
 
@@ -38,11 +39,11 @@ export class ItemsService extends DaoService<Item> {
 
   /** Returns a map of the latest item costs. */
   getItemCosts(): Observable<Map<string, number>> {
-    return this.items.map(items => {
+    return this.items.pipe(map(items => {
       const itemCosts = new Map<string, number>();
       items.forEach(item => itemCosts.set(item.$key, item.cost));
       return itemCosts;
-    });
+    }));
   }
 
   getItemsWithCategory(category: string): Observable<Item[]> {
@@ -51,7 +52,7 @@ export class ItemsService extends DaoService<Item> {
   }
 
   getCategoryGroup(filter = '', showHidden = false): Observable<Category> {
-    return this.items.map(allItems => {
+    return this.items.pipe(map(allItems => {
       const categoryStrings = new Set<string>();
       const items = [];
       allItems.map(item => {
@@ -70,7 +71,6 @@ export class ItemsService extends DaoService<Item> {
                 // Matched something like "Paint" to "Paint Supplies"
                 return false;
               }
-              //console.log(c.slice(filter.length));
               return true;
             }
           })
@@ -94,11 +94,11 @@ export class ItemsService extends DaoService<Item> {
       subcategoriesSet.forEach(s => subcategories.push(s));
       subcategories.sort();
       return {items, subcategories};
-    });
+    }));
   }
 
   getItemsByCategory(showHidden = false): Observable<CategoryGroup> {
-    return this.items.map(items => {
+    return this.items.pipe(map(items => {
       const categoryGroups: CategoryGroup = {
         category: 'all',
         items: [],
@@ -113,7 +113,7 @@ export class ItemsService extends DaoService<Item> {
         });
       });
       return categoryGroups;
-    });
+    }));
   }
 
   private addItemToCategoryGroupMap(categoryGroups: CategoryGroup, item: Item, category: string) {
@@ -172,7 +172,7 @@ export class ItemsService extends DaoService<Item> {
         console.log('Adding item', copiedItem);
         this.add(copiedItem, true);
       }
-    })
+    });
   }
 
   getSelectedItems(): string[] {

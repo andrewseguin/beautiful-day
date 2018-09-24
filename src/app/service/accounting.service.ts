@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {ProjectsService} from './projects.service';
 import {Request} from '../model/request';
 import {combineLatest} from 'rxjs/observable/combineLatest';
+import {map} from 'rxjs/operators';
 
 export interface BudgetResponse {
   budget: number;
@@ -21,19 +22,19 @@ export class AccountingService {
   /** Returns a stream of a project's budget and costs. */
   getBudgetStream(projectId: string): Observable<BudgetResponse> {
     const changes = [
-      this.projectsService.get(projectId).map(project => project.budget),
+      this.projectsService.get(projectId).pipe(map(project => project.budget)),
       this.requestsService.getProjectRequests(projectId),
       this.itemsService.getItemCosts(),
     ];
 
-    return combineLatest(changes).map((result: any[]) => {
+    return combineLatest(changes).pipe(map((result: any[]) => {
       const budget: number = result[0];
       const requests: Request[] = result[1];
       const itemCosts: Map<string, number> = result[2];
 
       const cost = this.getAllRequestsCost(requests, itemCosts);
       return this._constructBudgetResponse(budget, cost);
-    });
+    }));
   }
 
   /** Returns the cost of all requests. */

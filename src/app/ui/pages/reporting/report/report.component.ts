@@ -16,7 +16,7 @@ import {User} from 'app/model/user';
 import {ReportQueryService} from 'app/service/report-query.service';
 import {DisplayOptions} from 'app/model/display-options';
 import {DeleteReportComponent} from 'app/ui/pages/shared/dialog/delete-report/delete-report.component';
-import {SnapshotAction} from 'angularfire2/database';
+import {SnapshotAction} from '@angular/fire/database';
 import {first} from 'rxjs/operators';
 
 @Component({

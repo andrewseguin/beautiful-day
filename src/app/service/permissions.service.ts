@@ -6,7 +6,7 @@ import {GroupsService, Membership} from './groups.service';
 import {Project} from '../model/project';
 import {map} from 'rxjs/operators';
 import {combineLatest} from 'rxjs/observable/combineLatest';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase} from '@angular/fire/database';
 import {AuthService} from 'app/service/auth-service';
 
 export interface EditProjectPermissions {
@@ -31,10 +31,10 @@ export class PermissionsService {
   /** Flag that disables leads/directors from making request changes. */
   editsDisabled: boolean;
 
-  permissions = this.groupsService.membership$.map(m => this.getPermissions(m));
-  isOwner = this.permissions.map(p => p.owner);
-  isAdmin = this.permissions.map(p => p.admin);
-  isAcquisitions = this.permissions.map(p => p.acquisition);
+  permissions = this.groupsService.membership$.pipe(map(m => this.getPermissions(m)));
+  isOwner = this.permissions.pipe(map(p => p.owner));
+  isAdmin = this.permissions.pipe(map(p => p.admin));
+  isAcquisitions = this.permissions.pipe(map(p => p.acquisition));
 
   constructor(private projectsService: ProjectsService,
               private groupsService: GroupsService,

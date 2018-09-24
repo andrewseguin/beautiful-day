@@ -1,6 +1,6 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
-import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase';
 import {Subscription} from 'rxjs/Subscription';
 

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase, AngularFireList, } from 'angularfire2/database';
+import {AngularFireDatabase, AngularFireList, } from '@angular/fire/database';
 import {QueryStage, Report} from 'app/model/report';
 import {DaoService} from './dao-service';
 import {UsersService} from './users.service';
