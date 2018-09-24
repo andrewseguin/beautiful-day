@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {DeleteNoteComponent} from './delete-note/delete-note.component';
 import {DeleteProjectComponent} from './delete-project/delete-project.component';
 import {DeleteReportComponent} from './delete-report/delete-report.component';
 import {DeleteRequestsComponent} from './delete-requests/delete-requests.component';
@@ -31,7 +30,6 @@ import {EditDistributionStatusDialogComponent} from 'app/ui/pages/shared/dialog/
     MaterialModule
   ],
   declarations: [
-    DeleteNoteComponent,
     DeleteProjectComponent,
     DeleteReportComponent,
     DeleteRequestsComponent,
@@ -52,7 +50,6 @@ import {EditDistributionStatusDialogComponent} from 'app/ui/pages/shared/dialog/
     EditDistributionStatusDialogComponent,
   ],
   entryComponents: [
-    DeleteNoteComponent,
     DeleteProjectComponent,
     DeleteReportComponent,
     DeleteRequestsComponent,

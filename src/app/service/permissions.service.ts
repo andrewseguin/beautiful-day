@@ -11,7 +11,6 @@ import {AuthService} from 'app/service/auth-service';
 
 export interface EditProjectPermissions {
   details?: boolean;
-  notes?: boolean;
   requests?: boolean;
 }
 
@@ -110,7 +109,6 @@ export class PermissionsService {
 
       return {
         details: isDirector || permissions.admin,
-        notes: isLead || isDirector || permissions.admin,
         requests: canEditRequests
       };
     }));

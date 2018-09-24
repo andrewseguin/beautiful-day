@@ -3,7 +3,6 @@ import {Project} from 'app/model/project';
 import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {ProjectsService} from 'app/service/projects.service';
 import {RequestsService} from 'app/service/requests.service';
-import {NotesService} from 'app/service/notes.service';
 
 @Component({
   selector: 'app-delete-project',
@@ -17,7 +16,6 @@ export class DeleteProjectComponent {
   constructor(private dialogRef: MatDialogRef<DeleteProjectComponent>,
               private mdSnackbar: MatSnackBar,
               private requestsService: RequestsService,
-              private notesService: NotesService,
               private projectsService: ProjectsService) { }
 
   close() {
@@ -30,11 +28,6 @@ export class DeleteProjectComponent {
     // Delete requests
     this.requestsService.getProjectRequests(this.project.$key).subscribe(requests => {
       requests.forEach(request => this.requestsService.remove(request.$key));
-    });
-
-    // Delete notes
-    this.notesService.getProjectNotes(this.project.$key).subscribe(notes => {
-      notes.forEach(note => this.notesService.remove(note.$key));
     });
 
     // Delete project

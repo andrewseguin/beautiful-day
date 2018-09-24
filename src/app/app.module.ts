@@ -12,14 +12,12 @@ import {CanActivateAuthGuard} from './route-guard/can-activate-auth-guard';
 import {SubheaderService} from './service/subheader.service';
 import {UsersService} from './service/users.service';
 import {TitleService} from './service/header.service';
-import {NotesService} from './service/notes.service';
 import {AccountingService} from './service/accounting.service';
 import {PermissionsService} from './service/permissions.service';
 import {CanActivateFeedbackGuard} from './route-guard/can-activate-feedback-guard';
 import {FeedbackService} from './service/feedback.service';
 import {EventsService} from './service/events.service';
 import {GroupsService} from './service/groups.service';
-import {CanActivateNotesGuard} from './route-guard/can-activate-notes-guard';
 import {AnalyticsService} from './service/analytics.service';
 import {CanActivateAcquisitionsGuard} from './route-guard/can-activate-acquisitions-guard';
 import {ReportsService} from './service/reports.service';
@@ -72,10 +70,8 @@ import {AuthService} from 'app/service/auth-service';
     UsersService,
     CanActivateAuthGuard,
     CanActivateFeedbackGuard,
-    CanActivateNotesGuard,
     CanActivateAcquisitionsGuard,
     TitleService,
-    NotesService,
     AccountingService,
     PermissionsService,
     FeedbackService,
