@@ -37,7 +37,7 @@ export class DeleteProjectComponent {
     snackbarConfig.duration = 2000;
     this.mdSnackbar.open(`Project ${this.project.name} deleted`, null, snackbarConfig);
 
-    // TODO(andrewjs): Navigate to home
+    // TODO(andrewjs): Navigate to projects
 
     this.close();
   }

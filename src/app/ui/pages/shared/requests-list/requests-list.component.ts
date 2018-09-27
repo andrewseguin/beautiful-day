@@ -16,14 +16,21 @@ import {
 import {RequestsGroupComponent} from './requests-group/requests-group.component';
 import {Request} from 'app/model/request';
 import {DisplayOptions} from 'app/model/display-options';
+import {EXPANSION_ANIMATION} from 'app/ui/shared/animations';
+import {FormControl} from '@angular/forms';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'requests-list',
   templateUrl: './requests-list.component.html',
   styleUrls: ['./requests-list.component.scss'],
-  providers: [RequestGroupingService]
+  providers: [RequestGroupingService],
+  animations: EXPANSION_ANIMATION
 })
 export class RequestsListComponent {
+  expanded = false;
+  search = new FormControl('');
+
   editPermissions: EditProjectPermissions;
 
   requestGroups: Map<Group, RequestGroup[]>;
@@ -67,6 +74,13 @@ export class RequestsListComponent {
 
   constructor(private requestGroupingService: RequestGroupingService,
               private permissionsService: PermissionsService) {
+    this.search.registerOnChange(change => {
+      console.log(change);
+    });
+
+    this.search.valueChanges.pipe(debounceTime(100))
+        .subscribe(value => this.setFilter(value));
+
     this.requestGroupingService.groupsUpdated
         .subscribe(requestGroups => this.requestGroups = requestGroups);
   }

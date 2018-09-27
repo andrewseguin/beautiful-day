@@ -5,9 +5,11 @@ import {CanActivateAcquisitionsGuard} from 'app/route-guard/can-activate-acquisi
 import {ReportingComponent} from './reporting/reporting.component';
 import {InventoryComponent} from './inventory/inventory.component';
 import {EventsComponent} from './events/events.component';
-import {HomeComponent} from './home/home.component';
+import {ProjectsComponent} from './projects/projects.component';
 import {ProjectComponent} from './project/project.component';
 import {PROJECT_ROUTES} from './project/project.routes';
+import {AdminComponent} from './admin/admin.component';
+import {HelpComponent} from './help/help.component';
 
 export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home' | 'reporting';
 
@@ -16,7 +18,15 @@ export const PAGES_ROUTES = [
     canActivate: [CanActivateAuthGuard]},
 
   // Home
-  {path: 'home', component: HomeComponent,
+  {path: 'projects', component: ProjectsComponent,
+    canActivate: [CanActivateAuthGuard]},
+
+  // Admin
+  {path: 'admin', component: AdminComponent,
+    canActivate: [CanActivateAuthGuard]},
+
+  // Help
+  {path: 'help', component: HelpComponent,
     canActivate: [CanActivateAuthGuard]},
 
   // Events
@@ -37,5 +47,5 @@ export const PAGES_ROUTES = [
     canActivate: [CanActivateAuthGuard, CanActivateFeedbackGuard]},
 
   // Redirect
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '', redirectTo: '/projects', pathMatch: 'full'},
 ];

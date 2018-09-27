@@ -12,7 +12,7 @@
       <mat-icon>edit</mat-icon>
     </div>
   </div>
-  <div class="actions" *ngIf="!isMobile()">
+  <div class="top-bar" *ngIf="!isMobile()">
     <button mat-icon-button
             (click)="print()"
             [matTooltip]="'Print'">
@@ -29,7 +29,7 @@
       <mat-icon>delete</mat-icon>
     </button>
   </div>
-  <div class="actions" *ngIf="isMobile()">
+  <div class="top-bar" *ngIf="isMobile()">
     <button mat-icon-button [mat-menu-trigger-for]="editMenu">
       <mat-icon>more_vertical</mat-icon>
     </button>

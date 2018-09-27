@@ -3,42 +3,77 @@
   <div class="app-title">Management</div>
 </div>
 
-<div *ngIf="canManageAcqusitions">
-  <div class="section-title">Acquisitions</div>
+<div class="link-list" (click)="sidenav.close()">
+  <button mat-button 
+          routerLink="/projects">
+    <mat-icon>domain</mat-icon>
+    Projects
+  </button>
+
+  <button mat-button 
+          routerLink="/events">
+    <mat-icon>event</mat-icon>
+    Events
+  </button>
+
   <button mat-button
-          class="nav-link"
-          (click)="sidenav.close()"
-          routerLink="/inventory"
-          routerLinkActive="active">
+          *ngIf="permissionsService.canManageAcquisitions() | async"
+          routerLink="/inventory">
+    <mat-icon>shopping_cart</mat-icon>
     Inventory
   </button>
+
   <button mat-button
-          class="nav-link"
-          (click)="sidenav.close()"
-          routerLink="/reporting"
-          routerLinkActive="active">
+          *ngIf="permissionsService.canManageAcquisitions() | async"
+          routerLink="/reporting">
+    <mat-icon>assignment</mat-icon>
     Reporting
+  </button>
+
+  <button mat-button
+          *ngIf="permissionsService.canViewFeedback() | async"
+          routerLink="/admin">
+    <mat-icon>build</mat-icon>
+    Admin
+  </button>
+
+  <button mat-button
+          *ngIf="permissionsService.canViewFeedback() | async"
+          routerLink="/feedback">
+    <mat-icon>feedback</mat-icon>
+    Feedback
+  </button>
+
+  <button mat-button routerLink="/help">
+    <mat-icon>help</mat-icon>
+    Help
   </button>
 </div>
 
-<div class="section-title">Projects</div>
-<button mat-button class="nav-link"
-        (click)="sidenav.close()"
-        routerLink="/project/{{project.$key}}"
-        routerLinkActive="active"
-        *ngFor="let project of projects">
-  {{project.name}}
-</button>
+<div class="profile" [@userSection]="isUserProfileExpanded">
+  <div class="expansion-header" mat-ripple
+       (click)="isUserProfileExpanded = !isUserProfileExpanded">
+    <div class="label">
+      <div class="signed-in-as">Signed in as</div>
+      <div class="email">{{(authService.user | async)?.email}}</div>
+    </div>
+    <mat-icon [@arrow]="isUserProfileExpanded">
+      expand_more
+    </mat-icon>
+  </div>
 
-<button mat-button class="nav-link new"
-          *ngIf="canCreateProjects"
-        (click)="addProject()">+ New Project</button>
+  <div class="user" (click)="editProfile()">
+    <div class="pic"
+         [style.backgroundImage]="'url(' + (authService.user | async)?.pic + ')'">
+    </div>
+    <div class="info">
+      <div>{{(authService.user | async)?.name}}</div>
+      <div class="user-email">{{(authService.user | async)?.email}}</div>
+      <div>{{(authService.user | async)?.phone}}</div>
+    </div>
+  </div>
 
-
-<div class="section-title" *ngIf="canViewFeedback">Feedback</div>
-<button mat-button class="nav-link" *ngIf="canViewFeedback"
-        (click)="sidenav.close()"
-        routerLink="/feedback"
-        routerLinkActive="active">
-  Feedback
-</button>
+  <button mat-menu-item class="logout" tabindex="-1" (click)="afAuth.auth.signOut()">
+    Logout
+  </button>
+</div>

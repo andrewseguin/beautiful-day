@@ -1,7 +1,7 @@
 <mat-drawer-container *ngIf="editPermissions && delayedShow">
   <div #scrollableContent class="scrollable-content"
-       (scroll)="checkSubheader($event)"
        [style.bottom]="showBudget() ? '' : '0'">
+
     <requests-list [requests]="requests"
                    [projectId]="projectId">
     </requests-list>

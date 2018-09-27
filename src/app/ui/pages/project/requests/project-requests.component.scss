@@ -15,7 +15,6 @@
 :host mat-drawer-container {
   height: 100%;
   background: $background;
-  z-index: 0; // Resets the z-index so the subheader can show
 }
 
 mat-drawer {
@@ -33,7 +32,6 @@ mat-drawer {
   left: 0;
 
   @media (max-width: $mobile-width - 1) {
-    padding-top: $subheader-height;
     padding-bottom: 70px;
   }
 }

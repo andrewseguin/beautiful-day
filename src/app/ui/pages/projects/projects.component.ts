@@ -3,13 +3,12 @@ import {PermissionsService} from 'app/service/permissions.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  templateUrl: './projects.component.html',
+  styleUrls: ['./projects.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent {
+export class ProjectsComponent {
   show2017Projects = false;
-  canViewPastProjects = this.permissionsService.canViewPastProjects();
 
-  constructor(private permissionsService: PermissionsService) { }
+  constructor(private permissionsService: PermissionsService) {}
 }

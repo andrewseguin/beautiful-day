@@ -29,7 +29,7 @@ export class DeleteReportComponent {
     snackbarConfig.duration = 2000;
     this.mdSnackbar.open(`Report ${this.report.name} deleted`, null, snackbarConfig);
 
-    // TODO(andrewjs): Navigate to home
+    // TODO(andrewjs): Navigate to projects
     this.router.navigateByUrl('reporting');
 
     this.close();

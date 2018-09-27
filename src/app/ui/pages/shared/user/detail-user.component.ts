@@ -1,9 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectorRef, Component, Input} from '@angular/core';
 import {UsersService} from 'app/service/users.service';
 import {User} from 'app/model/user';
 import {PermissionsService} from 'app/service/permissions.service';
 import {Project} from 'app/model/project';
-import {ProjectsService} from 'app/service/projects.service';
 
 @Component({
   selector: 'detail-user',
@@ -26,6 +25,7 @@ export class DetailUserComponent {
     this.usersService.getByEmail(this.userEmail).subscribe(user => {
       this.user = user ? user : {email: this.userEmail};
       this.updateWhitelist();
+      this.changeDetectorRef.markForCheck();
     });
   }
   get userEmail(): string { return this._userEmail; }
@@ -41,7 +41,8 @@ export class DetailUserComponent {
   get project(): Project { return this._project; }
 
   constructor(private usersService: UsersService,
-              private permissionsService: PermissionsService) {
+              private permissionsService: PermissionsService,
+              private changeDetectorRef: ChangeDetectorRef) {
     this.permissionsService.canManageAcquisitions().subscribe(v => this.canEditWhitelist = v);
   }
 

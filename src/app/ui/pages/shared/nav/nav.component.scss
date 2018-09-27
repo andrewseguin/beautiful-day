@@ -1,59 +1,101 @@
 @import '../../../shared/constants';
 
 :host {
-  padding-bottom: 32px;
-  display: block;
-  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 250px;
+}
+
+.link-list {
+  flex: 1;
+  overflow: auto;
 }
 
 .header {
   cursor: pointer;
-}
 
-.logo {
-  background: url(../../../../../assets/logo.png) no-repeat center;
-  height: 100px;
-  width: 100%;
-  background-size: contain;
-  margin-top: 16px;
-}
-
-.app-title {
-  color: #a4a7aa;
-  font-size: 18px;
-  margin-bottom: 16px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.section-title {
-  text-transform: uppercase;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 16px 0 8px 16px;
-  color: #AAA;
-
-  @media (max-width: $mobile-width - 1) {
-    font-size: 18px;
-  }
-}
-
-.nav-link {
-  display: block;
-  width: 100%;
-  text-align: left;
-  font-weight: normal;
-  text-transform: capitalize;
-  padding: 4px 16px;
-  line-height: 18px;
-
-  @media (max-width: $mobile-width - 1) {
-    font-size: 18px;
-    padding: 8px 16px;
+  .logo {
+    background: url(../../../../../assets/logo.png) no-repeat center;
+    height: 100px;
+    width: 100%;
+    background-size: contain;
+    margin-top: 16px;
   }
 
-  &.active {
+  .app-title {
+    color: #a4a7aa;
+    font-size: 18px;
+    margin-bottom: 16px;
+    text-align: center;
     font-weight: bold;
   }
 }
 
+.profile {
+  border-top: 1px solid #CCC;
+  font-size: 12px;
+  overflow: hidden;
+
+  .expansion-header {
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+
+    .label {
+      .signed-in-as {
+        color: #444;
+      }
+      .email {
+        font-weight: bold;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .user {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+  }
+}
+
+.user-email {
+  word-break: break-all;
+}
+
+.pic {
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  background-repeat: no-repeat;
+  background-size: 48px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.logout {
+  color: #1565c0;
+  font-size: 14px;
+  padding: 0 8px;
+}
+
+.link-list {
+  border-top: 1px solid #CCC;
+
+  button {
+    display: block;
+    font-size: 22px;
+    height: 56px;
+    width: 100%;
+    text-align: left;
+
+    mat-icon {
+      margin-right: 16px;
+    }
+  }
+}

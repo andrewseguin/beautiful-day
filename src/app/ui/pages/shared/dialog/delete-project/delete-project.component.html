@@ -14,7 +14,7 @@
   <input matInput autofocus [(ngModel)]="deleteCheck"/>
 </mat-form-field>
 
-<div class="actions">
+<div class="top-bar">
   <button mat-button (click)="close()">Cancel</button>
   <button mat-raised-button (click)="deleteProject()" color="warn"
           [disabled]="deleteCheck.toLowerCase().trim() != 'delete'">

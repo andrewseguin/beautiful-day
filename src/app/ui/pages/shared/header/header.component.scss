@@ -9,24 +9,6 @@ mat-toolbar {
     z-index: 2;
   }
 
-  &.sub-header {
-    display: none;
-    top: 48px;
-    left: 0;
-    right: 0;
-    height: $subheader-height;
-    z-index: 1;
-
-    @media (max-width: $mobile-width - 1) {
-      display: flex;
-      padding: 0;
-    }
-
-    project-nav {
-      flex-grow: 1;
-    }
-  }
-
   .toolbar-menu {
     padding: 0;
     margin: 8px;

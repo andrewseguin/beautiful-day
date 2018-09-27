@@ -91,10 +91,11 @@ export class PermissionsService {
     return combineLatest(changes).pipe(map((result: any[]) => {
       const permissions: Permissions = result[0];
       const project: Project = result[1];
-      const user: User = result[2];
+      const user: User = result[2] || {};
 
       const leads = project.leads || '';
       const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());
+
       const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) !== -1 || this.allLeads;
 
       const directors = project.directors || '';

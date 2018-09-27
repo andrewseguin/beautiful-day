@@ -1,0 +1,61 @@
+<div class="section-title">{{season}} Projects</div>
+<div class="projects mat-elevation-z2">
+  <mat-progress-spinner *ngIf="!projects | async" mode="indeterminate" color="accent">
+  </mat-progress-spinner>
+
+  <div class="new-project-ui" *ngFor="let project of projects | async">
+    <div class="main">
+
+      <div class="heading">
+        <div class="name"> {{project.name}} </div>
+        <button mat-stroked-button (click)="navigateToProject(project.$key)"> Requests </button>
+      </div>
+
+      <div class="description">
+          {{project.description}}
+      </div>
+
+      <div class="location">
+        <a href="https://www.google.com/maps/search/?api=1&query={{project.location}}">{{project.location}}</a>
+      </div>
+
+      <a *ngIf="project.receiptsFolder"
+         [href]="project.receiptsFolder"
+         class="receipts-folder"
+         target="_blank">
+        <mat-icon>folder_open</mat-icon>
+        View Receipts
+      </a>
+    </div>
+
+    <div class="contacts-trigger"
+         (mouseover)="loadedContacts.add(project.$key)"
+         (click)="expandedContacts.toggle(project.$key)">
+      {{expandedContacts.isSelected(project.$key) ? 'Hide' : 'Show'}} Contacts
+      <mat-icon [@arrow]="expandedContacts.isSelected(project.$key)">
+        expand_more
+      </mat-icon>
+    </div>
+    <div class="contacts" [@contacts]="expandedContacts.isSelected(project.$key)">
+      <ng-container *ngIf="loadedContacts.has(project.$key)">
+        <div class="label"> Directors </div>
+        <detail-user [userEmail]="email" [project]="project" group="director"
+                     *ngFor="let email of getEmails(project.directors)">
+        </detail-user>
+
+        <div class="label"> Leads </div>
+        <detail-user [userEmail]="email" [project]="project" group="lead"
+                     *ngFor="let email of getEmails(project.leads)">
+        </detail-user>
+
+        <ng-container *ngIf="project.acquisitions">
+          <div class="label"> Acquisitions </div>
+          <detail-user [userEmail]="email" [project]="project" group="acquisitions"
+                       *ngFor="let email of getEmails(project.acquisitions)">
+          </detail-user>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
+

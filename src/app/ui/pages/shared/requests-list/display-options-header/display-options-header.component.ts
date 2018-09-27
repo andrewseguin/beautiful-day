@@ -14,7 +14,6 @@ import {GroupsService} from 'app/service/groups.service';
   }
 })
 export class DisplayOptionsHeaderComponent implements OnInit {
-  showFilter: boolean;
   isAcquisitions: boolean;
 
   filter: string;
@@ -26,7 +25,6 @@ export class DisplayOptionsHeaderComponent implements OnInit {
   @Input()
   set displayOptions(displayOptions: DisplayOptions) {
     this.filter = displayOptions.filter;
-    this.showFilter = !!this.filter;
     this.grouping = displayOptions.grouping;
     this.sorting = displayOptions.sorting;
     this.reverseSort = displayOptions.reverseSort;

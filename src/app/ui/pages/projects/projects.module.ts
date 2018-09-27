@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {HomeComponent} from './home.component';
+import {ProjectsComponent} from './projects.component';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 import {ProjectListModule} from './project-list/project-list.module';
@@ -10,7 +10,7 @@ import {ProjectListModule} from './project-list/project-list.module';
     MaterialModule,
     ProjectListModule,
   ],
-  declarations: [HomeComponent],
-  exports: [HomeComponent],
+  declarations: [ProjectsComponent],
+  exports: [ProjectsComponent],
 })
-export class HomeModule { }
+export class ProjectsModule { }

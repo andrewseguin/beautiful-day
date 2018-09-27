@@ -1,12 +1,9 @@
-<mat-toolbar color="primary" class="project-toolbar"
-            [class.mat-elevation-z1]="!isMobile() && topLevel != 'reporting'">
+<mat-toolbar color="primary" class="project-toolbar mat-elevation-z1">
   <button mat-button class="toolbar-menu" (click)="sidenav.open()">
     <mat-icon>menu</mat-icon>
   </button>
 
   <div class="name"> {{titleService.title | async}} </div>
-
-  <project-nav class="main" *ngIf="projectId" [projectId]="projectId"></project-nav>
 
   <div class="end">
     <button *ngIf="showPrintIcon"
@@ -14,45 +11,5 @@
             mat-icon-button style="margin-right: 16px">
       <mat-icon>print</mat-icon>
     </button>
-    <button mat-button class="user" *ngIf="authState"
-            [style.backgroundImage]="'url(' + authState.photoURL + ')'"
-            [mat-menu-trigger-for]="menu">
-      <div class="badge" *ngIf="user && (!user.name || !user.phone)">!</div>
-    </button>
   </div>
-
-  <mat-menu #menu="matMenu" x-position="before" class="auth">
-    <button mat-menu-item class="info first">{{user?.name}}</button>
-    <button mat-menu-item class="info" *ngIf="user?.phone">{{user?.phone}}</button>
-    <button mat-menu-item class="info last">{{authState?.email}}</button>
-
-    <button mat-menu-item class="option" (click)="editProfile()">
-      <div class="edit-warn">
-        <mat-icon *ngIf="user && !user.phone"
-                 matTooltip="Missing phone number">
-          error_outline
-        </mat-icon>
-        Edit Profile
-      </div>
-    </button>
-    <button mat-menu-item class="option" (click)="sendFeedback()">Send Feedback</button>
-    <button mat-menu-item class="option" (click)="reportIssue()">Report Issue</button>
-    <button mat-menu-item class="option" *ngIf="canManageAdmins" (click)="manageAdmins()">Manage Admins</button>
-    <button mat-menu-item class="option" *ngIf="canManageAcqusitionsTeam" (click)="manageAcquisitions()">Manage Acquisitions Team</button>
-    <button mat-menu-item class="option" *ngIf="canManageApproversTeam" (click)="manageApprovers()">Manage Approvers</button>
-    <button mat-menu-item class="option" *ngIf="canImportItems" (click)="importItems()">Import Inventory</button>
-    <button mat-menu-item class="option" *ngIf="canImportItems" (click)="exportItems()">Export Inventory</button>
-    <button mat-menu-item class="option" *ngIf="canManageApproversTeam"
-            (click)="permissionsService.toggleEditsDisabled()">
-      {{permissionsService.editsDisabled ? 'Enable' : 'Disable'}} changes
-    </button>
-
-    <button mat-menu-item class="logout" (click)="logout()">Logout</button>
-  </mat-menu>
-</mat-toolbar>
-
-<mat-toolbar class="sub-header" color="primary"
-            *ngIf="projectId"
-            [@subheader]="subheaderVisibility">
-  <project-nav [projectId]="projectId"></project-nav>
 </mat-toolbar>

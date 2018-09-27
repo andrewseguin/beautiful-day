@@ -1,69 +1,48 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MatSidenav} from '@angular/material';
+import {Component, Input} from '@angular/core';
+import {MatDialog, MatSidenav} from '@angular/material';
 import {Router} from '@angular/router';
 import {PermissionsService} from 'app/service/permissions.service';
-import {Project} from 'app/model/project';
-import {ProjectsService, sortProjectsByName} from 'app/service/projects.service';
-import {animate, transition, state, style, trigger} from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AuthService} from '../../../../service/auth-service';
+import {EditUserProfileComponent} from '../dialog/edit-user-profile/edit-user-profile.component';
+
+const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 
 @Component({
   selector: 'nav-content',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
   animations: [
-    trigger('expandableSection', [
-      state('expanded', style({ height: '*' })),
-      state('collapsed',   style({ height: '40px' })),
-      transition('* => *', animate('225ms ease-in-out')),
+    trigger('userSection', [
+      state('void, true', style({ height: '*' })),
+      state('false',   style({ height: '64px' })),
+      transition('* => *', animate(ANIMATION_DURATION)),
     ]),
-    trigger('expansionIndicator', [
-      state('collapsed',   style({ transform: 'rotate(180deg)' })),
-      transition('* => *', animate('225ms ease-in-out')),
+    trigger('arrow', [
+      state('void, true',   style({ transform: 'rotate(0deg)' })),
+      state('false',   style({ transform: 'rotate(180deg)' })),
+      transition('* => *', animate(ANIMATION_DURATION)),
     ])
   ]
 })
-export class NavComponent implements OnInit {
-  canCreateProjects: boolean;
-  canViewFeedback: boolean;
-  canManageAcqusitions: boolean;
-  projects: Project[];
+export class NavComponent {
+  isUserProfileExpanded = false;
 
-  constructor(private projectsService: ProjectsService,
-              private permissionsService: PermissionsService,
+  constructor(private permissionsService: PermissionsService,
+              private authService: AuthService,
+              private afAuth: AngularFireAuth,
+              private mdDialog: MatDialog,
               private router: Router) { }
 
   @Input() sidenav: MatSidenav;
 
-  ngOnInit() {
-    this.projectsService.getProjectsBySeason('2018')
-        .subscribe(projects => this.projects = sortProjectsByName(projects));
-
-    this.permissionsService.canCreateProjects()
-        .subscribe(canCreateProjects => this.canCreateProjects = canCreateProjects);
-
-    this.permissionsService.canViewFeedback()
-        .subscribe(canViewFeedback => this.canViewFeedback = canViewFeedback);
-
-    this.permissionsService.canManageAcquisitions()
-        .subscribe(canManageAcqusitions => this.canManageAcqusitions = canManageAcqusitions);
-  }
-
-  addProject() {
-    const newProject: Project = {
-      name: 'New Project',
-      description: '',
-      location: '',
-      season: '2018',
-    };
-
-    this.projectsService.add(newProject).then(response => {
-      this.router.navigate([`project/${response.getKey()}`]);
-      this.sidenav.close();
-    });
-  }
-
   nagivateToHome() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/projects']);
     this.sidenav.close();
+  }
+
+  editProfile(): void {
+    this.mdDialog.open(EditUserProfileComponent);
   }
 }

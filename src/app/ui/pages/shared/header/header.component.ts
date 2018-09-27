@@ -1,8 +1,6 @@
 import {Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 import {TitleService} from 'app/service/header.service';
 import {MediaQueryService} from 'app/service/media-query.service';
-import {SubheaderService} from 'app/service/subheader.service';
 import {ActivatedRoute, Event, NavigationEnd, Router, UrlSegment} from '@angular/router';
 import {TopLevelSection} from 'app/ui/pages/pages.routes';
 import {MatDialog, MatSidenav} from '@angular/material';
@@ -23,23 +21,12 @@ import {ExportItemsComponent} from 'app/ui/pages/shared/dialog/export-items/expo
   selector: 'header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  animations: [
-    trigger('subheader', [
-      state('visible', style({transform: 'translate3d(0, 0, 0)'})),
-      state('hidden', style({transform: 'translate3d(0, -100%, 0)'})),
-      transition('visible <=> hidden', [
-        animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
-      ),
-    ])
-  ]
 })
 export class HeaderComponent implements OnInit {
   topLevel: TopLevelSection;
   authState: firebase.User;
   user: User;
   projectId = '';
-
-  subheaderVisibility: 'visible'|'hidden' = 'visible';
 
   canManageAcqusitionsTeam: boolean;
   canManageApproversTeam: boolean;
@@ -57,7 +44,6 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private usersService: UsersService,
     private mediaQuery: MediaQueryService,
-    private subheaderService: SubheaderService,
     private mdDialog: MatDialog,
     private feedbackService: FeedbackService,
     private permissionsService: PermissionsService) { }
@@ -72,10 +58,6 @@ export class HeaderComponent implements OnInit {
           this.user = user;
         });
       }
-    });
-
-    this.subheaderService.visibilitySubject.subscribe(visibility => {
-      this.subheaderVisibility = visibility ? 'visible' : 'hidden';
     });
 
     this.router.events.subscribe((event: Event) => {
@@ -120,59 +102,5 @@ export class HeaderComponent implements OnInit {
 
   isMobile(): boolean {
     return this.mediaQuery.isMobile();
-  }
-
-  logout(): void {
-    this.afAuth.auth.signOut();
-    const logoutUrl = 'https://www.google.com/accounts/Logout';
-    const googleContinue = 'https://appengine.google.com/_ah/logout';
-    window.location.href =
-        `${logoutUrl}?continue=${googleContinue}?continue=${window.location.href}`;
-  }
-
-  editProfile(): void {
-    const dialogRef = this.mdDialog.open(EditUserProfileComponent);
-    dialogRef.componentInstance.user = this.user;
-  }
-
-  manageAdmins(): void {
-    const dialogRef = this.mdDialog.open(EditGroupComponent);
-    dialogRef.componentInstance.group = 'admins';
-  }
-
-  manageAcquisitions(): void {
-    const dialogRef = this.mdDialog.open(EditGroupComponent);
-    dialogRef.componentInstance.group = 'acquisitions';
-  }
-
-  manageApprovers(): void {
-    const dialogRef = this.mdDialog.open(EditGroupComponent);
-    dialogRef.componentInstance.group = 'approvers';
-  }
-
-  sendFeedback(): void {
-    const dialogRef = this.mdDialog.open(PromptDialogComponent);
-    dialogRef.componentInstance.title = 'Send Feedback';
-    dialogRef.componentInstance.useTextArea = true;
-    dialogRef.componentInstance.onSave().subscribe(text => {
-      this.feedbackService.addFeedback('feedback', <string>text);
-    });
-  }
-
-  reportIssue(): void {
-    const dialogRef = this.mdDialog.open(PromptDialogComponent);
-    dialogRef.componentInstance.title = 'Report Issue';
-    dialogRef.componentInstance.useTextArea = true;
-    dialogRef.componentInstance.onSave().subscribe(text => {
-      this.feedbackService.addFeedback('issue', <string>text);
-    });
-  }
-
-  importItems(): void {
-    this.mdDialog.open(ImportItemsComponent);
-  }
-
-  exportItems(): void {
-    this.mdDialog.open(ExportItemsComponent);
   }
 }

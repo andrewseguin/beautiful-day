@@ -22,7 +22,7 @@
 <div class="section-title">Date</div>
 <input #dateInput [(ngModel)]="dateNeeded" type="date" (keyup.Enter)="save()">
 
-<div class="actions">
+<div class="top-bar">
   <button mat-button (click)="close()">Cancel</button>
   <button mat-raised-button color="accent"
           [disabled]="!canSave()"

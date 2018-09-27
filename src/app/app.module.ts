@@ -9,7 +9,6 @@ import {ItemsService} from './service/items.service';
 import {RequestsService} from './service/requests.service';
 import {MediaQueryService} from './service/media-query.service';
 import {CanActivateAuthGuard} from './route-guard/can-activate-auth-guard';
-import {SubheaderService} from './service/subheader.service';
 import {UsersService} from './service/users.service';
 import {TitleService} from './service/header.service';
 import {AccountingService} from './service/accounting.service';
@@ -66,7 +65,6 @@ import {AuthService} from 'app/service/auth-service';
     ItemsService,
     RequestsService,
     MediaQueryService,
-    SubheaderService,
     UsersService,
     CanActivateAuthGuard,
     CanActivateFeedbackGuard,

@@ -6,8 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: mat-color($bd-app-accent);
-  color: #FAFAFA;
+  color: black;
   height: 48px;
 }
 
@@ -31,25 +30,6 @@
           display: none;
         }
       }
-    }
-  }
-}
-
-.filter-input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #F1F1F1;
-  height: 48px;
-
-  mat-form-field {
-    @include content-width;
-    margin: 0;
-
-    .input-content {
-      display: flex;
-      height: 18px;
-      align-items: center;
     }
   }
 }

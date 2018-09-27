@@ -60,7 +60,7 @@
   Please enter a valid website.
 </div>
 
-<div class="actions" *ngIf="mode != 'view'">
+<div class="top-bar" *ngIf="mode != 'view'">
   <button mat-button (click)="close()">Cancel</button>
   <button mat-button [disabled]="!canSave()" (click)="save()">Save</button>
 </div>

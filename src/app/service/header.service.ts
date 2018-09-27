@@ -35,6 +35,8 @@ export class TitleService {
             return of('Reporting');
           case 'events':
             return of('Events');
+          case 'projects':
+            return of('Projects');
           default:
             return of('BD365 Management');
         }

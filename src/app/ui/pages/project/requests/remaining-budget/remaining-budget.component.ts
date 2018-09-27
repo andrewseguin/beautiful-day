@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AccountingService} from 'app/service/accounting.service';
 import * as CountUp from 'countup.js';
 import {Subscription} from 'rxjs/Subscription';

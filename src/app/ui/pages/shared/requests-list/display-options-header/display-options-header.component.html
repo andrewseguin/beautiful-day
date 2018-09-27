@@ -1,14 +1,5 @@
 <div class="button-toolbar">
   <div class="buttons">
-    <button mat-button
-            (click)="showFilter = true"
-            [disabled]="showFilter">
-      <div class="button-content">
-        <mat-icon>filter_list</mat-icon>
-        <span class="text"> Filter </span>
-      </div>
-    </button>
-
     <button mat-button [mat-menu-trigger-for]="groupingMenu">
       <div class="button-content">
         <mat-icon>view_stream</mat-icon>
@@ -30,21 +21,6 @@
       </div>
     </button>
   </div>
-</div>
-
-<div [style.display]="showFilter ? '' : 'none'"
-     class="filter-input mat-elevation-z1">
-  <mat-form-field [floatLabel]="'never'">
-    <div class="input-content">
-      <input matInput [(ngModel)]="filter"
-             (ngModelChange)="notify()"
-             autofocus placeholder="Enter keywords to filter requests"/>
-      <button mat-icon-button
-              (click)="showFilter = false; filter = ''; notify()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </mat-form-field>
 </div>
 
 <!-- Group Menu -->
