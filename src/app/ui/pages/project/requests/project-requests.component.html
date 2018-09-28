@@ -1,35 +1,31 @@
 <mat-drawer-container *ngIf="editPermissions && delayedShow">
-  <div #scrollableContent class="scrollable-content"
-       [style.bottom]="showBudget() ? '' : '0'">
+  <requests-list *ngIf="requests?.length"
+                 [requests]="requests"
+                 [projectId]="projectId">
+  </requests-list>
 
-    <requests-list [requests]="requests"
-                   [projectId]="projectId">
-    </requests-list>
-
-    <div *ngIf="requests?.length === 0" class="empty-requests">
-      <div *ngIf="editPermissions.requests">
-        <div class="wide">
-          <div class="getting-started">
-            Getting Started
-          </div>
-          <div class="instructions">
-            Create requests using the inventory panel to the right
-          </div>
+  <div *ngIf="requests?.length === 0" class="empty-requests">
+    <div *ngIf="editPermissions.requests">
+      <div class="wide">
+        <div class="getting-started">
+          Getting Started
         </div>
-        <div class="mobile">
-          <div class="getting-started">
-            Getting Started
-          </div>
-          <div class="instructions">
-            Open the inventory panel to begin requesting items.
-          </div>
-          <div class="arrow-to-fab"></div>
+        <div class="instructions">
+          Create requests using the inventory panel to the right
         </div>
       </div>
-      <div *ngIf="!editPermissions.requests">
+      <div class="mobile">
         <div class="getting-started">
-          No requests have been made.
+          Getting Started
         </div>
+        <div class="instructions">
+          Open the inventory panel to begin requesting items.
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!editPermissions.requests">
+      <div class="getting-started">
+        No requests have been made.
       </div>
     </div>
   </div>
@@ -37,6 +33,7 @@
   <remaining-budget *ngIf="showBudget()" [projectId]="projectId"></remaining-budget>
 
   <button mat-fab color="accent"
+          [class.attention]="!requests?.length"
           [class.hide]="sidenav.opened || hasSelectedRequests() || !editPermissions.requests"
           (click)="sidenav.open()"><mat-icon>add</mat-icon></button>
 

@@ -23,17 +23,15 @@ mat-drawer {
   max-width: 300px;
 }
 
-.scrollable-content {
-  overflow: auto;
-  position: absolute;
-  top: 0;
-  bottom: $budget-height;
-  right: 0;
-  left: 0;
+:host ::ng-deep .mat-drawer-content {
+  display: flex;
+  flex-direction: column;
+}
 
-  @media (max-width: $mobile-width - 1) {
-    padding-bottom: 70px;
-  }
+requests-list {
+  overflow: auto;
+  flex: 1;
+  padding-bottom: 70px;
 }
 
 display-options-header {
@@ -89,6 +87,28 @@ display-options-header {
   }
 }
 
+@keyframes fontbulger {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.3);
+    background-color: #87c7ff;
+  }
+  20% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.3);
+  }
+  40% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 
 button[mat-fab] {
   position: absolute;
@@ -99,6 +119,9 @@ button[mat-fab] {
   transform: scale(1);
   opacity: 1;
 
+  &.attention {
+    animation: fontbulger 5s infinite;
+  }
   &.hide {
     transform: scale(0);
     opacity: 0;
@@ -108,24 +131,4 @@ button[mat-fab] {
 
 button.active {
   background-color: rgba(0, 0, 0, 0.2);
-}
-
-.arrow-to-fab {
-  background: url(../../../../../assets/arrow_to_fab.png) no-repeat center;
-  background-size: contain;
-  position: absolute;
-  bottom: 80px;
-  right: 48px;
-  height: 100px;
-  width: 62px;
-
-  @media (min-height: 580px) {
-    height: 110px;
-    width: 68px;
-  }
-
-  @media (min-height: 640px) {
-    height: 150px;
-    width: 90px;
-  }
 }

@@ -1,0 +1,36 @@
+.project {
+  border-bottom: 1px solid #CCC;
+
+  &.expanded {
+    background: white;
+  }
+
+  mat-icon {
+    padding-right: 8px;
+  }
+
+  .content {
+    overflow: hidden;
+  }
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px;
+  position: sticky;
+  top: 0;
+  background: inherit;
+  z-index: 1;
+
+  &:hover {
+    background: white;
+  }
+}
+
+.season-title {
+  margin: 16px;
+  font-size: 16px;
+}

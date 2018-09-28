@@ -26,17 +26,17 @@ const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
     trigger('container', [
       state('void, collapsed', style({margin: '0 8px'})),
       state('expanded', style({margin: '16px 8px'})),
-      transition('collapsed <=> expanded', animate(ANIMATION_DURATION)),
+      transition('* <=> *', animate(ANIMATION_DURATION)),
     ]),
     trigger('info', [
       state('void, collapsed', style({height: '0px'})),
       state('expanded', style({height: '*'})),
-      transition('collapsed <=> expanded', animate(ANIMATION_DURATION)),
+      transition('* <=> *', animate(ANIMATION_DURATION)),
     ]),
     trigger('arrow', [
       state('void, collapsed', style({transform: 'rotateX(0deg)'})),
       state('expanded', style({transform: 'rotateX(180deg)'})),
-      transition('collapsed <=> expanded', animate(ANIMATION_DURATION)),
+      transition('* <=> *', animate(ANIMATION_DURATION)),
     ]),
     trigger('animateChildren', [
       transition('* <=> *', [
