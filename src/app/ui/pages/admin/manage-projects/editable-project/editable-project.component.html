@@ -1,39 +1,51 @@
-<mat-form-field>
-  <mat-label>Name</mat-label>
-  <input matInput [value]="project.name">
-</mat-form-field>
+<form [formGroup]="projectForm">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Description</mat-label>
-  <textarea matInput [value]="project.description" cdkTextareaAutosize></textarea>
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"
+              cdkTextareaAutosize>
+    </textarea>
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Location</mat-label>
-  <input matInput [value]="project.location">
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Location</mat-label>
+    <textarea matInput formControlName="location"
+              cdkTextareaAutosize>
+    </textarea>
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Budget</mat-label>
-  <input matInput type="number" [value]="project.budget">
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Budget</mat-label>
+    <input matInput type="number" formControlName="budget">
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Receipts Folder</mat-label>
-  <input matInput [value]="project.receiptsFolder">
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Receipts Folder</mat-label>
+    <input matInput formControlName="receiptsFolder">
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Leads</mat-label>
-  <textarea matInput [value]="project.leads" cdkTextareaAutosize></textarea>
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Leads</mat-label>
+    <textarea matInput formControlName="leads"
+              cdkTextareaAutosize>
+    </textarea>
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Directors</mat-label>
-  <textarea matInput [value]="project.directors" cdkTextareaAutosize></textarea>
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Directors</mat-label>
+    <textarea matInput formControlName="directors"
+              cdkTextareaAutosize>
+    </textarea>
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Acquisitions</mat-label>
-  <textarea matInput [value]="project.acquisitions" cdkTextareaAutosize></textarea>
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>Acquisitions</mat-label>
+    <textarea matInput formControlName="acquisitions"
+              cdkTextareaAutosize>
+    </textarea>
+  </mat-form-field>
+</form>

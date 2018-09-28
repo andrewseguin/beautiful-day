@@ -1,18 +1,18 @@
-<div class="season" *ngFor="let season of ['2018', '2017']">
+<div class="season" *ngFor="let season of seasons">
   <div class="season-title">
     {{season}} Projects
   </div>
 
   <div class="project"
-       [class.expanded]="expandedProjects.isSelected(project)"
-       *ngFor="let project of projectsService.projects | async">
-    <div class="heading" mat-ripple (click)="expandedProjects.toggle(project)">
-      <mat-icon [@expansionIndicator]="expandedProjects.isSelected(project)">expand_more</mat-icon>
+       [class.expanded]="expandedProjects.isSelected(project.$key)"
+       *ngFor="let project of projectsBySeason.get(season).values(); trackBy: trackByProjectKey">
+    <div class="heading" mat-ripple (click)="expandedProjects.toggle(project.$key)">
+      <mat-icon [@expansionIndicator]="expandedProjects.isSelected(project.$key)">expand_more</mat-icon>
       {{project.name}}
     </div>
 
-    <div class="content" [@expanded]="expandedProjects.isSelected(project)">
-      <ng-container *ngIf="hasExpanded.has(project)">
+    <div class="content" [@expanded]="expandedProjects.isSelected(project.$key)">
+      <ng-container *ngIf="hasExpanded.has(project.$key)">
         <editable-project [project]="project"></editable-project>
       </ng-container>
     </div>

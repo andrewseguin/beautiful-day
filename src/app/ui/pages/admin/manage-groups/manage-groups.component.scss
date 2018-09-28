@@ -1,0 +1,51 @@
+@import '../../../shared/constants';
+
+.card {
+  background: white;
+  padding: 16px;
+  max-width: 500px;
+
+  @media (min-width: $mobile-width) {
+    min-width: 400px;
+  }
+}
+
+mat-spinner {
+  margin: 16px;
+}
+
+.title {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.email {
+  word-break: break-all;
+}
+
+.add-new {
+  margin-top: 16px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  margin-top: 16px;
+}
+
+input {
+  border: none;
+  outline: none;
+  font-size: 18px;
+  flex: 1;
+  height: 40px;
+}
