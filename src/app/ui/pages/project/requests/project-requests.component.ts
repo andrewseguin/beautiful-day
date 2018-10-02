@@ -21,7 +21,6 @@ export class ProjectRequestsComponent implements OnInit {
   projectId: string;
   requests: Request[] = [];
 
-  @ViewChild('scrollableContent') scrollableContent: ElementRef;
   @ViewChild(RequestsListComponent) requestsListComponent: RequestsListComponent;
 
   constructor(private route: ActivatedRoute,
@@ -43,7 +42,7 @@ export class ProjectRequestsComponent implements OnInit {
     });
 
     this.requestsService.getRequestAddedStream().subscribe(response => {
-      this.requestsListComponent.showRequest(response.key, this.scrollableContent);
+      this.requestsListComponent.showRequest(response.key);
     });
 
     // Delay the HTML so that the page first shows up with a background.

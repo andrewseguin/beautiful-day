@@ -5,6 +5,7 @@ import {RequestsGroupModule} from './requests-group/requests-group.module';
 import {DisplayOptionsHeaderModule} from './display-options-header/display-options-header.module';
 import {MaterialModule} from 'app/material.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {RequestGroupingService} from 'app/ui/pages/shared/requests-list/request-grouping.service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import {ReactiveFormsModule} from '@angular/forms';
     ReactiveFormsModule,
   ],
   declarations: [RequestsListComponent],
-  exports: [RequestsListComponent]
+  exports: [RequestsListComponent],
 })
 export class RequestsListModule { }

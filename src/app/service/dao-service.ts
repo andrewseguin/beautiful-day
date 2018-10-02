@@ -49,7 +49,7 @@ export abstract class DaoService<T> {
     return this.db.list<T>(`${this.ref}`);
   }
 
-  protected getKeyedListDao(): Observable<T[]> {
+   getKeyedListDao(): Observable<T[]> {
     return this.db.list<T>(`${this.ref}`)
         .snapshotChanges().pipe(map(transformSnapshotActionList));
   }

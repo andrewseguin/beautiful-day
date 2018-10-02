@@ -12,7 +12,7 @@ import {RequestComponent} from '../request/request.component';
 import {Item} from 'app/model/item';
 import {RequestSortPipe} from 'app/pipe/request-sort.pipe';
 import {Request} from 'app/model/request';
-import {RequestGroup} from 'app/service/request-grouping.service';
+import {RequestGroup} from 'app/ui/pages/shared/requests-list/request-grouping.service';
 import {RequestsService} from 'app/service/requests.service';
 import {ItemsService} from 'app/service/items.service';
 import {PermissionsService} from 'app/service/permissions.service';
@@ -30,18 +30,7 @@ export type Sort = 'request added' | 'item cost' | 'item name' | 'request cost' 
   host: {
     '[style.display]': `requests && requests.length ? 'block' : 'none'`,
     '[class.mat-elevation-z4]': 'true',
-    '[@groupTransition]': 'requestGroup.title',
   },
-  animations: [
-    trigger('groupTransition', [
-      state('*', style({transform: 'translateY(0%)'})),
-      state('void', style({opacity: '0'})),
-      transition(':enter', [
-        style({transform: 'translateY(100px)'}),
-        animate('500ms ease-in-out')]
-      ),
-    ])
-  ]
 })
 export class RequestsGroupComponent {
   items = new Map<string, Item>();
@@ -116,7 +105,7 @@ export class RequestsGroupComponent {
               private projectsService: ProjectsService,
               private groupsService: GroupsService,
               private permissionsService: PermissionsService) {
-    this.itemsService.items.subscribe(items => {
+    this.itemsService.getKeyedListDao().subscribe(items => {
       items.forEach(item => this.items.set(item.$key, item));
       this.sortAndFilterRequests();
     });
@@ -131,7 +120,7 @@ export class RequestsGroupComponent {
     });
   }
 
-  showRequest(requestKey: string, scrollableContent: ElementRef) {
+  showRequest(requestKey: string) {
     const newRequest = this.requestComponents.find(requestComponent => {
       return requestComponent.request.$key === requestKey;
     });
@@ -142,7 +131,6 @@ export class RequestsGroupComponent {
 
     // Put the item on the bottom of the view and then scoot the view down a bit
     newRequest.scrollIntoView();
-    scrollableContent.nativeElement.scrollTop += 80;
   }
 
   sortAndFilterRequests() {

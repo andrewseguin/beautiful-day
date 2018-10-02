@@ -7,11 +7,6 @@
   min-width: 250px;
 }
 
-.link-list {
-  flex: 1;
-  overflow: auto;
-}
-
 .header {
   cursor: pointer;
 
@@ -86,11 +81,13 @@
 
 .link-list {
   border-top: 1px solid #CCC;
+  flex: 1;
+  overflow: auto;
 
   button {
     display: block;
-    font-size: 22px;
-    height: 56px;
+    font-size: 16px;
+    height: 40px;
     width: 100%;
     text-align: left;
 

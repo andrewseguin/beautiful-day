@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Request} from 'app/model/request';
-import {ItemsService} from './items.service';
+import {ItemsService} from '../../../../service/items.service';
 import {Item} from 'app/model/item';
 import {Subject} from 'rxjs/Subject';
-import {GroupsService} from './groups.service';
+import {GroupsService} from '../../../../service/groups.service';
 import {mergeMap} from 'rxjs/operators';
 
 export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff' | 'tags' | 'item';

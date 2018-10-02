@@ -28,9 +28,11 @@ export class ItemsService extends DaoService<Item> {
   selection = new SelectionModel<string>(true);
   currentUser: string;
 
+
   constructor(db: AngularFireDatabase, private authSerice: AuthService) {
     super(db, 'items');
     this.items = this.getKeyedListDao();
+
 
     this.authSerice.user.subscribe(user => {
       this.currentUser = user ? user.email : '';

@@ -88,11 +88,10 @@ export class RequestComponent implements OnInit {
               private accountingService: AccountingService,
               private requestsService: RequestsService,
               private projectsService: ProjectsService,
-              private groupsService: GroupsService,
-              private itemsService: ItemsService) { }
+              private groupsService: GroupsService) { }
 
   ngOnInit() {
-    this.requestsService.selection.onChange.subscribe(() => {
+    this.requestsService.selection.changed.subscribe(() => {
       this.cd.markForCheck();
     });
   }

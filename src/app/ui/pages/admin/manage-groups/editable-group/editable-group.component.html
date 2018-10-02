@@ -1,0 +1,40 @@
+<div class="card mat-elevation-z2">
+  <div class="title">
+    {{group}}
+  </div>
+  <div class="description">
+
+  </div>
+  <div class="content" *ngIf="emails; else spinner">
+    <div class="member" *ngFor="let member of emails">
+      <div class="email"> {{member}} </div>
+      <button mat-icon-button (click)="remove(member)">
+        <mat-icon> close </mat-icon>
+      </button>
+    </div>
+
+    <div class="input-container" *ngIf="showNew">
+      <input [formControl]="newEntry"
+             (keydown.escape)="showNew = false"
+             (keydown.enter)="add()"
+             autofocus >
+      <button mat-icon-button [disabled]="newEntry.invalid" (click)="add()">
+        <mat-icon> check </mat-icon>
+      </button>
+      <button mat-icon-button (click)="showNew = false">
+        <mat-icon> cancel </mat-icon>
+      </button>
+    </div>
+
+    <button mat-stroked-button
+            *ngIf="!showNew"
+            (click)="showNew = true"
+            class="add-new">
+      Add user
+    </button>
+  </div>
+</div>
+
+<ng-template #spinner>
+  <mat-spinner *ngIf="!emails" diameter="30"></mat-spinner>
+</ng-template>

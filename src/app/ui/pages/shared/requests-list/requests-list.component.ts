@@ -1,18 +1,10 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  QueryList,
-  ViewChildren
-} from '@angular/core';
+import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
 import {EditProjectPermissions, PermissionsService} from 'app/service/permissions.service';
 import {
   Group,
   RequestGroup,
   RequestGroupingService
-} from 'app/service/request-grouping.service';
+} from 'app/ui/pages/shared/requests-list/request-grouping.service';
 import {RequestsGroupComponent} from './requests-group/requests-group.component';
 import {Request} from 'app/model/request';
 import {DisplayOptions} from 'app/model/display-options';
@@ -74,10 +66,6 @@ export class RequestsListComponent {
 
   constructor(private requestGroupingService: RequestGroupingService,
               private permissionsService: PermissionsService) {
-    this.search.registerOnChange(change => {
-      console.log(change);
-    });
-
     this.search.valueChanges.pipe(debounceTime(100))
         .subscribe(value => this.setFilter(value));
 
@@ -106,11 +94,11 @@ export class RequestsListComponent {
     this.displayOptionsChanged.next(displayOptions);
   }
 
-  showRequest(requestId: string, scrollableContent: ElementRef) {
+  showRequest(requestId: string) {
     // Run through all the groups and ask to highlight and scroll to the request,
     // one of the groups should match.
     this.requestsGroups.forEach(requestsGroup => {
-      requestsGroup.showRequest(requestId, scrollableContent);
+      requestsGroup.showRequest(requestId);
     });
   }
 }
