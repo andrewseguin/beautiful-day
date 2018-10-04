@@ -3,9 +3,5 @@
   Report Query: {{getQueryStagesDisplay()}}
 </div>
 
-<requests-list *ngIf="canPerformQuery()"
-               [requests]="reportRequests"
-               [displayOptions]="displayOptions"
-               [projectId]="'all'"
-               [printMode]="true">
+<requests-list *ngIf="canPerformQuery()" [printMode]="true">
 </requests-list>

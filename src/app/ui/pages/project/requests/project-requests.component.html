@@ -1,7 +1,5 @@
 <mat-drawer-container *ngIf="editPermissions && delayedShow">
-  <requests-list *ngIf="requests?.length"
-                 [requests]="requests"
-                 [projectId]="projectId">
+  <requests-list *ngIf="requests?.length">
   </requests-list>
 
   <div *ngIf="requests?.length === 0" class="empty-requests">

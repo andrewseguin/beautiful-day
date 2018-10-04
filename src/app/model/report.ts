@@ -1,5 +1,3 @@
-import {DisplayOptions} from './display-options';
-
 export type QueryType = 'any';
 
 export interface Query {
@@ -15,7 +13,6 @@ export interface QueryStage {
 export interface Report {
   $key?: string;
   name?: string;
-  displayOptions?: DisplayOptions;
   queryStages?: QueryStage[];
   createdBy?: string;
   createdDate?: string;

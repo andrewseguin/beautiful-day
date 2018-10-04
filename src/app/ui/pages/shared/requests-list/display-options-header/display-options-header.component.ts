@@ -1,9 +1,6 @@
-import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
-import {Sort} from '../requests-group/requests-group.component';
-import {Group, RequestGroupingService} from 'app/ui/pages/shared/requests-list/request-grouping.service';
-import {DisplayOptions} from 'app/model/display-options';
-import {RequestViewOptions} from 'app/model/request-view-options';
-import {GroupsService} from 'app/service/groups.service';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {Group, Sort, View} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
 
 @Component({
   selector: 'display-options-header',
@@ -11,83 +8,60 @@ import {GroupsService} from 'app/service/groups.service';
   styleUrls: ['./display-options-header.component.scss'],
   host: {
     'class': 'mat-elevation-z1',
-  }
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DisplayOptionsHeaderComponent implements OnInit {
-  isAcquisitions: boolean;
+export class DisplayOptionsHeaderComponent {
+  groups: {id: Group, label: string}[] = [
+    { id: 'all', label: 'All'},
+    { id: 'category', label: 'Category'},
+    { id: 'date', label: 'Date Needed'},
+    { id: 'dropoff', label: 'Dropoff Location'},
+    { id: 'tags', label: 'Tags'},
+    { id: 'item', label: 'Item'},
+  ];
 
-  filter: string;
-  grouping: Group;
-  sorting: Sort;
-  viewing: RequestViewOptions;
-  reverseSort: boolean;
+  sorts: Sort[] = [
+    'request added',
+    'request cost',
+    'item cost',
+    'item name',
+    'date needed',
+    'purchaser'
+  ];
 
-  @Input()
-  set displayOptions(displayOptions: DisplayOptions) {
-    this.filter = displayOptions.filter;
-    this.grouping = displayOptions.grouping;
-    this.sorting = displayOptions.sorting;
-    this.reverseSort = displayOptions.reverseSort;
-    this.viewing = displayOptions.viewing;
-  }
+  views: View[] = ['cost', 'dropoff', 'notes', 'tags'];
 
-  @Output() optionsChanged = new EventEmitter<DisplayOptions>();
-
-  constructor(private requestGroupingService: RequestGroupingService,
-              private groupsService: GroupsService) {
-    this.groupsService.isMember('acquisitions').subscribe(v => this.isAcquisitions = v);
-  }
-
-  ngOnInit() { }
-
-  notify() {
-    this.optionsChanged.emit({
-      filter: this.filter,
-      grouping: this.grouping,
-      sorting: this.sorting,
-      reverseSort: this.reverseSort,
-      viewing: {
-        cost: this.viewing.cost,
-        dropoff: this.viewing.dropoff,
-        notes: this.viewing.notes,
-        tags: this.viewing.tags
-      }
+  constructor(private requestsRenderer: RequestsRenderer,
+              private cd: ChangeDetectorRef) {
+    this.requestsRenderer.options.changed.subscribe(() => {
+      this.cd.markForCheck();
     });
   }
 
-  getGroups(): string[] {
-    return this.requestGroupingService.getGroupNames();
-  }
-
-  getRequestViewOptionKeys() {
-    return Object.keys(this.viewing);
-  }
-
-  getSortOptions(): Sort[] {
-    return [
-      'request added',
-      'request cost',
-      'item cost',
-      'item name',
-      'date needed',
-      'purchaser'
-    ];
-  }
-
-  getGroupingName(grouping: string): string {
-    switch (grouping) {
-      case 'all': return 'All';
-      case 'category': return 'Category';
-      case 'date': return 'Date Needed';
-      case 'dropoff': return 'Dropoff Location';
-      case 'tags': return 'Tags';
-      case 'item': return 'Item';
+  setSort(sort: Sort) {
+    const options = this.requestsRenderer.options;
+    if (options.sorting === sort) {
+      options.reverseSort = !options.reverseSort;
+    } else {
+      options.sorting = sort;
+      options.reverseSort = false;
     }
   }
 
-  setSort(sort: Sort) {
-    this.reverseSort = this.sorting == sort ? !this.reverseSort : false;
-    this.sorting = sort;
-    this.notify();
+  toggleView(view: View) {
+    const views = this.requestsRenderer.options.view.slice();
+    const index = views.indexOf(view);
+    if (index === -1) {
+      views.push(view);
+    } else {
+      views.splice(index, 1);
+    }
+
+    this.requestsRenderer.options.view = views;
+  }
+
+  isViewSelected(view: View) {
+    return this.requestsRenderer.options.view.indexOf(view) != -1;
   }
 }

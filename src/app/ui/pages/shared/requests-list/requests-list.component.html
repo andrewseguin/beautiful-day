@@ -11,27 +11,18 @@
     </div>
 
     <div class="details" [@expanded]="expanded">
-      <display-options-header *ngIf="!printMode"
-                              [class.visible]="requestGroups && requestsCount !== 0"
-                              [displayOptions]="displayOptions"
-                              (optionsChanged)="updateDisplayOptions($event)">
-      </display-options-header>
+      <display-options-header></display-options-header>
     </div>
   </div>
 </div>
 
-
 <div class="requests-container">
-  <requests-group *ngFor="let requestGroup of requestGroups.get(displayOptions.grouping);
-                          trackBy:getRequestGroupKey"
-                  [requestGroup]="requestGroup"
-                  [canEdit]="editPermissions?.requests && !printMode"
-                  [projectId]="projectId"
-                  [printMode]="printMode"
-                  [sort]="displayOptions.sorting"
-                  [reverseSort]="displayOptions.reverseSort"
-                  [filter]="displayOptions.filter"
-                  [requestViewOptions]="displayOptions.viewing"
-                  (filterTag)="setFilter($event)">
+  <requests-group *ngFor="let requestGroup of renderedRequestGroups; trackBy:getRequestGroupKey"
+                  [requests]="requestGroup.requests"
+                  [title]="requestGroup.title"
+                  [canEdit]="true"
+                  [printMode]="printMode">
   </requests-group>
+
+  <mat-spinner *ngIf="loadingRequests" diameter="48"></mat-spinner>
 </div>

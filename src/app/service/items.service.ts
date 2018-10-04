@@ -8,6 +8,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {UsersService} from 'app/service/users.service';
 import {AuthService} from 'app/service/auth-service';
 import {map} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs';
 
 export type CategoryGroupCollection = { [name: string]: CategoryGroup };
 
@@ -24,17 +25,24 @@ export class Category {
 
 @Injectable()
 export class ItemsService extends DaoService<Item> {
-  items: Observable<Item[]>;
   selection = new SelectionModel<string>(true);
   currentUser: string;
 
+  items = new BehaviorSubject<Item[]>([]);
+  itemsMap = new BehaviorSubject<Map<string, Item>>(new Map());
 
-  constructor(db: AngularFireDatabase, private authSerice: AuthService) {
+
+  constructor(db: AngularFireDatabase, private authService: AuthService) {
     super(db, 'items');
-    this.items = this.getKeyedListDao();
 
+    this.getKeyedListDao().subscribe(items => {
+      const itemsMap = new Map<string, Item>();
+      items.forEach(item => itemsMap.set(item.$key, item));
+      this.itemsMap.next(itemsMap);
+      this.items.next(items);
+    });
 
-    this.authSerice.user.subscribe(user => {
+    this.authService.user.subscribe(user => {
       this.currentUser = user ? user.email : '';
     });
   }
@@ -69,11 +77,7 @@ export class ItemsService extends DaoService<Item> {
             if (filterIsPresent) {
               const tokens = c.slice(filter.length);
               const hasRemainingWords = !!tokens.split('>')[0].trim();
-              if (hasRemainingWords) {
-                // Matched something like "Paint" to "Paint Supplies"
-                return false;
-              }
-              return true;
+              return !hasRemainingWords;
             }
           })
           .forEach(c => {

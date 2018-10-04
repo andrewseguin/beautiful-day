@@ -11,13 +11,9 @@ import {Project} from 'app/model/project';
 import {Item} from 'app/model/item';
 import {ReportsService} from 'app/service/reports.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UsersService} from 'app/service/users.service';
 import {User} from 'app/model/user';
 import {ReportQueryService} from 'app/service/report-query.service';
-import {DisplayOptions} from 'app/model/display-options';
 import {DeleteReportComponent} from 'app/ui/pages/shared/dialog/delete-report/delete-report.component';
-import {SnapshotAction} from '@angular/fire/database';
-import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'report',
@@ -125,10 +121,6 @@ export class ReportComponent {
 
   print() {
     window.open(`print/report/${this.reportId}`, 'print', 'width=650, height=500');
-  }
-
-  updateDisplayOptions(displayOptions: DisplayOptions) {
-    this.reportsService.update(this.reportId, {displayOptions});
   }
 
   deleteReport() {

@@ -9,7 +9,6 @@ import {RequestsService} from 'app/service/requests.service';
 import {QueryStage, Report} from 'app/model/report';
 import {Project} from 'app/model/project';
 import {Item} from 'app/model/item';
-import {DisplayOptions} from 'app/model/display-options';
 import {Title} from '@angular/platform-browser';
 import {QueryDisplay} from 'app/utility/query-display';
 import {take} from 'rxjs/operators';
@@ -26,18 +25,6 @@ export class PrintComponent implements OnInit {
   projects: Project[];
   requests: Request[];
   queryStages: QueryStage[];
-  displayOptions: DisplayOptions = {
-    filter: '',
-    grouping: 'all',
-    sorting: 'request added',
-    reverseSort: false,
-    viewing: {
-      cost: true,
-      dropoff: true,
-      notes: true,
-      tags: true,
-    },
-  };
   reportRequests: Request[] = [];
   season: string;
 
@@ -55,7 +42,6 @@ export class PrintComponent implements OnInit {
       if (this.type === 'report') {
         this.reportsService.get(params['id']).subscribe((report: Report) => {
           this.queryStages = report.queryStages;
-          this.displayOptions = report.displayOptions;
           this.season = report.season;
           this.titleService.setTitle(report.name);
           this.performQuery();
@@ -85,7 +71,7 @@ export class PrintComponent implements OnInit {
   }
 
   canPerformQuery() {
-    return this.items && this.queryStages && this.displayOptions && this.projects && this.requests;
+    return this.items && this.queryStages && this.projects && this.requests;
   }
 
   getQueryStagesDisplay() {

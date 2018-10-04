@@ -1,9 +1,9 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Sort} from '../ui/pages/shared/requests-list/requests-group/requests-group.component';
 import {Request} from '../model/request';
 import {Item} from '../model/item';
 import {Project} from '../model/project';
 import {RequestSearchTransformer} from '../utility/search/request-search-transformer';
+import {Sort} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 
 @Pipe({name: 'requestSort'})
 export class RequestSortPipe implements PipeTransform {

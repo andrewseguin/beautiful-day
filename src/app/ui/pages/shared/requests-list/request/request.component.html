@@ -1,115 +1,109 @@
-<div class="request"
-     (click)="setSelected(!isSelected())"
-     [@highlightTrigger]="highlightState">
-  <div [style.z-index]="1"> <!-- Be above the mdripple -->
-    <div class="top-row">
-      <mat-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
-                   [checked]="isSelected()"
-                   (click)="$event.stopPropagation()"
-                   (change)="setSelected($event.checked)">
-      </mat-checkbox>
+<div class="request" (click)="setSelected(!isSelected())">
+  <div class="top-row">
+    <mat-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
+                  [checked]="isSelected()"
+                  (click)="$event.stopPropagation()"
+                  (change)="setSelected($event.checked)">
+    </mat-checkbox>
 
-      <div class="name">
+    <div class="name">
         <span class="editable clickable" (click)="viewItem($event)">
           {{item.categories}} > {{item.name}}
         </span>
-        <mat-icon *ngIf="canEdit"
-                 class="goto-url md-18"
-                 [matTooltip]="'Open URL: ' + item?.url"
-                 (click)="$event.stopPropagation(); navigateToUrl(item?.url)">
-          open_in_new
-        </mat-icon>
-      </div>
+      <mat-icon *ngIf="canEdit"
+                class="goto-url md-18"
+                [matTooltip]="'Open URL: ' + item?.url"
+                (click)="$event.stopPropagation(); navigateToUrl(item?.url)">
+        open_in_new
+      </mat-icon>
+    </div>
 
-      <div class="quantity" (click)="!request?.isPurchased ? $event.stopPropagation() : null">
-        <div *ngIf="isReporting">{{item?.cost | currency:'USD'}}</div>
-        <input type="number" #quantityInput min="0"
-               *ngIf="canEdit && !isReporting && !request?.isPurchased"
-               [value]="request?.quantity"
-               (keyup)="changeQuantity($event.target.value)"
-               (keydown.Enter)="quantityInput.blur()"
-               (change)="changeQuantity($event.target.value)">
-        <div *ngIf="!(canEdit && !isReporting && !request?.isPurchased)"
-             [title]="request?.isPurchased ? 'This request has been purchased and quantity cannot be changed' : ''">
-          x {{request?.quantity}}
-        </div>
-      </div>
-
-      <div class="cost" *ngIf="requestViewOptions.cost">
-        <span *ngIf="item?.cost">
-          {{getRequestCost() | currency:'USD'}}
-        </span>
-        <span *ngIf="!item?.cost">--</span>
+    <div class="quantity" (click)="!request?.isPurchased ? $event.stopPropagation() : null">
+      <div *ngIf="isReporting">{{item?.cost | currency:'USD'}}</div>
+      <input type="number" #quantityInput min="0"
+             *ngIf="canEdit && !isReporting && !request?.isPurchased"
+             [value]="request?.quantity"
+             (keyup)="changeQuantity($event.target.value)"
+             (keydown.Enter)="quantityInput.blur()"
+             (change)="changeQuantity($event.target.value)">
+      <div *ngIf="!(canEdit && !isReporting && !request?.isPurchased)"
+           [title]="request?.isPurchased ? 'This request has been purchased and quantity cannot be changed' : ''">
+        x {{request?.quantity}}
       </div>
     </div>
 
-    <div class="details">
-
-      <div *ngIf="isReporting">
-        <span class="editable">
-          Project: {{projectName}}
+    <div class="cost" *ngIf="views.has('cost')">
+        <span *ngIf="item?.cost">
+          {{getRequestCost() | currency:'USD'}}
         </span>
-      </div>
+      <span *ngIf="!item?.cost">--</span>
+    </div>
+  </div>
+  <div class="details">
+    <div *ngIf="isReporting">
+      <span class="editable">
+        Project: {{projectName}}
+      </span>
+    </div>
 
-      <div *ngIf="request?.purchaser">
-        <span class="editable">
-          Purchaser: {{request.purchaser}}
+    <div *ngIf="request?.purchaser">
+      <span class="editable">
+        Purchaser: {{request.purchaser}}
+      </span>
+    </div>
+
+    <div *ngIf="request?.allocation">
+      <span class="editable">
+        Allocated from WestGate stock: {{request?.allocation}}
+      </span>
+    </div>
+
+    <div *ngIf="views.has('dropoff')">
+      <span class="editable"
+            [class.clickable]="canEdit && !isReporting"
+            (click)="editDropoff($event)">
+        <span *ngIf="request?.dropoff">
+          Receive @ {{request?.dropoff}}, {{request?.date | date}}
         </span>
-      </div>
+      </span>
+    </div>
 
-      <div *ngIf="request?.allocation">
-        <span class="editable">
-          Allocated from WestGate stock: {{request?.allocation}}
-        </span>
-      </div>
+    <div *ngIf="request?.note && views.has('notes')">
+      <span class="editable"
+            [class.clickable]="canEdit && !isReporting"
+            (click)="editNote($event)">
+        {{request?.note}}
+      </span>
+    </div>
 
-      <div *ngIf="requestViewOptions.dropoff">
-        <span class="editable"
-              [class.clickable]="canEdit && !isReporting"
-              (click)="editDropoff($event)">
-          <span *ngIf="request?.dropoff">
-            Receive @ {{request?.dropoff}}, {{request?.date | date}}
-          </span>
-        </span>
-      </div>
+    <div *ngIf="request?.isDistributed">
+      <span class="editable">
+        Distributed {{request?.distributionDate | date}}
+      </span>
+    </div>
 
-      <div *ngIf="request?.note && requestViewOptions.notes">
-        <span class="editable"
-              [class.clickable]="canEdit && !isReporting"
-              (click)="editNote($event)">
-          {{request?.note}}
-        </span>
-      </div>
+    <div class="status">
+      <mat-icon *ngIf="request?.isApproved"
+                matTooltip="Request has been approved"
+                [matTooltipPosition]="'after'"
+                class="md-14">
+        thumb_up
+      </mat-icon>
 
-      <div *ngIf="request?.isDistributed">
-        <span class="editable">
-          Distributed {{request?.distributionDate | date}}
-        </span>
-      </div>
+      <mat-icon *ngIf="request?.isPurchased"
+                matTooltip="Request has been purchased"
+                [matTooltipPosition]="'after'"
+                class="md-14">
+        attach_money
+      </mat-icon>
+    </div>
 
-      <div class="status">
-        <mat-icon *ngIf="request?.isApproved"
-                 matTooltip="Request has been approved"
-                 [matTooltipPosition]="'after'"
-                 class="md-14">
-          thumb_up
-        </mat-icon>
-
-        <mat-icon *ngIf="request?.isPurchased"
-                 matTooltip="Request has been purchased"
-                 [matTooltipPosition]="'after'"
-                 class="md-14">
-          attach_money
-        </mat-icon>
-      </div>
-
-      <div *ngIf="request?.tags && requestViewOptions.tags" class="tags">
-        <span class="editable clickable tag" *ngFor="let tag of request.tags.split(',').sort()"
-              [style.background]="getTagColor(tag)"
-              (click)="$event.stopPropagation(); filterTag.emit(tag)">
-          {{tag}}
-        </span>
-      </div>
+    <div *ngIf="request?.tags && views.has('tags')" class="tags">
+      <span class="editable clickable tag" *ngFor="let tag of request.tags.split(',').sort()"
+            [style.background]="getTagColor(tag)"
+            (click)="$event.stopPropagation(); filterTag.emit(tag)">
+        {{tag}}
+      </span>
     </div>
   </div>
 </div>

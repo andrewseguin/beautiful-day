@@ -1,104 +1,169 @@
-import {Component, EventEmitter, Input, Output, QueryList, ViewChildren} from '@angular/core';
-import {EditProjectPermissions, PermissionsService} from 'app/service/permissions.service';
 import {
-  Group,
-  RequestGroup,
-  RequestGroupingService
-} from 'app/ui/pages/shared/requests-list/request-grouping.service';
-import {RequestsGroupComponent} from './requests-group/requests-group.component';
-import {Request} from 'app/model/request';
-import {DisplayOptions} from 'app/model/display-options';
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
+import {RequestGroup} from 'app/ui/pages/shared/requests-list/render/request-grouping';
 import {EXPANSION_ANIMATION} from 'app/ui/shared/animations';
 import {FormControl} from '@angular/forms';
-import {debounceTime} from 'rxjs/operators';
+import {auditTime, debounceTime, takeUntil, tap} from 'rxjs/operators';
+import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
+import {fromEvent, Observable, Subject} from 'rxjs';
+import {
+  RequestRendererOptions
+} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 
 @Component({
   selector: 'requests-list',
   templateUrl: './requests-list.component.html',
   styleUrls: ['./requests-list.component.scss'],
-  providers: [RequestGroupingService],
-  animations: EXPANSION_ANIMATION
+  animations: EXPANSION_ANIMATION,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RequestsRenderer]
 })
 export class RequestsListComponent {
+  destroyed = new Subject();
+  elementScrolled: Observable<Event> = Observable.create(observer =>
+      fromEvent(this.elementRef.nativeElement, 'scroll')
+        .pipe(takeUntil(this.destroyed))
+        .subscribe(observer));
+
   expanded = false;
   search = new FormControl('');
+  loadingRequests: boolean;
 
-  editPermissions: EditProjectPermissions;
+  requestGroups: RequestGroup[];
+  renderedRequestGroups: RequestGroup[];
+  requestsToDisplay = 10;
 
-  requestGroups: Map<Group, RequestGroup[]>;
-  requestsCount: number = null;
-
-  @ViewChildren(RequestsGroupComponent) requestsGroups: QueryList<RequestsGroupComponent>;
-
-  @Output() displayOptionsChanged = new EventEmitter<DisplayOptions>();
-
-  _displayOptions: DisplayOptions =  {
-    filter: '',
-    grouping: 'all',
-    sorting: 'request added',
-    reverseSort: false,
-    viewing: {
-      cost: true,
-      dropoff: true,
-      notes: true,
-      tags: true,
-    },
-  };
-  @Input() set displayOptions(displayOptions: DisplayOptions) {
-    if (displayOptions) { this._displayOptions = displayOptions; }
-  }
-  get displayOptions(): DisplayOptions { return this._displayOptions; }
-
-  @Input() set requests(requests: Request[]) {
-    this.requestGroupingService.requests = requests;
-    this.requestsCount = requests.length;
+  @Input() set requestRendererOptions(options: RequestRendererOptions) {
+    this.requestsRenderer.options.absorb(options);
   }
 
   @Input() printMode: boolean;
 
-  _projectId: string;
-  @Input() set projectId(projectId: string) {
-    this._projectId = projectId;
-    this.permissionsService.getEditPermissions(projectId)
-        .subscribe(editPermissions => this.editPermissions = editPermissions);
+  @Output() requestRendererOptionsChanged =
+    new EventEmitter<RequestRendererOptions>();
+
+  constructor(private requestsRenderer: RequestsRenderer,
+              private changeDetectorRef: ChangeDetectorRef,
+              private elementRef: ElementRef) { }
+
+  ngOnInit() {
+    this.requestsRenderer.initialize();
+    this.requestsRenderer.options.changed.subscribe(() => {
+      this.requestRendererOptionsChanged.next(this.requestsRenderer.options);
+    });
+
+    this.search.valueChanges.pipe(
+      debounceTime(100),
+      takeUntil(this.destroyed))
+      .subscribe(value => {
+        this.requestsToDisplay = 10;
+        this.requestsRenderer.options.filter = value;
+      });
+
+    // After 200ms of scrolling, add 50 more requests if near bottom of screen
+    this.elementScrolled.pipe(
+      auditTime(200),
+      takeUntil(this.destroyed))
+      .subscribe(() => {
+        const el = this.elementRef.nativeElement;
+        const viewHeight = el.getBoundingClientRect().height;
+        const scrollTop = el.scrollTop;
+        const scrollHeight = el.scrollHeight;
+
+        const distanceFromBottom = scrollHeight - scrollTop - viewHeight;
+        if (distanceFromBottom < 1000) {
+          this.requestsToDisplay += 40;
+          this.render();
+        } else if (scrollTop === 0) {
+          if (this.requestsToDisplay != 20) {
+            this.requestsToDisplay = 20;
+            this.render();
+          }
+        }
+    });
+
+    // When request groups change, render the first ten, then debounce and render more
+    this.requestsRenderer.requestGroups.pipe(
+      takeUntil(this.destroyed))
+      .subscribe(requestGroups => {
+        this.requestGroups = requestGroups;
+        this.render();
+      });
+
   }
-  get projectId(): string { return this._projectId; }
 
-  constructor(private requestGroupingService: RequestGroupingService,
-              private permissionsService: PermissionsService) {
-    this.search.valueChanges.pipe(debounceTime(100))
-        .subscribe(value => this.setFilter(value));
-
-    this.requestGroupingService.groupsUpdated
-        .subscribe(requestGroups => this.requestGroups = requestGroups);
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
-  setFilter(filter: string) {
-    // Make a new object so that the display options can see the change in reference.
-    this.displayOptions = {
-      filter: filter,
-      grouping: this.displayOptions.grouping,
-      sorting: this.displayOptions.sorting,
-      reverseSort: this.displayOptions.reverseSort,
-      viewing: this.displayOptions.viewing,
-    };
-    this.displayOptionsChanged.next(this.displayOptions);
+  render() {
+    this.renderedRequestGroups = [];
+    this.renderMoreRequests(this.requestsToDisplay);
+    this.changeDetectorRef.markForCheck();
+  }
+
+  /** Render more requests, shoud only be called by render and itself. */
+  renderMoreRequests(threshold: number) {
+    // Return if there are no groups to render
+    if (!this.requestGroups.length) {
+      return;
+    }
+
+    // If no groups are rendered yet, start by adding the first group
+    if (!this.renderedRequestGroups.length) {
+      this.renderNextGroup();
+    }
+
+    const groupIndex = this.renderedRequestGroups.length - 1;
+    const renderGroup = this.renderedRequestGroups[groupIndex];
+    const renderLength = renderGroup.requests.length;
+
+    const actualGroup = this.requestGroups[groupIndex];
+    const actualLength = actualGroup.requests.length;
+
+    // Return if all requests have been rendered
+    if (this.renderedRequestGroups.length === this.requestGroups.length &&
+        renderGroup.requests.length === actualGroup.requests.length) {
+      this.loadingRequests = false;
+      return;
+    } else {
+      this.loadingRequests = true;
+    }
+
+    const difference = actualLength - renderLength;
+
+    if (difference > threshold) {
+      renderGroup.requests =
+        actualGroup.requests.slice(0, renderLength + threshold);
+    } else {
+      renderGroup.requests = actualGroup.requests.slice();
+      this.renderNextGroup();
+      this.renderMoreRequests(difference);
+    }
+  }
+
+  renderNextGroup() {
+    if (this.requestGroups.length === this.renderedRequestGroups.length) {
+      return;
+    }
+
+    const nextRenderedRequestGroup =
+        this.requestGroups[this.renderedRequestGroups.length];
+    this.renderedRequestGroups.push({
+      ...nextRenderedRequestGroup,
+      requests: []
+    });
   }
 
   getRequestGroupKey(index: number, requestGroup: RequestGroup) {
     return requestGroup.id;
-  }
-
-  updateDisplayOptions(displayOptions) {
-    this.displayOptions = displayOptions;
-    this.displayOptionsChanged.next(displayOptions);
-  }
-
-  showRequest(requestId: string) {
-    // Run through all the groups and ask to highlight and scroll to the request,
-    // one of the groups should match.
-    this.requestsGroups.forEach(requestsGroup => {
-      requestsGroup.showRequest(requestId);
-    });
   }
 }

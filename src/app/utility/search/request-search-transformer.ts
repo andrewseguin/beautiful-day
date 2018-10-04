@@ -22,6 +22,6 @@ export class RequestSearchTransformer {
           projectName + projectKey + purchaser + isPurchased + isApproved + hasAllocation;
     const itemStr = ItemSearchTransformer.transform(item);
 
-    return (requestStr + itemStr).replace(/ /g, '').toLowerCase();
+    return (requestStr + itemStr).toLowerCase();
   }
 }

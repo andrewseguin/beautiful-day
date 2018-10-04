@@ -45,11 +45,7 @@
     <div *ngIf="!hasQuery()" class="getting-started">
       Enter a search query to begin creating a report.
     </div>
-    <requests-list *ngIf="hasQuery()" #requestsList
-                   [requests]="filteredRequests"
-                   [displayOptions]="report.displayOptions"
-                   (displayOptionsChanged)="updateDisplayOptions($event)"
-                   [projectId]="'all'">
+    <requests-list *ngIf="hasQuery()" #requestsList>
     </requests-list>
   </div>
 

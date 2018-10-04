@@ -27,12 +27,12 @@
 <mat-menu #groupingMenu="matMenu">
   <div class="project-requests-menu-title">Group requests by:</div>
   <button class="grouping-option project-requests-option" mat-menu-item
-          *ngFor="let group of getGroups()"
-          [class.selected]="grouping == group"
-          (click)="grouping = group; notify()">
+          *ngFor="let group of groups"
+          [class.selected]="requestsRenderer.options.grouping == group.id"
+          (click)="requestsRenderer.options.grouping = group.id">
     <div class="option-content">
       <mat-icon>check</mat-icon>
-      {{getGroupingName(group)}}
+      {{group.label}}
     </div>
   </button>
 </mat-menu>
@@ -41,12 +41,12 @@
 <mat-menu #viewingMenu="matMenu">
   <div class="project-requests-menu-title">View request details:</div>
   <button class="project-requests-option" mat-menu-item
-          *ngFor="let option of getRequestViewOptionKeys()"
-          [class.selected]="viewing[option]"
-          (click)="viewing[option] = !viewing[option]; notify()">
+          *ngFor="let view of views"
+          [class.selected]="isViewSelected(view)"
+          (click)="toggleView(view)">
     <div class="option-content">
       <mat-icon>check</mat-icon>
-      {{option}}
+      {{view}}
     </div>
   </button>
 </mat-menu>
@@ -55,12 +55,12 @@
 <mat-menu #sortingMenu="matMenu" x-position="before">
   <div class="project-requests-menu-title">Sort requests by:</div>
   <button class="project-requests-option" mat-menu-item
-          *ngFor="let sort of getSortOptions()"
-          [class.selected]="sorting == sort"
+          *ngFor="let sort of sorts"
+          [class.selected]="requestsRenderer.options.sorting == sort"
           (click)="setSort(sort)">
     <div class="option-content">
-      <mat-icon *ngIf="!reverseSort">arrow_downward</mat-icon>
-      <mat-icon *ngIf="reverseSort">arrow_upward</mat-icon>
+      <mat-icon *ngIf="!requestsRenderer.options.reverseSort">arrow_downward</mat-icon>
+      <mat-icon *ngIf="requestsRenderer.options.reverseSort">arrow_upward</mat-icon>
       {{sort}}
     </div>
   </button>

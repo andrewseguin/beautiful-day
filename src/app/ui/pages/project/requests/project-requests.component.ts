@@ -42,7 +42,7 @@ export class ProjectRequestsComponent implements OnInit {
     });
 
     this.requestsService.getRequestAddedStream().subscribe(response => {
-      this.requestsListComponent.showRequest(response.key);
+      // Can highlight a request if wanted
     });
 
     // Delay the HTML so that the page first shows up with a background.

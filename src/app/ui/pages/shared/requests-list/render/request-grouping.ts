@@ -1,12 +1,6 @@
-import {Injectable} from '@angular/core';
 import {Request} from 'app/model/request';
-import {ItemsService} from '../../../../service/items.service';
 import {Item} from 'app/model/item';
-import {Subject} from 'rxjs/Subject';
-import {GroupsService} from '../../../../service/groups.service';
-import {mergeMap} from 'rxjs/operators';
-
-export type Group = 'all' | 'category' | 'project' | 'date' | 'dropoff' | 'tags' | 'item';
+import {Group} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 
 export class RequestGroup {
   id: string;
@@ -14,72 +8,35 @@ export class RequestGroup {
   requests: Request[];
 }
 
-@Injectable()
-export class RequestGroupingService {
-  requestGroups: Map<Group, RequestGroup[]> = new Map();
-  items: Item[];
-  categories: string[];
-  isAcquisitions: boolean;
+export class RequestGrouping {
+  constructor(private items: Item[], private requests: Request[]) { }
 
-  groupsUpdated: Subject<Map<Group, RequestGroup[]>> = new Subject();
-
-  _requests: Request[] = [];
-  set requests(r) { this._requests = r; this.updateGroups(); }
-  get requests(): Request[] { return this._requests; }
-
-  constructor(private itemsService: ItemsService, private groupsService: GroupsService) {
-    this.requestGroups.set('all', []);
-    this.requestGroups.set('category', []);
-    this.requestGroups.set('date', []);
-    this.requestGroups.set('dropoff', []);
-    this.requestGroups.set('tags', []);
-    this.requestGroups.set('item', []);
-
-    this.groupsService.membership$.pipe(mergeMap(membership => {
-      this.isAcquisitions = membership.acquisitions;
-      return this.itemsService.items;
-    })).subscribe(items => {
-      this.items = items;
-
-      // Get all unique categories from the set of items.
-      const categoriesSet = new Set();
-      items.forEach(item => {
-        const itemCategories = item.categories.split(',');
-        itemCategories.forEach(itemCategory => categoriesSet.add(itemCategory.trim()));
-      });
-
-      this.categories = [];
-      categoriesSet.forEach(category => this.categories.push(category));
-
-      this.updateGroups();
-    });
+  getGroup(group: Group) {
+    switch (group) {
+      case 'all':
+        return this.getGroupAll();
+      case 'category':
+        return this.getGroupCategory();
+      case 'date':
+        return this.getGroupDateNeeded();
+      case 'dropoff':
+        return this.getGroupDropoffLocation();
+      case 'tags':
+        return this.getGroupTags();
+      case 'item':
+        return this.getGroupItem();
+    }
   }
 
-  getGroupNames(): string[] {
-    return ['all', 'category', 'date', 'dropoff', 'tags', 'item'];
-  }
-
-  updateGroups() {
-    this.updateGroupAll();
-    this.updateGroupDropoffLocation();
-    this.updateGroupDateNeeded();
-    this.updateGroupCategory();
-    this.updateGroupTags();
-    this.updateGroupItem();
-
-    // Return a clone of the map of request groups so that change detection will know to run.
-    this.groupsUpdated.next(new Map(this.requestGroups));
-  }
-
-  updateGroupAll() {
-    this.requestGroups.set('all', [{
+  getGroupAll(): RequestGroup[] {
+    return [{
       id: 'all',
       title: `All (${this.requests.length} requests)`,
       requests: this.requests
-    }]);
+    }];
   }
 
-  updateGroupDropoffLocation() {
+  getGroupDropoffLocation(): RequestGroup[] {
     const dropoffGroups: Map<string, Request[]> = new Map();
 
     // Create map of all requests keyed by dropoff
@@ -91,18 +48,20 @@ export class RequestGroupingService {
       dropoffGroups.get(request.dropoff).push(request);
     });
 
-    this.requestGroups.set('dropoff', []);
+    const requestGroups = [];
     dropoffGroups.forEach((requests, dropoff) => {
       dropoff = dropoff || 'Unknown dropoff location';
-      this.requestGroups.get('dropoff').push({
+      requestGroups.push({
         id: dropoff,
         title: dropoff,
         requests: requests
       });
     });
+
+    return requestGroups;
   }
 
-  updateGroupDateNeeded() {
+  getGroupDateNeeded(): RequestGroup[] {
     const dateNeededGroups: Map<string, Request[]> = new Map();
 
     // Create map of all requests keyed by date
@@ -115,17 +74,16 @@ export class RequestGroupingService {
       dateNeededGroups.get(dateStr).push(request);
     });
 
-    this.requestGroups.set('date', []);
+    const requestGroups = [];
     dateNeededGroups.forEach((requests, date) => {
       const title = date ? this.getDateString(new Date(Number(date))) : 'Unknown dropoff date';
-      this.requestGroups.get('date').push({id: date, title, requests});
+      requestGroups.push({id: date, title, requests});
     });
+
+    return requestGroups;
   }
 
-  updateGroupCategory() {
-    // Cannot build out this group if items is not populated yet
-    if (!this.items) { return; }
-
+  getGroupCategory(): RequestGroup[] {
     const itemMap: Map<string, Item> = new Map();
     this.items.forEach(item => itemMap.set(item.$key, item));
 
@@ -141,17 +99,19 @@ export class RequestGroupingService {
       categoryGroups.get(category).push(request);
     });
 
-    this.requestGroups.set('category', []);
+    const requestGroups = [];
     categoryGroups.forEach((requests, categoryKey) => {
-      this.requestGroups.get('category').push({
+      requestGroups.push({
         id: categoryKey,
         title: categoryKey,
         requests: requests
       });
     });
+
+    return requestGroups;
   }
 
-  updateGroupTags() {
+  getGroupTags(): RequestGroup[] {
     const tagMap: Map<string, Request[]> = new Map();
     this.requests.forEach(request => {
       const tags = request.tags ? request.tags.split(',') : ['No Tag Set'];
@@ -161,17 +121,19 @@ export class RequestGroupingService {
       });
     });
 
-    this.requestGroups.set('tags', []);
+    const requestGroups = [];
     tagMap.forEach((requests, tag) => {
-      this.requestGroups.get('tags').push({
+      requestGroups.push({
         id: tag,
         title: tag,
         requests: requests
       });
     });
+
+    return requestGroups;
   }
 
-  updateGroupItem() {
+  getGroupItem(): RequestGroup[] {
     // Cannot build out this group if items is not populated yet
     if (!this.items) { return; }
 
@@ -189,17 +151,15 @@ export class RequestGroupingService {
       itemGroups.get(request.item).push(request);
     });
 
-    this.requestGroups.set('item', []);
+    const requestGroups = [];
     itemGroups.forEach((requests, itemKey) => {
       const item = itemMap.get(itemKey);
       let title = `${item.name}`;
 
-      if (this.isAcquisitions) {
-        title += ` (${item.quantityOwned || 0} in stock)`;
-      }
-
-      this.requestGroups.get('item').push({id: itemKey, title, requests});
+      requestGroups.push({id: itemKey, title, requests});
     });
+
+    return requestGroups;
   }
 
   getDateString(d: Date): string {
