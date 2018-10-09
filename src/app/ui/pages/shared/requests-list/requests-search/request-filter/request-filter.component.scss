@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  align-items: center;
+  // padding: 0 0 8px 12px;
+}
+
+.type {
+  color: #777;
+  padding-right: 8px;
+  font-size: 14px;
+  display: flex;
+}
+
+.configuration {
+  flex: 1;
+}
+
+input {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #CCC;
+  padding: 0;
+  width: 100%;
+  height: 24px;
+}
+
+.remove {
+  color: #777;
+  margin: 0 4px 0 8px;
+
+  mat-icon {
+    font-size: 18px;
+  }
+}

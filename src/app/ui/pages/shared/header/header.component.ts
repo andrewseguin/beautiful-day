@@ -1,21 +1,16 @@
 import {Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {TitleService} from 'app/service/header.service';
-import {MediaQueryService} from 'app/service/media-query.service';
 import {ActivatedRoute, Event, NavigationEnd, Router, UrlSegment} from '@angular/router';
 import {TopLevelSection} from 'app/ui/pages/pages.routes';
 import {MatDialog, MatSidenav} from '@angular/material';
 import {UsersService} from 'app/service/users.service';
 import {User} from 'app/model/user';
-import {EditUserProfileComponent} from '../dialog/edit-user-profile/edit-user-profile.component';
-import {PromptDialogComponent} from '../dialog/prompt-dialog/prompt-dialog.component';
 import {FeedbackService} from 'app/service/feedback.service';
-import {EditGroupComponent} from '../dialog/edit-group/edit-group.component';
 import {PermissionsService} from 'app/service/permissions.service';
-import {ImportItemsComponent} from '../dialog/import-items/import-items.component';
 import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase';
 import {take} from 'rxjs/operators';
-import {ExportItemsComponent} from 'app/ui/pages/shared/dialog/export-items/export-items.component';
+import {isMobile} from 'app/utility/media-matcher';
 
 @Component({
   selector: 'header',
@@ -35,6 +30,8 @@ export class HeaderComponent implements OnInit {
 
   showPrintIcon: boolean;
 
+  isMobile = isMobile;
+
   @Input() sidenav: MatSidenav;
 
   constructor(
@@ -43,7 +40,6 @@ export class HeaderComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private usersService: UsersService,
-    private mediaQuery: MediaQueryService,
     private mdDialog: MatDialog,
     private feedbackService: FeedbackService,
     private permissionsService: PermissionsService) { }
@@ -98,9 +94,5 @@ export class HeaderComponent implements OnInit {
 
       this.projectId = url[1].path;
     });
-  }
-
-  isMobile(): boolean {
-    return this.mediaQuery.isMobile();
   }
 }

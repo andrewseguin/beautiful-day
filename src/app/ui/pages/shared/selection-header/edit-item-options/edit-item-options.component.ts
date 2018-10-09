@@ -19,16 +19,16 @@ export class EditItemOptionsComponent {
 
   editName() {
     const dialogRef = this.mdDialog.open(EditItemNameComponent);
-    dialogRef.componentInstance.itemIds = this.itemsService.getSelectedItems();
+    dialogRef.componentInstance.itemIds = this.itemsService.selection.selected;
   }
 
   editCategory() {
     const dialogRef = this.mdDialog.open(EditItemCategoryComponent);
-    dialogRef.componentInstance.itemIds = this.itemsService.getSelectedItems();
+    dialogRef.componentInstance.itemIds = this.itemsService.selection.selected;
   }
 
   editItem() {
-    const itemId = this.itemsService.getSelectedItems().values().next().value;
+    const itemId = this.itemsService.selection.selected.values().next().value;
     const dialogRef = this.mdDialog.open(EditItemComponent);
     dialogRef.componentInstance.mode = 'edit';
 
@@ -42,7 +42,7 @@ export class EditItemOptionsComponent {
   }
 
   deleteItem() {
-    this.itemsService.getSelectedItems().forEach(item => {
+    this.itemsService.selection.selected.forEach(item => {
       this.itemsService.remove(item);
     });
     this.itemsService.selection.clear();

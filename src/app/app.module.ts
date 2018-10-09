@@ -7,7 +7,6 @@ import {AppComponent} from './app.component';
 import {ProjectsService} from './service/projects.service';
 import {ItemsService} from './service/items.service';
 import {RequestsService} from './service/requests.service';
-import {MediaQueryService} from './service/media-query.service';
 import {CanActivateAuthGuard} from './route-guard/can-activate-auth-guard';
 import {UsersService} from './service/users.service';
 import {TitleService} from './service/header.service';
@@ -20,7 +19,6 @@ import {GroupsService} from './service/groups.service';
 import {AnalyticsService} from './service/analytics.service';
 import {CanActivateAcquisitionsGuard} from './route-guard/can-activate-acquisitions-guard';
 import {ReportsService} from './service/reports.service';
-import {ReportQueryService} from './service/report-query.service';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -64,7 +62,6 @@ import {AuthService} from 'app/service/auth-service';
     ProjectsService,
     ItemsService,
     RequestsService,
-    MediaQueryService,
     UsersService,
     CanActivateAuthGuard,
     CanActivateFeedbackGuard,
@@ -77,7 +74,6 @@ import {AuthService} from 'app/service/auth-service';
     EventsService,
     AnalyticsService,
     ReportsService,
-    ReportQueryService,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,21 +1,32 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {Feedback} from '../model/feedback';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {Observable} from 'rxjs/Observable';
 import {DaoService} from './dao-service';
-import {first} from 'rxjs/operators';
+import {first, takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 @Injectable()
-export class FeedbackService extends DaoService<Feedback> {
-  feedback: Observable<Feedback[]>;
+export class FeedbackService extends DaoService<Feedback> implements OnDestroy {
+  feedback = new BehaviorSubject<Feedback[]>([]);
+
+  private destroyed = new Subject();
 
   constructor(db: AngularFireDatabase,
-              private mdSnackbar: MatSnackBar,
+              private snackBar: MatSnackBar,
               private auth: AngularFireAuth) {
     super(db, 'feedback');
-    this.feedback = this.getKeyedListDao();
+    this.getKeyedListDao().pipe(
+        takeUntil(this.destroyed))
+        .subscribe(feedback => {
+          this.feedback.next(feedback);
+        });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   addFeedback(type: 'issue' | 'feedback', text: string) {
@@ -37,9 +48,9 @@ export class FeedbackService extends DaoService<Feedback> {
 
   }
 
-  showSnackbar(text: string) {
+  private showSnackbar(text: string) {
     const snackbarConfig = new MatSnackBarConfig();
     snackbarConfig.duration = 2000;
-    this.mdSnackbar.open(text, null, snackbarConfig);
+    this.snackBar.open(text, null, snackbarConfig);
   }
 }

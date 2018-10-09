@@ -5,13 +5,19 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {User} from 'app/model/user';
 import {Observable} from 'rxjs/Observable';
 import {UsersService} from 'app/service/users.service';
-import {from} from 'rxjs/observable/from';
 import {mergeMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Injectable()
 export class AuthService {
   user: Observable<User> = this.auth.authState
-      .pipe(mergeMap(auth => auth ? this.usersService.getByEmail(auth.email) : from([null])));
+      .pipe(mergeMap(auth => {
+        if (auth) {
+          return this.usersService.getByEmail(auth.email);
+        } else {
+          return of(null);
+        }
+      }));
 
   constructor(private snackBar: MatSnackBar,
               private router: Router,

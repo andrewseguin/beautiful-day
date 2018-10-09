@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Request} from 'app/model/request';
 import {ReportsService} from 'app/service/reports.service';
-import {ReportQueryService} from 'app/service/report-query.service';
 import {ProjectsService} from 'app/service/projects.service';
 import {ItemsService} from 'app/service/items.service';
 import {RequestsService} from 'app/service/requests.service';
@@ -33,7 +32,6 @@ export class PrintComponent implements OnInit {
               private requestsService: RequestsService,
               private itemsService: ItemsService,
               private projectsService: ProjectsService,
-              private reportQueryService: ReportQueryService,
               private reportsService: ReportsService) { }
 
   ngOnInit() {
@@ -80,9 +78,6 @@ export class PrintComponent implements OnInit {
 
   performQuery() {
     if (!this.canPerformQuery()) { return; }
-
-    this.reportRequests = this.reportQueryService.query(
-      this.queryStages, this.requests, this.items, this.projects, this.season);
 
     setTimeout(() => {
       window.print();

@@ -17,22 +17,18 @@ export type Membership = {
 
 @Injectable()
 export class GroupsService extends DaoService<string> {
-  membership$: Observable<Membership>;
+  memberships: Observable<Membership>;
 
   constructor(db: AngularFireDatabase,
               private authService: AuthService) {
     super(db, 'groups');
-    this.setupMembershipStream();
-  }
-
-  private setupMembershipStream() {
     const changes = [
       this.authService.user,
       this.getListDao().snapshotChanges()
     ];
 
-    this.membership$ = combineLatest(changes).pipe(
-        map(([user, list]: any[]) => user ? constructInitialMembership(user.email, list) : {}));
+    this.memberships = combineLatest(changes).pipe(
+      map(([user, list]: any[]) => user ? constructInitialMembership(user.email, list) : {}));
   }
 
   getGroup(group: Group): Observable<string[]> {

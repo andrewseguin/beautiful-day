@@ -29,11 +29,11 @@ const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 export class NavComponent {
   isUserProfileExpanded = false;
 
-  constructor(private permissionsService: PermissionsService,
-              private authService: AuthService,
-              private afAuth: AngularFireAuth,
-              private mdDialog: MatDialog,
-              private router: Router) { }
+  constructor(public permissionsService: PermissionsService,
+              public authService: AuthService,
+              public afAuth: AngularFireAuth,
+              public mdDialog: MatDialog,
+              public router: Router) { }
 
   @Input() sidenav: MatSidenav;
 

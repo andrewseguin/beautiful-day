@@ -10,5 +10,5 @@ import {PermissionsService} from 'app/service/permissions.service';
 export class ProjectsComponent {
   show2017Projects = false;
 
-  constructor(private permissionsService: PermissionsService) {}
+  constructor(public permissionsService: PermissionsService) {}
 }

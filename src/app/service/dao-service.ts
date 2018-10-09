@@ -46,10 +46,12 @@ export abstract class DaoService<T> {
   }
 
   protected getListDao(): AngularFireList<T> {
+    console.log('getListDao', this.ref)
     return this.db.list<T>(`${this.ref}`);
   }
 
-   getKeyedListDao(): Observable<T[]> {
+  protected getKeyedListDao(): Observable<T[]> {
+    console.log('getKeyedListDao', this.ref)
     return this.db.list<T>(`${this.ref}`)
         .snapshotChanges().pipe(map(transformSnapshotActionList));
   }

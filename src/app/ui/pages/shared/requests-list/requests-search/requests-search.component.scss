@@ -1,0 +1,61 @@
+
+.top-bar-container {
+  display: flex;
+  justify-content: center;
+  margin: 16px;
+
+  .top-bar {
+    display: flex;
+    flex-direction: column;
+    max-width: 650px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #555;
+    border-radius: 24px;
+    background: white;
+  }
+
+  .input-bar {
+    display: flex;
+    align-items: center;
+
+    mat-icon.search-icon {
+      color: #777;
+      margin: 8px 12px;
+    }
+
+    button.new-filter {
+      height: 48px;
+      width: 48px;
+    }
+  }
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid transparent;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  font-size: 18px;
+  padding-bottom: 4px;
+  padding-left: 0;
+  margin-top: 5px; // Balance the bottom padding and border
+
+  &:active, &:hover, &:focus, :host.has-filters & {
+    border-color: #CCC
+  }
+}
+
+request-filter {
+  padding: 0 0 8px 12px;
+  display: block;
+}
+
+.filter-container {
+  overflow: hidden;
+}
+
+::ng-deep .filter-menu {
+  margin: -1px;
+}

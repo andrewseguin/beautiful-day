@@ -1,20 +1,6 @@
-<div class="top-bar-container">
-  <div class="top-bar" [style.backgroundColor]="expanded ? 'white' : ''">
-    <div class="input-bar">
-      <mat-icon class="search-icon">search</mat-icon>
-      <input [formControl]="search" placeholder="Search requests">
-      <button mat-icon-button
-              class="expand"
-              (click)="expanded = !expanded">
-        <mat-icon [@expansionIndicator]="expanded">expand_more</mat-icon>
-      </button>
-    </div>
+<requests-search></requests-search>
 
-    <div class="details" [@expanded]="expanded">
-      <display-options-header></display-options-header>
-    </div>
-  </div>
-</div>
+<display-options-header></display-options-header>
 
 <div class="requests-container">
   <requests-group *ngFor="let requestGroup of renderedRequestGroups; trackBy:getRequestGroupKey"

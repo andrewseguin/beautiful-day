@@ -1,5 +1,5 @@
 <mat-drawer-container *ngIf="editPermissions && delayedShow">
-  <requests-list *ngIf="requests?.length">
+  <requests-list *ngIf="requests?.length" [implicitFilters]="[projectKeyFilter]">
   </requests-list>
 
   <div *ngIf="requests?.length === 0" class="empty-requests">

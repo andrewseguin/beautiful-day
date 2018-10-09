@@ -12,8 +12,8 @@ import {ExportItemsComponent} from 'app/ui/pages/shared/dialog/export-items/expo
 })
 export class ExtrasComponent {
 
-  constructor(private mdDialog: MatDialog,
-              private permissionsService: PermissionsService) {}
+  constructor(public mdDialog: MatDialog,
+              public permissionsService: PermissionsService) {}
 
   manageAdmins(): void {
     const dialogRef = this.mdDialog.open(EditGroupComponent);

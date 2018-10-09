@@ -36,46 +36,7 @@
   </div>
 </div>
 
-<div *ngIf="!report">
-  Loading
-</div>
-
-<mat-sidenav-container *ngIf="report">
-  <div class="scrollable-content">
-    <div *ngIf="!hasQuery()" class="getting-started">
-      Enter a search query to begin creating a report.
-    </div>
-    <requests-list *ngIf="hasQuery()" #requestsList>
-    </requests-list>
-  </div>
-
-  <button mat-fab color="accent"
-          [class.hide]="sidenav.opened"
-          (click)="sidenav.open()">
-    <mat-icon>assignment</mat-icon>
-  </button>
-
-  <mat-sidenav #sidenav
-              class="mat-elevation-z8"
-              [opened]="!isMobile()"
-              [mode]="isMobile() ? 'over' : 'side'"
-              position="end">
-    <div class="heading">
-      <button mat-icon-button class="back" (click)="sidenav.close()">
-        <mat-icon>keyboard_arrow_left</mat-icon>
-      </button>
-      <span class="title">Report Query</span>
-    </div>
-
-    <div class="season">
-      Season: {{report.season}}
-    </div>
-
-    <query-stages [queryStages]="report.queryStages"
-                  (queryStagesChange)="performQuery(); saveQueryStages()">
-    </query-stages>
-  </mat-sidenav>
-</mat-sidenav-container>
+<requests-list></requests-list>
 
 <mat-menu #editMenu="matMenu" x-position="before">
   <button mat-menu-item (click)="openEditNameDialog()">

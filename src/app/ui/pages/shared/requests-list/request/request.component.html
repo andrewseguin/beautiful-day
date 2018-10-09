@@ -101,7 +101,7 @@
     <div *ngIf="request?.tags && views.has('tags')" class="tags">
       <span class="editable clickable tag" *ngFor="let tag of request.tags.split(',').sort()"
             [style.background]="getTagColor(tag)"
-            (click)="$event.stopPropagation(); filterTag.emit(tag)">
+            (click)="$event.stopPropagation(); ">
         {{tag}}
       </span>
     </div>

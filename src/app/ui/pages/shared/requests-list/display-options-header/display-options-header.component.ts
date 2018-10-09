@@ -1,14 +1,16 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {Group, Sort, View} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {
+  Filter, FilterType,
+  Group,
+  Sort,
+  View
+} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
 
 @Component({
   selector: 'display-options-header',
   templateUrl: './display-options-header.component.html',
   styleUrls: ['./display-options-header.component.scss'],
-  host: {
-    'class': 'mat-elevation-z1',
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DisplayOptionsHeaderComponent {

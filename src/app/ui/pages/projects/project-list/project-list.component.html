@@ -1,6 +1,7 @@
 <div class="section-title">{{season}} Projects</div>
 <div class="projects mat-elevation-z2">
-  <mat-progress-spinner *ngIf="!projects | async" mode="indeterminate" color="accent">
+  <mat-progress-spinner *ngIf="!projects | async"
+                        mode="indeterminate" color="accent">
   </mat-progress-spinner>
 
   <div class="new-project-ui" *ngFor="let project of projects | async">
@@ -8,7 +9,9 @@
 
       <div class="heading">
         <div class="name"> {{project.name}} </div>
-        <button mat-stroked-button (click)="navigateToProject(project.$key)"> Requests </button>
+        <button mat-stroked-button (click)="navigateToProject(project.$key)">
+          Requests
+        </button>
       </div>
 
       <div class="description">
@@ -23,7 +26,6 @@
          [href]="project.receiptsFolder"
          class="receipts-folder"
          target="_blank">
-        <mat-icon>folder_open</mat-icon>
         View Receipts
       </a>
     </div>

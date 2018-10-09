@@ -6,62 +6,6 @@
   flex-direction: column;
 }
 
-.top-bar-container {
-  display: flex;
-  justify-content: center;
-  margin: 16px;
-
-  .top-bar {
-    display: flex;
-    flex-direction: column;
-    max-width: 650px;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #555;
-    border-radius: 24px;
-
-    &:hover {
-      background: white;
-    }
-  }
-
-  .input-bar {
-    display: flex;
-    align-items: center;
-
-    mat-icon.search-icon {
-      color: #777;
-      margin: 8px 8px 8px 12px;
-    }
-
-    input {
-      border: none;
-      border-bottom: 1px solid transparent;
-      outline: none;
-      width: 100%;
-      background: transparent;
-      font-size: 18px;
-      padding-bottom: 4px;
-      margin-top: 5px; // Balance the bottom padding and border
-
-      &:active, &:hover, &:focus {
-        border-color: #CCC
-      }
-    }
-
-    button.expand {
-      height: 48px;
-      width: 48px;
-    }
-  }
-
-  .details {
-    overflow: hidden;
-    padding: 0 24px; // Avoid clipping bottom corners of rounded box
-
-  }
-}
-
 mat-spinner {
   margin: 16px;
 }

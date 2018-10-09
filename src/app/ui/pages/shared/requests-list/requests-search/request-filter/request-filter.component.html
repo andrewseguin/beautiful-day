@@ -1,0 +1,21 @@
+<div class="container" [formGroup]="form">
+  <div class="type"> {{filterTypeLabels.get(filter.type)}}: </div>
+
+  <div class="configuration" [ngSwitch]="filter.type">
+    <ng-container *ngSwitchCase="'project'">
+      <input formControlName="project">
+    </ng-container>
+    <ng-container *ngSwitchCase="'purchaser'">
+      Project
+    </ng-container>
+    <ng-container *ngSwitchCase="'cost'">
+      Project
+    </ng-container>
+  </div>
+
+  <button class="remove"
+          (click)="remove.next()"
+          mat-icon-button>
+    <mat-icon> close </mat-icon>
+  </button>
+</div>

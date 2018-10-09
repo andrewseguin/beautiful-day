@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase, AngularFireList, } from '@angular/fire/database';
+import {AngularFireDatabase,} from '@angular/fire/database';
 import {QueryStage, Report} from 'app/model/report';
 import {DaoService} from './dao-service';
-import {UsersService} from './users.service';
 import {User} from 'app/model/user';
 import {Observable} from 'rxjs/Observable';
 import {AuthService} from 'app/service/auth-service';
@@ -16,10 +15,6 @@ export class ReportsService extends DaoService<Report> {
     super(db, 'reports');
     this.reports = this.getKeyedListDao();
     this.authService.user.subscribe(user => this.user = user);
-  }
-
-  getAll(): AngularFireList<Report> {
-    return this.db.list('reports');
   }
 
   update(id, update: Report): void {

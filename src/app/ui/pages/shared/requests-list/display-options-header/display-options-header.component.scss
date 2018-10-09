@@ -2,6 +2,14 @@
 @import '../../../../../theme';
 @import '../common';
 
+:host {
+  display: flex;
+  flex-direction: column;
+  @include content-width;
+  margin: auto;
+  margin-bottom: 8px;
+}
+
 .button-toolbar {
   display: flex;
   align-items: center;
@@ -11,9 +19,10 @@
 }
 
 .buttons {
-  @include content-width;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  margin: 0 32px;
 
   button {
     min-width: 0;

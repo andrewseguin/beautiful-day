@@ -8,14 +8,40 @@ export type Sort = 'request added' | 'item cost' | 'item name' |
 
 export type View = 'cost' | 'dropoff' | 'notes' | 'tags';
 
+export type FilterType = 'project' | 'purchaser' | 'cost' | 'projectKey';
+
+export type Query = FilterProjectQuery | FilterProjectKeyQuery;
+
+export interface FilterProjectQuery {
+  project: string;
+}
+
+export interface FilterProjectKeyQuery {
+  key: string;
+}
+
+export interface Filter {
+  type: FilterType;
+  query?: Query;
+  isImplicit?: boolean;
+}
+
 export class RequestRendererOptions {
-  set filter(v: string) {
-    if (this._filter === v) { return; }
-    this._filter = v;
+  set filters(v: Filter[]) {
+    if (this._filters === v) { return; }
+    this._filters = v;
     this.changed.next();
   }
-  get filter(): string { return this._filter; }
-  private _filter = '';
+  get filters(): Filter[] { return this._filters; }
+  private _filters: Filter[] = [];
+
+  set search(v: string) {
+    if (this._search === v) { return; }
+    this._search = v;
+    this.changed.next();
+  }
+  get search(): string { return this._search; }
+  private _search = '';
 
   set grouping(v: Group) {
     if (this._grouping === v) { return; }
@@ -52,7 +78,7 @@ export class RequestRendererOptions {
   changed = new Subject<void>();
 
   absorb(options: RequestRendererOptions) {
-    this._filter = options.filter;
+    this._filters = options.filters;
     this._grouping = options.grouping;
     this._sorting = options.sorting;
     this._reverseSort = options.reverseSort;

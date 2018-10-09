@@ -1,14 +1,13 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {Item} from '../model/item';
 import {Observable} from 'rxjs/Observable';
 import {DaoService} from './dao-service';
 import * as firebase from 'firebase';
 import {SelectionModel} from '@angular/cdk/collections';
-import {UsersService} from 'app/service/users.service';
 import {AuthService} from 'app/service/auth-service';
-import {map} from 'rxjs/operators';
-import {BehaviorSubject} from 'rxjs';
+import {map, takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 export type CategoryGroupCollection = { [name: string]: CategoryGroup };
 
@@ -24,41 +23,32 @@ export class Category {
 }
 
 @Injectable()
-export class ItemsService extends DaoService<Item> {
+export class ItemsService extends DaoService<Item> implements OnDestroy {
   selection = new SelectionModel<string>(true);
-  currentUser: string;
-
   items = new BehaviorSubject<Item[]>([]);
   itemsMap = new BehaviorSubject<Map<string, Item>>(new Map());
 
+  private destroyed = new Subject();
+  private currentUser: string;
 
   constructor(db: AngularFireDatabase, private authService: AuthService) {
     super(db, 'items');
 
-    this.getKeyedListDao().subscribe(items => {
+    this.getKeyedListDao().pipe(takeUntil(this.destroyed)).subscribe(items => {
       const itemsMap = new Map<string, Item>();
       items.forEach(item => itemsMap.set(item.$key, item));
       this.itemsMap.next(itemsMap);
       this.items.next(items);
     });
 
-    this.authService.user.subscribe(user => {
+    this.authService.user.pipe(takeUntil(this.destroyed)).subscribe(user => {
       this.currentUser = user ? user.email : '';
     });
   }
 
-  /** Returns a map of the latest item costs. */
-  getItemCosts(): Observable<Map<string, number>> {
-    return this.items.pipe(map(items => {
-      const itemCosts = new Map<string, number>();
-      items.forEach(item => itemCosts.set(item.$key, item.cost));
-      return itemCosts;
-    }));
-  }
-
-  getItemsWithCategory(category: string): Observable<Item[]> {
-    const queryFn = ref => ref.orderByChild('category').equalTo(category);
-    return this.queryList(queryFn);
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   getCategoryGroup(filter = '', showHidden = false): Observable<Category> {
@@ -122,34 +112,6 @@ export class ItemsService extends DaoService<Item> {
     }));
   }
 
-  private addItemToCategoryGroupMap(categoryGroups: CategoryGroup, item: Item, category: string) {
-    const subcategories = category.trim().split('>');
-
-    let prevGroup = categoryGroups;
-    let group = categoryGroups;
-    let subcategory;
-    while (subcategory = subcategories.shift()) {
-      group = this.getSubcategoryGroupCollection(prevGroup, subcategory);
-      prevGroup = group;
-    }
-
-    group.items.push(item);
-  }
-
-  getSubcategoryGroupCollection(group: CategoryGroup, subcategory: string): CategoryGroup {
-    subcategory = subcategory.trim();
-    let subcategoryGroup = group.subcategories[subcategory];
-    if (!subcategoryGroup) {
-      group.subcategories[subcategory] = {
-        category: subcategory,
-        subcategories: {},
-        items: []
-      };
-    }
-
-    return group.subcategories[subcategory];
-  }
-
   add(item: Item, isBulk = false): firebase.database.ThenableReference {
     // Set the dateMove the UTC date to user's time zone
     const date = new Date();
@@ -181,7 +143,33 @@ export class ItemsService extends DaoService<Item> {
     });
   }
 
-  getSelectedItems(): string[] {
-    return this.selection.selected;
+  private addItemToCategoryGroupMap(
+      categoryGroups: CategoryGroup, item: Item, category: string) {
+    const subcategories = category.trim().split('>');
+
+    let prevGroup = categoryGroups;
+    let group = categoryGroups;
+    let subcategory;
+    while (subcategory = subcategories.shift()) {
+      group = this.getSubcategoryGroupCollection(prevGroup, subcategory);
+      prevGroup = group;
+    }
+
+    group.items.push(item);
+  }
+
+  private getSubcategoryGroupCollection(
+      group: CategoryGroup, subcategory: string): CategoryGroup {
+    subcategory = subcategory.trim();
+    let subcategoryGroup = group.subcategories[subcategory];
+    if (!subcategoryGroup) {
+      group.subcategories[subcategory] = {
+        category: subcategory,
+        subcategories: {},
+        items: []
+      };
+    }
+
+    return group.subcategories[subcategory];
   }
 }

@@ -8,12 +8,11 @@ import {
   Output
 } from '@angular/core';
 import {RequestGroup} from 'app/ui/pages/shared/requests-list/render/request-grouping';
-import {EXPANSION_ANIMATION} from 'app/ui/shared/animations';
-import {FormControl} from '@angular/forms';
-import {auditTime, debounceTime, takeUntil, tap} from 'rxjs/operators';
+import {auditTime, takeUntil} from 'rxjs/operators';
 import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
 import {fromEvent, Observable, Subject} from 'rxjs';
 import {
+  Filter,
   RequestRendererOptions
 } from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 
@@ -21,7 +20,6 @@ import {
   selector: 'requests-list',
   templateUrl: './requests-list.component.html',
   styleUrls: ['./requests-list.component.scss'],
-  animations: EXPANSION_ANIMATION,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RequestsRenderer]
 })
@@ -32,8 +30,6 @@ export class RequestsListComponent {
         .pipe(takeUntil(this.destroyed))
         .subscribe(observer));
 
-  expanded = false;
-  search = new FormControl('');
   loadingRequests: boolean;
 
   requestGroups: RequestGroup[];
@@ -46,26 +42,22 @@ export class RequestsListComponent {
 
   @Input() printMode: boolean;
 
+  @Input() implicitFilters: Filter[] = [];
+
   @Output() requestRendererOptionsChanged =
     new EventEmitter<RequestRendererOptions>();
 
-  constructor(private requestsRenderer: RequestsRenderer,
-              private changeDetectorRef: ChangeDetectorRef,
-              private elementRef: ElementRef) { }
+  constructor(public requestsRenderer: RequestsRenderer,
+              public changeDetectorRef: ChangeDetectorRef,
+              public elementRef: ElementRef) { }
 
   ngOnInit() {
+    this.requestsRenderer.options.filters = this.implicitFilters;
+
     this.requestsRenderer.initialize();
     this.requestsRenderer.options.changed.subscribe(() => {
       this.requestRendererOptionsChanged.next(this.requestsRenderer.options);
     });
-
-    this.search.valueChanges.pipe(
-      debounceTime(100),
-      takeUntil(this.destroyed))
-      .subscribe(value => {
-        this.requestsToDisplay = 10;
-        this.requestsRenderer.options.filter = value;
-      });
 
     // After 200ms of scrolling, add 50 more requests if near bottom of screen
     this.elementScrolled.pipe(
@@ -78,10 +70,10 @@ export class RequestsListComponent {
         const scrollHeight = el.scrollHeight;
 
         const distanceFromBottom = scrollHeight - scrollTop - viewHeight;
-        if (distanceFromBottom < 1000) {
+        if (distanceFromBottom < 1000 && scrollTop > 200) {
           this.requestsToDisplay += 40;
           this.render();
-        } else if (scrollTop === 0) {
+        } else if (scrollTop < 200) {
           if (this.requestsToDisplay != 20) {
             this.requestsToDisplay = 20;
             this.render();
@@ -146,7 +138,7 @@ export class RequestsListComponent {
     } else {
       renderGroup.requests = actualGroup.requests.slice();
       this.renderNextGroup();
-      this.renderMoreRequests(difference);
+      this.renderMoreRequests(threshold - difference);
     }
   }
 

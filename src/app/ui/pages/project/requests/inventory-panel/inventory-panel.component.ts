@@ -2,7 +2,6 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ItemsService} from 'app/service/items.service';
 import {Item} from 'app/model/item';
 import {Project} from 'app/model/project';
-import {MediaQueryService} from 'app/service/media-query.service';
 import {Observable} from 'rxjs/Observable';
 import {PanelsService} from './panels.service';
 
@@ -21,8 +20,7 @@ export class InventoryPanelComponent implements OnInit {
 
   @Output('closeSidenav') closeSidenav = new EventEmitter<void>();
 
-  constructor(private mediaQuery: MediaQueryService,
-              private itemsService: ItemsService,
+  constructor(private itemsService: ItemsService,
               public panelsService: PanelsService) {}
 
   ngOnInit() {

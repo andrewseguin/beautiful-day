@@ -14,6 +14,8 @@ import {Subject} from 'rxjs/Rx';
 import {RequestSearchTransformer} from 'app/utility/search/request-search-transformer';
 import {RequestSortPipe} from 'app/pipe/request-sort.pipe';
 import {
+  FilterProjectKeyQuery,
+  FilterProjectQuery,
   RequestRendererOptions
 } from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {startWith} from 'rxjs/operators';
@@ -31,7 +33,7 @@ export class RequestsRenderer {
               private projectsService: ProjectsService) { }
 
   ngOnDestroy() {
-    throw new Error('destroy?');
+    this.initSubscription.unsubscribe();
   }
 
   initialize() {
@@ -40,15 +42,15 @@ export class RequestsRenderer {
     }
 
     const data: any[] = [
-      this.requestsService.getKeyedListDao(),
+      this.requestsService.requests,
       this.itemsService.items,
-      this.projectsService.getKeyedListDao(),
+      this.projectsService.projects,
       this.options.changed.pipe(startWith(null)),
     ];
 
     this.initSubscription = combineLatest(data).subscribe(result => {
       console.time('compute');
-      const requests = result[0];
+      const requests = result[0] as Request[];
       const items = result[1];
       const projects = result[2];
 
@@ -58,19 +60,43 @@ export class RequestsRenderer {
       const projectMap = new Map<string, Project>();
       projects.forEach(project => projectMap.set(project.$key, project));
 
-      // Perform filter
+      // Filters
       console.time('filter');
-      const filter = this.options.filter;
-      const filteredRequests = requests.filter(request => {
+      let filteredRequests = requests.filter(request => {
+        return this.options.filters.every(filter => {
+          switch (filter.type) {
+            case 'project': {
+              const query = filter.query as FilterProjectQuery;
+              if (!query || !query.project) {
+                return true;
+              }
+
+              const projectName = projectMap.get(request.project).name.toLowerCase();
+              const queryProjectName = query.project.toLowerCase();
+              return projectName.indexOf(queryProjectName) != -1;
+            }
+            case 'projectKey': {
+              const query = filter.query as FilterProjectKeyQuery;
+              return !query || !query.key || request.project === query.key;
+            }
+          }
+        });
+      });
+      console.timeEnd('filter');
+
+      // Perform search
+      console.time('search');
+      const filter = this.options.search;
+      const searchedRequests = filteredRequests.filter(request => {
         const item = itemMap.get(request.item);
         const project = projectMap.get(request.project);
         return this.requestMatchesSearch(request, item, project, filter);
       });
-      console.timeEnd('filter');
+      console.timeEnd('search');
 
       // Construct groups
       console.time('group');
-      const grouper = new RequestGrouping(items, filteredRequests);
+      const grouper = new RequestGrouping(items, searchedRequests);
       let requestGroups = grouper.getGroup(this.options.grouping);
       requestGroups = requestGroups.sort((a, b) => a.title < b.title ? -1 : 1);
       console.timeEnd('group');

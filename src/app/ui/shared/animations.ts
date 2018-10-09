@@ -1,6 +1,6 @@
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
-const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
+export const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 
 export const EXPANSION_ANIMATION = [
   trigger('expanded', [

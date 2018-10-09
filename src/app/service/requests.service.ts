@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {Item} from 'app/model/item';
 import {Project} from 'app/model/project';
@@ -11,6 +11,7 @@ import {AngularFireDatabase} from '@angular/fire/database';
 import {DaoService} from './dao-service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {takeUntil} from 'rxjs/operators';
 
 export class RequestAddedResponse {
   item: Item;
@@ -18,23 +19,23 @@ export class RequestAddedResponse {
 }
 
 @Injectable()
-export class RequestsService extends DaoService<Request> {
+export class RequestsService extends DaoService<Request> implements OnDestroy {
   requestAdded = new Subject<RequestAddedResponse>();
-  requests: Observable<Request[]>;
+  requests = new BehaviorSubject<Request[]>([]);
+
   selection = new SelectionModel<string>(true);
 
   requestsByItem = new BehaviorSubject<Map<string, Request[]>>(new Map());
+
+  private destroyed = new Subject();
 
   constructor(protected db: AngularFireDatabase,
               private router: Router,
               private mdDialog: MatDialog) {
     super(db, 'requests');
-    this.requests = this.getKeyedListDao();
+    this.getKeyedListDao().pipe(takeUntil(this.destroyed)).subscribe(requests => {
+      this.requests.next(requests);
 
-    // Clear selected requests when route changes.
-    this.router.events.subscribe(() => this.selection.clear());
-
-    this.requests.subscribe(requests => {
       const requestsByItem = new Map<string, Request[]>();
       requests.forEach(request => {
         const currentRequestSet = requestsByItem.get(request.item) || [];
@@ -43,6 +44,14 @@ export class RequestsService extends DaoService<Request> {
       });
       this.requestsByItem.next(requestsByItem);
     });
+
+    // Clear selected requests when route changes.
+    this.router.events.subscribe(() => this.selection.clear());
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   getProjectRequests(projectId: string): Observable<Request[]> {

@@ -1,18 +1,31 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Event} from '../model/event';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase, } from '@angular/fire/database';
 import {DaoService} from './dao-service';
-import {map} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 
 @Injectable()
-export class EventsService extends DaoService<Event> {
-  events: Observable<Event[]>;
+export class EventsService extends DaoService<Event> implements OnDestroy {
+  events = new BehaviorSubject<Event[]>([]);
+
+  private destroyed = new Subject();
 
   constructor(db: AngularFireDatabase) {
     super(db, 'events');
-    this.events = this.getKeyedListDao();
+
+    this.getKeyedListDao().pipe(
+        takeUntil(this.destroyed))
+        .subscribe(events => {
+          this.events.next(events);
+        });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   getSortedEvents(): Observable<Event[]> {

@@ -1,11 +1,13 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {RequestsService} from './requests.service';
 import {ItemsService} from './items.service';
 import {Observable} from 'rxjs/Observable';
 import {ProjectsService} from './projects.service';
 import {Request} from '../model/request';
 import {combineLatest} from 'rxjs/observable/combineLatest';
-import {map} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
+import {Item} from 'app/model/item';
+import {Subject} from 'rxjs';
 
 export interface BudgetResponse {
   budget: number;
@@ -24,17 +26,21 @@ export class AccountingService {
     const changes = [
       this.projectsService.get(projectId).pipe(map(project => project.budget)),
       this.requestsService.getProjectRequests(projectId),
-      this.itemsService.getItemCosts(),
+      this.itemsService.items,
     ];
 
-    return combineLatest(changes).pipe(map((result: any[]) => {
-      const budget: number = result[0];
-      const requests: Request[] = result[1];
-      const itemCosts: Map<string, number> = result[2];
+    return combineLatest(changes).pipe(
+      map((result: any[]) => {
+        const budget: number = result[0];
+        const requests: Request[] = result[1];
+        const items: Item[] = result[2];
 
-      const cost = this.getAllRequestsCost(requests, itemCosts);
-      return this._constructBudgetResponse(budget, cost);
-    }));
+        const itemCosts = new Map<string, number>();
+        items.forEach(item => itemCosts.set(item.$key, item.cost));
+
+        const cost = this.getAllRequestsCost(requests, itemCosts);
+        return this._constructBudgetResponse(budget, cost);
+      }));
   }
 
   /** Returns the cost of all requests. */

@@ -3,11 +3,12 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {Project} from 'app/model/project';
 import {RequestsService} from 'app/service/requests.service';
 import {ProjectsService} from 'app/service/projects.service';
-import {MediaQueryService} from 'app/service/media-query.service';
 import {EditProjectPermissions, PermissionsService} from 'app/service/permissions.service';
 import {RequestsListComponent} from 'app/ui/pages/shared/requests-list/requests-list.component';
 import {Request} from 'app/model/request';
 import {Observable} from 'rxjs/Observable';
+import {Filter} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {isMobile} from 'app/utility/media-matcher';
 
 @Component({
   selector: 'project-requests',
@@ -20,19 +21,20 @@ export class ProjectRequestsComponent implements OnInit {
   project: Observable<Project>;
   projectId: string;
   requests: Request[] = [];
+  projectKeyFilter: Filter = {type: 'projectKey', isImplicit: true};
 
   @ViewChild(RequestsListComponent) requestsListComponent: RequestsListComponent;
 
   constructor(private route: ActivatedRoute,
               private projectsService: ProjectsService,
               private requestsService: RequestsService,
-              private mediaQuery: MediaQueryService,
               private permissionsService: PermissionsService) { }
 
   ngOnInit() {
     this.route.parent.params.subscribe((params: Params) => {
       this.projectId = params['id'];
       this.project = this.projectsService.get(this.projectId);
+      this.projectKeyFilter.query = {key: this.projectId};
 
       this.permissionsService.getEditPermissions(this.projectId)
           .subscribe(editPermissions => this.editPermissions = editPermissions);
@@ -51,7 +53,7 @@ export class ProjectRequestsComponent implements OnInit {
   }
 
   hideInventory(): boolean {
-    return this.mediaQuery.isMobile() || !this.editPermissions.requests;
+    return isMobile() || !this.editPermissions.requests;
   }
 
   hasSelectedRequests(): boolean {

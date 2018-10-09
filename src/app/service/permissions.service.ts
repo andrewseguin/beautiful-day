@@ -30,7 +30,7 @@ export class PermissionsService {
   /** Flag that disables leads/directors from making request changes. */
   editsDisabled: boolean;
 
-  permissions = this.groupsService.membership$.pipe(map(m => this.getPermissions(m)));
+  permissions = this.groupsService.memberships.pipe(map(m => this.getPermissions(m)));
   isOwner = this.permissions.pipe(map(p => p.owner));
   isAdmin = this.permissions.pipe(map(p => p.admin));
   isAcquisitions = this.permissions.pipe(map(p => p.acquisition));

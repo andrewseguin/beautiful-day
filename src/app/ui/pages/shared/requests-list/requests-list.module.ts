@@ -4,8 +4,7 @@ import {CommonModule} from '@angular/common';
 import {RequestsGroupModule} from './requests-group/requests-group.module';
 import {DisplayOptionsHeaderModule} from './display-options-header/display-options-header.module';
 import {MaterialModule} from 'app/material.module';
-import {ReactiveFormsModule} from '@angular/forms';
-import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
+import {RequestsSearchModule} from 'app/ui/pages/shared/requests-list/requests-search/requests-search.module';
 
 @NgModule({
   imports: [
@@ -13,7 +12,7 @@ import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/request
     MaterialModule,
     RequestsGroupModule,
     DisplayOptionsHeaderModule,
-    ReactiveFormsModule,
+    RequestsSearchModule,
   ],
   declarations: [RequestsListComponent],
   exports: [RequestsListComponent],

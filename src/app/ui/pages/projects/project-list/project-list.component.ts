@@ -28,7 +28,6 @@ const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 })
 export class ProjectListComponent {
   projects: Observable<Project[]>;
-  project: Project;
 
   expandedContacts = new SelectionModel<string>(true);
   loadedContacts = new Set<string>();
@@ -43,7 +42,6 @@ export class ProjectListComponent {
 
   ngOnInit() {
     this.projects = this.projectsService.getSortedProjects(this.season);
-    this.projects.subscribe(projects => this.project = projects[0]);
   }
 
   navigateToProject(id: string) {

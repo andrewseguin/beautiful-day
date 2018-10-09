@@ -1,24 +1,31 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Project} from 'app/model/project';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {DaoService} from './dao-service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {map} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Injectable()
-export class ProjectsService extends DaoService<Project> {
-  projects: Observable<Project[]>;
-
+export class ProjectsService extends DaoService<Project> implements OnDestroy {
+  projects = new BehaviorSubject<Project[]>([]);
   projectsMap = new BehaviorSubject<Map<string, Project>>(new Map());
+
+  private destroyed = new Subject();
+
 
   constructor(db: AngularFireDatabase) {
     super(db, 'projects');
-    this.projects = this.getKeyedListDao();
-
-    this.projects.subscribe(projects => {
+    this.getKeyedListDao().pipe(takeUntil(this.destroyed)).subscribe(projects => {
+      this.projects.next(projects);
       this.projectsMap.next(this.convertKeyedListToMap(projects));
     });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   convertKeyedListToMap(list: any[]) {

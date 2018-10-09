@@ -1,0 +1,37 @@
+<div class="top-bar-container">
+  <div class="top-bar">
+    <div class="input-bar">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input [formControl]="search" placeholder="Search requests">
+      <button mat-icon-button
+              [mat-menu-trigger-for]="filterTypesMenu"
+              matTooltip="Add request filter"
+              class="new-filter">
+        <mat-icon> add </mat-icon>
+      </button>
+    </div>
+
+    <div class="details">
+      <div class="filter-container" @expand
+           *ngFor="let filter of requestsRenderer.options.filters">
+        <request-filter [filter]="filter" (remove)="remove(filter)"
+                        *ngIf="!filter.isImplicit"
+                        (queryChange)="queryChange(filter, $event)">
+        </request-filter>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Filter Types Menu -->
+<mat-menu #filterTypesMenu="matMenu" xPosition="before" class="filter-menu">
+  <div class="project-requests-menu-title">Filter by:</div>
+  <button class="project-requests-option" mat-menu-item
+          *ngFor="let filterType of filterTypes"
+          (click)="addFilter(filterType)">
+    <div class="option-content">
+      {{filterTypeLabels.get(filterType)}}
+    </div>
+  </button>
+</mat-menu>
