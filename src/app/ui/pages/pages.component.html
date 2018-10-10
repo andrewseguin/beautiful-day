@@ -3,10 +3,12 @@
     <nav-content [sidenav]="sidenav"></nav-content>
   </mat-sidenav>
 
-  <selection-header></selection-header>
-  <header [sidenav]="sidenav"></header>
+  <mat-sidenav-content>
+    <selection-header></selection-header>
+    <header [sidenav]="sidenav"></header>
 
-  <div class="router-content" #routerContent>
-    <router-outlet></router-outlet>
-  </div>
+    <div class="router-content" #routerContent>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>

@@ -6,11 +6,11 @@
 
 .request {
   display: flex;
-  border-bottom: 1px solid #CCC;
+  border-top: 1px solid #CCC;
   flex-direction: column;
   font-size: 13px;
   color: #444;
-  padding: 4px;
+  padding: 8px 0;
   position: relative;
   cursor: pointer;
   page-break-inside: avoid;

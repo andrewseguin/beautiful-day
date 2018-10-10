@@ -16,7 +16,7 @@ export type SelectionType = 'request' | 'item';
   },
   animations: [
     trigger('state', [
-      state('void, none', style({transform: 'translateY(-100%)'})),
+      state('void, none', style({transform: 'translateY(-110%)'})),
       state('selected', style({transform: 'translateY(0%)'})),
       transition('void => selected, none <=> selected', [
         animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]

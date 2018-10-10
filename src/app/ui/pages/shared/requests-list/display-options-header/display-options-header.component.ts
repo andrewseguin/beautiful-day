@@ -1,10 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {
-  Filter, FilterType,
-  Group,
-  Sort,
-  View
-} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {Group, Sort} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
 
 @Component({
@@ -14,14 +9,15 @@ import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/request
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DisplayOptionsHeaderComponent {
-  groups: {id: Group, label: string}[] = [
-    { id: 'all', label: 'All'},
-    { id: 'category', label: 'Category'},
-    { id: 'date', label: 'Date Needed'},
-    { id: 'dropoff', label: 'Dropoff Location'},
-    { id: 'tags', label: 'Tags'},
-    { id: 'item', label: 'Item'},
-  ];
+  groups = new Map<Group, string>([
+    ['all', 'None'],
+    ['category', 'Category'],
+    ['date', 'Date Needed'],
+    ['dropoff', 'Dropoff Location'],
+    ['tags', 'Tags'],
+    ['item', 'Item'],
+  ]);
+  groupIds = Array.from(this.groups.keys());
 
   sorts: Sort[] = [
     'request added',
@@ -31,8 +27,6 @@ export class DisplayOptionsHeaderComponent {
     'date needed',
     'purchaser'
   ];
-
-  views: View[] = ['cost', 'dropoff', 'notes', 'tags'];
 
   constructor(private requestsRenderer: RequestsRenderer,
               private cd: ChangeDetectorRef) {
@@ -49,21 +43,5 @@ export class DisplayOptionsHeaderComponent {
       options.sorting = sort;
       options.reverseSort = false;
     }
-  }
-
-  toggleView(view: View) {
-    const views = this.requestsRenderer.options.view.slice();
-    const index = views.indexOf(view);
-    if (index === -1) {
-      views.push(view);
-    } else {
-      views.splice(index, 1);
-    }
-
-    this.requestsRenderer.options.view = views;
-  }
-
-  isViewSelected(view: View) {
-    return this.requestsRenderer.options.view.indexOf(view) != -1;
   }
 }

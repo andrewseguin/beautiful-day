@@ -1,5 +1,5 @@
 <div class="section-title">{{season}} Projects</div>
-<div class="projects mat-elevation-z2">
+<div class="projects">
   <mat-progress-spinner *ngIf="!projects | async"
                         mode="indeterminate" color="accent">
   </mat-progress-spinner>
@@ -9,7 +9,8 @@
 
       <div class="heading">
         <div class="name"> {{project.name}} </div>
-        <button mat-stroked-button (click)="navigateToProject(project.$key)">
+        <button mat-raised-button color="primary"
+                (click)="navigateToProject(project.$key)">
           Requests
         </button>
       </div>
@@ -60,4 +61,3 @@
     </div>
   </div>
 </div>
-

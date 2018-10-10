@@ -5,10 +5,12 @@ import {ProjectsService} from 'app/service/projects.service';
 import {of} from 'rxjs/observable/of';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Title as WindowTitle} from '@angular/platform-browser';
+import {CdkPortal} from '@angular/cdk/portal';
 
 @Injectable()
 export class TitleService {
   title = new BehaviorSubject<string>('Loading...');
+  toolbarOutlet: CdkPortal;
 
   constructor(private projectsService: ProjectsService,
               private windowTitle: WindowTitle,

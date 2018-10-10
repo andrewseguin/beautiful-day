@@ -16,6 +16,9 @@ import {isMobile} from 'app/utility/media-matcher';
   selector: 'header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  host: {
+    'class': 'mat-elevation-z1',
+  }
 })
 export class HeaderComponent implements OnInit {
   topLevel: TopLevelSection;

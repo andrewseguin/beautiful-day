@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="project-toolbar mat-elevation-z1">
+<mat-toolbar>
   <button mat-button class="toolbar-menu" (click)="sidenav.open()">
     <mat-icon>menu</mat-icon>
   </button>
@@ -6,10 +6,8 @@
   <div class="name"> {{titleService.title | async}} </div>
 
   <div class="end">
-    <button *ngIf="showPrintIcon"
-            (click)="printRequests()"
-            mat-icon-button style="margin-right: 16px">
-      <mat-icon>print</mat-icon>
-    </button>
+    <ng-template *ngIf="titleService.toolbarOutlet"
+                 [cdkPortalOutlet]="titleService.toolbarOutlet">
+    </ng-template>
   </div>
 </mat-toolbar>

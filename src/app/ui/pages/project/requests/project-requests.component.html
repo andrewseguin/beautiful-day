@@ -1,4 +1,4 @@
-<mat-drawer-container *ngIf="editPermissions && delayedShow">
+<mat-drawer-container *ngIf="editPermissions">
   <requests-list *ngIf="requests?.length" [implicitFilters]="[projectKeyFilter]">
   </requests-list>
 
@@ -28,7 +28,6 @@
     </div>
   </div>
 
-  <remaining-budget *ngIf="showBudget()" [projectId]="projectId"></remaining-budget>
 
   <button mat-fab color="accent"
           [class.attention]="!requests?.length"
@@ -45,3 +44,7 @@
     </inventory-panel>
   </mat-drawer>
 </mat-drawer-container>
+
+<ng-template cdkPortal>
+  <remaining-budget *ngIf="showBudget()" [projectId]="projectId"></remaining-budget>
+</ng-template>

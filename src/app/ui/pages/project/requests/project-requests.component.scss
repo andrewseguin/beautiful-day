@@ -14,7 +14,6 @@
 
 :host mat-drawer-container {
   height: 100%;
-  background: $background;
 }
 
 mat-drawer {
@@ -26,6 +25,7 @@ mat-drawer {
 :host ::ng-deep .mat-drawer-content {
   display: flex;
   flex-direction: column;
+  background: #FAFAFA;
 }
 
 requests-list {
@@ -118,6 +118,7 @@ button[mat-fab] {
   transition: 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
   transform: scale(1);
   opacity: 1;
+  z-index: 1;
 
   &.attention {
     animation: fontbulger 5s infinite;

@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="cost" *ngIf="views.has('cost')">
+    <div class="cost">
         <span *ngIf="item?.cost">
           {{getRequestCost() | currency:'USD'}}
         </span>
@@ -58,7 +58,7 @@
       </span>
     </div>
 
-    <div *ngIf="views.has('dropoff')">
+    <div>
       <span class="editable"
             [class.clickable]="canEdit && !isReporting"
             (click)="editDropoff($event)">
@@ -68,7 +68,7 @@
       </span>
     </div>
 
-    <div *ngIf="request?.note && views.has('notes')">
+    <div *ngIf="request?.note">
       <span class="editable"
             [class.clickable]="canEdit && !isReporting"
             (click)="editNote($event)">
@@ -98,7 +98,7 @@
       </mat-icon>
     </div>
 
-    <div *ngIf="request?.tags && views.has('tags')" class="tags">
+    <div *ngIf="request?.tags" class="tags">
       <span class="editable clickable tag" *ngFor="let tag of request.tags.split(',').sort()"
             [style.background]="getTagColor(tag)"
             (click)="$event.stopPropagation(); ">

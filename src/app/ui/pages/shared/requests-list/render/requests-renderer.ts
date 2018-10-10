@@ -6,7 +6,7 @@ import {
 import {RequestsService} from 'app/service/requests.service';
 import {ItemsService} from 'app/service/items.service';
 import {ProjectsService} from 'app/service/projects.service';
-import {combineLatest, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 import {Item} from 'app/model/item';
 import {Project} from 'app/model/project';
 import {Request} from 'app/model/request';
@@ -24,7 +24,7 @@ import {startWith} from 'rxjs/operators';
 export class RequestsRenderer {
   options: RequestRendererOptions = new RequestRendererOptions();
 
-  requestGroups = new Subject<RequestGroup[]>();
+  requestGroups = new BehaviorSubject<RequestGroup[]>([]);
 
   private initSubscription: Subscription;
 

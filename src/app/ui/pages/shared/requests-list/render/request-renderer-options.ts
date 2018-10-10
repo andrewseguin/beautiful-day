@@ -6,8 +6,6 @@ export type Group = 'all' | 'category' | 'project' | 'date' |
 export type Sort = 'request added' | 'item cost' | 'item name' |
                    'request cost' | 'date needed' | 'purchaser';
 
-export type View = 'cost' | 'dropoff' | 'notes' | 'tags';
-
 export type FilterType = 'project' | 'purchaser' | 'cost' | 'projectKey';
 
 export type Query = FilterProjectQuery | FilterProjectKeyQuery;
@@ -67,14 +65,6 @@ export class RequestRendererOptions {
   get reverseSort(): boolean { return this._reverseSort; }
   private _reverseSort = false;
 
-  set view(v: View[]) {
-    if (_areViewsEqual(this._view, v)) { return; }
-    this._view = v;
-    this.changed.next();
-  }
-  get view(): View[] { return this._view; }
-  private _view: View[] = ['cost', 'dropoff', 'notes', 'tags'];
-
   changed = new Subject<void>();
 
   absorb(options: RequestRendererOptions) {
@@ -82,15 +72,6 @@ export class RequestRendererOptions {
     this._grouping = options.grouping;
     this._sorting = options.sorting;
     this._reverseSort = options.reverseSort;
-    this._view = options.view;
     this.changed.next();
   }
-}
-
-function _areViewsEqual(views1: View[], views2: View[]) {
-  if (views1.length != views2.length) {
-    return false;
-  }
-
-  return views1.every(v1 => views2.indexOf(v1) != -1);
 }

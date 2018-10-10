@@ -9,6 +9,8 @@ import {Request} from 'app/model/request';
 import {Observable} from 'rxjs/Observable';
 import {Filter} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {isMobile} from 'app/utility/media-matcher';
+import {TitleService} from 'app/service/header.service';
+import {CdkPortal} from '@angular/cdk/portal';
 
 @Component({
   selector: 'project-requests',
@@ -16,7 +18,6 @@ import {isMobile} from 'app/utility/media-matcher';
   styleUrls: ['./project-requests.component.scss'],
 })
 export class ProjectRequestsComponent implements OnInit {
-  delayedShow: boolean;
   editPermissions: EditProjectPermissions;
   project: Observable<Project>;
   projectId: string;
@@ -24,13 +25,16 @@ export class ProjectRequestsComponent implements OnInit {
   projectKeyFilter: Filter = {type: 'projectKey', isImplicit: true};
 
   @ViewChild(RequestsListComponent) requestsListComponent: RequestsListComponent;
+  @ViewChild(CdkPortal) toolbarActions: CdkPortal;
 
   constructor(private route: ActivatedRoute,
+              private titleService: TitleService,
               private projectsService: ProjectsService,
               private requestsService: RequestsService,
               private permissionsService: PermissionsService) { }
 
   ngOnInit() {
+    this.titleService.toolbarOutlet = this.toolbarActions;
     this.route.parent.params.subscribe((params: Params) => {
       this.projectId = params['id'];
       this.project = this.projectsService.get(this.projectId);
@@ -42,14 +46,10 @@ export class ProjectRequestsComponent implements OnInit {
       this.requestsService.getProjectRequests(this.projectId)
           .subscribe(requests => this.requests = requests);
     });
+  }
 
-    this.requestsService.getRequestAddedStream().subscribe(response => {
-      // Can highlight a request if wanted
-    });
-
-    // Delay the HTML so that the page first shows up with a background.
-    // This is significant for mobile
-    setTimeout(() => { this.delayedShow = true; }, 0);
+  ngOnDestroy() {
+    this.titleService.toolbarOutlet = null;
   }
 
   hideInventory(): boolean {
@@ -61,6 +61,6 @@ export class ProjectRequestsComponent implements OnInit {
   }
 
   showBudget(): boolean {
-    return this.editPermissions.requests;
+    return this.editPermissions && this.editPermissions.requests;
   }
 }

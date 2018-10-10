@@ -3,10 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
   ViewChild
 } from '@angular/core';
 import {MatDialog} from '@angular/material';
@@ -19,9 +17,6 @@ import {ProjectsService} from 'app/service/projects.service';
 import {GroupsService} from 'app/service/groups.service';
 import {AccountingService} from 'app/service/accounting.service';
 import {Project} from 'app/model/project';
-import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
-import {View} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
-import {startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'request',
@@ -35,8 +30,6 @@ import {startWith} from 'rxjs/operators';
 export class RequestComponent implements OnInit {
   displayState = 'hidden';
   projectName: string;
-
-  views: Set<View> = new Set<View>();
 
   @Input()
   set request(request: Request) {
@@ -76,16 +69,9 @@ export class RequestComponent implements OnInit {
               private accountingService: AccountingService,
               private requestsService: RequestsService,
               private projectsService: ProjectsService,
-              private requestsRenderer: RequestsRenderer,
               private groupsService: GroupsService) { }
 
   ngOnInit() {
-    this.requestsRenderer.options.changed
-        .pipe(startWith(null))
-        .subscribe(() => {
-          this.views = new Set(this.requestsRenderer.options.view);
-          this.cd.markForCheck();
-        });
     this.requestsService.selection.changed.subscribe(() => {
       this.cd.markForCheck();
     });

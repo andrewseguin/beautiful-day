@@ -33,16 +33,13 @@ mat-sidenav-container {
   bottom: 0;
 }
 
-.router-content {
-  position: absolute;
-  top: 64px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow: auto;
-  background: $background;
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-  @media (max-width: $mobile-width - 1) {
-    top: 48px;
-  }
+.router-content {
+  overflow: auto;
+  flex: 1;
 }

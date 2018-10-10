@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {ProjectsService} from 'app/service/projects.service';
 import {SelectionModel} from '@angular/cdk/collections';
-import {animate, animateChild, query, state, style, transition, trigger} from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 
@@ -34,7 +34,8 @@ export class ProjectListComponent {
 
   @Input() season: string;
 
-  constructor(private router: Router, private projectsService: ProjectsService) {
+  constructor(private router: Router,
+              private projectsService: ProjectsService) {
     this.expandedContacts.changed.subscribe(change => {
       change.added.forEach(v => this.loadedContacts.add(v));
     });

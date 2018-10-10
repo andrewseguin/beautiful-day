@@ -5,7 +5,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  Output
+  Output, ViewChild
 } from '@angular/core';
 import {RequestGroup} from 'app/ui/pages/shared/requests-list/render/request-grouping';
 import {auditTime, takeUntil} from 'rxjs/operators';
@@ -15,6 +15,7 @@ import {
   Filter,
   RequestRendererOptions
 } from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {CdkPortal} from '@angular/cdk/portal';
 
 @Component({
   selector: 'requests-list',

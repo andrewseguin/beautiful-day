@@ -18,9 +18,6 @@ import {ItemsService} from 'app/service/items.service';
   selector: 'requests-group',
   templateUrl: './requests-group.component.html',
   styleUrls: ['./requests-group.component.scss'],
-  host: {
-    'class': 'mat-elevation-z4'
-  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestsGroupComponent {
@@ -63,12 +60,6 @@ export class RequestsGroupComponent {
       this.permissionsService.getEditPermissions(this.projectId)
         .subscribe(editPermissions => this.canEdit = editPermissions.requests);
     }
-  }
-
-  hasAllSelectedRequests(): boolean {
-    return this.requests.every(request => {
-      return this.requestsService.selection.isSelected(request.$key);
-    });
   }
 
   toggleGroupSelection(select: boolean) {

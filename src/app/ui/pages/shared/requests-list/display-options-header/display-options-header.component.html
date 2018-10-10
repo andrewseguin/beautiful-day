@@ -1,52 +1,29 @@
-<div class="button-toolbar">
-  <div class="buttons">
-    <button mat-button [mat-menu-trigger-for]="groupingMenu">
-      <div class="button-content">
-        <mat-icon>view_stream</mat-icon>
-        <span class="text"> Group </span>
-      </div>
-    </button>
+<div class="buttons">
+  <button mat-button [mat-menu-trigger-for]="groupingMenu">
+    <div class="button-content">
+      Group by: {{groups.get(requestsRenderer.options.grouping)}}
+      <mat-icon>arrow_drop_down</mat-icon>
+    </div>
+  </button>
 
-    <button mat-button [mat-menu-trigger-for]="viewingMenu">
-      <div class="button-content">
-        <mat-icon>remove_red_eye</mat-icon>
-        <span class="text"> View </span>
-      </div>
-    </button>
-
-    <button mat-button [mat-menu-trigger-for]="sortingMenu">
-      <div class="button-content">
-        <mat-icon>sort</mat-icon>
-        <span class="text"> Sort </span>
-      </div>
-    </button>
-  </div>
+  <button mat-button [mat-menu-trigger-for]="sortingMenu">
+    <div class="button-content">
+      Sort by: {{requestsRenderer.options.sorting}}
+      <mat-icon>arrow_drop_down</mat-icon>
+    </div>
+  </button>
 </div>
 
 <!-- Group Menu -->
 <mat-menu #groupingMenu="matMenu">
   <div class="project-requests-menu-title">Group requests by:</div>
   <button class="grouping-option project-requests-option" mat-menu-item
-          *ngFor="let group of groups"
-          [class.selected]="requestsRenderer.options.grouping == group.id"
-          (click)="requestsRenderer.options.grouping = group.id">
+          *ngFor="let groupId of groupIds"
+          [class.selected]="requestsRenderer.options.grouping == groupId"
+          (click)="requestsRenderer.options.grouping = groupId">
     <div class="option-content">
       <mat-icon>check</mat-icon>
-      {{group.label}}
-    </div>
-  </button>
-</mat-menu>
-
-<!-- View Menu -->
-<mat-menu #viewingMenu="matMenu">
-  <div class="project-requests-menu-title">View request details:</div>
-  <button class="project-requests-option" mat-menu-item
-          *ngFor="let view of views"
-          [class.selected]="isViewSelected(view)"
-          (click)="toggleView(view)">
-    <div class="option-content">
-      <mat-icon>check</mat-icon>
-      {{view}}
+      {{groups.get(groupId)}}
     </div>
   </button>
 </mat-menu>

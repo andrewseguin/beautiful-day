@@ -22,6 +22,7 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import {PortalModule} from '@angular/cdk/portal';
 
 @NgModule({
   imports: [],
@@ -51,6 +52,7 @@ import {
     MatSortModule,
     MatToolbarModule,
     MatTooltipModule,
+    PortalModule,
   ]
 })
 export class MaterialModule { }

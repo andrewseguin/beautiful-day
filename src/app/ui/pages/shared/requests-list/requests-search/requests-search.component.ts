@@ -22,7 +22,7 @@ export const FILTER_TYPE_LABELS = new Map<FilterType, string>([
   styleUrls: ['requests-search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class.has-filters]': 'requestsRenderer.options.filters.length'
+    '[class.has-filters]': 'hasDisplayedFilters()'
   },
   animations: [
     trigger('expand', [
@@ -78,5 +78,9 @@ export class RequestsSearchComponent {
     const index = filters.indexOf(filter);
     filters[index].query = query;
     this.requestsRenderer.options.filters = filters;
+  }
+
+  hasDisplayedFilters() {
+    return this.requestsRenderer.options.filters.some(filter => !filter.isImplicit);
   }
 }
