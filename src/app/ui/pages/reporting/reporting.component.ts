@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {TitleService} from 'app/service/header.service';
 import {ActivatedRoute, Params} from '@angular/router';
 
 @Component({

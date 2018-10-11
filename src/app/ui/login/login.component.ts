@@ -1,8 +1,8 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
-import * as firebase from 'firebase';
 import {Subscription} from 'rxjs/Subscription';
+import {auth} from 'firebase/app';
 
 @Component({
   selector: 'login',
@@ -30,6 +30,6 @@ export class LoginComponent implements OnDestroy {
 
   login() {
     this.checkingAuth = true;
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
   }
 }

@@ -10,15 +10,11 @@ import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 import {Item} from 'app/model/item';
 import {Project} from 'app/model/project';
 import {Request} from 'app/model/request';
-import {Subject} from 'rxjs/Rx';
 import {RequestSearchTransformer} from 'app/utility/search/request-search-transformer';
-import {RequestSortPipe} from 'app/pipe/request-sort.pipe';
-import {
-  FilterProjectKeyQuery,
-  FilterProjectQuery,
-  RequestRendererOptions
-} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {RequestRendererOptions} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {startWith} from 'rxjs/operators';
+import {RequestFilterer} from 'app/ui/pages/shared/requests-list/render/request-filterer';
+import {RequestSorter} from 'app/ui/pages/shared/requests-list/render/request-sorter';
 
 @Injectable()
 export class RequestsRenderer {
@@ -49,10 +45,15 @@ export class RequestsRenderer {
     ];
 
     this.initSubscription = combineLatest(data).subscribe(result => {
-      console.time('compute');
       const requests = result[0] as Request[];
-      const items = result[1];
-      const projects = result[2];
+      const items = result[1] as Item[];
+      const projects = result[2] as Project[];
+
+      if (!requests.length || !items.length || !projects.length) {
+        return [];
+      }
+
+      console.time('compute');
 
       const itemMap = new Map<string, Item>();
       items.forEach(item => itemMap.set(item.$key, item));
@@ -60,50 +61,25 @@ export class RequestsRenderer {
       const projectMap = new Map<string, Project>();
       projects.forEach(project => projectMap.set(project.$key, project));
 
-      // Filters
-      console.time('filter');
-      let filteredRequests = requests.filter(request => {
-        return this.options.filters.every(filter => {
-          switch (filter.type) {
-            case 'project': {
-              const query = filter.query as FilterProjectQuery;
-              if (!query || !query.project) {
-                return true;
-              }
+      // Filter
+      const requestFilterer = new RequestFilterer(this.options, projectMap, itemMap);
+      let filteredRequests = requestFilterer.filter(requests);
 
-              const projectName = projectMap.get(request.project).name.toLowerCase();
-              const queryProjectName = query.project.toLowerCase();
-              return projectName.indexOf(queryProjectName) != -1;
-            }
-            case 'projectKey': {
-              const query = filter.query as FilterProjectKeyQuery;
-              return !query || !query.key || request.project === query.key;
-            }
-          }
-        });
-      });
-      console.timeEnd('filter');
-
-      // Perform search
-      console.time('search');
-      const filter = this.options.search;
-      const searchedRequests = filteredRequests.filter(request => {
+      // Search
+      const search = this.options.search;
+      const searchedRequests = !search ? filteredRequests : filteredRequests.filter(request => {
         const item = itemMap.get(request.item);
         const project = projectMap.get(request.project);
-        return this.requestMatchesSearch(request, item, project, filter);
+        return this.requestMatchesSearch(request, item, project, search);
       });
-      console.timeEnd('search');
 
-      // Construct groups
-      console.time('group');
+      // Group
       const grouper = new RequestGrouping(items, searchedRequests);
       let requestGroups = grouper.getGroup(this.options.grouping);
       requestGroups = requestGroups.sort((a, b) => a.title < b.title ? -1 : 1);
-      console.timeEnd('group');
 
-      // Sort lists
-      console.time('sort');
-      const requestSortPipe = new RequestSortPipe();
+      // Sort
+      const requestSortPipe = new RequestSorter();
       requestGroups.forEach(group => {
         const sort = this.options.sorting;
         const sortFn = requestSortPipe.getSortFunction(sort, itemMap);
@@ -113,7 +89,6 @@ export class RequestsRenderer {
           group.requests = group.requests.reverse();
         }
       });
-      console.timeEnd('sort');
 
       this.requestGroups.next(requestGroups);
       console.timeEnd('compute');

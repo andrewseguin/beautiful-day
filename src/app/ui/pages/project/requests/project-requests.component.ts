@@ -9,7 +9,7 @@ import {Request} from 'app/model/request';
 import {Observable} from 'rxjs/Observable';
 import {Filter} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {isMobile} from 'app/utility/media-matcher';
-import {TitleService} from 'app/service/header.service';
+import {HeaderService} from 'app/service/header.service';
 import {CdkPortal} from '@angular/cdk/portal';
 
 @Component({
@@ -28,7 +28,7 @@ export class ProjectRequestsComponent implements OnInit {
   @ViewChild(CdkPortal) toolbarActions: CdkPortal;
 
   constructor(private route: ActivatedRoute,
-              private titleService: TitleService,
+              private titleService: HeaderService,
               private projectsService: ProjectsService,
               private requestsService: RequestsService,
               private permissionsService: PermissionsService) { }

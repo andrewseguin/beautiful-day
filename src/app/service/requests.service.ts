@@ -71,7 +71,12 @@ export class RequestsService extends DaoService<Request> implements OnDestroy {
       date: Number(project.lastUsedDate || defaultDate)
     };
     this.add(request).then(response => {
-      this.requestAdded.next({key: response.getKey(), item});
+      this.requestAdded.next({key: response.key, item});
+
+      window.setTimeout(() => {
+        const requestEl = document.querySelector(`#${response.key}`);
+        requestEl.classList.add('added');
+      }, 200);
     });
   }
 

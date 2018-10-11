@@ -52,25 +52,26 @@ export class AccountingService {
 
     return requests
       // Convert all requests to their cost
-      .map(request => this.getRequestCost(itemCosts.get(request.item), request))
+      .map(request => getRequestCost(itemCosts.get(request.item), request))
       // Add all costs
       .reduce((totalCost, requestCost) => totalCost + requestCost);
-  }
-
-  /** Returns the cost of a request (quantity * item cost). */
-  getRequestCost(itemCost: number, request: Request) {
-    let quantityToPurchase = request.quantity;
-
-    if (request.allocation) {
-      quantityToPurchase -= request.allocation;
-      quantityToPurchase = Math.max(quantityToPurchase, 0);
-    }
-
-    return itemCost ? quantityToPurchase * itemCost : 0;
   }
 
   /** Constructs a budget response with the budget, cost, and remaining balance. */
   _constructBudgetResponse(budget: number, cost: number) {
     return {budget, cost, remaining: budget - cost};
   }
+}
+
+
+/** Returns the cost of a request (quantity * item cost). */
+export function getRequestCost(itemCost: number, request: Request) {
+  let quantityToPurchase = request.quantity;
+
+  if (request.allocation) {
+    quantityToPurchase -= request.allocation;
+    quantityToPurchase = Math.max(quantityToPurchase, 0);
+  }
+
+  return itemCost ? quantityToPurchase * itemCost : 0;
 }

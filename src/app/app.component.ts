@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AnalyticsService} from 'app/service/analytics.service';
 import {AuthService} from 'app/service/auth-service';
-import {TitleService} from 'app/service/header.service';
+import {HeaderService} from 'app/service/header.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import {TitleService} from 'app/service/header.service';
 export class AppComponent {
   constructor(private analyticsService: AnalyticsService,
               private authService: AuthService,
-              private titleService: TitleService) {
+              private titleService: HeaderService) {
     this.titleService.observeChanges();
     this.analyticsService.setupGoogleAnalytics();
     this.authService.watchState();

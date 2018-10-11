@@ -7,8 +7,21 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Title as WindowTitle} from '@angular/platform-browser';
 import {CdkPortal} from '@angular/cdk/portal';
 
+const TOP_LEVEL_SECTION_TITLES = new Map<string, string>([
+  ['projects', 'Projects'],
+  ['inventory', 'Inventory'],
+  ['login', 'Login to BD365 Management'],
+  ['home', 'Home'],
+  ['reporting', 'Reporting'],
+  ['events', 'events'],
+  ['feedback', 'feedback'],
+  ['help', 'Help'],
+]);
+
+
 @Injectable()
-export class TitleService {
+export class HeaderService {
+  goBack: () => void | null;
   title = new BehaviorSubject<string>('Loading...');
   toolbarOutlet: CdkPortal;
 
@@ -21,26 +34,21 @@ export class TitleService {
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd),
       mergeMap((e: NavigationEnd) => {
+        this.goBack = null;
         const urlParts = e.url.split('/');
 
-        switch (urlParts[1]) {
-          case 'project':
-            const projectId = urlParts[2];
-            return this.projectsService.get(projectId).pipe(
-              map(project => project.name),
-              take(1));
-          case 'inventory':
-            return of('Inventory');
-          case 'feedback':
-            return of('Feedback');
-          case 'reporting':
-            return of('Reporting');
-          case 'events':
-            return of('Events');
-          case 'projects':
-            return of('Projects');
-          default:
-            return of('BD365 Management');
+        if (urlParts[1] === 'project') {
+          const projectId = urlParts[2];
+          return this.projectsService.get(projectId).pipe(
+            map(project => {
+              this.goBack = () => this.router.navigate(['/projects']);
+              return project.name;
+            }),
+            take(1));
+        } else if (TOP_LEVEL_SECTION_TITLES.has(urlParts[1])) {
+          return of(TOP_LEVEL_SECTION_TITLES.get(urlParts[1]));
+        } else {
+          return of('BD365 Management');
         }
       }))
       .subscribe(title => {

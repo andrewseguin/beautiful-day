@@ -6,16 +6,39 @@ export type Group = 'all' | 'category' | 'project' | 'date' |
 export type Sort = 'request added' | 'item cost' | 'item name' |
                    'request cost' | 'date needed' | 'purchaser';
 
-export type FilterType = 'project' | 'purchaser' | 'cost' | 'projectKey';
+export type FilterType = 'project' | 'purchaser' | 'dropoff date' |
+                         'request cost' | 'projectKey' | 'item cost' |
+                         'dropoff location';
 
-export type Query = FilterProjectQuery | FilterProjectKeyQuery;
+export type Query = FilterProjectQuery | FilterCostQuery | FilterDateQuery |
+                    FilterPurchaserQuery | FilterProjectKeyQuery | FilterDropoffLocationQuery;
 
 export interface FilterProjectQuery {
   project: string;
 }
 
+export interface FilterPurchaserQuery {
+  purchaser: string;
+}
+
 export interface FilterProjectKeyQuery {
   key: string;
+}
+
+export type CostEquality = 'greater than' | 'less than' | 'equal to';
+export interface FilterCostQuery {
+  equality: CostEquality;
+  cost: number;
+}
+
+export type DateEquality = 'before' | 'after' | 'on';
+export interface FilterDateQuery {
+  equality: DateEquality;
+  date: number;
+}
+
+export interface FilterDropoffLocationQuery {
+  location: string;
 }
 
 export interface Filter {
@@ -65,6 +88,14 @@ export class RequestRendererOptions {
   get reverseSort(): boolean { return this._reverseSort; }
   private _reverseSort = false;
 
+  set showProjectName(v: boolean) {
+    if (this._showProjectName === v) { return; }
+    this._showProjectName = v;
+    this.changed.next();
+  }
+  get showProjectName(): boolean { return this._showProjectName; }
+  private _showProjectName = false;
+
   changed = new Subject<void>();
 
   absorb(options: RequestRendererOptions) {
@@ -72,6 +103,7 @@ export class RequestRendererOptions {
     this._grouping = options.grouping;
     this._sorting = options.sorting;
     this._reverseSort = options.reverseSort;
+    this._showProjectName = options.showProjectName;
     this.changed.next();
   }
 }

@@ -35,7 +35,6 @@
           (click)="sidenav.open()"><mat-icon>add</mat-icon></button>
 
   <mat-drawer #sidenav
-              class="mat-elevation-z8"
               [opened]="!hideInventory()"
               [mode]="hideInventory() ? 'over' : 'side'"
               (close)="inventoryPanel.reset()"

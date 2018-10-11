@@ -1,13 +1,12 @@
 <div class="top-bar-container">
   <div class="top-bar">
     <div class="input-bar">
-      <mat-icon class="search-icon">search</mat-icon>
       <input [formControl]="search" placeholder="Search requests">
       <button mat-icon-button
               [mat-menu-trigger-for]="filterTypesMenu"
               matTooltip="Add request filter"
               class="new-filter">
-        <mat-icon> add </mat-icon>
+        <mat-icon> filter_list </mat-icon>
       </button>
     </div>
 

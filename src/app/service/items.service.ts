@@ -3,7 +3,7 @@ import {AngularFireDatabase} from '@angular/fire/database';
 import {Item} from '../model/item';
 import {Observable} from 'rxjs/Observable';
 import {DaoService} from './dao-service';
-import * as firebase from 'firebase';
+import {ThenableReference} from 'firebase/database';
 import {SelectionModel} from '@angular/cdk/collections';
 import {AuthService} from 'app/service/auth-service';
 import {map, takeUntil} from 'rxjs/operators';
@@ -112,7 +112,7 @@ export class ItemsService extends DaoService<Item> implements OnDestroy {
     }));
   }
 
-  add(item: Item, isBulk = false): firebase.database.ThenableReference {
+  add(item: Item, isBulk = false): ThenableReference {
     // Set the dateMove the UTC date to user's time zone
     const date = new Date();
     date.setMinutes(date.getMinutes() + date.getTimezoneOffset());

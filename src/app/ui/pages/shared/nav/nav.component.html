@@ -63,8 +63,8 @@
   </div>
 
   <div class="user" (click)="editProfile()">
-    <div class="pic"
-         [style.backgroundImage]="'url(' + (authService.user | async)?.pic + ')'">
+    <div class="pic" *ngIf="authService.user | async; let user"
+         [style.backgroundImage]="'url(' + user.pic + ')'">
     </div>
     <div class="info">
       <div>{{(authService.user | async)?.name}}</div>

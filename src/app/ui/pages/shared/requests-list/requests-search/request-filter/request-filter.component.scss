@@ -33,3 +33,39 @@ input {
     font-size: 18px;
   }
 }
+
+mat-select {
+  font-size: 14px;
+  border-bottom: 1px solid #CCC;
+  flex: 0;
+
+  ::ng-deep .mat-select-trigger {
+    margin-top: 4px;
+  }
+
+  &.cost-equality ::ng-deep .mat-select-trigger {
+    width: 100px;
+  }
+
+  &.date-equality ::ng-deep .mat-select-trigger {
+    width: 70px;
+  }
+}
+
+.dollar-prefix {
+  border-bottom: 1px solid #CCC;
+  padding-left: 16px;
+  margin-top: 3px;
+}
+
+.cost-config, .date-config {
+  display: flex;
+}
+
+.cost-config input {
+  padding-left: 4px;
+}
+
+.date-config input {
+  padding-left: 16px;
+}

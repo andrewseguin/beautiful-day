@@ -2,15 +2,16 @@
 
 :host {
   z-index: 2;
+  border-bottom: 1px solid #CCC
 }
 
 mat-toolbar {
   padding: 0;
 }
 
-.toolbar-menu {
+.left-button {
   padding: 0;
-  margin: 8px;
+  margin: 0 8px;
   min-width: 0;
   height: 48px;
   width: 48px;
@@ -22,6 +23,10 @@ mat-toolbar {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (max-width: $mobile-width - 1) {
+    font-size: 18px;
+  }
 }
 
 .end {

@@ -5,12 +5,8 @@
   <request *ngFor="let request of requests; trackBy:getRequestKey"
            [request]="request"
            [item]="items.get(request.item)"
-           [canEdit]="canEdit"
            [printMode]="printMode"
-           [id]="request.$key"
-           [isAcquisitions]="isAcquisitions"
-           [isReporting]="projectId == 'all'"
-           (filterTag)="filterTag.emit($event)">
+           [id]="request.$key">
   </request>
 </ng-container>
 

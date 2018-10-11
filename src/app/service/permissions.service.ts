@@ -8,6 +8,7 @@ import {map} from 'rxjs/operators';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {AuthService} from 'app/service/auth-service';
+import {BehaviorSubject} from 'rxjs';
 
 export interface EditProjectPermissions {
   details?: boolean;
@@ -35,6 +36,8 @@ export class PermissionsService {
   isAdmin = this.permissions.pipe(map(p => p.admin));
   isAcquisitions = this.permissions.pipe(map(p => p.acquisition));
 
+  editableProjects = new BehaviorSubject(new Set<string>());
+
   constructor(private projectsService: ProjectsService,
               private groupsService: GroupsService,
               private authService: AuthService,
@@ -46,6 +49,47 @@ export class PermissionsService {
     // Disables changes from leads and directors
     db.object<boolean>('editsDisabled').valueChanges().subscribe((val: boolean) => {
       this.editsDisabled = val;
+    });
+
+    const changes = [
+      this.permissions,
+      this.projectsService.projects,
+      this.authService.user,
+      this.db.object<boolean>('editsDisabled').valueChanges(),
+    ];
+
+    combineLatest(changes).subscribe(result => {
+      const permissions: Permissions = result[0];
+      const projects: Project[] = result[1];
+      const user: User = result[2];
+      const editsDisabled: boolean = result[3];
+
+      // Cannot determine permissions if the user is not logged in
+      if (!user) {
+        return;
+      }
+
+      const editableProjects = projects.filter(project => {
+        if (!user) { return false; }
+
+        const leads = project.leads || '';
+        const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());
+
+        const isLead = lowercaseLeads.indexOf(user.email.toLowerCase()) !== -1 || this.allLeads;
+
+        const directors = project.directors || '';
+        const lowercaseDirectors = directors.split(',').map(m => m.toLowerCase());
+        const isDirector = lowercaseDirectors.indexOf(user.email.toLowerCase()) !== -1;
+
+        let canEditRequests = isLead || isDirector;
+        if (editsDisabled) {
+          canEditRequests = this.isUserWhitelisted(user, project);
+        }
+
+        return canEditRequests || permissions.approver;
+      });
+
+      this.editableProjects.next(new Set(editableProjects.map(p => p.$key)));
     });
   }
 
@@ -109,7 +153,6 @@ export class PermissionsService {
       canEditRequests = canEditRequests || permissions.approver;
 
       return {
-        details: isDirector || permissions.admin,
         requests: canEditRequests
       };
     }));

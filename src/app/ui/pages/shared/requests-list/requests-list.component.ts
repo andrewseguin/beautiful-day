@@ -4,13 +4,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
+  Input, NgZone,
   Output, ViewChild
 } from '@angular/core';
 import {RequestGroup} from 'app/ui/pages/shared/requests-list/render/request-grouping';
 import {auditTime, takeUntil} from 'rxjs/operators';
 import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
-import {fromEvent, Observable, Subject} from 'rxjs';
+import {fromEvent, Observable, Observer, Subject} from 'rxjs';
 import {
   Filter,
   RequestRendererOptions
@@ -26,10 +26,11 @@ import {CdkPortal} from '@angular/cdk/portal';
 })
 export class RequestsListComponent {
   destroyed = new Subject();
-  elementScrolled: Observable<Event> = Observable.create(observer =>
-      fromEvent(this.elementRef.nativeElement, 'scroll')
-        .pipe(takeUntil(this.destroyed))
-        .subscribe(observer));
+  private elementScrolled: Observable<Event> = Observable.create((observer: Observer<Event>) =>
+    this.ngZone.runOutsideAngular(() =>
+      fromEvent(this.elementRef.nativeElement, 'scroll').pipe(
+        takeUntil(this.destroyed))
+        .subscribe(observer)));
 
   loadingRequests: boolean;
 
@@ -45,19 +46,24 @@ export class RequestsListComponent {
 
   @Input() implicitFilters: Filter[] = [];
 
+  @Input() showProjectName: boolean;
+
   @Output() requestRendererOptionsChanged =
     new EventEmitter<RequestRendererOptions>();
 
   constructor(public requestsRenderer: RequestsRenderer,
-              public changeDetectorRef: ChangeDetectorRef,
+              public cd: ChangeDetectorRef,
+              public ngZone: NgZone,
               public elementRef: ElementRef) { }
 
   ngOnInit() {
     this.requestsRenderer.options.filters = this.implicitFilters;
+    this.requestsRenderer.options.showProjectName = this.showProjectName;
 
     this.requestsRenderer.initialize();
     this.requestsRenderer.options.changed.subscribe(() => {
       this.requestRendererOptionsChanged.next(this.requestsRenderer.options);
+      this.elementRef.nativeElement.scrollTop = 0;
     });
 
     // After 200ms of scrolling, add 50 more requests if near bottom of screen
@@ -74,10 +80,12 @@ export class RequestsListComponent {
         if (distanceFromBottom < 1000 && scrollTop > 200) {
           this.requestsToDisplay += 40;
           this.render();
+          this.cd.detectChanges();
         } else if (scrollTop < 200) {
           if (this.requestsToDisplay != 20) {
             this.requestsToDisplay = 20;
             this.render();
+            this.cd.detectChanges();
           }
         }
     });
@@ -100,7 +108,7 @@ export class RequestsListComponent {
   render() {
     this.renderedRequestGroups = [];
     this.renderMoreRequests(this.requestsToDisplay);
-    this.changeDetectorRef.markForCheck();
+    this.cd.markForCheck();
   }
 
   /** Render more requests, shoud only be called by render and itself. */

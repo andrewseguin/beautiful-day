@@ -20,6 +20,7 @@ mat-drawer {
   overflow: hidden;
   width: 100%;
   max-width: 300px;
+  border-left: 1px solid #CCC;
 }
 
 :host ::ng-deep .mat-drawer-content {
@@ -114,7 +115,7 @@ button[mat-fab] {
   position: absolute;
   bottom: 0;
   right: 0;
-  margin: 0 24px 56px 0;
+  margin: 0 24px 24px 0;
   transition: 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
   transform: scale(1);
   opacity: 1;

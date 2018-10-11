@@ -1,11 +1,12 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
 import {debounceTime, takeUntil} from 'rxjs/operators';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {
   Filter,
-  FilterType, Query
+  FilterType,
+  Query
 } from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ANIMATION_DURATION} from 'app/ui/shared/animations';
@@ -13,7 +14,10 @@ import {ANIMATION_DURATION} from 'app/ui/shared/animations';
 export const FILTER_TYPE_LABELS = new Map<FilterType, string>([
   ['project', 'Project'],
   ['purchaser', 'Purchaser'],
-  ['cost', 'Cost'],
+  ['item cost', 'Item Cost'],
+  ['request cost', 'Request Cost'],
+  ['dropoff date', 'Dropoff Date'],
+  ['dropoff location', 'Dropoff Location'],
 ]);
 
 @Component({
@@ -52,6 +56,12 @@ export class RequestsSearchComponent {
       takeUntil(this.destroyed))
       .subscribe(value => {
         this.requestsRenderer.options.search = value;
+      });
+
+    this.requestsRenderer.options.changed.pipe(
+      takeUntil(this.destroyed))
+      .subscribe(() => {
+        this.search.setValue(this.requestsRenderer.options.search);
       });
   }
 

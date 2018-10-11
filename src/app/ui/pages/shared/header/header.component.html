@@ -1,6 +1,6 @@
 <mat-toolbar>
-  <button mat-button class="toolbar-menu" (click)="sidenav.open()">
-    <mat-icon>menu</mat-icon>
+  <button mat-button class="left-button" (click)="leftButtonClicked()">
+    <mat-icon> {{titleService.goBack ? 'arrow_back' : 'menu'}} </mat-icon>
   </button>
 
   <div class="name"> {{titleService.title | async}} </div>

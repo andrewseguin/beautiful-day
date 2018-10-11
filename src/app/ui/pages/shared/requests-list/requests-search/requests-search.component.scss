@@ -1,8 +1,13 @@
+@import '../../../../shared/constants';
 
 .top-bar-container {
   display: flex;
   justify-content: center;
   margin: 16px 16px 0 16px;
+
+  @media (max-width: $mobile-width - 1) {
+    margin: 8px 8px 0 8px;
+  }
 
   .top-bar {
     display: flex;
@@ -10,7 +15,7 @@
     max-width: 650px;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid #555;
+    border: 1px solid #CCC;
     border-radius: 8px;
     background: white;
   }
@@ -18,11 +23,7 @@
   .input-bar {
     display: flex;
     align-items: center;
-
-    mat-icon.search-icon {
-      color: #777;
-      margin: 8px 12px;
-    }
+    margin-left: 16px;
 
     button.new-filter {
       height: 48px;
@@ -48,7 +49,7 @@ input {
 }
 
 request-filter {
-  padding: 0 0 8px 12px;
+  padding: 0 0 8px 16px;
   display: block;
 }
 

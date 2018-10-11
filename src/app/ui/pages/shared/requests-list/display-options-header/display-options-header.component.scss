@@ -1,6 +1,7 @@
 // Import your custom theme
 @import '../../../../../theme';
 @import '../common';
+@import '../../../../shared/constants';
 
 :host {
   @include content-width;
@@ -11,7 +12,11 @@
 .buttons {
   display: flex;
   justify-content: space-between;
-  margin: 8px 32px 16px 32px;
+
+  @media (max-width: $mobile-width - 1) {
+    flex-direction: column;
+    margin: 8px;
+  }
 }
 
 button.mat-button {

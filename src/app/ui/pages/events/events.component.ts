@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {TitleService} from 'app/service/header.service';
+import {HeaderService} from 'app/service/header.service';
 import {EventsService} from 'app/service/events.service';
 import {Event} from 'app/model/event';
 import {EditEventComponent} from 'app/ui/pages/shared/dialog/edit-event/edit-event.component';

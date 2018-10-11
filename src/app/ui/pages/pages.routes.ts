@@ -11,7 +11,9 @@ import {PROJECT_ROUTES} from './project/project.routes';
 import {AdminComponent} from './admin/admin.component';
 import {HelpComponent} from './help/help.component';
 
-export type TopLevelSection = 'project' | 'inventory' | 'login' | 'home' | 'reporting';
+export type TopLevelSection = 'projects' | 'inventory' | 'login' |
+                              'home' | 'reporting' | 'events' | 'feedback' |
+                              'help';
 
 export const PAGES_ROUTES = [
   {path: 'project/:id', component: ProjectComponent, children: PROJECT_ROUTES,

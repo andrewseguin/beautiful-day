@@ -4,7 +4,7 @@ import {
   AngularFireObject,
   QueryFn
 } from '@angular/fire/database';
-import * as firebase from 'firebase';
+import {ThenableReference} from 'firebase/database';
 import {transformSnapshotAction, transformSnapshotActionList} from '../utility/snapshot-tranform';
 import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operators';
@@ -18,7 +18,7 @@ export abstract class DaoService<T> {
       .snapshotChanges().pipe(map(transformSnapshotAction));
   }
 
-  add(obj: T): firebase.database.ThenableReference {
+  add(obj: T): ThenableReference {
     return this.getListDao().push(obj);
   }
 

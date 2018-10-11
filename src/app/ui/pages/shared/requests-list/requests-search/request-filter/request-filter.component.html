@@ -2,15 +2,64 @@
   <div class="type"> {{filterTypeLabels.get(filter.type)}}: </div>
 
   <div class="configuration" [ngSwitch]="filter.type">
+
     <ng-container *ngSwitchCase="'project'">
       <input formControlName="project">
     </ng-container>
+
     <ng-container *ngSwitchCase="'purchaser'">
-      Project
+      <input formControlName="purchaser">
     </ng-container>
-    <ng-container *ngSwitchCase="'cost'">
-      Project
+
+    <ng-container *ngSwitchCase="'request cost'">
+      <div class="cost-config">
+        <mat-select class="cost-equality"
+                    formControlName="requestCostEquality">
+          <mat-option *ngFor="let equality of costEqualities"
+                      [value]="equality">
+            {{equality}}
+          </mat-option>
+        </mat-select>
+        <div class="dollar-prefix">$</div>
+        <input type="number" formControlName="requestCost">
+      </div>
     </ng-container>
+
+    <ng-container *ngSwitchCase="'item cost'">
+      <div class="cost-config">
+        <mat-select class="cost-equality"
+                    formControlName="itemCostEquality">
+          <mat-option *ngFor="let equality of costEqualities"
+                      [value]="equality">
+            {{equality}}
+          </mat-option>
+        </mat-select>
+        <div class="dollar-prefix">$</div>
+        <input type="number" formControlName="itemCost">
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'dropoff date'">
+      <div class="date-config">
+        <mat-select class="cost-equality"
+                    formControlName="dropoffDateEquality">
+          <mat-option *ngFor="let equality of dateEqualities"
+                      [value]="equality">
+            {{equality}}
+          </mat-option>
+        </mat-select>
+        <input [matDatepicker]="dropoffDatePicker"
+               (click)="dropoffDatePicker.open()"
+               placeholder="MM/DD/YYYY"
+               formControlName="dropoffDate">
+        <mat-datepicker #dropoffDatePicker></mat-datepicker>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'dropoff location'">
+      <input formControlName="dropoffLocation">
+    </ng-container>
+
   </div>
 
   <button class="remove"

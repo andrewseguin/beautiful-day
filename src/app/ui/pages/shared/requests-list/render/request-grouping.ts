@@ -31,7 +31,7 @@ export class RequestGrouping {
   getGroupAll(): RequestGroup[] {
     return [{
       id: 'all',
-      title: `All (${this.requests.length} requests)`,
+      title: `${this.requests.length} requests`,
       requests: this.requests
     }];
   }

@@ -8,7 +8,7 @@
 
     <div class="name">
         <span class="editable clickable" (click)="viewItem($event)">
-          {{item.categories}} > {{item.name}}
+          {{getItemName()}}
         </span>
       <mat-icon *ngIf="canEdit"
                 class="goto-url md-18"
@@ -40,9 +40,15 @@
     </div>
   </div>
   <div class="details">
-    <div *ngIf="isReporting">
+    <div>
       <span class="editable">
-        Project: {{projectName}}
+        Category: {{item.categories.split('>')[0]}}
+      </span>
+    </div>
+
+    <div *ngIf="requestsRenderer.options.showProjectName">
+      <span class="editable">
+        Project: {{(projectsService.projectsMap | async)?.get(request.project).name}}
       </span>
     </div>
 
@@ -101,7 +107,7 @@
     <div *ngIf="request?.tags" class="tags">
       <span class="editable clickable tag" *ngFor="let tag of request.tags.split(',').sort()"
             [style.background]="getTagColor(tag)"
-            (click)="$event.stopPropagation(); ">
+            (click)="$event.stopPropagation(); filterTag(tag)">
         {{tag}}
       </span>
     </div>

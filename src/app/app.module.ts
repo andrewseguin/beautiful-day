@@ -9,7 +9,7 @@ import {ItemsService} from './service/items.service';
 import {RequestsService} from './service/requests.service';
 import {CanActivateAuthGuard} from './route-guard/can-activate-auth-guard';
 import {UsersService} from './service/users.service';
-import {TitleService} from './service/header.service';
+import {HeaderService} from './service/header.service';
 import {AccountingService} from './service/accounting.service';
 import {PermissionsService} from './service/permissions.service';
 import {CanActivateFeedbackGuard} from './route-guard/can-activate-feedback-guard';
@@ -66,7 +66,7 @@ import {AuthService} from 'app/service/auth-service';
     CanActivateAuthGuard,
     CanActivateFeedbackGuard,
     CanActivateAcquisitionsGuard,
-    TitleService,
+    HeaderService,
     AccountingService,
     PermissionsService,
     FeedbackService,
