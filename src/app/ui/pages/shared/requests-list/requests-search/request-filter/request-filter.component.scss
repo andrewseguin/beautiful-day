@@ -52,6 +52,10 @@ mat-select {
   }
 }
 
+.season ::ng-deep .mat-select-trigger {
+  margin-bottom: 4px;
+}
+
 .dollar-prefix {
   border-bottom: 1px solid #CCC;
   padding-left: 16px;

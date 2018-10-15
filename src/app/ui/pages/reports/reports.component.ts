@@ -1,41 +1,33 @@
 import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 import {Report} from 'app/model/report';
-import {ReportsService} from 'app/service/reports.service';
-import {ActivatedRoute, Router} from '@angular/router';
 import {ReportSort} from 'app/pipe/report-search.pipe';
-import {QueryDisplay} from 'app/utility/query-display';
+import {ReportsService} from 'app/service/reports.service';
 
 @Component({
-  selector: 'report-list',
-  templateUrl: 'report-list.component.html',
-  styleUrls: ['report-list.component.scss']
+  templateUrl: './reports.component.html',
+  styleUrls: ['./reports.component.scss']
 })
-export class ReportListComponent {
+export class ReportsComponent {
   reports: Report[] = [];
   search = '';
   sort: ReportSort = 'modifiedDate';
   reverseSort = true;
   sortOptions: ReportSort[] = ['name', 'modifiedDate', 'createdDate'];
-  queryStrings: Map<Report, string> = new Map<Report, string>();
 
-  constructor(private route: ActivatedRoute,
-              private router: Router,
+  constructor(private router: Router,
               private reportsService: ReportsService) {
     this.reportsService.reports.subscribe(reports => {
       this.reports = reports;
-      reports.forEach(report => {
-        this.queryStrings.set(report, this.getQueryDisplay(report));
-      });
     });
   }
 
   createReport() {
-    this.reportsService.add()
-        .then(response => this.navigateToReport(response.key));
+    this.router.navigate([`report/new`]);
   }
 
   navigateToReport(reportId: string) {
-    this.router.navigate([reportId], {relativeTo: this.route});
+    this.router.navigate([`report/${reportId}`]);
   }
 
   setSort(sort: ReportSort) {
@@ -49,9 +41,5 @@ export class ReportListComponent {
       case 'createdDate': return 'Created Date';
       case 'modifiedDate': return 'Modified Date';
     }
-  }
-
-  getQueryDisplay(report: Report): string {
-    return QueryDisplay.get(report.queryStages);
   }
 }

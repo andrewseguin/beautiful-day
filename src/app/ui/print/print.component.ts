@@ -5,11 +5,10 @@ import {ReportsService} from 'app/service/reports.service';
 import {ProjectsService} from 'app/service/projects.service';
 import {ItemsService} from 'app/service/items.service';
 import {RequestsService} from 'app/service/requests.service';
-import {QueryStage, Report} from 'app/model/report';
+import {Report} from 'app/model/report';
 import {Project} from 'app/model/project';
 import {Item} from 'app/model/item';
 import {Title} from '@angular/platform-browser';
-import {QueryDisplay} from 'app/utility/query-display';
 import {take} from 'rxjs/operators';
 
 @Component({
@@ -23,7 +22,6 @@ export class PrintComponent implements OnInit {
   items: Item[];
   projects: Project[];
   requests: Request[];
-  queryStages: QueryStage[];
   reportRequests: Request[] = [];
   season: string;
 
@@ -39,15 +37,12 @@ export class PrintComponent implements OnInit {
       this.type = params['type'];
       if (this.type === 'report') {
         this.reportsService.get(params['id']).subscribe((report: Report) => {
-          this.queryStages = report.queryStages;
           this.season = report.season;
           this.titleService.setTitle(report.name);
           this.performQuery();
         });
       } else if (this.type === 'project') {
         this.projectsService.get(params['id']).subscribe((project: Project) => {
-          const queryString = `[projectId]:${project.$key}`;
-          this.queryStages = [{querySet: [{queryString, type: 'any'}]}];
           this.titleService.setTitle(project.name);
           this.season = project.season;
           this.performQuery();
@@ -69,11 +64,7 @@ export class PrintComponent implements OnInit {
   }
 
   canPerformQuery() {
-    return this.items && this.queryStages && this.projects && this.requests;
-  }
-
-  getQueryStagesDisplay() {
-    return QueryDisplay.get(this.queryStages);
+    return this.items && this.projects && this.requests;
   }
 
   performQuery() {

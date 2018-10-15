@@ -12,10 +12,10 @@
 
     <div class="details">
       <div class="filter-container" @expand
-           *ngFor="let filter of requestsRenderer.options.filters">
+           *ngFor="let filter of requestsRenderer.options.filters; let index = index; trackBy: trackByIndex">
         <request-filter [filter]="filter" (remove)="remove(filter)"
                         *ngIf="!filter.isImplicit"
-                        (queryChange)="queryChange(filter, $event)">
+                        (queryChange)="queryChange(index, $event)">
         </request-filter>
       </div>
 

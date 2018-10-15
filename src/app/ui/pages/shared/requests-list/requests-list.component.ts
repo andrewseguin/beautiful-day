@@ -8,12 +8,12 @@ import {
   Output, ViewChild
 } from '@angular/core';
 import {RequestGroup} from 'app/ui/pages/shared/requests-list/render/request-grouping';
-import {auditTime, takeUntil} from 'rxjs/operators';
+import {auditTime, debounceTime, takeUntil} from 'rxjs/operators';
 import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
 import {fromEvent, Observable, Observer, Subject} from 'rxjs';
 import {
   Filter,
-  RequestRendererOptions
+  RequestRendererOptions, RequestRendererOptionsState
 } from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {CdkPortal} from '@angular/cdk/portal';
 
@@ -38,18 +38,13 @@ export class RequestsListComponent {
   renderedRequestGroups: RequestGroup[];
   requestsToDisplay = 10;
 
-  @Input() set requestRendererOptions(options: RequestRendererOptions) {
-    this.requestsRenderer.options.absorb(options);
+  @Input() set requestRendererOptionsState(state: RequestRendererOptionsState) {
+    this.requestsRenderer.options.setState(state);
   }
 
   @Input() printMode: boolean;
 
-  @Input() implicitFilters: Filter[] = [];
-
-  @Input() showProjectName: boolean;
-
-  @Output() requestRendererOptionsChanged =
-    new EventEmitter<RequestRendererOptions>();
+  @Output() requestRendererOptionsChanged = new EventEmitter<RequestRendererOptionsState>();
 
   constructor(public requestsRenderer: RequestsRenderer,
               public cd: ChangeDetectorRef,
@@ -57,12 +52,10 @@ export class RequestsListComponent {
               public elementRef: ElementRef) { }
 
   ngOnInit() {
-    this.requestsRenderer.options.filters = this.implicitFilters;
-    this.requestsRenderer.options.showProjectName = this.showProjectName;
-
     this.requestsRenderer.initialize();
-    this.requestsRenderer.options.changed.subscribe(() => {
-      this.requestRendererOptionsChanged.next(this.requestsRenderer.options);
+    const options = this.requestsRenderer.options;
+    options.changed.pipe(debounceTime(100)).subscribe(() => {
+      this.requestRendererOptionsChanged.next(options.getState());
       this.elementRef.nativeElement.scrollTop = 0;
     });
 
@@ -114,7 +107,7 @@ export class RequestsListComponent {
   /** Render more requests, shoud only be called by render and itself. */
   renderMoreRequests(threshold: number) {
     // Return if there are no groups to render
-    if (!this.requestGroups.length) {
+    if (!this.requestGroups || !this.requestGroups.length) {
       return;
     }
 

@@ -1,16 +1,5 @@
-@import '../../../shared/constants';
-@import '../../../../theme';
-
-.report-heading {
-  background-color: mat-color($bd-app-primary);
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  font-weight: bold;
-  padding-left: 64px;
-}
+@import '../../shared/constants';
+@import '../../../theme';
 
 .list {
   display: flex;
@@ -44,12 +33,6 @@
   & > div {
     font-weight: lighter;
   }
-}
-
-.query-display {
-  font-weight: lighter;
-  font-size: 14px;
-  padding-top: 8px;
 }
 
 .report-item {

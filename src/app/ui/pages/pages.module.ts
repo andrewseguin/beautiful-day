@@ -10,10 +10,11 @@ import {InventoryModule} from './inventory/inventory.module';
 import {ProjectsModule} from './projects/projects.module';
 import {FeedbackModule} from './feedback/feedback.module';
 import {EventsModule} from './events/events.module';
-import {ReportingModule} from './reporting/reporting.module';
+import {ReportsModule} from './reports/reports.module';
 import {DialogModule} from 'app/ui/pages/shared/dialog/dialog.module';
 import {AdminModule} from './admin/admin.module';
 import {HelpModule} from './help/help.module';
+import {ReportModule} from 'app/ui/pages/report/report.module';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import {HelpModule} from './help/help.module';
     InventoryModule,
     ProjectsModule,
     FeedbackModule,
-    ReportingModule,
+    ReportsModule,
+    ReportModule,
     EventsModule,
     DialogModule,
     HelpModule,

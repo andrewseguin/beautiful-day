@@ -8,13 +8,18 @@ export type Sort = 'request added' | 'item cost' | 'item name' |
 
 export type FilterType = 'project' | 'purchaser' | 'dropoff date' |
                          'request cost' | 'projectKey' | 'item cost' |
-                         'dropoff location';
+                         'dropoff location' | 'season';
 
 export type Query = FilterProjectQuery | FilterCostQuery | FilterDateQuery |
-                    FilterPurchaserQuery | FilterProjectKeyQuery | FilterDropoffLocationQuery;
+                    FilterPurchaserQuery | FilterProjectKeyQuery | FilterDropoffLocationQuery |
+                    FilterSeasonQuery;
 
 export interface FilterProjectQuery {
   project: string;
+}
+
+export interface FilterSeasonQuery {
+  season: string;
 }
 
 export interface FilterPurchaserQuery {
@@ -45,6 +50,15 @@ export interface Filter {
   type: FilterType;
   query?: Query;
   isImplicit?: boolean;
+}
+
+export interface RequestRendererOptionsState {
+  filters: Filter[];
+  search: string;
+  grouping: Group;
+  sorting: Sort;
+  reverseSort: boolean;
+  showProjectName: boolean;
 }
 
 export class RequestRendererOptions {
@@ -98,12 +112,34 @@ export class RequestRendererOptions {
 
   changed = new Subject<void>();
 
-  absorb(options: RequestRendererOptions) {
+  setState(options: RequestRendererOptionsState) {
     this._filters = options.filters;
+    this._search = options.search;
     this._grouping = options.grouping;
     this._sorting = options.sorting;
     this._reverseSort = options.reverseSort;
     this._showProjectName = options.showProjectName;
     this.changed.next();
   }
+
+  getState() {
+    return {
+      filters: this.filters,
+      search: this.search,
+      grouping: this.grouping,
+      sorting: this.sorting,
+      reverseSort: this.reverseSort,
+      showProjectName: this.showProjectName,
+    };
+  }
+}
+
+export function areOptionStatesEqual(o1: RequestRendererOptionsState,
+                                     o2: RequestRendererOptionsState) {
+  return o1.grouping === o2.grouping &&
+    o1.reverseSort === o2.reverseSort &&
+    o1.sorting === o2.sorting &&
+    o1.showProjectName === o2.showProjectName &&
+    o1.search === o2.search &&
+    JSON.stringify(o1.filters.sort()) === JSON.stringify(o2.filters.sort());
 }

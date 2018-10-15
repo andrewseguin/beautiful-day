@@ -34,6 +34,7 @@ export class RequestsService extends DaoService<Request> implements OnDestroy {
               private mdDialog: MatDialog) {
     super(db, 'requests');
     this.getKeyedListDao().pipe(takeUntil(this.destroyed)).subscribe(requests => {
+      console.log('Loaded all requests');
       this.requests.next(requests);
 
       const requestsByItem = new Map<string, Request[]>();

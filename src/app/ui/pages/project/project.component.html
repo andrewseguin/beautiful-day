@@ -4,7 +4,5 @@
 <div *ngIf="!loading && !project" class="not-found">
   This project does not exist.
 </div>
-<div class="project-router-outlet"
-     [style.visibility]="project ? 'visible' : 'hidden'">
-  <router-outlet></router-outlet>
-</div>
+
+<project-requests *ngIf="project" [project]="project"></project-requests>

@@ -1,7 +1,3 @@
-<div class="report-heading mat-elevation-z1">
-  <div class="title">Select a Report</div>
-</div>
-
 <div class="list">
   <div class="options">
     <mat-form-field [floatLabel]="'never'">
@@ -29,10 +25,6 @@
         <div *ngIf="sort == 'createdDate'">{{report.createdDate | date}}</div>
         <div *ngIf="sort != 'createdDate'">{{report.modifiedDate | date}}</div>
       </div>
-    </div>
-    <div class="query-display">
-      <div>Season: {{report.season}}</div>
-      <div>Query: "{{queryStrings.get(report)}}"</div>
     </div>
   </div>
 </div>

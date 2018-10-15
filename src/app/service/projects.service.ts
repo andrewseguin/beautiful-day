@@ -17,6 +17,7 @@ export class ProjectsService extends DaoService<Project> implements OnDestroy {
   constructor(db: AngularFireDatabase) {
     super(db, 'projects');
     this.getKeyedListDao().pipe(takeUntil(this.destroyed)).subscribe(projects => {
+      console.log('Loaded all projects');
       this.projects.next(projects);
       this.projectsMap.next(this.convertKeyedListToMap(projects));
     });

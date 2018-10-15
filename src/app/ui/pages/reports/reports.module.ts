@@ -1,18 +1,18 @@
 import {NgModule} from '@angular/core';
-import {ReportListComponent} from './report-list.component';
-import {MaterialModule} from 'app/material.module';
+import {ReportsComponent} from './reports.component';
 import {CommonModule} from '@angular/common';
+import {MaterialModule} from 'app/material.module';
 import {FormsModule} from '@angular/forms';
 import {PipeModule} from 'app/pipe/pipe.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    MaterialModule,
     FormsModule,
     PipeModule,
-    MaterialModule,
   ],
-  declarations: [ReportListComponent],
-  exports: [ReportListComponent],
+  declarations: [ReportsComponent],
+  exports: [ReportsComponent],
 })
-export class ReportListModule { }
+export class ReportsModule { }

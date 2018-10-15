@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {Item} from 'app/model/item';
 import {Request} from 'app/model/request';
 import {RequestsService} from 'app/service/requests.service';

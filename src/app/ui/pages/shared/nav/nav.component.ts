@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {PermissionsService} from 'app/service/permissions.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {AuthService} from '../../../../service/auth-service';
+import {AuthService} from 'app/service/auth-service';
 import {EditUserProfileComponent} from '../dialog/edit-user-profile/edit-user-profile.component';
 
 const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';

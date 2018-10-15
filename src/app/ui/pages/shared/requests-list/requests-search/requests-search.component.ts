@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
@@ -18,6 +18,7 @@ export const FILTER_TYPE_LABELS = new Map<FilterType, string>([
   ['request cost', 'Request Cost'],
   ['dropoff date', 'Dropoff Date'],
   ['dropoff location', 'Dropoff Location'],
+  ['season', 'Season'],
 ]);
 
 @Component({
@@ -44,11 +45,16 @@ export const FILTER_TYPE_LABELS = new Map<FilterType, string>([
 export class RequestsSearchComponent {
   search = new FormControl('');
   destroyed = new Subject();
+  animateFilters = true;
+
 
   filterTypeLabels = FILTER_TYPE_LABELS;
   filterTypes = Array.from(this.filterTypeLabels.keys());
 
-  constructor (public requestsRenderer: RequestsRenderer) {}
+  trackByIndex = i => i;
+
+  constructor (public requestsRenderer: RequestsRenderer,
+               private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.search.valueChanges.pipe(
@@ -62,7 +68,11 @@ export class RequestsSearchComponent {
       takeUntil(this.destroyed))
       .subscribe(() => {
         this.search.setValue(this.requestsRenderer.options.search);
+        this.cd.detectChanges(); // In case filters changed as well
+        console.log('detect changes"')
       });
+
+    this.search.setValue(this.requestsRenderer.options.search);
   }
 
   ngOnDestroy() {
@@ -83,10 +93,9 @@ export class RequestsSearchComponent {
     this.requestsRenderer.options.filters = filters;
   }
 
-  queryChange(filter: Filter, query: Query) {
+  queryChange(index: number, query: Query) {
     const filters = this.requestsRenderer.options.filters.slice();
-    const index = filters.indexOf(filter);
-    filters[index].query = query;
+    filters[index] = {...filters[index], query}
     this.requestsRenderer.options.filters = filters;
   }
 

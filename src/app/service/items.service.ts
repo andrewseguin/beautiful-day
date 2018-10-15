@@ -35,6 +35,7 @@ export class ItemsService extends DaoService<Item> implements OnDestroy {
     super(db, 'items');
 
     this.getKeyedListDao().pipe(takeUntil(this.destroyed)).subscribe(items => {
+      console.log('Loaded all items');
       const itemsMap = new Map<string, Item>();
       items.forEach(item => itemsMap.set(item.$key, item));
       this.itemsMap.next(itemsMap);

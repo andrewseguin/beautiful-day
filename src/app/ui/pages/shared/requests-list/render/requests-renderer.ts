@@ -10,8 +10,10 @@ import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 import {Item} from 'app/model/item';
 import {Project} from 'app/model/project';
 import {Request} from 'app/model/request';
-import {RequestSearchTransformer} from 'app/utility/search/request-search-transformer';
-import {RequestRendererOptions} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {RequestSearchTransformer} from 'app/ui/pages/shared/requests-list/render/request-search-transformer';
+import {
+  RequestRendererOptions
+} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {startWith} from 'rxjs/operators';
 import {RequestFilterer} from 'app/ui/pages/shared/requests-list/render/request-filterer';
 import {RequestSorter} from 'app/ui/pages/shared/requests-list/render/request-sorter';
@@ -20,7 +22,8 @@ import {RequestSorter} from 'app/ui/pages/shared/requests-list/render/request-so
 export class RequestsRenderer {
   options: RequestRendererOptions = new RequestRendererOptions();
 
-  requestGroups = new BehaviorSubject<RequestGroup[]>([]);
+  // Starts as null as a signal that no requests have been processed.
+  requestGroups = new BehaviorSubject<RequestGroup[] | null>(null);
 
   private initSubscription: Subscription;
 

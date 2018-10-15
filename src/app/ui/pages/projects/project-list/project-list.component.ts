@@ -46,7 +46,7 @@ export class ProjectListComponent {
   }
 
   navigateToProject(id: string) {
-    this.router.navigate([`project/${id}/requests`]);
+    this.router.navigate([`project/${id}`]);
   }
 
   getEmails(list: string) {

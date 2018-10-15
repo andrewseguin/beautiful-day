@@ -2,21 +2,21 @@ import {CanActivateFeedbackGuard} from 'app/route-guard/can-activate-feedback-gu
 import {CanActivateAuthGuard} from 'app/route-guard/can-activate-auth-guard';
 import {FeedbackComponent} from './feedback/feedback.component';
 import {CanActivateAcquisitionsGuard} from 'app/route-guard/can-activate-acquisitions-guard';
-import {ReportingComponent} from './reporting/reporting.component';
 import {InventoryComponent} from './inventory/inventory.component';
 import {EventsComponent} from './events/events.component';
 import {ProjectsComponent} from './projects/projects.component';
 import {ProjectComponent} from './project/project.component';
-import {PROJECT_ROUTES} from './project/project.routes';
 import {AdminComponent} from './admin/admin.component';
 import {HelpComponent} from './help/help.component';
+import {ReportComponent} from 'app/ui/pages/report/report.component';
+import {ReportsComponent} from 'app/ui/pages/reports/reports.component';
 
 export type TopLevelSection = 'projects' | 'inventory' | 'login' |
-                              'home' | 'reporting' | 'events' | 'feedback' |
-                              'help';
+                              'home' | 'reports' | 'events' | 'feedback' |
+                              'help' | 'report';
 
 export const PAGES_ROUTES = [
-  {path: 'project/:id', component: ProjectComponent, children: PROJECT_ROUTES,
+  {path: 'project/:id', component: ProjectComponent,
     canActivate: [CanActivateAuthGuard]},
 
   // Home
@@ -39,9 +39,14 @@ export const PAGES_ROUTES = [
   {path: 'inventory', component: InventoryComponent,
     canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
 
-  {path: 'reporting', component: ReportingComponent,
+  // Reports
+  {path: 'reports', component: ReportsComponent,
     canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
-  {path: 'reporting/:id', component: ReportingComponent,
+
+  // Report
+  {path: 'report', component: ReportComponent,
+    canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+  {path: 'report/:id', component: ReportComponent,
     canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
 
   // Owner

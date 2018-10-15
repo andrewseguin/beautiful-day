@@ -20,9 +20,6 @@ export class EditDistributionStatusDialogComponent {
 
   ngOnInit() {
     const requestsFetch = this.requestIds.map(id => this.requestsService.get(id));
-    combineLatest(requestsFetch).pipe(take(1)).subscribe(requests => {
-      console.log(requests);
-    });
   }
 
   close() {

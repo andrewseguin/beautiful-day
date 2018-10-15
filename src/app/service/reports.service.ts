@@ -1,20 +1,38 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase,} from '@angular/fire/database';
-import {QueryStage, Report} from 'app/model/report';
+import {Report} from 'app/model/report';
 import {DaoService} from './dao-service';
 import {User} from 'app/model/user';
-import {Observable} from 'rxjs/Observable';
 import {AuthService} from 'app/service/auth-service';
+import {BehaviorSubject, Subject} from 'rxjs';
+import {map, takeUntil} from 'rxjs/operators';
+import {RequestRendererOptionsState} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 
 @Injectable()
 export class ReportsService extends DaoService<Report> {
   user: User;
-  reports: Observable<Report[]>;
+  reports = new BehaviorSubject<Report[]>([]);
+
+  private destroyed = new Subject();
 
   constructor(db: AngularFireDatabase, private authService: AuthService) {
     super(db, 'reports');
-    this.reports = this.getKeyedListDao();
-    this.authService.user.subscribe(user => this.user = user);
+
+    this.getKeyedListDao()
+        .pipe(takeUntil(this.destroyed))
+        .subscribe(reports => {
+          console.log('Loaded all reports');
+          this.reports.next(reports)
+        });
+
+    this.authService.user
+        .pipe(takeUntil(this.destroyed))
+        .subscribe(user => this.user = user);
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   update(id, update: Report): void {
@@ -23,22 +41,28 @@ export class ReportsService extends DaoService<Report> {
     super.update(id, update);
   }
 
-  add(report?: Report) {
-    const emptyQueryStage: QueryStage = {
-      querySet: [{queryString: '', type: 'any'}],
-      exclude: false,
-    };
-
+  create(name: string, options: RequestRendererOptionsState) {
     const newReport: Report = {
-      name: report ? `Copy of ${report.name}` : 'New Report',
-      queryStages: report ? report.queryStages : [emptyQueryStage],
+      name,
       createdBy: this.user.email,
       modifiedBy: this.user.email,
       createdDate: new Date().getTime().toString(),
       modifiedDate: new Date().getTime().toString(),
       season: '2018',
+      options,
     };
 
     return super.add(newReport);
+  }
+
+  get(id: string) {
+    return super.get(id).pipe(map(report => {
+      // If a report is saved with an empty array of filters,
+      // it just doesn't save. In this case, add in the empty array.
+      if (!report.options.filters) {
+        report.options.filters = [];
+      }
+      return report;
+    }));
   }
 }

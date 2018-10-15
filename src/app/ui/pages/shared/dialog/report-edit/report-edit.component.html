@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Save Report As</h1>
+
+<div mat-dialog-content [formGroup]="formGroup">
+  <mat-form-field appearance="outline">
+    <mat-label> Name </mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label> Group (optional) </mat-label>
+    <input matInput formControlName="group">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close> Cancel </button>
+  <button mat-raised-button color="accent"
+          [disabled]="!formGroup.valid"
+          (click)="save()"> Save </button>
+</div>

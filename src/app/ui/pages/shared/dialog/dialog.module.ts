@@ -20,7 +20,31 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {PipeModule} from 'app/pipe/pipe.module';
 import {ExportItemsComponent} from './export-items/export-items.component';
-import {EditDistributionStatusDialogComponent} from 'app/ui/pages/shared/dialog/edit-distribution-status/edit-distribution-status';
+import {
+  EditDistributionStatusDialogComponent
+} from 'app/ui/pages/shared/dialog/edit-distribution-status/edit-distribution-status';
+import {ReportsDialog} from 'app/ui/pages/shared/dialog/reports.dialog';
+
+const DIALOGS = [
+  DeleteProjectComponent,
+  DeleteReportComponent,
+  DeleteRequestsComponent,
+  EditApprovalStatusDialogComponent,
+  EditDropoffComponent,
+  EditEventComponent,
+  EditGroupComponent,
+  EditItemComponent,
+  EditItemCategoryComponent,
+  EditItemNameComponent,
+  EditProjectComponent,
+  EditPurchaseStatusDialogComponent,
+  EditTagsComponent,
+  EditUserProfileComponent,
+  ExportItemsComponent,
+  ImportItemsComponent,
+  PromptDialogComponent,
+  EditDistributionStatusDialogComponent,
+];
 
 @NgModule({
   imports: [
@@ -29,45 +53,10 @@ import {EditDistributionStatusDialogComponent} from 'app/ui/pages/shared/dialog/
     FormsModule,
     MaterialModule
   ],
-  declarations: [
-    DeleteProjectComponent,
-    DeleteReportComponent,
-    DeleteRequestsComponent,
-    EditApprovalStatusDialogComponent,
-    EditDropoffComponent,
-    EditEventComponent,
-    EditGroupComponent,
-    EditItemComponent,
-    EditItemCategoryComponent,
-    EditItemNameComponent,
-    EditProjectComponent,
-    EditPurchaseStatusDialogComponent,
-    EditTagsComponent,
-    EditUserProfileComponent,
-    ExportItemsComponent,
-    ImportItemsComponent,
-    PromptDialogComponent,
-    EditDistributionStatusDialogComponent,
-  ],
-  entryComponents: [
-    DeleteProjectComponent,
-    DeleteReportComponent,
-    DeleteRequestsComponent,
-    EditApprovalStatusDialogComponent,
-    EditDropoffComponent,
-    EditEventComponent,
-    EditGroupComponent,
-    EditItemComponent,
-    EditItemCategoryComponent,
-    EditItemNameComponent,
-    EditProjectComponent,
-    EditPurchaseStatusDialogComponent,
-    EditTagsComponent,
-    EditUserProfileComponent,
-    ExportItemsComponent,
-    ImportItemsComponent,
-    PromptDialogComponent,
-    EditDistributionStatusDialogComponent
-  ],
+  declarations: DIALOGS,
+  entryComponents: DIALOGS,
+  providers: [
+    ReportsDialog,
+  ]
 })
 export class DialogModule { }

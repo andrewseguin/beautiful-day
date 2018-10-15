@@ -1,5 +1,6 @@
 <mat-drawer-container *ngIf="editPermissions">
-  <requests-list *ngIf="requests?.length" [implicitFilters]="[projectKeyFilter]">
+  <requests-list *ngIf="requests?.length"
+                 [requestRendererOptionsState]="renderRequestsOptionsState">
   </requests-list>
 
   <div *ngIf="requests?.length === 0" class="empty-requests">
@@ -45,5 +46,5 @@
 </mat-drawer-container>
 
 <ng-template cdkPortal>
-  <remaining-budget *ngIf="showBudget()" [projectId]="projectId"></remaining-budget>
+  <remaining-budget *ngIf="showBudget()" [projectId]="project.$key"></remaining-budget>
 </ng-template>

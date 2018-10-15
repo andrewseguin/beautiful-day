@@ -4,7 +4,6 @@ import {Project} from 'app/model/project';
 import {ProjectsService} from 'app/service/projects.service';
 
 @Component({
-  selector: 'project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss'],
 })
@@ -20,7 +19,12 @@ export class ProjectComponent implements OnInit {
     this.route.params.forEach((params: Params) => {
       this.projectsService.get(params['id']).subscribe(project => {
         this.loading = false;
-        this.project = project;
+
+        // Validate that this project exists, currently doing a hacky way by
+        // just checking the project has a name.
+        if (project.name) {
+          this.project = project;
+        }
       });
     });
   }
