@@ -41,9 +41,10 @@ export class ReportsService extends DaoService<Report> {
     super.update(id, update);
   }
 
-  create(name: string, options: RequestRendererOptionsState) {
+  create(name: string, group: string, options: RequestRendererOptionsState) {
     const newReport: Report = {
       name,
+      group,
       createdBy: this.user.email,
       modifiedBy: this.user.email,
       createdDate: new Date().getTime().toString(),

@@ -10,6 +10,8 @@ import {
 } from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {ReportsDialog} from 'app/ui/pages/shared/dialog/reports.dialog';
 import {EXPANSION_ANIMATION} from 'app/ui/shared/animations';
+import {ProjectsService} from 'app/service/projects.service';
+import {RequestsService} from 'app/service/requests.service';
 
 interface ReportGroup {
   reports: Report[];
@@ -30,6 +32,8 @@ export class ReportsComponent implements OnDestroy {
   constructor(private router: Router,
               private reportsDialog: ReportsDialog,
               private cd: ChangeDetectorRef,
+              private projectsService: ProjectsService,
+              private requestsService: RequestsService,
               private reportsService: ReportsService) {
     this.reportsService.reports.pipe(
         takeUntil(this.destroyed))

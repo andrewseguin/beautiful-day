@@ -23,7 +23,7 @@ export class ReportsDialog {
   editReport(report: Report) {
     const data = {
       name: report.name,
-      group: '',
+      group: report.group,
     };
 
     this.dialog.open(ReportEditComponent, {data}).afterClosed().pipe(
@@ -69,7 +69,7 @@ export class ReportsDialog {
             return;
           }
 
-          this.reportsService.create(result['name'], currentOptions)
+          this.reportsService.create(result['name'], result['group'], currentOptions)
             .then(report => {
               this.router.navigate([`report/${report.key}`], {replaceUrl: true});
             });
