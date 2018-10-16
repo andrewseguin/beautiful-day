@@ -28,7 +28,7 @@ export class DisplayOptionsHeaderComponent {
     'purchaser'
   ];
 
-  constructor(private requestsRenderer: RequestsRenderer,
+  constructor(public requestsRenderer: RequestsRenderer,
               private cd: ChangeDetectorRef) {
     this.requestsRenderer.options.changed.subscribe(() => {
       this.cd.markForCheck();
