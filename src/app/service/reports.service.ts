@@ -22,7 +22,7 @@ export class ReportsService extends DaoService<Report> {
         .pipe(takeUntil(this.destroyed))
         .subscribe(reports => {
           console.log('Loaded all reports');
-          this.reports.next(reports)
+          this.reports.next(reports);
         });
 
     this.authService.user

@@ -3,6 +3,7 @@ import {RequestRendererOptionsState} from 'app/ui/pages/shared/requests-list/ren
 export interface Report {
   $key?: string;
   name?: string;
+  group?: string;
   createdBy?: string;
   createdDate?: string;
   modifiedBy?: string;

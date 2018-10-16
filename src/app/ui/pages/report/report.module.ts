@@ -6,6 +6,7 @@ import {RequestsListModule} from 'app/ui/pages/shared/requests-list/requests-lis
 import {ReportEditModule} from 'app/ui/pages/shared/dialog/report-edit/report-edit.module';
 import {ReportDeleteModule} from 'app/ui/pages/shared/dialog/report-delete/report-delete.module';
 import {DialogModule} from 'app/ui/pages/shared/dialog/dialog.module';
+import {ReportMenuModule} from 'app/ui/pages/shared/report-menu/report-menu.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import {DialogModule} from 'app/ui/pages/shared/dialog/dialog.module';
     RequestsListModule,
     ReportEditModule,
     ReportDeleteModule,
+    ReportMenuModule,
   ],
   declarations: [ReportComponent],
   exports: [ReportComponent],

@@ -17,20 +17,6 @@
       {{canSave ? 'Save' : 'Saved'}}
     </button>
 
-    <button mat-icon-button class="menu" [mat-menu-trigger-for]="editMenu">
-      <mat-icon> settings </mat-icon>
-    </button>
-
-    <mat-menu #editMenu="matMenu">
-      <button mat-menu-item *ngIf="report.$key" (click)="openEditNameDialog()">
-        <mat-icon> edit </mat-icon> Edit
-      </button>
-      <button mat-menu-item (click)="print()">
-        <mat-icon> print </mat-icon> Print
-      </button>
-      <button mat-menu-item *ngIf="report.$key" (click)="deleteReport()">
-        <mat-icon> delete </mat-icon> Delete
-      </button>
-    </mat-menu>
+    <report-menu [report]="report" icon="settings"></report-menu>
   </ng-container>
 </ng-template>

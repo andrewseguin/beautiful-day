@@ -1,47 +1,22 @@
-<div class="list">
-  <div class="options">
-    <mat-form-field [floatLabel]="'never'">
-      <input matInput [(ngModel)]="search" placeholder="Filter Reports">
-    </mat-form-field>
-    <button mat-button class="sort" [mat-menu-trigger-for]="sortMenu">
-      <mat-icon>sort</mat-icon> Sort
-    </button>
+
+<div class="group" *ngFor="let reportGroup of reportGroups">
+  <div class="group-title">
+    {{reportGroup.name}}
   </div>
 
-  <div class="detail-header">
-    <div [style.flex-grow]="1">Name</div>
-    <div *ngIf="sort == 'createdDate'">Creation Date</div>
-    <div *ngIf="sort != 'createdDate'">Last Modified</div>
-  </div>
+  <div class="reports">
+    <div class="report" [routerLink]="'../report/' + report.$key"
+       *ngFor="let report of reportGroup.reports; trackBy: reportKeyTrackBy">
+      <div class="name"> {{report.name}} </div>
 
-  <div *ngIf="!reports"
-       class="report-item mat-elevation-z1">Loading Reports...</div>
-  <div *ngFor="let report of reports | reportSearch:search:sort:reverseSort" matRipple
-       (click)="navigateToReport(report.$key)"
-       class="report-item mat-elevation-z1">
-    <div style="display: flex">
-      <div class="report-name">{{report.name}}</div>
-      <div class="report-details">
-        <div *ngIf="sort == 'createdDate'">{{report.createdDate | date}}</div>
-        <div *ngIf="sort != 'createdDate'">{{report.modifiedDate | date}}</div>
-      </div>
+      <report-menu [report]="report" icon="more_vert"
+                   (click)="$event.stopPropagation()">
+      </report-menu>
     </div>
   </div>
 </div>
 
 <button mat-fab (click)="createReport()"
-        [matTooltip]="'Create New Report'"
-        [matTooltipPosition]="'left'">
+        [matTooltip]="'Create New Report'">
   <mat-icon>add</mat-icon>
 </button>
-
-<mat-menu #sortMenu="matMenu" x-position="before">
-  <button mat-menu-item *ngFor="let sortOption of sortOptions"
-          class="sort-option"
-          [class.active]="sortOption == sort"
-          (click)="setSort(sortOption)">
-    <mat-icon *ngIf="sortOption == sort && !reverseSort">arrow_downward</mat-icon>
-    <mat-icon *ngIf="sortOption == sort && reverseSort">arrow_upward</mat-icon>
-    {{getSortName(sortOption)}}
-  </button>
-</mat-menu>

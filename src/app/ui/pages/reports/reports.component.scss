@@ -1,88 +1,52 @@
 @import '../../shared/constants';
 @import '../../../theme';
 
-.list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 16px 0 112px;
-}
-
-.options {
+:host {
+  display: block;
+  margin: auto;
   max-width: 650px;
   width: 100%;
-  display: flex;
-  padding-left: 16px;
-  box-sizing: border-box;
-  align-items: center;
-
-  mat-form-field {
-    flex-grow: 1;
-  }
 }
 
-.detail-header {
-  width: 100%;
-  max-width: 650px;
-  display: flex;
-  padding: 16px;
-  box-sizing: border-box;
-  font-size: 14px;
-  text-transform: uppercase;
-
-  & > div {
-    font-weight: lighter;
-  }
+.group-title {
+  font-size: 22px;
+  font-weight: lighter;
+  margin: 24px 16px 8px 16px;
 }
 
-.report-item {
-  max-width: 650px;
-  width: 100%;
-  box-sizing: border-box;
-  background: rgba(255, 255, 255, .8);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
+.group:last-child {
+  padding-bottom: 120px;
+}
+
+.report {
   position: relative;
-  transition: 250ms ease-in-out;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #EEE;
+  padding: 0 16px;
+  cursor: pointer;
+  outline: none;
+  height: 40px;
 
-  // Matches mat-elevation-z1
+  @media (max-width: $mobile-width - 1) {
+    height: 48px;
+    border-bottom: 1px solid #DADADA;
+  }
 
   &:hover {
-    z-index: 1;
-    transform: scale(1.01);
-    background: white;
-
-    // Matches mat-elevation-z10
-    box-shadow: 0px 6px 6px -3px rgba(0, 0, 0, 0.2), 0px 10px 14px 1px rgba(0, 0, 0, 0.14), 0px 4px 18px 3px rgba(0, 0, 0, 0.12);
-
+    background: #F5F5F5;
   }
-
-  .report-name {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-  }
-
-  .report-details {
-    font-size: 12px;
-    padding-top: 4px;
-    padding-left: 16px;
+  &:active {
+    background: #EAEAEA;
   }
 }
 
-button.sort {
-  height: 36px;
-  margin-left: 8px;
-}
+.name {
+  flex: 1;
+  font-size: 14px;
 
-.sort-option {
-  text-align: right;
-  width: 180px;
-
-  &.active {
-    font-weight: bold;
+  @media (max-width: $mobile-width - 1) {
+    font-size: 16px;
   }
 }
 

@@ -45,8 +45,6 @@ export const FILTER_TYPE_LABELS = new Map<FilterType, string>([
 export class RequestsSearchComponent {
   search = new FormControl('');
   destroyed = new Subject();
-  animateFilters = true;
-
 
   filterTypeLabels = FILTER_TYPE_LABELS;
   filterTypes = Array.from(this.filterTypeLabels.keys());
@@ -69,7 +67,6 @@ export class RequestsSearchComponent {
       .subscribe(() => {
         this.search.setValue(this.requestsRenderer.options.search);
         this.cd.detectChanges(); // In case filters changed as well
-        console.log('detect changes"')
       });
 
     this.search.setValue(this.requestsRenderer.options.search);

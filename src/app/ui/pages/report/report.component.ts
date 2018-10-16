@@ -78,20 +78,6 @@ export class ReportComponent implements OnInit {
     this.destroyed.complete();
   }
 
-  openEditNameDialog() {
-    this.reportsDialog.editReport(this.report);
-  }
-
-  print() {
-    // TODO: implement this
-    const reportId = '';
-    window.open(`print/report/${reportId}`, 'print', 'width=650, height=500');
-  }
-
-  deleteReport() {
-    this.reportsDialog.deleteReport(this.report);
-  }
-
   saveAs() {
     this.reportsDialog.saveAsReport(this.currentOptions);
   }

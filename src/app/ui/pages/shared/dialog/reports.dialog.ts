@@ -30,7 +30,10 @@ export class ReportsDialog {
         take(1))
         .subscribe(result => {
         if (result) {
-          this.reportsService.update(report.$key, {name: result['name']});
+          this.reportsService.update(report.$key, {
+            name: result['name'],
+            group: result['group']
+          });
         }
     });
   }
