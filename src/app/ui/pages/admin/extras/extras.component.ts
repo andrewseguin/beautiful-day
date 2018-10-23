@@ -1,17 +1,14 @@
 import {Component} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {PermissionsService} from 'app/service/permissions.service';
-import {EditGroupComponent} from 'app/ui/pages/shared/dialog/edit-group/edit-group.component';
 import {ImportItemsComponent} from 'app/ui/pages/shared/dialog/import-items/import-items.component';
 import {ExportItemsComponent} from 'app/ui/pages/shared/dialog/export-items/export-items.component';
-import {RequestsService} from 'app/service/requests.service';
-import {ProjectsService} from 'app/service/projects.service';
-import {ReportsService} from 'app/service/reports.service';
 import {take} from 'rxjs/operators';
 import {Report} from 'app/model/report';
-import {
-  RequestRendererOptions
-} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {RequestRendererOptions} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {ProjectsDao} from 'app/service/dao/projects-dao';
+import {ReportsDao} from 'app/service/dao/reports-dao';
+import {RequestsDao} from 'app/service/dao';
 
 @Component({
   selector: 'extras',
@@ -20,38 +17,28 @@ import {
 })
 export class ExtrasComponent {
 
-  constructor(public mdDialog: MatDialog,
-              private reportsService: ReportsService,
-              private projectsService: ProjectsService,
-              private requestsService: RequestsService,
-              public permissionsService: PermissionsService) {}
-
-  manageAdmins(): void {
-    const dialogRef = this.mdDialog.open(EditGroupComponent);
-    dialogRef.componentInstance.group = 'admins';
-  }
-
-  manageAcquisitions(): void {
-    const dialogRef = this.mdDialog.open(EditGroupComponent);
-    dialogRef.componentInstance.group = 'acquisitions';
-  }
-
-  manageApprovers(): void {
-    const dialogRef = this.mdDialog.open(EditGroupComponent);
-    dialogRef.componentInstance.group = 'approvers';
+  constructor(public dialog: MatDialog,
+              private reportsDao: ReportsDao,
+              private projectsDao: ProjectsDao,
+              private requestsDao: RequestsDao,
+              public permissionsService: PermissionsService) {
   }
 
   importItems(): void {
-    this.mdDialog.open(ImportItemsComponent);
+    this.dialog.open(ImportItemsComponent);
   }
 
   exportItems(): void {
-    this.mdDialog.open(ExportItemsComponent);
+    this.dialog.open(ExportItemsComponent);
   }
 
   createReports(): void {
-    this.projectsService.projects.pipe(take(1)).subscribe(projects => {
+    this.projectsDao.list.subscribe(projects => {
       const reports: Report[] = [];
+
+      if (!projects) {
+        return;
+      }
 
       projects.forEach(project => {
         const options = new RequestRendererOptions();
@@ -68,11 +55,15 @@ export class ExtrasComponent {
       });
 
       reports.forEach(report => {
-        this.reportsService.create(report.name, report.group, report.options);
+        this.reportsDao.add(report);
       });
     });
 
-    this.requestsService.requests.pipe(take(1)).subscribe(requests => {
+    this.requestsDao.list.pipe(take(1)).subscribe(requests => {
+      if (!requests) {
+        return;
+      }
+
       const purchasers = new Set<string>();
       requests.forEach(r => purchasers.add(r.purchaser));
 
@@ -83,8 +74,26 @@ export class ExtrasComponent {
           {type: 'season', query: {season: '2018'}},
           {type: 'purchaser', query: {purchaser: purchaser}}
         ];
-        this.reportsService.create(purchaser, 'Purchaser', options.getState());
+
+        const report = {
+          name: purchaser,
+          group: 'Purchaser',
+          options: options.getState()
+        };
+
+        this.reportsDao.add(report);
       }
     });
   }
+/*
+  copyRequests() {
+    this.requestsService.requests.subscribe(requests => {
+      requests.forEach(request => {
+        const id = request.$key;
+        delete request.$key;
+        this.requestsDao.add({id, ...request});
+      });
+    });
+  }
+  */
 }

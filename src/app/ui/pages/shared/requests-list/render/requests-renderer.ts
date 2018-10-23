@@ -3,20 +3,16 @@ import {
   RequestGroup,
   RequestGrouping
 } from 'app/ui/pages/shared/requests-list/render/request-grouping';
-import {RequestsService} from 'app/service/requests.service';
-import {ItemsService} from 'app/service/items.service';
-import {ProjectsService} from 'app/service/projects.service';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 import {Item} from 'app/model/item';
 import {Project} from 'app/model/project';
 import {Request} from 'app/model/request';
 import {RequestSearchTransformer} from 'app/ui/pages/shared/requests-list/render/request-search-transformer';
-import {
-  RequestRendererOptions
-} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {RequestRendererOptions} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {startWith} from 'rxjs/operators';
 import {RequestFilterer} from 'app/ui/pages/shared/requests-list/render/request-filterer';
 import {RequestSorter} from 'app/ui/pages/shared/requests-list/render/request-sorter';
+import {ItemsDao, ProjectsDao, RequestsDao} from 'app/service/dao';
 
 @Injectable()
 export class RequestsRenderer {
@@ -27,9 +23,9 @@ export class RequestsRenderer {
 
   private initSubscription: Subscription;
 
-  constructor(private requestsService: RequestsService,
-              private itemsService: ItemsService,
-              private projectsService: ProjectsService) { }
+  constructor(private requestsDao: RequestsDao,
+              private itemsDao: ItemsDao,
+              private projectsDao: ProjectsDao) { }
 
   ngOnDestroy() {
     this.initSubscription.unsubscribe();
@@ -41,9 +37,9 @@ export class RequestsRenderer {
     }
 
     const data: any[] = [
-      this.requestsService.requests,
-      this.itemsService.items,
-      this.projectsService.projects,
+      this.requestsDao.list,
+      this.itemsDao.list,
+      this.projectsDao.list,
       this.options.changed.pipe(startWith(null)),
     ];
 
@@ -52,17 +48,17 @@ export class RequestsRenderer {
       const items = result[1] as Item[];
       const projects = result[2] as Project[];
 
-      if (!requests.length || !items.length || !projects.length) {
+      if (!requests || !items || !projects) {
         return [];
       }
 
       console.time('compute');
 
       const itemMap = new Map<string, Item>();
-      items.forEach(item => itemMap.set(item.$key, item));
+      items.forEach(item => itemMap.set(item.id, item));
 
       const projectMap = new Map<string, Project>();
-      projects.forEach(project => projectMap.set(project.$key, project));
+      projects.forEach(project => projectMap.set(project.id, project));
 
       // Filter
       const requestFilterer = new RequestFilterer(this.options, projectMap, itemMap);

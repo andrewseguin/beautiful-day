@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Project} from 'app/model/project';
 import {FormControl, FormGroup} from '@angular/forms';
-import {ProjectsService} from '../../../../../service/projects.service';
+import {ProjectsDao} from 'app/service/dao';
 import {debounceTime} from 'rxjs/operators';
 
 @Component({
@@ -14,7 +14,7 @@ export class EditableProjectComponent {
 
   projectForm: FormGroup;
 
-  constructor(private projectsService: ProjectsService) {}
+  constructor(private projectsDao: ProjectsDao) {}
 
   ngOnInit() {
     this.projectForm = new FormGroup({
@@ -42,7 +42,7 @@ export class EditableProjectComponent {
             acquisitions: value.acquisitions
           };
 
-          this.projectsService.update(this.project.$key, update);
+          this.projectsDao.update(this.project.id, update);
         });
   }
 

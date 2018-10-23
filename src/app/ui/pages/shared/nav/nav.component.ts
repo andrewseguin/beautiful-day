@@ -4,8 +4,9 @@ import {Router} from '@angular/router';
 import {PermissionsService} from 'app/service/permissions.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {AuthService} from 'app/service/auth-service';
 import {EditUserProfileComponent} from '../dialog/edit-user-profile/edit-user-profile.component';
+import {UsersDao} from 'app/service/dao';
+import {mergeMap} from 'rxjs/operators';
 
 const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 
@@ -27,13 +28,15 @@ const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
   ]
 })
 export class NavComponent {
+  user = this.afAuth.authState.pipe(
+      mergeMap(auth => this.usersDao.getByEmail(auth.email)));
   isUserProfileExpanded = false;
 
   constructor(public permissionsService: PermissionsService,
-              public authService: AuthService,
               public afAuth: AngularFireAuth,
-              public mdDialog: MatDialog,
-              public router: Router) { }
+              public dialog: MatDialog,
+              public usersDao: UsersDao,
+              public router: Router) {}
 
   @Input() sidenav: MatSidenav;
 
@@ -43,6 +46,6 @@ export class NavComponent {
   }
 
   editProfile(): void {
-    this.mdDialog.open(EditUserProfileComponent);
+    this.dialog.open(EditUserProfileComponent);
   }
 }

@@ -1,9 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {Item} from 'app/model/item';
 import {Request} from 'app/model/request';
-import {RequestsService} from 'app/service/requests.service';
-import {GroupsService} from 'app/service/groups.service';
-import {ItemsService} from 'app/service/items.service';
+import {ItemsDao} from 'app/service/dao';
 
 
 @Component({
@@ -14,7 +12,6 @@ import {ItemsService} from 'app/service/items.service';
 })
 export class RequestsGroupComponent {
   items = new Map<string, Item>();
-  isAcquisitions = false;
 
   @Input() canEdit: boolean;
 
@@ -24,25 +21,13 @@ export class RequestsGroupComponent {
 
   @Input() title: string;
 
-  getRequestKey = (_i, request: Request) => request.$key;
+  getRequestKey = (_i, request: Request) => request.id;
 
-  constructor(private requestsService: RequestsService,
-              private groupsService: GroupsService,
-              private itemsService: ItemsService,
+  constructor(private itemsDao: ItemsDao,
               private cd: ChangeDetectorRef) {
-    this.itemsService.itemsMap.subscribe(itemsMap => {
+    this.itemsDao.map.subscribe(itemsMap => {
       this.items = itemsMap;
       this.cd.markForCheck();
-    });
-
-    this.groupsService.isMember('acquisitions').subscribe(flag => {
-      this.isAcquisitions = flag;
-    });
-  }
-
-  selectAll() {
-    this.requests.forEach(request => {
-      this.requestsService.selection.select(request.$key);
     });
   }
 }

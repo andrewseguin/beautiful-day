@@ -8,20 +8,17 @@ import {
   ViewChild
 } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {Item} from 'app/model/item';
-import {RequestsService} from 'app/service/requests.service';
-import {Request} from 'app/model/request';
+import {Item, Request} from 'app/model';
 import {EditDropoffComponent} from 'app/ui/pages/shared/dialog/edit-dropoff/edit-dropoff.component';
 import {EditItemComponent} from 'app/ui/pages/shared/dialog/edit-item/edit-item.component';
-import {ProjectsService} from 'app/service/projects.service';
-import {GroupsService} from 'app/service/groups.service';
 import {AccountingService, getRequestCost} from 'app/service/accounting.service';
 import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
 import {PermissionsService} from 'app/service/permissions.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {ANIMATION_DURATION} from 'app/ui/shared/animations';
+import {ProjectsDao, RequestsDao} from 'app/service/dao';
+import {Selection} from 'app/service';
+import {RequestDialog} from 'app/ui/pages/shared/dialog/request.dialog';
 
 @Component({
   selector: 'request',
@@ -59,21 +56,24 @@ export class RequestComponent implements OnInit {
               private mdDialog: MatDialog,
               private elementRef: ElementRef,
               private accountingService: AccountingService,
-              private requestsService: RequestsService,
-              private projectsService: ProjectsService,
-              private permissionsService: PermissionsService,
-              private groupsService: GroupsService) { }
+              private requestsDao: RequestsDao,
+              private selection: Selection,
+              private projectsDao: ProjectsDao,
+              private requestDialog: RequestDialog,
+              private permissionsService: PermissionsService) { }
 
   ngOnInit() {
-    this.requestsService.selection.changed.pipe(
+    this.selection.requests.changed.pipe(
       takeUntil(this.destroyed))
       .subscribe(() => this.cd.markForCheck());
 
     this.permissionsService.editableProjects.pipe(
       takeUntil(this.destroyed))
       .subscribe(editableProjects => {
-        this.canEdit = editableProjects.has(this.request.project);
-        this.cd.markForCheck();
+        if (editableProjects) {
+          this.canEdit = editableProjects.has(this.request.project);
+          this.cd.markForCheck();
+        }
       });
   }
 
@@ -84,29 +84,29 @@ export class RequestComponent implements OnInit {
 
   changeQuantity(quantity: number) {
     quantity = Math.max(0, quantity);
-    this.requestsService.update(this.request.$key, {quantity});
+    this.requestsDao.update(this.request.id, {quantity});
   }
 
   isSelected() {
-    return this.requestsService.selection.isSelected(this.request.$key);
+    return this.selection.requests.isSelected(this.request.id);
   }
 
   setSelected(value: boolean) {
     value ?
-      this.requestsService.selection.select(this.request.$key) :
-      this.requestsService.selection.deselect(this.request.$key);
+      this.selection.requests.select(this.request.id) :
+      this.selection.requests.deselect(this.request.id);
   }
 
   editNote(e: Event) {
     e.stopPropagation();
-    this.requestsService.editNote([this.request.$key]);
+    this.requestDialog.editNote([this.request.id]);
   }
 
   editDropoff(e: Event) {
     e.stopPropagation();
 
     const dialogRef = this.mdDialog.open(EditDropoffComponent);
-    dialogRef.componentInstance.requestIds = [this.request.$key];
+    dialogRef.componentInstance.requestIds = [this.request.id];
     dialogRef.componentInstance.selectedDropoffLocation = this.request.dropoff;
     dialogRef.componentInstance.setDateFromRequest(this.request.date);
     dialogRef.componentInstance.project = this.request.project;
@@ -119,8 +119,8 @@ export class RequestComponent implements OnInit {
     dialogRef.componentInstance.mode = 'view';
 
     // If acquisitions member, can edit the item
-    this.groupsService.isMember('acquisitions').subscribe(isAcquisitions => {
-      if (isAcquisitions) { dialogRef.componentInstance.mode = 'edit'; }
+    this.permissionsService.permissions.subscribe(p => {
+      if (p.has('acquisitions')) { dialogRef.componentInstance.mode = 'edit'; }
     });
 
     dialogRef.componentInstance.item = this.item;

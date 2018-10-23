@@ -4,8 +4,6 @@ import {DeleteReportComponent} from './delete-report/delete-report.component';
 import {DeleteRequestsComponent} from './delete-requests/delete-requests.component';
 import {EditApprovalStatusDialogComponent} from './edit-approval-status/edit-approval-status';
 import {EditDropoffComponent} from './edit-dropoff/edit-dropoff.component';
-import {EditEventComponent} from './edit-event/edit-event.component';
-import {EditGroupComponent} from './edit-group/edit-group.component';
 import {EditItemComponent} from './edit-item/edit-item.component';
 import {EditItemCategoryComponent} from './edit-item-category/edit-item-category.component';
 import {EditItemNameComponent} from './edit-item-name/edit-item-name.component';
@@ -23,7 +21,11 @@ import {ExportItemsComponent} from './export-items/export-items.component';
 import {
   EditDistributionStatusDialogComponent
 } from 'app/ui/pages/shared/dialog/edit-distribution-status/edit-distribution-status';
-import {ReportsDialog} from 'app/ui/pages/shared/dialog/reports.dialog';
+import {ReportDialog} from 'app/ui/pages/shared/dialog/report.dialog';
+import {EventDialog} from 'app/ui/pages/shared/dialog/event.dialog';
+import {ReportEditModule} from 'app/ui/pages/shared/dialog/report-edit/report-edit.module';
+import {EventEditModule} from 'app/ui/pages/shared/dialog/event-edit/event-edit.module';
+import {RequestDialog} from 'app/ui/pages/shared/dialog/request.dialog';
 
 const DIALOGS = [
   DeleteProjectComponent,
@@ -31,8 +33,6 @@ const DIALOGS = [
   DeleteRequestsComponent,
   EditApprovalStatusDialogComponent,
   EditDropoffComponent,
-  EditEventComponent,
-  EditGroupComponent,
   EditItemComponent,
   EditItemCategoryComponent,
   EditItemNameComponent,
@@ -51,12 +51,16 @@ const DIALOGS = [
     PipeModule,
     CommonModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    ReportEditModule,
+    EventEditModule,
   ],
   declarations: DIALOGS,
   entryComponents: DIALOGS,
   providers: [
-    ReportsDialog,
+    ReportDialog,
+    EventDialog,
+    RequestDialog,
   ]
 })
 export class DialogModule { }

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import {RequestsService} from 'app/service/requests.service';
+import {Selection} from 'app/service';
+import {RequestsDao} from 'app/service/dao';
 
 @Component({
   selector: 'edit-tags',
@@ -15,9 +16,9 @@ export class EditTagsComponent {
   set requestIds(requestIds: string[]) {
     this._requestIds = requestIds;
     requestIds.forEach(requestId => {
-      this.requestsService.get(requestId).subscribe(request => {
+      this.requestsDao.get(requestId).subscribe(request => {
         const tags = new Set<string>(request.tags ? request.tags.split(',') : []);
-        this.requestTags.set(request.$key, tags);
+        this.requestTags.set(request.id, tags);
         this.updateCommonTags();
       });
     });
@@ -27,7 +28,8 @@ export class EditTagsComponent {
   newTag = '';
 
   constructor(private dialogRef: MatDialogRef<EditTagsComponent>,
-              private requestsService: RequestsService) {}
+              private selection: Selection,
+              private requestsDao: RequestsDao) {}
 
   close() {
     this.dialogRef.close();
@@ -47,11 +49,11 @@ export class EditTagsComponent {
     }
 
     this.requestTags.forEach((tags, requestKey) => {
-      this.requestsService.update(requestKey, {tags: Array.from(tags).join(',')});
+      this.requestsDao.update(requestKey, {tags: Array.from(tags).join(',')});
     });
 
     this.close();
-    this.requestsService.selection.clear();
+    this.selection.requests.clear();
   }
 
   removeTag(tag: string) {

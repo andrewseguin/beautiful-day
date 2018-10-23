@@ -1,9 +1,10 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ItemsService} from 'app/service/items.service';
 import {Item} from 'app/model/item';
 import {Project} from 'app/model/project';
 import {Observable} from 'rxjs/Observable';
 import {PanelsService} from './panels.service';
+import {ItemsDao} from 'app/service/dao';
+import {getCategoryGroup} from 'app/utility/items-categorize';
 
 @Component({
   selector: 'inventory-panel',
@@ -20,12 +21,14 @@ export class InventoryPanelComponent implements OnInit {
 
   @Output('closeSidenav') closeSidenav = new EventEmitter<void>();
 
-  constructor(private itemsService: ItemsService,
+  constructor(private itemsDao: ItemsDao,
               public panelsService: PanelsService) {}
 
   ngOnInit() {
-    this.itemsService.getCategoryGroup().subscribe(categoryGroup => {
-      this.subcategories = categoryGroup.subcategories;
+    this.itemsDao.list.subscribe(items => {
+      if (items) {
+        this.subcategories = getCategoryGroup(items).subcategories;
+      }
     });
   }
 }

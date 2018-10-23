@@ -1,12 +1,11 @@
 import {Component, Input} from '@angular/core';
-import {ItemsService} from 'app/service/items.service';
 import {EditItemComponent} from 'app/ui/pages/shared/dialog/edit-item/edit-item.component';
 import {MatDialog} from '@angular/material';
-import {RequestsService} from 'app/service/requests.service';
-import {ProjectsService} from 'app/service/projects.service';
 import {Project} from 'app/model/project';
 import {Item} from 'app/model/item';
 import {Request} from 'app/model/request';
+import {ProjectsDao, RequestsDao} from 'app/service/dao';
+import {Selection} from 'app/service';
 
 @Component({
   selector: 'inventory-item',
@@ -24,19 +23,19 @@ export class InventoryItemComponent {
   requestsGroupedByProject = new Map<string, Request[]>();
   requestedProjects: string[] = [];
 
-  constructor(private itemsService: ItemsService,
-              private projectsService: ProjectsService,
-              private requestsService: RequestsService,
+  constructor(private projectsDao: ProjectsDao,
+              private requestsDao: RequestsDao,
+              private selection: Selection,
               private mdDialog: MatDialog) { }
 
   ngOnInit() {
-    this.projectsService.projectsMap.subscribe(projectsMap => {
+    this.projectsDao.map.subscribe(projectsMap => {
       this.projectsMap = projectsMap;
       this.updateRequestsDisplay();
     });
 
-    this.requestsService.requestsByItem.subscribe(requestsByItem => {
-      this.requests = requestsByItem.get(this.item.$key);
+    this.requestsDao.list.subscribe(requests => {
+      this.requests = requests.filter(r => r.item === this.item.id);
       this.updateRequestsDisplay();
     });
   }
@@ -66,12 +65,12 @@ export class InventoryItemComponent {
   }
 
   isSelected(): boolean {
-    return this.itemsService.selection.isSelected(this.item.$key);
+    return this.selection.items.isSelected(this.item.id);
   }
 
   setSelected(checked: boolean) {
-    const selection = this.itemsService.selection;
-    checked ? selection.select(this.item.$key) : selection.deselect(this.item.$key);
+    const selection = this.selection.items;
+    checked ? selection.select(this.item.id) : selection.deselect(this.item.id);
   }
 
   editItem() {

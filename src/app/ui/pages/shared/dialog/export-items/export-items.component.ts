@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Item} from 'app/model/item';
-import {ItemsService} from 'app/service/items.service';
-import {RequestsService} from 'app/service/requests.service';
+import {ItemsDao, RequestsDao} from 'app/service/dao';
 
 @Component({
   selector: 'import-items',
@@ -14,13 +13,17 @@ export class ExportItemsComponent {
   itemRequestCount: Map<string, number>;
 
   constructor(private dialogRef: MatDialogRef<ExportItemsComponent>,
-              private itemsService: ItemsService,
-              private requestsService: RequestsService) {
-    this.itemsService.items.subscribe(items => {
+              private itemsDao: ItemsDao,
+              private requestsDao: RequestsDao) {
+    this.itemsDao.list.subscribe(items => {
       this.items = items;
     });
 
-    this.requestsService.requests.subscribe(requests => {
+    this.requestsDao.list.subscribe(requests => {
+      if (!requests) {
+        return;
+      }
+
       this.itemRequestCount = new Map();
       requests.forEach(request => {
         let count = (this.itemRequestCount.get(request.item) || 0) + 1;

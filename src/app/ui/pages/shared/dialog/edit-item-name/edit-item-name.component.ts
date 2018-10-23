@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {ItemsService} from 'app/service/items.service';
 import {MatDialogRef} from '@angular/material';
+import {Selection} from 'app/service';
+import {ItemsDao} from 'app/service/dao';
 
 @Component({
   selector: 'app-edit-item-type',
@@ -12,7 +13,8 @@ export class EditItemNameComponent {
   name = '';
 
   constructor(private dialogRef: MatDialogRef<EditItemNameComponent>,
-              private itemsService: ItemsService) { }
+              private selection: Selection,
+              private itemsDao: ItemsDao) { }
 
   close() {
     this.dialogRef.close();
@@ -20,9 +22,9 @@ export class EditItemNameComponent {
 
   save() {
     this.itemIds.forEach(itemId => {
-      this.itemsService.update(itemId, {name: this.name});
+      this.itemsDao.update(itemId, {name: this.name});
     });
     this.close();
-    this.itemsService.selection.clear();
+    this.selection.items.clear();
   }
 }

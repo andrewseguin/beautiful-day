@@ -7,7 +7,7 @@ export class RequestSorter {
     switch (sort) {
       case 'request added':
         return (a: Request, b: Request) => {
-          return a.$key > b.$key ? -1 : 1;
+          return a.id > b.id ? -1 : 1;
         };
       case 'request cost':
         return (a: Request, b: Request) => {

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import {RequestsService} from 'app/service/requests.service';
+import {RequestsDao} from 'app/service/dao';
 
 @Component({
   selector: 'edit-purchase-status-dialog',
@@ -12,11 +12,11 @@ export class EditPurchaseStatusDialogComponent {
   isPurchased = true;
 
   constructor(private dialogRef: MatDialogRef<EditPurchaseStatusDialogComponent>,
-              private requestsService: RequestsService) {}
+              private requestsDao: RequestsDao) {}
 
   ngOnInit() {
     this.requestIds.forEach(requestId => {
-      this.requestsService.get(requestId).subscribe(request => {
+      this.requestsDao.get(requestId).subscribe(request => {
         this.isPurchased = this.isPurchased && request.isPurchased;
       });
     });
@@ -28,7 +28,7 @@ export class EditPurchaseStatusDialogComponent {
 
   save() {
     this.requestIds.forEach(requestId => {
-      this.requestsService.update(requestId, {isPurchased: this.isPurchased});
+      this.requestsDao.update(requestId, {isPurchased: this.isPurchased});
     });
 
     this.close();

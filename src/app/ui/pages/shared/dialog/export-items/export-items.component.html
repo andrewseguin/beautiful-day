@@ -13,7 +13,7 @@
     <th>Requests</th>
   </tr>
   <tr *ngFor="let item of items">
-    <td>{{item.$key}}</td>
+    <td>{{item.id}}</td>
     <td>{{item.name}}</td>
     <td>{{item.categories}}</td>
     <td>{{item.url}}</td>
@@ -21,6 +21,6 @@
     <td>{{item.hidden ? true : ''}}</td>
     <td>{{item.keywords}}</td>
     <td>{{item.quantityOwned}}</td>
-    <td>{{itemRequestCount?.get(item.$key)}}</td>
+    <td>{{itemRequestCount?.get(item.id)}}</td>
   </tr>
 </table>

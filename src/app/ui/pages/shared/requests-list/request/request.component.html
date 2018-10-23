@@ -48,7 +48,7 @@
 
     <div *ngIf="requestsRenderer.options.showProjectName">
       <span class="editable">
-        Project: {{(projectsService.projectsMap | async)?.get(request.project).name}}
+        Project: {{(projectsDao.map | async)?.get(request.project).name}}
       </span>
     </div>
 

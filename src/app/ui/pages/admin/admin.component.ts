@@ -11,8 +11,9 @@ interface Section {
 })
 export class AdminComponent {
   sections: Section[] = [
-    {label: 'Manage Groups', id: 'manage-groups'},
-    {label: 'Manage Projects', id: 'manage-projects'},
+    {label: 'Groups', id: 'manage-groups'},
+    {label: 'Projects', id: 'manage-projects'},
+    {label: 'Events', id: 'events'},
     {label: 'Extras', id: 'extras'},
   ];
 

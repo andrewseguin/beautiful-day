@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {RequestsService} from 'app/service/requests.service';
-import {ItemsService} from 'app/service/items.service';
+import {Selection} from 'app/service';
 
 export type SelectionType = 'request' | 'item';
 
@@ -25,23 +24,21 @@ export type SelectionType = 'request' | 'item';
   ]
 })
 export class SelectionHeaderComponent {
-
-  constructor(private requestsService: RequestsService,
-              private itemsService: ItemsService) { }
+  constructor(private selection: Selection) { }
 
   getSelectionState() {
     return this.getSelectionCount() > 0 ? 'selected' : 'none';
   }
 
   getSelectionCount() {
-    return this.requestsService.selection.selected.length ||
-      this.itemsService.selection.selected.length;
+    return this.selection.requests.selected.length ||
+      this.selection.items.selected.length;
   }
 
   getSelectionType(): SelectionType {
-    if (this.requestsService.selection.selected.length) {
+    if (this.selection.requests.selected.length) {
       return 'request';
-    } else if (this.itemsService.selection.selected.length) {
+    } else if (this.selection.items.selected.length) {
       return 'item';
     }
 
@@ -49,7 +46,7 @@ export class SelectionHeaderComponent {
   }
 
   clearSelection() {
-    this.requestsService.selection.clear();
-    this.itemsService.selection.clear();
+    this.selection.requests.clear();
+    this.selection.items.clear();
   }
 }

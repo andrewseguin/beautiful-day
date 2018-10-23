@@ -17,31 +17,24 @@
   </button>
 
   <button mat-button
-          *ngIf="permissionsService.canManageAcquisitions() | async"
+          *ngIf="permissionsService.isAcquisitions | async"
           routerLink="/inventory">
     <mat-icon>shopping_cart</mat-icon>
     Inventory
   </button>
 
   <button mat-button
-          *ngIf="permissionsService.canManageAcquisitions() | async"
+          *ngIf="permissionsService.isAcquisitions | async"
           routerLink="/reports">
     <mat-icon>assignment</mat-icon>
-    Reporting
+    Reports
   </button>
 
   <button mat-button
-          *ngIf="permissionsService.canViewFeedback() | async"
+          *ngIf="permissionsService.isOwner | async"
           routerLink="/admin">
     <mat-icon>build</mat-icon>
     Admin
-  </button>
-
-  <button mat-button
-          *ngIf="permissionsService.canViewFeedback() | async"
-          routerLink="/feedback">
-    <mat-icon>feedback</mat-icon>
-    Feedback
   </button>
 
   <button mat-button routerLink="/help">
@@ -50,12 +43,13 @@
   </button>
 </div>
 
-<div class="profile" [@userSection]="isUserProfileExpanded">
+<div class="profile" [@userSection]="isUserProfileExpanded"
+     *ngIf="user | async; let user">
   <div class="expansion-header" mat-ripple
        (click)="isUserProfileExpanded = !isUserProfileExpanded">
     <div class="label">
       <div class="signed-in-as">Signed in as</div>
-      <div class="email">{{(authService.user | async)?.email}}</div>
+      <div class="email">{{user.email}}</div>
     </div>
     <mat-icon [@arrow]="isUserProfileExpanded">
       expand_more
@@ -63,13 +57,12 @@
   </div>
 
   <div class="user" (click)="editProfile()">
-    <div class="pic" *ngIf="authService.user | async; let user"
-         [style.backgroundImage]="'url(' + user.pic + ')'">
+    <div class="pic" [style.backgroundImage]="'url(' + user.pic + ')'">
     </div>
     <div class="info">
-      <div>{{(authService.user | async)?.name}}</div>
-      <div class="user-email">{{(authService.user | async)?.email}}</div>
-      <div>{{(authService.user | async)?.phone}}</div>
+      <div>{{user.name}}</div>
+      <div class="user-email">{{user.email}}</div>
+      <div>{{user.phone}}</div>
     </div>
   </div>
 

@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Item} from 'app/model/item';
-import {ItemsService} from 'app/service/items.service';
+import {ItemsDao} from 'app/service/dao';
 
 enum COLUMNS {
-  $KEY, NAME, CATEGORIES, URL, COST, HIDDEN, KEYWORDS, QUANTITY
+  ID, NAME, CATEGORIES, URL, COST, HIDDEN, KEYWORDS, QUANTITY
 }
 
 @Component({
@@ -16,14 +16,16 @@ export class ImportItemsComponent {
   items: Item[];
 
   constructor(private dialogRef: MatDialogRef<ImportItemsComponent>,
-              private itemsService: ItemsService) { }
+              private itemsDao: ItemsDao) { }
 
   close() {
     this.dialogRef.close();
   }
 
   save() {
-    this.itemsService.updateItems(this.items);
+    this.items.forEach(item => {
+      this.itemsDao.update(item.id, {...item});
+    });
     this.close();
   }
 
@@ -44,7 +46,7 @@ export class ImportItemsComponent {
     return itemRows.map(itemRow => {
       const itemInfo = itemRow.split('\t');
 
-      let $key = itemInfo[COLUMNS.$KEY];
+      let id = itemInfo[COLUMNS.ID];
       let categories = itemInfo[COLUMNS.CATEGORIES];
       let name = itemInfo[COLUMNS.NAME];
       let hidden = !!itemInfo[COLUMNS.HIDDEN];
@@ -55,7 +57,7 @@ export class ImportItemsComponent {
       let keywords = itemInfo[COLUMNS.KEYWORDS];
       let quantityOwned = itemInfo[COLUMNS.QUANTITY];
 
-      const item = {$key, name, categories, url, cost, hidden, keywords, quantityOwned};
+      const item = {id, name, categories, url, cost, hidden, keywords, quantityOwned};
 
       // Delete optional fields to avoid undefined setting
       if (!item.hidden) {

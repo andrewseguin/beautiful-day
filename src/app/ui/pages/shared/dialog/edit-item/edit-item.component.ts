@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Item} from 'app/model/item';
 import {MatDialogRef} from '@angular/material';
-import {ItemsService} from 'app/service/items.service';
-import {GroupsService} from 'app/service/groups.service';
+import {PermissionsService} from 'app/service/permissions.service';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {take} from 'rxjs/operators';
+import {ItemsDao} from 'app/service/dao';
+import {getItemsByCategory} from 'app/utility/items-categorize';
 
 export type Mode = 'new' | 'edit' | 'view';
 
@@ -26,13 +29,15 @@ export class EditItemComponent implements OnInit {
   }
 
   constructor(private dialogRef: MatDialogRef<EditItemComponent>,
-              private groupsService: GroupsService,
-              private itemsService: ItemsService) {
-    this.groupsService.isMember('acquisitions')
-        .subscribe(isAcquisitions => this.isAcquisitions = isAcquisitions);
+              private permissionsService: PermissionsService,
+              private afAuth: AngularFireAuth,
+              private itemsDao: ItemsDao) {
+    this.permissionsService.permissions
+        .subscribe(p => this.isAcquisitions = p.has('acquisitions'));
 
-    this.itemsService.getItemsByCategory().subscribe(items => {
-      this.categories = Object.keys(items.subcategories);
+    this.itemsDao.list.subscribe(items => {
+      const itemsByCategory = getItemsByCategory(items);
+      this.categories = Object.keys(itemsByCategory.subcategories);
     });
   }
 
@@ -67,9 +72,13 @@ export class EditItemComponent implements OnInit {
     };
 
     if (this.mode == 'edit') {
-      this.itemsService.update(this._item.$key, persistingItem);
+      this.itemsDao.update(this._item.id, persistingItem);
     } else if (this.mode == 'new') {
-      this.itemsService.add(persistingItem);
+      this.afAuth.authState.pipe(take(1)).subscribe(user => {
+        persistingItem.dateAdded = new Date().getTime();
+        persistingItem.addedBy = user.email;
+        this.itemsDao.add(persistingItem);
+      });
     }
 
     this.close();

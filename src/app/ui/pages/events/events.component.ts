@@ -1,10 +1,9 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {HeaderService} from 'app/service/header.service';
-import {EventsService} from 'app/service/events.service';
-import {Event} from 'app/model/event';
-import {EditEventComponent} from 'app/ui/pages/shared/dialog/edit-event/edit-event.component';
-import {MatDialog} from '@angular/material';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {PermissionsService} from 'app/service/permissions.service';
+import {EventDialog} from 'app/ui/pages/shared/dialog/event.dialog';
+import {EventsDao} from 'app/service/dao';
+import {map} from 'rxjs/operators';
+import {combineLatest} from 'rxjs';
 
 @Component({
   selector: 'events-page',
@@ -13,19 +12,30 @@ import {PermissionsService} from 'app/service/permissions.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventsComponent {
-  sortedEvents = this.eventsService.getSortedEvents();
+  sortedEvents = this.eventsDao.list.pipe(
+    map(events => {
+      if (!events) {
+        return;
+      }
+
+      return events.sort((a, b) => {
+        const aDate = new Date(a.date);
+        const bDate = new Date(b.date);
+        return aDate < bDate ? -1 : 1;
+      });
+    }));
   canEditEvents = this.permissionsService.canEditEvents();
 
-  constructor(private mdDialog: MatDialog,
+  isLoading = true;
+
+  constructor(public eventDialog: EventDialog,
               private permissionsService: PermissionsService,
-              private eventsService: EventsService) { }
-
-  addEvent() {
-    this.mdDialog.open(EditEventComponent);
-  }
-
-  editEvent(event: Event) {
-    const dialogRef = this.mdDialog.open(EditEventComponent);
-    dialogRef.componentInstance.event = event;
+              private cd: ChangeDetectorRef,
+              private eventsDao: EventsDao) {
+    combineLatest([this.sortedEvents, this.canEditEvents])
+        .subscribe(() => {
+          this.isLoading = false;
+          this.cd.markForCheck();
+        });
   }
 }

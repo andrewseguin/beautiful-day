@@ -1,8 +1,10 @@
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {CategoryGroup, ItemsService} from 'app/service/items.service';
 import {Item} from 'app/model/item';
 import {MatSelect} from '@angular/material';
 import {ItemSearchPipe} from 'app/pipe/item-search.pipe';
+import {Selection} from 'app/service';
+import {ItemsDao} from 'app/service/dao';
+import {CategoryGroup, getItemsByCategory} from 'app/utility/items-categorize';
 
 @Component({
   selector: 'inventory',
@@ -27,18 +29,18 @@ export class InventoryComponent implements OnInit {
   }
   get search(): string { return this._search; }
 
-  constructor(private itemsService: ItemsService) { }
+  constructor(private itemsDao: ItemsDao, private selection: Selection) { }
 
   ngOnInit() {
-    this.itemsService.items.subscribe(items => {
+    this.itemsDao.list.subscribe(items => {
       this.items = items;
       this.updateDisplayedItems();
     });
 
-    this.itemsService.getItemsByCategory().subscribe(categoryGroup => {
-        this.categoryGroup = categoryGroup;
-        this.updateCategorySelectionOptions();
-      });
+    this.itemsDao.list.subscribe(items => {
+      this.categoryGroup = getItemsByCategory(items);
+      this.updateCategorySelectionOptions();
+    });
   }
 
   updateCategorySelectionOptions() {
@@ -92,7 +94,8 @@ export class InventoryComponent implements OnInit {
         const categories = i.categories.split('>').map(c => c.trim());
 
         const exactMatch = categories.join() === this.selectedCategories.join();
-        const matchesSubcategory = categories.join().indexOf(this.selectedCategories.join() + ' >') == 0;
+        const matchesSubcategory =
+            categories.join().indexOf(this.selectedCategories.join() + ' >') == 0;
         return exactMatch || matchesSubcategory;
       });
     }
@@ -101,17 +104,17 @@ export class InventoryComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.itemsService.selection.clear();
+    this.selection.items.clear();
   }
 
   hasAllSelectedItems(): boolean {
     return this.displayedItems.every(item => {
-      return this.itemsService.selection.isSelected(item.$key);
+      return this.selection.items.isSelected(item.id);
     });
   }
 
-  toggleGroupSelection(select: boolean) {
-    const itemKeys = this.displayedItems.map(item => item.$key);
-    this.itemsService.selection.select(...itemKeys);
+  toggleGroupSelection() {
+    const itemKeys = this.displayedItems.map(item => item.id);
+    this.selection.items.select(...itemKeys);
   }
 }

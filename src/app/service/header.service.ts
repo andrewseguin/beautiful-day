@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {filter, map, take} from 'rxjs/operators';
-import {ProjectsService} from 'app/service/projects.service';
+import {filter, take} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Title as WindowTitle} from '@angular/platform-browser';
 import {CdkPortal} from '@angular/cdk/portal';
-import {ReportsService} from 'app/service/reports.service';
+import {ProjectsDao, ReportsDao} from 'app/service/dao';
 
 const TOP_LEVEL_SECTION_TITLES = new Map<string, string>([
   ['projects', 'Projects'],
@@ -14,7 +13,6 @@ const TOP_LEVEL_SECTION_TITLES = new Map<string, string>([
   ['home', 'Home'],
   ['reports', 'Reports'],
   ['events', 'Events'],
-  ['feedback', 'Feedback'],
   ['help', 'Help'],
 ]);
 
@@ -25,8 +23,8 @@ export class HeaderService {
   title = new BehaviorSubject<string>('Loading...');
   toolbarOutlet: CdkPortal;
 
-  constructor(private projectsService: ProjectsService,
-              private reportsService: ReportsService,
+  constructor(private projectsDao: ProjectsDao,
+              private reportsDao: ReportsDao,
               private windowTitle: WindowTitle,
               private router: Router) {
     this.title.subscribe(title => this.windowTitle.setTitle(title));
@@ -56,11 +54,9 @@ export class HeaderService {
     this.goBack = () => this.router.navigate(['/projects']);
 
     this.title.next('Loading project...');
-    this.projectsService.get(projectId).pipe(
+    this.projectsDao.get(projectId).pipe(
         take(1))
-        .subscribe(project => {
-          this.title.next(project.name);
-        });
+        .subscribe(p => this.title.next(p.name));
   }
 
   onReportRoute(reportId: string) {
@@ -71,10 +67,8 @@ export class HeaderService {
     }
 
     this.title.next('Loading report...');
-    return this.reportsService.get(reportId).pipe(
+    return this.reportsDao.get(reportId).pipe(
         take(1))
-        .subscribe(report => {
-          this.title.next(report.name);
-        });
+        .subscribe(r => this.title.next(r.name));
   }
 }

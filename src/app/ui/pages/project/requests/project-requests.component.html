@@ -1,10 +1,10 @@
-<mat-drawer-container *ngIf="editPermissions">
-  <requests-list *ngIf="requests?.length"
+<mat-drawer-container *ngIf="!isLoading; else loading">
+  <requests-list *ngIf="hasRequests"
                  [requestRendererOptionsState]="renderRequestsOptionsState">
   </requests-list>
 
-  <div *ngIf="requests?.length === 0" class="empty-requests">
-    <div *ngIf="editPermissions.requests">
+  <div *ngIf="!hasRequests" class="empty-requests">
+    <div *ngIf="canEdit">
       <div class="wide">
         <div class="getting-started">
           Getting Started
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="!editPermissions.requests">
+    <div *ngIf="!canEdit">
       <div class="getting-started">
         No requests have been made.
       </div>
@@ -31,8 +31,8 @@
 
 
   <button mat-fab color="accent"
-          [class.attention]="!requests?.length"
-          [class.hide]="sidenav.opened || hasSelectedRequests() || !editPermissions.requests"
+          [class.attention]="!hasRequests"
+          [class.hide]="sidenav.opened || hasSelectedRequests() || !canEdit"
           (click)="sidenav.open()"><mat-icon>add</mat-icon></button>
 
   <mat-drawer #sidenav
@@ -46,5 +46,14 @@
 </mat-drawer-container>
 
 <ng-template cdkPortal>
-  <remaining-budget *ngIf="showBudget()" [projectId]="project.$key"></remaining-budget>
+  <remaining-budget *ngIf="canEdit"
+                    [projectId]="project.id">
+  </remaining-budget>
+</ng-template>
+
+<ng-template #loading>
+  <div class="loading">
+    <div> Loading Requests... </div>
+    <mat-spinner  diameter="48"></mat-spinner>
+  </div>
 </ng-template>

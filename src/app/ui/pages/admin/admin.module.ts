@@ -5,6 +5,7 @@ import {ManageProjectsModule} from 'app/ui/pages/admin/manage-projects/manage-pr
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 import {ManageGroupsModule} from './manage-groups/manage-groups.module';
+import {EventsModule} from 'app/ui/pages/admin/events/events.module';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import {ManageGroupsModule} from './manage-groups/manage-groups.module';
     MaterialModule,
     ManageProjectsModule,
     ManageGroupsModule,
+    EventsModule,
   ],
   declarations: [AdminComponent],
   exports: [AdminComponent],

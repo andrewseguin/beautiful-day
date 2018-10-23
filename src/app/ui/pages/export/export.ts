@@ -1,10 +1,8 @@
 import {Component} from '@angular/core';
 import {Request} from 'app/model/request';
-import {RequestsService} from 'app/service/requests.service';
-import {ItemsService} from 'app/service/items.service';
 import {Item} from 'app/model/item';
 import {MatTableDataSource} from '@angular/material';
-import {ProjectsService} from 'app/service/projects.service';
+import {ItemsDao, ProjectsDao, RequestsDao} from 'app/service/dao';
 import {Project} from 'app/model/project';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 
@@ -99,21 +97,21 @@ export class ExportPage {
   projects = new Map<string, Project>();
   dataSource = new MatTableDataSource();
 
-  constructor(requestsService: RequestsService,
-              itemsService: ItemsService,
-              projectsService: ProjectsService) {
+  constructor(requestsDao: RequestsDao,
+              itemsDao: ItemsDao,
+              projectsDao: ProjectsDao) {
     const streams = [
-      requestsService.requests,
-      itemsService.items,
-      projectsService.projects,
+      requestsDao.list,
+      itemsDao.list,
+      projectsDao.list,
     ];
     combineLatest(...streams).subscribe(result => {
       const requests = result[0] as any as Request[];
       const items = result[1] as Item[];
       const projects = result[2] as any as Project[];
 
-      items.forEach(v => this.items.set(v.$key, v));
-      projects.forEach((v: Project) => this.projects.set(v.$key, v));
+      items.forEach(v => this.items.set(v.id, v));
+      projects.forEach((v: Project) => this.projects.set(v.id, v));
 
       requests.forEach((r: Request) => {
         const i = this.items.get(r.item);

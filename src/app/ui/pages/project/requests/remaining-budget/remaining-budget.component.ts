@@ -39,6 +39,10 @@ export class RemainingBudgetComponent implements OnInit {
   ngOnInit() {
     this.budgetStream = this.accountingService.getBudgetStream(this.projectId)
         .subscribe(budgetResponse => {
+          if (!budgetResponse) {
+            return;
+          }
+
           this.budgetLoaded = true;
           this.projectBudget = budgetResponse.budget;
 

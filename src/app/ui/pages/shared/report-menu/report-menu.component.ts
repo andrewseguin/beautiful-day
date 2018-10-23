@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {ReportsDialog} from 'app/ui/pages/shared/dialog/reports.dialog';
+import {ReportDialog} from 'app/ui/pages/shared/dialog/report.dialog';
 import {Report} from 'app/model/report';
 
 @Component({
@@ -12,17 +12,17 @@ export class ReportMenuComponent {
 
   @Input() icon: 'settings' | 'more_vert';
 
-  constructor(private reportsDialog: ReportsDialog) {}
+  constructor(private reportDialog: ReportDialog) {}
   openEditNameDialog() {
-    this.reportsDialog.editReport(this.report);
+    this.reportDialog.editReport(this.report);
   }
 
   print() {
     // TODO: implement this
-    window.open(`print/report/${this.report.$key}`, 'print', 'width=650, height=500');
+    window.open(`print/report/${this.report.id}`, 'print', 'width=650, height=500');
   }
 
   deleteReport() {
-    this.reportsDialog.deleteReport(this.report);
+    this.reportDialog.deleteReport(this.report);
   }
 }

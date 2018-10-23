@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {RequestsService} from 'app/service/requests.service';
 import {MatDialogRef} from '@angular/material';
-import {ProjectsService} from 'app/service/projects.service';
+import {ProjectsDao, RequestsDao} from 'app/service/dao';
+import {Selection} from 'app/service';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'edit-dropoff',
@@ -20,12 +21,13 @@ export class EditDropoffComponent implements OnInit {
   @ViewChild('dateInput') dateInput: ElementRef;
 
   constructor(private dialogRef: MatDialogRef<EditDropoffComponent>,
-              private projectsService: ProjectsService,
-              private requestsService: RequestsService) { }
+              private projectsDao: ProjectsDao,
+              private selection: Selection,
+              private requestsDao: RequestsDao) { }
 
   ngOnInit() {
     this.dropoffLocations = new Set<string>();
-    this.requestsService.getProjectRequests(this.project).subscribe(requests => {
+    this.requestsDao.getByProject(this.project).pipe(take(1)).subscribe(requests => {
       requests.forEach(request => {
         if (request.dropoff) { this.dropoffLocations.add(request.dropoff); }
       });
@@ -71,19 +73,19 @@ export class EditDropoffComponent implements OnInit {
 
     // Set all requests to the dropoff location and time
     this.requestIds.forEach(requestId => {
-      this.requestsService.update(requestId, {
+      this.requestsDao.update(requestId, {
         dropoff: this.selectedDropoffLocation,
         date: date.getTime()
       });
     });
 
     // Store the setting to use as defaults for new requests
-    this.projectsService.update(this.project, {
+    this.projectsDao.update(this.project, {
       lastUsedDropoff: this.selectedDropoffLocation,
       lastUsedDate: date.getTime().toString()
     });
 
     this.close();
-    this.requestsService.selection.clear();
+    this.selection.requests.clear();
   }
 }

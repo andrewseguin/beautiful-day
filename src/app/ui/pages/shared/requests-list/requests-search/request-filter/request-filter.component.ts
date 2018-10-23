@@ -14,11 +14,13 @@ import {
   Filter, FilterSeasonQuery,
   Query
 } from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
-import {FILTER_TYPE_LABELS} from 'app/ui/pages/shared/requests-list/requests-search/requests-search.component';
+import {
+  FILTER_TYPE_LABELS
+} from 'app/ui/pages/shared/requests-list/requests-search/requests-search.component';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {ProjectsService} from 'app/service/projects.service';
+import {map, takeUntil} from 'rxjs/operators';
+import {ProjectsDao} from 'app/service/dao';
 
 @Component({
   selector: 'request-filter',
@@ -59,16 +61,17 @@ export class RequestFilterComponent implements OnInit, AfterViewInit, OnChanges 
   @Output() remove = new EventEmitter();
 
   constructor(private elementRef: ElementRef,
-              private projectsService: ProjectsService) {
-    this.projectsService.projects.pipe(
-        takeUntil(this.destroyed))
-        .subscribe(projects => projects.forEach(p => this.seasons.add(p.season)));
+              private projectsDao: ProjectsDao) {
+    this.projectsDao.list.pipe(
+        takeUntil(this.destroyed),
+        map(projects => (projects || []).map(p => p.season)))
+        .subscribe(seasons => seasons.forEach(s => this.seasons.add(s)));
   }
 
   ngOnChanges() {
     this.setForm();
 
-    if (this.filter.type === 'season') {
+    if (this.filter.type === 'season' && this.filter.query) {
       this.seasons.add((this.filter.query as FilterSeasonQuery).season);
     }
   }

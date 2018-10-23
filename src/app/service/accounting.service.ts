@@ -1,13 +1,10 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {RequestsService} from './requests.service';
-import {ItemsService} from './items.service';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {ProjectsService} from './projects.service';
 import {Request} from '../model/request';
 import {combineLatest} from 'rxjs/observable/combineLatest';
-import {map, takeUntil} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Item} from 'app/model/item';
-import {Subject} from 'rxjs';
+import {ItemsDao, ProjectsDao, RequestsDao} from 'app/service/dao';
 
 export interface BudgetResponse {
   budget: number;
@@ -17,16 +14,16 @@ export interface BudgetResponse {
 
 @Injectable()
 export class AccountingService {
-  constructor(private projectsService: ProjectsService,
-              private requestsService: RequestsService,
-              private itemsService: ItemsService) { }
+  constructor(private projectsDao: ProjectsDao,
+              private requestsDao: RequestsDao,
+              private itemsDao: ItemsDao) { }
 
   /** Returns a stream of a project's budget and costs. */
-  getBudgetStream(projectId: string): Observable<BudgetResponse> {
+  getBudgetStream(projectId: string): Observable<BudgetResponse | null> {
     const changes = [
-      this.projectsService.get(projectId).pipe(map(project => project.budget)),
-      this.requestsService.getProjectRequests(projectId),
-      this.itemsService.items,
+      this.projectsDao.get(projectId).pipe(map(project => project.budget)),
+      this.requestsDao.getByProject(projectId),
+      this.itemsDao.list,
     ];
 
     return combineLatest(changes).pipe(
@@ -35,8 +32,12 @@ export class AccountingService {
         const requests: Request[] = result[1];
         const items: Item[] = result[2];
 
+        if (!items) {
+          return null;
+        }
+
         const itemCosts = new Map<string, number>();
-        items.forEach(item => itemCosts.set(item.$key, item.cost));
+        items.forEach(item => itemCosts.set(item.id, item.cost));
 
         const cost = this.getAllRequestsCost(requests, itemCosts);
         return this._constructBudgetResponse(budget, cost);

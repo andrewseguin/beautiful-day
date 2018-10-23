@@ -85,7 +85,7 @@ export class RequestGrouping {
 
   getGroupCategory(): RequestGroup[] {
     const itemMap: Map<string, Item> = new Map();
-    this.items.forEach(item => itemMap.set(item.$key, item));
+    this.items.forEach(item => itemMap.set(item.id, item));
 
     const categoryGroups: Map<string, Request[]> = new Map();
 
@@ -138,7 +138,7 @@ export class RequestGrouping {
     if (!this.items) { return; }
 
     const itemMap: Map<string, Item> = new Map();
-    this.items.forEach(item => itemMap.set(item.$key, item));
+    this.items.forEach(item => itemMap.set(item.id, item));
 
     const itemGroups: Map<string, Request[]> = new Map();
 

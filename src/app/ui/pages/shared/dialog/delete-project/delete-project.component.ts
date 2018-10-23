@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {Project} from 'app/model/project';
 import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {ProjectsService} from 'app/service/projects.service';
-import {RequestsService} from 'app/service/requests.service';
+import {ProjectsDao, RequestsDao} from 'app/service/dao';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-delete-project',
@@ -15,8 +15,8 @@ export class DeleteProjectComponent {
 
   constructor(private dialogRef: MatDialogRef<DeleteProjectComponent>,
               private mdSnackbar: MatSnackBar,
-              private requestsService: RequestsService,
-              private projectsService: ProjectsService) { }
+              private requestsDao: RequestsDao,
+              private projectsDao: ProjectsDao) { }
 
   close() {
     this.dialogRef.close();
@@ -26,12 +26,12 @@ export class DeleteProjectComponent {
     if (this.deleteCheck.toLowerCase().trim() != 'delete') { return; }
 
     // Delete requests
-    this.requestsService.getProjectRequests(this.project.$key).subscribe(requests => {
-      requests.forEach(request => this.requestsService.remove(request.$key));
+    this.requestsDao.getByProject(this.project.id).pipe(take(1)).subscribe(requests => {
+      requests.forEach(request => this.requestsDao.remove(request.id));
     });
 
     // Delete project
-    this.projectsService.remove(this.project.$key);
+    this.projectsDao.remove(this.project.id);
 
     const snackbarConfig = new MatSnackBarConfig();
     snackbarConfig.duration = 2000;

@@ -1,7 +1,5 @@
-import {Note} from './note';
-
 export interface Project {
-  $key?: string;
+  id?: string;
   location?: string;
   name?: string;
   season?: string;
@@ -14,7 +12,6 @@ export interface Project {
   lastUsedDropoff?: string;
   lastUsedDate?: string;
   auth?: string[];
-  notes?: Note[];
   receiptsFolder?: string;
   whitelist?: string;
 }

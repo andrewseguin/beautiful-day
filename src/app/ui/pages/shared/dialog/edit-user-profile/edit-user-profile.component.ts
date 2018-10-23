@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {User} from 'app/model/user';
-import {UsersService} from 'app/service/users.service';
-import {AuthService} from '../../../../../service/auth-service';
-import {take} from 'rxjs/operators';
+import {map, mergeMap, take} from 'rxjs/operators';
+import {UsersDao} from 'app/service/dao';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'edit-user-profile',
@@ -16,13 +17,16 @@ export class EditUserProfileComponent {
   phone = '';
 
   constructor(private dialogRef: MatDialogRef<EditUserProfileComponent>,
-              private authService: AuthService,
-              private usersService: UsersService) {
-    this.authService.user.pipe(take(1)).subscribe(user => {
-      this.user = user;
-      this.name = user.name;
-      this.phone = user.phone;
-    });
+              private afAuth: AngularFireAuth,
+              private usersDao: UsersDao) {
+    this.afAuth.authState.pipe(
+        mergeMap(user => user ? this.usersDao.getByEmail(user.email) : of({} as User)),
+        take(1))
+        .subscribe(user => {
+          this.user = user;
+          this.name = user.name;
+          this.phone = user.phone;
+        });
   }
 
   close() {
@@ -30,7 +34,7 @@ export class EditUserProfileComponent {
   }
 
   save() {
-    this.usersService.update(this.user.uid, {name: this.name, phone: this.phone});
+    this.usersDao.update(this.user.uid, {name: this.name, phone: this.phone});
     this.close();
   }
 }

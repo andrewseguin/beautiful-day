@@ -2,8 +2,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Item} from 'app/model/item';
 import {EditItemComponent} from 'app/ui/pages/shared/dialog/edit-item/edit-item.component';
 import {MatDialog} from '@angular/material';
-import {ItemsService} from 'app/service/items.service';
 import {ItemSearchPipe} from 'app/pipe/item-search.pipe';
+import {ItemsDao} from 'app/service/dao';
+import {getCategoryGroup} from 'app/utility/items-categorize';
 
 /** Number of items to load each time. */
 const ITEMS_TO_LOAD = 10;
@@ -48,10 +49,15 @@ export class InventoryListComponent implements OnInit {
   @Output() filteredItemCount: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private mdDialog: MatDialog,
-              private itemsService: ItemsService) {}
+              private itemsDao: ItemsDao) {}
 
   ngOnInit() {
-    this.itemsService.getCategoryGroup(this.category).subscribe(group => {
+    this.itemsDao.list.subscribe(items => {
+      if (!items) {
+        return;
+      }
+
+      const group = getCategoryGroup(items, this.category);
       this.items = group.items;
       this.subcategories = group.subcategories;
       this.filterItems();
@@ -59,7 +65,7 @@ export class InventoryListComponent implements OnInit {
     });
 
     // For search - use all items in search
-    this.itemsService.items.subscribe(items => {
+    this.itemsDao.list.subscribe(items => {
       this.allItems = items;
       this.filterItems();
     });
@@ -116,6 +122,6 @@ export class InventoryListComponent implements OnInit {
   }
 
   itemTrackBy(i: number, item: Item) {
-    return item.$key;
+    return item.id;
   }
 }

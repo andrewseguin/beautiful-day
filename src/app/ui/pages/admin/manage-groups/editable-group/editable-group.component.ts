@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {Group, GroupsService} from 'app/service/groups.service';
 import {FormControl, Validators} from '@angular/forms';
+import {GroupId, GroupsDao} from 'app/service/dao';
 
 @Component({
   selector: 'editable-group',
@@ -12,13 +12,13 @@ export class EditableGroupComponent {
   showNew = false;
   newEntry = new FormControl('', Validators.required);
 
-  @Input() group: Group;
+  @Input() group: GroupId;
 
-  constructor(private groupsService: GroupsService) { }
+  constructor(private groupsDao: GroupsDao) { }
 
   ngOnInit() {
-    this.groupsService.getGroup(this.group).subscribe(emails => {
-      this.emails = emails;
+    this.groupsDao.get(this.group).subscribe(group => {
+      this.emails = group.users;
     });
   }
 
@@ -35,6 +35,6 @@ export class EditableGroupComponent {
   }
 
   _update() {
-    this.groupsService.set(this.group, this.emails.join(','));
+    this.groupsDao.update(this.group, {users: this.emails});
   }
 }

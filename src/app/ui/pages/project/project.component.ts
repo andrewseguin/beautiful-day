@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Project} from 'app/model/project';
-import {ProjectsService} from 'app/service/projects.service';
+import {ProjectsDao} from 'app/service/dao';
 
 @Component({
   templateUrl: './project.component.html',
@@ -13,19 +13,13 @@ export class ProjectComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private projectsService: ProjectsService) {}
+    private projectsDao: ProjectsDao) {}
 
   ngOnInit() {
-    this.route.params.forEach((params: Params) => {
-      this.projectsService.get(params['id']).subscribe(project => {
-        this.loading = false;
-
-        // Validate that this project exists, currently doing a hacky way by
-        // just checking the project has a name.
-        if (project.name) {
-          this.project = project;
-        }
-      });
+    const projectId = this.route.snapshot.params.id;
+    this.projectsDao.get(projectId).subscribe(project => {
+      this.loading = false;
+      this.project = project;
     });
   }
 }

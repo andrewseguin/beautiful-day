@@ -2,22 +2,20 @@ import {Injectable} from '@angular/core';
 import {ReportEditComponent} from 'app/ui/pages/shared/dialog/report-edit/report-edit.component';
 import {take} from 'rxjs/operators';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {ReportsService} from 'app/service/reports.service';
 import {Report} from 'app/model/report';
 import {Router} from '@angular/router';
-import {
-  ReportDeleteComponent
-} from 'app/ui/pages/shared/dialog/report-delete/report-delete.component';
-import {
-  RequestRendererOptionsState
-} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {ReportDeleteComponent} from 'app/ui/pages/shared/dialog/report-delete/report-delete.component';
+import {RequestRendererOptionsState} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {ReportsDao} from 'app/service/dao';
 
 @Injectable()
-export class ReportsDialog {
+export class ReportDialog {
   constructor(private dialog: MatDialog,
               private snackbar: MatSnackBar,
               private router: Router,
-              private reportsService: ReportsService) {}
+              private afAuth: AngularFireAuth,
+              private reportsDao: ReportsDao) {}
 
   /** Shows the edit report dialog to change the name/group.*/
   editReport(report: Report) {
@@ -30,7 +28,7 @@ export class ReportsDialog {
         take(1))
         .subscribe(result => {
         if (result) {
-          this.reportsService.update(report.$key, {
+          this.reportsDao.update(report.id, {
             name: result['name'],
             group: result['group']
           });
@@ -49,7 +47,7 @@ export class ReportsDialog {
         take(1))
         .subscribe(confirmed => {
           if (confirmed) {
-            this.reportsService.remove(report.$key);
+            this.reportsDao.remove(report.id);
             this.router.navigate(['reports']);
             this.snackbar.open(`Report "${report.name}" deleted`, null, {duration: 2000});
           }
@@ -69,10 +67,15 @@ export class ReportsDialog {
             return;
           }
 
-          this.reportsService.create(result['name'], result['group'], currentOptions)
-            .then(report => {
-              this.router.navigate([`report/${report.key}`], {replaceUrl: true});
-            });
+          const report = {
+            name: result['name'],
+            group: result['group'],
+            options: currentOptions
+          };
+
+          this.reportsDao.add(report).then(id => {
+            this.router.navigate([`report/${id}`], {replaceUrl: true});
+          });
         });
   }
 }

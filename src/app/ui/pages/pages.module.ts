@@ -8,7 +8,6 @@ import {RouterModule} from '@angular/router';
 import {ProjectModule} from './project/project.module';
 import {InventoryModule} from './inventory/inventory.module';
 import {ProjectsModule} from './projects/projects.module';
-import {FeedbackModule} from './feedback/feedback.module';
 import {EventsModule} from './events/events.module';
 import {ReportsModule} from './reports/reports.module';
 import {DialogModule} from 'app/ui/pages/shared/dialog/dialog.module';
@@ -27,7 +26,6 @@ import {ReportModule} from 'app/ui/pages/report/report.module';
     ProjectModule,
     InventoryModule,
     ProjectsModule,
-    FeedbackModule,
     ReportsModule,
     ReportModule,
     EventsModule,

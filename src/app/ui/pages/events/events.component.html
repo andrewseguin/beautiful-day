@@ -1,21 +1,28 @@
-<div class="page mat-elevation-z4">
-  <div class="page-title">
-    <div class="text"> Events </div>
-    <button mat-icon-button *ngIf="canEditEvents | async" (click)="addEvent()">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-
-  <div class="event" *ngFor="let event of sortedEvents | async">
-    <div class="details">
-      <div class="event-info">{{event.info}}</div>
-      <div class="date">
-        <span>{{event.date | eventDate}}</span>
-        <span class="time" *ngIf="event.time">{{event.time}}</span>
+<div class="events" *ngIf="!isLoading; else loading">
+   <div class="event" *ngFor="let event of sortedEvents | async">
+      <div class="details">
+        <div class="event-info">{{event.info}}</div>
+        <div class="date">
+          <span>{{event.date | date}}</span>
+          <span class="time" *ngIf="event.time">{{event.time}}</span>
+        </div>
       </div>
+      <button *ngIf="canEditEvents | async"
+              mat-icon-button (click)="eventDialog.editEvent(event)">
+        <mat-icon>edit</mat-icon>
+      </button>
     </div>
-    <button *ngIf="canEditEvents | async" mat-icon-button (click)="editEvent(event)">
-      <mat-icon>edit</mat-icon>
-    </button>
-  </div>
+
+  <button mat-fab (click)="eventDialog.createEvent()"
+          *ngIf="canEditEvents | async"
+          matTooltip="Create New Event">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>
+
+<ng-template #loading>
+  <div class="loading">
+    <div> Loading Events... </div>
+    <mat-spinner  diameter="48"></mat-spinner>
+  </div>
+</ng-template>

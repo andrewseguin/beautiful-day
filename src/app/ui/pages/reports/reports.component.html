@@ -5,13 +5,13 @@
   <mat-icon>add</mat-icon>
 </button>
 
-<div class="group" *ngFor="let reportGroup of reportGroups">
+<div class="group" *ngFor="let reportGroup of reportGroups | async">
   <div class="group-title">
     {{reportGroup.name}}
   </div>
 
   <div class="reports">
-    <div class="report" [routerLink]="'../report/' + report.$key"
+    <div class="report" [routerLink]="'../report/' + report.id"
        *ngFor="let report of reportGroup.reports; trackBy: reportKeyTrackBy">
       <div class="name"> {{report.name}} </div>
 

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import {RequestsService} from 'app/service/requests.service';
+import {RequestsDao} from 'app/service/dao';
 
 @Component({
   selector: 'edit-approval-status-dialog',
@@ -12,11 +12,11 @@ export class EditApprovalStatusDialogComponent {
   isApproved = true;
 
   constructor(private dialogRef: MatDialogRef<EditApprovalStatusDialogComponent>,
-              private requestsService: RequestsService) {}
+              private requestsDao: RequestsDao) {}
 
   ngOnInit() {
     this.requestIds.forEach(requestId => {
-      this.requestsService.get(requestId).subscribe(request => {
+      this.requestsDao.get(requestId).subscribe(request => {
         this.isApproved = this.isApproved && request.isApproved;
       });
     });
@@ -28,7 +28,7 @@ export class EditApprovalStatusDialogComponent {
 
   save() {
     this.requestIds.forEach(requestId => {
-      this.requestsService.update(requestId, {isApproved: this.isApproved});
+      this.requestsDao.update(requestId, {isApproved: this.isApproved});
     });
 
     this.close();

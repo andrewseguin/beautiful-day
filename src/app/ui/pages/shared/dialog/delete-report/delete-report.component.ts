@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {Router} from '@angular/router';
 import {Report} from 'app/model/report';
-import {ReportsService} from 'app/service/reports.service';
+import {ReportsDao} from 'app/service/dao';
 
 @Component({
   selector: 'app-delete-report',
@@ -15,7 +15,7 @@ export class DeleteReportComponent {
   constructor(private dialogRef: MatDialogRef<DeleteReportComponent>,
               private router: Router,
               private mdSnackbar: MatSnackBar,
-              private reportsService: ReportsService) { }
+              private reportsDao: ReportsDao) { }
 
   close() {
     this.dialogRef.close();
@@ -23,7 +23,7 @@ export class DeleteReportComponent {
 
   deleteReport() {
     // Delete report
-    this.reportsService.remove(this.report.$key);
+    this.reportsDao.remove(this.report.id);
 
     const snackbarConfig = new MatSnackBarConfig();
     snackbarConfig.duration = 2000;

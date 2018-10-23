@@ -1,6 +1,7 @@
 <div class="section-title">{{season}} Projects</div>
 <div class="projects">
-  <mat-progress-spinner *ngIf="!projects | async"
+  <mat-progress-spinner *ngIf="!(projects | async)"
+                        diameter="48"
                         mode="indeterminate" color="accent">
   </mat-progress-spinner>
 
@@ -10,7 +11,7 @@
       <div class="heading">
         <div class="name"> {{project.name}} </div>
         <button mat-stroked-button color="primary"
-                (click)="navigateToProject(project.$key)">
+                (click)="navigateToProject(project.id)">
           Requests
         </button>
       </div>
@@ -32,15 +33,15 @@
     </div>
 
     <div class="contacts-trigger"
-         (mouseover)="loadedContacts.add(project.$key)"
-         (click)="expandedContacts.toggle(project.$key)">
-      {{expandedContacts.isSelected(project.$key) ? 'Hide' : 'Show'}} Contacts
-      <mat-icon [@arrow]="expandedContacts.isSelected(project.$key)">
+         (mouseover)="loadedContacts.add(project.id)"
+         (click)="expandedContacts.toggle(project.id)">
+      Contacts
+      <mat-icon [@arrow]="expandedContacts.isSelected(project.id)">
         expand_more
       </mat-icon>
     </div>
-    <div class="contacts" [@contacts]="expandedContacts.isSelected(project.$key)">
-      <ng-container *ngIf="loadedContacts.has(project.$key)">
+    <div class="contacts" [@contacts]="expandedContacts.isSelected(project.id)">
+      <ng-container *ngIf="loadedContacts.has(project.id)">
         <div class="label"> Directors </div>
         <detail-user [userEmail]="email" [project]="project" group="director"
                      *ngFor="let email of getEmails(project.directors)">

@@ -1,15 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Request} from 'app/model/request';
-import {ReportsService} from 'app/service/reports.service';
-import {ProjectsService} from 'app/service/projects.service';
-import {ItemsService} from 'app/service/items.service';
-import {RequestsService} from 'app/service/requests.service';
 import {Report} from 'app/model/report';
 import {Project} from 'app/model/project';
 import {Item} from 'app/model/item';
 import {Title} from '@angular/platform-browser';
 import {take} from 'rxjs/operators';
+import {ItemsDao, ProjectsDao, ReportsDao, RequestsDao} from 'app/service/dao';
 
 @Component({
   selector: 'print',
@@ -22,43 +19,41 @@ export class PrintComponent implements OnInit {
   items: Item[];
   projects: Project[];
   requests: Request[];
-  reportRequests: Request[] = [];
   season: string;
 
   constructor(private route: ActivatedRoute,
               private titleService: Title,
-              private requestsService: RequestsService,
-              private itemsService: ItemsService,
-              private projectsService: ProjectsService,
-              private reportsService: ReportsService) { }
+              private requestsDao: RequestsDao,
+              private itemsDao: ItemsDao,
+              private projectsDao: ProjectsDao,
+              private reportsDao: ReportsDao) { }
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
-      this.type = params['type'];
-      if (this.type === 'report') {
-        this.reportsService.get(params['id']).subscribe((report: Report) => {
-          this.season = report.season;
-          this.titleService.setTitle(report.name);
-          this.performQuery();
-        });
-      } else if (this.type === 'project') {
-        this.projectsService.get(params['id']).subscribe((project: Project) => {
-          this.titleService.setTitle(project.name);
-          this.season = project.season;
-          this.performQuery();
-        });
-      }
-    });
+    this.type = this.route.snapshot.params.type;
+    const id = this.route.snapshot.params.id;
+    if (this.type === 'report') {
+      this.reportsDao.get(id).subscribe((report: Report) => {
+        this.season = report.season;
+        this.titleService.setTitle(report.name);
+        this.performQuery();
+      });
+    } else if (this.type === 'project') {
+      this.projectsDao.get(id).subscribe((project: Project) => {
+        this.titleService.setTitle(project.name);
+        this.season = project.season;
+        this.performQuery();
+      });
+    }
 
-    this.requestsService.requests.subscribe(requests => {
+    this.requestsDao.list.subscribe(requests => {
       this.requests = requests; this.performQuery();
     });
 
-    this.itemsService.items.subscribe(items => {
+    this.itemsDao.list.subscribe(items => {
       this.items = items; this.performQuery();
     });
 
-    this.projectsService.projects.pipe(take(1)).subscribe(projects => {
+    this.projectsDao.list.pipe(take(1)).subscribe(projects => {
       this.projects = projects; this.performQuery();
     });
   }

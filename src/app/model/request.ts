@@ -1,5 +1,5 @@
 export interface Request {
-  $key?: string;
+  id?: string;
   project?: string;
   item?: string;
   dropoff?: string;

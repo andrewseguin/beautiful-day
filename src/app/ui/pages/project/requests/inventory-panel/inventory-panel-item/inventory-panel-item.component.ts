@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {animate, animateChild, query, state, style, transition, trigger} from '@angular/animations';
 import {Item} from 'app/model/item';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Project} from 'app/model/project';
-import {RequestsService} from 'app/service/requests.service';
-import {ProjectsService} from 'app/service/projects.service';
+import {ProjectsDao, RequestsDao} from 'app/service/dao';
 import {Observable} from 'rxjs/Observable';
-import {first} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
+import {Request} from 'app/model/request';
 
 export type InventoryPanelItemState = 'collapsed' | 'expanded';
 
@@ -56,13 +56,12 @@ export class InventoryPanelItemComponent implements OnInit {
   @Input() showCategory: boolean;
 
   constructor(private route: ActivatedRoute,
-              private projectsService: ProjectsService,
-              private requestsService: RequestsService) { }
+              private projectsDao: ProjectsDao,
+              private requestsDao: RequestsDao) { }
 
   ngOnInit() {
-    this.route.parent.params.subscribe((params: Params) => {
-      this.project = this.projectsService.get(params['id']);
-    });
+    const projectId = this.route.snapshot.params.id;
+    this.project = this.projectsDao.get(projectId);
   }
 
   getItemName() {
@@ -79,15 +78,27 @@ export class InventoryPanelItemComponent implements OnInit {
     this.state = this.state === 'collapsed' ? 'expanded' : 'collapsed';
   }
 
-  expand() {
-    this.state = 'expanded';
-  }
-
   request() {
     this.requestQuantity = Math.max(0, this.requestQuantity);
     this.requested = true;
-    this.project.pipe(first()).subscribe(project => {
-      this.requestsService.addRequest(project, this.item, this.requestQuantity);
+    this.project.pipe(take(1)).subscribe(project => {
+      const defaultDate = 1524812400000; // Hard-coded April 27, 2018
+
+      const request: Request = {
+        item: this.item.id,
+        project: project.id,
+        quantity: this.requestQuantity,
+        note: '',
+        dropoff: 'Westgate Gym',
+        date: Number(project.lastUsedDate || defaultDate)
+      };
+
+      this.requestsDao.add(request).then(id => {
+        window.setTimeout(() => {
+          const requestEl = document.querySelector(`#${id}`);
+          requestEl.classList.add('added');
+        }, 200);
+      });
     });
 
     window.setTimeout(() => {

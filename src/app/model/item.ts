@@ -1,5 +1,5 @@
 export interface Item {
-  $key?: string;
+  id?: string;
   name?: string;
   categories?: string;
   url?: string;

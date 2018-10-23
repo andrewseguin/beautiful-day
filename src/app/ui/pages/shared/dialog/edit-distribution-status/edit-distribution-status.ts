@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Request} from 'app/model/request';
-import {RequestsService} from 'app/service/requests.service';
-import {take} from 'rxjs/operators';
-import {combineLatest} from 'rxjs/observable/combineLatest';
+import {RequestsDao} from 'app/service/dao';
 
 @Component({
   selector: 'edit-distribution-status-dialog',
@@ -16,11 +14,7 @@ export class EditDistributionStatusDialogComponent {
   distributionDate = new Date();
 
   constructor(private dialogRef: MatDialogRef<EditDistributionStatusDialogComponent>,
-              private requestsService: RequestsService) {}
-
-  ngOnInit() {
-    const requestsFetch = this.requestIds.map(id => this.requestsService.get(id));
-  }
+              private requestsDao: RequestsDao) {}
 
   close() {
     this.dialogRef.close();
@@ -33,7 +27,7 @@ export class EditDistributionStatusDialogComponent {
         distributionDate: this.isDistributed ? this.distributionDate.getTime() : 0
       };
 
-      this.requestsService.update(requestId, update);
+      this.requestsDao.update(requestId, update);
     });
 
     this.close();

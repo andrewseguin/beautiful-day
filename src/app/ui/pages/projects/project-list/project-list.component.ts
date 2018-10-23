@@ -2,9 +2,11 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Project} from 'app/model/project';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
-import {ProjectsService} from 'app/service/projects.service';
+import {ProjectsDao} from 'app/service/dao';
 import {SelectionModel} from '@angular/cdk/collections';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Subject} from 'rxjs';
+import {map, takeUntil} from 'rxjs/operators';
 
 const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 
@@ -35,14 +37,19 @@ export class ProjectListComponent {
   @Input() season: string;
 
   constructor(private router: Router,
-              private projectsService: ProjectsService) {
+              private projectsDao: ProjectsDao) {
     this.expandedContacts.changed.subscribe(change => {
       change.added.forEach(v => this.loadedContacts.add(v));
     });
   }
 
   ngOnInit() {
-    this.projects = this.projectsService.getSortedProjects(this.season);
+    this.projects = this.projectsDao.list.pipe(map(projects => {
+      if (projects) {
+        return projects.filter(p => p.season === this.season)
+                       .sort((a, b) => a.name < b.name ? -1 : 1);
+      }
+    }));
   }
 
   navigateToProject(id: string) {

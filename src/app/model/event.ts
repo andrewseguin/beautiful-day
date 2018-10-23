@@ -1,6 +1,6 @@
 export class Event {
-  $key?: string;
-  date?: number;
+  id?: string;
+  date?: number|string; // String is the date stored with toDateString()
   time?: string;
   info?: string;
 }

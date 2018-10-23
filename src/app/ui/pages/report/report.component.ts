@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {Report} from 'app/model/report';
-import {ReportsService} from 'app/service/reports.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HeaderService} from 'app/service/header.service';
 import {CdkPortal} from '@angular/cdk/portal';
@@ -11,7 +10,8 @@ import {
   RequestRendererOptionsState
 } from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 import {Subject, Subscription} from 'rxjs';
-import {ReportsDialog} from 'app/ui/pages/shared/dialog/reports.dialog';
+import {ReportDialog} from 'app/ui/pages/shared/dialog/report.dialog';
+import {ReportsDao} from 'app/service/dao';
 
 @Component({
   templateUrl: 'report.component.html',
@@ -49,8 +49,8 @@ export class ReportComponent implements OnInit {
               private route: ActivatedRoute,
               private headerService: HeaderService,
               private snackbar: MatSnackBar,
-              private reportsDialog: ReportsDialog,
-              private reportsService: ReportsService) {
+              private reportDialog: ReportDialog,
+              private reportsDao: ReportsDao) {
     this.route.params.subscribe(params => {
       const id = params['id'];
       this.canSave = false;
@@ -62,7 +62,7 @@ export class ReportComponent implements OnInit {
       if (id === 'new') {
         this.report = createNewReport();
       } else {
-        this.reportGetSubscription = this.reportsService.get(id)
+        this.reportGetSubscription = this.reportsDao.get(id)
           .subscribe(report => this.report = report);
       }
     });
@@ -79,11 +79,11 @@ export class ReportComponent implements OnInit {
   }
 
   saveAs() {
-    this.reportsDialog.saveAsReport(this.currentOptions);
+    this.reportDialog.saveAsReport(this.currentOptions);
   }
 
   save() {
-    this.reportsService.update(this.report.$key, {options: this.currentOptions});
+    this.reportsDao.update(this.report.id, {options: this.currentOptions});
   }
 }
 
