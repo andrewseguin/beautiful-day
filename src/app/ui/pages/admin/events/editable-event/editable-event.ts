@@ -1,12 +1,13 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Event} from 'app/model';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {EventsDao} from 'app/service/dao';
 
 @Component({
   selector: 'editable-event',
   styleUrls: ['editable-event.scss'],
   templateUrl: 'editable-event.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditableEvent {
   @Input()
@@ -20,18 +21,34 @@ export class EditableEvent {
   private _event: Event;
 
   form = new FormGroup({
-    date: new FormControl(''),
+    date: new FormControl('', Validators.required),
     time: new FormControl(''),
-    info: new FormControl(''),
+    info: new FormControl('', Validators.required),
   });
 
   constructor(private eventsDao: EventsDao) {
-    this.form.valueChanges.subscribe(change => {
-      this.eventsDao.update(this.event.id, {
-        date: change['date'],
-        time: change['time'],
-        info: change['info'],
-      })
-    })
+    this.form.valueChanges.subscribe(() => this.update());
+  }
+
+  update() {
+    if (!this.form.valid) {
+      return;
+    }
+
+    const update: Event = {
+      date: this.form.get('date').value,
+      info: this.form.get('info').value,
+    };
+
+    const time = this.form.get('time').value;
+    if (time) {
+      update.time = time;
+    }
+
+    this.eventsDao.update(this.event.id, update);
+  }
+
+  delete() {
+    this.eventsDao.remove(this.event.id);
   }
 }

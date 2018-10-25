@@ -13,7 +13,7 @@ export class Events {
   trackBy = (i, event: Event) => event.id;
   events = this.eventsDao.list.pipe(map(events => {
     if (events) {
-      return events.sort((a, b) => a.date > b.date ? -1 : 1);
+      return events.sort((a, b) => !a.date || a.date > b.date ? -1 : 1);
     }
   }));
 
@@ -21,7 +21,7 @@ export class Events {
               private eventsDao: EventsDao) { }
 
   addEvent() {
-    this.eventsDao.add({date: new Date().toISOString()});
+    this.eventsDao.add({});
   }
 
   delete(id: string) {
