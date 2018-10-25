@@ -44,18 +44,18 @@
       <ng-container *ngIf="loadedContacts.has(project.id)">
         <div class="label"> Directors </div>
         <detail-user [userEmail]="email" [project]="project" group="director"
-                     *ngFor="let email of getEmails(project.directors)">
+                     *ngFor="let email of project.directors">
         </detail-user>
 
         <div class="label"> Leads </div>
         <detail-user [userEmail]="email" [project]="project" group="lead"
-                     *ngFor="let email of getEmails(project.leads)">
+                     *ngFor="let email of project.leads">
         </detail-user>
 
         <ng-container *ngIf="project.acquisitions">
           <div class="label"> Acquisitions </div>
           <detail-user [userEmail]="email" [project]="project" group="acquisitions"
-                       *ngFor="let email of getEmails(project.acquisitions)">
+                       *ngFor="let email of project.acquisitions">
           </detail-user>
         </ng-container>
       </ng-container>

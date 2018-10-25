@@ -4,18 +4,15 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input, NgZone,
-  Output, ViewChild
+  Input,
+  NgZone,
+  Output
 } from '@angular/core';
 import {RequestGroup} from 'app/ui/pages/shared/requests-list/render/request-grouping';
 import {auditTime, debounceTime, takeUntil} from 'rxjs/operators';
 import {RequestsRenderer} from 'app/ui/pages/shared/requests-list/render/requests-renderer';
 import {fromEvent, Observable, Observer, Subject} from 'rxjs';
-import {
-  Filter,
-  RequestRendererOptions, RequestRendererOptionsState
-} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
-import {CdkPortal} from '@angular/cdk/portal';
+import {RequestRendererOptionsState} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
 
 @Component({
   selector: 'requests-list',

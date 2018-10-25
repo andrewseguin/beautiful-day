@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {EventsDao} from 'app/service/dao/events-dao';
-import {FormControl} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
+import {Event} from 'app/model';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'events',
@@ -8,13 +10,21 @@ import {FormControl} from '@angular/forms';
   templateUrl: 'events.html'
 })
 export class Events {
-  test = new FormControl('');
+  trackBy = (i, event: Event) => event.id;
+  events = this.eventsDao.list.pipe(map(events => {
+    if (events) {
+      return events.sort((a, b) => a.date > b.date ? -1 : 1);
+    }
+  }));
 
-  constructor(private eventsDao: EventsDao) {
-    this.eventsDao.list.subscribe(events => {
-      console.log(events);
-    });
+  constructor(private formBuilder: FormBuilder,
+              private eventsDao: EventsDao) { }
 
-    this.test.valueChanges.subscribe(console.log)
+  addEvent() {
+    this.eventsDao.add({date: new Date().toISOString()});
+  }
+
+  delete(id: string) {
+    this.eventsDao.remove(id);
   }
 }

@@ -1,51 +1,35 @@
 <form [formGroup]="projectForm">
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Name</mat-label>
     <input matInput formControlName="name">
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Description</mat-label>
     <textarea matInput formControlName="description"
               cdkTextareaAutosize>
     </textarea>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Location</mat-label>
     <textarea matInput formControlName="location"
               cdkTextareaAutosize>
     </textarea>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Budget</mat-label>
     <input matInput type="number" formControlName="budget">
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Receipts Folder</mat-label>
     <input matInput formControlName="receiptsFolder">
   </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Leads</mat-label>
-    <textarea matInput formControlName="leads"
-              cdkTextareaAutosize>
-    </textarea>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Directors</mat-label>
-    <textarea matInput formControlName="directors"
-              cdkTextareaAutosize>
-    </textarea>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Acquisitions</mat-label>
-    <textarea matInput formControlName="acquisitions"
-              cdkTextareaAutosize>
-    </textarea>
-  </mat-form-field>
+  <editable-chip-list *ngFor="let list of lists"
+                      [label]="list.label" [values]="list.values"
+                      (change)="list.values = $event; updateLists()">
+  </editable-chip-list>
 </form>

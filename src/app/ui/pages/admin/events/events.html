@@ -1,16 +1,5 @@
+<button mat-stroked-button color="accent" (click)="addEvent()"> Add Event </button>
 
-<div class="event">
-  <div class="date">
-    <mat-form-field>
-      <input matInput
-             [formControl]="test"
-             [matDatepicker]="picker">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-
-    <input>
-
-    <input>
-  </div>
-</div>
+<editable-event *ngFor="let event of (events | async); trackBy: trackBy"
+                [event]="event">
+</editable-event>

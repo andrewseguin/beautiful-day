@@ -3,6 +3,8 @@ import {Project} from 'app/model/project';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ProjectsDao} from 'app/service/dao';
 import {debounceTime} from 'rxjs/operators';
+import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material';
 
 @Component({
   selector: 'editable-project',
@@ -10,9 +12,13 @@ import {debounceTime} from 'rxjs/operators';
   templateUrl: 'editable-project.component.html',
 })
 export class EditableProjectComponent {
+  lists: {id: string, label: string, values: string[]}[];
+
   @Input() project: Project;
 
   projectForm: FormGroup;
+
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
 
   constructor(private projectsDao: ProjectsDao) {}
 
@@ -23,9 +29,28 @@ export class EditableProjectComponent {
       location: new FormControl(this.project.location),
       budget: new FormControl(this.project.budget),
       receiptsFolder: new FormControl(this.project.receiptsFolder),
-      leads: new FormControl(this.project.leads),
-      directors: new FormControl(this.project.directors),
-      acquisitions: new FormControl(this.project.acquisitions),
+    });
+
+    this.lists = [];
+    this.lists.push({
+      id: 'leads',
+      label: 'Leads',
+      values: (this.project.leads || []).slice()
+    });
+    this.lists.push({
+      id: 'directors',
+      label: 'Directors',
+      values: (this.project.directors || []).slice()
+    });
+    this.lists.push({
+      id: 'acquisitions',
+      label: 'Acquisitions',
+      values: (this.project.acquisitions || []).slice()
+    });
+    this.lists.push({
+      id: 'whitelist',
+      label: 'Edit Whitelist',
+      values: (this.project.whitelist || []).slice()
     });
 
     this.projectForm.valueChanges
@@ -37,13 +62,39 @@ export class EditableProjectComponent {
             location: value.location,
             budget: value.budget,
             receiptsFolder: value.receiptsFolder,
-            leads: value.leads,
-            directors: value.directors,
-            acquisitions: value.acquisitions
           };
 
           this.projectsDao.update(this.project.id, update);
         });
   }
 
+  add(list: string[], event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      list.push(value);
+    }
+
+    if (event.input) {
+      event.input.value = '';
+    }
+
+    this.updateLists();
+  }
+
+  remove(list: string[], email: string) {
+    const index = list.indexOf(email);
+    if (index >= 0) {
+      list.splice(index, 1);
+    }
+
+    this.updateLists();
+  }
+
+  updateLists() {
+    const update = {};
+    this.lists.forEach(list => {
+      update[list.id] = list.values;
+    });
+    this.projectsDao.update(this.project.id, update);
+  }
 }

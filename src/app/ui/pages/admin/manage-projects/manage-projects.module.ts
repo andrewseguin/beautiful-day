@@ -5,7 +5,11 @@ import {MaterialModule} from 'app/material.module';
 import {EditableProjectModule} from 'app/ui/pages/admin/manage-projects/editable-project/editable-project.module';
 
 @NgModule({
-  imports: [CommonModule, MaterialModule, EditableProjectModule],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    EditableProjectModule
+  ],
   declarations: [ManageProjectsComponent],
   exports: [ManageProjectsComponent],
 })

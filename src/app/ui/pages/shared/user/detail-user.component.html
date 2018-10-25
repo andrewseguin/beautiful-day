@@ -1,5 +1,5 @@
 <div class="content" *ngIf="userEmail">
-  <div class="pic" [style.backgroundImage]="'url(' + user?.pic + ')'"></div>
+  <div class="pic" [style.backgroundImage]="user?.pic ? 'url(' + user?.pic + ')' : ''"></div>
   <div class="id">
     <div class="name"> {{user?.name}} </div>
     <a [href]="'tel:' + user?.phone">

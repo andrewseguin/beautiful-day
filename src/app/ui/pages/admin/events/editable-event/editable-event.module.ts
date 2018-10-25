@@ -1,18 +1,16 @@
 import {NgModule} from '@angular/core';
-import {Events} from './events';
 import {MaterialModule} from 'app/material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {EditableEventModule} from './editable-event/editable-event.module';
+import {EditableEvent} from 'app/ui/pages/admin/events/editable-event/editable-event';
 
 @NgModule({
   imports: [
     MaterialModule,
     CommonModule,
     ReactiveFormsModule,
-    EditableEventModule,
   ],
-  declarations: [Events],
-  exports: [Events],
+  declarations: [EditableEvent],
+  exports: [EditableEvent],
 })
-export class EventsModule { }
+export class EditableEventModule { }

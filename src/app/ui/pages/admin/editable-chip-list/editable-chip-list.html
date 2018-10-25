@@ -1,0 +1,14 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{label}}</mat-label>
+  <mat-chip-list #chipList>
+    <mat-chip *ngFor="let value of values" removable (removed)="remove(value)">
+      {{value}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+    <input placeholder="Add email (e.g. user@beautifulday.org)"
+           [matChipInputFor]="chipList"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+           matChipInputAddOnBlur
+           (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+</mat-form-field>

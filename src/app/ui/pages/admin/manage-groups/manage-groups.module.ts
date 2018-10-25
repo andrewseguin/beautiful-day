@@ -3,14 +3,16 @@ import {ManageGroupsComponent} from './manage-groups.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
-import {EditableGroupModule} from './editable-group/editable-group.module';
+import {
+  EditableChipListModule
+} from 'app/ui/pages/admin/editable-chip-list/editable-chip-list.module';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    EditableGroupModule,
+    EditableChipListModule,
   ],
   declarations: [ManageGroupsComponent],
   exports: [ManageGroupsComponent],

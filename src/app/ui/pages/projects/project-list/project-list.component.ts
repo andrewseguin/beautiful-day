@@ -55,13 +55,4 @@ export class ProjectListComponent {
   navigateToProject(id: string) {
     this.router.navigate([`project/${id}`]);
   }
-
-  getEmails(list: string) {
-    if (list.indexOf(',') != -1) {
-      return list.split(',');
-    } else {
-      // Handle the acquisitions case
-      return list.split(' ');
-    }
-  }
 }

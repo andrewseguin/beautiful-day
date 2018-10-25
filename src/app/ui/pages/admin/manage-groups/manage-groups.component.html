@@ -1,1 +1,27 @@
-<editable-group *ngFor="let group of groups" [group]="group"></editable-group>
+<div *ngIf="permissionsService.isAdmin | async">
+  <editable-chip-list *ngIf="acquisitions | async; let group"
+                      [label]="group.id"
+                      [values]="group.users"
+                      (change)="update(group.id, $event)">
+  </editable-chip-list>
+
+  <editable-chip-list *ngIf="approvers | async; let group"
+                      [label]="group.id"
+                      [values]="group.users"
+                      (change)="update(group.id, $event)">
+  </editable-chip-list>
+
+  <editable-chip-list *ngIf="admins | async; let group"
+                      [label]="group.id"
+                      [values]="group.users"
+                      (change)="update(group.id, $event)">
+  </editable-chip-list>
+</div>
+
+<div *ngIf="permissionsService.isOwner | async">
+  <editable-chip-list *ngIf="owners | async; let group"
+                      [label]="group.id"
+                      [values]="group.users"
+                      (change)="update(group.id, $event)">
+  </editable-chip-list>
+</div>

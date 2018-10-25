@@ -5,13 +5,11 @@ export interface Project {
   season?: string;
   budget?: number;
   description?: string;
-  leads?: string;
-  directors?: string;
-  acquisitions?: string;
-  dropoff?: Map<string, string>;
+  leads?: string[];
+  directors?: string[];
+  acquisitions?: string[];
   lastUsedDropoff?: string;
   lastUsedDate?: string;
-  auth?: string[];
   receiptsFolder?: string;
-  whitelist?: string;
+  whitelist?: string[];
 }

@@ -1,10 +1,6 @@
 .project {
   border-bottom: 1px solid #CCC;
 
-  &.expanded {
-    background: white;
-  }
-
   mat-icon {
     padding-right: 8px;
   }
@@ -22,11 +18,11 @@
   padding: 8px;
   position: sticky;
   top: 0;
-  background: inherit;
+  background: #FAFAFA;
   z-index: 1;
 
   &:hover {
-    background: white;
+    background: #EAEAEA;
   }
 }
 

@@ -37,10 +37,9 @@ export interface ExportedRequest {
   location: string;
   budget: number;
   description: string;
-  leads: string;
-  directors: string;
-  acquisitions: string;
-  auth: string[];
+  leads: string[];
+  directors: string[];
+  acquisitions: string[];
   receiptsFolder: string;
 }
 
@@ -155,7 +154,6 @@ export class ExportPage {
           leads: p.leads,
           directors: p.directors,
           acquisitions: p.acquisitions,
-          auth: p.auth,
           receiptsFolder: p.receiptsFolder,
         });
       });

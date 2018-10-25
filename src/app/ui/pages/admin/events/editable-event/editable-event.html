@@ -1,0 +1,24 @@
+<div [formGroup]="form">
+  <mat-form-field appearance="outline" class="date">
+    <mat-label> Date </mat-label>
+    <input matInput
+           (click)="picker.open()"
+           formControlName="date"
+           [matDatepicker]="picker">
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="time">
+    <mat-label> Time (optional) </mat-label>
+    <input matInput formControlName="time">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="info">
+    <mat-label> Info </mat-label>
+    <input matInput formControlName="info">
+  </mat-form-field>
+
+  <button mat-button class="delete" (click)="delete(event.id)">
+    Delete <mat-icon> delete </mat-icon>
+  </button>
+</div>

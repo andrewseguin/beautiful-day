@@ -54,14 +54,8 @@ export class PermissionsService {
       }
 
       const editableProjects = projects.filter(project => {
-        const leads = project.leads || '';
-        const lowercaseLeads = leads.split(',').map(m => m.toLowerCase());
-
-        const isLead = lowercaseLeads.indexOf(email.toLowerCase()) !== -1 || allLeads;
-
-        const directors = project.directors || '';
-        const lowercaseDirectors = directors.split(',').map(m => m.toLowerCase());
-        const isDirector = lowercaseDirectors.indexOf(email.toLowerCase()) !== -1;
+        const isLead = containsEmail(project.leads, email) || allLeads;
+        const isDirector = containsEmail(project.directors, email);
 
         let canEditRequests = isLead || isDirector;
         if (editsDisabled) {
@@ -95,8 +89,7 @@ export class PermissionsService {
 
     groups.forEach(group => {
       const groupUsers = group.users.map(email => email.toLowerCase().trim());
-      const userEmail = user.email.toLowerCase().trim();
-      if (groupUsers.indexOf(userEmail) != -1) {
+      if (containsEmail(groupUsers, user.email)) {
         permissions.add(group.id);
       }
     });
@@ -117,14 +110,11 @@ export class PermissionsService {
   }
 
   isUserWhitelisted(email: string, project: Project): boolean {
-    const whitelist = project.whitelist || '';
-    const lowercaseWhitelist = whitelist.split(',').map(m => m.toLowerCase());
-    return lowercaseWhitelist.indexOf(email.toLowerCase()) !== -1;
+    return containsEmail(project.whitelist, email);
   }
 
   toggleWhitelisted(user: User, project: Project) {
-    const whitelist = project.whitelist || '';
-    const whitelistSet = new Set(whitelist.split(','));
+    const whitelistSet = new Set(project.whitelist || []);
 
     if (whitelistSet.has(user.email)) {
       whitelistSet.delete(user.email);
@@ -133,7 +123,7 @@ export class PermissionsService {
     }
 
     this.projectsDao.update(project.id, {
-      whitelist: Array.from(whitelistSet).join(',')
+      whitelist: Array.from(whitelistSet)
     });
   }
 
@@ -164,4 +154,10 @@ export class PermissionsService {
   canManageAcquisitions(): Observable<boolean> {
     return this.isAcquisitions;
   }
+}
+
+function containsEmail(list: string[] = [], email: string) {
+  list = list.map(value => value.toLowerCase().trim());
+  email = email.toLowerCase().trim();
+  return list.indexOf(email) != -1;
 }

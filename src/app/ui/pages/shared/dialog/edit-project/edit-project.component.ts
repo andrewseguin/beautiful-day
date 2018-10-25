@@ -26,7 +26,7 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
   location: string;
   leads: string[];
   directors: string[];
-  acquisitions: string;
+  acquisitions: string[];
   receiptsFolder: string;
   type: EditType;
 
@@ -40,9 +40,9 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
     this.budget = this.project.budget;
     this.description = this.project.description;
     this.location = this.project.location;
-    this.leads = this.project.leads ? this.project.leads.split(',') : [''];
-    this.directors = this.project.directors ? this.project.directors.split(',') : [''];
-    this.acquisitions = this.project.acquisitions;
+    this.leads = this.project.leads || [];
+    this.directors = this.project.directors || [];
+    this.acquisitions = this.project.acquisitions || [];
     this.receiptsFolder = this.project.receiptsFolder;
   }
 
@@ -71,15 +71,9 @@ export class EditProjectComponent implements OnInit, AfterViewChecked {
       case 'description':
         update.description = this.description; break;
       case 'leads':
-        const leadsArray = [];
-        this.leads.forEach(lead => leadsArray.push(lead));
-        update.leads = leadsArray.join();
-        break;
+        update.leads = this.leads; break;
       case 'directors':
-        const directorsArray = [];
-        this.directors.forEach(director => directorsArray.push(director));
-        update.directors = directorsArray.join();
-        break;
+        update.directors = this.directors; break;
       case 'acquisitions':
         update.acquisitions = this.acquisitions; break;
       case 'receipts folder':

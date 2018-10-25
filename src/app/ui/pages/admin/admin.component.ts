@@ -17,5 +17,5 @@ export class AdminComponent {
     {label: 'Extras', id: 'extras'},
   ];
 
-  selectedSection: Section = this.sections[0];
+  selectedSection: Section = this.sections[2];
 }

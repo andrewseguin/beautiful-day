@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {
   MatButtonModule,
   MatCardModule,
-  MatCheckboxModule, MatDatepickerModule,
+  MatCheckboxModule, MatChipsModule, MatDatepickerModule,
   MatDialogModule, MatExpansionModule,
   MatIconModule,
   MatInputModule,
@@ -29,6 +29,7 @@ import {PortalModule} from '@angular/cdk/portal';
   exports: [
     MatButtonModule,
     MatCardModule,
+    MatChipsModule,
     MatCheckboxModule,
     MatDatepickerModule,
     MatDialogModule,
