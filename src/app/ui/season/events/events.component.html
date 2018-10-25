@@ -1,0 +1,13 @@
+<div class="events" *ngIf="sortedEvents | async; else loading; let events">
+   <div class="event" *ngFor="let event of events">
+     <div class="info"> {{event.info}} </div>
+     <div class="date-time">
+       <div class="time"> {{event.time}} </div>
+       <div class="date"> {{event.date | date}} </div>
+     </div>
+   </div>
+</div>
+
+<ng-template #loading>
+  <loading label="events"></loading>
+</ng-template>

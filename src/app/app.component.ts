@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
 import {AnalyticsService} from 'app/service/analytics.service';
-import {HeaderService} from 'app/service/header.service';
+import {HeaderService} from 'app/ui/season/services/header.service';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {Router} from '@angular/router';
-import {UsersDao} from 'app/service/dao';
 import {AngularFireAuth} from '@angular/fire/auth';
-
+import {UsersDao} from 'app/service/users-dao';
 @Component({
   selector: 'app-root',
   template: '<router-outlet></router-outlet>'

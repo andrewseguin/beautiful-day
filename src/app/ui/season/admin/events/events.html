@@ -1,0 +1,5 @@
+<button mat-stroked-button color="accent" (click)="addEvent()"> Add Event </button>
+
+<editable-event *ngFor="let event of (eventsDao.list | async); trackBy: trackBy"
+                [event]="event">
+</editable-event>

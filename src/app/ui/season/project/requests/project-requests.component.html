@@ -1,0 +1,56 @@
+<mat-drawer-container *ngIf="!isLoading; else loading">
+  <requests-list *ngIf="hasRequests"
+                 [requestRendererOptionsState]="renderRequestsOptionsState">
+  </requests-list>
+
+  <div *ngIf="!hasRequests" class="empty-requests">
+    <div *ngIf="canEdit">
+      <div class="wide">
+        <div class="getting-started">
+          Getting Started
+        </div>
+        <div class="instructions">
+          Create requests using the inventory panel to the right
+        </div>
+      </div>
+      <div class="mobile">
+        <div class="getting-started">
+          Getting Started
+        </div>
+        <div class="instructions">
+          Open the inventory panel to begin requesting items.
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!canEdit">
+      <div class="getting-started">
+        No requests have been made.
+      </div>
+    </div>
+  </div>
+
+
+  <button mat-fab color="accent"
+          [class.attention]="!hasRequests"
+          [class.hide]="sidenav.opened || hasSelectedRequests() || !canEdit"
+          (click)="sidenav.open()"><mat-icon>add</mat-icon></button>
+
+  <mat-drawer #sidenav
+              [opened]="!hideInventory()"
+              [mode]="hideInventory() ? 'over' : 'side'"
+              (close)="inventoryPanel.reset()"
+              position="end">
+    <inventory-panel #inventoryPanel (closeSidenav)="sidenav.close()">
+    </inventory-panel>
+  </mat-drawer>
+</mat-drawer-container>
+
+<ng-template cdkPortal>
+  <remaining-budget *ngIf="canEdit"
+                    [projectId]="project.id">
+  </remaining-budget>
+</ng-template>
+
+<ng-template #loading>
+  <loading label="project"></loading>
+</ng-template>

@@ -1,0 +1,58 @@
+<div class="project" *ngFor="let project of projects | async">
+  <div class="main">
+
+    <div class="heading">
+      <div class="name"> {{project.name}} </div>
+      <button mat-stroked-button color="primary"
+              (click)="navigateToProject(project.id)">
+        Requests
+      </button>
+    </div>
+
+    <div class="description">
+      {{project.description}}
+    </div>
+
+    <div class="location">
+      <a href="https://www.google.com/maps/search/?api=1&query={{project.location}}">{{project.location}}</a>
+    </div>
+
+    <a *ngIf="project.receiptsFolder"
+       [href]="project.receiptsFolder"
+       class="receipts-folder"
+       target="_blank">
+      View Receipts
+    </a>
+  </div>
+
+  <div class="contacts-trigger"
+       (mouseover)="loadedContacts.add(project.id)"
+       (click)="expandedContacts.toggle(project.id)">
+    Contacts
+    <mat-icon [@arrow]="expandedContacts.isSelected(project.id)">
+      expand_more
+    </mat-icon>
+  </div>
+  <div class="contacts" [@contacts]="expandedContacts.isSelected(project.id)">
+    <ng-container *ngIf="loadedContacts.has(project.id)">
+      <div class="label"> Directors </div>
+      <detail-user [userEmail]="email" [project]="project" group="director"
+                   *ngFor="let email of project.directors">
+      </detail-user>
+
+      <div class="label"> Leads </div>
+      <detail-user [userEmail]="email" [project]="project" group="lead"
+                   *ngFor="let email of project.leads">
+      </detail-user>
+
+      <ng-container *ngIf="project.acquisitions">
+        <div class="label"> Acquisitions </div>
+        <detail-user [userEmail]="email" [project]="project" group="acquisitions"
+                     *ngFor="let email of project.acquisitions">
+        </detail-user>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<loading label="projects" *ngIf="!(projects | async)"></loading>

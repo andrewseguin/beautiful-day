@@ -5,9 +5,6 @@ import 'hammerjs';
 import {FIREBASE_CONFIG} from './firebase.config';
 import {AppComponent} from './app.component';
 import {CanActivateAuthGuard} from './route-guard/can-activate-auth-guard';
-import {HeaderService} from './service/header.service';
-import {AccountingService} from './service/accounting.service';
-import {PermissionsService} from './service/permissions.service';
 import {AnalyticsService} from './service/analytics.service';
 import {CanActivateAcquisitionsGuard} from './route-guard/can-activate-acquisitions-guard';
 import {AngularFireAuthModule} from '@angular/fire/auth';
@@ -15,15 +12,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PrintModule} from 'app/ui/print/print.module';
 import {MatIconRegistry, MatSortModule, MatTableModule} from '@angular/material';
 import {LoginModule} from 'app/ui/login/login.module';
-import {PagesModule} from 'app/ui/pages/pages.module';
+import {SeasonModule} from 'app/ui/season/season.module';
 import {RouterModule} from '@angular/router';
-import {PagesComponent} from 'app/ui/pages/pages.component';
-import {PAGES_ROUTES} from 'app/ui/pages/pages.routes';
+import {SeasonComponent} from 'app/ui/season/season.component';
+import {SEASON_ROUTES} from 'app/ui/season/season.routes';
 import {PrintComponent} from 'app/ui/print/print.component';
 import {LoginComponent} from 'app/ui/login/login.component';
-import {ExportPage} from 'app/ui/pages/export/export';
-import {DaoModule} from 'app/service/dao/dao.module';
-import {Selection} from 'app/service';
+import {ExportPage} from 'app/ui/season/export/export';
+import {UsersDao} from './service/users-dao';
 
 @NgModule({
   declarations: [AppComponent, ExportPage],
@@ -34,26 +30,23 @@ import {Selection} from 'app/service';
     BrowserAnimationsModule,
     MatTableModule,
     MatSortModule,
-    DaoModule,
     LoginModule,
-    PagesModule,
+    SeasonModule,
     PrintModule,
     RouterModule.forRoot([
-      {path: '', component: PagesComponent, children: PAGES_ROUTES},
+      {path: '', redirectTo: '2018', pathMatch: 'full'},
+      {path: ':season', component: SeasonComponent, children: SEASON_ROUTES},
       {path: 'login', component: LoginComponent},
       {path: 'export', component: ExportPage},
       {path: 'print/:type/:id', component: PrintComponent}
     ]),
   ],
   providers: [
-    Selection,
     MatIconRegistry,
     CanActivateAuthGuard,
     CanActivateAcquisitionsGuard,
-    HeaderService,
-    AccountingService,
-    PermissionsService,
     AnalyticsService,
+    UsersDao,
   ],
   bootstrap: [AppComponent]
 })

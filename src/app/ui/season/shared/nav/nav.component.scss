@@ -1,0 +1,102 @@
+@import '../../../shared/constants';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 250px;
+}
+
+.header {
+  cursor: pointer;
+
+  .logo {
+    background: url(../../../../../assets/logo.png) no-repeat center;
+    height: 70px;
+    width: 100%;
+    background-size: contain;
+    margin-top: 16px;
+  }
+
+  .app-title {
+    color: #a4a7aa;
+    font-size: 16px;
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
+.season {
+  padding: 0 16px 8px 16px;
+}
+
+.profile {
+  border-top: 1px solid #CCC;
+  font-size: 12px;
+  overflow: hidden;
+
+  .expansion-header {
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+
+    .label {
+      .signed-in-as {
+        color: #444;
+      }
+      .email {
+        font-weight: bold;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .user {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+  }
+}
+
+.user-email {
+  word-break: break-all;
+}
+
+.pic {
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  background-repeat: no-repeat;
+  background-size: 48px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.logout {
+  color: #1565c0;
+  font-size: 14px;
+  padding: 0 8px;
+}
+
+.link-list {
+  border-top: 1px solid #CCC;
+  flex: 1;
+  overflow: auto;
+
+  button {
+    display: block;
+    font-size: 16px;
+    height: 40px;
+    width: 100%;
+    text-align: left;
+
+    mat-icon {
+      margin-right: 16px;
+    }
+  }
+}

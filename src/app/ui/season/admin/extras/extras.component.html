@@ -1,0 +1,12 @@
+
+<button (click)="importItems()">Import Inventory</button>
+<button (click)="exportItems()">Export Inventory</button>
+<button (click)="permissionsService.toggleEditsDisabled()">
+  {{permissionsService.editsDisabled ? 'Enable' : 'Disable'}} changes
+</button>
+
+<button (click)="createReports()"> Create Reports </button>
+
+<button (click)="fixProjectLeadAndDirectors()"> Fix directors and leads list </button>
+
+<button (click)="copyData()"> Copy Data </button>

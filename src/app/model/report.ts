@@ -1,4 +1,4 @@
-import {RequestRendererOptionsState} from 'app/ui/pages/shared/requests-list/render/request-renderer-options';
+import {RequestRendererOptionsState} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
 
 export interface Report {
   id?: string;

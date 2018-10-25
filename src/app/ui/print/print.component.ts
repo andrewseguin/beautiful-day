@@ -6,7 +6,7 @@ import {Project} from 'app/model/project';
 import {Item} from 'app/model/item';
 import {Title} from '@angular/platform-browser';
 import {take} from 'rxjs/operators';
-import {ItemsDao, ProjectsDao, ReportsDao, RequestsDao} from 'app/service/dao';
+import {ItemsDao, ProjectsDao, ReportsDao, RequestsDao} from 'app/ui/season/dao';
 
 @Component({
   selector: 'print',
@@ -21,7 +21,7 @@ export class PrintComponent implements OnInit {
   requests: Request[];
   season: string;
 
-  constructor(private route: ActivatedRoute,
+  constructor(private activatedRoute: ActivatedRoute,
               private titleService: Title,
               private requestsDao: RequestsDao,
               private itemsDao: ItemsDao,
@@ -29,8 +29,8 @@ export class PrintComponent implements OnInit {
               private reportsDao: ReportsDao) { }
 
   ngOnInit() {
-    this.type = this.route.snapshot.params.type;
-    const id = this.route.snapshot.params.id;
+    this.type = this.activatedRoute.snapshot.params.type;
+    const id = this.activatedRoute.snapshot.params.id;
     if (this.type === 'report') {
       this.reportsDao.get(id).subscribe((report: Report) => {
         this.season = report.season;

@@ -1,0 +1,21 @@
+<ng-container *ngIf="(requestsRenderer.requestGroups | async) !== null; else loading">
+  <requests-search></requests-search>
+  <display-options-header></display-options-header>
+
+  <div class="requests-container">
+    <requests-group *ngFor="let requestGroup of renderedRequestGroups; trackBy:getRequestGroupKey"
+                    [requests]="requestGroup.requests"
+                    [title]="requestGroup.title"
+                    [canEdit]="true"
+                    [printMode]="printMode">
+    </requests-group>
+  </div>
+
+  <div *ngIf="loadingRequests" class="loading-more">
+    <mat-spinner  diameter="48"></mat-spinner>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <loading label="requests"></loading>
+</ng-template>

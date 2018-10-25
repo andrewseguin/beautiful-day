@@ -1,0 +1,97 @@
+@import '../../shared/constants';
+
+$font-color: #444;
+
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+  max-width: 650px;
+  margin: auto;
+}
+
+:host mat-expansion-panel {
+  box-shadow: none;
+
+  mat-expansion-panel-header {
+    flex-direction: row-reverse;
+    padding: 8px;
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.project {
+  font-size: 14px;
+  border-bottom: 1px solid #CCC;
+  padding: 8px 0;
+
+  @media (max-width: $mobile-width - 1) {
+    font-size: 12px;
+  }
+
+  .main {
+    padding: 8px 8px 0 8px;
+  }
+
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+    margin-bottom: 16px;
+    font-size: 20px;
+
+    @media (max-width: $mobile-width - 1) {
+      font-size: 16px;
+    }
+  }
+
+  .description {
+    margin-bottom: 4px;
+  }
+
+  .location {
+    margin-bottom: 4px;
+  }
+
+  a {
+    color: $font-color;
+  }
+
+  .contacts {
+    overflow: hidden;
+    margin: 0 16px;
+
+    .label {
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 4px;
+    }
+  }
+
+  .contacts-trigger {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    color: #444;
+
+    &:hover {
+      background: #F5F5F5;
+    }
+    &:active {
+      background: #EFEFEF;
+    }
+  }
+}
+
+detail-user {
+  display: block;
+  margin: 8px;
+}
