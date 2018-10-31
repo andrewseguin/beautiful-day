@@ -1,8 +1,7 @@
 @import '../../../../shared/constants';
-@import '../../../../../theme';
 
 // Import theming functions
-@import '../../../../../../../node_modules/@angular/material/theming';
+@import '~@angular/material/theming';
 
 :host {
   display: block;
@@ -118,7 +117,7 @@
 
     &:focus {
       outline: none;
-      border-color: mat-color($bd-app-accent);
+      border-color: mat-color(mat-palette($mat-blue, 500));
       border-bottom-width: 2px;
       padding-bottom: 1px;
     }

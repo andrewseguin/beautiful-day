@@ -1,7 +1,4 @@
 @import '~@angular/material/theming';
-
-// Import your custom theme
-@import '../../../theme';
 @import '../../shared/constants';
 
 :host {
@@ -46,7 +43,7 @@
   padding: 0 24px;
   font-size: 14px;
   align-items: center;
-  background-color: mat-color($bd-app-accent);
+  background-color: mat-color(mat-palette($mat-blue, 500));
   /* background: rgba(21, 133, 199, 0.8); */
   color: #FAFAFA;
   height: 48px;

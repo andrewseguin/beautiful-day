@@ -11,16 +11,13 @@ import {
 import {
   CostEquality,
   DateEquality,
-  Filter, FilterSeasonQuery,
+  Filter,
   Query
 } from 'app/ui/season/shared/requests-list/render/request-renderer-options';
-import {
-  FILTER_TYPE_LABELS
-} from 'app/ui/season/shared/requests-list/requests-search/requests-search.component';
+import {FILTER_TYPE_LABELS} from 'app/ui/season/shared/requests-list/requests-search/requests-search.component';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {map, takeUntil} from 'rxjs/operators';
-import {ProjectsDao} from 'app/ui/season/dao';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'request-filter',
@@ -32,7 +29,6 @@ export class RequestFilterComponent implements OnInit, AfterViewInit, OnChanges 
   costEqualities: CostEquality[] = ['greater than', 'less than', 'equal to'];
   dateEqualities: DateEquality[] = ['before', 'after', 'on'];
   destroyed = new Subject();
-  seasons = new Set<string>();
 
   form = new FormGroup({
     // project
@@ -58,20 +54,10 @@ export class RequestFilterComponent implements OnInit, AfterViewInit, OnChanges 
 
   @Output() remove = new EventEmitter();
 
-  constructor(private elementRef: ElementRef,
-              private projectsDao: ProjectsDao) {
-    this.projectsDao.list.pipe(
-        takeUntil(this.destroyed),
-        map(projects => (projects || []).map(p => p.season)))
-        .subscribe(seasons => seasons.forEach(s => this.seasons.add(s)));
-  }
+  constructor(private elementRef: ElementRef) {}
 
   ngOnChanges() {
     this.setForm();
-
-    if (this.filter.type === 'season' && this.filter.query) {
-      this.seasons.add((this.filter.query as FilterSeasonQuery).season);
-    }
   }
 
   ngOnInit() {

@@ -79,9 +79,6 @@ export abstract class ListDao<T extends IdentifiedObject> {
       this._list.next(null);
     }
 
-    if (!this.path) {
-      debugger;
-    }
     console.log('Loading list:', this.path);
 
     if (!this.collection) {
