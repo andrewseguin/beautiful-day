@@ -4,12 +4,14 @@ import {PermissionsService} from 'app/ui/season/services/permissions.service';
 import {ImportItemsComponent} from 'app/ui/season/shared/dialog/import-items/import-items.component';
 import {ExportItemsComponent} from 'app/ui/season/shared/dialog/export-items/export-items.component';
 import {take} from 'rxjs/operators';
-import {Report} from 'app/model';
+import {Project, Report, Request} from 'app/model';
 import {RequestRendererOptions} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
 import {ProjectsDao} from 'app/ui/season/dao/projects-dao';
 import {ReportsDao} from 'app/ui/season/dao/reports-dao';
 import {RequestsDao} from 'app/ui/season/dao';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {combineLatest} from 'rxjs';
 
 @Component({
   selector: 'extras',
@@ -22,6 +24,7 @@ export class ExtrasComponent {
               private reportsDao: ReportsDao,
               private projectsDao: ProjectsDao,
               private requestsDao: RequestsDao,
+              protected db: AngularFireDatabase,
               private afs: AngularFirestore,
               public permissionsService: PermissionsService) {
   }
@@ -35,10 +38,14 @@ export class ExtrasComponent {
   }
 
   createReports(): void {
+    let projectsMade = false;
     this.projectsDao.list.subscribe(projects => {
+      if (projectsMade) {
+        return;
+      }
       const reports: Report[] = [];
 
-      if (!projects) {
+      if (!projects || projectsMade) {
         return;
       }
 
@@ -50,7 +57,7 @@ export class ExtrasComponent {
         ];
         reports.push({
           name: project.name,
-          group: '2018 Projects',
+          group: 'Projects',
           options: options.getState()
         });
       });
@@ -58,10 +65,13 @@ export class ExtrasComponent {
       reports.forEach(report => {
         this.reportsDao.add(report);
       });
+
+      projectsMade = true;
     });
 
-    this.requestsDao.list.pipe(take(1)).subscribe(requests => {
-      if (!requests) {
+    let purchasersMade = false;
+    this.requestsDao.list.subscribe(requests => {
+      if (!requests || purchasersMade) {
         return;
       }
 
@@ -69,6 +79,9 @@ export class ExtrasComponent {
       requests.forEach(r => purchasers.add(r.purchaser));
 
       for (let purchaser of Array.from(purchasers.values())) {
+        if (!purchaser) {
+          continue;
+        }
         const options = new RequestRendererOptions();
         options.showProjectName = true;
         options.filters = [
@@ -83,6 +96,8 @@ export class ExtrasComponent {
 
         this.reportsDao.add(report);
       }
+
+      purchasersMade = true;
     });
   }
 
@@ -154,7 +169,30 @@ export class ExtrasComponent {
     });
   }
 
-  filterProjects() {
+  cleanupProjects() {
+    let cleanedUp = false;
+    this.projectsDao.list.subscribe(projects => {
+      if (cleanedUp || !projects) {
+        return;
+      }
 
+      const dateUpdate = new Map<string, Project>();
+
+      projects.forEach(project => {
+        if (project.lastUsedDate) {
+          const lastUsedDate = new Date(Number(project.lastUsedDate)).toISOString();
+          dateUpdate.set(project.id, {lastUsedDate});
+        }
+      });
+
+      console.log(dateUpdate);
+
+      cleanedUp = true;
+
+      dateUpdate.forEach((value, key) => {
+        this.projectsDao.update(key, value);
+      });
+    });
+    // Need to run through all requests and delete any that point to a different season
   }
 }

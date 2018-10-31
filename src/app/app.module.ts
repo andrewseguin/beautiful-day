@@ -20,6 +20,7 @@ import {PrintComponent} from 'app/ui/print/print.component';
 import {LoginComponent} from 'app/ui/login/login.component';
 import {ExportPage} from 'app/ui/season/export/export';
 import {UsersDao} from './service/users-dao';
+import {GlobalConfigDao} from 'app/service/global-config-dao';
 
 @NgModule({
   declarations: [AppComponent, ExportPage],
@@ -47,6 +48,7 @@ import {UsersDao} from './service/users-dao';
     CanActivateAcquisitionsGuard,
     AnalyticsService,
     UsersDao,
+    GlobalConfigDao,
   ],
   bootstrap: [AppComponent]
 })

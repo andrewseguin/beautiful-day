@@ -17,7 +17,7 @@
       <a href="https://www.google.com/maps/search/?api=1&query={{project.location}}">{{project.location}}</a>
     </div>
 
-    <a *ngIf="project.receiptsFolder"
+    <a *ngIf="project.receiptsFolder && (permissionsService.isAcquisitions | async)"
        [href]="project.receiptsFolder"
        class="receipts-folder"
        target="_blank">
@@ -45,7 +45,7 @@
                    *ngFor="let email of project.leads">
       </detail-user>
 
-      <ng-container *ngIf="project.acquisitions">
+      <ng-container *ngIf="project.acquisitions?.length > 0">
         <div class="label"> Acquisitions </div>
         <detail-user [userEmail]="email" [project]="project" group="acquisitions"
                      *ngFor="let email of project.acquisitions">

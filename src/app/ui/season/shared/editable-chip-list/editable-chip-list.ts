@@ -19,10 +19,14 @@ export class EditableChipList {
 
   @Output() change = new EventEmitter<string[]>();
 
+  @Input() transform = v => v;
+
+  @Input() placeholder = '';
+
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
-      this.values.push(value);
+      this.values.push(this.transform(value));
     }
 
     if (event.input) {

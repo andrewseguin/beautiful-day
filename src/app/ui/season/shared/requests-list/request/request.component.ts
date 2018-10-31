@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {Item, Request} from 'app/model';
-import {EditDropoffComponent} from 'app/ui/season/shared/dialog/edit-dropoff/edit-dropoff.component';
 import {EditItemComponent} from 'app/ui/season/shared/dialog/edit-item/edit-item.component';
 import {AccountingService, getRequestCost} from 'app/ui/season/services/accounting.service';
 import {RequestsRenderer} from 'app/ui/season/shared/requests-list/render/requests-renderer';
@@ -18,7 +17,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ProjectsDao, RequestsDao} from 'app/ui/season/dao';
 import {Selection} from 'app/ui/season/services';
-import {RequestDialog} from 'app/ui/season/shared/dialog/request.dialog';
+import {RequestDialog} from 'app/ui/season/shared/dialog/request/request-dialog';
 
 @Component({
   selector: 'request',
@@ -40,7 +39,7 @@ export class RequestComponent implements OnInit {
 
   @Input() isReporting: boolean;
 
-  @Input() canEdit: boolean;
+  canEdit: boolean;
 
   @Input() set printMode(v) {
     if (v) {
@@ -104,12 +103,7 @@ export class RequestComponent implements OnInit {
 
   editDropoff(e: Event) {
     e.stopPropagation();
-
-    const dialogRef = this.mdDialog.open(EditDropoffComponent);
-    dialogRef.componentInstance.requestIds = [this.request.id];
-    dialogRef.componentInstance.selectedDropoffLocation = this.request.dropoff;
-    dialogRef.componentInstance.setDateFromRequest(this.request.date);
-    dialogRef.componentInstance.project = this.request.project;
+    this.requestDialog.editDropoff([this.request.id]);
   }
 
   viewItem(e: Event) {

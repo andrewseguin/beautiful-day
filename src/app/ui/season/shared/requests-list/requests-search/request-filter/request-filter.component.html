@@ -60,14 +60,6 @@
       <input formControlName="dropoffLocation">
     </ng-container>
 
-    <ng-container *ngSwitchCase="'season'">
-      <mat-select formControlName="season" class="season">
-        <mat-option *ngFor="let season of seasons" [value]="season">
-          {{season}}
-        </mat-option>
-      </mat-select>
-    </ng-container>
-
   </div>
 
   <button class="remove"

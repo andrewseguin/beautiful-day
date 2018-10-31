@@ -1,11 +1,16 @@
-<div class="events" *ngIf="sortedEvents | async; else loading; let events">
-   <div class="event" *ngFor="let event of events">
-     <div class="info"> {{event.info}} </div>
-     <div class="date-time">
-       <div class="time"> {{event.time}} </div>
-       <div class="date"> {{event.date | date}} </div>
+<div *ngIf="(groupedEvents[0].events | async) && (groupedEvents[1].events | async) ; else loading">
+ <div class="events" *ngFor="let group of groupedEvents; trackBy: trackByLabel">
+   <ng-container  *ngIf="group.events.length">
+     <div class="label"> {{group.label}} </div>
+     <div class="event" *ngFor="let event of (group.events | async); trackById">
+       <div class="info"> {{event.info}} </div>
+       <div class="date-time">
+         <div class="time" *ngIf="event.time"> {{event.time}} </div>
+         <div class="date"> {{event.date | date}} </div>
+       </div>
      </div>
-   </div>
+   </ng-container>
+ </div>
 </div>
 
 <ng-template #loading>

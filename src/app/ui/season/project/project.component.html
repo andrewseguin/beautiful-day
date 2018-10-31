@@ -1,8 +1,7 @@
-<div *ngIf="loading">
-  <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
-</div>
-<div *ngIf="!loading && !project" class="not-found">
+<div *ngIf="!isLoading && !project" class="not-found">
   This project does not exist.
 </div>
 
 <project-requests *ngIf="project" [project]="project"></project-requests>
+
+<loading *ngIf="isLoading" label="project"></loading>

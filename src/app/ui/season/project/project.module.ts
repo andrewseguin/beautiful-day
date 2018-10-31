@@ -4,6 +4,7 @@ import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {ProjectRequestsModule} from './requests/project-requests.module';
+import {LoadingModule} from 'app/ui/season/shared/loading/loading.module';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import {ProjectRequestsModule} from './requests/project-requests.module';
     MaterialModule,
     RouterModule,
     ProjectRequestsModule,
+    LoadingModule,
   ],
   declarations: [ProjectComponent],
   exports: [ProjectComponent],

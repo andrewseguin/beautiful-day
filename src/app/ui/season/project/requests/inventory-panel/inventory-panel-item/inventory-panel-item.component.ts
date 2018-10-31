@@ -82,23 +82,17 @@ export class InventoryPanelItemComponent implements OnInit {
     this.requestQuantity = Math.max(0, this.requestQuantity);
     this.requested = true;
     this.project.pipe(take(1)).subscribe(project => {
-      const defaultDate = 1524812400000; // Hard-coded April 27, 2018
-
+      const defaultDate = new Date(); // TODO: Make this config value
+      const date = project.lastUsedDate ? new Date(Number(project.lastUsedDate)) : defaultDate;
       const request: Request = {
         item: this.item.id,
         project: project.id,
         quantity: this.requestQuantity,
-        note: '',
         dropoff: 'Westgate Gym',
-        date: Number(project.lastUsedDate || defaultDate)
+        date: date.toISOString()
       };
 
-      this.requestsDao.add(request).then(id => {
-        window.setTimeout(() => {
-          const requestEl = document.querySelector(`#${id}`);
-          requestEl.classList.add('added');
-        }, 200);
-      });
+      this.requestsDao.add(request);
     });
 
     window.setTimeout(() => {

@@ -18,7 +18,6 @@ export const FILTER_TYPE_LABELS = new Map<FilterType, string>([
   ['request cost', 'Request Cost'],
   ['dropoff date', 'Dropoff Date'],
   ['dropoff location', 'Dropoff Location'],
-  ['season', 'Season'],
 ]);
 
 @Component({

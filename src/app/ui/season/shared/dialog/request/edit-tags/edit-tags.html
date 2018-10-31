@@ -1,0 +1,14 @@
+<h1 mat-dialog-title> Edit Tags </h1>
+
+<div mat-dialog-content>
+  <editable-chip-list label="Tags" [values]="tags" #editableChipList
+                      placeholder="Add new tag (e.g. #gardenWork)"
+                      [transform]="tagTransform">
+  </editable-chip-list>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close> Cancel </button>
+  <button mat-raised-button color="accent"
+          (click)="save(editableChipList.values)"> Save </button>
+</div>

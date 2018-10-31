@@ -9,7 +9,7 @@ import {ProjectsDao} from 'app/ui/season/dao';
 })
 export class ProjectComponent implements OnInit {
   project: Project;
-  loading = true;
+  isLoading = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -18,7 +18,7 @@ export class ProjectComponent implements OnInit {
   ngOnInit() {
     const projectId = this.activatedRoute.snapshot.params.id;
     this.projectsDao.get(projectId).subscribe(project => {
-      this.loading = false;
+      this.isLoading = false;
       this.project = project;
     });
   }

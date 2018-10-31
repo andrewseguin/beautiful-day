@@ -114,7 +114,7 @@ export class RequestGrouping {
   getGroupTags(): RequestGroup[] {
     const tagMap: Map<string, Request[]> = new Map();
     this.requests.forEach(request => {
-      const tags = request.tags ? request.tags.split(',') : ['No Tag Set'];
+      const tags = request.tags ? request.tags : ['No Tag Set'];
       tags.forEach(tag => {
         if (!tagMap.get(tag)) { tagMap.set(tag, []); }
         tagMap.get(tag).push(request);

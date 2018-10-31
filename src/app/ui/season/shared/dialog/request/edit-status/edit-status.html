@@ -1,0 +1,27 @@
+<h1 mat-dialog-title> Edit Status </h1>
+
+<div mat-dialog-content [formGroup]="formGroup" *ngIf="formGroup">
+  <mat-checkbox formControlName="isApproved">Approved</mat-checkbox>
+
+  <ng-container>
+    <mat-checkbox formControlName="isPurchased">Purchased</mat-checkbox>
+    <mat-checkbox formControlName="isDistributed">Distributed</mat-checkbox>
+
+    <mat-form-field appearance="outline" *ngIf="formGroup?.value.isDistributed">
+      <mat-label> Distribution Date </mat-label>
+      <input matInput
+             (click)="picker.open()"
+             formControlName="distributionDate"
+             placeholder="MM/DD/YYYY"
+             [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </ng-container>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close> Cancel </button>
+  <button mat-raised-button color="accent"
+          (click)="save()"> Save </button>
+</div>

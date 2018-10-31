@@ -21,6 +21,9 @@
   font-size: 18px;
   font-weight: bold;
   padding: 0 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   @media (max-width: $mobile-width - 1) {
     padding: 0;

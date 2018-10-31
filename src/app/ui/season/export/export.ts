@@ -15,8 +15,8 @@ export interface ExportedRequest {
   // Request
   quantity: number;
   note: string;
-  date: number;
-  tags: string;
+  date: number | string;
+  tags: string | string[];
   purchaser: string;
   isPurchased: boolean;
   isApproved: boolean;

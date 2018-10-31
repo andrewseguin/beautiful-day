@@ -10,7 +10,7 @@ import {
   RequestRendererOptionsState
 } from 'app/ui/season/shared/requests-list/render/request-renderer-options';
 import {Subject, Subscription} from 'rxjs';
-import {ReportDialog} from 'app/ui/season/shared/dialog/report.dialog';
+import {ReportDialog} from 'app/ui/season/shared/dialog/report-dialog';
 import {ReportsDao} from 'app/ui/season/dao';
 
 @Component({

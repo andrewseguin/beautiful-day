@@ -6,6 +6,8 @@ export interface IdentifiedObject {
 }
 
 export abstract class ListDao<T extends IdentifiedObject> {
+  needsSubscription = true;
+
   subscription: Subscription;
   get list(): BehaviorSubject<T[]|null> {
     if (!this.subscription) {
@@ -18,10 +20,14 @@ export abstract class ListDao<T extends IdentifiedObject> {
   get map(): BehaviorSubject<Map<string, T>> {
     if (!this._map) {
       this._map = new BehaviorSubject<Map<string, T>>(new Map());
-      this.list.subscribe(projects => {
-        const map = new Map<string, T>();
-        projects.forEach(p => map.set(p.id, p));
-        this._map.next(map);
+      this.list.subscribe(list => {
+        if (list) {
+          const map = new Map<string, T>();
+          list.forEach(obj => map.set(obj.id, obj));
+          this._map.next(map);
+        } else {
+          this._map.next(null);
+        }
       });
     }
 
@@ -35,8 +41,9 @@ export abstract class ListDao<T extends IdentifiedObject> {
 
     // If a list has already been accessed, unsubscribe from the previous collection and
     // get values from the new collection
-    if (this.subscription) {
+    if (this.subscription || this.needsSubscription) {
       this.subscribe();
+      this.needsSubscription = false;
     }
   }
   get path(): string { return this._path; }
@@ -72,7 +79,16 @@ export abstract class ListDao<T extends IdentifiedObject> {
       this._list.next(null);
     }
 
+    if (!this.path) {
+      debugger;
+    }
     console.log('Loading list:', this.path);
-    this.subscription = this.collection.valueChanges().subscribe(v => this._list.next(v));
+
+    if (!this.collection) {
+      this.needsSubscription = true;
+    } else {
+      this.subscription = this.collection.valueChanges()
+          .subscribe(v => this._list.next(v));
+    }
   }
 }

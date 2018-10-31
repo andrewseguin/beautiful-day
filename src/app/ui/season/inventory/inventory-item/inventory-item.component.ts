@@ -52,16 +52,6 @@ export class InventoryItemComponent {
 
     // Sort list of projects by season and then alphabetize
     this.requestedProjects = Array.from(this.requestsGroupedByProject.keys());
-    this.requestedProjects.sort((a, b) => {
-      const projectA = this.projectsMap.get(a);
-      const projectB = this.projectsMap.get(b);
-
-      if ((projectA.season.concat(projectA.name)) < (projectB.season.concat(projectB.name))) {
-        return -1;
-      } else {
-        return 1;
-      }
-    });
   }
 
   isSelected(): boolean {

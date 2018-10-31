@@ -5,12 +5,12 @@ export interface Request {
   dropoff?: string;
   quantity?: number;
   note?: string;
-  date?: number;
-  tags?: string;
+  date?: string;
+  tags?: string[];
   purchaser?: string;
   isPurchased?: boolean;
   isApproved?: boolean;
   allocation?: number;
-  distributionDate?: number;
+  distributionDate?: string;
   isDistributed?: boolean;
 }

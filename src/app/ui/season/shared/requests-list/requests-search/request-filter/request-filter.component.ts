@@ -50,8 +50,6 @@ export class RequestFilterComponent implements OnInit, AfterViewInit, OnChanges 
     dropoffDate: new FormControl(''),
     // dropoff location
     dropoffLocation: new FormControl(''),
-    // season
-    season: new FormControl(''),
   });
 
   @Input() filter: Filter;
@@ -120,9 +118,6 @@ export class RequestFilterComponent implements OnInit, AfterViewInit, OnChanges 
       case 'dropoff location':
         this.form.get('dropoffLocation').setValue(query['location'], {emitEvent: false});
         break;
-      case 'season':
-        this.form.get('season').setValue(query['season'], {emitEvent: false});
-        break;
       default:
         throw new Error(`Could not set value for filter type ${this.filter.type}`);
     }
@@ -159,11 +154,6 @@ export class RequestFilterComponent implements OnInit, AfterViewInit, OnChanges 
           case 'dropoff location':
             this.queryChange.next({
               location: values['dropoffLocation'],
-            });
-            break;
-          case 'season':
-            this.queryChange.next({
-              season: values['season'],
             });
             break;
         }

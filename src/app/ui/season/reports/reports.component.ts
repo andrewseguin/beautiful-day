@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Report} from 'app/model/report';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {ReportDialog} from 'app/ui/season/shared/dialog/report.dialog';
+import {ReportDialog} from 'app/ui/season/shared/dialog/report-dialog';
 import {ReportsDao, RequestsDao} from 'app/ui/season/dao';
 
 interface ReportGroup {
@@ -21,13 +21,14 @@ export class ReportsComponent {
   reportKeyTrackBy = (_i, report: Report) => report.id;
 
   constructor(private router: Router,
+              private activatedRoute: ActivatedRoute,
               private reportDialog: ReportDialog,
               private reportsDao: ReportsDao) {
     this.reportGroups = this.reportsDao.list.pipe(map(getSortedGroups));
   }
 
   createReport() {
-    this.router.navigate([`report/new`]);
+    this.router.navigate([`report/new`], {relativeTo: this.activatedRoute.parent});
   }
 }
 

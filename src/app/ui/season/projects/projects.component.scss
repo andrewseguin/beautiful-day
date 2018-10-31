@@ -8,6 +8,11 @@ $font-color: #444;
   width: 100%;
   max-width: 650px;
   margin: auto;
+  padding-top: 16px;
+
+  @media (max-width: $mobile-width - 1) {
+    padding-top: 0;
+  }
 }
 
 :host mat-expansion-panel {
@@ -29,7 +34,7 @@ $font-color: #444;
 .project {
   font-size: 14px;
   border-bottom: 1px solid #CCC;
-  padding: 8px 0;
+  padding: 8px;
 
   @media (max-width: $mobile-width - 1) {
     font-size: 12px;
@@ -52,12 +57,17 @@ $font-color: #444;
     }
   }
 
-  .description {
-    margin-bottom: 4px;
+  .name {
+    flex: 1;
   }
 
-  .location {
-    margin-bottom: 4px;
+  .description, .location, .receipts-folder {
+    display: block;
+    padding: 8px 0;
+
+    @media (max-width: $mobile-width - 1) {
+      padding: 4px 0;
+    }
   }
 
   a {
@@ -66,11 +76,9 @@ $font-color: #444;
 
   .contacts {
     overflow: hidden;
-    margin: 0 16px;
+    margin: 0 8px;
 
     .label {
-      font-weight: bold;
-      font-size: 16px;
       margin-top: 4px;
     }
   }
@@ -93,5 +101,5 @@ $font-color: #444;
 
 detail-user {
   display: block;
-  margin: 8px;
+  margin: 8px 0;
 }

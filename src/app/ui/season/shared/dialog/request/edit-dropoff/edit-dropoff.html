@@ -1,0 +1,31 @@
+<h1 mat-dialog-title> Edit Dropoff </h1>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label> Location </mat-label>
+    <input matInput [formControl]="location"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of (locationOptions | async)" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label> Date </mat-label>
+    <input matInput
+           (click)="picker.open()"
+           [formControl]="date"
+           placeholder="MM/DD/YYYY"
+           [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close> Cancel </button>
+  <button mat-raised-button color="accent"
+          (click)="save()"> Save </button>
+</div>

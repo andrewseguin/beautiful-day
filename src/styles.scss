@@ -37,94 +37,6 @@ mat-form-field[slim] {
   }
 }
 
-.mat-tab-body-content{
-  height: 100%;
-}
-
-mat-dialog-container {
-  max-height: 80vh;
-}
-
-/* Menu syles */
-.mat-menu-panel.auth .mat-menu-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding: 0;
-
-  button {
-    font-size: 14px;
-    height: 40px;
-    line-height: 40px;
-    display: inline-block;
-    text-align: right;
-    &.info {
-      height: 32px;
-      pointer-events: none;
-      background: #EAEAEA;
-      line-height: 18px;
-      &.first {
-        padding-top: 8px;
-      }
-      &.last {
-        border-bottom: 1px solid #CCC;
-        padding-bottom: 8px;
-      }
-    }
-    &.logout {
-      color: #1565c0;
-    }
-
-    .edit-warn {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
-
-    mat-icon {
-      color: red;
-      margin-right: 8px;
-      z-index: 1;
-    }
-  }
-}
-
-.mat-menu-panel.notes-menu {
-  max-height: 326px;
-  button.active {
-    font-weight: bold;
-    background: #F5F5F5;
-  }
-  button.new-note {
-    color: mat-color($bd-app-accent);
-  }
-}
-
-/* Checkbox style */
-
-
-app-root mat-checkbox {
-  display: flex;
-  margin: 8px 12px 8px 8px;
-}
-
-app-root .mat-checkbox-frame {
-  border-color: #888;
-}
-
-app-root .mat-checkbox-inner-container {
-  height: 16px;
-  width: 16px;
-  margin-right: 0;
-}
-
-/* App header styles that couldn't go in because ViewEncapsulation.None breaks AoT */
-@media (max-width: 700px) {
-  header .mat-toolbar-layout mat-toolbar-row {
-    height: 48px;
-  }
-}
-
 /* Wrap button text if the width grows too long */
 .mat-button-wrapper {
   white-space: normal;
@@ -182,19 +94,6 @@ mat-toolbar {
   }
 }
 
-/* Sidenav will handle its own overflow. */
-mat-sidenav-container.project {
-  .mat-sidenav-content {
-    overflow: hidden;
-  }
-}
-
-/* BetterDOM date input polyfill should always show up over content */
-.btr-dateinput-calendar {
-  z-index: 999 !important;
-  transition: none !important;
-}
-
 /* Inventory page search */
 .inventory-page-search .mat-input-underline {
   margin-top: 8px;
@@ -210,10 +109,6 @@ mat-sidenav-container.project {
 mat-slide-toggle.request-status .mat-slide-toggle-content {
   font-size: 18px;
 }
-
-
-
-
 
 /* Material Styles */
 /* Rules for sizing the icon. */

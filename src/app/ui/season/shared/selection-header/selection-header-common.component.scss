@@ -13,22 +13,7 @@ button.header-button {
   min-width: 0;
 }
 
-@media (max-width: 500px) {
-  .selection-header-button-content {
-    justify-content: center;
-  }
-
-  button.header-button {
-    padding: 0;
-    height: 48px;
-    width: 48px;
-  }
-
-  mat-icon {
-    padding-right: 0;
-  }
-
-  .text {
-    display: none;
-  }
+.mat-menu-item {
+  height: 32px;
+  line-height: 32px;
 }

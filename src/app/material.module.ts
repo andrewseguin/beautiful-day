@@ -1,24 +1,30 @@
 import {NgModule} from '@angular/core';
 
 import {
+  MatAutocompleteModule,
   MatButtonModule,
   MatCardModule,
-  MatCheckboxModule, MatChipsModule, MatDatepickerModule,
-  MatDialogModule, MatExpansionModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatExpansionModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
-  MatMenuModule, MatNativeDateModule,
+  MatMenuModule,
+  MatNativeDateModule,
   MatPaginatorModule,
   MatProgressBarModule,
-  MatProgressSpinnerModule, MatRadioModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
   MatRippleModule,
   MatSelectModule,
-  MatSidenavModule, MatSlideToggleModule,
+  MatSidenavModule,
+  MatSlideToggleModule,
   MatSnackBarModule,
   MatSortModule,
   MatTableModule,
-  MatTabsModule,
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
@@ -27,6 +33,7 @@ import {PortalModule} from '@angular/cdk/portal';
 @NgModule({
   imports: [],
   exports: [
+    MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
@@ -48,7 +55,6 @@ import {PortalModule} from '@angular/cdk/portal';
     MatSidenavModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    MatTabsModule,
     MatTableModule,
     MatSortModule,
     MatToolbarModule,

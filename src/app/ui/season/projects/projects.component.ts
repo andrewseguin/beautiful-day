@@ -6,6 +6,7 @@ import {ProjectsDao} from 'app/ui/season/dao';
 import {SelectionModel} from '@angular/cdk/collections';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {map} from 'rxjs/operators';
+import {PermissionsService} from 'app/ui/season/services';
 
 const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 
@@ -35,6 +36,7 @@ export class ProjectsComponent {
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
+              private permissionsService: PermissionsService,
               private projectsDao: ProjectsDao) {
     this.expandedContacts.changed.subscribe(change => {
       change.added.forEach(v => this.loadedContacts.add(v));

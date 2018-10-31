@@ -1,21 +1,22 @@
 import {Injectable} from '@angular/core';
 import {User} from 'app/model/user';
 import {Observable} from 'rxjs/Observable';
-import {Project} from 'app/model/index';
-import {map, take, takeUntil} from 'rxjs/operators';
+import {Project} from 'app/model';
+import {map, takeUntil} from 'rxjs/operators';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {ConfigDao, Group, GroupId, GroupsDao, ProjectsDao} from 'app/ui/season/dao/index';
+import {ConfigDao, Group, GroupId, GroupsDao, ProjectsDao} from 'app/ui/season/dao';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {GlobalConfigDao} from 'app/service/global-config-dao';
 
 @Injectable()
 export class PermissionsService {
-  permissions = combineLatest([this.groupsDao.list, this.afAuth.authState]).pipe(
-      map(result => this.getPermissions(result[0], result[1])));
+  permissions: Observable<Set<GroupId>>;
 
-  isOwner = this.permissions.pipe(map(p => p.has('owners')));
-  isAdmin = this.permissions.pipe(map(p => p.has('admins')));
-  isAcquisitions = this.permissions.pipe(map(p => p.has('acquisitions')));
+  isOwner: Observable<boolean>;
+  isAdmin: Observable<boolean>;
+  isAcquisitions: Observable<boolean>;
+  isApprover: Observable<boolean>;
 
   get editableProjects(): BehaviorSubject<Set<string|null>> {
     if (!this._editableProjects) {
@@ -30,7 +31,27 @@ export class PermissionsService {
   constructor(private projectsDao: ProjectsDao,
               private groupsDao: GroupsDao,
               private configDao: ConfigDao,
-              private afAuth: AngularFireAuth) {}
+              private globalConfigDao: GlobalConfigDao,
+              private afAuth: AngularFireAuth) {
+    const changes = [
+      this.groupsDao.list,
+      this.afAuth.authState,
+      this.globalConfigDao.map.pipe(map(map => map ? map.get('owners').value : null)),
+    ];
+    this.permissions = combineLatest(changes).pipe(
+      map(result => {
+        if (result[0] && result[1] && result[2]) {
+          return this.getPermissions(result[0], result[1], result[2]);
+        } else {
+          return new Set();
+        }
+      }));
+
+    this.isOwner = this.permissions.pipe(map(p => p.has('owners')));
+    this.isAdmin = this.permissions.pipe(map(p => p.has('admins')));
+    this.isAcquisitions = this.permissions.pipe(map(p => p.has('acquisitions')));
+    this.isApprover = this.permissions.pipe(map(p => p.has('approvers')));
+  }
 
   watchEditableProjects() {
     const changes = [
@@ -80,11 +101,7 @@ export class PermissionsService {
     });
   }
 
-  getPermissions(groups: Group[], user: any) {
-    if (!groups || !user) {
-      return new Set();
-    }
-
+  getPermissions(groups: Group[], user: firebase.User, owners: string[]): Set<GroupId> {
     const permissions = new Set<GroupId>();
 
     groups.forEach(group => {
@@ -93,6 +110,10 @@ export class PermissionsService {
         permissions.add(group.id);
       }
     });
+
+    if (owners.indexOf(user.email) != -1) {
+      permissions.add('owners');
+    }
 
     if (permissions.has('owners')) {
       permissions.add('admins');

@@ -50,10 +50,6 @@ export class RequestFilterer {
             const query = filter.query as FilterDropoffLocationQuery;
             return this.matchesDropoffLocation(query, request);
           }
-          case 'season': {
-            const query = filter.query as FilterSeasonQuery;
-            return this.matchesSeason(query, request);
-          }
         }
       });
     });
@@ -124,12 +120,15 @@ export class RequestFilterer {
       return true;
     }
 
+    const requestDate = new Date(request.date);
+    const queryDate = new Date(query.date);
+
     if (query.equality === 'after') {
-      return  request.date > query.date;
+      return  requestDate > queryDate;
     } else if (query.equality === 'before') {
-      return request.date < query.date;
+      return requestDate < queryDate;
     } else {
-      return request.date === query.date;
+      return requestDate === queryDate;
     }
   }
 
@@ -141,14 +140,5 @@ export class RequestFilterer {
     const requestLocation = request.dropoff.toLowerCase();
     const queryLocation = query.location.toLowerCase();
     return requestLocation.indexOf(queryLocation) != -1;
-  }
-
-  matchesSeason(query: FilterSeasonQuery, request: Request) {
-    if (!query || !query.season) {
-      return true;
-    }
-
-    const projectSeason = this.projectMap.get(request.project).season;
-    return projectSeason === query.season;
   }
 }

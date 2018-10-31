@@ -5,7 +5,7 @@ import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
 import {
   EditableChipListModule
-} from 'app/ui/season/admin/editable-chip-list/editable-chip-list.module';
+} from 'app/ui/season/shared/editable-chip-list/editable-chip-list.module';
 
 @NgModule({
   imports: [
