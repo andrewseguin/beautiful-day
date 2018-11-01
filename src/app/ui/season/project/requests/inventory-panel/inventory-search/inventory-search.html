@@ -1,19 +1,14 @@
-<button mat-icon-button class="search"
-        [@searchIcon]="searchState"
-        [disabled]="searchState == 'open'"
-        (click)="searchState = 'open'">
-  <mat-icon>search</mat-icon>
-</button>
+<div class="container">
+  <button mat-icon-button class="search"
+          [disabled]="showSearch"
+          (click)="showSearch = true; focus()">
+    <mat-icon>search</mat-icon>
+  </button>
 
-<mat-form-field [floatLabel]="'never'">
-  <input #searchInput matInput
-         placeholder="Search"
-         [disabled]="searchState != 'open'"
-         [@searchInput]="searchState"
-         [(ngModel)]="search"/>
-</mat-form-field>
+  <input #searchInput placeholder="Search" [formControl]="search">
 
-<button mat-icon-button class="close"
-        (click)="searchState = 'closed'; search = ''">
-  <mat-icon>close</mat-icon>
-</button>
+  <button mat-icon-button class="close"
+          (click)="showSearch = false; search.setValue('')">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

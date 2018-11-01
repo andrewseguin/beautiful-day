@@ -3,7 +3,7 @@ import {ReportEdit} from 'app/ui/season/shared/dialog/report-edit/report-edit';
 import {take} from 'rxjs/operators';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {Report} from 'app/model/report';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ReportDelete} from 'app/ui/season/shared/dialog/report-delete/report-delete';
 import {RequestRendererOptionsState} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
 import {AngularFireAuth} from '@angular/fire/auth';
@@ -59,7 +59,8 @@ export class ReportDialog {
    * save the report and automatically navigate to the report page with $key,
    * replacing the current URL.
    */
-  saveAsReport(currentOptions: RequestRendererOptionsState) {
+  saveAsReport(currentOptions: RequestRendererOptionsState,
+               activatedRoute: ActivatedRoute) {
     this.dialog.open(ReportEdit).afterClosed().pipe(
         take(1))
         .subscribe(result => {
@@ -74,7 +75,10 @@ export class ReportDialog {
           };
 
           this.reportsDao.add(report).then(id => {
-            this.router.navigate([`report/${id}`], {replaceUrl: true});
+            this.router.navigate([`report/${id}`], {
+              relativeTo: activatedRoute,
+              replaceUrl: true
+            });
           });
         });
   }

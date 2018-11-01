@@ -79,7 +79,7 @@ export class ReportPage implements OnInit {
   }
 
   saveAs() {
-    this.reportDialog.saveAsReport(this.currentOptions);
+    this.reportDialog.saveAsReport(this.currentOptions, this.activatedRoute.parent);
   }
 
   save() {
@@ -88,10 +88,7 @@ export class ReportPage implements OnInit {
 }
 
 function createNewReport() {
-  // Initial report should always show project names and filter to the
-  // latest season (hard-coded for now)
   const options = new RequestRendererOptions();
   options.showProjectName = true;
-  options.filters.push({type: 'season', query: {season: '2018'}});
   return {name: 'New Report', options: options.getState()};
 }

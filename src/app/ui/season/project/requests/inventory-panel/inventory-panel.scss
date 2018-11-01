@@ -20,8 +20,7 @@
 }
 
 .heading {
-  font-weight: bold;
-  height: 48px;
+  height: 64px;
   display: flex;
   align-items: center;
   position: relative;
@@ -29,6 +28,8 @@
 
   .title {
     flex-grow: 1;
+    font-weight: bold;
+
     @media (min-width: $mobile-width) {
       padding-left: 24px;
     }

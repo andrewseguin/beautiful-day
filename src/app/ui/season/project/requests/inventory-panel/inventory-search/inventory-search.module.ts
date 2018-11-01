@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {InventorySearch} from './inventory-search';
 import {MaterialModule} from 'app/material.module';
-import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
-    FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
   ],
   declarations: [InventorySearch],
