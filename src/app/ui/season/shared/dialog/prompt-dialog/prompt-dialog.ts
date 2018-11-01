@@ -18,8 +18,8 @@ export interface PromptDialogData {
 
 @Component({
   selector: 'prompt-dialog',
-  templateUrl: './prompt-dialog.html',
-  styleUrls: ['./prompt-dialog.scss']
+  templateUrl: 'prompt-dialog.html',
+  styleUrls: ['prompt-dialog.scss']
 })
 export class PromptDialog {
   title = '';

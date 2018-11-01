@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {EditItemOptionsComponent} from './edit-item-options.component';
+import {EditItemOptions} from './edit-item-options';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 
@@ -8,7 +8,7 @@ import {MaterialModule} from 'app/material.module';
     CommonModule,
     MaterialModule,
   ],
-  declarations: [EditItemOptionsComponent],
-  exports: [EditItemOptionsComponent],
+  declarations: [EditItemOptions],
+  exports: [EditItemOptions],
 })
 export class EditItemOptionsModule { }

@@ -1,47 +1,47 @@
 import {NgModule} from '@angular/core';
-import {SeasonComponent} from './season.component';
+import {Season} from './season';
 import {NavModule} from './shared/nav/nav.module';
 import {MaterialModule} from 'app/material.module';
 import {SelectionHeaderModule} from './shared/selection-header/selection-header.module';
 import {RouterModule} from '@angular/router';
-import {ProjectModule} from './project/project.module';
+import {ProjectPageModule} from './project/project-page.module';
 import {InventoryModule} from './inventory/inventory.module';
-import {ProjectsModule} from './projects/projects.module';
+import {ProjectsPageModule} from './projects/projects-page.module';
 import {EventsModule} from './events/events.module';
-import {ReportsModule} from './reports/reports.module';
+import {ReportsPageModule} from './reports/reports-page.module';
 import {DialogModule} from 'app/ui/season/shared/dialog/dialog.module';
 import {AdminModule} from './admin/admin.module';
 import {HelpModule} from './help/help.module';
-import {ReportModule} from 'app/ui/season/report/report.module';
-import {AccountingService, HeaderService, PermissionsService, Selection, ActivatedSeason} from './services';
+import {ReportPageModule} from 'app/ui/season/report/report-page.module';
+import {Accounting, Header, Permissions, Selection, ActivatedSeason} from './services';
 import {DaoModule} from './dao';
-import {HeaderModule} from './shared/header/header.module';
+import {SeasonHeaderModule} from './shared/header/season-header.module';
 
 @NgModule({
   imports: [
     MaterialModule,
     NavModule,
     AdminModule,
-    HeaderModule,
+    SeasonHeaderModule,
     SelectionHeaderModule,
     RouterModule,
-    ProjectModule,
+    ProjectPageModule,
     InventoryModule,
-    ProjectsModule,
-    ReportsModule,
-    ReportModule,
+    ProjectsPageModule,
+    ReportsPageModule,
+    ReportPageModule,
     EventsModule,
     DialogModule,
     HelpModule,
     DaoModule,
   ],
-  declarations: [SeasonComponent],
-  exports: [SeasonComponent],
+  declarations: [Season],
+  exports: [Season],
   providers: [
-    AccountingService,
+    Accounting,
     Selection,
-    PermissionsService,
-    HeaderService,
+    Permissions,
+    Header,
     ActivatedSeason,
   ]
 })

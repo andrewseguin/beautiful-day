@@ -12,7 +12,6 @@ export interface EditTagsResult {
 }
 
 @Component({
-  selector: 'edit-tags',
   templateUrl: 'edit-tags.html',
   styleUrls: ['edit-tags.scss']
 })

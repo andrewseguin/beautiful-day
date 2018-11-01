@@ -3,7 +3,7 @@ import {take} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {Event} from 'app/model';
-import {ReportDeleteComponent} from 'app/ui/season/shared/dialog/report-delete/report-delete.component';
+import {ReportDelete} from 'app/ui/season/shared/dialog/report-delete/report-delete';
 import {EventsDao} from 'app/ui/season/dao/events-dao';
 import {EventEdit} from 'app/ui/season/shared/dialog/event-edit/event-edit';
 
@@ -27,7 +27,7 @@ export class EventDialog {
   /** Shows delete event dialog. If user confirms deletion, remove the event. */
   deleteEvent(event: Event) {
     const data = {name: event.info};
-    this.dialog.open(ReportDeleteComponent, {data}).afterClosed().pipe(
+    this.dialog.open(ReportDelete, {data}).afterClosed().pipe(
         take(1))
         .subscribe(confirmed => {
           if (confirmed) {

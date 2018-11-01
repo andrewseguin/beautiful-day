@@ -7,10 +7,10 @@ import {
   FilterDropoffLocationQuery,
   FilterProjectKeyQuery,
   FilterProjectQuery,
-  FilterPurchaserQuery, FilterSeasonQuery,
+  FilterPurchaserQuery,
   RequestRendererOptions
 } from 'app/ui/season/shared/requests-list/render/request-renderer-options';
-import {getRequestCost} from 'app/ui/season/services/accounting.service';
+import {getRequestCost} from 'app/ui/season/services/accounting';
 
 export class RequestFilterer {
 

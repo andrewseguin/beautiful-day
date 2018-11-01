@@ -1,4 +1,4 @@
-import {SelectionHeaderComponent} from './selection-header.component';
+import {SelectionHeader} from './selection-header';
 import {NgModule} from '@angular/core';
 import {EditRequestOptionsModule} from './edit-request-options/edit-request-options.module';
 import {EditItemOptionsModule} from './edit-item-options/edit-item-options.module';
@@ -12,7 +12,7 @@ import {CommonModule} from '@angular/common';
     EditItemOptionsModule,
     EditRequestOptionsModule,
   ],
-  declarations: [SelectionHeaderComponent],
-  exports: [SelectionHeaderComponent],
+  declarations: [SelectionHeader],
+  exports: [SelectionHeader],
 })
 export class SelectionHeaderModule { }

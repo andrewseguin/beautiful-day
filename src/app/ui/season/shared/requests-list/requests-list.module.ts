@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RequestsListComponent} from './requests-list.component';
+import {RequestsList} from './requests-list';
 import {CommonModule} from '@angular/common';
 import {RequestsGroupModule} from './requests-group/requests-group.module';
 import {DisplayOptionsHeaderModule} from './display-options-header/display-options-header.module';
@@ -16,7 +16,7 @@ import {LoadingModule} from '../loading/loading.module';
     RequestsSearchModule,
     LoadingModule,
   ],
-  declarations: [RequestsListComponent],
-  exports: [RequestsListComponent],
+  declarations: [RequestsList],
+  exports: [RequestsList],
 })
 export class RequestsListModule { }

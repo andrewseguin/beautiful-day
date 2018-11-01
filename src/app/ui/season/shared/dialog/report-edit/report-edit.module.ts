@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {
-  ReportEditComponent
-} from 'app/ui/season/shared/dialog/report-edit/report-edit.component';
+  ReportEdit
+} from 'app/ui/season/shared/dialog/report-edit/report-edit';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from 'app/material.module';
 
@@ -10,9 +10,9 @@ import {MaterialModule} from 'app/material.module';
     MaterialModule,
     ReactiveFormsModule,
   ],
-  declarations: [ReportEditComponent],
-  exports: [ReportEditComponent],
-  entryComponents: [ReportEditComponent]
+  declarations: [ReportEdit],
+  exports: [ReportEdit],
+  entryComponents: [ReportEdit]
 })
 export class ReportEditModule { }
 

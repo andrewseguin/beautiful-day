@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {InventoryPanelItemComponent} from './inventory-panel-item.component';
+import {InventoryPanelItem} from './inventory-panel-item';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -10,7 +10,7 @@ import {FormsModule} from '@angular/forms';
     FormsModule,
     MaterialModule,
   ],
-  declarations: [InventoryPanelItemComponent],
-  exports: [InventoryPanelItemComponent],
+  declarations: [InventoryPanelItem],
+  exports: [InventoryPanelItem],
 })
 export class InventoryPanelItemModule { }

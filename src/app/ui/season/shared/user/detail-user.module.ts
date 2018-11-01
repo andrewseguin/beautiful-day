@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {DetailUserComponent} from './detail-user.component';
+import {DetailUser} from './detail-user';
 import {CommonModule} from '@angular/common';
 import {MatSlideToggleModule} from '@angular/material';
 
@@ -8,7 +8,7 @@ import {MatSlideToggleModule} from '@angular/material';
     CommonModule,
     MatSlideToggleModule,
   ],
-  declarations: [DetailUserComponent],
-  exports: [DetailUserComponent],
+  declarations: [DetailUser],
+  exports: [DetailUser],
 })
 export class DetailUserModule { }

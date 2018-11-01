@@ -31,18 +31,16 @@ export class EditableEvent {
   }
 
   update() {
+    const formValues = this.form.value;
+
     const update: Event = {
-      date: new Date(this.form.get('date').value).toISOString(),
-      info: this.form.get('info').value,
+      date: new Date(formValues.date).toISOString(),
+      info: formValues.info,
+      time: formValues.time
     };
 
     if (!update.date || !update.info) {
       return;
-    }
-
-    const time = this.form.get('time').value;
-    if (time) {
-      update.time = time;
     }
 
     this.eventsDao.update(this.event.id, update);

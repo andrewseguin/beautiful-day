@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {SlidingPanelComponent} from './sliding-panel.component';
+import {SlidingPanel} from './sliding-panel';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
 import {InventoryListModule} from '../inventory-list/inventory-list.module';
@@ -10,7 +10,7 @@ import {InventoryListModule} from '../inventory-list/inventory-list.module';
     MaterialModule,
     InventoryListModule,
   ],
-  declarations: [SlidingPanelComponent],
-  exports: [SlidingPanelComponent],
+  declarations: [SlidingPanel],
+  exports: [SlidingPanel],
 })
 export class SlidingPanelModule { }

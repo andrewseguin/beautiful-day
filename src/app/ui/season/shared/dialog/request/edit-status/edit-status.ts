@@ -1,9 +1,9 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Observable, Subject} from 'rxjs';
-import {Request} from 'app/model/index';
+import {Request} from 'app/model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {PermissionsService} from 'app/ui/season/services/index';
+import {Permissions} from 'app/ui/season/services';
 import {takeUntil} from 'rxjs/operators';
 
 export interface EditStatusData {
@@ -25,7 +25,6 @@ interface EditStatusForm {
 }
 
 @Component({
-  selector: 'edit-status',
   templateUrl: 'edit-status.html',
   styleUrls: ['edit-status.scss']
 })
@@ -35,7 +34,7 @@ export class EditStatus {
   private destroyed = new Subject();
 
   constructor(private dialogRef: MatDialogRef<EditStatus, EditStatusResult>,
-              private permissionsService: PermissionsService,
+              private permissions: Permissions,
               @Inject(MAT_DIALOG_DATA) public data: EditStatusData) {
     this.data.requests.subscribe(requests => {
       const firstDate = requests[0].distributionDate;
@@ -59,7 +58,7 @@ export class EditStatus {
     const formValues = this.formGroup.value as EditStatusForm;
 
     const updated = new Subject();
-    this.permissionsService.permissions.pipe(takeUntil(updated)).subscribe(groups => {
+    this.permissions.permissions.pipe(takeUntil(updated)).subscribe(groups => {
       if (!groups) {
         return;
       }

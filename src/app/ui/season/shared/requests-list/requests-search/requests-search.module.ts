@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from 'app/material.module';
 import {RequestFilterModule} from './request-filter/request-filter.module';
-import {RequestsSearchComponent} from 'app/ui/season/shared/requests-list/requests-search/requests-search.component';
+import {RequestsSearch} from 'app/ui/season/shared/requests-list/requests-search/requests-search';
 
 @NgModule({
   imports: [
@@ -12,7 +12,7 @@ import {RequestsSearchComponent} from 'app/ui/season/shared/requests-list/reques
     RequestFilterModule,
     ReactiveFormsModule,
   ],
-  declarations: [RequestsSearchComponent],
-  exports: [RequestsSearchComponent]
+  declarations: [RequestsSearch],
+  exports: [RequestsSearch]
 })
 export class RequestsSearchModule { }

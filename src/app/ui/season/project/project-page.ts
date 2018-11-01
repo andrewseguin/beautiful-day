@@ -1,0 +1,25 @@
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Project} from 'app/model/project';
+import {ProjectsDao} from 'app/ui/season/dao';
+
+@Component({
+  templateUrl: 'project-page.html',
+  styleUrls: ['project-page.scss'],
+})
+export class ProjectPage implements OnInit {
+  project: Project;
+  isLoading = true;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private projectsDao: ProjectsDao) {}
+
+  ngOnInit() {
+    const projectId = this.activatedRoute.snapshot.params.id;
+    this.projectsDao.get(projectId).subscribe(project => {
+      this.isLoading = false;
+      this.project = project;
+    });
+  }
+}

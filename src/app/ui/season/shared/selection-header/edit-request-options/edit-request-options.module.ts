@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {EditRequestOptionsComponent} from './edit-request-options.component';
+import {EditRequestOptions} from './edit-request-options';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 import {RequestDialogModule} from 'app/ui/season/shared/dialog/request/request-dialog.module';
@@ -10,7 +10,7 @@ import {RequestDialogModule} from 'app/ui/season/shared/dialog/request/request-d
     MaterialModule,
     RequestDialogModule
   ],
-  declarations: [EditRequestOptionsComponent],
-  exports: [EditRequestOptionsComponent],
+  declarations: [EditRequestOptions],
+  exports: [EditRequestOptions],
 })
 export class EditRequestOptionsModule { }

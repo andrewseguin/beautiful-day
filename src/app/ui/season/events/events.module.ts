@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {EventsComponent} from './events.component';
+import {Events} from './events';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
 import {PipeModule} from 'app/pipe/pipe.module';
@@ -12,7 +12,7 @@ import {LoadingModule} from '../shared/loading/loading.module';
     MaterialModule,
     LoadingModule,
   ],
-  declarations: [EventsComponent],
-  exports: [EventsComponent],
+  declarations: [Events],
+  exports: [Events],
 })
 export class EventsModule { }

@@ -1,18 +1,18 @@
 import {NgModule} from '@angular/core';
-import {DeleteProjectComponent} from './delete-project/delete-project.component';
-import {DeleteReportComponent} from './delete-report/delete-report.component';
-import {DeleteRequestsComponent} from './delete-requests/delete-requests.component';
-import {EditItemComponent} from './edit-item/edit-item.component';
-import {EditItemCategoryComponent} from './edit-item-category/edit-item-category.component';
-import {EditItemNameComponent} from './edit-item-name/edit-item-name.component';
-import {EditProjectComponent} from './edit-project/edit-project.component';
-import {EditUserProfileComponent} from './edit-user-profile/edit-user-profile.component';
-import {ImportItemsComponent} from './import-items/import-items.component';
+import {DeleteProject} from './delete-project/delete-project';
+import {DeleteReport} from './delete-report/delete-report';
+import {DeleteRequests} from './delete-requests/delete-requests';
+import {EditItem} from './edit-item/edit-item';
+import {EditItemCategory} from './edit-item-category/edit-item-category';
+import {EditItemName} from './edit-item-name/edit-item-name';
+import {EditProject} from './edit-project/edit-project';
+import {EditUserProfile} from './edit-user-profile/edit-user-profile';
+import {ImportItems} from './import-items/import-items';
 import {MaterialModule} from 'app/material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {PipeModule} from 'app/pipe/pipe.module';
-import {ExportItemsComponent} from './export-items/export-items.component';
+import {ExportItems} from './export-items/export-items';
 import {ReportDialog} from 'app/ui/season/shared/dialog/report-dialog';
 import {EventDialog} from 'app/ui/season/shared/dialog/event-dialog';
 import {ReportEditModule} from 'app/ui/season/shared/dialog/report-edit/report-edit.module';
@@ -21,16 +21,16 @@ import {ItemDialog} from 'app/ui/season/shared/dialog/item-dialog';
 import {PromptDialogModule} from 'app/ui/season/shared/dialog/prompt-dialog/prompt-dialog.module';
 
 const DIALOGS = [
-  DeleteProjectComponent,
-  DeleteReportComponent,
-  DeleteRequestsComponent,
-  EditItemComponent,
-  EditItemCategoryComponent,
-  EditItemNameComponent,
-  EditProjectComponent,
-  EditUserProfileComponent,
-  ExportItemsComponent,
-  ImportItemsComponent,
+  DeleteProject,
+  DeleteReport,
+  DeleteRequests,
+  EditItem,
+  EditItemCategory,
+  EditItemName,
+  EditProject,
+  EditUserProfile,
+  ExportItems,
+  ImportItems,
 ];
 
 @NgModule({

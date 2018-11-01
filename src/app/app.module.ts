@@ -3,27 +3,25 @@ import {NgModule} from '@angular/core';
 import {AngularFireModule} from '@angular/fire';
 import 'hammerjs';
 import {FIREBASE_CONFIG} from './firebase.config';
-import {AppComponent} from './app.component';
+import {App} from './app';
 import {CanActivateAuthGuard} from './route-guard/can-activate-auth-guard';
-import {AnalyticsService} from './service/analytics.service';
+import {Analytics} from './service/analytics';
 import {CanActivateAcquisitionsGuard} from './route-guard/can-activate-acquisitions-guard';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {PrintModule} from 'app/ui/print/print.module';
 import {MatIconRegistry, MatSortModule, MatTableModule} from '@angular/material';
 import {LoginModule} from 'app/ui/login/login.module';
 import {SeasonModule} from 'app/ui/season/season.module';
 import {RouterModule} from '@angular/router';
-import {SeasonComponent} from 'app/ui/season/season.component';
+import {Season} from 'app/ui/season/season';
 import {SEASON_ROUTES} from 'app/ui/season/season.routes';
-import {PrintComponent} from 'app/ui/print/print.component';
-import {LoginComponent} from 'app/ui/login/login.component';
+import {Login} from 'app/ui/login/login';
 import {ExportPage} from 'app/ui/season/export/export';
 import {UsersDao} from './service/users-dao';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
 
 @NgModule({
-  declarations: [AppComponent, ExportPage],
+  declarations: [App, ExportPage],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
@@ -33,23 +31,21 @@ import {GlobalConfigDao} from 'app/service/global-config-dao';
     MatSortModule,
     LoginModule,
     SeasonModule,
-    PrintModule,
     RouterModule.forRoot([
       {path: '', redirectTo: '2018', pathMatch: 'full'},
-      {path: ':season', component: SeasonComponent, children: SEASON_ROUTES},
-      {path: 'login', component: LoginComponent},
+      {path: ':season', component: Season, children: SEASON_ROUTES},
+      {path: 'login', component: Login},
       {path: 'export', component: ExportPage},
-      {path: 'print/:type/:id', component: PrintComponent}
     ]),
   ],
   providers: [
     MatIconRegistry,
     CanActivateAuthGuard,
     CanActivateAcquisitionsGuard,
-    AnalyticsService,
+    Analytics,
     UsersDao,
     GlobalConfigDao,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [App]
 })
 export class AppModule { }

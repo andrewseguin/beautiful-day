@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {ProjectRequestsComponent} from './project-requests.component';
+import {ProjectRequests} from './project-requests';
 import {RemainingBudgetModule} from './remaining-budget/remaining-budget.module';
 import {RequestsListModule} from 'app/ui/season/shared/requests-list/requests-list.module';
 import {CommonModule} from '@angular/common';
@@ -16,7 +16,7 @@ import {LoadingModule} from '../../shared/loading/loading.module';
     RequestsListModule,
     LoadingModule,
   ],
-  declarations: [ProjectRequestsComponent],
-  exports: [ProjectRequestsComponent],
+  declarations: [ProjectRequests],
+  exports: [ProjectRequests],
 })
 export class ProjectRequestsModule { }

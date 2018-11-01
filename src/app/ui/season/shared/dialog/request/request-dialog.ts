@@ -2,20 +2,18 @@ import {Injectable} from '@angular/core';
 import {MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {
   PromptDialog,
-  PromptDialogData, PromptDialogResult
+  PromptDialogData,
+  PromptDialogResult
 } from 'app/ui/season/shared/dialog/prompt-dialog/prompt-dialog';
-import {Selection} from 'app/ui/season/services/index';
-import {ProjectsDao, RequestsDao} from 'app/ui/season/dao/index';
+import {Selection} from 'app/ui/season/services';
+import {ProjectsDao, RequestsDao} from 'app/ui/season/dao';
 import {map, take} from 'rxjs/operators';
 import {combineLatest, of} from 'rxjs';
 import {
   EditDropoff,
   EditDropoffResult
 } from 'app/ui/season/shared/dialog/request/edit-dropoff/edit-dropoff';
-import {
-  EditTags,
-  EditTagsResult
-} from 'app/ui/season/shared/dialog/request/edit-tags/edit-tags';
+import {EditTags, EditTagsResult} from 'app/ui/season/shared/dialog/request/edit-tags/edit-tags';
 import {
   EditStatus,
   EditStatusData,

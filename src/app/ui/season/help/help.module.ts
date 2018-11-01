@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
-import {HelpComponent} from './help.component';
+import {Help} from './help';
 
 @NgModule({
   imports: [],
-  declarations: [HelpComponent],
-  exports: [HelpComponent],
+  declarations: [Help],
+  exports: [Help],
 })
 export class HelpModule { }

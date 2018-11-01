@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {InventorySearchComponent} from './inventory-search.component';
+import {InventorySearch} from './inventory-search';
 import {MaterialModule} from 'app/material.module';
 import {FormsModule} from '@angular/forms';
 
@@ -8,7 +8,7 @@ import {FormsModule} from '@angular/forms';
     FormsModule,
     MaterialModule,
   ],
-  declarations: [InventorySearchComponent],
-  exports: [InventorySearchComponent],
+  declarations: [InventorySearch],
+  exports: [InventorySearch],
 })
 export class InventorySearchModule { }

@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RemainingBudgetComponent} from './remaining-budget.component';
+import {RemainingBudget} from './remaining-budget';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
 
@@ -8,7 +8,7 @@ import {CommonModule} from '@angular/common';
     CommonModule,
     MaterialModule,
   ],
-  declarations: [RemainingBudgetComponent],
-  exports: [RemainingBudgetComponent],
+  declarations: [RemainingBudget],
+  exports: [RemainingBudget],
 })
 export class RemainingBudgetModule { }

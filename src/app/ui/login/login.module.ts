@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {LoginComponent} from './login.component';
+import {Login} from './login';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
 
@@ -8,7 +8,7 @@ import {CommonModule} from '@angular/common';
     CommonModule,
     MaterialModule,
   ],
-  declarations: [LoginComponent],
-  exports: [LoginComponent],
+  declarations: [Login],
+  exports: [Login],
 })
 export class LoginModule { }

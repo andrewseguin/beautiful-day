@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RequestsGroupComponent} from './requests-group.component';
+import {RequestsGroup} from './requests-group';
 import {CommonModule} from '@angular/common';
 import {RequestModule} from '../request/request.module';
 import {MaterialModule} from 'app/material.module';
@@ -10,7 +10,7 @@ import {MaterialModule} from 'app/material.module';
     CommonModule,
     MaterialModule,
   ],
-  declarations: [RequestsGroupComponent],
-  exports: [RequestsGroupComponent]
+  declarations: [RequestsGroup],
+  exports: [RequestsGroup]
 })
 export class RequestsGroupModule { }

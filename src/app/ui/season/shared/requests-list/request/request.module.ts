@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RequestComponent} from './request.component';
+import {RequestView} from './request-view';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 import {RequestDialogModule} from 'app/ui/season/shared/dialog/request/request-dialog.module';
@@ -10,7 +10,7 @@ import {RequestDialogModule} from 'app/ui/season/shared/dialog/request/request-d
     MaterialModule,
     RequestDialogModule,
   ],
-  declarations: [RequestComponent],
-  exports: [RequestComponent],
+  declarations: [RequestView],
+  exports: [RequestView],
 })
 export class RequestModule { }

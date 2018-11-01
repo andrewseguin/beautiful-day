@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
-import {InventoryItemComponent} from './inventory-item.component';
+import {InventoryItem} from './inventory-item';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
   ],
-  declarations: [InventoryItemComponent],
-  exports: [InventoryItemComponent],
+  declarations: [InventoryItem],
+  exports: [InventoryItem],
 })
 export class InventoryItemModule { }

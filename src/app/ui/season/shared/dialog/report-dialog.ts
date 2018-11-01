@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {ReportEditComponent} from 'app/ui/season/shared/dialog/report-edit/report-edit.component';
+import {ReportEdit} from 'app/ui/season/shared/dialog/report-edit/report-edit';
 import {take} from 'rxjs/operators';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {Report} from 'app/model/report';
 import {Router} from '@angular/router';
-import {ReportDeleteComponent} from 'app/ui/season/shared/dialog/report-delete/report-delete.component';
+import {ReportDelete} from 'app/ui/season/shared/dialog/report-delete/report-delete';
 import {RequestRendererOptionsState} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {ReportsDao} from 'app/ui/season/dao';
@@ -24,7 +24,7 @@ export class ReportDialog {
       group: report.group,
     };
 
-    this.dialog.open(ReportEditComponent, {data}).afterClosed().pipe(
+    this.dialog.open(ReportEdit, {data}).afterClosed().pipe(
         take(1))
         .subscribe(result => {
         if (result) {
@@ -43,7 +43,7 @@ export class ReportDialog {
   deleteReport(report: Report) {
     const data = {name: report.name};
 
-    this.dialog.open(ReportDeleteComponent, {data}).afterClosed().pipe(
+    this.dialog.open(ReportDelete, {data}).afterClosed().pipe(
         take(1))
         .subscribe(confirmed => {
           if (confirmed) {
@@ -60,7 +60,7 @@ export class ReportDialog {
    * replacing the current URL.
    */
   saveAsReport(currentOptions: RequestRendererOptionsState) {
-    this.dialog.open(ReportEditComponent).afterClosed().pipe(
+    this.dialog.open(ReportEdit).afterClosed().pipe(
         take(1))
         .subscribe(result => {
           if (!result) {

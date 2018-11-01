@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
-import {ExtrasComponent} from './extras.component';
+import {Extras} from './extras';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 
 @NgModule({
   imports: [AngularFireDatabaseModule],
-  declarations: [ExtrasComponent],
-  exports: [ExtrasComponent],
+  declarations: [Extras],
+  exports: [Extras],
 })
 export class ExtrasModule { }

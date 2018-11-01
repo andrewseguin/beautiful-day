@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
-import {EditableItemCellValueComponent} from './editable-item-cell-value.component';
+import {EditableItemCellValue} from './editable-item-cell-value';
 import {CommonModule} from '@angular/common';
 
 @NgModule({
   imports: [
     CommonModule,
   ],
-  declarations: [EditableItemCellValueComponent],
-  exports: [EditableItemCellValueComponent],
+  declarations: [EditableItemCellValue],
+  exports: [EditableItemCellValue],
 })
 export class EditableItemCellValueModule { }

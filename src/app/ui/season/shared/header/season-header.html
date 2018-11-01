@@ -1,0 +1,13 @@
+<mat-toolbar>
+  <button mat-button class="left-button" (click)="leftButtonClicked()">
+    <mat-icon> {{header.goBack ? 'arrow_back' : 'menu'}}</mat-icon>
+  </button>
+
+  <div class="name"> {{header.title | async}}</div>
+
+  <div class="end">
+    <ng-template *ngIf="header.toolbarOutlet"
+                 [cdkPortalOutlet]="header.toolbarOutlet">
+    </ng-template>
+  </div>
+</mat-toolbar>

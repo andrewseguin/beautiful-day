@@ -17,7 +17,6 @@ export interface EditDropoffResult {
 }
 
 @Component({
-  selector: 'edit-dropoff',
   templateUrl: 'edit-dropoff.html',
   styleUrls: ['edit-dropoff.scss']
 })

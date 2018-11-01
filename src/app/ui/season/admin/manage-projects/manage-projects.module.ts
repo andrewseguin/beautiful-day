@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {ManageProjectsComponent} from 'app/ui/season/admin/manage-projects/manage-projects.component';
+import {ManageProjects} from 'app/ui/season/admin/manage-projects/manage-projects';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 import {EditableProjectModule} from 'app/ui/season/admin/manage-projects/editable-project/editable-project.module';
@@ -10,7 +10,7 @@ import {EditableProjectModule} from 'app/ui/season/admin/manage-projects/editabl
     MaterialModule,
     EditableProjectModule
   ],
-  declarations: [ManageProjectsComponent],
-  exports: [ManageProjectsComponent],
+  declarations: [ManageProjects],
+  exports: [ManageProjects],
 })
 export class ManageProjectsModule { }

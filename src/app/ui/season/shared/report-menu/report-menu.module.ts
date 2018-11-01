@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {MaterialModule} from 'app/material.module';
-import {ReportMenuComponent} from 'app/ui/season/shared/report-menu/report-menu.component';
+import {ReportMenu} from 'app/ui/season/shared/report-menu/report-menu';
 import {CommonModule} from '@angular/common';
 
 @NgModule({
@@ -8,7 +8,7 @@ import {CommonModule} from '@angular/common';
     CommonModule,
     MaterialModule,
   ],
-  declarations: [ReportMenuComponent],
-  exports: [ReportMenuComponent],
+  declarations: [ReportMenu],
+  exports: [ReportMenu],
 })
 export class ReportMenuModule { }

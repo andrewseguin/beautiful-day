@@ -1,6 +1,6 @@
 export class Event {
   id?: string;
-  date?: number|string; // String is the date stored with toDateString()
+  date?: string; // String is the date stored with toISOString()
   time?: string;
   info?: string;
 }
