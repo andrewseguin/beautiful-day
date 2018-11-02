@@ -20,7 +20,7 @@ export function getCategoryGroup(allItems: Item[], filter = '', showHidden = fal
   allItems.map(item => {
     if (item.hidden && !showHidden) { return; }
 
-    item.categories.split(',')
+    item.categories
       .map(c => c.trim())
       .filter(c => {
         if (!filter) { return true; }
@@ -41,7 +41,7 @@ export function getCategoryGroup(allItems: Item[], filter = '', showHidden = fal
 
   const subcategoriesSet = new Set<string>();
   categoryStrings.forEach(categoryString => {
-    const splitCategoryString = categoryString.split(' > ');
+    const splitCategoryString = categoryString.split('>');
     let subcategory = filter ? splitCategoryString[1] : splitCategoryString[0];
     if (subcategory) {
       subcategoriesSet.add(subcategory.trim());
@@ -63,8 +63,7 @@ export function getItemsByCategory(items: Item[], showHidden = false): CategoryG
   items.forEach(item => {
     if (item.hidden && !showHidden) { return; }
 
-    const categories = item.categories.split(',');
-    categories.forEach(category => {
+    item.categories.forEach(category => {
       addItemToCategoryGroupMap(categoryGroups, item, category);
     });
   });

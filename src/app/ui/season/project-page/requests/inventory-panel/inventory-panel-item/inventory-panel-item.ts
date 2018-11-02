@@ -42,7 +42,7 @@ export class InventoryPanelItem implements OnInit {
     let name = this.item.name;
 
     if (this.showCategory) {
-      name = this.item.categories.split(',')[0] + ' > ' + name;
+      name = this.item.categories[0].replace('>', ' > ') + ' > ' + name;
     }
 
     return name;

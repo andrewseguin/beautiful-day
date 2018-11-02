@@ -23,7 +23,7 @@ export interface ExportedRequest {
   allocation: number;
 
   // Item
-  categories: string;
+  categories: string[];
   url: string;
   itemCost: number;
   isRental: boolean;

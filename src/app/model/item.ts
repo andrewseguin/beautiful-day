@@ -1,7 +1,7 @@
 export interface Item {
   id?: string;
   name?: string;
-  categories?: string;
+  categories?: string[];
   url?: string;
   cost?: number;
   isApproved?: boolean;

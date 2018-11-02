@@ -4,13 +4,14 @@ import {Permissions} from 'app/ui/season/services/permissions';
 import {ImportItems} from 'app/ui/season/shared/dialog/import-items/import-items';
 import {ExportItems} from 'app/ui/season/shared/dialog/export-items/export-items';
 import {take} from 'rxjs/operators';
-import {Project, Report} from 'app/model';
+import {Item, Project, Report} from 'app/model';
 import {RequestRendererOptions} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
 import {ProjectsDao} from 'app/ui/season/dao/projects-dao';
 import {ReportsDao} from 'app/ui/season/dao/reports-dao';
-import {RequestsDao} from 'app/ui/season/dao';
+import {ItemsDao, RequestsDao} from 'app/ui/season/dao';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireDatabase} from '@angular/fire/database';
+import {getCategoryGroup} from 'app/utility/items-categorize';
 
 @Component({
   selector: 'extras',
@@ -23,6 +24,7 @@ export class Extras {
               private reportsDao: ReportsDao,
               private projectsDao: ProjectsDao,
               private requestsDao: RequestsDao,
+              private itemsDao: ItemsDao,
               protected db: AngularFireDatabase,
               private afs: AngularFirestore,
               public permissions: Permissions) {
@@ -167,28 +169,25 @@ export class Extras {
     });
   }
 
-  cleanupProjects() {
+  cleanupItems() {
     let cleanedUp = false;
-    this.projectsDao.list.subscribe(projects => {
-      if (cleanedUp || !projects) {
+    this.itemsDao.list.subscribe(items => {
+      if (cleanedUp || !items) {
         return;
       }
 
-      const dateUpdate = new Map<string, Project>();
+      const categoryCleanup = new Map<string, Item>();
 
-      projects.forEach(project => {
-        if (project.lastUsedDate) {
-          const lastUsedDate = new Date(Number(project.lastUsedDate)).toISOString();
-          dateUpdate.set(project.id, {lastUsedDate});
-        }
+      items.forEach(item => {
+        const categories = item.categories.map(v => v.trim());
+        categoryCleanup.set(item.id, {categories});
       });
 
       cleanedUp = true;
 
-      dateUpdate.forEach((value, key) => {
-        this.projectsDao.update(key, value);
+      categoryCleanup.forEach((value, key) => {
+        this.itemsDao.update(key, value);
       });
     });
-    // Need to run through all requests and delete any that point to a different season
   }
 }

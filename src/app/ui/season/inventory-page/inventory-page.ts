@@ -100,7 +100,7 @@ export class InventoryPage implements OnInit {
 
     if (this.selectedCategories.length > 0) {
       this.displayedItems = this.displayedItems.filter(i => {
-        const categories = i.categories.split('>').map(c => c.trim());
+        const categories = i.categories.map(c => c.trim());
 
         const exactMatch = categories.join() === this.selectedCategories.join();
         const matchesSubcategory =

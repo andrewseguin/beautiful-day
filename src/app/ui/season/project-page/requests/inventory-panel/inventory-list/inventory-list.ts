@@ -125,7 +125,7 @@ export class InventoryList implements OnInit {
     const dialogRef = this.mdDialog.open(EditItem);
 
     if (this.category) {
-      dialogRef.componentInstance.item = {categories: this.category};
+      dialogRef.componentInstance.item = {categories: [this.category]};
       dialogRef.componentInstance.disableCategory = true;
     }
 

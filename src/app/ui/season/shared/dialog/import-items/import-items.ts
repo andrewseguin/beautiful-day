@@ -46,7 +46,7 @@ export class ImportItems {
       const itemInfo = itemRow.split('\t');
 
       let id = itemInfo[COLUMNS.ID];
-      let categories = itemInfo[COLUMNS.CATEGORIES];
+      let categories = itemInfo[COLUMNS.CATEGORIES].split(',');
       let name = itemInfo[COLUMNS.NAME];
       let hidden = !!itemInfo[COLUMNS.HIDDEN];
       let url = itemInfo[COLUMNS.URL] || '';

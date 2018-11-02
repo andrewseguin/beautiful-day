@@ -21,7 +21,7 @@ export class EditItemCategory {
 
   save() {
     this.itemIds.forEach(itemId => {
-      this.itemsDao.update(itemId, {categories: this.category});
+      this.itemsDao.update(itemId, {categories: [this.category]});
     });
     this.close();
     this.selection.items.clear();

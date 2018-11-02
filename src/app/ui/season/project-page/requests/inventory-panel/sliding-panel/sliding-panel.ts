@@ -11,6 +11,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 })
 export class SlidingPanel {
   open = false;
+  title = '';
 
   @Input() category: string;
 
@@ -21,6 +22,9 @@ export class SlidingPanel {
   ngOnInit() {
     // Make microtask so that after initialized, the state changes and slides in
     setTimeout(() => this.open = true);
+
+    const subcategories = this.category.split('>');
+    this.title = subcategories[subcategories.length - 1];
   }
 
   close() {

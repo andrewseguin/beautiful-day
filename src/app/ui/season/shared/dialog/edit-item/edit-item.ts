@@ -66,15 +66,10 @@ export class EditItem implements OnInit {
   }
 
   save() {
-    // Title case each category
-    let categories = this._item.categories.split(',');
-    categories = categories.map(category => category.trim());
-    const titleCasedCategories = categories.join(',');
-
     const persistingItem: Item = {
       name: this._item.name.trim(),
       cost: this._item.cost,
-      categories: titleCasedCategories,
+      categories: this._item.categories.map(c => c.trim()),
       url: this._item.url,
       quantityOwned: this._item.quantityOwned || ''
     };

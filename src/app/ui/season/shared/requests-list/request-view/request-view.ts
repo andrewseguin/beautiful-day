@@ -158,7 +158,7 @@ export class RequestView implements OnInit {
   }
 
   getItemName() {
-    const categories = this.item.categories.split('>');
+    const categories = this.item.categories[0].split('>');
     if (categories.length > 1) {
       categories.shift();
       const subcategories = categories.join('-');
