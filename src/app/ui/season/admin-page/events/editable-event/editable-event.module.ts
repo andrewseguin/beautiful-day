@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {MaterialModule} from 'app/material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {EditableEvent} from 'app/ui/season/admin/events/editable-event/editable-event';
+import {EditableEvent} from 'app/ui/season/admin-page/events/editable-event/editable-event';
 
 @NgModule({
   imports: [

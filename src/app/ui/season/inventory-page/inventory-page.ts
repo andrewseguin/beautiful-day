@@ -7,11 +7,10 @@ import {ItemsDao} from 'app/ui/season/dao';
 import {CategoryGroup, getItemsByCategory} from 'app/utility/items-categorize';
 
 @Component({
-  selector: 'inventory',
-  templateUrl: 'inventory.html',
-  styleUrls: ['inventory.scss'],
+  templateUrl: 'inventory-page.html',
+  styleUrls: ['inventory-page.scss'],
 })
-export class Inventory implements OnInit {
+export class InventoryPage implements OnInit {
   itemsToShow = 10;
   items: Item[];
   categoryGroup: CategoryGroup;

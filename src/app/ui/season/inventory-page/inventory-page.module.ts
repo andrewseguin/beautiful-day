@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Inventory} from './inventory';
+import {InventoryPage} from './inventory-page';
 import {MaterialModule} from 'app/material.module';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
@@ -12,7 +12,7 @@ import {InventoryItemModule} from './inventory-item/inventory-item.module';
     MaterialModule,
     InventoryItemModule,
   ],
-  declarations: [Inventory],
-  exports: [Inventory],
+  declarations: [InventoryPage],
+  exports: [InventoryPage],
 })
-export class InventoryModule { }
+export class InventoryPageModule { }

@@ -4,37 +4,42 @@ import {NavModule} from './shared/nav/nav.module';
 import {MaterialModule} from 'app/material.module';
 import {SelectionHeaderModule} from './shared/selection-header/selection-header.module';
 import {RouterModule} from '@angular/router';
-import {ProjectPageModule} from './project/project-page.module';
-import {InventoryModule} from './inventory/inventory.module';
-import {ProjectsPageModule} from './projects/projects-page.module';
-import {EventsModule} from './events/events.module';
-import {ReportsPageModule} from './reports/reports-page.module';
+import {ProjectPageModule} from './project-page/project-page.module';
+import {InventoryPageModule} from './inventory-page/inventory-page.module';
+import {ProjectsPageModule} from './projects-page/projects-page.module';
+import {EventsPageModule} from './events-page/events-page.module';
+import {ReportsPageModule} from './reports-page/reports-page.module';
 import {DialogModule} from 'app/ui/season/shared/dialog/dialog.module';
-import {AdminModule} from './admin/admin.module';
-import {HelpModule} from './help/help.module';
-import {ReportPageModule} from 'app/ui/season/report/report-page.module';
+import {AdminPageModule} from './admin-page/admin-page.module';
+import {HelpPageModule} from './help-page/help-page.module';
+import {ReportPageModule} from 'app/ui/season/report-page/report-page.module';
 import {Accounting, Header, Permissions, Selection, ActivatedSeason} from './services';
 import {DaoModule} from './dao';
 import {SeasonHeaderModule} from './shared/header/season-header.module';
+import {ExportPageModule} from 'app/ui/season/export-page/export-page.module';
+
+const PAGE_MODULES: any[] = [
+  AdminPageModule,
+  ProjectPageModule,
+  InventoryPageModule,
+  ProjectsPageModule,
+  ReportsPageModule,
+  ReportPageModule,
+  EventsPageModule,
+  HelpPageModule,
+  ExportPageModule,
+];
 
 @NgModule({
-  imports: [
+  imports: PAGE_MODULES.concat([
     MaterialModule,
     NavModule,
-    AdminModule,
     SeasonHeaderModule,
     SelectionHeaderModule,
     RouterModule,
-    ProjectPageModule,
-    InventoryModule,
-    ProjectsPageModule,
-    ReportsPageModule,
-    ReportPageModule,
-    EventsModule,
     DialogModule,
-    HelpModule,
     DaoModule,
-  ],
+  ]),
   declarations: [Season],
   exports: [Season],
   providers: [

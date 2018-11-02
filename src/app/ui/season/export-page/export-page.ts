@@ -83,8 +83,8 @@ export const COLUMNS = [
 ];
 
 @Component({
-  templateUrl: 'export.html',
-  styleUrls: ['export.scss'],
+  templateUrl: 'export-page.html',
+  styleUrls: ['export-page.scss'],
 })
 export class ExportPage {
   requests: ExportedRequest[] = [];

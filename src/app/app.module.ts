@@ -16,26 +16,21 @@ import {RouterModule} from '@angular/router';
 import {Season} from 'app/ui/season/season';
 import {SEASON_ROUTES} from 'app/ui/season/season.routes';
 import {Login} from 'app/ui/login/login';
-import {ExportPage} from 'app/ui/season/export/export';
 import {UsersDao} from './service/users-dao';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
 
 @NgModule({
-  declarations: [App, ExportPage],
+  declarations: [App],
   imports: [
-    BrowserModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     BrowserAnimationsModule,
-    MatTableModule,
-    MatSortModule,
     LoginModule,
     SeasonModule,
     RouterModule.forRoot([
       {path: '', redirectTo: '2018', pathMatch: 'full'},
       {path: ':season', component: Season, children: SEASON_ROUTES},
       {path: 'login', component: Login},
-      {path: 'export', component: ExportPage},
     ]),
   ],
   providers: [

@@ -6,10 +6,10 @@ interface Section {
 }
 
 @Component({
-  styleUrls: ['admin.scss'],
-  templateUrl: 'admin.html'
+  styleUrls: ['admin-page.scss'],
+  templateUrl: 'admin-page.html'
 })
-export class Admin {
+export class AdminPage {
   sections: Section[] = [
     {label: 'Groups', id: 'manage-groups'},
     {label: 'Projects', id: 'manage-projects'},

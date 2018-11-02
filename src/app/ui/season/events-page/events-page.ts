@@ -5,12 +5,11 @@ import {Event} from 'app/model';
 import {Observable} from 'rxjs';
 
 @Component({
-  selector: 'events-page',
-  templateUrl: 'events.html',
-  styleUrls: ['events.scss'],
+  templateUrl: 'events-page.html',
+  styleUrls: ['events-page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Events {
+export class EventsPage {
   private sortEvents = map((events: Event[]) => {
     if (events) {
       return events.sort((a, b) => {

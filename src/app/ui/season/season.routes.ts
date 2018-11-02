@@ -1,13 +1,14 @@
 import {CanActivateAuthGuard} from 'app/route-guard/can-activate-auth-guard';
 import {CanActivateAcquisitionsGuard} from 'app/route-guard/can-activate-acquisitions-guard';
-import {Inventory} from './inventory/inventory';
-import {Events} from './events/events';
-import {ProjectsPage} from './projects/projects-page';
-import {ProjectPage} from './project/project-page';
-import {Admin} from './admin/admin';
-import {Help} from './help/help';
-import {ReportPage} from 'app/ui/season/report/report-page';
-import {ReportsPage} from 'app/ui/season/reports/reports-page';
+import {InventoryPage} from './inventory-page/inventory-page';
+import {EventsPage} from './events-page/events-page';
+import {ProjectsPage} from './projects-page/projects-page';
+import {ProjectPage} from './project-page/project-page';
+import {AdminPage} from './admin-page/admin-page';
+import {HelpPage} from './help-page/help-page';
+import {ReportPage} from './report-page/report-page';
+import {ReportsPage} from './reports-page/reports-page';
+import {ExportPage} from './export-page/export-page';
 
 export type TopLevelSection = 'projects' | 'inventory' | 'login' |
                               'home' | 'reports' | 'events' |
@@ -22,19 +23,19 @@ export const SEASON_ROUTES = [
     canActivate: [CanActivateAuthGuard]},
 
   // Admin
-  {path: 'admin', component: Admin,
+  {path: 'admin', component: AdminPage,
     canActivate: [CanActivateAuthGuard]},
 
   // Help
-  {path: 'help', component: Help,
+  {path: 'help', component: HelpPage,
     canActivate: [CanActivateAuthGuard]},
 
   // Events
-  {path: 'events', component: Events,
+  {path: 'events', component: EventsPage,
     canActivate: [CanActivateAuthGuard]},
 
   // Acquisitions
-  {path: 'inventory', component: Inventory,
+  {path: 'inventory', component: InventoryPage,
     canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
 
   // Reports
@@ -44,6 +45,9 @@ export const SEASON_ROUTES = [
   // Report
   {path: 'report/:id', component: ReportPage,
     canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+
+  // Export
+  {path: 'export', component: ExportPage},
 
   // Redirect
   {path: '', redirectTo: 'projects', pathMatch: 'full'},
