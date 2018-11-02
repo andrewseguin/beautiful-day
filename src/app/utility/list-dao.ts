@@ -1,14 +1,19 @@
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
+import {takeUntil} from 'rxjs/operators';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 export interface IdentifiedObject {
   id?: string;
 }
 
 export abstract class ListDao<T extends IdentifiedObject> {
-  needsSubscription = true;
+  private needsSubscription = false;
 
-  subscription: Subscription;
+  protected destroyed = new Subject();
+
+  private subscription: Subscription;
+
   get list(): BehaviorSubject<T[]|null> {
     if (!this.subscription) {
       this.subscribe();
@@ -18,6 +23,10 @@ export abstract class ListDao<T extends IdentifiedObject> {
   _list = new BehaviorSubject<T[]>(null);
 
   get map(): BehaviorSubject<Map<string, T>> {
+    if (!this.subscription) {
+      this.subscribe();
+    }
+
     if (!this._map) {
       this._map = new BehaviorSubject<Map<string, T>>(new Map());
       this.list.subscribe(list => {
@@ -51,7 +60,20 @@ export abstract class ListDao<T extends IdentifiedObject> {
 
   protected collection: AngularFirestoreCollection<T>;
 
-  protected constructor(protected afs: AngularFirestore) {}
+  protected constructor(protected afs: AngularFirestore,
+                        protected afAuth: AngularFireAuth) {
+    afAuth.authState.subscribe(auth => {
+      if (!auth) {
+        this.unsubscribe();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe();
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
 
   add(obj: T): Promise<string> {
     if (!obj.id) {
@@ -62,7 +84,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
   }
 
   get(id: string): Observable<T> {
-    return this.collection.doc<T>(id).valueChanges();
+    return this.collection.doc<T>(id).valueChanges().pipe(takeUntil(this.destroyed));
   }
 
   update(id: string, update: T) {
@@ -74,18 +96,22 @@ export abstract class ListDao<T extends IdentifiedObject> {
   }
 
   private subscribe() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-      this._list.next(null);
-    }
-
-    console.log('Loading list:', this.path);
+    // Unsubscribe from the current collection
+    this.unsubscribe();
 
     if (!this.collection) {
       this.needsSubscription = true;
     } else {
       this.subscription = this.collection.valueChanges()
           .subscribe(v => this._list.next(v));
+    }
+  }
+
+  unsubscribe() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
+      this._list.next(null);
     }
   }
 }

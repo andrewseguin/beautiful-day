@@ -1,7 +1,8 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Request} from 'app/model';
+import {takeUntil} from 'rxjs/operators';
 
 export interface EditTagsData {
   requests: Observable<Request[]>;
@@ -26,9 +27,11 @@ export class EditTags {
     return tag;
   }
 
+  private destroyed = new Subject();
+
   constructor(private dialogRef: MatDialogRef<EditTags, EditTagsResult>,
               @Inject(MAT_DIALOG_DATA) public data: EditTagsData) {
-    this.data.requests.subscribe(requests => {
+    this.data.requests.pipe(takeUntil(this.destroyed)).subscribe(requests => {
       const firstTags = requests[0].tags || [];
       const allMatching = requests.every(request => {
         const strA = (request.tags || []).sort().toString().toLowerCase();
@@ -38,6 +41,11 @@ export class EditTags {
 
       this.tags = allMatching ? firstTags : [];
     });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   save(tags: string[]) {

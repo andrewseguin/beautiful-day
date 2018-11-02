@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {User} from 'app/model/user';
 import {Observable} from 'rxjs/Observable';
 import {Project} from 'app/model';
-import {map, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, map, takeUntil, tap} from 'rxjs/operators';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {ConfigDao, Group, GroupId, GroupsDao, ProjectsDao} from 'app/ui/season/dao';
@@ -18,6 +18,8 @@ export class Permissions {
   isAcquisitions: Observable<boolean>;
   isApprover: Observable<boolean>;
 
+  private destroyed = new Subject();
+
   get editableProjects(): BehaviorSubject<Set<string|null>> {
     if (!this._editableProjects) {
       this._editableProjects = new BehaviorSubject(null);
@@ -32,7 +34,9 @@ export class Permissions {
               private groupsDao: GroupsDao,
               private configDao: ConfigDao,
               private globalConfigDao: GlobalConfigDao,
-              private afAuth: AngularFireAuth) {
+              private afAuth: AngularFireAuth) {}
+
+  init() {
     const changes = [
       this.groupsDao.list,
       this.afAuth.authState,
@@ -53,6 +57,11 @@ export class Permissions {
     this.isApprover = this.permissions.pipe(map(p => p.has('approvers')));
   }
 
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
   watchEditableProjects() {
     const changes = [
       this.permissions,
@@ -62,7 +71,7 @@ export class Permissions {
       this.configDao.values.pipe(map(values => values ? values.get('allLeads') : false)),
     ];
 
-    combineLatest(changes).subscribe(result => {
+    combineLatest(changes).pipe(takeUntil(this.destroyed)).subscribe(result => {
       const permissions: Set<GroupId> = result[0];
       const projects: Project[] = result[1];
       const email: string = result[2];

@@ -12,6 +12,7 @@ import {
 import {Subject, Subscription} from 'rxjs';
 import {ReportDialog} from 'app/ui/season/shared/dialog/report-dialog';
 import {ReportsDao} from 'app/ui/season/dao';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   templateUrl: 'report-page.html',
@@ -51,7 +52,7 @@ export class ReportPage implements OnInit {
               private snackbar: MatSnackBar,
               private reportDialog: ReportDialog,
               private reportsDao: ReportsDao) {
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params.pipe(takeUntil(this.destroyed)).subscribe(params => {
       const id = params['id'];
       this.canSave = false;
 
@@ -63,6 +64,7 @@ export class ReportPage implements OnInit {
         this.report = createNewReport();
       } else {
         this.reportGetSubscription = this.reportsDao.get(id)
+          .pipe(takeUntil(this.destroyed))
           .subscribe(report => this.report = report);
       }
     });

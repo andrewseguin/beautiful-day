@@ -4,9 +4,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {ProjectsDao} from 'app/ui/season/dao';
 import {SelectionModel} from '@angular/cdk/collections';
-import {map} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {Permissions} from 'app/ui/season/services';
 import {EXPANSION_ANIMATION} from 'app/ui/shared/animations';
+import {Subject} from 'rxjs';
 
 @Component({
   templateUrl: 'projects-page.html',
@@ -20,13 +21,16 @@ export class ProjectsPage {
   expandedContacts = new SelectionModel<string>(true);
   loadedContacts = new Set<string>();
 
+  private destroyed = new Subject();
+
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private permissions: Permissions,
               private projectsDao: ProjectsDao) {
-    this.expandedContacts.changed.subscribe(change => {
-      change.added.forEach(v => this.loadedContacts.add(v));
-    });
+    this.expandedContacts.changed.pipe(takeUntil(this.destroyed))
+        .subscribe(change => {
+          change.added.forEach(v => this.loadedContacts.add(v));
+        });
   }
 
   ngOnInit() {
@@ -35,6 +39,11 @@ export class ProjectsPage {
         return projects.sort((a, b) => a.name < b.name ? -1 : 1);
       }
     }));
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   navigateToProject(id: string) {

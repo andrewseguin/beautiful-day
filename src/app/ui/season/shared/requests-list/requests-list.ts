@@ -51,10 +51,11 @@ export class RequestsList {
   ngOnInit() {
     this.requestsRenderer.initialize();
     const options = this.requestsRenderer.options;
-    options.changed.pipe(debounceTime(100)).subscribe(() => {
-      this.requestRendererOptionsChanged.next(options.getState());
-      this.elementRef.nativeElement.scrollTop = 0;
-    });
+    options.changed.pipe(debounceTime(100), takeUntil(this.destroyed))
+        .subscribe(() => {
+          this.requestRendererOptionsChanged.next(options.getState());
+          this.elementRef.nativeElement.scrollTop = 0;
+        });
 
     // After 200ms of scrolling, add 50 more requests if near bottom of screen
     this.elementScrolled.pipe(

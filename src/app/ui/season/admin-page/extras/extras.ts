@@ -134,7 +134,6 @@ export class Extras {
         this.projectsDao.update(update.id, update);
       });
 
-      console.log(updates);
     });
     */
   }
@@ -183,8 +182,6 @@ export class Extras {
           dateUpdate.set(project.id, {lastUsedDate});
         }
       });
-
-      console.log(dateUpdate);
 
       cleanedUp = true;
 

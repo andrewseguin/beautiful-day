@@ -5,6 +5,8 @@ import {ItemSearchPipe} from 'app/pipe/item-search.pipe';
 import {Selection} from 'app/ui/season/services';
 import {ItemsDao} from 'app/ui/season/dao';
 import {CategoryGroup, getItemsByCategory} from 'app/utility/items-categorize';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   templateUrl: 'inventory-page.html',
@@ -19,6 +21,8 @@ export class InventoryPage implements OnInit {
   categorySelections = [];
   displayedItems: Item[] = [];
 
+  private destroyed = new Subject();
+
   @ViewChildren('categorySelect') categorySelects: QueryList<MatSelect>;
 
   _search = '';
@@ -31,15 +35,21 @@ export class InventoryPage implements OnInit {
   constructor(private itemsDao: ItemsDao, private selection: Selection) { }
 
   ngOnInit() {
-    this.itemsDao.list.subscribe(items => {
+    this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
       this.items = items || [];
       this.updateDisplayedItems();
     });
 
-    this.itemsDao.list.subscribe(items => {
+    this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
       this.categoryGroup = getItemsByCategory(items || []);
       this.updateCategorySelectionOptions();
     });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
+    this.selection.items.clear();
   }
 
   updateCategorySelectionOptions() {
@@ -100,10 +110,6 @@ export class InventoryPage implements OnInit {
     }
 
     this.displayedItems = this.itemSearch.transform(this.displayedItems, this.search);
-  }
-
-  ngOnDestroy() {
-    this.selection.items.clear();
   }
 
   hasAllSelectedItems(): boolean {

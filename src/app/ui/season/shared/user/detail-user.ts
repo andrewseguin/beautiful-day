@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, Input, OnDestroy} from '@angular/core';
 import {User} from 'app/model/user';
 import {Subject} from 'rxjs';
 import {UsersDao} from 'app/service/users-dao';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'detail-user',
@@ -17,10 +18,12 @@ export class DetailUser implements OnDestroy {
     this.user = null;
     if (!this._userEmail) { return; }
 
-    this.usersDao.getByEmail(this.userEmail).subscribe(user => {
-      this.user = user ? user : {email: this.userEmail};
-      this.changeDetectorRef.markForCheck();
-    });
+    this.usersDao.getByEmail(this.userEmail)
+        .pipe(takeUntil(this.destroyed))
+        .subscribe(user => {
+          this.user = user ? user : {email: this.userEmail};
+          this.changeDetectorRef.markForCheck();
+        });
   }
   get userEmail(): string { return this._userEmail; }
 

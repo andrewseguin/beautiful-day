@@ -10,16 +10,9 @@ import {RequestsDao} from './requests-dao';
 
 @NgModule({
   imports: [
-    AngularFirestoreModule
   ],
   providers: [
-    ConfigDao,
-    EventsDao,
-    GroupsDao,
-    ItemsDao,
-    ProjectsDao,
-    ReportsDao,
-    RequestsDao,
+
   ],
 })
 export class DaoModule { }

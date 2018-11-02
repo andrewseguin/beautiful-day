@@ -8,7 +8,7 @@ import {EditUserProfile} from '../dialog/edit-user-profile/edit-user-profile';
 import {mergeMap, takeUntil} from 'rxjs/operators';
 import {UsersDao} from 'app/service/users-dao';
 import {FormControl} from '@angular/forms';
-import {Subject} from 'rxjs';
+import {of, Subject} from 'rxjs';
 
 const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 
@@ -31,7 +31,7 @@ const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 })
 export class Nav {
   user = this.afAuth.authState.pipe(
-      mergeMap(auth => this.usersDao.getByEmail(auth.email)));
+      mergeMap(auth => auth ? this.usersDao.getByEmail(auth.email) : of(null)));
   isUserProfileExpanded = false;
 
   seasons = ['2017', '2018'];

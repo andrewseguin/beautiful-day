@@ -14,7 +14,7 @@ import {Accounting, getRequestCost} from 'app/ui/season/services/accounting';
 import {RequestsRenderer} from 'app/ui/season/shared/requests-list/render/requests-renderer';
 import {Permissions} from 'app/ui/season/services/permissions';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {take, takeUntil} from 'rxjs/operators';
 import {ProjectsDao, RequestsDao} from 'app/ui/season/dao';
 import {Selection} from 'app/ui/season/services';
 import {RequestDialog} from 'app/ui/season/shared/dialog/request/request-dialog';
@@ -113,7 +113,7 @@ export class RequestView implements OnInit {
     dialogRef.componentInstance.mode = 'view';
 
     // If acquisitions member, can edit the item
-    this.permissions.permissions.subscribe(p => {
+    this.permissions.permissions.pipe(take(1)).subscribe(p => {
       if (p.has('acquisitions')) { dialogRef.componentInstance.mode = 'edit'; }
     });
 

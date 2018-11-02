@@ -1,22 +1,20 @@
 import {Component} from '@angular/core';
 import {Analytics} from 'app/service/analytics';
-import {Header} from 'app/ui/season/services/header';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {UsersDao} from 'app/service/users-dao';
+
 @Component({
   selector: 'app-root',
   template: '<router-outlet></router-outlet>'
 })
 export class App {
   constructor(private analytics: Analytics,
-              private header: Header,
               private snackBar: MatSnackBar,
               private router: Router,
               private usersDao: UsersDao,
               private auth: AngularFireAuth) {
-    this.header.observeChanges();
     this.analytics.setupGoogleAnalytics();
     this.auth.authState.subscribe(auth => {
       if (!auth) {

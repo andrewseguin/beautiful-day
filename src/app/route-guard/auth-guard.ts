@@ -5,11 +5,12 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {map, take} from 'rxjs/operators';
 
 @Injectable()
-export class CanActivateAuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
 
   constructor(private auth: AngularFireAuth) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  canActivate(route: ActivatedRouteSnapshot,
+              state: RouterStateSnapshot): Observable<boolean> {
     return this.auth.authState.pipe(
       take(1),
       map(authState => !!authState));

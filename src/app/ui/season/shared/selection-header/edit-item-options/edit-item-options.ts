@@ -5,6 +5,8 @@ import {EditItemCategory} from 'app/ui/season/shared/dialog/edit-item-category/e
 import {EditItem} from 'app/ui/season/shared/dialog/edit-item/edit-item';
 import {Selection} from 'app/ui/season/services';
 import {ItemsDao} from 'app/ui/season/dao';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'edit-item-options',
@@ -13,9 +15,16 @@ import {ItemsDao} from 'app/ui/season/dao';
 })
 export class EditItemOptions {
 
+  private destroyed = new Subject();
+
   constructor(private itemsDao: ItemsDao,
               private selection: Selection,
               private mdDialog: MatDialog) {}
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
 
   editName() {
     const dialogRef = this.mdDialog.open(EditItemName);
@@ -32,9 +41,10 @@ export class EditItemOptions {
     const dialogRef = this.mdDialog.open(EditItem);
     dialogRef.componentInstance.mode = 'edit';
 
-    this.itemsDao.get(itemId).subscribe(item => {
-      dialogRef.componentInstance.item = item;
-    });
+    this.itemsDao.get(itemId).pipe(takeUntil(this.destroyed))
+        .subscribe(item => {
+          dialogRef.componentInstance.item = item;
+        });
   }
 
   isMultiSelect() {

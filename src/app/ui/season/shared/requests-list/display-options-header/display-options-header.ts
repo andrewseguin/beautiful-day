@@ -1,6 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {Group, Sort} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
 import {RequestsRenderer} from 'app/ui/season/shared/requests-list/render/requests-renderer';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'display-options-header',
@@ -28,11 +30,20 @@ export class DisplayOptionsHeader {
     'purchaser'
   ];
 
+  private destroyed = new Subject();
+
   constructor(public requestsRenderer: RequestsRenderer,
               private cd: ChangeDetectorRef) {
-    this.requestsRenderer.options.changed.subscribe(() => {
-      this.cd.markForCheck();
-    });
+    this.requestsRenderer.options.changed
+        .pipe(takeUntil(this.destroyed))
+        .subscribe(() => {
+          this.cd.markForCheck();
+        });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   setSort(sort: Sort) {

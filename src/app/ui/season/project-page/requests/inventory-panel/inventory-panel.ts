@@ -5,6 +5,8 @@ import {Observable} from 'rxjs/Observable';
 import {PanelsManager} from './panels-manager';
 import {ItemsDao} from 'app/ui/season/dao';
 import {getCategoryGroup} from 'app/utility/items-categorize';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'inventory-panel',
@@ -21,14 +23,21 @@ export class InventoryPanel implements OnInit {
 
   @Output('closeSidenav') closeSidenav = new EventEmitter<void>();
 
+  private destroyed = new Subject();
+
   constructor(private itemsDao: ItemsDao,
               public panelsManager: PanelsManager) {}
 
   ngOnInit() {
-    this.itemsDao.list.subscribe(items => {
+    this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
       if (items) {
         this.subcategories = getCategoryGroup(items).subcategories;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 }

@@ -14,9 +14,19 @@ import {AdminPageModule} from './admin-page/admin-page.module';
 import {HelpPageModule} from './help-page/help-page.module';
 import {ReportPageModule} from 'app/ui/season/report-page/report-page.module';
 import {Accounting, Header, Permissions, Selection, ActivatedSeason} from './services';
-import {DaoModule} from './dao';
+import {
+  ConfigDao,
+  DaoModule,
+  EventsDao,
+  GroupsDao,
+  ItemsDao,
+  ProjectsDao,
+  ReportsDao,
+  RequestsDao
+} from './dao';
 import {SeasonHeaderModule} from './shared/header/season-header.module';
 import {ExportPageModule} from 'app/ui/season/export-page/export-page.module';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 
 const PAGE_MODULES: any[] = [
   AdminPageModule,
@@ -33,6 +43,7 @@ const PAGE_MODULES: any[] = [
 @NgModule({
   imports: PAGE_MODULES.concat([
     MaterialModule,
+    AngularFirestoreModule,
     NavModule,
     SeasonHeaderModule,
     SelectionHeaderModule,
@@ -48,6 +59,13 @@ const PAGE_MODULES: any[] = [
     Permissions,
     Header,
     ActivatedSeason,
+    ConfigDao,
+    EventsDao,
+    GroupsDao,
+    ItemsDao,
+    ProjectsDao,
+    ReportsDao,
+    RequestsDao,
   ]
 })
 export class SeasonModule { }

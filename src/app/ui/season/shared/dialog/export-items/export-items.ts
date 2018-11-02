@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Item} from 'app/model/item';
 import {ItemsDao, RequestsDao} from 'app/ui/season/dao';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   templateUrl: 'export-items.html',
@@ -11,14 +13,16 @@ export class ExportItems {
   items: Item[];
   itemRequestCount: Map<string, number>;
 
+  private destroyed = new Subject();
+
   constructor(private dialogRef: MatDialogRef<ExportItems>,
               private itemsDao: ItemsDao,
               private requestsDao: RequestsDao) {
-    this.itemsDao.list.subscribe(items => {
+    this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
       this.items = items;
     });
 
-    this.requestsDao.list.subscribe(requests => {
+    this.requestsDao.list.pipe(takeUntil(this.destroyed)).subscribe(requests => {
       if (!requests) {
         return;
       }
@@ -29,6 +33,11 @@ export class ExportItems {
         this.itemRequestCount.set(request.item, count);
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   close() {

@@ -1,8 +1,9 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {Subscription} from 'rxjs/Subscription';
 import {auth} from 'firebase/app';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'login',
@@ -11,11 +12,12 @@ import {auth} from 'firebase/app';
 })
 export class Login implements OnDestroy {
   checkingAuth = true;
-  authStateSubscription: Subscription;
+
+  private destroyed = new Subject();
 
   constructor(private afAuth: AngularFireAuth,
               private route: Router) {
-    this.authStateSubscription = this.afAuth.authState.subscribe(auth => {
+    this.afAuth.authState.pipe(takeUntil(this.destroyed)).subscribe(auth => {
       this.checkingAuth = false;
       if (auth) {
         let locationHash = window.location.hash.substr(1);
@@ -25,7 +27,8 @@ export class Login implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authStateSubscription.unsubscribe();
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   login() {

@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@ang
 import {Item} from 'app/model/item';
 import {Request} from 'app/model/request';
 import {ItemsDao} from 'app/ui/season/dao';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 
 @Component({
@@ -23,11 +25,18 @@ export class RequestsGroup {
 
   getRequestKey = (_i, request: Request) => request.id;
 
+  private destroyed = new Subject();
+
   constructor(private itemsDao: ItemsDao,
               private cd: ChangeDetectorRef) {
-    this.itemsDao.map.subscribe(itemsMap => {
+    this.itemsDao.map.pipe(takeUntil(this.destroyed)).subscribe(itemsMap => {
       this.items = itemsMap;
       this.cd.markForCheck();
     });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 }

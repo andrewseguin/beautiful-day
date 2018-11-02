@@ -14,9 +14,7 @@ import {CommonModule} from '@angular/common';
 import {PipeModule} from 'app/pipe/pipe.module';
 import {ExportItems} from './export-items/export-items';
 import {ReportDialog} from 'app/ui/season/shared/dialog/report-dialog';
-import {EventDialog} from 'app/ui/season/shared/dialog/event-dialog';
 import {ReportEditModule} from 'app/ui/season/shared/dialog/report-edit/report-edit.module';
-import {EventEditModule} from 'app/ui/season/shared/dialog/event-edit/event-edit.module';
 import {ItemDialog} from 'app/ui/season/shared/dialog/item-dialog';
 import {PromptDialogModule} from 'app/ui/season/shared/dialog/prompt-dialog/prompt-dialog.module';
 
@@ -40,7 +38,6 @@ const DIALOGS = [
     FormsModule,
     MaterialModule,
     ReportEditModule,
-    EventEditModule,
     PromptDialogModule,
     ReactiveFormsModule,
   ],
@@ -48,7 +45,6 @@ const DIALOGS = [
   entryComponents: DIALOGS,
   providers: [
     ReportDialog,
-    EventDialog,
     ItemDialog,
   ]
 })

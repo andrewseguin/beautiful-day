@@ -13,7 +13,6 @@ export class ConfigDao {
   get values(): BehaviorSubject<Map<string, any>|null> {
     if (!this._values) {
       this._values = new BehaviorSubject<Map<string, any>>(null);
-      console.log('Loading config');
       this.collection.valueChanges().subscribe(configs => {
         const updatedValues = new Map<string, any>();
         configs.forEach(config => {

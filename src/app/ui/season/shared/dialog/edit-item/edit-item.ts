@@ -3,9 +3,10 @@ import {Item} from 'app/model/item';
 import {MatDialogRef} from '@angular/material';
 import {Permissions} from 'app/ui/season/services/permissions';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {take} from 'rxjs/operators';
+import {take, takeUntil} from 'rxjs/operators';
 import {ItemsDao} from 'app/ui/season/dao';
 import {getItemsByCategory} from 'app/utility/items-categorize';
+import {Subject} from 'rxjs';
 
 export type Mode = 'new' | 'edit' | 'view';
 
@@ -27,14 +28,17 @@ export class EditItem implements OnInit {
     }
   }
 
+  private destroyed = new Subject();
+
   constructor(private dialogRef: MatDialogRef<EditItem>,
               private permissions: Permissions,
               private afAuth: AngularFireAuth,
               private itemsDao: ItemsDao) {
     this.permissions.permissions
+        .pipe(takeUntil(this.destroyed))
         .subscribe(p => this.isAcquisitions = p.has('acquisitions'));
 
-    this.itemsDao.list.subscribe(items => {
+    this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
       const itemsByCategory = getItemsByCategory(items);
       this.categories = Object.keys(itemsByCategory.subcategories);
     });
@@ -42,6 +46,11 @@ export class EditItem implements OnInit {
 
   ngOnInit() {
     if (!this.mode) { throw Error('No mode set'); }
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   close() {

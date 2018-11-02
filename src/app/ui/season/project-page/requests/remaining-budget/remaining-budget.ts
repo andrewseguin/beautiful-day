@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Accounting} from 'app/ui/season/services/accounting';
 import * as CountUp from 'countup.js';
-import {Subscription} from 'rxjs/Subscription';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'remaining-budget',
@@ -14,7 +15,6 @@ import {Subscription} from 'rxjs/Subscription';
   }
 })
 export class RemainingBudget implements OnInit {
-  budgetStream: Subscription;
   budgetLoaded: boolean;
   projectBudget: number;
   previousRemainingBudget = 0;
@@ -34,10 +34,13 @@ export class RemainingBudget implements OnInit {
 
   @Input() projectId: string;
 
+  private destroyed = new Subject();
+
   constructor(private accounting: Accounting) { }
 
   ngOnInit() {
-    this.budgetStream = this.accounting.getBudgetStream(this.projectId)
+    this.accounting.getBudgetStream(this.projectId)
+        .pipe(takeUntil(this.destroyed))
         .subscribe(budgetResponse => {
           if (!budgetResponse) {
             return;
@@ -58,7 +61,8 @@ export class RemainingBudget implements OnInit {
   }
 
   ngOnDestroy() {
-    this.budgetStream.unsubscribe();
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   updateBudgetValue() {

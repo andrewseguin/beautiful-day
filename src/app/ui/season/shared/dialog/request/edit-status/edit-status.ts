@@ -36,7 +36,7 @@ export class EditStatus {
   constructor(private dialogRef: MatDialogRef<EditStatus, EditStatusResult>,
               private permissions: Permissions,
               @Inject(MAT_DIALOG_DATA) public data: EditStatusData) {
-    this.data.requests.subscribe(requests => {
+    this.data.requests.pipe(takeUntil(this.destroyed)).subscribe(requests => {
       const firstDate = requests[0].distributionDate;
       const matchingDates = requests.every(r => r.distributionDate === firstDate);
 

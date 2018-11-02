@@ -78,8 +78,6 @@ export class RequestDialog {
         return;
       }
 
-      console.log(result.tags);
-
       ids.forEach(id => {
         this.requestsDao.update(id, {
           tags: result.tags,
@@ -105,7 +103,7 @@ export class RequestDialog {
     const config = {data, width: '400px'};
     const dialogRef: MatDialogRef<PromptDialog, PromptDialogResult> =
       this.dialog.open(PromptDialog, config);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (!result) {
         return;
       }
@@ -133,7 +131,7 @@ export class RequestDialog {
     const config = {data, width: '300px'};
     const dialogRef: MatDialogRef<PromptDialog, PromptDialogResult> =
       this.dialog.open(PromptDialog, config);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (!result) {
         return;
       }
@@ -161,7 +159,7 @@ export class RequestDialog {
     const config = {data, width: '300px'};
     const dialogRef: MatDialogRef<PromptDialog, PromptDialogResult> =
       this.dialog.open(PromptDialog, config);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (!result) {
         return;
       }

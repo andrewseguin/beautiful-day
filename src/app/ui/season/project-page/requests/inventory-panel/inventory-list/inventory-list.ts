@@ -5,6 +5,8 @@ import {MatDialog} from '@angular/material';
 import {ItemSearchPipe} from 'app/pipe/item-search.pipe';
 import {ItemsDao} from 'app/ui/season/dao';
 import {getCategoryGroup} from 'app/utility/items-categorize';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 /** Number of items to load each time. */
 const ITEMS_TO_LOAD = 10;
@@ -25,6 +27,8 @@ export class InventoryList implements OnInit {
   allItems: Item[] = [];
   subcategories: string[];
   filteredItems: Item[];
+
+  itemTrackBy = (_i, item: Item) => item.id;
 
   _category: string;
   @Input() set category(category: string) {
@@ -48,11 +52,13 @@ export class InventoryList implements OnInit {
 
   @Output() filteredItemCount: EventEmitter<number> = new EventEmitter<number>();
 
+  private destroyed = new Subject();
+
   constructor(private mdDialog: MatDialog,
               private itemsDao: ItemsDao) {}
 
   ngOnInit() {
-    this.itemsDao.list.subscribe(items => {
+    this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
       if (!items) {
         return;
       }
@@ -65,10 +71,15 @@ export class InventoryList implements OnInit {
     });
 
     // For search - use all items in search
-    this.itemsDao.list.subscribe(items => {
+    this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
       this.allItems = items;
       this.filterItems();
     });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   filterItems() {
@@ -119,9 +130,5 @@ export class InventoryList implements OnInit {
     }
 
     dialogRef.componentInstance.mode = 'new';
-  }
-
-  itemTrackBy(i: number, item: Item) {
-    return item.id;
   }
 }

@@ -5,11 +5,12 @@ import {User} from 'app/model/user';
 import {Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {User as FirebaseUser} from 'firebase/auth';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 @Injectable()
 export class UsersDao extends ListDao<User> {
-  constructor(afs: AngularFirestore) {
-    super(afs);
+  constructor(afs: AngularFirestore, afAuth: AngularFireAuth) {
+    super(afs, afAuth);
     this.path = 'users';
   }
 

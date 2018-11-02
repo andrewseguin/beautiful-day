@@ -13,4 +13,4 @@ import {RequestDialogModule} from 'app/ui/season/shared/dialog/request/request-d
   declarations: [RequestView],
   exports: [RequestView],
 })
-export class RequestModule { }
+export class RequestViewModule { }

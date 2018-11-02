@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {filter, take, tap} from 'rxjs/operators';
+import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Title as WindowTitle} from '@angular/platform-browser';
 import {CdkPortal} from '@angular/cdk/portal';
 import {ProjectsDao, ReportsDao} from 'app/ui/season/dao/index';
 import {ActivatedSeason} from './activated-season';
+import {Subject, Subscription} from 'rxjs';
 
 const SECTIONS = new Map<string, string>([
   ['projects', 'Projects'],
@@ -24,34 +25,39 @@ export class Header {
   title = new BehaviorSubject<string>('Loading...');
   toolbarOutlet: CdkPortal;
 
+  destroyed = new Subject();
+
   constructor(private projectsDao: ProjectsDao,
               private reportsDao: ReportsDao,
               private windowTitle: WindowTitle,
               private activatedSeason: ActivatedSeason,
               private router: Router) {
-    this.title.subscribe(title => this.windowTitle.setTitle(title));
+    this.title.pipe(takeUntil(this.destroyed))
+        .subscribe(title => this.windowTitle.setTitle(title));
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd),
+      takeUntil(this.destroyed))
+      .subscribe((e: NavigationEnd) => {
+        this.goBack = null;
+        const urlParts = e.urlAfterRedirects.split('/');
+        const section = urlParts[2];
+        const id = urlParts[3];
+
+        if (section === 'project') {
+          this.onProjectRoute(id);
+        } else if (section === 'report') {
+          this.onReportRoute(id);
+        } else if (SECTIONS.has(section)) {
+          this.title.next(SECTIONS.get(section));
+        } else {
+          this.title.next('BD365 Management');
+        }
+      });
   }
 
-  /** Watch route changes and update the title accordingly. */
-  observeChanges() {
-    this.router.events.pipe(
-        filter(e => e instanceof NavigationEnd))
-        .subscribe((e: NavigationEnd) => {
-          this.goBack = null;
-          const urlParts = e.urlAfterRedirects.split('/');
-          const section = urlParts[2];
-          const id = urlParts[3];
-
-          if (section === 'project') {
-            this.onProjectRoute(id);
-          } else if (section === 'report') {
-            this.onReportRoute(id);
-          } else if (SECTIONS.has(section)) {
-            this.title.next(SECTIONS.get(section));
-          } else {
-            this.title.next('BD365 Management');
-          }
-        });
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   onProjectRoute(projectId: string) {

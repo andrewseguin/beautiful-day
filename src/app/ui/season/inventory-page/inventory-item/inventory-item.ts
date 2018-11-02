@@ -6,6 +6,8 @@ import {Item} from 'app/model/item';
 import {Request} from 'app/model/request';
 import {ProjectsDao, RequestsDao} from 'app/ui/season/dao';
 import {Selection} from 'app/ui/season/services';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'inventory-item',
@@ -23,21 +25,30 @@ export class InventoryItem {
   requestsGroupedByProject = new Map<string, Request[]>();
   requestedProjects: string[] = [];
 
+  private destroyed = new Subject();
+
   constructor(private projectsDao: ProjectsDao,
               private requestsDao: RequestsDao,
               private selection: Selection,
               private mdDialog: MatDialog) { }
 
   ngOnInit() {
-    this.projectsDao.map.subscribe(projectsMap => {
-      this.projectsMap = projectsMap;
-      this.updateRequestsDisplay();
-    });
+    this.projectsDao.map.pipe(takeUntil(this.destroyed))
+        .subscribe(projectsMap => {
+          this.projectsMap = projectsMap;
+          this.updateRequestsDisplay();
+        });
 
-    this.requestsDao.list.subscribe(requests => {
-      this.requests = requests.filter(r => r.item === this.item.id);
-      this.updateRequestsDisplay();
-    });
+    this.requestsDao.list.pipe(takeUntil(this.destroyed))
+        .subscribe(requests => {
+          this.requests = requests.filter(r => r.item === this.item.id);
+          this.updateRequestsDisplay();
+        });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 
   updateRequestsDisplay() {

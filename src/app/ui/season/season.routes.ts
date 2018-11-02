@@ -1,4 +1,4 @@
-import {CanActivateAuthGuard} from 'app/route-guard/can-activate-auth-guard';
+import {AuthGuard} from 'app/route-guard/auth-guard';
 import {CanActivateAcquisitionsGuard} from 'app/route-guard/can-activate-acquisitions-guard';
 import {InventoryPage} from './inventory-page/inventory-page';
 import {EventsPage} from './events-page/events-page';
@@ -15,36 +15,31 @@ export type TopLevelSection = 'projects' | 'inventory' | 'login' |
                               'help' | 'report';
 
 export const SEASON_ROUTES = [
-  {path: 'project/:id', component: ProjectPage,
-    canActivate: [CanActivateAuthGuard]},
+  {path: 'project/:id', component: ProjectPage},
 
   // Home
-  {path: 'projects', component: ProjectsPage,
-    canActivate: [CanActivateAuthGuard]},
+  {path: 'projects', component: ProjectsPage},
 
   // Admin
-  {path: 'admin', component: AdminPage,
-    canActivate: [CanActivateAuthGuard]},
+  {path: 'admin', component: AdminPage},
 
   // Help
-  {path: 'help', component: HelpPage,
-    canActivate: [CanActivateAuthGuard]},
+  {path: 'help', component: HelpPage},
 
   // Events
-  {path: 'events', component: EventsPage,
-    canActivate: [CanActivateAuthGuard]},
+  {path: 'events', component: EventsPage},
 
   // Acquisitions
   {path: 'inventory', component: InventoryPage,
-    canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+    canActivate: [CanActivateAcquisitionsGuard]},
 
   // Reports
   {path: 'reports', component: ReportsPage,
-    canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+    canActivate: [CanActivateAcquisitionsGuard]},
 
   // Report
   {path: 'report/:id', component: ReportPage,
-    canActivate: [CanActivateAuthGuard, CanActivateAcquisitionsGuard]},
+    canActivate: [CanActivateAcquisitionsGuard]},
 
   // Export
   {path: 'export', component: ExportPage},
