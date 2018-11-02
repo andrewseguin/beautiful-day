@@ -25,6 +25,7 @@ mat-toolbar {
   text-overflow: ellipsis;
 
   @media (max-width: $mobile-width - 1) {
+    padding-right: 0;
     font-size: 18px;
   }
 }

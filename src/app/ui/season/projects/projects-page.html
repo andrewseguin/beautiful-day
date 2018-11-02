@@ -29,11 +29,11 @@
        (mouseover)="loadedContacts.add(project.id)"
        (click)="expandedContacts.toggle(project.id)">
     Contacts
-    <mat-icon [@arrow]="expandedContacts.isSelected(project.id)">
+    <mat-icon [@expansionIndicator]="expandedContacts.isSelected(project.id)">
       expand_more
     </mat-icon>
   </div>
-  <div class="contacts" [@contacts]="expandedContacts.isSelected(project.id)">
+  <div class="contacts" [@expansionContent]="expandedContacts.isSelected(project.id)">
     <ng-container *ngIf="loadedContacts.has(project.id)">
       <div class="label"> Directors </div>
       <detail-user [userEmail]="email" group="director"

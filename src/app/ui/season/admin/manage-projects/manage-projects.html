@@ -7,11 +7,13 @@
        [class.expanded]="expandedProjects.isSelected(project.id)"
        *ngFor="let project of projectsBySeason.get(season).values(); trackBy: trackByProjectKey">
     <div class="heading" mat-ripple (click)="expandedProjects.toggle(project.id)">
-      <mat-icon [@expansionIndicator]="expandedProjects.isSelected(project.id)">expand_more</mat-icon>
+      <mat-icon [@expansionIndicator]="expandedProjects.isSelected(project.id)">
+        expand_more
+      </mat-icon>
       {{project.name}}
     </div>
 
-    <div class="content" [@expanded]="expandedProjects.isSelected(project.id)">
+    <div class="content" [@expansionContent]="expandedProjects.isSelected(project.id)">
       <ng-container *ngIf="hasExpanded.has(project.id)">
         <editable-project [project]="project"></editable-project>
       </ng-container>

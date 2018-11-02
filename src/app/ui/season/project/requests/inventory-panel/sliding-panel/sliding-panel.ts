@@ -1,29 +1,16 @@
-import {animate, state, style, transition, trigger, AnimationEvent} from '@angular/animations';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-
-export type SlidingPanelState = 'open' | 'closed';
 
 @Component({
   selector: 'sliding-panel',
   templateUrl: 'sliding-panel.html',
   styleUrls: ['sliding-panel.scss'],
-  animations: [
-    trigger('state', [
-      state('open', style({transform: 'translateX(0%)'})),
-      state('void, close', style({transform: 'translateX(100%)'})),
-      transition('* <=> *', [
-        animate('250ms cubic-bezier(0.35, 0, 0.25, 1)')]
-      ),
-    ])
-  ],
   host: {
-    '[@state]': 'state',
-    '(@state.done)': 'afterStateAnimation($event)',
-    '[class.mat-elevation-z5]': 'true'
+    '[class.mat-elevation-z5]': 'true',
+    '[class.open]': `open`,
   }
 })
 export class SlidingPanel {
-  state: SlidingPanelState = 'closed';
+  open = false;
 
   @Input() category: string;
 
@@ -32,12 +19,14 @@ export class SlidingPanel {
   constructor() { }
 
   ngOnInit() {
-    this.state = 'open';
+    // Make microtask so that after initialized, the state changes and slides in
+    setTimeout(() => this.open = true);
   }
 
-  afterStateAnimation(e: AnimationEvent) {
-    if (e.toState == 'close') {
-      this.closed.next();
-    }
+  close() {
+    this.open = false;
+    setTimeout(() => {
+      this.closed.emit();
+    }, 250); // Animation duration
   }
 }

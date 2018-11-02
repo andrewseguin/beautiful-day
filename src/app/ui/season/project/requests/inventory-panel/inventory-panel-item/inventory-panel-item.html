@@ -1,10 +1,10 @@
 <div class="container">
-  <div class="top-row" (click)="toggleState()">
+  <div class="top-row" (click)="expanded = !expanded">
     <div class="item-name">{{getItemName()}}</div>
-    <mat-icon [@arrow]="state">expand_more</mat-icon>
+    <mat-icon [@expansionIndicator]="expanded">expand_more</mat-icon>
   </div>
 
-  <div [@info]="state">
+  <div [@expansionContent]="expanded">
     <div class="info-row">
       <div>
         <span class="property-title">

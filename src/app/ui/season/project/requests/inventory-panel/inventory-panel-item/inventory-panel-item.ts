@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {animate, animateChild, query, state, style, transition, trigger} from '@angular/animations';
 import {Item} from 'app/model/item';
 import {ActivatedRoute} from '@angular/router';
 import {Project} from 'app/model/project';
@@ -7,46 +6,21 @@ import {ProjectsDao, RequestsDao} from 'app/ui/season/dao';
 import {Observable} from 'rxjs/Observable';
 import {take} from 'rxjs/operators';
 import {Request} from 'app/model/request';
-
-export type InventoryPanelItemState = 'collapsed' | 'expanded';
-
-const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
+import {EXPANSION_ANIMATION} from 'app/ui/shared/animations';
 
 @Component({
   selector: 'inventory-panel-item',
   templateUrl: 'inventory-panel-item.html',
   styleUrls: ['inventory-panel-item.scss'],
   host: {
-    '[class.mat-elevation-z1]': `state == 'collapsed'`,
-    '[class.mat-elevation-z10]': `state == 'expanded'`,
-    '[@container]': 'state',
-    '[@animateChildren]': 'state',
+    '[class.mat-elevation-z1]': '!expanded',
+    '[class.mat-elevation-z10]': 'expanded',
+    '[class.expanded]': 'expanded',
   },
-  animations: [
-    trigger('container', [
-      state('void, collapsed', style({margin: '0 8px'})),
-      state('expanded', style({margin: '16px 8px'})),
-      transition('* <=> *', animate(ANIMATION_DURATION)),
-    ]),
-    trigger('info', [
-      state('void, collapsed', style({height: '0px'})),
-      state('expanded', style({height: '*'})),
-      transition('* <=> *', animate(ANIMATION_DURATION)),
-    ]),
-    trigger('arrow', [
-      state('void, collapsed', style({transform: 'rotateX(0deg)'})),
-      state('expanded', style({transform: 'rotateX(180deg)'})),
-      transition('* <=> *', animate(ANIMATION_DURATION)),
-    ]),
-    trigger('animateChildren', [
-      transition('* <=> *', [
-        query('@*', animateChild(), {optional: true})
-      ])
-    ])
-  ]
+  animations: EXPANSION_ANIMATION
 })
 export class InventoryPanelItem implements OnInit {
-  state: InventoryPanelItemState = 'collapsed';
+  expanded = false;
   requestQuantity = 1;
   requested: boolean;
   project: Observable<Project>;
@@ -72,10 +46,6 @@ export class InventoryPanelItem implements OnInit {
     }
 
     return name;
-  }
-
-  toggleState() {
-    this.state = this.state === 'collapsed' ? 'expanded' : 'collapsed';
   }
 
   request() {
