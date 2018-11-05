@@ -19,8 +19,3 @@ import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';
 
 import 'web-animations-js/web-animations.min';
-
-import 'better-dom/dist/better-dom';
-import 'better-i18n-plugin/dist/better-i18n-plugin';
-import 'better-time-element/dist/better-time-element';
-import 'better-dateinput-polyfill/dist/better-dateinput-polyfill';
