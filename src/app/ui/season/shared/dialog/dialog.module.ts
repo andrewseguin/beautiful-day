@@ -1,7 +1,5 @@
 import {NgModule} from '@angular/core';
 import {DeleteProject} from './delete-project/delete-project';
-import {DeleteReport} from './delete-report/delete-report';
-import {DeleteRequests} from './delete-requests/delete-requests';
 import {EditItem} from './edit-item/edit-item';
 import {EditItemCategory} from './edit-item-category/edit-item-category';
 import {EditItemName} from './edit-item-name/edit-item-name';
@@ -20,8 +18,6 @@ import {PromptDialogModule} from 'app/ui/season/shared/dialog/prompt-dialog/prom
 
 const DIALOGS = [
   DeleteProject,
-  DeleteReport,
-  DeleteRequests,
   EditItem,
   EditItemCategory,
   EditItemName,

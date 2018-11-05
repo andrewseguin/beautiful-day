@@ -1,3 +1,5 @@
+<route-guard check="acquisitions"></route-guard>
+
 <requests-list *ngIf="report?.options"
                [requestRendererOptionsState]="report.options"
                (requestRendererOptionsChanged)="currentOptions = $event">

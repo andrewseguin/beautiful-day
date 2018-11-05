@@ -6,8 +6,8 @@ import {
   PromptDialogResult
 } from 'app/ui/season/shared/dialog/prompt-dialog/prompt-dialog';
 import {Selection} from 'app/ui/season/services';
-import {ProjectsDao, RequestsDao} from 'app/ui/season/dao';
-import {map, take} from 'rxjs/operators';
+import {ItemsDao, ProjectsDao, RequestsDao} from 'app/ui/season/dao';
+import {map, mergeMap, take} from 'rxjs/operators';
 import {combineLatest, of} from 'rxjs';
 import {
   EditDropoff,
@@ -29,6 +29,7 @@ export class RequestDialog {
   constructor(private dialog: MatDialog,
               private requestsDao: RequestsDao,
               private projectsDao: ProjectsDao,
+              private itemsDao: ItemsDao,
               private snackBar: MatSnackBar,
               private selection: Selection) {}
 
@@ -191,11 +192,12 @@ export class RequestDialog {
   }
 
   deleteRequests(ids: string[]) {
-    const config = {
-      data: {
-        requests: combineLatest(ids.map(id => this.requestsDao.get(id)))
-      },
-    };
+    const selected = this.selection.requests.selected;
+    const name = selected .length > 1 ? of('these requests') :
+        this.requestsDao.get(selected[0]).pipe(
+          mergeMap(r => this.itemsDao.get(r.item)),
+          map(item => `request for ${item.name}`));
+    const config = {data: {name}};
     const dialogRef = this.dialog
         .open<DeleteConfirmation, DeleteConfirmationData, boolean>(DeleteConfirmation, config);
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {

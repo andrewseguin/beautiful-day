@@ -6,6 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {PipeModule} from 'app/pipe/pipe.module';
 import {RouterModule} from '@angular/router';
 import {ReportMenuModule} from 'app/ui/season/shared/report-menu/report-menu.module';
+import {RouteGuardModule} from 'app/ui/season/shared/route-guard/route-guard.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import {ReportMenuModule} from 'app/ui/season/shared/report-menu/report-menu.mod
     FormsModule,
     RouterModule,
     PipeModule,
-    ReportMenuModule
+    ReportMenuModule,
+    RouteGuardModule,
   ],
   declarations: [ReportsPage],
   exports: [ReportsPage],

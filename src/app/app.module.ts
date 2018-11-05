@@ -3,9 +3,7 @@ import {AngularFireModule} from '@angular/fire';
 import 'hammerjs';
 import {FIREBASE_CONFIG} from './firebase.config';
 import {App} from './app';
-import {AuthGuard} from './route-guard/auth-guard';
 import {Analytics} from './service/analytics';
-import {CanActivateAcquisitionsGuard} from './route-guard/can-activate-acquisitions-guard';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatIconRegistry} from '@angular/material';
@@ -28,15 +26,12 @@ import {GlobalConfigDao} from 'app/service/global-config-dao';
     SeasonModule,
     RouterModule.forRoot([
       {path: 'login', component: Login},
-      {path: ':season', component: Season, children: SEASON_ROUTES,
-        canActivate: [AuthGuard]},
+      {path: ':season', component: Season, children: SEASON_ROUTES},
       {path: '', redirectTo: '2018', pathMatch: 'full'},
     ]),
   ],
   providers: [
     MatIconRegistry,
-    AuthGuard,
-    CanActivateAcquisitionsGuard,
     Analytics,
     UsersDao,
     GlobalConfigDao,

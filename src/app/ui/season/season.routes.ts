@@ -1,5 +1,3 @@
-import {AuthGuard} from 'app/route-guard/auth-guard';
-import {CanActivateAcquisitionsGuard} from 'app/route-guard/can-activate-acquisitions-guard';
 import {InventoryPage} from './inventory-page/inventory-page';
 import {EventsPage} from './events-page/events-page';
 import {ProjectsPage} from './projects-page/projects-page';
@@ -9,10 +7,18 @@ import {HelpPage} from './help-page/help-page';
 import {ReportPage} from './report-page/report-page';
 import {ReportsPage} from './reports-page/reports-page';
 import {ExportPage} from './export-page/export-page';
+import {Injectable} from '@angular/core';
+import {CanActivate} from '@angular/router';
+import {Permissions} from 'app/ui/season/services';
+import {Observable} from 'rxjs';
 
-export type TopLevelSection = 'projects' | 'inventory' | 'login' |
-                              'home' | 'reports' | 'events' |
-                              'help' | 'report';
+@Injectable()
+export class CanActivateAcquisitionsGuard implements CanActivate {
+  constructor(private permissions: Permissions) {}
+  canActivate(): Observable<boolean> {
+    return this.permissions.isAcquisitions;
+  }
+}
 
 export const SEASON_ROUTES = [
   {path: 'project/:id', component: ProjectPage},
@@ -30,16 +36,13 @@ export const SEASON_ROUTES = [
   {path: 'events', component: EventsPage},
 
   // Acquisitions
-  {path: 'inventory', component: InventoryPage,
-    canActivate: [CanActivateAcquisitionsGuard]},
+  {path: 'inventory', component: InventoryPage},
 
   // Reports
-  {path: 'reports', component: ReportsPage,
-    canActivate: [CanActivateAcquisitionsGuard]},
+  {path: 'reports', component: ReportsPage},
 
   // Report
-  {path: 'report/:id', component: ReportPage,
-    canActivate: [CanActivateAcquisitionsGuard]},
+  {path: 'report/:id', component: ReportPage},
 
   // Export
   {path: 'export', component: ExportPage},

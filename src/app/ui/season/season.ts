@@ -21,6 +21,7 @@ export class Season {
               private activatedSeason: ActivatedSeason,
               private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.pipe(takeUntil(this.destroyed)).subscribe(params => {
+      console.log('Setting season', params['season']);
       this.season = +params['season'];
       this.activatedSeason.season.next(params['season']);
     });
@@ -30,8 +31,6 @@ export class Season {
         this.routerContent.nativeElement.scrollTop = 0;
       }
     });
-
-    this.permissions.init();
   }
 
   ngOnDestroy() {

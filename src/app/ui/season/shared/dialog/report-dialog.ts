@@ -4,10 +4,11 @@ import {take} from 'rxjs/operators';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {Report} from 'app/model/report';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ReportDelete} from 'app/ui/season/shared/dialog/report-delete/report-delete';
 import {RequestRendererOptionsState} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {ReportsDao} from 'app/ui/season/dao';
+import {DeleteConfirmation} from 'app/ui/season/shared/dialog/delete-confirmation/delete-confirmation';
+import {of} from 'rxjs';
 
 @Injectable()
 export class ReportDialog {
@@ -41,14 +42,13 @@ export class ReportDialog {
    * navigate to the reports page.
    */
   deleteReport(report: Report) {
-    const data = {name: report.name};
+    const data = {name: of(report.name)};
 
-    this.dialog.open(ReportDelete, {data}).afterClosed().pipe(
+    this.dialog.open(DeleteConfirmation, {data}).afterClosed().pipe(
         take(1))
         .subscribe(confirmed => {
           if (confirmed) {
             this.reportsDao.remove(report.id);
-            this.router.navigate(['reports']);
             this.snackbar.open(`Report "${report.name}" deleted`, null, {duration: 2000});
           }
         });

@@ -67,7 +67,7 @@ export class Header {
     this.title.next('Loading project...');
     this.projectsDao.get(projectId).pipe(
         take(1))
-        .subscribe(p => this.title.next(p.name));
+        .subscribe(p => this.title.next(p ? p.name : ''));
   }
 
   onReportRoute(reportId: string) {
@@ -81,6 +81,6 @@ export class Header {
     this.title.next('Loading report...');
     return this.reportsDao.get(reportId).pipe(
         take(1))
-        .subscribe(r => this.title.next(r.name));
+        .subscribe(r => this.title.next(r ? r.name : ''));
   }
 }

@@ -27,6 +27,8 @@ import {
 import {SeasonHeaderModule} from './shared/header/season-header.module';
 import {ExportPageModule} from 'app/ui/season/export-page/export-page.module';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {CanActivateAcquisitionsGuard} from 'app/ui/season/season.routes';
+import {RouteGuardModule} from 'app/ui/season/shared/route-guard/route-guard.module';
 
 const PAGE_MODULES: any[] = [
   AdminPageModule,
@@ -54,6 +56,7 @@ const PAGE_MODULES: any[] = [
   declarations: [Season],
   exports: [Season],
   providers: [
+    CanActivateAcquisitionsGuard,
     Accounting,
     Selection,
     Permissions,

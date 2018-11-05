@@ -65,7 +65,14 @@ export class ReportPage implements OnInit {
       } else {
         this.reportGetSubscription = this.reportsDao.get(id)
           .pipe(takeUntil(this.destroyed))
-          .subscribe(report => this.report = report);
+          .subscribe(report => {
+            if (report) {
+              this.report = report;
+            } else {
+              this.router.navigate([`reports`],
+                  {relativeTo: this.activatedRoute.parent});
+            }
+          });
       }
     });
   }

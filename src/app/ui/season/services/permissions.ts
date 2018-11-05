@@ -34,9 +34,7 @@ export class Permissions {
               private groupsDao: GroupsDao,
               private configDao: ConfigDao,
               private globalConfigDao: GlobalConfigDao,
-              private afAuth: AngularFireAuth) {}
-
-  init() {
+              private afAuth: AngularFireAuth) {
     const changes = [
       this.groupsDao.list,
       this.afAuth.authState,
@@ -47,14 +45,14 @@ export class Permissions {
         if (result[0] && result[1] && result[2]) {
           return this.getPermissions(result[0], result[1], result[2]);
         } else {
-          return new Set();
+          return null;
         }
       }));
 
-    this.isOwner = this.permissions.pipe(map(p => p.has('owners')));
-    this.isAdmin = this.permissions.pipe(map(p => p.has('admins')));
-    this.isAcquisitions = this.permissions.pipe(map(p => p.has('acquisitions')));
-    this.isApprover = this.permissions.pipe(map(p => p.has('approvers')));
+    this.isOwner = this.permissions.pipe(map(p => p ? p.has('owners') : null));
+    this.isAdmin = this.permissions.pipe(map(p => p ? p.has('admins') : null));
+    this.isAcquisitions = this.permissions.pipe(map(p => p ? p.has('acquisitions') : null));
+    this.isApprover = this.permissions.pipe(map(p => p ? p.has('approvers') : null));
   }
 
   ngOnDestroy() {
@@ -79,7 +77,7 @@ export class Permissions {
       const allLeads: boolean = result[4];
 
       // Cannot determine permissions if the user is not logged in
-      if (!email || !projects) {
+      if (!permissions || !email || !projects) {
         return;
       }
 

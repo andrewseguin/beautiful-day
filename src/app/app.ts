@@ -15,6 +15,7 @@ export class App {
               private router: Router,
               private usersDao: UsersDao,
               private auth: AngularFireAuth) {
+    this.router.events.subscribe(console.log);
     this.analytics.setupGoogleAnalytics();
     this.auth.authState.subscribe(auth => {
       if (!auth) {
