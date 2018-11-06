@@ -1,12 +1,3 @@
-import {InventoryPage} from './inventory-page/inventory-page';
-import {EventsPage} from './events-page/events-page';
-import {ProjectsPage} from './projects-page/projects-page';
-import {ProjectPage} from './project-page/project-page';
-import {AdminPage} from './admin-page/admin-page';
-import {HelpPage} from './help-page/help-page';
-import {ReportPage} from './report-page/report-page';
-import {ReportsPage} from './reports-page/reports-page';
-import {ExportPage} from './export-page/export-page';
 import {Injectable} from '@angular/core';
 import {CanActivate} from '@angular/router';
 import {Permissions} from 'app/season/services';
@@ -21,31 +12,50 @@ export class CanActivateAcquisitionsGuard implements CanActivate {
 }
 
 export const SEASON_ROUTES = [
-  {path: 'project/:id', component: ProjectPage},
+  {
+    path: 'project/:id',
+    loadChildren: 'app/season/project-page/project-page.module#ProjectPageModule'
+  },
 
-  // Home
-  {path: 'projects', component: ProjectsPage},
+  {
+    path: 'projects',
+    loadChildren: 'app/season/projects-page/projects-page.module#ProjectsPageModule'
+  },
 
-  // Admin
-  {path: 'admin', component: AdminPage},
+  {
+    path: 'admin',
+    loadChildren: 'app/season/admin-page/admin-page.module#AdminPageModule'
+  },
 
-  // Help
-  {path: 'help', component: HelpPage},
+  {
+    path: 'help',
+    loadChildren: 'app/season/help-page/help-page.module#HelpPageModule'
+  },
 
-  // Events
-  {path: 'events', component: EventsPage},
+  {
+    path: 'events',
+    loadChildren: 'app/season/events-page/events-page.module#EventsPageModule'
+  },
 
-  // Acquisitions
-  {path: 'inventory', component: InventoryPage},
+  {
+    path: 'inventory',
+    loadChildren: 'app/season/inventory-page/inventory-page.module#InventoryPageModule'
+  },
 
-  // Reports
-  {path: 'reports', component: ReportsPage},
+  {
+    path: 'reports',
+    loadChildren: 'app/season/reports-page/reports-page.module#ReportsPageModule'
+  },
 
-  // Report
-  {path: 'report/:id', component: ReportPage},
+  {
+    path: 'report/:id',
+    loadChildren: 'app/season/report-page/report-page.module#ReportPageModule'
+  },
 
-  // Export
-  {path: 'export', component: ExportPage},
+  {
+    path: 'export',
+    loadChildren: 'app/season/export-page/export-page.module#ExportPageModule'
+  },
 
   // Redirect
   {path: '', redirectTo: 'projects', pathMatch: 'full'},

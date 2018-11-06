@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {Project, ProjectsDao} from 'app/season/dao';
 import {SelectionModel} from '@angular/cdk/collections';
 import {map, takeUntil} from 'rxjs/operators';
-import {Permissions} from 'app/season/services';
+import {ActivatedSeason, Permissions} from 'app/season/services';
 import {EXPANSION_ANIMATION} from 'app/utility/animations';
 import {Subject} from 'rxjs';
 
@@ -25,6 +25,7 @@ export class ProjectsPage {
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private permissions: Permissions,
+              private activatedSeason: ActivatedSeason,
               private projectsDao: ProjectsDao) {
     this.expandedContacts.changed.pipe(takeUntil(this.destroyed))
         .subscribe(change => {
@@ -46,6 +47,6 @@ export class ProjectsPage {
   }
 
   navigateToProject(id: string) {
-    this.router.navigate([`project/${id}`], {relativeTo: this.activatedRoute.parent});
+    this.router.navigate([`${this.activatedSeason.season.value}/project/${id}`]);
   }
 }

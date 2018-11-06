@@ -11,7 +11,7 @@
   </div>
 
   <div class="reports">
-    <div class="report" [routerLink]="'../report/' + report.id"
+    <div class="report" (click)="navigateToReport(report.id)"
        *ngFor="let report of reportGroup.reports; trackBy: reportKeyTrackBy">
       <div class="name"> {{report.name}} </div>
 

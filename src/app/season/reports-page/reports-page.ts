@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ReportDialog} from 'app/season/shared/dialog/report-dialog';
 import {Report, ReportsDao} from 'app/season/dao';
+import {ActivatedSeason} from '../services';
 
 interface ReportGroup {
   reports: Report[];
@@ -21,13 +22,18 @@ export class ReportsPage {
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
+              private activatedSeason: ActivatedSeason,
               private reportDialog: ReportDialog,
               private reportsDao: ReportsDao) {
     this.reportGroups = this.reportsDao.list.pipe(map(getSortedGroups));
   }
 
   createReport() {
-    this.router.navigate([`report/new`], {relativeTo: this.activatedRoute.parent});
+    this.router.navigate([`${this.activatedSeason.season.value}/report/new`]);
+  }
+
+  navigateToReport(id: string) {
+    this.router.navigate([`${this.activatedSeason.season.value}/report/${id}`]);
   }
 }
 

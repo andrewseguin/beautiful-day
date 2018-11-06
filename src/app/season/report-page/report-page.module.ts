@@ -6,6 +6,12 @@ import {RequestsListModule} from 'app/season/shared/requests-list/requests-list.
 import {DialogModule} from 'app/season/shared/dialog/dialog.module';
 import {ReportMenuModule} from 'app/season/shared/report-menu/report-menu.module';
 import {RouteGuardModule} from 'app/season/shared/route-guard/route-guard.module';
+import {RouterModule, Routes} from '@angular/router';
+
+const routes: Routes = [{path: '', component: ReportPage}];
+
+@NgModule({imports: [RouterModule.forChild(routes)], exports: [RouterModule]})
+export class ReportPageRoutingModule {}
 
 @NgModule({
   imports: [
@@ -15,6 +21,7 @@ import {RouteGuardModule} from 'app/season/shared/route-guard/route-guard.module
     RequestsListModule,
     ReportMenuModule,
     RouteGuardModule,
+    ReportPageRoutingModule
   ],
   declarations: [ReportPage],
   exports: [ReportPage],

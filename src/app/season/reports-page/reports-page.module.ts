@@ -3,9 +3,14 @@ import {ReportsPage} from './reports-page';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 import {FormsModule} from '@angular/forms';
-import {RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {ReportMenuModule} from 'app/season/shared/report-menu/report-menu.module';
 import {RouteGuardModule} from 'app/season/shared/route-guard/route-guard.module';
+
+const routes: Routes = [{path: '', component: ReportsPage}];
+
+@NgModule({imports: [RouterModule.forChild(routes)], exports: [RouterModule]})
+export class ReportsPageRoutingModule {}
 
 @NgModule({
   imports: [
@@ -15,6 +20,7 @@ import {RouteGuardModule} from 'app/season/shared/route-guard/route-guard.module
     RouterModule,
     ReportMenuModule,
     RouteGuardModule,
+    ReportsPageRoutingModule
   ],
   declarations: [ReportsPage],
   exports: [ReportsPage],
