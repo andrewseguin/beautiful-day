@@ -14,7 +14,7 @@ import {
   Filter,
   Query
 } from 'app/ui/season/shared/requests-list/render/request-renderer-options';
-import {FILTER_TYPE_LABELS} from 'app/ui/season/shared/requests-list/requests-search/requests-search';
+import {FILTER_TYPE_LABELS} from '../requests-search';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';

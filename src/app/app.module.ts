@@ -15,6 +15,7 @@ import {SEASON_ROUTES} from 'app/ui/season/season.routes';
 import {Login} from 'app/ui/login/login';
 import {UsersDao} from './service/users-dao';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [App],
@@ -22,6 +23,7 @@ import {GlobalConfigDao} from 'app/service/global-config-dao';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     LoginModule,
     SeasonModule,
     RouterModule.forRoot([

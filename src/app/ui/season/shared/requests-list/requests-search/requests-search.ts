@@ -91,7 +91,7 @@ export class RequestsSearch {
 
   queryChange(index: number, query: Query) {
     const filters = this.requestsRenderer.options.filters.slice();
-    filters[index] = {...filters[index], query}
+    filters[index] = {...filters[index], query};
     this.requestsRenderer.options.filters = filters;
   }
 

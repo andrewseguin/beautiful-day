@@ -4,6 +4,7 @@ import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {UsersDao} from 'app/service/users-dao';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,8 @@ export class App {
               private snackBar: MatSnackBar,
               private router: Router,
               private usersDao: UsersDao,
+              private http: HttpClient,
               private auth: AngularFireAuth) {
-    this.router.events.subscribe(console.log);
     this.analytics.setupGoogleAnalytics();
     this.auth.authState.subscribe(auth => {
       if (!auth) {

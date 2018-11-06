@@ -106,7 +106,6 @@
 
     <div *ngIf="request?.tags" class="tags">
       <span class="editable clickable tag" *ngFor="let tag of request.tags"
-            [style.background]="getTagColor(tag)"
             (click)="$event.stopPropagation(); filterTag(tag)">
         {{tag}}
       </span>

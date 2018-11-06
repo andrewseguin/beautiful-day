@@ -13,4 +13,4 @@ export const EXPANSION_ANIMATION = [
     state('true', style({transform: 'rotateX(180deg)'})),
     transition('* <=> *', animate(ANIMATION_DURATION)),
   ]),
-]
+];

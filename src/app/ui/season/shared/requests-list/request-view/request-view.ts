@@ -119,20 +119,6 @@ export class RequestView implements OnInit {
     dialogRef.componentInstance.item = this.item;
   }
 
-  getTagColor(tag: string) {
-    // Get string hash
-    let hash = 0;
-    for (let i = 0; i < tag.length; i++) {
-      hash = tag.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    const r = (hash >> 16) & 255;
-    const g = (hash >> 8) & 255;
-    const b = hash & 255;
-
-    return `rgba(${[r, g, b].join(',')}, 0.15)`;
-  }
-
   navigateToUrl(url: string) {
     window.open(url);
   }

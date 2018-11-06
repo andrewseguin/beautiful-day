@@ -19,7 +19,7 @@ export class EditableItemCellValue {
 
   @Input() property: string;
   @Input() editing: boolean;
-  @Input() type: 'text' | 'link' | 'currency' | 'multi'= 'text';
+  @Input() type: 'text' | 'link' | 'currency' | 'multi' = 'text';
   @Input() align: 'before' | 'after' = 'before';
   @Output() action = new EventEmitter<EditableItemCellAction>();
 

@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
-import {EditTags} from 'app/ui/season/shared/dialog/request/edit-tags/edit-tags';
-import {EditableChipListModule} from 'app/ui/season/shared/editable-chip-list/editable-chip-list.module';
+import {EditTags} from './edit-tags';
+import {EditableChipListModule} from '../../../editable-chip-list/editable-chip-list.module';
 
 @NgModule({
   imports: [

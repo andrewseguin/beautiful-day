@@ -8,11 +8,11 @@ import {
   NgZone,
   Output
 } from '@angular/core';
-import {RequestGroup} from 'app/ui/season/shared/requests-list/render/request-grouping';
+import {RequestGroup} from './render/request-grouping';
 import {auditTime, debounceTime, takeUntil} from 'rxjs/operators';
-import {RequestsRenderer} from 'app/ui/season/shared/requests-list/render/requests-renderer';
+import {RequestsRenderer} from './render/requests-renderer';
 import {fromEvent, Observable, Observer, Subject} from 'rxjs';
-import {RequestRendererOptionsState} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
+import {RequestRendererOptionsState} from './render/request-renderer-options';
 
 @Component({
   selector: 'requests-list',

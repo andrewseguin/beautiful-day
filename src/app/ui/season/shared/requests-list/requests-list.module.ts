@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {RequestsGroupModule} from './requests-group/requests-group.module';
 import {DisplayOptionsHeaderModule} from './display-options-header/display-options-header.module';
 import {MaterialModule} from 'app/material.module';
-import {RequestsSearchModule} from 'app/ui/season/shared/requests-list/requests-search/requests-search.module';
+import {RequestsSearchModule} from './requests-search/requests-search.module';
 import {LoadingModule} from '../loading/loading.module';
 
 @NgModule({
