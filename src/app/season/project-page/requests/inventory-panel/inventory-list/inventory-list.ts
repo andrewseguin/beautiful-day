@@ -5,7 +5,7 @@ import {Item, ItemsDao} from 'app/season/dao';
 import {getCategoryGroup} from 'app/utility/items-categorize';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {getItemsMatchingQuery} from 'app/utility/search/items-search';
+import {getItemsMatchingQuery} from 'app/season/utility/items-search';
 
 /** Number of items to load each time. */
 const ITEMS_TO_LOAD = 10;

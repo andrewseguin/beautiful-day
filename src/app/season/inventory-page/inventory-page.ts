@@ -5,7 +5,7 @@ import {Item, ItemsDao} from 'app/season/dao';
 import {CategoryGroup, getItemsByCategory} from 'app/utility/items-categorize';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {getItemsMatchingQuery} from '../../utility/search/items-search';
+import {getItemsMatchingQuery} from '../utility/items-search';
 
 @Component({
   templateUrl: 'inventory-page.html',
