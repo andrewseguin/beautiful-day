@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {EventsDao} from 'app/ui/season/dao';
 import {map} from 'rxjs/operators';
-import {Event} from 'app/model';
+import {Event} from 'app/ui/season/dao';
 
 @Component({
   templateUrl: 'events-page.html',

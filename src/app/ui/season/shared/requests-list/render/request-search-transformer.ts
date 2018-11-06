@@ -1,7 +1,5 @@
-import {ItemSearchTransformer} from '../../../../../utility/search/item-search-transformer';
-import {Project} from 'app/model/project';
-import {Item} from 'app/model/item';
-import {Request} from 'app/model/request';
+import {ItemSearchTransformer} from 'app/utility/search/item-search-transformer';
+import {Request, Item, Project} from 'app/ui/season/dao';
 
 export class RequestSearchTransformer {
   static transform(request: Request, item: Item, project: Project): string {

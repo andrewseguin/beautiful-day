@@ -13,7 +13,7 @@ import {DialogModule} from 'app/ui/season/shared/dialog/dialog.module';
 import {AdminPageModule} from './admin-page/admin-page.module';
 import {HelpPageModule} from './help-page/help-page.module';
 import {ReportPageModule} from 'app/ui/season/report-page/report-page.module';
-import {Accounting, Header, Permissions, Selection, ActivatedSeason} from './services';
+import {Accounting, ActivatedSeason, Header, Permissions, Selection} from './services';
 import {
   ConfigDao,
   DaoModule,
@@ -28,22 +28,20 @@ import {SeasonHeaderModule} from './shared/header/season-header.module';
 import {ExportPageModule} from 'app/ui/season/export-page/export-page.module';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {CanActivateAcquisitionsGuard} from 'app/ui/season/season.routes';
-import {RouteGuardModule} from 'app/ui/season/shared/route-guard/route-guard.module';
-
-const PAGE_MODULES: any[] = [
-  AdminPageModule,
-  ProjectPageModule,
-  InventoryPageModule,
-  ProjectsPageModule,
-  ReportsPageModule,
-  ReportPageModule,
-  EventsPageModule,
-  HelpPageModule,
-  ExportPageModule,
-];
 
 @NgModule({
-  imports: PAGE_MODULES.concat([
+  imports: [
+    // Pages
+    AdminPageModule,
+    ProjectPageModule,
+    InventoryPageModule,
+    ProjectsPageModule,
+    ReportsPageModule,
+    ReportPageModule,
+    EventsPageModule,
+    HelpPageModule,
+    ExportPageModule,
+
     MaterialModule,
     AngularFirestoreModule,
     NavModule,
@@ -52,7 +50,7 @@ const PAGE_MODULES: any[] = [
     RouterModule,
     DialogModule,
     DaoModule,
-  ]),
+  ],
   declarations: [Season],
   exports: [Season],
   providers: [

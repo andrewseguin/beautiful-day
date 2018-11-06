@@ -8,14 +8,13 @@ import {
   ViewChild
 } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {Item, Request} from 'app/model';
 import {EditItem} from 'app/ui/season/shared/dialog/edit-item/edit-item';
 import {Accounting, getRequestCost} from 'app/ui/season/services/accounting';
 import {RequestsRenderer} from 'app/ui/season/shared/requests-list/render/requests-renderer';
 import {Permissions} from 'app/ui/season/services/permissions';
 import {Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
-import {ProjectsDao, RequestsDao} from 'app/ui/season/dao';
+import {ProjectsDao, RequestsDao, Item, Request} from 'app/ui/season/dao';
 import {Selection} from 'app/ui/season/services';
 import {RequestDialog} from 'app/ui/season/shared/dialog/request/request-dialog';
 

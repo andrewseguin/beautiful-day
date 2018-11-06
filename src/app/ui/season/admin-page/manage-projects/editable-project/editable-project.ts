@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {Project} from 'app/model/project';
 import {FormControl, FormGroup} from '@angular/forms';
-import {ProjectsDao} from 'app/ui/season/dao';
+import {Project, ProjectsDao} from 'app/ui/season/dao';
 import {debounceTime} from 'rxjs/operators';
 import {MatChipInputEvent} from '@angular/material';
 

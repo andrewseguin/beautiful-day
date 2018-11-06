@@ -1,9 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Item} from 'app/model/item';
 import {EditItem} from 'app/ui/season/shared/dialog/edit-item/edit-item';
 import {MatDialog} from '@angular/material';
 import {ItemSearchPipe} from 'app/pipe/item-search.pipe';
-import {ItemsDao} from 'app/ui/season/dao';
+import {Item, ItemsDao} from 'app/ui/season/dao';
 import {getCategoryGroup} from 'app/utility/items-categorize';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';

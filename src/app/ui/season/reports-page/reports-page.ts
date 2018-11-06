@@ -1,10 +1,9 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Report} from 'app/model/report';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ReportDialog} from 'app/ui/season/shared/dialog/report-dialog';
-import {ReportsDao} from 'app/ui/season/dao';
+import {Report, ReportsDao} from 'app/ui/season/dao';
 
 interface ReportGroup {
   reports: Report[];

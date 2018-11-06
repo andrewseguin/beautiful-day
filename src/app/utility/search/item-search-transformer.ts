@@ -1,4 +1,4 @@
-import {Item} from 'app/model/item';
+import {Item} from 'app/ui/season/dao';
 
 export class ItemSearchTransformer {
   static transform(item: Item): string {

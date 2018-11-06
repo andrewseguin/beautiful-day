@@ -1,6 +1,4 @@
-import {Request} from 'app/model/request';
-import {Project} from 'app/model/project';
-import {Item} from 'app/model/item';
+import {Item, Project, Request} from 'app/ui/season/dao';
 import {
   FilterCostQuery,
   FilterDateQuery,

@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Observable, Subject} from 'rxjs';
-import {Request} from 'app/model';
+import {Request} from 'app/ui/season/dao';
 import {takeUntil} from 'rxjs/operators';
 
 export interface EditTagsData {

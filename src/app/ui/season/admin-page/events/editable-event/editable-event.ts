@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {Event} from 'app/model';
 import {FormControl, FormGroup} from '@angular/forms';
-import {EventsDao} from 'app/ui/season/dao';
+import {EventsDao, Event} from 'app/ui/season/dao';
 
 @Component({
   selector: 'editable-event',

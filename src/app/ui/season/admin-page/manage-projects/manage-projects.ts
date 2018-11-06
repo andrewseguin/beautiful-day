@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {EXPANSION_ANIMATION} from 'app/ui/shared/animations';
-import {Project} from 'app/model/project';
 import {SelectionModel} from '@angular/cdk/collections';
-import {ProjectsDao} from 'app/ui/season/dao';
+import {Project, ProjectsDao} from 'app/ui/season/dao';
 
 @Component({
   selector: 'manage-projects',

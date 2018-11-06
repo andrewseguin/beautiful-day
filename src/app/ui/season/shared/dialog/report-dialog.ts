@@ -2,12 +2,11 @@ import {Injectable} from '@angular/core';
 import {ReportEdit} from 'app/ui/season/shared/dialog/report-edit/report-edit';
 import {take} from 'rxjs/operators';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {Report} from 'app/model/report';
 import {ActivatedRoute, Router} from '@angular/router';
-import {RequestRendererOptionsState} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
+import {RequestRendererOptionsState} from '../requests-list/render/request-renderer-options';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {ReportsDao} from 'app/ui/season/dao';
-import {DeleteConfirmation} from 'app/ui/season/shared/dialog/delete-confirmation/delete-confirmation';
+import {Report, ReportsDao} from 'app/ui/season/dao';
+import {DeleteConfirmation} from './delete-confirmation/delete-confirmation';
 import {of} from 'rxjs';
 
 @Injectable()

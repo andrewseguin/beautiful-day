@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {User} from 'app/model/user';
+import {User} from 'app/service/users-dao';
 import {Observable} from 'rxjs/Observable';
-import {Project} from 'app/model';
-import {distinctUntilChanged, map, takeUntil, tap} from 'rxjs/operators';
+import {ConfigDao, Group, GroupId, GroupsDao, Project, ProjectsDao} from 'app/ui/season/dao';
+import {map, takeUntil} from 'rxjs/operators';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {ConfigDao, Group, GroupId, GroupsDao, ProjectsDao} from 'app/ui/season/dao';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
 

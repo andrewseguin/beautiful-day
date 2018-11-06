@@ -4,14 +4,10 @@ import {Permissions} from 'app/ui/season/services/permissions';
 import {ImportItems} from 'app/ui/season/shared/dialog/import-items/import-items';
 import {ExportItems} from 'app/ui/season/shared/dialog/export-items/export-items';
 import {take} from 'rxjs/operators';
-import {Item, Project, Report} from 'app/model';
 import {RequestRendererOptions} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
-import {ProjectsDao} from 'app/ui/season/dao/projects-dao';
-import {ReportsDao} from 'app/ui/season/dao/reports-dao';
-import {ItemsDao, RequestsDao} from 'app/ui/season/dao';
+import {Item, ItemsDao, ProjectsDao, Report, ReportsDao, RequestsDao} from 'app/ui/season/dao';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireDatabase} from '@angular/fire/database';
-import {getCategoryGroup} from 'app/utility/items-categorize';
 
 @Component({
   selector: 'extras',

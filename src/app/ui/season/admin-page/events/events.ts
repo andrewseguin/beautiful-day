@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
-import {EventsDao} from 'app/ui/season/dao/events-dao';
+import {Event, EventsDao} from 'app/ui/season/dao';
 import {FormBuilder} from '@angular/forms';
-import {Event} from 'app/model';
 
 @Component({
   selector: 'events',
@@ -9,7 +8,7 @@ import {Event} from 'app/model';
   templateUrl: 'events.html'
 })
 export class Events {
-  trackBy = (i, event: Event) => event.id;
+  trackByFn = (i, event: Event) => event.id;
 
   constructor(private formBuilder: FormBuilder,
               private eventsDao: EventsDao) { }

@@ -1,10 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Request} from 'app/model/request';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {map} from 'rxjs/operators';
-import {Item} from 'app/model/item';
-import {ItemsDao, ProjectsDao, RequestsDao} from 'app/ui/season/dao/index';
+import {Item, ItemsDao, ProjectsDao, Request, RequestsDao} from 'app/ui/season/dao';
 
 export interface BudgetResponse {
   budget: number;

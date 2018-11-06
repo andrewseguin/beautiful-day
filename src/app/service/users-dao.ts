@@ -1,11 +1,20 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {ListDao} from 'app/utility/list-dao';
-import {User} from 'app/model/user';
 import {Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {User as FirebaseUser} from 'firebase/auth';
 import {AngularFireAuth} from '@angular/fire/auth';
+
+export interface User {
+  id?: string;
+  uid?: string;
+  email?: string;
+  name?: string;
+  pic?: string;
+  phone?: string;
+  isOwner?: boolean;
+}
 
 @Injectable()
 export class UsersDao extends ListDao<User> {

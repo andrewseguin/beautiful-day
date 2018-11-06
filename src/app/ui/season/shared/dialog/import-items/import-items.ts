@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import {Item} from 'app/model/item';
-import {ItemsDao} from 'app/ui/season/dao';
+import {Item, ItemsDao} from 'app/ui/season/dao';
 
 enum COLUMNS {
   ID, NAME, CATEGORIES, URL, COST, HIDDEN, KEYWORDS, QUANTITY

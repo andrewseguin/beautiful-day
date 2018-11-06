@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Project} from 'app/model/project';
-import {ProjectsDao} from 'app/ui/season/dao';
+import {Project, ProjectsDao} from 'app/ui/season/dao';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 

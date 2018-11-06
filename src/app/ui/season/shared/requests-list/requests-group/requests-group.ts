@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
-import {Item} from 'app/model/item';
-import {Request} from 'app/model/request';
+import {Request, Item} from 'app/ui/season/dao';
 import {ItemsDao} from 'app/ui/season/dao';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';

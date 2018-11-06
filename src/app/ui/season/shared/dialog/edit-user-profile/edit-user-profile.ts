@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import {User} from 'app/model/user';
 import {mergeMap, take} from 'rxjs/operators';
-import {UsersDao} from 'app/service/users-dao';
+import {User, UsersDao} from 'app/service/users-dao';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {of} from 'rxjs';
 

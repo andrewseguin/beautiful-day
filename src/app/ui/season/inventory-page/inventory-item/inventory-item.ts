@@ -1,9 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {EditItem} from 'app/ui/season/shared/dialog/edit-item/edit-item';
 import {MatDialog} from '@angular/material';
-import {Project} from 'app/model/project';
-import {Item} from 'app/model/item';
-import {Request} from 'app/model/request';
+import {Request, Item, Project} from 'app/ui/season/dao';
 import {ProjectsDao, RequestsDao} from 'app/ui/season/dao';
 import {Selection} from 'app/ui/season/services';
 import {Subject} from 'rxjs';

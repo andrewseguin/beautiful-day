@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ReportDialog} from 'app/ui/season/shared/dialog/report-dialog';
-import {Report} from 'app/model/report';
+import {Report} from 'app/ui/season/dao';
 
 @Component({
   selector: 'report-menu',

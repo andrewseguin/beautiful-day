@@ -1,4 +1,4 @@
-import {Item} from 'app/model';
+import {Item} from 'app/ui/season/dao';
 
 export type CategoryGroupCollection = { [name: string]: CategoryGroup };
 

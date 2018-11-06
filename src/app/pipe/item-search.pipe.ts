@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Item} from 'app/model/item';
 import {ItemSearchTransformer} from 'app/utility/search/item-search-transformer';
+import {Item} from '../ui/season/dao';
 
 @Pipe({name: 'itemSearch'})
 export class ItemSearchPipe implements PipeTransform {

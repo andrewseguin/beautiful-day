@@ -1,9 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Project} from 'app/model/project';
 import {Permissions} from 'app/ui/season/services/permissions';
 import {RequestsList} from 'app/ui/season/shared/requests-list/requests-list';
-import {Request} from 'app/model/request';
 import {
   RequestRendererOptions,
   RequestRendererOptionsState
@@ -14,7 +12,7 @@ import {CdkPortal} from '@angular/cdk/portal';
 import {combineLatest, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Selection} from 'app/ui/season/services';
-import {RequestsDao} from 'app/ui/season/dao';
+import {Request, Project, RequestsDao} from 'app/ui/season/dao';
 
 @Component({
   selector: 'project-requests',

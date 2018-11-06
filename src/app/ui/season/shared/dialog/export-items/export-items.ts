@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
-import {Item} from 'app/model/item';
-import {ItemsDao, RequestsDao} from 'app/ui/season/dao';
+import {Item, ItemsDao, RequestsDao} from 'app/ui/season/dao';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 

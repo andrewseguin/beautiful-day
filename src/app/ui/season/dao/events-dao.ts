@@ -1,9 +1,15 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Event} from 'app/model';
 import {ActivatedSeason} from 'app/ui/season/services/activated-season';
 import {SeasonCollectionDao} from './season-collection-dao';
 import {AngularFireAuth} from '@angular/fire/auth';
+
+export class Event {
+  id?: string;
+  date?: string; // String is the date stored with toISOString()
+  time?: string;
+  info?: string;
+}
 
 @Injectable()
 export class EventsDao extends SeasonCollectionDao<Event> {

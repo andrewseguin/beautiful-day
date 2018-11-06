@@ -1,9 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Item} from 'app/model/item';
-import {Project} from 'app/model/project';
 import {Observable} from 'rxjs/Observable';
 import {PanelsManager} from './panels-manager';
-import {ItemsDao} from 'app/ui/season/dao';
+import {Item, ItemsDao, Project} from 'app/ui/season/dao';
 import {getCategoryGroup} from 'app/utility/items-categorize';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';

@@ -1,5 +1,4 @@
-import {Request} from 'app/model/request';
-import {Item} from 'app/model/item';
+import {Item, Request} from 'app/ui/season/dao';
 import {Sort} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
 
 export class RequestSorter {

@@ -1,7 +1,6 @@
 import {ChangeDetectorRef, Component, Input, OnDestroy} from '@angular/core';
-import {User} from 'app/model/user';
 import {Subject} from 'rxjs';
-import {UsersDao} from 'app/service/users-dao';
+import {User, UsersDao} from 'app/service/users-dao';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({

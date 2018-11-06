@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
-import {Item} from 'app/model/item';
+import {Item} from 'app/ui/season/dao';
 
 export type EditableItemCellAction = 'save' | 'cancel' | 'edit';
 

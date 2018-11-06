@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
-import {Request} from 'app/model/request';
-import {Item} from 'app/model/item';
+import {Request, Item, Project} from 'app/ui/season/dao';
 import {MatTableDataSource} from '@angular/material';
 import {ItemsDao, ProjectsDao, RequestsDao} from 'app/ui/season/dao';
-import {Project} from 'app/model/project';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 
 export interface ExportedRequest {

@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
-import {Report} from 'app/model/report';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Header} from 'app/ui/season/services/header';
 import {CdkPortal} from '@angular/cdk/portal';
@@ -11,7 +10,7 @@ import {
 } from 'app/ui/season/shared/requests-list/render/request-renderer-options';
 import {Subject, Subscription} from 'rxjs';
 import {ReportDialog} from 'app/ui/season/shared/dialog/report-dialog';
-import {ReportsDao} from 'app/ui/season/dao';
+import {Report, ReportsDao} from 'app/ui/season/dao';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({

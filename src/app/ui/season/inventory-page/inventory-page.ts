@@ -1,9 +1,8 @@
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {Item} from 'app/model/item';
 import {MatSelect} from '@angular/material';
 import {ItemSearchPipe} from 'app/pipe/item-search.pipe';
 import {Selection} from 'app/ui/season/services';
-import {ItemsDao} from 'app/ui/season/dao';
+import {Item, ItemsDao} from 'app/ui/season/dao';
 import {CategoryGroup, getItemsByCategory} from 'app/utility/items-categorize';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';

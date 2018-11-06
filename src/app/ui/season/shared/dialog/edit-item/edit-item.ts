@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Item} from 'app/model/item';
 import {MatDialogRef} from '@angular/material';
 import {Permissions} from 'app/ui/season/services/permissions';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {take, takeUntil} from 'rxjs/operators';
-import {ItemsDao} from 'app/ui/season/dao';
+import {Item, ItemsDao} from 'app/ui/season/dao';
 import {getItemsByCategory} from 'app/utility/items-categorize';
 import {Subject} from 'rxjs';
 

@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {Project} from 'app/model/project';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
-import {ProjectsDao} from 'app/ui/season/dao';
+import {Project, ProjectsDao} from 'app/ui/season/dao';
 import {SelectionModel} from '@angular/cdk/collections';
 import {map, takeUntil} from 'rxjs/operators';
 import {Permissions} from 'app/ui/season/services';

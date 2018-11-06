@@ -1,11 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Item} from 'app/model/item';
 import {ActivatedRoute} from '@angular/router';
-import {Project} from 'app/model/project';
-import {ProjectsDao, RequestsDao} from 'app/ui/season/dao';
 import {Observable} from 'rxjs/Observable';
 import {take} from 'rxjs/operators';
-import {Request} from 'app/model/request';
+import {Item, Project, ProjectsDao, Request, RequestsDao} from 'app/ui/season/dao';
 import {EXPANSION_ANIMATION} from 'app/ui/shared/animations';
 
 @Component({

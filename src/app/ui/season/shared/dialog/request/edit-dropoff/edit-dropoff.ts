@@ -1,10 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {ProjectsDao, RequestsDao} from 'app/ui/season/dao/index';
+import {ProjectsDao, Request, RequestsDao} from 'app/ui/season/dao';
 import {map, mergeMap, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {Observable, of, Subject} from 'rxjs';
-import {Request} from 'app/model/index';
 
 export interface EditDropoffData {
   requests: Observable<Request[]>;

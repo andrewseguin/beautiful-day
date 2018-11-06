@@ -1,18 +1,12 @@
 import {Injectable} from '@angular/core';
-import {
-  RequestGroup,
-  RequestGrouping
-} from 'app/ui/season/shared/requests-list/render/request-grouping';
+import {RequestGroup, RequestGrouping} from './request-grouping';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
-import {Item} from 'app/model/item';
-import {Project} from 'app/model/project';
-import {Request} from 'app/model/request';
-import {RequestSearchTransformer} from 'app/ui/season/shared/requests-list/render/request-search-transformer';
-import {RequestRendererOptions} from 'app/ui/season/shared/requests-list/render/request-renderer-options';
+import {RequestSearchTransformer} from './request-search-transformer';
+import {RequestRendererOptions} from './request-renderer-options';
 import {startWith} from 'rxjs/operators';
-import {RequestFilterer} from 'app/ui/season/shared/requests-list/render/request-filterer';
-import {RequestSorter} from 'app/ui/season/shared/requests-list/render/request-sorter';
-import {ItemsDao, ProjectsDao, RequestsDao} from 'app/ui/season/dao';
+import {RequestFilterer} from './request-filterer';
+import {RequestSorter} from './request-sorter';
+import {Item, ItemsDao, Project, ProjectsDao, Request, RequestsDao} from 'app/ui/season/dao';
 
 @Injectable()
 export class RequestsRenderer {
