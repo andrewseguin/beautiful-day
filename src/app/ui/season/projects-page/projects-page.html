@@ -10,22 +10,25 @@
     </div>
 
     <div class="description">
+      <div class="label"> Description </div>
       {{project.description}}
     </div>
 
     <div class="location">
+      <div class="label"> Location </div>
       <a href="https://www.google.com/maps/search/?api=1&query={{project.location}}">{{project.location}}</a>
     </div>
 
     <a *ngIf="project.receiptsFolder && (permissions.isAcquisitions | async)"
        [href]="project.receiptsFolder"
        class="receipts-folder"
+       style="display: none"
        target="_blank">
       View Receipts
     </a>
   </div>
 
-  <div class="contacts-trigger"
+  <div class="contacts-trigger label"
        (mouseover)="loadedContacts.add(project.id)"
        (click)="expandedContacts.toggle(project.id)">
     Contacts
@@ -35,18 +38,18 @@
   </div>
   <div class="contacts" [@expansionContent]="expandedContacts.isSelected(project.id)">
     <ng-container *ngIf="loadedContacts.has(project.id)">
-      <div class="label"> Directors </div>
+      <div class="contact-group"> Directors </div>
       <detail-user [userEmail]="email" group="director"
                    *ngFor="let email of project.directors">
       </detail-user>
 
-      <div class="label"> Leads </div>
+      <div class="contact-group"> Leads </div>
       <detail-user [userEmail]="email" group="lead"
                    *ngFor="let email of project.leads">
       </detail-user>
 
       <ng-container *ngIf="project.acquisitions?.length > 0">
-        <div class="label"> Acquisitions </div>
+        <div class="contact-group"> Acquisitions </div>
         <detail-user [userEmail]="email" group="acquisitions"
                      *ngFor="let email of project.acquisitions">
         </detail-user>

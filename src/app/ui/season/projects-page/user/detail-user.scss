@@ -1,0 +1,42 @@
+.content {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+.pic {
+  width: 48px;
+  height: 48px;
+  background-repeat: no-repeat;
+  background-size: 48px;
+  border-radius: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: lighter;
+  color: white;
+  font-size: 22px;
+}
+
+mat-icon {
+  height: 44px;
+  font-size: 44px;
+  width: 44px;
+  border: 1px solid #CCC;
+  border-radius: 50%;
+  color: #CCC;
+}
+
+.id {
+  flex-grow: 1;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  a {
+    text-decoration: none;
+    color: #0202ab
+  }
+}

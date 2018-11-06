@@ -61,9 +61,18 @@ $font-color: #444;
     flex: 1;
   }
 
+  .label {
+    color: #555;
+    font-size: 14px;
+  }
+
   .description, .location, .receipts-folder {
     display: block;
     padding: 8px 0;
+
+    .label {
+      padding-bottom: 8px;
+    }
 
     @media (max-width: $mobile-width - 1) {
       padding: 4px 0;
@@ -78,7 +87,7 @@ $font-color: #444;
     overflow: hidden;
     margin: 0 8px;
 
-    .label {
+    .contact-group {
       margin-top: 4px;
     }
   }
@@ -88,7 +97,6 @@ $font-color: #444;
     align-items: center;
     padding: 8px;
     cursor: pointer;
-    color: #444;
 
     &:hover {
       background: #F5F5F5;
