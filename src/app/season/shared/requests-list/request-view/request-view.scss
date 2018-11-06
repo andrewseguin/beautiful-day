@@ -1,0 +1,169 @@
+@import '../../../../constants';
+
+// Import theming functions
+@import '../../../../../../node_modules/@angular/material/theming';
+
+:host {
+  display: block;
+  overflow: hidden;
+}
+
+.request {
+  display: flex;
+  border-top: 1px solid #CCC;
+  flex-direction: column;
+  font-size: 13px;
+  color: #444;
+  padding: 8px 0;
+  position: relative;
+  cursor: pointer;
+  page-break-inside: avoid;
+
+  &:hover {
+    background: #F5F5F5 !important;
+  }
+  &:active {
+    background: #EFEFEF !important;
+  }
+
+  .top-row, .details {
+    z-index: 1; // Place above md ripple background to allow clicking
+  }
+
+  .top-row {
+    display: flex;
+    align-items: center;
+
+    .name, .quantity, .cost {
+      margin-right: 16px;
+    }
+
+    .name {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+      font-weight: bold;
+    }
+
+    .quantity {
+      min-width: 50px;
+      width: 50px;
+      text-align: right;
+    }
+
+    .cost {
+      min-width: 60px;
+      text-align: right;
+    }
+  }
+
+  .details {
+    padding: 0 16px 0 32px;
+    font-size: 12px;
+
+    .tags {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      margin: 4px 0;
+
+      .tag {
+        margin: 2px 0 2px 4px;
+        word-wrap: normal;
+        word-break: break-all;
+        display: flex;
+        align-items: center;
+        border-radius: 12px;
+        padding: 4px 10px;
+      }
+    }
+  }
+
+  .editable {
+    display: inline-block;
+    padding: 2px 4px;
+    border-radius: 2px;
+
+    // Default so that if not clickable, the click event will not trigger
+    pointer-events: none;
+
+    &.clickable {
+      cursor: pointer;
+      @media (min-width: $mobile-width) {
+        pointer-events: auto;
+      }
+      &:hover {
+        background: rgba(0, 0, 0, 0.1) !important;
+      }
+      &:active {
+        background: rgba(0, 0, 0, 0.15) !important;
+      }
+    }
+  }
+
+  &:not(.heading):hover {
+    background: rgba(21, 133, 199, 0.1);
+  }
+
+  input {
+    width: 48px;
+    border: none;
+    border-bottom: 1px solid #BBB;
+    font-size: 13px;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    background: transparent;
+    text-align: right;
+    padding: 2px;
+
+    &:focus {
+      outline: none;
+      border-color: mat-color(mat-palette($mat-blue, 500));
+      border-bottom-width: 2px;
+      padding-bottom: 1px;
+    }
+  }
+}
+
+.goto-url {
+  padding: 8px;
+  border-radius: 16px;
+  visibility: hidden;
+
+  @media (max-width: $mobile-width - 1) {
+    display: none;
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, .1);
+    padding: 8px;
+    border-radius: 16px;
+  }
+  &:active {
+    background: rgba(0, 0, 0, .2);
+  }
+  :host:hover & {
+    visibility: visible;
+  }
+}
+
+mat-checkbox {
+  margin: 8px;
+}
+
+.status {
+  margin: 4px;
+  color: #777;
+}
+
+:host.added {
+  animation: request-added 5s;
+}
+
+@keyframes request-added {
+  0% {
+    background-color: #faffd3;
+  }
+  100% {
+    background-color: inherit;
+  }
+}

@@ -1,0 +1,31 @@
+// Import your custom theme
+@import '../common';
+@import '../../../../constants';
+
+:host {
+  @include content-width;
+  display: block;
+  margin: auto;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+
+  @media (max-width: $mobile-width - 1) {
+    flex-direction: column;
+    margin: 8px;
+  }
+}
+
+button.mat-button {
+  min-width: 0;
+  display: block;
+  text-transform: capitalize;
+  color: #444;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+}

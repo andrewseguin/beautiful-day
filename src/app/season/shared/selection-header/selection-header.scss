@@ -1,0 +1,46 @@
+@import '../../../constants';
+
+:host {
+  position: absolute;
+  height: 64px;
+  left: 0;
+  right: 0;
+  background: #03A9F4;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  color: white;
+
+  @media (max-width: $mobile-width - 1) {
+    height: 48px;
+  }
+}
+
+.count {
+  flex-grow: 1;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 0 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @media (max-width: $mobile-width - 1) {
+    padding: 0;
+    font-size: 16px;
+  }
+}
+
+edit-item-options, edit-request-options {
+  display: flex;
+}
+
+.close {
+  width: 64px;
+  height: 64px;
+
+  @media (max-width: $mobile-width - 1) {
+    height: 48px;
+    width: 48px;
+  }
+}

@@ -1,4 +1,4 @@
-import {Report} from 'app/ui/season/dao';
+import {Report} from 'app/season/dao';
 
 export class ReportSearchTransformer {
   static transform(report: Report): string {

@@ -1,0 +1,24 @@
+@import '../dialog-common';
+@import '../../../../constants';
+
+input, textarea {
+  min-width: 200px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+
+  @media (max-width: $mobile-width - 1) {
+    width: 100%;
+  }
+}
+
+.input-container {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 8px;
+  overflow: hidden;
+
+  @media (max-width: $mobile-width - 1) {
+    margin: 16px 0;
+  }
+}

@@ -1,0 +1,57 @@
+@import '../dialog-common';
+@import '../../../../constants';
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: $mobile-width) {
+    width: 400px;
+  }
+}
+
+.header {
+  padding-bottom: 8px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+
+  .type {
+    padding-bottom: 10px;
+    padding-right: 8px;
+    width: 80px;
+    text-align: left;
+    font-weight: bold;
+    color: #666;
+  }
+}
+
+mat-form-field {
+  flex-grow: 1;
+  padding-right: 16px;
+}
+
+input {
+  width: 100%;
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  color: red;
+  font-weight: lighter;
+  font-size: 12px;
+  margin-top: -8px;
+}
+
+.url-input {
+  display: flex;
+  mat-form-field {
+    flex-grow: 1;
+  }
+}

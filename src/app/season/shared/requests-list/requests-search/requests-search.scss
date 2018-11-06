@@ -1,0 +1,62 @@
+@import '../../../../constants';
+
+.top-bar-container {
+  display: flex;
+  justify-content: center;
+  margin: 16px 16px 0 16px;
+
+  @media (max-width: $mobile-width - 1) {
+    margin: 8px 8px 0 8px;
+  }
+
+  .top-bar {
+    display: flex;
+    flex-direction: column;
+    max-width: 650px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #CCC;
+    border-radius: 8px;
+    background: white;
+  }
+
+  .input-bar {
+    display: flex;
+    align-items: center;
+    margin-left: 16px;
+
+    button.new-filter {
+      height: 48px;
+      width: 48px;
+    }
+  }
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid transparent;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  font-size: 18px;
+  padding-bottom: 4px;
+  padding-left: 0;
+  margin-top: 5px; // Balance the bottom padding and border
+
+  &:active, &:hover, &:focus, :host.has-filters & {
+    border-color: #CCC
+  }
+}
+
+request-filter {
+  padding: 0 0 8px 16px;
+  display: block;
+}
+
+.filter-container {
+  overflow: hidden;
+}
+
+::ng-deep .filter-menu {
+  margin: -1px;
+}
