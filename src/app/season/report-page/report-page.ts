@@ -1,4 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Header} from 'app/season/services/header';
@@ -15,7 +21,8 @@ import {takeUntil} from 'rxjs/operators';
 
 @Component({
   templateUrl: 'report-page.html',
-  styleUrls: ['report-page.scss']
+  styleUrls: ['report-page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReportPage implements OnInit {
   set report(report: Report) {
@@ -50,6 +57,7 @@ export class ReportPage implements OnInit {
               private header: Header,
               private snackbar: MatSnackBar,
               private reportDialog: ReportDialog,
+              private cd: ChangeDetectorRef,
               private reportsDao: ReportsDao) {
     this.activatedRoute.params.pipe(takeUntil(this.destroyed)).subscribe(params => {
       const id = params['id'];
@@ -61,6 +69,7 @@ export class ReportPage implements OnInit {
 
       if (id === 'new') {
         this.report = createNewReport();
+        this.cd.markForCheck();
       } else {
         this.reportGetSubscription = this.reportsDao.get(id)
           .pipe(takeUntil(this.destroyed))
@@ -71,6 +80,7 @@ export class ReportPage implements OnInit {
               this.router.navigate([`reports`],
                   {relativeTo: this.activatedRoute.parent});
             }
+            this.cd.markForCheck();
           });
       }
     });

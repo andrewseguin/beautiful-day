@@ -1,21 +1,10 @@
 import {Component} from '@angular/core';
-
-interface Section {
-  label: string;
-  id: string;
-}
+import {Permissions} from 'app/season/services';
 
 @Component({
   styleUrls: ['admin-page.scss'],
-  templateUrl: 'admin-page.html'
+  templateUrl: 'admin-page.html',
 })
 export class AdminPage {
-  sections: Section[] = [
-    {label: 'Groups', id: 'manage-groups'},
-    {label: 'Projects', id: 'manage-projects'},
-    {label: 'Events', id: 'events'},
-    {label: 'Extras', id: 'extras'},
-  ];
-
-  selectedSection: Section = this.sections[2];
+  constructor(public permissions: Permissions) {}
 }

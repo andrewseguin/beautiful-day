@@ -1,4 +1,11 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Permissions} from 'app/season/services/permissions';
 import {RequestsList} from 'app/season/shared/requests-list/requests-list';
@@ -12,12 +19,13 @@ import {CdkPortal} from '@angular/cdk/portal';
 import {combineLatest, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Selection} from 'app/season/services';
-import {Request, Project, RequestsDao} from 'app/season/dao';
+import {Project, Request, RequestsDao} from 'app/season/dao';
 
 @Component({
   selector: 'project-requests',
   templateUrl: 'project-requests.html',
   styleUrls: ['project-requests.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectRequests implements OnInit {
   requests: Request[];
@@ -38,6 +46,7 @@ export class ProjectRequests implements OnInit {
               private header: Header,
               private requestsDao: RequestsDao,
               private selection: Selection,
+              private cd: ChangeDetectorRef,
               private permissions: Permissions) {}
 
   ngOnInit() {
@@ -68,6 +77,7 @@ export class ProjectRequests implements OnInit {
       this.hasRequests = requests.some(r => r.project === this.project.id);
       this.canEdit = editableProjects.has(this.project.id);
       this.isLoading = false;
+      this.cd.markForCheck();
     });
   }
 

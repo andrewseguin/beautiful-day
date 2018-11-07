@@ -1,4 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 
 @Component({
   selector: 'sliding-panel',
@@ -6,8 +13,9 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['sliding-panel.scss'],
   host: {
     '[class.mat-elevation-z5]': 'true',
-    '[class.open]': `open`,
-  }
+    '[class.open]': 'open',
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SlidingPanel {
   open = false;
@@ -17,11 +25,14 @@ export class SlidingPanel {
 
   @Output() closed = new EventEmitter<void>();
 
-  constructor() { }
+  constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     // Make microtask so that after initialized, the state changes and slides in
-    setTimeout(() => this.open = true);
+    setTimeout(() => {
+      this.open = true;
+      this.cd.markForCheck();
+    });
 
     const subcategories = this.category.split('>');
     this.title = subcategories[subcategories.length - 1];

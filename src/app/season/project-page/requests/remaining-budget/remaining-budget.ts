@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Accounting} from 'app/season/services/accounting';
 import * as CountUp from 'countup.js';
 import {takeUntil} from 'rxjs/operators';
@@ -12,7 +12,8 @@ import {Subject} from 'rxjs';
     '[class.negative]': 'currentRemainingBudget < 0',
     '[class.positive]': 'currentRemainingBudget > 0',
     '[class.loaded]': 'budgetLoaded'
-  }
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RemainingBudget implements OnInit {
   budgetLoaded: boolean;

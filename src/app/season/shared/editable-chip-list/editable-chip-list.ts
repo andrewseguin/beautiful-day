@@ -1,11 +1,12 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatChipInputEvent} from '@angular/material';
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'editable-chip-list',
   styleUrls: ['editable-chip-list.scss'],
-  templateUrl: 'editable-chip-list.html'
+  templateUrl: 'editable-chip-list.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditableChipList {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];

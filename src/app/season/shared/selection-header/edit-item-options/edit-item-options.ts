@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {EditItemName} from 'app/season/shared/dialog/edit-item-name/edit-item-name';
 import {EditItemCategory} from 'app/season/shared/dialog/edit-item-category/edit-item-category';
@@ -11,7 +11,8 @@ import {Subject} from 'rxjs';
 @Component({
   selector: 'edit-item-options',
   templateUrl: 'edit-item-options.html',
-  styleUrls: ['edit-item-options.scss']
+  styleUrls: ['edit-item-options.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditItemOptions {
 

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Project, ProjectsDao} from 'app/season/dao';
 import {debounceTime} from 'rxjs/operators';
@@ -8,6 +8,7 @@ import {MatChipInputEvent} from '@angular/material';
   selector: 'editable-project',
   styleUrls: ['editable-project.scss'],
   templateUrl: 'editable-project.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditableProject {
   lists: {id: string, label: string, values: string[]}[];
@@ -27,27 +28,28 @@ export class EditableProject {
       receiptsFolder: new FormControl(this.project.receiptsFolder),
     });
 
-    this.lists = [];
-    this.lists.push({
-      id: 'leads',
-      label: 'Leads',
-      values: (this.project.leads || []).slice()
-    });
-    this.lists.push({
-      id: 'directors',
-      label: 'Directors',
-      values: (this.project.directors || []).slice()
-    });
-    this.lists.push({
-      id: 'acquisitions',
-      label: 'Acquisitions',
-      values: (this.project.acquisitions || []).slice()
-    });
-    this.lists.push({
-      id: 'whitelist',
-      label: 'Edit Whitelist',
-      values: (this.project.whitelist || []).slice()
-    });
+    this.lists = [
+      {
+        id: 'leads',
+        label: 'Leads',
+        values: (this.project.leads || []).slice()
+      },
+      {
+        id: 'directors',
+        label: 'Directors',
+        values: (this.project.directors || []).slice()
+      },
+      {
+        id: 'acquisitions',
+        label: 'Acquisitions',
+        values: (this.project.acquisitions || []).slice()
+      },
+      {
+        id: 'whitelist',
+        label: 'Edit Whitelist',
+        values: (this.project.whitelist || []).slice()
+      },
+    ];
 
     this.projectForm.valueChanges
         .pipe(debounceTime(500))

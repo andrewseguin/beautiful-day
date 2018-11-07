@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Selection} from 'app/season/services';
 
@@ -21,7 +21,8 @@ export type SelectionType = 'request' | 'item';
         animate('350ms cubic-bezier(0.35, 0, 0.25, 1)')]
       ),
     ])
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectionHeader {
   constructor(private selection: Selection) { }

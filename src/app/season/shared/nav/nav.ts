@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {MatDialog, MatSidenav} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Permissions} from 'app/season/services/permissions';
@@ -8,9 +8,16 @@ import {EditUserProfile} from '../dialog/edit-user-profile/edit-user-profile';
 import {mergeMap, takeUntil} from 'rxjs/operators';
 import {UsersDao} from 'app/service/users-dao';
 import {FormControl} from '@angular/forms';
-import {of, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 
 const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
+
+export interface NavLink {
+  route: string;
+  label: string;
+  icon: string;
+  permissions?: Observable<boolean>;
+}
 
 @Component({
   selector: 'nav-content',
@@ -27,7 +34,8 @@ const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
       state('false',   style({ transform: 'rotate(180deg)' })),
       transition('* => *', animate(ANIMATION_DURATION)),
     ])
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Nav {
   user = this.afAuth.authState.pipe(
@@ -36,6 +44,20 @@ export class Nav {
 
   seasons = ['2017', '2018'];
   season = new FormControl('');
+
+  links: NavLink[] = [
+    {route: 'projects', label: 'Projects', icon: 'domain'},
+    {route: 'events', label: 'Events', icon: 'event'},
+    {
+      route: 'inventory', label: 'Inventory', icon: 'shopping_cart',
+      permissions: this.permissions.isAcquisitions
+    },
+    {route: 'reports', label: 'Reports', icon: 'assignment',
+      permissions: this.permissions.isAcquisitions},
+    {route: 'admin', label: 'Admin', icon: 'build',
+      permissions: this.permissions.isAdmin},
+    {route: 'help', label: 'Help', icon: 'help'},
+  ];
 
   @Input() sidenav: MatSidenav;
 

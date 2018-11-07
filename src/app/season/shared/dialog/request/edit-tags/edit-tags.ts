@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Observable, Subject} from 'rxjs';
 import {Request} from 'app/season/dao';
@@ -14,7 +14,8 @@ export interface EditTagsResult {
 
 @Component({
   templateUrl: 'edit-tags.html',
-  styleUrls: ['edit-tags.scss']
+  styleUrls: ['edit-tags.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditTags {
   tags: string[] = [];

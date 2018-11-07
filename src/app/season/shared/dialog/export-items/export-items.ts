@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Item, ItemsDao, RequestsDao} from 'app/season/dao';
 import {Subject} from 'rxjs';
@@ -6,7 +6,8 @@ import {takeUntil} from 'rxjs/operators';
 
 @Component({
   templateUrl: 'export-items.html',
-  styleUrls: ['export-items.scss']
+  styleUrls: ['export-items.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExportItems {
   items: Item[];

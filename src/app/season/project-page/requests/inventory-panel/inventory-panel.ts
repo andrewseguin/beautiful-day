@@ -1,4 +1,11 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output
+} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {PanelsManager} from './panels-manager';
 import {Item, ItemsDao, Project} from 'app/season/dao';
@@ -10,7 +17,8 @@ import {Subject} from 'rxjs';
   selector: 'inventory-panel',
   templateUrl: 'inventory-panel.html',
   styleUrls: ['inventory-panel.scss'],
-  providers: [PanelsManager]
+  providers: [PanelsManager],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InventoryPanel implements OnInit {
   subcategories: string[];
@@ -24,12 +32,14 @@ export class InventoryPanel implements OnInit {
   private destroyed = new Subject();
 
   constructor(private itemsDao: ItemsDao,
+              private cd: ChangeDetectorRef,
               public panelsManager: PanelsManager) {}
 
   ngOnInit() {
     this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
       if (items) {
         this.subcategories = getCategoryGroup(items).subcategories;
+        this.cd.markForCheck();
       }
     });
   }

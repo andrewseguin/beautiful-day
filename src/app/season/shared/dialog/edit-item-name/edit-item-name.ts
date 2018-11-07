@@ -1,11 +1,12 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Selection} from 'app/season/services';
 import {ItemsDao} from 'app/season/dao';
 
 @Component({
   templateUrl: 'edit-item-name.html',
-  styleUrls: ['edit-item-name.scss']
+  styleUrls: ['edit-item-name.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditItemName {
   itemIds: string[];

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {Permissions} from 'app/season/services/permissions';
 import {ItemsDao, RequestsDao} from 'app/season/dao';
@@ -8,7 +8,8 @@ import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
 @Component({
   selector: 'edit-request-options',
   templateUrl: 'edit-request-options.html',
-  styleUrls: ['edit-request-options.scss']
+  styleUrls: ['edit-request-options.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditRequestOptions {
   constructor(private requestsDao: RequestsDao,

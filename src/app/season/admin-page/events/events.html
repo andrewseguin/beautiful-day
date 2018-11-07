@@ -1,5 +1,11 @@
-<button mat-stroked-button color="accent" (click)="addEvent()"> Add Event </button>
+<ng-container *ngIf="events | async; let events; else loading">
+  <button mat-stroked-button color="accent" (click)="addEvent()"> Add Event </button>
 
-<editable-event *ngFor="let event of (eventsDao.list | async); trackBy: trackByFn"
-                [event]="event">
-</editable-event>
+  <editable-event *ngFor="let event of events; trackBy: trackByFn"
+                  [event]="event">
+  </editable-event>
+</ng-container>
+
+<ng-template #loading>
+  <loading *ngIf="!(events | async)"></loading>
+</ng-template>

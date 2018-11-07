@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Project, ProjectsDao} from 'app/season/dao';
 import {takeUntil} from 'rxjs/operators';
@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 @Component({
   templateUrl: 'project-page.html',
   styleUrls: ['project-page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectPage implements OnInit {
   project: Project;
@@ -16,6 +17,7 @@ export class ProjectPage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private cd: ChangeDetectorRef,
     private projectsDao: ProjectsDao) {}
 
   ngOnInit() {
@@ -24,6 +26,7 @@ export class ProjectPage implements OnInit {
         .subscribe(project => {
           this.isLoading = false;
           this.project = project;
+          this.cd.markForCheck();
         });
   }
 

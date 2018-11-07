@@ -15,31 +15,7 @@ export class ManageProjects {
   hasExpanded = new Set<Project>();
   expandedProjects = new SelectionModel<Project>(true);
 
-  seasons = [];
-  projectsBySeason: Map<string, Map<string, Project>>;
-
-  constructor(private projectsDao: ProjectsDao,
-              private changeDetectorRef: ChangeDetectorRef) {
-    // Get list of projects, categorize them by season
-    this.projectsDao.list.subscribe(projects => {
-      if (!projects) {
-        // Still loading
-        return;
-      }
-
-      this.projectsBySeason = new Map<string, Map<string, Project>>();
-      projects.forEach(project => {
-        if (!this.projectsBySeason.get(project.season)) {
-          this.projectsBySeason.set(project.season, new Map());
-        }
-
-        this.projectsBySeason.get(project.season).set(project.id, project);
-      });
-
-      this.seasons = Array.from(this.projectsBySeason.keys()).sort().reverse();
-      this.changeDetectorRef.markForCheck();
-    });
-
+  constructor(public projectsDao: ProjectsDao) {
     this.expandedProjects.changed.subscribe(change => {
       change.added.forEach(p => this.hasExpanded.add(p));
     });

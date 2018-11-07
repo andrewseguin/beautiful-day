@@ -1,4 +1,10 @@
-import {ChangeDetectorRef, Component, Input, OnDestroy} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy
+} from '@angular/core';
 import {Subject} from 'rxjs';
 import {User, UsersDao} from 'app/service/users-dao';
 import {takeUntil} from 'rxjs/operators';
@@ -6,7 +12,8 @@ import {takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'detail-user',
   templateUrl: 'detail-user.html',
-  styleUrls: ['detail-user.scss']
+  styleUrls: ['detail-user.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailUser implements OnDestroy {
   user: User;
@@ -21,7 +28,7 @@ export class DetailUser implements OnDestroy {
         .pipe(takeUntil(this.destroyed))
         .subscribe(user => {
           this.user = user ? user : {email: this.userEmail};
-          this.changeDetectorRef.markForCheck();
+          this.cd.markForCheck();
         });
   }
   get userEmail(): string { return this._userEmail; }
@@ -31,7 +38,7 @@ export class DetailUser implements OnDestroy {
   private destroyed = new Subject();
 
   constructor(private usersDao: UsersDao,
-              private changeDetectorRef: ChangeDetectorRef) {}
+              private cd: ChangeDetectorRef) {}
 
   ngOnDestroy() {
     this.destroyed.next();

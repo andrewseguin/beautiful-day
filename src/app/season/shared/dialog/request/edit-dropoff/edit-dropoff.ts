@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {map, mergeMap, takeUntil} from 'rxjs/operators';
@@ -17,7 +17,8 @@ export interface EditDropoffResult {
 
 @Component({
   templateUrl: 'edit-dropoff.html',
-  styleUrls: ['edit-dropoff.scss']
+  styleUrls: ['edit-dropoff.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditDropoff implements OnInit {
   location = new FormControl('');

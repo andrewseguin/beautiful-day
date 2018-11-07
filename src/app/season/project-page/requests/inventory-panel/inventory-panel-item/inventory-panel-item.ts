@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {take} from 'rxjs/operators';
@@ -14,7 +14,8 @@ import {EXPANSION_ANIMATION} from 'app/utility/animations';
     '[class.mat-elevation-z10]': 'expanded',
     '[class.expanded]': 'expanded',
   },
-  animations: EXPANSION_ANIMATION
+  animations: EXPANSION_ANIMATION,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InventoryPanelItem implements OnInit {
   expanded = false;
@@ -27,6 +28,7 @@ export class InventoryPanelItem implements OnInit {
   @Input() showCategory: boolean;
 
   constructor(private activatedRoute: ActivatedRoute,
+              private cd: ChangeDetectorRef,
               private projectsDao: ProjectsDao,
               private requestsDao: RequestsDao) { }
 
@@ -65,6 +67,7 @@ export class InventoryPanelItem implements OnInit {
     window.setTimeout(() => {
       this.requested = false;
       this.requestQuantity = 1;
+      this.cd.markForCheck();
     }, 1500);
   }
 }

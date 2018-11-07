@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Permissions} from 'app/season/services/permissions';
 import {AngularFireAuth} from '@angular/fire/auth';
@@ -11,7 +11,8 @@ export type Mode = 'new' | 'edit' | 'view';
 
 @Component({
   templateUrl: 'edit-item.html',
-  styleUrls: ['edit-item.scss']
+  styleUrls: ['edit-item.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditItem implements OnInit {
   _item: Item = {};

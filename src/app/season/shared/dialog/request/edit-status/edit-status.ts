@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Observable, Subject} from 'rxjs';
 import {Request} from 'app/season/dao';
@@ -26,7 +26,8 @@ interface EditStatusForm {
 
 @Component({
   templateUrl: 'edit-status.html',
-  styleUrls: ['edit-status.scss']
+  styleUrls: ['edit-status.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditStatus {
   formGroup: FormGroup;

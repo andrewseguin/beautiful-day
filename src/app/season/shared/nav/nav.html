@@ -12,44 +12,16 @@
 </div>
 
 <div class="link-list">
-  <button mat-button (click)="sidenav.close()"
-          routerLink="projects">
-    <mat-icon>domain</mat-icon>
-    Projects
-  </button>
-
-  <button mat-button (click)="sidenav.close()"
-          routerLink="events">
-    <mat-icon>event</mat-icon>
-    Events
-  </button>
-
-  <button mat-button (click)="sidenav.close()"
-          *ngIf="permissions.isAcquisitions | async"
-          routerLink="inventory">
-    <mat-icon>shopping_cart</mat-icon>
-    Inventory
-  </button>
-
-  <button mat-button (click)="sidenav.close()"
-          *ngIf="permissions.isAcquisitions | async"
-          routerLink="reports">
-    <mat-icon>assignment</mat-icon>
-    Reports
-  </button>
-
-  <button mat-button (click)="sidenav.close()"
-          *ngIf="permissions.isOwner | async"
-          routerLink="admin">
-    <mat-icon>build</mat-icon>
-    Admin
-  </button>
-
-  <button mat-button (click)="sidenav.close()"
-          routerLink="help">
-    <mat-icon>help</mat-icon>
-    Help
-  </button>
+  <ng-container *ngFor="let link of links">
+    <div mat-button class="link"
+         *ngIf="link.permissions ? (link.permissions | async) : true"
+         (click)="sidenav.close()"
+         routerLinkActive="active"
+         [routerLink]="link.route">
+      <mat-icon>{{link.icon}}</mat-icon>
+      {{link.label}}
+    </div>
+  </ng-container>
 </div>
 
 <div class="profile" [@userSection]="isUserProfileExpanded"

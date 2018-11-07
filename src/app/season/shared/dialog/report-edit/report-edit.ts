@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
@@ -7,7 +7,8 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
   templateUrl: 'report-edit.html',
   host: {
     '(keyup.Enter)': 'onEnter()'
-  }
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReportEdit {
   constructor(public dialogRef: MatDialogRef<ReportEdit>,

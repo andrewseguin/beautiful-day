@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {ActivatedSeason, Header, Permissions} from './services';
 import {takeUntil} from 'rxjs/operators';
@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 @Component({
   templateUrl: 'season.html',
   styleUrls: ['season.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Season {
   season: number;

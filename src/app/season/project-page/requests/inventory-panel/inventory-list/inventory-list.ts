@@ -1,4 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import {EditItem} from 'app/season/shared/dialog/edit-item/edit-item';
 import {MatDialog} from '@angular/material';
 import {Item, ItemsDao} from 'app/season/dao';
@@ -13,7 +20,8 @@ const ITEMS_TO_LOAD = 10;
 @Component({
   selector: 'inventory-list',
   templateUrl: 'inventory-list.html',
-  styleUrls: ['inventory-list.scss']
+  styleUrls: ['inventory-list.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InventoryList implements OnInit {
   loadingValue = 0;
@@ -51,7 +59,8 @@ export class InventoryList implements OnInit {
 
   private destroyed = new Subject();
 
-  constructor(private mdDialog: MatDialog,
+  constructor(private dialog: MatDialog,
+              private cd: ChangeDetectorRef,
               private itemsDao: ItemsDao) {}
 
   ngOnInit() {
@@ -110,6 +119,7 @@ export class InventoryList implements OnInit {
         this.clearLoading();
         this.itemsToShow += ITEMS_TO_LOAD;
       }
+      this.cd.markForCheck();
     }, 150);
   }
 
@@ -119,7 +129,7 @@ export class InventoryList implements OnInit {
   }
 
   createItem() {
-    const dialogRef = this.mdDialog.open(EditItem);
+    const dialogRef = this.dialog.open(EditItem);
 
     if (this.category) {
       dialogRef.componentInstance.item = {categories: [this.category]};

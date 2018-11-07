@@ -87,16 +87,44 @@
   border-top: 1px solid #CCC;
   flex: 1;
   overflow: auto;
+  padding-top: 4px;
+}
 
-  button {
-    display: block;
-    font-size: 16px;
-    height: 40px;
-    width: 100%;
-    text-align: left;
+.link {
+  font-size: 16px;
+  height: 40px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  outline: none;
+  color: #222;
 
-    mat-icon {
-      margin-right: 16px;
-    }
+  mat-icon {
+    color: #444;
+    margin: 0 16px;
+  }
+
+  &.active, &.active mat-icon {
+    color: black;
+  }
+
+  &.active:after, &:hover:after {
+    content: '';
+    background: #1e88e5;
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    left: -20px;
+    right: 8px;
+    bottom: 0;
+    border-radius: 20px;
+    color: black;
+  }
+
+  &:not(.active):hover:after {
+    opacity: 0.05;
   }
 }

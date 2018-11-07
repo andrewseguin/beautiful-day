@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {mergeMap, take} from 'rxjs/operators';
 import {User, UsersDao} from 'app/service/users-dao';
@@ -7,7 +7,8 @@ import {of} from 'rxjs';
 
 @Component({
   templateUrl: 'edit-user-profile.html',
-  styleUrls: ['edit-user-profile.scss']
+  styleUrls: ['edit-user-profile.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditUserProfile {
   user: User;

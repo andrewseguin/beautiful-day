@@ -24,7 +24,7 @@ import {
   MatSlideToggleModule,
   MatSnackBarModule,
   MatSortModule,
-  MatTableModule,
+  MatTableModule, MatTabsModule,
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
@@ -57,6 +57,7 @@ import {PortalModule} from '@angular/cdk/portal';
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
+    MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
     PortalModule,

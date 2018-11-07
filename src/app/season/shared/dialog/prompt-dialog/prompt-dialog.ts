@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
@@ -19,7 +19,8 @@ export interface PromptDialogData {
 @Component({
   selector: 'prompt-dialog',
   templateUrl: 'prompt-dialog.html',
-  styleUrls: ['prompt-dialog.scss']
+  styleUrls: ['prompt-dialog.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PromptDialog {
   title = '';

@@ -1,4 +1,11 @@
-import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
@@ -9,14 +16,15 @@ import {Subject} from 'rxjs';
   styleUrls: ['inventory-search.scss'],
   host: {
     '[class.showSearch]': 'showSearch',
-  }
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InventorySearch  {
   showSearch = false;
 
   @ViewChild('searchInput') searchInput: ElementRef;
 
-  @Output() change = new EventEmitter<string>();
+  @Output() searchChange = new EventEmitter<string>();
 
   search = new FormControl('');
 
@@ -24,7 +32,10 @@ export class InventorySearch  {
 
   constructor() {
     this.search.valueChanges.pipe(takeUntil(this.destroyed))
-        .subscribe(value => this.change.emit(value));
+        .subscribe(value => {
+          console.log(value);
+          this.searchChange.emit(value);
+        });
   }
 
   ngOnDestroy() {

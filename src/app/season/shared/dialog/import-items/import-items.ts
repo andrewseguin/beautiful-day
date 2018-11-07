@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Item, ItemsDao} from 'app/season/dao';
 
@@ -8,7 +8,8 @@ enum COLUMNS {
 
 @Component({
   templateUrl: 'import-items.html',
-  styleUrls: ['import-items.scss']
+  styleUrls: ['import-items.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImportItems {
   items: Item[];

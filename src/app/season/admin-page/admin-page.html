@@ -1,27 +1,17 @@
-<div class="container" [class.hasSelectedSection]="selectedSection">
-  <div class="nav mat-elevation-z4">
-    <div class="links">
-      <button mat-button *ngFor="let section of sections"
-              [class.selected]="section === selectedSection"
-              (click)="selectedSection = section">
-        {{section.label}}
-      </button>
-    </div>
-  </div>
-  <div class="content" *ngIf="selectedSection">
-    <div class="section-title">
-      <button mat-icon-button
-              class="back-button"
-              (click)="selectedSection = null">
-        <mat-icon> arrow_back </mat-icon>
-      </button>
-      {{selectedSection?.label}}
-    </div>
-    <ng-container [ngSwitch]="selectedSection?.id">
-      <extras *ngSwitchCase="'extras'"></extras>
-      <manage-projects *ngSwitchCase="'manage-projects'"></manage-projects>
-      <manage-groups *ngSwitchCase="'manage-groups'"></manage-groups>
-      <events *ngSwitchCase="'events'"></events>
-    </ng-container>
-  </div>
-</div>
+<mat-tab-group>
+  <mat-tab label="Groups">
+    <manage-groups></manage-groups>
+  </mat-tab>
+
+  <mat-tab label="Projects">
+    <manage-projects></manage-projects>
+  </mat-tab>
+
+  <mat-tab label="Events">
+    <events></events>
+  </mat-tab>
+
+  <mat-tab label="Extras" *ngIf="permissions.isOwner | async">
+    <extras></extras>
+  </mat-tab>
+</mat-tab-group>
