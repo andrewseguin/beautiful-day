@@ -5,10 +5,11 @@ import {Permissions} from 'app/season/services/permissions';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {EditUserProfile} from '../dialog/edit-user-profile/edit-user-profile';
-import {mergeMap, takeUntil} from 'rxjs/operators';
+import {map, mergeMap, takeUntil} from 'rxjs/operators';
 import {UsersDao} from 'app/service/users-dao';
 import {FormControl} from '@angular/forms';
 import {Observable, of, Subject} from 'rxjs';
+import {SeasonsDao} from 'app/service/seasons-dao';
 
 const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 
@@ -42,7 +43,7 @@ export class Nav {
       mergeMap(auth => auth ? this.usersDao.getByEmail(auth.email) : of(null)));
   isUserProfileExpanded = false;
 
-  seasons = ['2017', '2018'];
+  seasons = this.seasonsDao.list.pipe(map(v => v ? v.map(s => s.id) : []));
   season = new FormControl('');
 
   links: NavLink[] = [
@@ -67,6 +68,7 @@ export class Nav {
               public afAuth: AngularFireAuth,
               public dialog: MatDialog,
               public usersDao: UsersDao,
+              public seasonsDao: SeasonsDao,
               public activatedRoute: ActivatedRoute,
               public router: Router) {
     this.activatedRoute.params.pipe(

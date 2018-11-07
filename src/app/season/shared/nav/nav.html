@@ -5,7 +5,7 @@
 
 <div class="season">
     <mat-select [formControl]="season">
-      <mat-option *ngFor="let value of seasons" [value]="value">
+      <mat-option *ngFor="let value of seasons | async" [value]="value">
         {{value}}
       </mat-option>
     </mat-select>

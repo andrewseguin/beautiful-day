@@ -1,4 +1,4 @@
-<mat-sidenav-container>
+<mat-sidenav-container *ngIf="seasonExists | async">
   <mat-sidenav [autoFocus]="false" #sidenav >
     <nav-content [sidenav]="sidenav"></nav-content>
   </mat-sidenav>
