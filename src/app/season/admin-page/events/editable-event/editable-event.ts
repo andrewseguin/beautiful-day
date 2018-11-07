@@ -25,7 +25,7 @@ export class EditableEvent {
     info: new FormControl(''),
   });
 
-  constructor(private eventsDao: EventsDao) {
+  constructor(public eventsDao: EventsDao) {
     this.form.valueChanges.subscribe(() => this.update());
   }
 

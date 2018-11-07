@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {RequestGroup, RequestGrouping} from './request-grouping';
 import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
-import {RequestSearchTransformer} from './request-search-transformer';
 import {RequestRendererOptions} from './request-renderer-options';
 import {startWith} from 'rxjs/operators';
 import {RequestFilterer} from './request-filterer';
 import {RequestSorter} from './request-sorter';
 import {Item, ItemsDao, Project, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
+import {tokenizeRequest} from '../../../utility/tokenize';
 
 @Injectable()
 export class RequestsRenderer {
@@ -89,7 +89,7 @@ export class RequestsRenderer {
   }
 
   requestMatchesSearch(request: Request, item: Item, project: Project, token: string) {
-    const requestStr = RequestSearchTransformer.transform(request, item, project);
+    const requestStr = tokenizeRequest(request, item, project);
     return requestStr.indexOf(token.toLowerCase()) != -1;
   }
 }

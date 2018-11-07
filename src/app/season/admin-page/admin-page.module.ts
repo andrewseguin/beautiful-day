@@ -6,6 +6,12 @@ import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 import {ManageGroupsModule} from './manage-groups/manage-groups.module';
 import {EventsModule} from './events/events.module';
+import {RouterModule, Routes} from '@angular/router';
+
+const routes: Routes = [{path: '', component: AdminPage}];
+
+@NgModule({imports: [RouterModule.forChild(routes)], exports: [RouterModule]})
+export class AdminPageRoutingModule {}
 
 @NgModule({
   imports: [
@@ -15,6 +21,7 @@ import {EventsModule} from './events/events.module';
     ManageProjectsModule,
     ManageGroupsModule,
     EventsModule,
+    AdminPageRoutingModule,
   ],
   declarations: [AdminPage],
   exports: [AdminPage],
