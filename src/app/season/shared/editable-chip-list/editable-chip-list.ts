@@ -18,7 +18,7 @@ export class EditableChipList {
   get values(): string[] { return this._values; }
   _values: string[] = [];
 
-  @Output() change = new EventEmitter<string[]>();
+  @Output() listChange = new EventEmitter<string[]>();
 
   @Input() transform = v => v;
 
@@ -34,7 +34,7 @@ export class EditableChipList {
       event.input.value = '';
     }
 
-    this.change.emit(this.values);
+    this.listChange.emit(this.values);
   }
 
   remove(email: string) {
@@ -43,6 +43,6 @@ export class EditableChipList {
       this.values.splice(index, 1);
     }
 
-    this.change.emit(this.values);
+    this.listChange.emit(this.values);
   }
 }

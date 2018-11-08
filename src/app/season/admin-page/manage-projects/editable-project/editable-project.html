@@ -31,6 +31,6 @@
   <editable-chip-list *ngFor="let list of lists"
                       placeholder="Add email (e.g. user@beautifulday.org)"
                       [label]="list.label" [values]="list.values"
-                      (change)="list.values = $event; updateLists()">
+                      (listChange)="list.values = $event; updateLists()">
   </editable-chip-list>
 </form>

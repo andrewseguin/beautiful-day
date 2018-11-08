@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 export class RouteGuard {
   private destroyed = new Subject();
 
-  @Input() check: 'acquisitions';
+  @Input() check: 'acquisitions' | 'admin';
 
   constructor(private permissions: Permissions, private router: Router) {}
 
@@ -15,6 +15,13 @@ export class RouteGuard {
     switch (this.check) {
       case 'acquisitions':
         this.permissions.isAcquisitions.subscribe(value => {
+          if (value !== null && !value) {
+            this.router.navigate(['']);
+          }
+        });
+        break;
+      case 'admin':
+        this.permissions.isAdmin.subscribe(value => {
           if (value !== null && !value) {
             this.router.navigate(['']);
           }

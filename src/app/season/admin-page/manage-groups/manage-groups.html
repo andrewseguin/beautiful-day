@@ -1,22 +1,8 @@
 <div *ngIf="permissions.isAdmin | async">
-  <editable-chip-list *ngIf="acquisitions | async; let group"
-                      placeholder="Add acquisition email (e.g. user@beautifulday.org)"
+  <editable-chip-list *ngFor="let group of groups"
+                      placeholder="Add email (e.g. user@beautifulday.org)"
                       [label]="group.id"
-                      [values]="group.users"
-                      (change)="update(group.id, $event)">
-  </editable-chip-list>
-
-  <editable-chip-list *ngIf="approvers | async; let group"
-                      placeholder="Add approver email (e.g. user@beautifulday.org)"
-                      [label]="group.id"
-                      [values]="group.users"
-                      (change)="update(group.id, $event)">
-  </editable-chip-list>
-
-  <editable-chip-list *ngIf="admins | async; let group"
-                      placeholder="Add admin email (e.g. user@beautifulday.org)"
-                      [label]="group.id"
-                      [values]="group.users"
-                      (change)="update(group.id, $event)">
+                      [values]="group.users | async"
+                      (listChange)="update(group.id, $event)">
   </editable-chip-list>
 </div>

@@ -88,7 +88,8 @@ export abstract class ListDao<T extends IdentifiedObject> {
   }
 
   update(id: string, update: T) {
-    this.collection.doc(id).update(update);
+    // Using set because update will fail if the doc doesn't exist
+    this.collection.doc(id).set(update, {merge: true});
   }
 
   remove (id: string) {

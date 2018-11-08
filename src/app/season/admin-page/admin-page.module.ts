@@ -7,13 +7,9 @@ import {MaterialModule} from 'app/material.module';
 import {ManageGroupsModule} from './manage-groups/manage-groups.module';
 import {EventsModule} from './events/events.module';
 import {RouterModule, Routes} from '@angular/router';
-import {ManageProjects} from 'app/season/admin-page/manage-projects/manage-projects';
+import {RouteGuardModule} from 'app/season/shared/route-guard/route-guard.module';
 
-const routes: Routes = [
-  {path: '', component: AdminPage, children: [
-      {path: 'projects', component: ManageProjects}
-  ]}
-];
+const routes: Routes = [{path: '', component: AdminPage}];
 
 @NgModule({imports: [RouterModule.forChild(routes)], exports: [RouterModule]})
 export class AdminPageRoutingModule {}
@@ -27,6 +23,7 @@ export class AdminPageRoutingModule {}
     ManageGroupsModule,
     EventsModule,
     AdminPageRoutingModule,
+    RouteGuardModule,
   ],
   declarations: [AdminPage],
   exports: [AdminPage],
