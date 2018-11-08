@@ -50,7 +50,7 @@ export class ProjectRequests implements OnInit {
               private permissions: Permissions) {}
 
   ngOnInit() {
-    this.header.toolbarOutlet = this.toolbarActions;
+    this.header.toolbarOutlet.next(this.toolbarActions);
 
     const renderRequestsOptions = new RequestRendererOptions();
     renderRequestsOptions.filters = [{
@@ -82,7 +82,7 @@ export class ProjectRequests implements OnInit {
   }
 
   ngOnDestroy() {
-    this.header.toolbarOutlet = null;
+    this.header.toolbarOutlet.next(null);
     this.destroyed.next();
     this.destroyed.complete();
   }

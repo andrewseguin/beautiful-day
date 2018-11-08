@@ -87,11 +87,11 @@ export class ReportPage implements OnInit {
   }
 
   ngOnInit() {
-    this.header.toolbarOutlet = this.toolbarActions;
+    this.header.toolbarOutlet.next(this.toolbarActions);
   }
 
   ngOnDestroy() {
-    this.header.toolbarOutlet = null;
+    this.header.toolbarOutlet.next(null);
     this.destroyed.next();
     this.destroyed.complete();
   }

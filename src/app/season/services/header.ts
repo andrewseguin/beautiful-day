@@ -6,7 +6,7 @@ import {Title as WindowTitle} from '@angular/platform-browser';
 import {CdkPortal} from '@angular/cdk/portal';
 import {ProjectsDao, ReportsDao} from 'app/season/dao';
 import {ActivatedSeason} from './activated-season';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 const SECTIONS = new Map<string, string>([
   ['projects', 'Projects'],
@@ -24,7 +24,8 @@ const SECTIONS = new Map<string, string>([
 export class Header {
   goBack: () => void | null;
   title = new BehaviorSubject<string>('Loading...');
-  toolbarOutlet: CdkPortal;
+
+  toolbarOutlet = new BehaviorSubject<CdkPortal>(null);
 
   destroyed = new Subject();
 

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {Header} from 'app/season/services/header';
 import {MatSidenav} from '@angular/material';
 
@@ -11,7 +11,7 @@ import {MatSidenav} from '@angular/material';
 export class SeasonHeader {
   @Input() sidenav: MatSidenav;
 
-  constructor(public header: Header) { }
+  constructor(public header: Header, private cd: ChangeDetectorRef) { }
 
   leftButtonClicked() {
     if (this.header.goBack) {
@@ -19,5 +19,9 @@ export class SeasonHeader {
     } else {
       this.sidenav.open();
     }
+  }
+
+  check() {
+    this.cd.markForCheck();
   }
 }

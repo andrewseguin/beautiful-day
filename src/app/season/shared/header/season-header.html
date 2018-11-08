@@ -6,8 +6,8 @@
   <div class="name"> {{header.title | async}}</div>
 
   <div class="end">
-    <ng-template *ngIf="header.toolbarOutlet"
-                 [cdkPortalOutlet]="header.toolbarOutlet">
+    <ng-template *ngIf="header.toolbarOutlet | async; let toolbarOutlet"
+                 [cdkPortalOutlet]="toolbarOutlet">
     </ng-template>
   </div>
 </mat-toolbar>
