@@ -7,7 +7,7 @@
     </mat-checkbox>
 
     <div class="name">
-        <span class="editable clickable" (click)="viewItem($event)">
+        <span class="editable">
           {{getItemName(item)}}
         </span>
       <mat-icon *ngIf="canEdit"
@@ -39,6 +39,7 @@
       <span *ngIf="!item?.cost">--</span>
     </div>
   </div>
+
   <div class="details">
     <div>
       <span class="editable">

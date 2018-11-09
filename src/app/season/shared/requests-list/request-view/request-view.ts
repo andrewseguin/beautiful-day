@@ -109,20 +109,6 @@ export class RequestView implements OnInit {
     this.requestDialog.editDropoff([this.request.id]);
   }
 
-  viewItem(e: Event) {
-    e.stopPropagation();
-
-    const dialogRef = this.mdDialog.open(EditItem);
-    dialogRef.componentInstance.mode = 'view';
-
-    // If acquisitions member, can edit the item
-    this.permissions.permissions.pipe(take(1)).subscribe(p => {
-      if (p.has('acquisitions')) { dialogRef.componentInstance.mode = 'edit'; }
-    });
-
-    dialogRef.componentInstance.item = this.item;
-  }
-
   navigateToUrl(url: string) {
     window.open(url);
   }
