@@ -192,9 +192,8 @@ export class RequestDialog {
   }
 
   deleteRequests(ids: string[]) {
-    const selected = this.selection.requests.selected;
-    const name = selected .length > 1 ? of('these requests') :
-        this.requestsDao.get(selected[0]).pipe(
+    const name = ids.length > 1 ? of('these requests') :
+        this.requestsDao.get(ids[0]).pipe(
           mergeMap(r => this.itemsDao.get(r.item)),
           map(item => `request for ${item.name}`));
     const config = {data: {name}};
@@ -205,13 +204,20 @@ export class RequestDialog {
         return;
       }
 
-      ids.forEach(id => this.requestsDao.remove(id));
+      combineLatest(ids.map(id => this.requestsDao.get(id))).pipe(
+          take(1))
+          .subscribe(requests => {
+            ids.forEach(id => this.requestsDao.remove(id));
 
-      const message = `Removed ${this.selection.requests.selected.length} requests`;
-      const config: MatSnackBarConfig = {duration: 3000};
-      this.snackBar.open(message, null, config);
+            const message = `Removed ${ids.length > 1 ? 'requests' : 'request'}`;
+            const config: MatSnackBarConfig = {duration: 5000};
+            this.snackBar.open(message, 'Undo', config).onAction().subscribe(() => {
+              requests.forEach(request => this.requestsDao.add(request));
+            });
 
-      this.selection.requests.clear();
+            this.selection.requests.clear();
+          });
+
 
     });
   }

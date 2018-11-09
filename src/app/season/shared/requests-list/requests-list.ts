@@ -33,7 +33,7 @@ export class RequestsList {
 
   requestGroups: RequestGroup[];
   renderedRequestGroups: RequestGroup[];
-  requestsToDisplay = 1;
+  requestsToDisplay = 10;
 
   @Input() set requestRendererOptionsState(state: RequestRendererOptionsState) {
     this.requestsRenderer.options.setState(state);

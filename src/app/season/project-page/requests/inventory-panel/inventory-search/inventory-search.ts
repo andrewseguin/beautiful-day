@@ -32,10 +32,7 @@ export class InventorySearch  {
 
   constructor() {
     this.search.valueChanges.pipe(takeUntil(this.destroyed))
-        .subscribe(value => {
-          console.log(value);
-          this.searchChange.emit(value);
-        });
+        .subscribe(value => this.searchChange.emit(value));
   }
 
   ngOnDestroy() {

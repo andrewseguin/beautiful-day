@@ -19,7 +19,7 @@ export class EditItem implements OnInit {
   disableCategory: boolean;
   mode: Mode;
   isAcquisitions: boolean;
-  categories: string[];
+  categories: string;
 
   set item(item: Item) {
     this._item = {};
@@ -40,7 +40,7 @@ export class EditItem implements OnInit {
 
     this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
       const itemsByCategory = getItemsByCategory(items);
-      this.categories = Object.keys(itemsByCategory.subcategories);
+      //this.categories = Object.keys(itemsByCategory.subcategories);
     });
   }
 
@@ -69,7 +69,7 @@ export class EditItem implements OnInit {
     const persistingItem: Item = {
       name: this._item.name.trim(),
       cost: this._item.cost,
-      categories: this._item.categories.map(c => c.trim()),
+      categories: ['None'],
       url: this._item.url,
       quantityOwned: this._item.quantityOwned || ''
     };

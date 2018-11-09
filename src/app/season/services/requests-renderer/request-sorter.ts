@@ -1,5 +1,6 @@
 import {Item, Request} from 'app/season/dao/index';
 import {Sort} from 'app/season/services/requests-renderer/request-renderer-options';
+import {getItemName} from 'app/season/utility/item-name';
 
 export class RequestSorter {
   getSortFunction(sort: Sort, itemMap: Map<string, Item>) {
@@ -25,9 +26,9 @@ export class RequestSorter {
         };
       case 'item name':
         return (a: Request, b: Request) => {
-          const itemA = itemMap.get(a.item);
-          const itemB = itemMap.get(b.item);
-          return itemA.name < itemB.name ? -1 : 1;
+          const nameA = getItemName(itemMap.get(a.item));
+          const nameB = getItemName(itemMap.get(b.item));
+          return nameA < nameB ? -1 : 1;
         };
       case 'date needed':
         return (a: Request, b: Request) => {

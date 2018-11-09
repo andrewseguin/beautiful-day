@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {SeasonCollectionDao} from './season-collection-dao';
 import {ActivatedSeason} from 'app/season/services/activated-season';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {MatSnackBar} from '@angular/material';
 
 export interface Request {
   id?: string;

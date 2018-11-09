@@ -1,5 +1,8 @@
 import {Item, Request} from 'app/season/dao/index';
 import {Group} from 'app/season/services/requests-renderer/request-renderer-options';
+import {DatePipe} from '@angular/common';
+import {LOCALE_ID} from '@angular/core';
+import {getItemName} from 'app/season/utility/item-name';
 
 export class RequestGroup {
   id: string;
@@ -65,7 +68,7 @@ export class RequestGrouping {
 
     // Create map of all requests keyed by date
     this.requests.forEach(request => {
-      const dateStr = request.date.toString();
+      const dateStr = request.date;
       if (!dateNeededGroups.has(dateStr)) {
         dateNeededGroups.set(dateStr, []);
       }
@@ -75,7 +78,7 @@ export class RequestGrouping {
 
     const requestGroups = [];
     dateNeededGroups.forEach((requests, date) => {
-      const title = date ? this.getDateString(new Date(Number(date))) : 'Unknown dropoff date';
+      const title = new DatePipe('en-US').transform(new Date(date), 'MMMM d (EEEE)');
       requestGroups.push({id: date, title, requests});
     });
 
@@ -154,29 +157,9 @@ export class RequestGrouping {
     const requestGroups = [];
     itemGroups.forEach((requests, itemKey) => {
       const item = itemMap.get(itemKey);
-      let title = `${item.name}`;
-
-      requestGroups.push({id: itemKey, title, requests});
+      requestGroups.push({id: itemKey, title: getItemName(item), requests});
     });
 
     return requestGroups;
-  }
-
-  getDateString(d: Date): string {
-    const dayNames = [
-      'Sunday', 'Monday', 'Tuesday',
-      'Wednesday', 'Thursday',
-      'Friday', 'Saturday'
-    ];
-    const monthNames = [
-      'January', 'February', 'March',
-      'April', 'May', 'June', 'July',
-      'August', 'September', 'October',
-      'November', 'December'
-    ];
-
-    const readableDate = `${monthNames[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-    return readableDate + ` (${dayNames[d.getDay()]})`;
-
   }
 }
