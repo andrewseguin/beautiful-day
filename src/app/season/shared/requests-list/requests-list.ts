@@ -33,7 +33,7 @@ export class RequestsList {
 
   requestGroups: RequestGroup[];
   renderedRequestGroups: RequestGroup[];
-  requestsToDisplay = 10;
+  requestsToDisplay = 1;
 
   @Input() set requestRendererOptionsState(state: RequestRendererOptionsState) {
     this.requestsRenderer.options.setState(state);
@@ -71,12 +71,12 @@ export class RequestsList {
         if (distanceFromBottom < 1000 && scrollTop > 200) {
           this.requestsToDisplay += 40;
           this.render();
-          this.cd.detectChanges();
+          this.ngZone.run(() => this.cd.markForCheck());
         } else if (scrollTop < 200) {
           if (this.requestsToDisplay != 20) {
             this.requestsToDisplay = 20;
             this.render();
-            this.cd.detectChanges();
+            this.ngZone.run(() => this.cd.markForCheck());
           }
         }
     });
