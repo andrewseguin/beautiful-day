@@ -18,6 +18,7 @@ import {Subject, Subscription} from 'rxjs';
 import {ReportDialog} from 'app/season/shared/dialog/report-dialog';
 import {Report, ReportsDao} from 'app/season/dao';
 import {takeUntil} from 'rxjs/operators';
+import {ActivatedSeason} from 'app/season/services';
 
 @Component({
   templateUrl: 'report-page.html',
@@ -54,6 +55,7 @@ export class ReportPage implements OnInit {
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
+              private activatedSeason: ActivatedSeason,
               private header: Header,
               private snackbar: MatSnackBar,
               private reportDialog: ReportDialog,
@@ -97,7 +99,8 @@ export class ReportPage implements OnInit {
   }
 
   saveAs() {
-    this.reportDialog.saveAsReport(this.currentOptions, this.activatedRoute.parent);
+    this.reportDialog.saveAsReport(
+        this.currentOptions, this.activatedSeason.season.value);
   }
 
   save() {

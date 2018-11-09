@@ -58,8 +58,7 @@ export class ReportDialog {
    * save the report and automatically navigate to the report page with $key,
    * replacing the current URL.
    */
-  saveAsReport(currentOptions: RequestRendererOptionsState,
-               activatedRoute: ActivatedRoute) {
+  saveAsReport(currentOptions: RequestRendererOptionsState, season: string) {
     this.dialog.open(ReportEdit).afterClosed().pipe(
         take(1))
         .subscribe(result => {
@@ -74,8 +73,7 @@ export class ReportDialog {
           };
 
           this.reportsDao.add(report).then(id => {
-            this.router.navigate([`report/${id}`], {
-              relativeTo: activatedRoute,
+            this.router.navigate([`${season}/report/${id}`], {
               replaceUrl: true
             });
           });

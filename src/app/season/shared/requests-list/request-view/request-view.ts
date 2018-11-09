@@ -90,6 +90,7 @@ export class RequestView implements OnInit {
   }
 
   isSelected() {
+    console.log('isSelected', this.selection.requests.isSelected(this.request.id));
     return this.selection.requests.isSelected(this.request.id);
   }
 

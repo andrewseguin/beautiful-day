@@ -90,7 +90,8 @@ export class RequestGrouping {
 
     // Create map of all requests keyed by item
     this.requests.forEach(request => {
-      const category = itemMap.get(request.item).categories[0].trim();
+      const categories = itemMap.get(request.item).categories;
+      const category = categories[0].split('>')[0].trim();
       if (!categoryGroups.has(category)) {
         categoryGroups.set(category, []);
       }

@@ -39,7 +39,7 @@ export class PrintPage {
               private header: Header,
               private itemsDao: ItemsDao,
               private projectsDao: ProjectsDao,
-              private requestsRenderer: RequestsRenderer) {
+              public requestsRenderer: RequestsRenderer) {
     const params = this.activatedRoute.snapshot.params as PrintPageParams;
     this.header.title.next(params.title);
 
