@@ -57,6 +57,7 @@ import {PortalModule} from '@angular/cdk/portal';
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
+    MatTableModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,

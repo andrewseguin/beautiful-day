@@ -1,5 +1,5 @@
-import {Item, Request} from 'app/season/dao';
-import {Sort} from 'app/season/shared/requests-list/render/request-renderer-options';
+import {Item, Request} from 'app/season/dao/index';
+import {Sort} from 'app/season/services/requests-renderer/request-renderer-options';
 
 export class RequestSorter {
   getSortFunction(sort: Sort, itemMap: Map<string, Item>) {

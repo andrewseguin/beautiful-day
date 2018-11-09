@@ -1,6 +1,7 @@
 <mat-drawer-container *ngIf="!isLoading; else loading">
   <requests-list *ngIf="hasRequests"
-                 [requestRendererOptionsState]="renderRequestsOptionsState">
+                 [requestRendererOptionsState]="initialOptionsState"
+                 (requestRendererOptionsChanged)="currentOptionsState = $event">
   </requests-list>
 
   <div *ngIf="!hasRequests" class="empty-requests">
@@ -49,6 +50,9 @@
   <remaining-budget *ngIf="canEdit"
                     [projectId]="project.id">
   </remaining-budget>
+  <button class="print" mat-icon-button (click)="print()">
+    <mat-icon>print</mat-icon>
+  </button>
 </ng-template>
 
 <ng-template #loading>

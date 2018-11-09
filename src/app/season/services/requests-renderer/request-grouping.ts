@@ -1,5 +1,5 @@
-import {Item, Request} from 'app/season/dao';
-import {Group} from 'app/season/shared/requests-list/render/request-renderer-options';
+import {Item, Request} from 'app/season/dao/index';
+import {Group} from 'app/season/services/requests-renderer/request-renderer-options';
 
 export class RequestGroup {
   id: string;

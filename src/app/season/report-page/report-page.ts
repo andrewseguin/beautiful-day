@@ -13,7 +13,7 @@ import {
   areOptionStatesEqual,
   RequestRendererOptions,
   RequestRendererOptionsState
-} from 'app/season/shared/requests-list/render/request-renderer-options';
+} from 'app/season/services/requests-renderer/request-renderer-options';
 import {Subject, Subscription} from 'rxjs';
 import {ReportDialog} from 'app/season/shared/dialog/report-dialog';
 import {Report, ReportsDao} from 'app/season/dao';

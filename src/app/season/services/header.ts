@@ -42,13 +42,16 @@ export class Header {
       .subscribe((e: NavigationEnd) => {
         this.goBack = null;
         const urlParts = e.urlAfterRedirects.split('/');
-        const section = urlParts[2];
+        const section = urlParts[2].split(';')[0]; // split ; for print; with data
         const id = urlParts[3];
 
         if (section === 'project') {
           this.onProjectRoute(id);
         } else if (section === 'report') {
           this.onReportRoute(id);
+        } else if (section === 'print') {
+          this.goBack = () => window.history.back();
+          // Title will be set by print page
         } else if (SECTIONS.has(section)) {
           this.title.next(SECTIONS.get(section));
         } else {

@@ -7,8 +7,8 @@ import {
   FilterProjectQuery,
   FilterPurchaserQuery,
   RequestRendererOptions
-} from 'app/season/shared/requests-list/render/request-renderer-options';
-import {getRequestCost} from 'app/season/services/accounting';
+} from 'app/season/services/requests-renderer/request-renderer-options';
+import {getRequestCost} from 'app/season/utility/request-cost';
 
 export class RequestFilterer {
 

@@ -6,19 +6,19 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Permissions} from 'app/season/services/permissions';
 import {RequestsList} from 'app/season/shared/requests-list/requests-list';
 import {
   RequestRendererOptions,
   RequestRendererOptionsState
-} from 'app/season/shared/requests-list/render/request-renderer-options';
+} from 'app/season/services/requests-renderer/request-renderer-options';
 import {isMobile} from 'app/utility/media-matcher';
 import {Header} from 'app/season/services/header';
 import {CdkPortal} from '@angular/cdk/portal';
 import {combineLatest, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {Selection} from 'app/season/services';
+import {ActivatedSeason, Selection} from 'app/season/services';
 import {Project, Request, RequestsDao} from 'app/season/dao';
 
 @Component({
@@ -29,7 +29,8 @@ import {Project, Request, RequestsDao} from 'app/season/dao';
 })
 export class ProjectRequests implements OnInit {
   requests: Request[];
-  renderRequestsOptionsState: RequestRendererOptionsState;
+  initialOptionsState: RequestRendererOptionsState;
+  currentOptionsState: RequestRendererOptionsState;
 
   isLoading: boolean;
   hasRequests: boolean;
@@ -43,6 +44,8 @@ export class ProjectRequests implements OnInit {
   private destroyed = new Subject();
 
   constructor(private activatedRoute: ActivatedRoute,
+              private activatedSeason: ActivatedSeason,
+              private router: Router,
               private header: Header,
               private requestsDao: RequestsDao,
               private selection: Selection,
@@ -58,7 +61,8 @@ export class ProjectRequests implements OnInit {
       query: { key: this.project.id },
       isImplicit: true
     }];
-    this.renderRequestsOptionsState = renderRequestsOptions.getState();
+    this.initialOptionsState = renderRequestsOptions.getState();
+    this.currentOptionsState = this.initialOptionsState;
 
     const changes = [
       this.requestsDao.list,
@@ -93,5 +97,12 @@ export class ProjectRequests implements OnInit {
 
   hasSelectedRequests(): boolean {
     return this.selection.requests.selected.length > 0;
+  }
+
+  print() {
+    this.router.navigate([`${this.activatedSeason.season.value}/print`, {
+      options: JSON.stringify(this.currentOptionsState),
+      title: this.project.name
+    }]);
   }
 }

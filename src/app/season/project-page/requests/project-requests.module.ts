@@ -6,6 +6,7 @@ import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 import {InventoryPanelModule} from './inventory-panel/inventory-panel.module';
 import {LoadingModule} from '../../shared/loading/loading.module';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import {LoadingModule} from '../../shared/loading/loading.module';
     InventoryPanelModule,
     RequestsListModule,
     LoadingModule,
+    RouterModule,
   ],
   declarations: [ProjectRequests],
   exports: [ProjectRequests],

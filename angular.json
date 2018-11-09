@@ -73,6 +73,7 @@
             ],
             "styles": [
               "src/styles.scss",
+              "src/print.scss",
               "src/app/theme.scss"
             ],
             "scripts": []

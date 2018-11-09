@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {RequestsRenderer} from 'app/season/shared/requests-list/render/requests-renderer';
+import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
@@ -7,7 +7,7 @@ import {
   Filter,
   FilterType,
   Query
-} from 'app/season/shared/requests-list/render/request-renderer-options';
+} from 'app/season/services/requests-renderer/request-renderer-options';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ANIMATION_DURATION} from 'app/utility/animations';
 

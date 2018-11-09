@@ -3,6 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {map} from 'rxjs/operators';
 import {Item, ItemsDao, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
+import {getRequestCost} from 'app/season/utility/request-cost';
 
 export interface BudgetResponse {
   budget: number;
@@ -60,17 +61,4 @@ export class Accounting {
   _constructBudgetResponse(budget: number, cost: number) {
     return {budget, cost, remaining: budget - cost};
   }
-}
-
-
-/** Returns the cost of a request (quantity * item cost). */
-export function getRequestCost(itemCost: number, request: Request) {
-  let quantityToPurchase = request.quantity;
-
-  if (request.allocation) {
-    quantityToPurchase -= request.allocation;
-    quantityToPurchase = Math.max(quantityToPurchase, 0);
-  }
-
-  return itemCost ? quantityToPurchase * itemCost : 0;
 }

@@ -1,6 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReportDialog} from 'app/season/shared/dialog/report-dialog';
 import {Report} from 'app/season/dao';
+import {ActivatedSeason} from 'app/season/services';
+import {Router} from '@angular/router';
+import {RequestRendererOptionsState} from 'app/season/services/requests-renderer/request-renderer-options';
 
 @Component({
   selector: 'report-menu',
@@ -13,14 +16,20 @@ export class ReportMenu {
 
   @Input() icon: 'settings' | 'more_vert';
 
-  constructor(private reportDialog: ReportDialog) {}
+  @Input() optionsOverride: RequestRendererOptionsState;
+
+  constructor(private reportDialog: ReportDialog,
+              private activatedSeason: ActivatedSeason,
+              private router: Router) {}
   openEditNameDialog() {
     this.reportDialog.editReport(this.report);
   }
 
   print() {
-    // TODO: implement this
-    window.open(`print/report/${this.report.id}`, 'print', 'width=650, height=500');
+    this.router.navigate([`${this.activatedSeason.season.value}/print`, {
+      options: JSON.stringify(this.optionsOverride || this.report.options),
+      title: this.report.name
+    }]);
   }
 
   deleteReport() {

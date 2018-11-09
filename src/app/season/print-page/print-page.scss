@@ -1,0 +1,50 @@
+.title {
+  background: white;
+  font-size: 20px;
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+table {
+  width: 100%;
+
+  td, th {
+    padding: 8px 16px 8px 0;
+    word-break: break-word;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+}
+
+.item-name {
+  font-weight: bold;
+}
+
+td.mat-column-status {
+  color: #444;
+  mat-icon {
+    margin: 2px;
+  }
+}
+
+.mat-column-status {
+  width: 56px;
+}
+
+.mat-column-quantity {
+  width: 40px;
+  text-align: right;
+}
+
+.mat-column-request-cost {
+  width: 72px;
+  text-align: right;
+}
+
+.mat-column-details {
+  width: 250px;
+}

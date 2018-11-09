@@ -52,6 +52,11 @@ export const SEASON_ROUTES = [
     loadChildren: 'app/season/report-page/report-page.module#ReportPageModule'
   },
 
+  {
+    path: 'print',
+    loadChildren: 'app/season/print-page/print-page.module#PrintPageModule'
+  },
+
   // Redirect
   {path: '', redirectTo: 'projects', pathMatch: 'full'},
 ];

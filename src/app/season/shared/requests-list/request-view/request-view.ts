@@ -9,14 +9,16 @@ import {
 } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {EditItem} from 'app/season/shared/dialog/edit-item/edit-item';
-import {Accounting, getRequestCost} from 'app/season/services/accounting';
-import {RequestsRenderer} from 'app/season/shared/requests-list/render/requests-renderer';
+import {Accounting} from 'app/season/services/accounting';
+import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 import {Permissions} from 'app/season/services/permissions';
 import {Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 import {ProjectsDao, RequestsDao, Item, Request} from 'app/season/dao';
 import {Selection} from 'app/season/services';
 import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
+import {getItemName} from 'app/season/utility/item-name';
+import {getRequestCost} from 'app/season/utility/request-cost';
 
 @Component({
   selector: 'request',
@@ -28,6 +30,8 @@ import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestView implements OnInit {
+  getItemName = getItemName;
+
   private destroyed = new Subject();
 
   displayState = 'hidden';
@@ -141,16 +145,4 @@ export class RequestView implements OnInit {
       this.requestsRenderer.options.search += ' ' + tag;
     }
   }
-
-  getItemName() {
-    const categories = this.item.categories[0].split('>');
-    if (categories.length > 1) {
-      categories.shift();
-      const subcategories = categories.join('-');
-      return `${subcategories} - ${this.item.name}`;
-    } else {
-      return this.item.name;
-    }
-  }
 }
-

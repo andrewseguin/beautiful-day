@@ -1,6 +1,8 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Selection} from 'app/season/services';
+import {combineLatest, merge, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 export type SelectionType = 'request' | 'item';
 
@@ -25,7 +27,18 @@ export type SelectionType = 'request' | 'item';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectionHeader {
-  constructor(private selection: Selection) { }
+  private destroyed = new Subject();
+
+  constructor(private selection: Selection, private cd: ChangeDetectorRef) {
+    merge(this.selection.requests.changed, this.selection.items.changed)
+        .pipe(takeUntil(this.destroyed))
+        .subscribe(() => this.cd.markForCheck());
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
 
   getSelectionState() {
     return this.getSelectionCount() > 0 ? 'selected' : 'none';

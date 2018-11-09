@@ -19,6 +19,8 @@
       {{canSave ? 'Save' : 'Saved'}}
     </button>
 
-    <report-menu [report]="report" icon="settings"></report-menu>
+    <report-menu [report]="report" icon="settings"
+                 [optionsOverride]="currentOptions">
+    </report-menu>
   </ng-container>
 </ng-template>

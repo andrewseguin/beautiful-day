@@ -13,7 +13,6 @@
   justify-content: space-between;
 
   @media (max-width: $mobile-width - 1) {
-    flex-direction: column;
     margin: 8px;
   }
 }

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {Group, Sort} from 'app/season/shared/requests-list/render/request-renderer-options';
-import {RequestsRenderer} from 'app/season/shared/requests-list/render/requests-renderer';
+import {Group, Sort} from 'app/season/services/requests-renderer/request-renderer-options';
+import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 

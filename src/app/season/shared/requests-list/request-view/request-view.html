@@ -8,7 +8,7 @@
 
     <div class="name">
         <span class="editable clickable" (click)="viewItem($event)">
-          {{getItemName()}}
+          {{getItemName(item)}}
         </span>
       <mat-icon *ngIf="canEdit"
                 class="goto-url md-18"

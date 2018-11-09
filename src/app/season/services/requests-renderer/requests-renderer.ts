@@ -6,7 +6,7 @@ import {startWith} from 'rxjs/operators';
 import {RequestFilterer} from './request-filterer';
 import {RequestSorter} from './request-sorter';
 import {Item, ItemsDao, Project, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
-import {tokenizeRequest} from '../../../utility/tokenize';
+import {tokenizeRequest} from 'app/season/utility/tokenize';
 
 @Injectable()
 export class RequestsRenderer {

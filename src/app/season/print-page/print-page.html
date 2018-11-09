@@ -1,0 +1,55 @@
+<ng-container *ngIf="!(requestsRenderer.requestGroups | async)">
+  <loading></loading>
+</ng-container>
+
+<div *ngFor="let requestGroup of requestsRenderer.requestGroups | async">
+  <div class="title">
+    {{requestGroup.title}}
+  </div>
+
+  <table mat-table [dataSource]="requestGroup.requests">
+    <ng-container matColumnDef="item">
+      <th mat-header-cell *matHeaderCellDef> Item </th>
+      <td mat-cell *matCellDef="let r">
+        <div class="item-name">{{getItemName(itemsMap?.get(r.item))}}</div>
+        <div> Category: {{itemsMap?.get(r.item).categories[0].split('>')[0]}}</div>
+        <div> Cost: {{itemsMap?.get(r.item).cost | currency}} </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell  *matHeaderCellDef> # </th>
+      <td mat-cell *matCellDef="let r"> {{r.quantity}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell  *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let r">
+        <mat-icon [style.visibility]="r.isApproved ? '' : 'hidden'" class="md-14">thumb_up</mat-icon>
+        <mat-icon [style.visibility]="r.isPurchased ? '' : 'hidden'" class="md-14">attach_money</mat-icon>
+        <mat-icon [style.visibility]="r.isDistributed ? '' : 'hidden'" class="md-14">local_shipping</mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="request-cost">
+      <th mat-header-cell  *matHeaderCellDef> Total Cost </th>
+      <td mat-cell *matCellDef="let r">
+        {{getRequestCost(itemsMap?.get(r.item).cost, r) | currency}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="details">
+      <th mat-header-cell  *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let r">
+        <div> Dropoff: {{r.dropoff}} on {{r.date | date: 'MMM d'}} </div>
+        <div> Project: {{projectsMap.get(r.project).name}}</div>
+        <div *ngIf="r.purchaser"> Purchaser: {{r.purchaser}}</div>
+        <div>{{r.note}}</div>
+        <div *ngFor="let tag of r.tags"> {{tag}} </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

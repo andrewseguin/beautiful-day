@@ -4,7 +4,7 @@ import {Permissions} from 'app/season/services/permissions';
 import {ImportItems} from 'app/season/shared/dialog/import-items/import-items';
 import {ExportItems} from 'app/season/shared/dialog/export-items/export-items';
 import {take} from 'rxjs/operators';
-import {RequestRendererOptions} from 'app/season/shared/requests-list/render/request-renderer-options';
+import {RequestRendererOptions} from 'app/season/services/requests-renderer/request-renderer-options';
 import {Item, ItemsDao, ProjectsDao, Report, ReportsDao, RequestsDao} from 'app/season/dao';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireDatabase} from '@angular/fire/database';

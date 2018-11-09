@@ -3,7 +3,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {ActivatedSeason} from 'app/season/services/activated-season';
 import {SeasonCollectionDao} from './season-collection-dao';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {RequestRendererOptionsState} from '../shared/requests-list/render/request-renderer-options';
+import {RequestRendererOptionsState} from '../services/requests-renderer/request-renderer-options';
 
 export interface Report {
   id?: string;

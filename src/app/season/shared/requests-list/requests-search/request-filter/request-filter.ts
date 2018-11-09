@@ -13,7 +13,7 @@ import {
   DateEquality,
   Filter,
   Query
-} from 'app/season/shared/requests-list/render/request-renderer-options';
+} from 'app/season/services/requests-renderer/request-renderer-options';
 import {FILTER_TYPE_LABELS} from '../requests-search';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
