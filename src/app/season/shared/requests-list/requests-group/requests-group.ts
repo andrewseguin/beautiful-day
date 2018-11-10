@@ -3,6 +3,7 @@ import {Request, Item} from 'app/season/dao';
 import {ItemsDao} from 'app/season/dao';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {Selection} from 'app/season/services';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class RequestsGroup {
   private destroyed = new Subject();
 
   constructor(private itemsDao: ItemsDao,
+              private selection: Selection,
               private cd: ChangeDetectorRef) {
     this.itemsDao.map.pipe(takeUntil(this.destroyed)).subscribe(itemsMap => {
       this.items = itemsMap;
@@ -37,5 +39,9 @@ export class RequestsGroup {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  selectAll() {
+    this.selection.requests.select(...this.requests.map(r => r.id));
   }
 }

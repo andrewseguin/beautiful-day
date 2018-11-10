@@ -1,5 +1,5 @@
-<div class="title">
-  {{title}}
+<div class="title" (click)="selectAll()">
+  <span matTooltip="Click to select these requests">{{title}}</span>
 </div>
 <ng-container *ngIf="items.size">
   <request *ngFor="let request of requests; trackBy:getRequestKey"

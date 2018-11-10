@@ -14,6 +14,7 @@
   font-size: 18px;
   page-break-inside: avoid;
   padding: 16px;
+  cursor: pointer;
 
   @media (max-width: $mobile-width - 1) {
     padding: 16px 24px;
