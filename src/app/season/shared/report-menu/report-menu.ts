@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {ReportDialog} from 'app/season/shared/dialog/report-dialog';
+import {ReportDialog} from 'app/season/shared/dialog/report/report-dialog';
 import {Report} from 'app/season/dao';
 import {ActivatedSeason} from 'app/season/services';
 import {Router} from '@angular/router';

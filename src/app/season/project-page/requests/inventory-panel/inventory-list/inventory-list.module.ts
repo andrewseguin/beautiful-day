@@ -4,6 +4,7 @@ import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
 import {SubcategoryListModule} from '../subcategory-list/subcategory-list.module';
 import {InventoryPanelItemModule} from '../inventory-panel-item/inventory-panel-item.module';
+import {ItemDialogModule} from 'app/season/shared/dialog/item/item-dialog.module';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import {InventoryPanelItemModule} from '../inventory-panel-item/inventory-panel-
     MaterialModule,
     SubcategoryListModule,
     InventoryPanelItemModule,
+    ItemDialogModule,
   ],
   declarations: [InventoryList],
   exports: [InventoryList],

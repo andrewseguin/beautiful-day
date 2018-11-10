@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {
   ReportEdit
-} from 'app/season/shared/dialog/report-edit/report-edit';
+} from 'app/season/shared/dialog/report/report-edit/report-edit';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from 'app/material.module';
 

@@ -8,9 +8,6 @@ import {MaterialModule} from 'app/material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {ExportItems} from './export-items/export-items';
-import {ReportDialog} from './report-dialog';
-import {ReportEditModule} from './report-edit/report-edit.module';
-import {ItemDialog} from './item-dialog';
 import {PromptDialogModule} from './prompt-dialog/prompt-dialog.module';
 
 const DIALOGS = [
@@ -27,15 +24,11 @@ const DIALOGS = [
     CommonModule,
     FormsModule,
     MaterialModule,
-    ReportEditModule,
     PromptDialogModule,
     ReactiveFormsModule,
   ],
   declarations: DIALOGS,
   entryComponents: DIALOGS,
-  providers: [
-    ReportDialog,
-    ItemDialog,
-  ]
+  providers: []
 })
 export class DialogModule { }

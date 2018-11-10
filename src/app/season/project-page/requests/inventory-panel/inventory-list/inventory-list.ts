@@ -13,6 +13,7 @@ import {getCategoryGroup} from 'app/utility/items-categorize';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {getItemsMatchingQuery} from 'app/season/utility/items-search';
+import {ItemDialog} from '../../../../shared/dialog/item/item-dialog';
 
 /** Number of items to load each time. */
 const ITEMS_TO_LOAD = 10;
@@ -61,6 +62,7 @@ export class InventoryList implements OnInit {
 
   constructor(private dialog: MatDialog,
               private cd: ChangeDetectorRef,
+              private itemDialog: ItemDialog,
               private itemsDao: ItemsDao) {}
 
   ngOnInit() {
@@ -69,17 +71,15 @@ export class InventoryList implements OnInit {
         return;
       }
 
+      // For search
+      this.allItems = items;
+
       const group = getCategoryGroup(items, this.category);
       this.items = group.items;
       this.subcategories = group.subcategories;
       this.filterItems();
       this.beginLoading();
-    });
-
-    // For search - use all items in search
-    this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
-      this.allItems = items;
-      this.filterItems();
+      this.cd.markForCheck();
     });
   }
 
@@ -129,13 +129,6 @@ export class InventoryList implements OnInit {
   }
 
   createItem() {
-    const dialogRef = this.dialog.open(EditItem);
-
-    if (this.category) {
-      dialogRef.componentInstance.item = {categories: [this.category]};
-      dialogRef.componentInstance.disableCategory = true;
-    }
-
-    dialogRef.componentInstance.mode = 'new';
+    this.itemDialog.createItem(this.category);
   }
 }

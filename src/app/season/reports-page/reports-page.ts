@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {ReportDialog} from 'app/season/shared/dialog/report-dialog';
+import {ReportDialog} from 'app/season/shared/dialog/report/report-dialog';
 import {Report, ReportsDao} from 'app/season/dao';
 import {ActivatedSeason} from '../services';
 

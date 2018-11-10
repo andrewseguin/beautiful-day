@@ -15,7 +15,7 @@ import {
   RequestRendererOptionsState
 } from 'app/season/services/requests-renderer/request-renderer-options';
 import {Subject, Subscription} from 'rxjs';
-import {ReportDialog} from 'app/season/shared/dialog/report-dialog';
+import {ReportDialog} from 'app/season/shared/dialog/report/report-dialog';
 import {Report, ReportsDao} from 'app/season/dao';
 import {takeUntil} from 'rxjs/operators';
 import {ActivatedSeason} from 'app/season/services';

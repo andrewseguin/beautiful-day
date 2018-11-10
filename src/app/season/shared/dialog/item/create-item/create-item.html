@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Add Item</h1>
+
+<div mat-dialog-content [formGroup]="formGroup">
+  <mat-form-field appearance="outline">
+    <mat-label> Name </mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label> Category </mat-label>
+    <input matInput formControlName="category">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label> Cost ($) </mat-label>
+    <input matInput formControlName="cost" type="number">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label> URL </mat-label>
+    <input matInput formControlName="url">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close> Cancel </button>
+  <button mat-raised-button color="accent"
+          [disabled]="!formGroup.valid"
+          (click)="save()"> Save </button>
+</div>
