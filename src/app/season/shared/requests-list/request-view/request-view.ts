@@ -8,13 +8,12 @@ import {
   ViewChild
 } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {EditItem} from 'app/season/shared/dialog/edit-item/edit-item';
 import {Accounting} from 'app/season/services/accounting';
 import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 import {Permissions} from 'app/season/services/permissions';
 import {Subject} from 'rxjs';
-import {take, takeUntil} from 'rxjs/operators';
-import {ProjectsDao, RequestsDao, Item, Request} from 'app/season/dao';
+import {takeUntil} from 'rxjs/operators';
+import {Item, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {Selection} from 'app/season/services';
 import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
 import {getItemName} from 'app/season/utility/item-name';
@@ -34,8 +33,6 @@ export class RequestView implements OnInit {
 
   private destroyed = new Subject();
 
-  displayState = 'hidden';
-
   @Input() request: Request;
 
   @Input() item: Item;
@@ -43,13 +40,6 @@ export class RequestView implements OnInit {
   @Input() isReporting: boolean;
 
   canEdit: boolean;
-
-  @Input() set printMode(v) {
-    if (v) {
-      this.displayState = 'visible';
-      this.cd.markForCheck();
-    }
-  }
 
   @ViewChild('quantityInput') quantityInput: ElementRef;
 

@@ -3,11 +3,10 @@
   <display-options-header></display-options-header>
 
   <div class="requests-container">
-    <requests-group *ngFor="let requestGroup of renderedRequestGroups; trackBy:getRequestGroupKey"
+    <requests-group *ngFor="let requestGroup of renderedRequestGroups; let index = index; trackBy:getRequestGroupKey"
                     [requests]="requestGroup.requests"
                     [title]="requestGroup.title"
-                    [canEdit]="true"
-                    [printMode]="printMode">
+                    (select)="select(index)">
     </requests-group>
   </div>
 

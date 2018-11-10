@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import {SeasonCollectionDao} from './season-collection-dao';
 import {ActivatedSeason} from 'app/season/services/activated-season';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {MatSnackBar} from '@angular/material';
 
 export interface Request {
   id?: string;
@@ -21,6 +20,7 @@ export interface Request {
   allocation?: number;
   distributionDate?: string;
   isDistributed?: boolean;
+  dateAdded?: string;
 }
 
 @Injectable()
@@ -32,6 +32,17 @@ export class RequestsDao extends SeasonCollectionDao<Request> {
   getByProject(projectId: string): Observable<Request[]> {
     const queryFn = ref => ref.where('project', '==', projectId);
     return this.afs.collection(this.path, queryFn).valueChanges();
+  }
+
+  add(obj: Request) {
+    return super.add(obj).then(id => {
+      const request = document.querySelector(`#request-${id}`);
+      if (request) {
+        request.classList.add('added');
+      }
+
+      return id;
+    });
   }
 }
 

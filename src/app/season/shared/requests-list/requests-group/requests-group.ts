@@ -1,4 +1,10 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input, Output
+} from '@angular/core';
 import {Request, Item} from 'app/season/dao';
 import {ItemsDao} from 'app/season/dao';
 import {takeUntil} from 'rxjs/operators';
@@ -15,15 +21,13 @@ import {Selection} from 'app/season/services';
 export class RequestsGroup {
   items = new Map<string, Item>();
 
-  @Input() canEdit: boolean;
-
-  @Input() printMode: boolean;
-
   @Input() requests: Request[];
 
   @Input() title: string;
 
   getRequestKey = (_i, request: Request) => request.id;
+
+  @Output() select = new EventEmitter();
 
   private destroyed = new Subject();
 
@@ -39,9 +43,5 @@ export class RequestsGroup {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
-  }
-
-  selectAll() {
-    this.selection.requests.select(...this.requests.map(r => r.id));
   }
 }

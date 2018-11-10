@@ -13,6 +13,7 @@ import {auditTime, debounceTime, takeUntil} from 'rxjs/operators';
 import {RequestsRenderer} from '../../services/requests-renderer/requests-renderer';
 import {fromEvent, Observable, Observer, Subject} from 'rxjs';
 import {RequestRendererOptionsState} from '../../services/requests-renderer/request-renderer-options';
+import {Selection} from 'app/season/services';
 
 @Component({
   selector: 'requests-list',
@@ -46,6 +47,7 @@ export class RequestsList {
   constructor(public requestsRenderer: RequestsRenderer,
               public cd: ChangeDetectorRef,
               public ngZone: NgZone,
+              public selection: Selection,
               public elementRef: ElementRef) { }
 
   ngOnInit() {
@@ -157,5 +159,9 @@ export class RequestsList {
 
   getRequestGroupKey(index: number, requestGroup: RequestGroup) {
     return requestGroup.id;
+  }
+
+  select(index: number) {
+    this.selection.requests.select(...this.requestGroups[index].requests.map(r => r.id));
   }
 }

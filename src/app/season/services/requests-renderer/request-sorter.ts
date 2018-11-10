@@ -1,4 +1,4 @@
-import {Item, Request} from 'app/season/dao/index';
+import {Item, Request} from 'app/season/dao';
 import {Sort} from 'app/season/services/requests-renderer/request-renderer-options';
 import {getItemName} from 'app/season/utility/item-name';
 
@@ -7,7 +7,7 @@ export class RequestSorter {
     switch (sort) {
       case 'request added':
         return (a: Request, b: Request) => {
-          return a.id > b.id ? -1 : 1;
+          return a.dateAdded > b.dateAdded ? -1 : 1;
         };
       case 'request cost':
         return (a: Request, b: Request) => {

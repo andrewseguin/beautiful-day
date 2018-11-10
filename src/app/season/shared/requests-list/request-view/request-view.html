@@ -67,7 +67,7 @@
 
     <div>
       <span class="editable"
-            [class.clickable]="canEdit && !isReporting"
+            [class.clickable]="canEdit"
             (click)="editDropoff($event)">
         <span *ngIf="request?.dropoff">
           Receive @ {{request?.dropoff}}, {{request?.date | date}}
@@ -77,7 +77,7 @@
 
     <div *ngIf="request?.note">
       <span class="editable"
-            [class.clickable]="canEdit && !isReporting"
+            [class.clickable]="canEdit"
             (click)="editNote($event)">
         {{request?.note}}
       </span>
