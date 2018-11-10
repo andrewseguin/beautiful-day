@@ -34,7 +34,7 @@ export class SlidingPanel {
       this.cd.markForCheck();
     });
 
-    const subcategories = this.category.split('>');
+    const subcategories = this.category.split(' > ');
     this.title = subcategories[subcategories.length - 1];
   }
 

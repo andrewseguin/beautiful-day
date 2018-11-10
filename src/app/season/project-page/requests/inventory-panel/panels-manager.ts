@@ -6,7 +6,7 @@ export class PanelsManager {
 
   openPanel(category: string) {
     const nextPanelCategory = this.panels.length ?
-      `${this.panels[this.panels.length - 1]}>${category}` :
+      `${this.panels[this.panels.length - 1]} > ${category}` :
       category;
     this.panels.push(nextPanelCategory);
   }

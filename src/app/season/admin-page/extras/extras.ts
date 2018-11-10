@@ -176,7 +176,9 @@ export class Extras {
       const categoryCleanup = new Map<string, Item>();
 
       items.forEach(item => {
-        const categories = item.categories.map(v => v.trim());
+        const categories = item.categories.map(v => {
+          return v.split('>').map(tokens => tokens.trim()).join(' > ');
+        });
         categoryCleanup.set(item.id, {categories});
       });
 

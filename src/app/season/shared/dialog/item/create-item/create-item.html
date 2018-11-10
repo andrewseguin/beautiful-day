@@ -4,21 +4,42 @@
   <mat-form-field appearance="outline">
     <mat-label> Name </mat-label>
     <input matInput formControlName="name">
+    <mat-error *ngIf="formGroup.get('name').invalid">
+      You must enter a name.
+    </mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" *ngIf="forceCategory">
     <mat-label> Category </mat-label>
     <input matInput formControlName="category">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="!forceCategory">
+    <mat-label> Category </mat-label>
+    <mat-select>
+      <mat-option *ngFor="let category of categories" [value]="category">
+        {{category}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.get('category').invalid">
+      You must enter a category.
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label> Cost ($) </mat-label>
     <input matInput formControlName="cost" type="number">
+    <mat-error *ngIf="formGroup.get('url').invalid">
+      You must enter a cost.
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label> URL </mat-label>
     <input matInput formControlName="url">
+    <mat-error *ngIf="formGroup.get('url').invalid">
+      {{getUrlErrorMessage()}}
+    </mat-error>
   </mat-form-field>
 </div>
 
