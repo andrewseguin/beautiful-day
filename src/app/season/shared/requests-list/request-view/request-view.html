@@ -19,22 +19,22 @@
     </div>
 
     <div class="quantity" (click)="!request?.isPurchased ? $event.stopPropagation() : null">
-      <div *ngIf="isReporting">{{item?.cost | currency:'USD'}}</div>
       <input type="number" #quantityInput min="0"
-             *ngIf="canEdit && !isReporting && !request?.isPurchased"
+             *ngIf="canEdit && !request?.isPurchased; else staticQuantity"
              [value]="request?.quantity"
              (keyup)="changeQuantity($event.target.value)"
              (keydown.Enter)="quantityInput.blur()"
              (change)="changeQuantity($event.target.value)">
-      <div *ngIf="!(canEdit && !isReporting && !request?.isPurchased)"
-           [title]="request?.isPurchased ? 'This request has been purchased and quantity cannot be changed' : ''">
-        x {{request?.quantity}}
-      </div>
+      <ng-template #staticQuantity>
+        <div [title]="request?.isPurchased ? 'This request has been purchased and quantity cannot be changed' : ''">
+          x {{request?.quantity}}
+        </div>
+      </ng-template>
     </div>
 
     <div class="cost">
         <span *ngIf="item?.cost">
-          {{getRequestCost() | currency:'USD'}}
+          {{getRequestCost() | currency}}
         </span>
       <span *ngIf="!item?.cost">--</span>
     </div>
@@ -61,7 +61,7 @@
 
     <div *ngIf="request?.allocation">
       <span class="editable">
-        Allocated from WestGate stock: {{request?.allocation}}
+        Allocated from stock: {{request?.allocation}}
       </span>
     </div>
 

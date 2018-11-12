@@ -92,14 +92,13 @@ export class RequestDialog {
     const data: PromptDialogData = {
       title: 'Edit Note',
       useTextArea: true,
+      input: combineLatest(ids.map(id => this.requestsDao.get(id))).pipe(
+          map(requests => {
+            const firstNote = requests[0].note;
+            return requests.every(r => r.note === firstNote) ? firstNote : '';
+          })
+      )
     };
-
-    if (ids.length === 1) {
-      data.input = this.requestsDao.get(ids[0]).pipe(map(r => r.note));
-    } else {
-      // TODO: If all requests have the same note, use it.
-      data.input = of('');
-    }
 
     const config = {data, width: '400px'};
     const dialogRef: MatDialogRef<PromptDialog, PromptDialogResult> =
