@@ -210,10 +210,10 @@ export class Owner {
 
       projects.forEach(project => {
         defaultCleanup.set(project.id, {
-          defaultDropoffDate: project.lastUsedDate || '',
-          defaultDropoffLocation: project.lastUsedDropoff || '',
-          lastUsedDate: firestore.FieldValue.delete(),
-          lastUsedDropoff: firestore.FieldValue.delete(),
+          //defaultDropoffDate: project.lastUsedDate || '',
+          //defaultDropoffLocation: project.lastUsedDropoff || '',
+          //lastUsedDate: firestore.FieldValue.delete(),
+          //lastUsedDropoff: firestore.FieldValue.delete(),
         });
       });
 

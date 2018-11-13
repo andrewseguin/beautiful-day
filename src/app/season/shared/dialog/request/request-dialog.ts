@@ -56,8 +56,8 @@ export class RequestDialog {
       });
 
       this.projectsDao.update(result.project, {
-        lastUsedDropoff: result.dropoff,
-        lastUsedDate: result.date.toISOString()
+        defaultDropoffLocation: result.dropoff,
+        defaultDropoffDate: result.date.toISOString()
       });
 
       this.selection.requests.clear();

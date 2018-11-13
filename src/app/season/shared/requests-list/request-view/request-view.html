@@ -89,23 +89,21 @@
       </span>
     </div>
 
-    <div class="status">
-      <mat-icon *ngIf="request?.isApproved"
-                matTooltip="Request has been approved"
-                [matTooltipPosition]="'after'"
-                class="md-14">
-        thumb_up
-      </mat-icon>
-
-      <mat-icon *ngIf="request?.isPurchased"
-                matTooltip="Request has been purchased"
-                [matTooltipPosition]="'after'"
-                class="md-14">
-        attach_money
-      </mat-icon>
+    <div *ngIf="request?.isApproved && !request?.isPurchased" class="status-approved">
+      <span class="editable">
+        Approved
+        <mat-icon class="md-14"> done </mat-icon>
+      </span>
     </div>
 
-    <div *ngIf="request?.tags" class="tags">
+    <div *ngIf="request?.isPurchased" class="status-purchased">
+      <span class="editable">
+        Purchased
+        <mat-icon class="md-14"> attach_money </mat-icon>
+      </span>
+    </div>
+
+    <div class="tags">
       <span class="editable clickable tag" *ngFor="let tag of request.tags"
             (click)="$event.stopPropagation(); filterTag(tag)">
         {{tag}}

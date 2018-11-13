@@ -66,6 +66,7 @@
       justify-content: flex-end;
       flex-wrap: wrap;
       margin-right: -8px;
+      min-height: 8px;
 
       .tag {
         word-wrap: normal;
@@ -149,11 +150,6 @@ mat-checkbox {
   margin: 8px;
 }
 
-.status {
-  margin: 4px;
-  color: #777;
-}
-
 :host.added {
   animation: request-added 5s;
 }
@@ -165,4 +161,19 @@ mat-checkbox {
   100% {
     background-color: inherit;
   }
+}
+
+.status-approved, .status-purchased {
+  .editable {
+    display: flex;
+  }
+
+  mat-icon {
+    margin-left: 4px;
+  }
+}
+
+.status-purchased {
+  color: #149000;
+  font-weight: bold;
 }

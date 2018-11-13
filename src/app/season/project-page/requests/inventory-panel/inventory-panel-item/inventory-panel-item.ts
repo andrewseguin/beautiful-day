@@ -51,14 +51,14 @@ export class InventoryPanelItem implements OnInit {
     this.requestQuantity = Math.max(0, this.requestQuantity);
     this.requested = true;
     this.project.pipe(take(1)).subscribe(project => {
-      const defaultDate = new Date(); // TODO: Make this config value
-
-      const date = project.lastUsedDate ? new Date(project.lastUsedDate) : defaultDate;
+      const defaultDate = new Date();
+      const date = project.defaultDropoffDate ?
+          new Date(project.defaultDropoffDate) : defaultDate;
       const request: Request = {
         item: this.item.id,
         project: project.id,
         quantity: this.requestQuantity,
-        dropoff: 'Westgate Gym',
+        dropoff: project.defaultDropoffLocation,
         date: date.toISOString(),
         dateAdded: new Date().toISOString()
       };

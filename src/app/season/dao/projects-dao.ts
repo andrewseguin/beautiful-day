@@ -14,11 +14,8 @@ export interface Project {
   leads?: string[];
   directors?: string[];
   acquisitions?: string[];
-  lastUsedDropoff?: string;
-  lastUsedDate?: string;
   receiptsFolder?: string;
   whitelist?: string[];
-
   defaultDropoffLocation?: string;
   defaultDropoffDate?: string;
 }

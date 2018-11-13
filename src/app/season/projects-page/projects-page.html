@@ -40,17 +40,17 @@
   <div class="contacts"
        [@expansionContent]="expandedContacts.isSelected(project.id)">
     <ng-container *ngIf="loadedContacts.has(project.id)">
-      <div class="contact-group" *ngIf="project.directors.length"> Directors </div>
+      <div class="contact-group" *ngIf="project.directors?.length"> Directors </div>
       <detail-user [userEmail]="email" group="director"
                    *ngFor="let email of project.directors">
       </detail-user>
 
-      <div class="contact-group" *ngIf="project.leads.length"> Leads </div>
+      <div class="contact-group" *ngIf="project.leads?.length"> Leads </div>
       <detail-user [userEmail]="email" group="lead"
                    *ngFor="let email of project.leads">
       </detail-user>
 
-      <div class="contact-group" *ngIf="project.acquisitions.length"> Acquisitions </div>
+      <div class="contact-group" *ngIf="project.acquisitions?.length"> Acquisitions </div>
       <detail-user [userEmail]="email" group="acquisitions"
                    *ngFor="let email of project.acquisitions">
       </detail-user>
