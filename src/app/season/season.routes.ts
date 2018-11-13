@@ -18,6 +18,11 @@ export const SEASON_ROUTES = [
   },
 
   {
+    path: 'home',
+    loadChildren: 'app/season/home-page/home-page.module#HomePageModule'
+  },
+
+  {
     path: 'projects',
     loadChildren: 'app/season/projects-page/projects-page.module#ProjectsPageModule'
   },
