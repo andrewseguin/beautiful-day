@@ -6,6 +6,7 @@ import {combineLatest} from 'rxjs/observable/combineLatest';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
+import {containsEmail} from 'app/season/utility/contains-email';
 
 @Injectable()
 export class Permissions {
@@ -18,7 +19,7 @@ export class Permissions {
 
   private destroyed = new Subject();
 
-  get editableProjects(): BehaviorSubject<Set<string|null>> {
+  get editableProjects(): BehaviorSubject<Set<string>|null> {
     if (!this._editableProjects) {
       this._editableProjects = new BehaviorSubject(null);
       this.watchEditableProjects();
@@ -127,10 +128,4 @@ export class Permissions {
 
     return permissions;
   }
-}
-
-function containsEmail(list: string[] = [], email: string) {
-  list = list.map(value => value.toLowerCase().trim());
-  email = email.toLowerCase().trim();
-  return list.indexOf(email) != -1;
 }

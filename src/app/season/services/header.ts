@@ -12,7 +12,6 @@ const SECTIONS = new Map<string, string>([
   ['projects', 'Projects'],
   ['inventory', 'Inventory'],
   ['login', 'Login to BD365 Management'],
-  ['home', 'Home'],
   ['reports', 'Reports'],
   ['events', 'Events'],
   ['help', 'Help'],

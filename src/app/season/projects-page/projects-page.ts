@@ -1,12 +1,14 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
 import {Project, ProjectsDao} from 'app/season/dao';
 import {SelectionModel} from '@angular/cdk/collections';
 import {map, takeUntil} from 'rxjs/operators';
 import {ActivatedSeason, Permissions} from 'app/season/services';
 import {EXPANSION_ANIMATION} from 'app/utility/animations';
-import {Subject} from 'rxjs';
+import {combineLatest, Subject} from 'rxjs';
+import {User} from 'firebase';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {containsEmail} from 'app/season/utility/contains-email';
 
 @Component({
   templateUrl: 'projects-page.html',
@@ -15,7 +17,31 @@ import {Subject} from 'rxjs';
   animations: EXPANSION_ANIMATION
 })
 export class ProjectsPage {
-  projects: Observable<Project[]>;
+  projects = combineLatest([this.projectsDao.list, this.afAuth.authState]).pipe(
+    map(result => {
+      const projects = result[0] as Project[];
+      const authState = result[1] as User;
+
+      if (!authState || !projects) {
+        return null;
+      }
+
+      const email = authState.email;
+      return projects.sort((a, b) => {
+        const involvedA = containsEmail(a.leads, email) ||
+          containsEmail(a.directors, email) || containsEmail(a.acquisitions, email);
+        const involvedB = containsEmail(b.leads, email) ||
+          containsEmail(b.directors, email) || containsEmail(b.acquisitions, email);
+
+        if (involvedA && !involvedB) {
+          return -1;
+        } else if (involvedB && !involvedA) {
+          return 1;
+        }
+
+        return a.name < b.name ? -1 : 1;
+      });
+    }));
 
   expandedContacts = new SelectionModel<string>(true);
   loadedContacts = new Set<string>();
@@ -23,6 +49,7 @@ export class ProjectsPage {
   private destroyed = new Subject();
 
   constructor(private router: Router,
+              private afAuth: AngularFireAuth,
               private activatedRoute: ActivatedRoute,
               private permissions: Permissions,
               private activatedSeason: ActivatedSeason,
@@ -31,14 +58,6 @@ export class ProjectsPage {
         .subscribe(change => {
           change.added.forEach(v => this.loadedContacts.add(v));
         });
-  }
-
-  ngOnInit() {
-    this.projects = this.projectsDao.list.pipe(map(projects => {
-      if (projects) {
-        return projects.sort((a, b) => a.name < b.name ? -1 : 1);
-      }
-    }));
   }
 
   ngOnDestroy() {

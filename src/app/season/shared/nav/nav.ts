@@ -47,7 +47,6 @@ export class Nav {
   season = new FormControl('');
 
   links: NavLink[] = [
-    {route: 'home', label: 'Home', icon: 'home'},
     {route: 'projects', label: 'Projects', icon: 'domain'},
     {route: 'events', label: 'Events', icon: 'event'},
     {
