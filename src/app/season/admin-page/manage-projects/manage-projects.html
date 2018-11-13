@@ -1,3 +1,6 @@
+<button mat-stroked-button color="accent"
+        class="add-project"
+        (click)="addProject()"> Add Project </button>
 
 <div class="project"
      *ngFor="let project of projectsDao.list | async; trackBy: trackByProjectKey"

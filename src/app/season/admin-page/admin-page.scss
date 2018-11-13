@@ -3,3 +3,12 @@
 mat-tab-group {
   height: 100%;
 }
+
+manage-groups,
+manage-projects,
+events,
+owner {
+  display: block;
+  max-width: 800px;
+  margin: auto;
+}

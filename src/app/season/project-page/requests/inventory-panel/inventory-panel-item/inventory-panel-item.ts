@@ -52,6 +52,7 @@ export class InventoryPanelItem implements OnInit {
     this.requested = true;
     this.project.pipe(take(1)).subscribe(project => {
       const defaultDate = new Date(); // TODO: Make this config value
+
       const date = project.lastUsedDate ? new Date(project.lastUsedDate) : defaultDate;
       const request: Request = {
         item: this.item.id,

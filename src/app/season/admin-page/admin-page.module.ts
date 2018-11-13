@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {AdminPage} from './admin-page';
-import {ExtrasModule} from './extras/extras.module';
+import {OwnerModule} from './owner/owner.module';
 import {ManageProjectsModule} from './manage-projects/manage-projects.module';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from 'app/material.module';
@@ -17,7 +17,7 @@ export class AdminPageRoutingModule {}
 @NgModule({
   imports: [
     CommonModule,
-    ExtrasModule,
+    OwnerModule,
     MaterialModule,
     ManageProjectsModule,
     ManageGroupsModule,

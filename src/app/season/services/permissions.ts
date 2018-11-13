@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {User} from 'app/service/users-dao';
 import {Observable} from 'rxjs/Observable';
 import {ConfigDao, Group, GroupId, GroupsDao, Project, ProjectsDao} from 'app/season/dao';
 import {map, takeUntil} from 'rxjs/operators';
@@ -64,8 +63,12 @@ export class Permissions {
       this.permissions,
       this.projectsDao.list,
       this.afAuth.user.pipe(map(user => user ? user.email : '')),
-      this.configDao.values.pipe(map(values => values ? values.get('editsDisabled') : false)),
-      this.configDao.values.pipe(map(values => values ? values.get('allLeads') : false)),
+      this.configDao.map.pipe(map(values => {
+        return (values && values.has('editsDisabled')) ? values.get('editsDisabled').value : false;
+      })),
+      this.configDao.map.pipe(map(values => {
+        return (values && values.has('allLeads')) ? values.get('allLeads').value : false;
+      })),
     ];
 
     combineLatest(changes).pipe(takeUntil(this.destroyed)).subscribe(result => {
@@ -86,24 +89,13 @@ export class Permissions {
 
         let canEditRequests = isLead || isDirector;
         if (editsDisabled) {
-          canEditRequests = this.isUserWhitelisted(email, project);
+          canEditRequests = containsEmail(project.whitelist, email);
         }
 
         return canEditRequests || permissions.has('approvers');
       });
 
       this._editableProjects.next(new Set(editableProjects.map(p => p.id)));
-    });
-  }
-
-  toggleEditsDisabled() {
-    const done = new Subject();
-    this.configDao.values.pipe(takeUntil(done)).subscribe(values => {
-      if (values) {
-        this.configDao.update('editsDisabled', !values.get('editsDisabled'));
-        done.next();
-        done.complete();
-      }
     });
   }
 
@@ -134,52 +126,6 @@ export class Permissions {
     }
 
     return permissions;
-  }
-
-  isUserWhitelisted(email: string, project: Project): boolean {
-    return containsEmail(project.whitelist, email);
-  }
-
-  toggleWhitelisted(user: User, project: Project) {
-    const whitelistSet = new Set(project.whitelist || []);
-
-    if (whitelistSet.has(user.email)) {
-      whitelistSet.delete(user.email);
-    } else {
-      whitelistSet.add(user.email);
-    }
-
-    this.projectsDao.update(project.id, {
-      whitelist: Array.from(whitelistSet)
-    });
-  }
-
-  canManageAdmins(): Observable<boolean> {
-    return this.isOwner;
-  }
-
-  canCreateProjects(): Observable<boolean> {
-    return this.isAdmin;
-  }
-
-  canViewPastProjects(): Observable<boolean> {
-    return this.isAdmin;
-  }
-
-  canImportItems(): Observable<boolean> {
-    return this.isAdmin;
-  }
-
-  canEditEvents(): Observable<boolean> {
-    return this.isAdmin;
-  }
-
-  canManageAcquisitionsTeam(): Observable<boolean> {
-    return this.isAdmin;
-  }
-
-  canManageAcquisitions(): Observable<boolean> {
-    return this.isAcquisitions;
   }
 }
 

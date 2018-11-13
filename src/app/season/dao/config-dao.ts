@@ -1,7 +1,8 @@
-import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/firestore';
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {AngularFireAuth} from '@angular/fire/auth';
 import {ActivatedSeason} from 'app/season/services/activated-season';
+import {SeasonCollectionDao} from 'app/season/dao/season-collection-dao';
 
 export interface Config {
   id?: string;
@@ -9,30 +10,9 @@ export interface Config {
 }
 
 @Injectable()
-export class ConfigDao {
-  get values(): BehaviorSubject<Map<string, any>|null> {
-    if (!this._values) {
-      this._values = new BehaviorSubject<Map<string, any>>(null);
-      this.collection.valueChanges().subscribe(configs => {
-        const updatedValues = new Map<string, any>();
-        configs.forEach(config => {
-          updatedValues.set(config.id, config.value);
-        });
-        this._values.next(updatedValues);
-      });
-    }
-    return this._values;
-  }
-  _values: BehaviorSubject<Map<string, any>|null>;
-
-  protected collection: AngularFirestoreCollection<Config>;
-
-  constructor(private afs: AngularFirestore, activatedSeason: ActivatedSeason) {
-    this.collection = this.afs.collection<Config>('config');
-  }
-
-  update(id: string, value: any) {
-    this.collection.doc(id).update({value});
+export class ConfigDao extends SeasonCollectionDao<Config> {
+  constructor(afs: AngularFirestore, afAuth: AngularFireAuth, activatedSeason: ActivatedSeason) {
+    super(afs, afAuth, activatedSeason, 'config');
   }
 }
 

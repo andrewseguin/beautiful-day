@@ -24,6 +24,22 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline">
+    <mat-label>Default dropoff date</mat-label>
+    <input matInput
+           placeholder="MM/DD/YYYY"
+           (click)="picker.open()"
+           formControlName="defaultDropoffDate"
+           [matDatepicker]="picker">
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Default dropoff location</mat-label>
+    <input matInput
+           formControlName="defaultDropoffLocation">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
     <mat-label>Receipts Folder</mat-label>
     <input matInput formControlName="receiptsFolder">
   </mat-form-field>

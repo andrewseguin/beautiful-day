@@ -26,6 +26,8 @@ export class EditableProject {
       location: new FormControl(this.project.location),
       budget: new FormControl(this.project.budget),
       receiptsFolder: new FormControl(this.project.receiptsFolder),
+      defaultDropoffDate: new FormControl(this.project.defaultDropoffDate),
+      defaultDropoffLocation: new FormControl(this.project.defaultDropoffLocation),
     });
 
     this.lists = [
@@ -60,6 +62,8 @@ export class EditableProject {
             location: value.location,
             budget: value.budget,
             receiptsFolder: value.receiptsFolder,
+            defaultDropoffDate: new Date(value.defaultDropoffDate).toISOString(),
+            defaultDropoffLocation: value.defaultDropoffLocation,
           };
 
           this.projectsDao.update(this.project.id, update);

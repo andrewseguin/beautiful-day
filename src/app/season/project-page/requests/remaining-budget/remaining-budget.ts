@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {Accounting} from 'app/season/services/accounting';
 import * as CountUp from 'countup.js';
 import {takeUntil} from 'rxjs/operators';
@@ -37,7 +37,7 @@ export class RemainingBudget implements OnInit {
 
   private destroyed = new Subject();
 
-  constructor(private accounting: Accounting) { }
+  constructor(private accounting: Accounting, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.accounting.getBudgetStream(this.projectId)
@@ -58,6 +58,8 @@ export class RemainingBudget implements OnInit {
           if (budgetResponse.budget !== undefined) {
             this.updateBudgetValue();
           }
+
+          this.cd.markForCheck();
         });
   }
 

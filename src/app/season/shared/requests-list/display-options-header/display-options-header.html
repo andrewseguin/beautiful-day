@@ -1,14 +1,14 @@
 <div class="buttons">
   <button mat-button [mat-menu-trigger-for]="groupingMenu">
     <div class="button-content">
-      Group by: {{groups.get(requestsRenderer.options.grouping)}}
+      <div class="group-by"> Group by: {{groups.get(requestsRenderer.options.grouping)}} </div>
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
   </button>
 
   <button mat-button [mat-menu-trigger-for]="sortingMenu">
     <div class="button-content">
-      Sort by: {{requestsRenderer.options.sorting}}
+      <div class="sort-by"> Sort by: {{requestsRenderer.options.sorting}} </div>
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
   </button>

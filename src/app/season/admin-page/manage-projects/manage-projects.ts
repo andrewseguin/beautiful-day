@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {EXPANSION_ANIMATION} from 'app/utility/animations';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Project, ProjectsDao} from 'app/season/dao';
@@ -21,4 +21,9 @@ export class ManageProjects {
     });
   }
 
+  addProject() {
+    this.projectsDao.add({
+      name: 'New project',
+    });
+  }
 }

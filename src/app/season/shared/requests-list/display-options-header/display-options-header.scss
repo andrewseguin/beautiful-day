@@ -32,3 +32,9 @@ button.mat-button {
   display: flex;
   align-items: center;
 }
+
+.group-by, .sort-by {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

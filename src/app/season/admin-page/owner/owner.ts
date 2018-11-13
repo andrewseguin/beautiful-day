@@ -5,17 +5,26 @@ import {ImportItems} from 'app/season/shared/dialog/import-items/import-items';
 import {ExportItems} from 'app/season/shared/dialog/export-items/export-items';
 import {take} from 'rxjs/operators';
 import {RequestRendererOptions} from 'app/season/services/requests-renderer/request-renderer-options';
-import {Item, ItemsDao, ProjectsDao, Report, ReportsDao, RequestsDao} from 'app/season/dao';
+import {
+  Item,
+  ItemsDao,
+  Project,
+  ProjectsDao,
+  Report,
+  ReportsDao,
+  RequestsDao
+} from 'app/season/dao';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireDatabase} from '@angular/fire/database';
+import { firestore } from 'firebase/app';
 
 @Component({
-  selector: 'extras',
-  styleUrls: ['extras.scss'],
-  templateUrl: 'extras.html',
+  selector: 'owner',
+  styleUrls: ['owner.scss'],
+  templateUrl: 'owner.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Extras {
+export class Owner {
 
   constructor(public dialog: MatDialog,
               private reportsDao: ReportsDao,
@@ -186,6 +195,32 @@ export class Extras {
 
       categoryCleanup.forEach((value, key) => {
         this.itemsDao.update(key, value);
+      });
+    });
+  }
+
+  cleanupDropoff() {
+    let cleanedUp = false;
+    this.projectsDao.list.subscribe(projects => {
+      if (cleanedUp || !projects) {
+        return;
+      }
+
+      const defaultCleanup = new Map<string, any>();
+
+      projects.forEach(project => {
+        defaultCleanup.set(project.id, {
+          defaultDropoffDate: project.lastUsedDate || '',
+          defaultDropoffLocation: project.lastUsedDropoff || '',
+          lastUsedDate: firestore.FieldValue.delete(),
+          lastUsedDropoff: firestore.FieldValue.delete(),
+        });
+      });
+
+      cleanedUp = true;
+
+      defaultCleanup.forEach((value, key) => {
+        this.projectsDao.update(key, value);
       });
     });
   }

@@ -18,6 +18,9 @@ export interface Project {
   lastUsedDate?: string;
   receiptsFolder?: string;
   whitelist?: string[];
+
+  defaultDropoffLocation?: string;
+  defaultDropoffDate?: string;
 }
 
 @Injectable()

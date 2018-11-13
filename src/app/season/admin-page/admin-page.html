@@ -1,6 +1,6 @@
 <route-guard check="admin"></route-guard>
 
-<mat-tab-group>
+<mat-tab-group mat-align-tabs="center">
   <mat-tab label="Groups">
     <manage-groups></manage-groups>
   </mat-tab>
@@ -13,7 +13,7 @@
     <events></events>
   </mat-tab>
 
-  <mat-tab label="Extras" *ngIf="permissions.isOwner | async">
-    <extras></extras>
+  <mat-tab label="Owner" *ngIf="permissions.isOwner | async">
+    <owner></owner>
   </mat-tab>
 </mat-tab-group>
