@@ -32,15 +32,15 @@ export class EditableEvent {
   update() {
     const formValues = this.form.value;
 
+    if (!formValues.date || !formValues.info) {
+      return;
+    }
+
     const update: Event = {
       date: new Date(formValues.date).toISOString(),
       info: formValues.info,
-      time: formValues.time
+      time: formValues.time || ''
     };
-
-    if (!update.date || !update.info) {
-      return;
-    }
 
     this.eventsDao.update(this.event.id, update);
   }

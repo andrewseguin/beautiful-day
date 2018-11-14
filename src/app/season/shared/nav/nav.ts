@@ -1,15 +1,16 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {MatDialog, MatSidenav} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Permissions} from 'app/season/services/permissions';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {EditUserProfile} from '../dialog/edit-user-profile/edit-user-profile';
-import {map, mergeMap, takeUntil} from 'rxjs/operators';
+import {EditUserProfile} from '../dialog/user/edit-user-profile/edit-user-profile';
+import {map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {UsersDao} from 'app/service/users-dao';
 import {FormControl} from '@angular/forms';
 import {Observable, of, Subject} from 'rxjs';
 import {SeasonsDao} from 'app/service/seasons-dao';
+import {UserDialog} from 'app/season/shared/dialog/user/user-dialog';
 
 const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 
@@ -40,8 +41,11 @@ export interface NavLink {
 })
 export class Nav {
   user = this.afAuth.authState.pipe(
-      mergeMap(auth => auth ? this.usersDao.getByEmail(auth.email) : of(null)));
+      mergeMap(auth => auth ? this.usersDao.get(auth.uid) : of(null)));
   isUserProfileExpanded = false;
+  hasMissingUserProfileInfo = this.afAuth.authState.pipe(
+      mergeMap(authState => this.usersDao.get(authState.uid)),
+      map(user => user ? (!user.name || !user.phone) : false));
 
   seasons = this.seasonsDao.list.pipe(map(v => v ? v.map(s => s.id) : []));
   season = new FormControl('');
@@ -70,6 +74,8 @@ export class Nav {
               public usersDao: UsersDao,
               public seasonsDao: SeasonsDao,
               public activatedRoute: ActivatedRoute,
+              public userDialog: UserDialog,
+              public cd: ChangeDetectorRef,
               public router: Router) {
     this.activatedRoute.params.pipe(
         takeUntil(this.destroyed))
@@ -78,6 +84,13 @@ export class Nav {
     this.season.valueChanges.pipe(
       takeUntil(this.destroyed))
       .subscribe(value => this.router.navigate([value, this.router.url.split('/')[2]]));
+
+    this.hasMissingUserProfileInfo.subscribe(value => {
+      if (value) {
+        this.isUserProfileExpanded = true;
+        this.cd.markForCheck();
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -90,7 +103,12 @@ export class Nav {
     this.sidenav.close();
   }
 
-  editProfile(): void {
-    this.dialog.open(EditUserProfile);
+  editProfile() {
+    this.afAuth.authState.pipe(
+        mergeMap(auth => this.usersDao.get(auth.uid)),
+        take(1))
+        .subscribe(user => {
+          this.userDialog.editProfile(user);
+        });
   }
 }

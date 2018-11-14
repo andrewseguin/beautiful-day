@@ -1,6 +1,6 @@
 <route-guard check="admin"></route-guard>
 
-<mat-tab-group mat-align-tabs="center">
+<mat-tab-group [attr.mat-stretch-tabs]="isMobile() ? true : null" mat-align-tabs="center">
   <mat-tab label="Groups">
     <manage-groups></manage-groups>
   </mat-tab>

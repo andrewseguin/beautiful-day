@@ -17,6 +17,7 @@ import {
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireDatabase} from '@angular/fire/database';
 import { firestore } from 'firebase/app';
+import {User, UsersDao} from 'app/service/users-dao';
 
 @Component({
   selector: 'owner',
@@ -31,6 +32,7 @@ export class Owner {
               private projectsDao: ProjectsDao,
               private requestsDao: RequestsDao,
               private itemsDao: ItemsDao,
+              private usersDao: UsersDao,
               protected db: AngularFireDatabase,
               private afs: AngularFirestore,
               public permissions: Permissions) {
@@ -221,6 +223,57 @@ export class Owner {
 
       defaultCleanup.forEach((value, key) => {
         this.projectsDao.update(key, value);
+      });
+    });
+  }
+
+  cleanupUsers() {
+    this.usersDao.list.subscribe(users => {
+      if (!users) {
+        return;
+      }
+
+      const usersMap = new Map<string, User[]>();
+      users.forEach(user => {
+        if (!usersMap.has(user.email)) {
+          usersMap.set(user.email, []);
+        }
+
+        usersMap.get(user.email).push(user);
+      });
+
+      usersMap.forEach(value => {
+        if (value.length > 1) {
+          value.forEach(v => {
+            this.usersDao.remove(v.id);
+          });
+        }
+      });
+    });
+  }
+
+  migrateUsers() {
+    this.db.list('users').snapshotChanges().subscribe(users => {
+      users.forEach(user => {
+        const value = user.payload.val();
+        const newUser: User = {
+          id: user.key,
+          email: value['email'],
+        };
+
+        if (value['name']) {
+          newUser.name = value['name'];
+        }
+
+        if (value['phone']) {
+          newUser.phone = value['phone'];
+        }
+
+        if (value['pic']) {
+          newUser.pic = value['pic'];
+        }
+
+        this.usersDao.add(newUser);
       });
     });
   }

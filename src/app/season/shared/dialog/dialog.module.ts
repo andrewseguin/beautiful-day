@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {EditItem} from './edit-item/edit-item';
 import {EditItemCategory} from './edit-item-category/edit-item-category';
 import {EditItemName} from './edit-item-name/edit-item-name';
-import {EditUserProfile} from './edit-user-profile/edit-user-profile';
 import {ImportItems} from './import-items/import-items';
 import {MaterialModule} from 'app/material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -14,7 +13,6 @@ const DIALOGS = [
   EditItem,
   EditItemCategory,
   EditItemName,
-  EditUserProfile,
   ExportItems,
   ImportItems,
 ];

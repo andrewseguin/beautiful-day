@@ -3,12 +3,11 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {ListDao} from 'app/utility/list-dao';
 import {Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
-import {User as FirebaseUser} from 'firebase/auth';
+import {User as FirebaseUser} from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
 
 export interface User {
   id?: string;
-  uid?: string;
   email?: string;
   name?: string;
   pic?: string;
@@ -35,21 +34,17 @@ export class UsersDao extends ListDao<User> {
       .pipe(take(1))
       .subscribe(val => {
         if (!val) {
-          this.create(authState);
+          this.add({
+            id: authState.uid,
+            email: authState.email,
+            phone: authState.phoneNumber,
+            pic: authState.photoURL,
+            name: authState.displayName,
+          });
         } else {
           this.update(authState.uid, {pic: authState.photoURL});
         }
       });
-  }
-
-  private create(authState: FirebaseUser) {
-    this.add({
-      id: authState.id,
-      uid: authState.uid,
-      email: authState.email,
-      name: authState.displayName,
-      pic: authState.photoURL
-    });
   }
 
 }

@@ -1,4 +1,6 @@
 @import '../../../constants';
+@import '../../../bd-theme';
+@import '~@angular/material/theming';
 
 :host {
   display: flex;
@@ -60,6 +62,14 @@
     display: flex;
     align-items: center;
     padding: 8px;
+    cursor: pointer;
+
+    &:hover {
+      background: #F5F5F5;
+    }
+    &:active {
+      background: #EFEFEF;
+    }
   }
 }
 
@@ -127,4 +137,9 @@
   &:not(.active):hover:after {
     opacity: 0.05;
   }
+}
+
+.missing-info {
+  font-weight: bold;
+  color: mat-color($bd-app-warn);
 }

@@ -19,18 +19,21 @@ export class EventsPage {
     }
   });
 
+  // Tomorrow's date
+  cutoff = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+
   pastEvents = this.eventsDao.list.pipe(map(events => {
     if (!events) {
       return null;
     }
-    return events.filter(event => new Date(event.date) < new Date('March 28 2018'));
+    return events.filter(event => new Date(event.date) < this.cutoff);
   }), this.sortEvents);
 
   upcomingEvents = this.eventsDao.list.pipe(map(events => {
     if (!events) {
       return null;
     }
-    return events.filter(event => new Date(event.date) >= new Date('March 28 2018'));
+    return events.filter(event => new Date(event.date) >= this.cutoff);
   }), this.sortEvents);
 
   trackById = (i, event) => event.id;

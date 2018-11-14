@@ -37,13 +37,17 @@
     </mat-icon>
   </div>
 
-  <div class="user" (click)="editProfile()">
+  <div class="user" (click)="editProfile()" matTooltip="Change profile information">
     <div class="pic" [style.backgroundImage]="'url(' + user.pic + ')'">
     </div>
     <div class="info">
-      <div>{{user.name}}</div>
+      <div [class.missing-info]="!user.name">
+        {{user.name ? user.name : 'Add your name'}}
+      </div>
       <div class="user-email">{{user.email}}</div>
-      <div>{{user.phone}}</div>
+      <div [class.missing-info]="!user.phone">
+        {{user.phone ? user.phone : 'Add your phone number'}}
+      </div>
     </div>
   </div>
 

@@ -1,8 +1,8 @@
 <ng-container *ngIf="(pastEvents | async) && (upcomingEvents | async) ; else loading">
-  <div class="event-group" *ngIf="(pastEvents | async).length">
-    <div class="label"> Past Events </div>
+  <div class="event-group" *ngIf="(upcomingEvents | async).length">
+    <div class="label"> Upcoming Events </div>
 
-    <div class="event" *ngFor="let event of pastEvents | async; trackById">
+    <div class="event" *ngFor="let event of upcomingEvents | async; trackById">
       <div class="info"> {{event.info}} </div>
       <div class="date-time">
         <div class="time" *ngIf="event.time"> {{event.time}} </div>
@@ -11,10 +11,10 @@
     </div>
   </div>
 
-  <div class="event-group" *ngIf="(upcomingEvents | async).length">
-    <div class="label"> Upcoming Events </div>
+  <div class="event-group" *ngIf="(pastEvents | async).length">
+    <div class="label"> Past Events </div>
 
-    <div class="event" *ngFor="let event of upcomingEvents | async; trackById">
+    <div class="event" *ngFor="let event of pastEvents | async; trackById">
       <div class="info"> {{event.info}} </div>
       <div class="date-time">
         <div class="time" *ngIf="event.time"> {{event.time}} </div>
