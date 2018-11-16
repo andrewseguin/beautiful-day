@@ -4,19 +4,12 @@ import {Permissions} from 'app/season/services/permissions';
 import {ImportItems} from 'app/season/shared/dialog/import-items/import-items';
 import {ExportItems} from 'app/season/shared/dialog/export-items/export-items';
 import {take} from 'rxjs/operators';
-import {RequestRendererOptions} from 'app/season/services/requests-renderer/request-renderer-options';
 import {
-  Item,
-  ItemsDao,
-  Project,
-  ProjectsDao,
-  Report,
-  ReportsDao,
-  RequestsDao
-} from 'app/season/dao';
+  RequestRendererOptions
+} from 'app/season/services/requests-renderer/request-renderer-options';
+import {Item, ItemsDao, ProjectsDao, Report, ReportsDao, RequestsDao} from 'app/season/dao';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireDatabase} from '@angular/fire/database';
-import { firestore } from 'firebase/app';
 import {User, UsersDao} from 'app/service/users-dao';
 
 @Component({
@@ -62,7 +55,7 @@ export class Owner {
         const options = new RequestRendererOptions();
         options.showProjectName = true;
         options.filters = [
-          {type: 'project', query: {project: project.name}}
+          {type: 'project', query: {input: project.name}}
         ];
         reports.push({
           name: project.name,
@@ -94,7 +87,7 @@ export class Owner {
         const options = new RequestRendererOptions();
         options.showProjectName = true;
         options.filters = [
-          {type: 'purchaser', query: {purchaser: purchaser}}
+          {type: 'purchaser', query: {input: purchaser}}
         ];
 
         const report = {

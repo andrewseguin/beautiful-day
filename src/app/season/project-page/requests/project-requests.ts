@@ -58,7 +58,7 @@ export class ProjectRequests implements OnInit {
     const renderRequestsOptions = new RequestRendererOptions();
     renderRequestsOptions.filters = [{
       type: 'projectKey',
-      query: { key: this.project.id },
+      query: { input: this.project.id },
       isImplicit: true
     }];
     this.initialOptionsState = renderRequestsOptions.getState();

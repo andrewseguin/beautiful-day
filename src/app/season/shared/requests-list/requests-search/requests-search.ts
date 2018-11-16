@@ -3,22 +3,10 @@ import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-r
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {
-  Filter,
-  FilterType,
-  Query
-} from 'app/season/services/requests-renderer/request-renderer-options';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ANIMATION_DURATION} from 'app/utility/animations';
-
-export const FILTER_TYPE_LABELS = new Map<FilterType, string>([
-  ['project', 'Project'],
-  ['purchaser', 'Purchaser'],
-  ['item cost', 'Item Cost'],
-  ['request cost', 'Request Cost'],
-  ['dropoff date', 'Dropoff Date'],
-  ['dropoff location', 'Dropoff Location'],
-]);
+import {Query} from 'app/season/services/requests-renderer/query';
+import {FilterMetadata, FilterType} from 'app/season/services/requests-renderer/filter';
 
 @Component({
   selector: 'requests-search',
@@ -45,8 +33,9 @@ export class RequestsSearch {
   search = new FormControl('');
   destroyed = new Subject();
 
-  filterTypeLabels = FILTER_TYPE_LABELS;
-  filterTypes = Array.from(this.filterTypeLabels.keys());
+  filterMetadata = FilterMetadata;
+  displayedFilterTypes =
+      Array.from(FilterMetadata.keys()).filter(key => FilterMetadata.get(key).displayName);
 
   trackByIndex = i => i;
 
@@ -82,9 +71,8 @@ export class RequestsSearch {
     this.requestsRenderer.options.filters = filters;
   }
 
-  remove(filter: Filter) {
+  removeFilter(index: number) {
     const filters = this.requestsRenderer.options.filters.slice();
-    const index = filters.indexOf(filter);
     filters.splice(index, 1);
     this.requestsRenderer.options.filters = filters;
   }

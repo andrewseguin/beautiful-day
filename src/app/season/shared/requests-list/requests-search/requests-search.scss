@@ -48,15 +48,28 @@ input {
   }
 }
 
-request-filter {
-  padding: 0 0 8px 16px;
-  display: block;
-}
-
 .filter-container {
   overflow: hidden;
+  display: flex;
 }
 
 ::ng-deep .filter-menu {
   margin: -1px;
+}
+
+.filter-type {
+  color: #777;
+  padding: 0 8px 0 16px;
+  font-size: 14px;
+  display: flex;
+  line-height: 48px;
+}
+
+.remove-filter {
+  color: #777;
+  margin: 0 4px;
+
+  mat-icon {
+    font-size: 18px;
+  }
 }

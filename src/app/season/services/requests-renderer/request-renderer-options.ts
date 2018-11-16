@@ -1,56 +1,11 @@
 import {Subject} from 'rxjs';
+import {Filter} from './filter';
 
 export type Group = 'all' | 'category' | 'project' | 'date' |
                     'dropoff' | 'tags' | 'item';
 
 export type Sort = 'request added' | 'item cost' | 'item name' |
                    'request cost' | 'date needed' | 'purchaser';
-
-export type FilterType = 'project' | 'purchaser' | 'dropoff date' |
-                         'request cost' | 'projectKey' | 'item cost' |
-                         'dropoff location' | 'season';
-
-export type Query = FilterProjectQuery | FilterCostQuery | FilterDateQuery |
-                    FilterPurchaserQuery | FilterProjectKeyQuery | FilterDropoffLocationQuery |
-                    FilterSeasonQuery;
-
-export interface FilterProjectQuery {
-  project: string;
-}
-
-export interface FilterSeasonQuery {
-  season: string;
-}
-
-export interface FilterPurchaserQuery {
-  purchaser: string;
-}
-
-export interface FilterProjectKeyQuery {
-  key: string;
-}
-
-export type CostEquality = 'greater than' | 'less than' | 'equal to';
-export interface FilterCostQuery {
-  equality: CostEquality;
-  cost: number;
-}
-
-export type DateEquality = 'before' | 'after' | 'on';
-export interface FilterDateQuery {
-  equality: DateEquality;
-  date: number;
-}
-
-export interface FilterDropoffLocationQuery {
-  location: string;
-}
-
-export interface Filter {
-  type: FilterType;
-  query?: Query;
-  isImplicit?: boolean;
-}
 
 export interface RequestRendererOptionsState {
   filters: Filter[];

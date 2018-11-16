@@ -1,142 +1,90 @@
 import {Item, Project, Request} from 'app/season/dao';
-import {
-  FilterCostQuery,
-  FilterDateQuery,
-  FilterDropoffLocationQuery,
-  FilterProjectKeyQuery,
-  FilterProjectQuery,
-  FilterPurchaserQuery,
-  RequestRendererOptions
-} from 'app/season/services/requests-renderer/request-renderer-options';
+import {RequestRendererOptions} from './request-renderer-options';
 import {getRequestCost} from 'app/season/utility/request-cost';
+import {DateEquality, NumberEquality, Query} from './query';
 
 export class RequestFilterer {
-
   constructor(private options: RequestRendererOptions,
               private projectMap: Map<string, Project>,
               private itemMap: Map<string, Item>) {}
 
   filter(requests: Request[]) {
-    return requests.filter(request => {
+    return requests.filter(r => {
       return this.options.filters.every(filter => {
+        const q = filter.query as Query;
+        if (!q) {
+          return true;
+        }
+
+        const project = this.projectMap.get(r.project);
+        const item = this.itemMap.get(r.item);
+        const requestCost = getRequestCost(item.cost, r);
+
         switch (filter.type) {
           case 'project': {
-            const query = filter.query as FilterProjectQuery;
-            return this.matchesProject(query, request);
+            return stringContainsQuery(project.name, q.input);
           }
           case 'projectKey': {
-            const query = filter.query as FilterProjectKeyQuery;
-            return this.matchesProjectKey(query, request);
+            return stringContainsQuery(r.project, q.input);
           }
           case 'purchaser': {
-            const query = filter.query as FilterPurchaserQuery;
-            return this.matchesPurchaser(query, request);
+            return stringContainsQuery(r.purchaser, q.input);
           }
-          case 'request cost': {
-            const query = filter.query as FilterCostQuery;
-            return this.matchesRequestCost(query, request);
+          case 'requestCost': {
+            return numberMatchesEquality(requestCost, q.value, q.equality);
           }
-          case 'item cost': {
-            const query = filter.query as FilterCostQuery;
-            return this.matchesItemCost(query, request);
+          case 'itemCost': {
+            return numberMatchesEquality(item.cost, q.value, q.equality);
           }
-          case 'dropoff date': {
-            const query = filter.query as FilterDateQuery;
-            return this.matchesDropoffDate(query, request);
+          case 'dropoffDate': {
+            return dateMatchesEquality(r.date, q.date, q.equality);
           }
-          case 'dropoff location': {
-            const query = filter.query as FilterDropoffLocationQuery;
-            return this.matchesDropoffLocation(query, request);
+          case 'dropoffLocation': {
+            return stringContainsQuery(r.dropoff, q.input);
           }
+          default:
+            throw Error(`Unknown filter type: ${filter.type}`);
         }
       });
     });
   }
+}
 
-  matchesProject(query: FilterProjectQuery, request: Request) {
-    if (!query || !query.project) {
-      return true;
-    }
-
-    const projectName = this.projectMap.get(request.project).name.toLowerCase();
-    const queryProjectName = query.project.toLowerCase();
-    return projectName.indexOf(queryProjectName) != -1;
+function stringContainsQuery(str: string, query: string) {
+  if (!str) {
+    return false;
   }
 
-  matchesProjectKey(query: FilterProjectKeyQuery, request: Request) {
-    return !query || !query.key || request.project === query.key;
+  if (!query) {
+    return true;
   }
 
-  matchesPurchaser(query: FilterPurchaserQuery, request: Request) {
-    if (!query || !query.purchaser) {
-      return true;
-    }
+  return str.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+}
 
-    if (!request.purchaser) {
-      return false;
-    }
-
-    const requestPurchaser = request.purchaser.toLowerCase();
-    const queryPurchaser = query.purchaser.toLowerCase();
-    return requestPurchaser.indexOf(queryPurchaser) != -1;
+function numberMatchesEquality(num: number, queryValue: number, equality: NumberEquality) {
+  if (queryValue === undefined) {
+    return true;
   }
 
-  matchesRequestCost(query: FilterCostQuery, request: Request) {
-    if (!query || query.cost === undefined) {
-      return true;
-    }
-
-    const itemCost = this.itemMap.get(request.item).cost;
-    const requestCost = getRequestCost(itemCost, request);
-
-    if (query.equality === 'greater than') {
-      return  requestCost > query.cost;
-    } else if (query.equality === 'less than') {
-      return requestCost < query.cost;
-    } else {
-      return requestCost === query.cost;
-    }
+  if (equality === 'greaterThan') {
+    return  num > queryValue;
+  } else if (equality === 'lessThan') {
+    return num < queryValue;
+  } else {
+    return num === queryValue;
   }
+}
 
-  matchesItemCost(query: FilterCostQuery, request: Request) {
-    if (!query || query.cost === undefined) {
-      return true;
-    }
+function dateMatchesEquality(dateStr: string, queryDateStr: string, equality: DateEquality) {
+  const date = new Date(dateStr);
+  const queryDate = new Date(queryDateStr);
 
-    const itemCost = this.itemMap.get(request.item).cost;
-    if (query.equality === 'greater than') {
-      return  itemCost > query.cost;
-    } else if (query.equality === 'less than') {
-      return itemCost < query.cost;
-    } else {
-      return itemCost === query.cost;
-    }
-  }
-
-  matchesDropoffDate(query: FilterDateQuery, request: Request) {
-    if (!query || query.date === undefined) {
-      return true;
-    }
-
-    const requestDate = new Date(request.date);
-    const queryDate = new Date(query.date);
-
-    if (query.equality === 'after') {
-      return  requestDate > queryDate;
-    } else if (query.equality === 'before') {
-      return requestDate < queryDate;
-    } else {
-      return requestDate === queryDate;
-    }
-  }
-
-  matchesDropoffLocation(query: FilterDropoffLocationQuery, request: Request) {
-    if (!query || !query.location) {
-      return true;
-    }
-
-    const requestLocation = request.dropoff.toLowerCase();
-    const queryLocation = query.location.toLowerCase();
-    return requestLocation.indexOf(queryLocation) != -1;
+  if (equality === 'after') {
+    return  date > queryDate;
+  } else if (equality === 'before') {
+    return date < queryDate;
+  } else {
+    return date.toISOString() === queryDate.toISOString();
   }
 }

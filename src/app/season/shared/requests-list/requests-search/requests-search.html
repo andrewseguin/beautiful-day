@@ -13,12 +13,32 @@
     <div class="details">
       <div class="filter-container" @expand
            *ngFor="let filter of requestsRenderer.options.filters; let index = index; trackBy: trackByIndex">
-        <request-filter [filter]="filter" (remove)="remove(filter)"
-                        *ngIf="!filter.isImplicit"
-                        (queryChange)="queryChange(index, $event)">
-        </request-filter>
-      </div>
+        <ng-container *ngIf="!filter.isImplicit">
+          <div class="filter-type"> {{filterMetadata.get(filter.type).displayName}}: </div>
 
+          <ng-container [ngSwitch]="filterMetadata.get(filter.type).queryType">
+            <input-query-form *ngSwitchCase="'input'"
+                              [query]="filter.query"
+                              (queryChange)="queryChange(index, $event)">
+            </input-query-form>
+
+            <number-equality-form *ngSwitchCase="'numberEquality'"
+                              [query]="filter.query"
+                              (queryChange)="queryChange(index, $event)">
+            </number-equality-form>
+
+            <date-equality-form *ngSwitchCase="'dateEquality'"
+                              [query]="filter.query"
+                              (queryChange)="queryChange(index, $event)">
+            </date-equality-form>
+          </ng-container>
+
+          <button mat-icon-button class="remove-filter"
+                  (click)="removeFilter(index)">
+            <mat-icon> close </mat-icon>
+          </button>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>
@@ -27,10 +47,10 @@
 <mat-menu #filterTypesMenu="matMenu" xPosition="before" class="filter-menu">
   <div class="project-requests-menu-title">Filter by:</div>
   <button class="project-requests-option" mat-menu-item
-          *ngFor="let filterType of filterTypes"
+          *ngFor="let filterType of displayedFilterTypes"
           (click)="addFilter(filterType)">
     <div class="option-content">
-      {{filterTypeLabels.get(filterType)}}
+      {{filterMetadata.get(filterType).displayName}}
     </div>
   </button>
 </mat-menu>

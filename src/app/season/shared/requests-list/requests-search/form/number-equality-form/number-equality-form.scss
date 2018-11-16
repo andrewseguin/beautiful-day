@@ -1,0 +1,13 @@
+@import '../form';
+
+:host {
+  display: flex;
+}
+
+mat-select {
+  min-width: 110px;
+}
+
+input {
+  margin-left: 4px;
+}
