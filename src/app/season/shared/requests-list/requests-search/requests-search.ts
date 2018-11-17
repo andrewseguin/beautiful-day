@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/co
 import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 import {debounceTime, map, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
-import {Subject} from 'rxjs';
+import {pipe, Subject} from 'rxjs';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ANIMATION_DURATION} from 'app/utility/animations';
 import {Query} from 'app/season/services/requests-renderer/query';
@@ -39,21 +39,9 @@ export class RequestsSearch {
       Array.from(FilterMetadata.keys()).filter(key => FilterMetadata.get(key).displayName);
 
   inputOptions = {
-    project: this.projectsDao.list.pipe(map(list => {
-      if (!list) {
-        return [];
-      }
-
-      return list.map(p => p.name);
-    })),
-    purchaser: this.requestsDao.list.pipe(map(list => {
-      if (!list) {
-        return [];
-      }
-
-      const purchasers = list.map(r => r.purchaser).filter(p => !!p);
-      return Array.from(new Set(purchasers));  // De-dupe list
-    }))
+    project: this.projectsDao.list.pipe(getValuesFromList('name')),
+    purchaser: this.requestsDao.list.pipe(getValuesFromList('purchaser')),
+    dropoffLocation: this.requestsDao.list.pipe(getValuesFromList('dropoff')),
   };
 
   trackByIndex = i => i;
@@ -107,4 +95,15 @@ export class RequestsSearch {
   hasDisplayedFilters() {
     return this.requestsRenderer.options.filters.some(filter => !filter.isImplicit);
   }
+}
+
+function getValuesFromList(property: string) {
+  return map((list: any[]) => {
+    if (!list) {
+      return [];
+    }
+
+    const values = list.map(r => r[property]).filter(p => !!p);
+    return Array.from(new Set(values));
+  });
 }

@@ -49,10 +49,7 @@ export class InputQueryForm implements AfterViewInit, OnChanges {
   constructor(private elementRef: ElementRef) {
     this.form.valueChanges.pipe(
         takeUntil(this.destroyed))
-        .subscribe(value => {
-          this.filterOptions();
-          this.queryChange.next(value);
-        });
+        .subscribe(value => this.queryChange.next(value));
 
     const inputChanges = this.form.valueChanges.pipe(startWith(null));
     this.filteredOptions = combineLatest([this._options, inputChanges]).pipe(map(result => {
@@ -70,7 +67,7 @@ export class InputQueryForm implements AfterViewInit, OnChanges {
     }
 
     if (simpleChanges.options) {
-      this._options.next(this.options);
+      this._options.next(this.options || []);
     }
   }
 
@@ -86,9 +83,5 @@ export class InputQueryForm implements AfterViewInit, OnChanges {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
-  }
-
-  private filterOptions() {
-
   }
 }
