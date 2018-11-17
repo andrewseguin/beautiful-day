@@ -57,7 +57,7 @@ export class DateEqualityForm implements AfterViewInit {
         .subscribe(value => {
           this.queryChange.next({
             equality: value.equality,
-            date: value.date.toISOString(),
+            date: value.date ? value.date.toISOString() : '',
           });
         });
   }

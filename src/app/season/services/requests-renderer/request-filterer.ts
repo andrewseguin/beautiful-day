@@ -1,7 +1,7 @@
 import {Item, Project, Request} from 'app/season/dao';
 import {RequestRendererOptions} from './request-renderer-options';
 import {getRequestCost} from 'app/season/utility/request-cost';
-import {DateEquality, NumberEquality, Query} from './query';
+import {DateEquality, InputEquality, NumberEquality, Query} from './query';
 
 export class RequestFilterer {
   constructor(private options: RequestRendererOptions,
@@ -22,13 +22,13 @@ export class RequestFilterer {
 
         switch (filter.type) {
           case 'project': {
-            return stringContainsQuery(project.name, q.input);
+            return stringContainsQuery(project.name, q.input, q.equality);
           }
           case 'projectKey': {
-            return stringContainsQuery(r.project, q.input);
+            return stringContainsQuery(r.project, q.input, q.equality);
           }
           case 'purchaser': {
-            return stringContainsQuery(r.purchaser, q.input);
+            return stringContainsQuery(r.purchaser, q.input, q.equality);
           }
           case 'requestCost': {
             return numberMatchesEquality(requestCost, q.value, q.equality);
@@ -40,7 +40,7 @@ export class RequestFilterer {
             return dateMatchesEquality(r.date, q.date, q.equality);
           }
           case 'dropoffLocation': {
-            return stringContainsQuery(r.dropoff, q.input);
+            return stringContainsQuery(r.dropoff, q.input, q.equality);
           }
           default:
             throw Error(`Unknown filter type: ${filter.type}`);
@@ -50,7 +50,7 @@ export class RequestFilterer {
   }
 }
 
-function stringContainsQuery(str: string, query: string) {
+function stringContainsQuery(str: string, query: string, equality: InputEquality) {
   if (!str) {
     return false;
   }
@@ -59,11 +59,21 @@ function stringContainsQuery(str: string, query: string) {
     return true;
   }
 
-  return str.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+  switch (equality) {
+    case 'contains':
+      return str.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    case 'is':
+      return str.toLowerCase() === query.toLowerCase();
+    case 'notContains':
+      return str.toLowerCase().indexOf(query.toLowerCase()) === -1;
+    case 'notIs':
+      return str.toLowerCase() !== query.toLowerCase();
+  }
+
 }
 
 function numberMatchesEquality(num: number, queryValue: number, equality: NumberEquality) {
-  if (queryValue === undefined) {
+  if (!queryValue && queryValue !== 0) {
     return true;
   }
 
@@ -77,6 +87,10 @@ function numberMatchesEquality(num: number, queryValue: number, equality: Number
 }
 
 function dateMatchesEquality(dateStr: string, queryDateStr: string, equality: DateEquality) {
+  if (!queryDateStr) {
+    return true;
+  }
+
   const date = new Date(dateStr);
   const queryDate = new Date(queryDateStr);
 

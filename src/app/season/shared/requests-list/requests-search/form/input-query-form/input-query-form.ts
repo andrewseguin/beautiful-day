@@ -5,12 +5,18 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  Output
+  OnChanges,
+  Output,
+  SimpleChanges
 } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Subject} from 'rxjs';
-import {InputQuery} from 'app/season/services/requests-renderer/query';
-import {takeUntil} from 'rxjs/operators';
+import {FormControl, FormGroup} from '@angular/forms';
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
+import {
+  InputEquality,
+  InputQuery,
+  NumberEquality
+} from 'app/season/services/requests-renderer/query';
+import {map, startWith, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'input-query-form',
@@ -18,33 +24,54 @@ import {takeUntil} from 'rxjs/operators';
   styleUrls: ['input-query-form.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputQueryForm implements AfterViewInit {
-  input = new FormControl('');
+export class InputQueryForm implements AfterViewInit, OnChanges {
+  equalities: {id: InputEquality, label: string}[] = [
+    {id: 'contains', label: 'contains'},
+    {id: 'is', label: 'is'},
+    {id: 'notContains', label: `doesn't contain`},
+    {id: 'notIs', label: 'is not'},
+  ];
+  form = new FormGroup({
+    equality: new FormControl('contains'),
+    input: new FormControl(''),
+  });
   destroyed = new Subject();
 
-  @Input()
-  set query(query: InputQuery) {
-    this._query = query;
+  filteredOptions: Observable<string[]>;
 
-    if (!query) {
-      return;
-    }
+  @Input() query: InputQuery;
 
-    if (query.input) {
-      this.input.setValue(query.input || '', {emitEvent: false});
-    }
-  }
-  get query(): InputQuery { return this._query; }
-  _query: InputQuery;
+  @Input() options;
+  _options = new BehaviorSubject([]);
 
   @Output() queryChange = new EventEmitter<InputQuery>();
 
   constructor(private elementRef: ElementRef) {
-    this.input.valueChanges.pipe(
+    this.form.valueChanges.pipe(
         takeUntil(this.destroyed))
         .subscribe(value => {
-          this.queryChange.next({input: value});
+          this.filterOptions();
+          this.queryChange.next(value);
         });
+
+    const inputChanges = this.form.valueChanges.pipe(startWith(null));
+    this.filteredOptions = combineLatest([this._options, inputChanges]).pipe(map(result => {
+      const options = result[0] as string[];
+      const input = this.form.value.input as string;
+      return options.filter(o => o.toLowerCase().includes(input.toLowerCase())).sort();
+    }));
+  }
+
+  ngOnChanges(simpleChanges: SimpleChanges) {
+    if (simpleChanges.query) {
+      if (this.query && this.query.input) {
+        this.form.get('input').setValue(this.query.input || '', {emitEvent: false});
+      }
+    }
+
+    if (simpleChanges.options) {
+      this._options.next(this.options);
+    }
   }
 
   ngAfterViewInit() {
@@ -59,5 +86,9 @@ export class InputQueryForm implements AfterViewInit {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  private filterOptions() {
+
   }
 }

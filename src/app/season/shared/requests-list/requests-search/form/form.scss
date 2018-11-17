@@ -23,3 +23,13 @@ mat-select {
   border-bottom: 1px solid #CCC;
   flex: 0;
 }
+
+mat-select + input {
+  margin-left: 4px;
+}
+
+::ng-deep .mat-select-value {
+  max-width: 100%;
+  width: auto;
+  padding-right: 4px;
+}

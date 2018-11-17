@@ -1,12 +1,13 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
-import {debounceTime, takeUntil} from 'rxjs/operators';
+import {debounceTime, map, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ANIMATION_DURATION} from 'app/utility/animations';
 import {Query} from 'app/season/services/requests-renderer/query';
 import {FilterMetadata, FilterType} from 'app/season/services/requests-renderer/filter';
+import {ProjectsDao, RequestsDao} from 'app/season/dao';
 
 @Component({
   selector: 'requests-search',
@@ -37,9 +38,29 @@ export class RequestsSearch {
   displayedFilterTypes =
       Array.from(FilterMetadata.keys()).filter(key => FilterMetadata.get(key).displayName);
 
+  inputOptions = {
+    project: this.projectsDao.list.pipe(map(list => {
+      if (!list) {
+        return [];
+      }
+
+      return list.map(p => p.name);
+    })),
+    purchaser: this.requestsDao.list.pipe(map(list => {
+      if (!list) {
+        return [];
+      }
+
+      const purchasers = list.map(r => r.purchaser).filter(p => !!p);
+      return Array.from(new Set(purchasers));  // De-dupe list
+    }))
+  };
+
   trackByIndex = i => i;
 
   constructor (public requestsRenderer: RequestsRenderer,
+               private projectsDao: ProjectsDao,
+               private requestsDao: RequestsDao,
                private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
