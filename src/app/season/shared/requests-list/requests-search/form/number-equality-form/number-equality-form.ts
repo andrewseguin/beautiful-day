@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {NumberEquality, NumberEqualityQuery} from 'app/season/services/requests-renderer/query';
+import {NumberEquality, NumberQuery} from 'app/season/services/requests-renderer/query';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -32,7 +32,7 @@ export class NumberEqualityForm implements AfterViewInit {
   destroyed = new Subject();
 
   @Input()
-  set query(query: NumberEqualityQuery) {
+  set query(query: NumberQuery) {
     this._query = query;
 
     if (!query) {
@@ -47,10 +47,10 @@ export class NumberEqualityForm implements AfterViewInit {
       this.form.get('value').setValue(query.value, {emitEvent: false});
     }
   }
-  get query(): NumberEqualityQuery { return this._query; }
-  _query: NumberEqualityQuery;
+  get query(): NumberQuery { return this._query; }
+  _query: NumberQuery;
 
-  @Output() queryChange = new EventEmitter<NumberEqualityQuery>();
+  @Output() queryChange = new EventEmitter<NumberQuery>();
 
   constructor(private elementRef: ElementRef, public cd: ChangeDetectorRef) {
     this.form.valueChanges.pipe(

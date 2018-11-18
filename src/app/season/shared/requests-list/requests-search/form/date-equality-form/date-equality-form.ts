@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {DateEquality, DateEqualityQuery} from 'app/season/services/requests-renderer/query';
+import {DateEquality, DateQuery} from 'app/season/services/requests-renderer/query';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -31,7 +31,7 @@ export class DateEqualityForm implements AfterViewInit {
   destroyed = new Subject();
 
   @Input()
-  set query(query: DateEqualityQuery) {
+  set query(query: DateQuery) {
     this._query = query;
 
     if (!query) {
@@ -46,10 +46,10 @@ export class DateEqualityForm implements AfterViewInit {
       this.form.get('date').setValue(new Date(query.date), {emitEvent: false});
     }
   }
-  get query(): DateEqualityQuery { return this._query; }
-  _query: DateEqualityQuery;
+  get query(): DateQuery { return this._query; }
+  _query: DateQuery;
 
-  @Output() queryChange = new EventEmitter<DateEqualityQuery>();
+  @Output() queryChange = new EventEmitter<DateQuery>();
 
   constructor(private elementRef: ElementRef) {
     this.form.valueChanges.pipe(

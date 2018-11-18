@@ -2,12 +2,12 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/co
 import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 import {debounceTime, map, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
-import {pipe, Subject} from 'rxjs';
+import {Observable, pipe, Subject} from 'rxjs';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ANIMATION_DURATION} from 'app/utility/animations';
 import {Query} from 'app/season/services/requests-renderer/query';
-import {FilterMetadata, FilterType} from 'app/season/services/requests-renderer/filter';
-import {ProjectsDao, RequestsDao} from 'app/season/dao';
+import {FilterMetadata} from 'app/season/services/requests-renderer/filter';
+import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
 
 @Component({
   selector: 'requests-search',
@@ -38,18 +38,23 @@ export class RequestsSearch {
   displayedFilterTypes =
       Array.from(FilterMetadata.keys()).filter(key => FilterMetadata.get(key).displayName);
 
-  inputOptions = {
-    project: this.projectsDao.list.pipe(getValuesFromList('name')),
-    purchaser: this.requestsDao.list.pipe(getValuesFromList('purchaser')),
-    dropoffLocation: this.requestsDao.list.pipe(getValuesFromList('dropoff')),
-  };
+  autocomplete = new Map<string, Observable<string[]>>();
 
   trackByIndex = i => i;
 
   constructor (public requestsRenderer: RequestsRenderer,
                private projectsDao: ProjectsDao,
                private requestsDao: RequestsDao,
-               private cd: ChangeDetectorRef) {}
+               private itemsDao: ItemsDao,
+               private cd: ChangeDetectorRef) {
+    FilterMetadata.forEach((value, key) => {
+      if (value.autocomplete) {
+        this.autocomplete.set(key, value.autocomplete({
+          itemsDao, requestsDao, projectsDao
+        }));
+      }
+    });
+  }
 
   ngOnInit() {
     this.search.valueChanges.pipe(
@@ -74,7 +79,7 @@ export class RequestsSearch {
     this.destroyed.complete();
   }
 
-  addFilter(type: FilterType) {
+  addFilter(type: string) {
     const filters = this.requestsRenderer.options.filters.slice();
     filters.push({type, query: null});
     this.requestsRenderer.options.filters = filters;
@@ -95,15 +100,4 @@ export class RequestsSearch {
   hasDisplayedFilters() {
     return this.requestsRenderer.options.filters.some(filter => !filter.isImplicit);
   }
-}
-
-function getValuesFromList(property: string) {
-  return map((list: any[]) => {
-    if (!list) {
-      return [];
-    }
-
-    const values = list.map(r => r[property]).filter(p => !!p);
-    return Array.from(new Set(values));
-  });
 }

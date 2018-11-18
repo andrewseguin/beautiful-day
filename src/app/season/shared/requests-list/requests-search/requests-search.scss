@@ -53,8 +53,9 @@ input {
   display: flex;
 }
 
-::ng-deep .filter-menu {
+::ng-deep .mat-menu-panel.filter-menu {
   margin: -1px;
+  //max-height: 288px;
 }
 
 .filter-type {

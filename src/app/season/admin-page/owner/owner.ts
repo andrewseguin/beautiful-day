@@ -55,7 +55,7 @@ export class Owner {
         const options = new RequestRendererOptions();
         options.showProjectName = true;
         options.filters = [
-          {type: 'project', query: {input: project.name}}
+          {type: 'project', query: {input: project.name, equality: 'is'}}
         ];
         reports.push({
           name: project.name,
@@ -87,7 +87,7 @@ export class Owner {
         const options = new RequestRendererOptions();
         options.showProjectName = true;
         options.filters = [
-          {type: 'purchaser', query: {input: purchaser}}
+          {type: 'purchaser', query: {input: purchaser, equality: 'is'}}
         ];
 
         const report = {
@@ -205,10 +205,10 @@ export class Owner {
 
       projects.forEach(project => {
         defaultCleanup.set(project.id, {
-          //defaultDropoffDate: project.lastUsedDate || '',
-          //defaultDropoffLocation: project.lastUsedDropoff || '',
-          //lastUsedDate: firestore.FieldValue.delete(),
-          //lastUsedDropoff: firestore.FieldValue.delete(),
+          // defaultDropoffDate: project.lastUsedDate || '',
+          // defaultDropoffLocation: project.lastUsedDropoff || '',
+          // lastUsedDate: firestore.FieldValue.delete(),
+          // lastUsedDropoff: firestore.FieldValue.delete(),
         });
       });
 

@@ -21,6 +21,7 @@ export interface Request {
   distributionDate?: string;
   isDistributed?: boolean;
   dateAdded?: string;
+  dateModified?: string;
 }
 
 @Injectable()
@@ -35,6 +36,8 @@ export class RequestsDao extends SeasonCollectionDao<Request> {
   }
 
   add(obj: Request) {
+    obj.dateAdded = new Date().toISOString();
+    obj.dateModified = new Date().toISOString();
     return super.add(obj).then(id => {
       const request = document.querySelector(`#request-${id}`);
       if (request) {
@@ -43,6 +46,11 @@ export class RequestsDao extends SeasonCollectionDao<Request> {
 
       return id;
     });
+  }
+
+  update(id: string, obj: Request) {
+    obj.dateModified = new Date().toISOString();
+    super.update(id, obj);
   }
 }
 

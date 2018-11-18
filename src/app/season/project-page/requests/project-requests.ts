@@ -20,6 +20,7 @@ import {combineLatest, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {ActivatedSeason, Selection} from 'app/season/services';
 import {Project, Request, RequestsDao} from 'app/season/dao';
+import {InputQuery} from 'app/season/services/requests-renderer/query';
 
 @Component({
   selector: 'project-requests',
@@ -58,7 +59,7 @@ export class ProjectRequests implements OnInit {
     const renderRequestsOptions = new RequestRendererOptions();
     renderRequestsOptions.filters = [{
       type: 'projectKey',
-      query: { input: this.project.id },
+      query: { input: this.project.id, equality: 'is' },
       isImplicit: true
     }];
     this.initialOptionsState = renderRequestsOptions.getState();

@@ -19,7 +19,7 @@
           <ng-container [ngSwitch]="filterMetadata.get(filter.type).queryType">
             <input-query-form *ngSwitchCase="'input'"
                               [query]="filter.query"
-                              [options]="inputOptions[filter.type] | async"
+                              [options]="autocomplete.get(filter.type) | async"
                               (queryChange)="queryChange(index, $event)">
             </input-query-form>
 

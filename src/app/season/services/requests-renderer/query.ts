@@ -3,21 +3,18 @@ export type NumberEquality = 'greaterThan' | 'lessThan' | 'equalTo';
 export type DateEquality = 'before' | 'after' | 'on';
 
 export interface InputQuery {
-  input?: string;
-  equality?: InputEquality;
+  input: string;
+  equality: InputEquality;
 }
 
-export interface NumberEqualityQuery {
-  value?: number;
-  equality?: NumberEquality;
+export interface NumberQuery {
+  value: number;
+  equality: NumberEquality;
 }
 
-export interface DateEqualityQuery {
-  date?: string;
-  equality?: DateEquality;
+export interface DateQuery {
+  date: string;
+  equality: DateEquality;
 }
 
-export type Query =
-  InputQuery &
-  NumberEqualityQuery &
-  DateEqualityQuery;
+export type Query = InputQuery | NumberQuery | DateQuery;

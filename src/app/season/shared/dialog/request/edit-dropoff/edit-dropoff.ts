@@ -18,6 +18,9 @@ export interface EditDropoffResult {
 @Component({
   templateUrl: 'edit-dropoff.html',
   styleUrls: ['edit-dropoff.scss'],
+  host: {
+    '(keyup.Enter)': 'save()'
+  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditDropoff implements OnInit {
