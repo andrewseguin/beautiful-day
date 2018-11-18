@@ -1,4 +1,5 @@
-import {DateQuery, InputQuery, NumberQuery} from './query';
+import {DateQuery, InputQuery, NumberQuery, State, StateQuery} from './query';
+import {Request} from 'app/season/dao';
 
 export function stringContainsQuery(str: string, query: InputQuery) {
   if (!str) {
@@ -19,6 +20,8 @@ export function stringContainsQuery(str: string, query: InputQuery) {
       return str.toLowerCase().indexOf(input.toLowerCase()) === -1;
     case 'notIs':
       return str.toLowerCase() !== input.toLowerCase();
+    default:
+      throw Error(`Unknown equality: ${query.equality}`);
   }
 }
 
@@ -27,12 +30,15 @@ export function numberMatchesEquality(num: number, query: NumberQuery) {
     return true;
   }
 
-  if (query.equality === 'greaterThan') {
-    return  num > query.value;
-  } else if (query.equality === 'lessThan') {
-    return num < query.value;
-  } else {
-    return num === query.value;
+  switch (query.equality) {
+    case 'greaterThan':
+      return  num > query.value;
+    case 'lessThan':
+      return num < query.value;
+    case 'equalTo':
+      return num === query.value;
+    default:
+      throw Error(`Unknown equality: ${query.equality}`);
   }
 }
 
@@ -48,11 +54,36 @@ export function dateMatchesEquality(dateStr: string, query: DateQuery) {
   const date = new Date(dateStr);
   const queryDate = new Date(query.date);
 
-  if (query.equality === 'after') {
-    return  date > queryDate;
-  } else if (query.equality === 'before') {
-    return date < queryDate;
-  } else {
-    return date.toISOString() === queryDate.toISOString();
+  switch (query.equality) {
+    case 'after':
+      return  date > queryDate;
+    case 'before':
+      return  date < queryDate;
+    case 'on':
+      return date.toISOString() === queryDate.toISOString();
+    default:
+      throw Error(`Unknown equality: ${query.equality}`);
+  }
+}
+
+
+export function stateMatchesEquality(request: Request, query: StateQuery) {
+  if (!query.state) {
+    return true;
+  }
+
+  const values = new Map<State, boolean>([
+    ['approved', request.isApproved],
+    ['purchased', request.isPurchased],
+    ['distributed', request.isDistributed],
+  ]);
+
+  switch (query.equality) {
+    case 'is':
+      return values.get(query.state);
+    case 'notIs':
+      return !values.get(query.state);
+    default:
+      throw Error(`Unknown equality: ${query.equality}`);
   }
 }

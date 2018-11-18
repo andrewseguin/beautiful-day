@@ -24,17 +24,21 @@
                               (queryChange)="queryChange(index, $event)">
             </input-query-form>
 
-            <number-equality-form *ngSwitchCase="'numberEquality'"
-                                  [query]="filter.query"
-                                  [focusInput]="focusInput"
-                                  (queryChange)="queryChange(index, $event)">
-            </number-equality-form>
+            <number-query-form *ngSwitchCase="'number'"
+                               [query]="filter.query"
+                               [focusInput]="focusInput"
+                               (queryChange)="queryChange(index, $event)">
+            </number-query-form>
 
-            <date-equality-form *ngSwitchCase="'dateEquality'"
-                                [query]="filter.query"
-                                [focusInput]="focusInput"
-                                (queryChange)="queryChange(index, $event)">
-            </date-equality-form>
+            <date-query-form *ngSwitchCase="'date'"
+                             [query]="filter.query"
+                             (queryChange)="queryChange(index, $event)">
+            </date-query-form>
+
+            <state-query-form *ngSwitchCase="'state'"
+                             [query]="filter.query"
+                             (queryChange)="queryChange(index, $event)">
+            </state-query-form>
           </ng-container>
 
           <button mat-icon-button class="remove-filter"

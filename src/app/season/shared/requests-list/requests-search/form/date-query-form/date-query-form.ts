@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -14,12 +13,12 @@ import {takeUntil} from 'rxjs/operators';
 import {isMobile} from 'app/utility/media-matcher';
 
 @Component({
-  selector: 'date-equality-form',
-  templateUrl: 'date-equality-form.html',
-  styleUrls: ['date-equality-form.scss'],
+  selector: 'date-query-form',
+  templateUrl: 'date-query-form.html',
+  styleUrls: ['date-query-form.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DateEqualityForm {
+export class DateQueryForm {
   equalities: {id: DateEquality, label: string}[] = [
     {id: 'before', label: 'before'},
     {id: 'on', label: 'on'},

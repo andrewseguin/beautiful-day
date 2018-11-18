@@ -23,7 +23,7 @@
     flex: 0;
   }
 
-  mat-select + input {
+  mat-select + input, mat-select + mat-select {
     margin-left: 4px;
   }
 

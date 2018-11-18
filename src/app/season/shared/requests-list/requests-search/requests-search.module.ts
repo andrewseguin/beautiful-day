@@ -3,18 +3,20 @@ import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from 'app/material.module';
 import {RequestsSearch} from './requests-search';
-import {DateEqualityFormModule} from './form/date-equality-form/date-equality-form.module';
+import {DateQueryFormModule} from './form/date-query-form/date-query-form.module';
 import {InputQueryFormModule} from './form/input-query-form/input-query-form.module';
-import {NumberEqualityFormModule} from './form/number-equality-form/number-equality-form.module';
+import {NumberQueryFormModule} from './form/number-query-form/number-query-form.module';
+import {StateQueryFormModule} from './form/state-query-form/state-query-form.module';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    DateEqualityFormModule,
+    DateQueryFormModule,
     InputQueryFormModule,
-    NumberEqualityFormModule,
+    NumberQueryFormModule,
+    StateQueryFormModule,
   ],
   declarations: [RequestsSearch],
   exports: [RequestsSearch]

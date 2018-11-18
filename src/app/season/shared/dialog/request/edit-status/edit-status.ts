@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Observable, Subject} from 'rxjs';
 import {Request} from 'app/season/dao';
@@ -36,6 +36,7 @@ export class EditStatus {
 
   constructor(private dialogRef: MatDialogRef<EditStatus, EditStatusResult>,
               private permissions: Permissions,
+              private cd: ChangeDetectorRef,
               @Inject(MAT_DIALOG_DATA) public data: EditStatusData) {
     this.data.requests.pipe(takeUntil(this.destroyed)).subscribe(requests => {
       const firstDate = requests[0].distributionDate;
@@ -47,6 +48,8 @@ export class EditStatus {
         isDistributed: new FormControl(requests.every(r => r.isDistributed)),
         distributionDate: new FormControl(matchingDates ? firstDate : '', Validators.required),
       });
+
+      this.cd.markForCheck();
     });
   }
 

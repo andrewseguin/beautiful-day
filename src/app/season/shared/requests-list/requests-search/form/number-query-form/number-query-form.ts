@@ -14,12 +14,12 @@ import {NumberEquality, NumberQuery} from 'app/season/services/requests-renderer
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-  selector: 'number-equality-form',
-  templateUrl: 'number-equality-form.html',
-  styleUrls: ['number-equality-form.scss'],
+  selector: 'number-query-form',
+  templateUrl: 'number-query-form.html',
+  styleUrls: ['number-query-form.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NumberEqualityForm implements AfterViewInit {
+export class NumberQueryForm implements AfterViewInit {
   equalities: {id: NumberEquality, label: string}[] = [
     {id: 'greaterThan', label: 'greater than'},
     {id: 'equalTo', label: 'equal to'},

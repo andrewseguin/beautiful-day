@@ -1,6 +1,11 @@
-import {DateQuery, InputQuery, NumberQuery, Query} from './query';
+import {DateQuery, InputQuery, NumberQuery, Query, StateQuery} from './query';
 import {Item, ItemsDao, Project, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
-import {dateMatchesEquality, numberMatchesEquality, stringContainsQuery} from './query-matcher';
+import {
+  dateMatchesEquality,
+  numberMatchesEquality,
+  stateMatchesEquality,
+  stringContainsQuery
+} from './query-matcher';
 import {getRequestCost} from 'app/season/utility/request-cost';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -114,7 +119,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
 
   ['requestCost', {
     displayName: 'Request Cost',
-    queryType: 'numberEquality',
+    queryType: 'number',
     matcher: (c: MatcherContext, q: NumberQuery) => {
       return numberMatchesEquality(getRequestCost(c.item.cost, c.request), q);
     }
@@ -122,7 +127,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
 
   ['itemCost', {
     displayName: 'Item Cost',
-    queryType: 'numberEquality',
+    queryType: 'number',
     matcher: (c: MatcherContext, q: NumberQuery) => {
       return numberMatchesEquality(c.item.cost, q);
     }
@@ -130,7 +135,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
 
   ['allocation', {
     displayName: 'Allocation',
-    queryType: 'numberEquality',
+    queryType: 'number',
     matcher: (c: MatcherContext, q: NumberQuery) => {
       return numberMatchesEquality(c.request.allocation, q);
     }
@@ -138,7 +143,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
 
   ['quantity', {
     displayName: 'Quantity',
-    queryType: 'numberEquality',
+    queryType: 'number',
     matcher: (c: MatcherContext, q: NumberQuery) => {
       return numberMatchesEquality(c.request.quantity, q);
     }
@@ -148,7 +153,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
 
   ['dropoffDate', {
     displayName: 'Dropoff Date',
-    queryType: 'dateEquality',
+    queryType: 'date',
     matcher: (c: MatcherContext, q: DateQuery) => {
       return dateMatchesEquality(c.request.date, q);
     }
@@ -156,7 +161,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
 
   ['distributionDate', {
     displayName: 'Distribution Date',
-    queryType: 'dateEquality',
+    queryType: 'date',
     matcher: (c: MatcherContext, q: DateQuery) => {
       return dateMatchesEquality(c.request.distributionDate, q);
     }
@@ -164,7 +169,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
 
   ['requestAdded', {
     displayName: 'Request Added',
-    queryType: 'dateEquality',
+    queryType: 'date',
     matcher: (c: MatcherContext, q: DateQuery) => {
       return dateMatchesEquality(c.request.dateAdded, q);
     }
@@ -172,7 +177,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
 
   ['requestModified', {
     displayName: 'Request Modified',
-    queryType: 'dateEquality',
+    queryType: 'date',
     matcher: (c: MatcherContext, q: DateQuery) => {
       return dateMatchesEquality(c.request.dateModified, q);
     }
@@ -180,13 +185,18 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
 
   /** StateQuery */
 
-  // Request:
-  // State     Status: purchased, received, distributed
+  ['state', {
+    displayName: 'Request Status',
+    queryType: 'state',
+    matcher: (c: MatcherContext, q: StateQuery) => {
+      return stateMatchesEquality(c.request, q);
+    }
+  }],
 ]);
 
 export interface Filter {
   type: string;
-  query?: InputQuery | NumberQuery | DateQuery;
+  query?: Query;
   isImplicit?: boolean;
 }
 
