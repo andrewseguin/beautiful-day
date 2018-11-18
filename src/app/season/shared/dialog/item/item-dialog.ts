@@ -46,7 +46,6 @@ export class ItemDialog {
       take(1))
       .subscribe((result: Item) => {
         if (result) {
-          console.log(result);
           this.itemsDao.add(result);
         }
       });
