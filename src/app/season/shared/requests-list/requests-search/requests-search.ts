@@ -1,4 +1,10 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy, OnInit
+} from '@angular/core';
 import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 import {debounceTime, map, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
@@ -19,7 +25,7 @@ import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
   },
   animations: [
     trigger('expand', [
-      transition(':enter', [
+      transition('void => true', [
         style({ height: '0', opacity: 0 }),
         animate(ANIMATION_DURATION, style({ height: '*', opacity: 1 })),
       ]),
@@ -30,7 +36,7 @@ import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
     ]),
   ]
 })
-export class RequestsSearch {
+export class RequestsSearch implements OnInit, AfterViewInit, OnDestroy {
   search = new FormControl('');
   destroyed = new Subject();
 
@@ -42,6 +48,8 @@ export class RequestsSearch {
   autocomplete = new Map<string, Observable<string[]>>();
 
   focusInput = false;
+
+  expandState = false;
 
   trackByIndex = i => i;
 
@@ -75,6 +83,10 @@ export class RequestsSearch {
       });
 
     this.search.setValue(this.requestsRenderer.options.search);
+  }
+
+  ngAfterViewInit() {
+    this.expandState = true;
   }
 
   ngOnDestroy() {

@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+
+@mixin nav-theme($theme) {
+  $warn: map-get($theme, accent);
+
+  nav-content {
+    .missing-info {
+      color: mat-color($warn);
+    }
+  }
+}

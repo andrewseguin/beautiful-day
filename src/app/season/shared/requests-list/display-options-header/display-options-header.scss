@@ -1,6 +1,7 @@
 // Import your custom theme
 @import '../common';
 @import '../../../../constants';
+@import '~@angular/material/theming';
 
 :host {
   @include content-width;
@@ -21,7 +22,6 @@ button.mat-button {
   min-width: 0;
   display: block;
   text-transform: capitalize;
-  color: #444;
 
   @media (max-width: $mobile-width - 1) {
     padding: 0 8px;

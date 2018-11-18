@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+
+@mixin display-options-header-theme($theme) {
+  $foreground: map-get($theme, foreground);
+
+  display-options-header {
+    button.mat-button {
+      color: mat-color($foreground, text);
+    }
+  }
+}
