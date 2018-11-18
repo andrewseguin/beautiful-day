@@ -1,35 +1,35 @@
 :host {
   flex: 1;
   display: flex;
-}
 
-input {
-  font-size: 16px;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #CCC;
-  padding: 0 0 4px 0;
-  width: 100%;
-  height: 16px;
-  margin-top: 15px;
-}
+  input {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #CCC;
+    padding: 0 0 4px 0;
+    width: 100%;
+    height: 16px;
+    margin-top: 15px;
+  }
 
-mat-select {
-  height: 16px;
-  margin-bottom: 8px;
-  display: block;
-  margin-top: 14px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #CCC;
-  flex: 0;
-}
+  mat-select {
+    height: 16px;
+    margin-bottom: 8px;
+    display: block;
+    margin-top: 14px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #CCC;
+    flex: 0;
+  }
 
-mat-select + input {
-  margin-left: 4px;
-}
+  mat-select + input {
+    margin-left: 4px;
+  }
 
-::ng-deep .mat-select-value {
-  max-width: 100%;
-  width: auto;
-  padding-right: 4px;
+  ::ng-deep .mat-select-value {
+    max-width: 100%;
+    width: auto;
+    padding-right: 4px;
+  }
 }

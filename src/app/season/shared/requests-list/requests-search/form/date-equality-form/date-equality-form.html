@@ -5,8 +5,9 @@
 
   <input [matDatepicker]="picker"
          (click)="picker.open()"
+         (blur)="emit()"
          placeholder="MM/DD/YYYY"
          formControlName="date">
 
-  <mat-datepicker #picker></mat-datepicker>
+  <mat-datepicker #picker [touchUi]="isMobile()"></mat-datepicker>
 </ng-container>

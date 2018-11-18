@@ -41,6 +41,10 @@ export function dateMatchesEquality(dateStr: string, query: DateQuery) {
     return true;
   }
 
+  if (!dateStr) {
+    return false;
+  }
+
   const date = new Date(dateStr);
   const queryDate = new Date(query.date);
 

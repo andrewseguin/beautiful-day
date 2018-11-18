@@ -36,9 +36,12 @@ export class RequestsSearch {
 
   filterMetadata = FilterMetadata;
   displayedFilterTypes =
-      Array.from(FilterMetadata.keys()).filter(key => FilterMetadata.get(key).displayName);
+      Array.from(FilterMetadata.keys())
+          .filter(key => FilterMetadata.get(key).displayName).sort();
 
   autocomplete = new Map<string, Observable<string[]>>();
+
+  focusInput = false;
 
   trackByIndex = i => i;
 
@@ -80,6 +83,7 @@ export class RequestsSearch {
   }
 
   addFilter(type: string) {
+    this.focusInput = true;
     const filters = this.requestsRenderer.options.filters.slice();
     filters.push({type, query: null});
     this.requestsRenderer.options.filters = filters;

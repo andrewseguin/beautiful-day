@@ -8,7 +8,10 @@ import {SeasonsDao} from 'app/service/seasons-dao';
 @Component({
   templateUrl: 'season.html',
   styleUrls: ['season.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(keydown)': 'onKeyDown($event)'
+  }
 })
 export class Season {
   season: number;
@@ -46,5 +49,9 @@ export class Season {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  onKeyDown(e: Event) {
+    console.log(e);
   }
 }

@@ -82,7 +82,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
     displayName: 'Tags',
     queryType: 'input',
     matcher: (c: MatcherContext, q: InputQuery) => {
-      return stringContainsQuery(c.request.tags.join(' '), q);
+      return stringContainsQuery((c.request.tags || []).join(' '), q);
     }
   }],
 

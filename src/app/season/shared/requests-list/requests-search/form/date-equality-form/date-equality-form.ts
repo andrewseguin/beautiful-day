@@ -11,6 +11,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {DateEquality, DateQuery} from 'app/season/services/requests-renderer/query';
 import {takeUntil} from 'rxjs/operators';
+import {isMobile} from 'app/utility/media-matcher';
 
 @Component({
   selector: 'date-equality-form',
@@ -18,7 +19,7 @@ import {takeUntil} from 'rxjs/operators';
   styleUrls: ['date-equality-form.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DateEqualityForm implements AfterViewInit {
+export class DateEqualityForm {
   equalities: {id: DateEquality, label: string}[] = [
     {id: 'before', label: 'before'},
     {id: 'on', label: 'on'},
@@ -26,9 +27,11 @@ export class DateEqualityForm implements AfterViewInit {
   ];
   form = new FormGroup({
     equality: new FormControl('on'),
-    date: new FormControl(''),
+    date: new FormControl('')
   });
   destroyed = new Subject();
+
+  isMobile = isMobile;
 
   @Input()
   set query(query: DateQuery) {
@@ -49,26 +52,28 @@ export class DateEqualityForm implements AfterViewInit {
   get query(): DateQuery { return this._query; }
   _query: DateQuery;
 
+  @Input() focusInput: boolean;
+
   @Output() queryChange = new EventEmitter<DateQuery>();
 
   constructor(private elementRef: ElementRef) {
     this.form.valueChanges.pipe(
         takeUntil(this.destroyed))
-        .subscribe(value => {
-          this.queryChange.next({
-            equality: value.equality,
-            date: value.date ? value.date.toISOString() : '',
-          });
-        });
+        .subscribe(() => this.emit());
   }
 
-  ngAfterViewInit() {
+  emit() {
+    // Check if the input still has focus. If so, do not save.
     const input = this.elementRef.nativeElement.querySelector('input');
-    setTimeout(() => {
-      if (input) {
-        input.focus();
-      }
-    }, 500);
+    if (document.activeElement == input || !input.value) {
+      return;
+    }
+
+    const value = this.form.value;
+    this.queryChange.next({
+      equality: value.equality,
+      date: value.date ? value.date.toISOString() : '',
+    });
   }
 
   ngOnDestroy() {

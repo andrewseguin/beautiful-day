@@ -31,6 +31,8 @@ export class NumberEqualityForm implements AfterViewInit {
   });
   destroyed = new Subject();
 
+  @Input() focusInput: boolean;
+
   @Input()
   set query(query: NumberQuery) {
     this._query = query;
@@ -66,7 +68,7 @@ export class NumberEqualityForm implements AfterViewInit {
   ngAfterViewInit() {
     const input = this.elementRef.nativeElement.querySelector('input');
     setTimeout(() => {
-      if (input) {
+      if (input && this.focusInput) {
         input.focus();
       }
     }, 500);

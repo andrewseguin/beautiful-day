@@ -11,11 +11,7 @@ import {
 } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
-import {
-  InputEquality,
-  InputQuery,
-  NumberEquality
-} from 'app/season/services/requests-renderer/query';
+import {InputEquality, InputQuery} from 'app/season/services/requests-renderer/query';
 import {map, startWith, takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -43,6 +39,8 @@ export class InputQueryForm implements AfterViewInit, OnChanges {
 
   @Input() options;
   _options = new BehaviorSubject([]);
+
+  @Input() focusInput: boolean;
 
   @Output() queryChange = new EventEmitter<InputQuery>();
 
@@ -74,7 +72,7 @@ export class InputQueryForm implements AfterViewInit, OnChanges {
   ngAfterViewInit() {
     const input = this.elementRef.nativeElement.querySelector('input');
     setTimeout(() => {
-      if (input) {
+      if (input && this.focusInput) {
         input.focus();
       }
     }, 500);

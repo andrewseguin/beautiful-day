@@ -20,17 +20,20 @@
             <input-query-form *ngSwitchCase="'input'"
                               [query]="filter.query"
                               [options]="autocomplete.get(filter.type) | async"
+                              [focusInput]="focusInput"
                               (queryChange)="queryChange(index, $event)">
             </input-query-form>
 
             <number-equality-form *ngSwitchCase="'numberEquality'"
-                              [query]="filter.query"
-                              (queryChange)="queryChange(index, $event)">
+                                  [query]="filter.query"
+                                  [focusInput]="focusInput"
+                                  (queryChange)="queryChange(index, $event)">
             </number-equality-form>
 
             <date-equality-form *ngSwitchCase="'dateEquality'"
-                              [query]="filter.query"
-                              (queryChange)="queryChange(index, $event)">
+                                [query]="filter.query"
+                                [focusInput]="focusInput"
+                                (queryChange)="queryChange(index, $event)">
             </date-equality-form>
           </ng-container>
 
