@@ -1,6 +1,4 @@
 .project {
-  border-bottom: 1px solid #CCC;
-
   mat-icon {
     padding-right: 8px;
   }
@@ -11,19 +9,17 @@
 }
 
 .heading {
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-  height: 48px;
   cursor: pointer;
-  padding: 8px;
   position: sticky;
   top: 0;
-  background: #FAFAFA;
   z-index: 1;
 
-  &:hover {
-    background: #EAEAEA;
+  .text {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 8px;
   }
 }
 

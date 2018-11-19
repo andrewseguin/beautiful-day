@@ -1,0 +1,39 @@
+@import '~@angular/material/theming';
+
+@mixin project-requests-theme($theme) {
+  $primary: map-get($theme, primary);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  project-requests {
+    .mat-drawer {
+      border-left-color: map-get($theme, positive);
+    }
+
+    button[mat-fab].attention {
+      animation: fontbulger 5s infinite;
+    }
+  }
+
+  @keyframes fontbulger {
+    0% {
+      transform: scale(1);
+    }
+    10% {
+      transform: scale(1.3);
+      background-color: mat-color($primary);
+    }
+    20% {
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(1.3);
+    }
+    40% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}

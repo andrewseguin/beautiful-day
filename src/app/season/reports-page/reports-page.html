@@ -11,13 +11,15 @@
   </div>
 
   <div class="reports">
-    <div class="report" (click)="navigateToReport(report.id)"
-       *ngFor="let report of reportGroup.reports; trackBy: reportKeyTrackBy">
-      <div class="name"> {{report.name}} </div>
+    <ng-container *ngFor="let report of reportGroup.reports; trackBy: reportKeyTrackBy">
+      <div class="report theme-hover" mat-ripple (click)="navigateToReport(report.id)">
+        <div class="name"> {{report.name}} </div>
 
-      <report-menu [report]="report" icon="more_vert"
-                   (click)="$event.stopPropagation()">
-      </report-menu>
-    </div>
+        <report-menu [report]="report" icon="more_vert"
+                     (click)="$event.stopPropagation()">
+        </report-menu>
+      </div>
+      <mat-divider></mat-divider>
+    </ng-container>
   </div>
 </div>

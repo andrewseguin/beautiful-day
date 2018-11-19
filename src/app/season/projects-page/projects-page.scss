@@ -1,7 +1,5 @@
 @import '../../constants';
 
-$font-color: #444;
-
 :host {
   display: block;
   height: 100%;
@@ -33,7 +31,6 @@ $font-color: #444;
 
 .project {
   font-size: 14px;
-  border-bottom: 1px solid #CCC;
   padding: 8px;
 
   @media (max-width: $mobile-width - 1) {
@@ -48,7 +45,6 @@ $font-color: #444;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: black;
     margin-bottom: 16px;
     font-size: 20px;
 
@@ -61,26 +57,13 @@ $font-color: #444;
     flex: 1;
   }
 
-  .label {
-    color: #555;
-    font-size: 14px;
-  }
-
-  .description, .location, .receipts-folder {
+  .description, .location {
     display: block;
     padding: 8px 0;
-
-    .label {
-      padding-bottom: 8px;
-    }
 
     @media (max-width: $mobile-width - 1) {
       padding: 4px 0;
     }
-  }
-
-  a {
-    color: $font-color;
   }
 
   .contacts {
@@ -97,14 +80,12 @@ $font-color: #444;
     align-items: center;
     padding: 8px;
     cursor: pointer;
-
-    &:hover {
-      background: #F5F5F5;
-    }
-    &:active {
-      background: #EFEFEF;
-    }
   }
+}
+
+.label {
+  padding-bottom: 4px;
+  font-size: 13px;
 }
 
 detail-user {

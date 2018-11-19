@@ -1,5 +1,5 @@
 <ng-container *ngIf="events | async; let events; else loading">
-  <button mat-stroked-button color="accent" (click)="addEvent()"> Add Event </button>
+  <button mat-stroked-button color="primary" (click)="addEvent()"> Add Event </button>
 
   <editable-event *ngFor="let event of events; trackBy: trackByFn"
                   [event]="event">

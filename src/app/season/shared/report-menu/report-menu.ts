@@ -3,12 +3,13 @@ import {ReportDialog} from 'app/season/shared/dialog/report/report-dialog';
 import {Report} from 'app/season/dao';
 import {ActivatedSeason} from 'app/season/services';
 import {Router} from '@angular/router';
-import {RequestRendererOptionsState} from 'app/season/services/requests-renderer/request-renderer-options';
+import {
+  RequestRendererOptionsState
+} from 'app/season/services/requests-renderer/request-renderer-options';
 
 @Component({
   selector: 'report-menu',
   templateUrl: 'report-menu.html',
-  styleUrls: ['report-menu.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReportMenu {

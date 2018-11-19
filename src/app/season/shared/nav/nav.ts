@@ -50,6 +50,8 @@ export class Nav {
   seasons = this.seasonsDao.list.pipe(map(v => v ? v.map(s => s.id) : []));
   season = new FormControl('');
 
+  isDarkTheme = false;
+
   links: NavLink[] = [
     {route: 'projects', label: 'Projects', icon: 'domain'},
     {route: 'events', label: 'Events', icon: 'event'},
@@ -91,6 +93,8 @@ export class Nav {
         this.cd.markForCheck();
       }
     });
+
+    this.isDarkTheme = document.body.classList.contains('dark-theme');
   }
 
   ngOnDestroy() {
@@ -110,5 +114,11 @@ export class Nav {
         .subscribe(user => {
           this.userDialog.editProfile(user);
         });
+  }
+
+  toggleTheme() {
+    document.body.classList.toggle('light-theme');
+    document.body.classList.toggle('dark-theme');
+    this.isDarkTheme = document.body.classList.contains('dark-theme');
   }
 }

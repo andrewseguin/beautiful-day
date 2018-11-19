@@ -147,6 +147,7 @@ export class RequestDialog {
   editAllocation(ids: string[]) {
     const data: PromptDialogData = {
       title: 'Edit Allocation',
+      type: 'number'
     };
 
     if (ids.length === 1) {

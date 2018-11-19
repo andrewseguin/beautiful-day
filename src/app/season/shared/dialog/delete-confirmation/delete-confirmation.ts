@@ -8,7 +8,6 @@ export interface DeleteConfirmationData {
 
 @Component({
   templateUrl: 'delete-confirmation.html',
-  styleUrls: ['delete-confirmation.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeleteConfirmation {

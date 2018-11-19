@@ -7,13 +7,13 @@
 
 <ng-template cdkPortal>
   <ng-container *ngIf="report">
-    <button mat-raised-button color="accent"
+    <button mat-raised-button color="primary"
             *ngIf="!report.id"
             (click)="saveAs()">
       Save As
     </button>
 
-    <button mat-raised-button color="accent"
+    <button mat-raised-button color="primary"
             *ngIf="report.id"
             (click)="save()" [disabled]="!canSave">
       {{canSave ? 'Save' : 'Saved'}}

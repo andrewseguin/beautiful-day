@@ -1,22 +1,23 @@
-<div class="project" *ngFor="let project of projects | async">
+<div class="project theme-text" *ngFor="let project of projects | async">
   <div class="main">
 
     <div class="heading">
       <div class="name"> {{project.name}} </div>
-      <button mat-stroked-button color="primary"
+      <button mat-raised-button color="primary"
               (click)="navigateToProject(project.id)">
         Requests
       </button>
     </div>
 
     <div class="description" *ngIf="project.description">
-      <div class="label"> Description </div>
+      <div class="label theme-secondary-text"> Description </div>
       {{project.description}}
     </div>
 
     <div class="location" *ngIf="project.location">
-      <div class="label"> Location </div>
-      <a href="https://www.google.com/maps/search/?api=1&query={{project.location}}">{{project.location}}</a>
+      <div class="label theme-secondary-text"> Location </div>
+      <a class="theme-text"
+         href="https://www.google.com/maps/search/?api=1&query={{project.location}}">{{project.location}}</a>
     </div>
 
     <a *ngIf="project.receiptsFolder && (permissions.isAcquisitions | async)"
@@ -28,7 +29,7 @@
     </a>
   </div>
 
-  <div class="contacts-trigger label"
+  <div class="contacts-trigger theme-secondary-text theme-hover"
        *ngIf="project.directors?.length || project.leads?.length || project.acquisitions?.length"
        (mouseover)="loadedContacts.add(project.id)"
        (click)="expandedContacts.toggle(project.id)">
@@ -56,6 +57,8 @@
       </detail-user>
     </ng-container>
   </div>
+
+  <mat-divider></mat-divider>
 </div>
 
 <loading label="projects" *ngIf="!(projects | async)"></loading>

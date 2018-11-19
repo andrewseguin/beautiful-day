@@ -1,0 +1,40 @@
+@import '~@angular/material/theming';
+
+@mixin request-view-theme($theme) {
+  $primary: map-get($theme, primary);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  request {
+    .added {
+      animation: request-added 5s;
+    }
+
+    @keyframes request-added {
+      0% {
+        background-color: rgba(69, 150, 236, .1);
+      }
+      100% {
+        background-color: inherit;
+      }
+    }
+
+    .quantity input {
+      color: inherit;
+      border-bottom-color: mat-color($foreground, divider);
+
+      &:focus {
+        border-bottom-color: mat-color($primary);
+      }
+    }
+
+    .goto-url:hover,
+    .clickable:hover {
+      background: mat-color($background, hover);
+    }
+
+    .status-purchased {
+      color: map-get($theme, positive);
+    }
+  }
+}

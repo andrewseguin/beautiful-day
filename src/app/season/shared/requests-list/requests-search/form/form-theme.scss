@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+
+@mixin query-form-theme($theme) {
+  $primary: map-get($theme, primary);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  date-query-form,
+  input-query-form,
+  number-query-form,
+  state-query-form {
+    input, mat-select {
+      border-bottom-color: mat-color($foreground, divider) !important;
+    }
+  }
+}

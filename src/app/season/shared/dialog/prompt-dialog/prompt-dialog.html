@@ -1,15 +1,17 @@
 <h1 mat-dialog-title> {{ title }} </h1>
 
-<div mat-dialog-content>
-  <div class="input-container"
-       (keydown.Enter)="save(); $event.preventDefault()">
-    <input *ngIf="!useTextArea" [type]="type" [formControl]="newInput">
-    <textarea *ngIf="useTextArea" mat-autosize [formControl]="newInput"></textarea>
-  </div>
+<div mat-dialog-content (keydown.Enter)="save(); $event.preventDefault()">
+  <mat-form-field appearance="outline" *ngIf="!useTextArea">
+    <input matInput [type]="type" [formControl]="newInput">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="useTextArea">
+    <textarea matInput mat-autosize [formControl]="newInput"></textarea>
+  </mat-form-field>
 </div>
 
 <div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close> Cancel </button>
-  <button mat-raised-button color="accent"
+  <button mat-raised-button color="primary"
           (click)="save()"> Save </button>
 </div>

@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+
+@mixin selection-header-theme($theme) {
+  $accent: map-get($theme, accent);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  selection-header {
+    background: mat-color($accent);
+  }
+}

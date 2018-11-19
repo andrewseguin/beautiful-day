@@ -1,5 +1,5 @@
-<div class="request" (click)="setSelected(!isSelected())">
-  <div class="top-row">
+<div class="request theme-hover" (click)="setSelected(!isSelected())">
+  <div class="top-row theme-text">
     <mat-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
                   [checked]="isSelected()"
                   (click)="$event.stopPropagation()"
@@ -10,12 +10,12 @@
         <span class="editable">
           {{getItemName(item)}}
         </span>
-      <mat-icon *ngIf="canEdit"
-                class="goto-url md-18"
-                [matTooltip]="'Open URL: ' + item?.url"
-                (click)="$event.stopPropagation(); navigateToUrl(item?.url)">
-        open_in_new
-      </mat-icon>
+      <button mat-icon-button *ngIf="canEdit"
+              class="goto-url"
+              [matTooltip]="'Open URL: ' + item?.url"
+              (click)="$event.stopPropagation(); navigateToUrl(item?.url)">
+        <mat-icon> open_in_new </mat-icon>
+      </button>
     </div>
 
     <div class="quantity" (click)="!request?.isPurchased ? $event.stopPropagation() : null">
@@ -40,7 +40,7 @@
     </div>
   </div>
 
-  <div class="details">
+  <div class="details theme-secondary-text">
     <div>
       <span class="editable">
         Category: {{item.categories[0].split('>')[0]}}

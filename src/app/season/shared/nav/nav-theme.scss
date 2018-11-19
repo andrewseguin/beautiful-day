@@ -1,9 +1,21 @@
 @import '~@angular/material/theming';
 
 @mixin nav-theme($theme) {
-  $warn: map-get($theme, accent);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+  $primary: map-get($theme, primary);
+  $warn: map-get($theme, warn);
 
   nav-content {
+    .link.active,
+    .link.active mat-icon {
+      color: mat-color($foreground, text);
+    }
+
+    .link.active:after, .link:hover:after {
+      background: mat-color($primary);
+    }
+
     .missing-info {
       color: mat-color($warn);
     }

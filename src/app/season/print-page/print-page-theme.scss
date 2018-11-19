@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+
+@mixin print-page-theme($theme) {
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  print-page {
+    .title {
+      background: mat-color($background, card);
+    }
+  }
+}

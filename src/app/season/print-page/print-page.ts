@@ -15,6 +15,7 @@ interface PrintPageParams {
 }
 
 @Component({
+  selector: 'print-page',
   styleUrls: ['print-page.scss'],
   templateUrl: 'print-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

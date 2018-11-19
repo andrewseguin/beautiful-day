@@ -6,12 +6,11 @@
     </div>
   </button>
   <mat-menu #editMenu="matMenu" x-position="before">
-    <button mat-menu-item (click)="editCategory()"> Category </button>
-    <button mat-menu-item (click)="editName()"> Name </button>
+    <button mat-menu-item> Category </button>
   </mat-menu>
 </div>
 
-<button *ngIf="!isMultiSelect()" mat-button (click)="editItem()" class="header-button">
+<button *ngIf="!isMultiSelect()" mat-button class="header-button">
   <div class="selection-header-button-content">
     <mat-icon>edit</mat-icon>
     <div class="text">Edit</div>

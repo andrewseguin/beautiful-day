@@ -2,32 +2,75 @@
 
 @import './season/shared/requests-list/display-options-header/display-options-header-theme';
 @import './season/shared/nav/nav-theme';
-
-$primary: mat-palette($mat-blue, 600);
-$accent:  mat-palette($mat-blue, 500);
-$warn:    mat-palette($mat-red);
+@import './season/shared/requests-list/request-view/request-view-theme';
+@import './season/shared/requests-list/requests-search/form/form-theme';
+@import './season/shared/requests-list/requests-search/requests-search-theme';
+@import './season/shared/selection-header/selection-header-theme';
+@import './season/admin-page/events/editable-event/editable-event-theme';
+@import './season/admin-page/manage-projects/manage-projects-theme';
+@import './season/print-page/print-page-theme';
+@import './season/project-page/requests/project-requests-theme';
+@import './season/project-page/requests/remaining-budget/remaining-budget-theme';
+@import './season/project-page/requests/inventory-panel/inventory-search/inventory-search-theme';
 
 @mixin themed-styles($theme) {
-  // For reference
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, accent);
-  $foreground: map-get($theme, foreground);
-  $background: map-get($theme, background);
-
   @include angular-material-theme($theme);
   @include display-options-header-theme($theme);
   @include nav-theme($theme);
+  @include request-view-theme($theme);
+  @include query-form-theme($theme);
+  @include requests-search-theme($theme);
+  @include selection-header-theme($theme);
+  @include editable-event-theme($theme);
+  @include manage-projects-theme($theme);
+  @include print-page-theme($theme);
+  @include project-requests-theme($theme);
+  @include remaining-budget-theme($theme);
+  @include inventory-search-theme($theme);
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  .theme-text { color: mat-color($foreground, text); }
+  .theme-secondary-text { color: mat-color($foreground, secondary-text); }
+  .theme-icon { color: mat-color($foreground, icon); }
+  .theme-border { border-color: mat-color($foreground, divider); }
+
+  .theme-background { background: mat-color($background, background); }
+  .theme-background-app-bar { background: mat-color($background, app-bar); }
+  .theme-background-card { background: mat-color($background, card); }
+  .theme-hover:hover { background: mat-color($background, hover); }
+
+  .theme-primary { color: mat-color($primary); }
+  .theme-accent { color: mat-color($accent); }
+  .theme-warn { color: mat-color($warn); }
 }
 
 @include mat-core();
 
+$primary: mat-palette($mat-blue, 800);
+$accent:  mat-palette($mat-blue, 500);
+$warn:    mat-palette($mat-red);
+
 .light-theme {
   $theme: mat-light-theme($primary, $accent, $warn);
+
+  $theme: map-merge($theme, (
+    positive: green
+  ));
+
   @include themed-styles($theme);
 }
 
 .dark-theme {
   $theme: mat-dark-theme($primary, $accent, $warn);
+
+  $theme: map-merge($theme, (
+    positive: #00ce00
+  ));
+
   @include themed-styles($theme);
 }

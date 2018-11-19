@@ -15,9 +15,9 @@
     max-width: 650px;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid #CCC;
+    border-width: 1px;
+    border-style: solid;
     border-radius: 8px;
-    background: white;
   }
 
   .input-bar {
@@ -54,12 +54,10 @@ input {
 }
 
 ::ng-deep .mat-menu-panel.filter-menu {
-  margin: -1px;
-  //max-height: 288px;
+  max-height: 288px;
 }
 
 .filter-type {
-  color: #777;
   padding: 0 8px 0 16px;
   font-size: 14px;
   display: flex;
@@ -67,7 +65,6 @@ input {
 }
 
 .remove-filter {
-  color: #777;
   margin: 0 4px;
 
   mat-icon {

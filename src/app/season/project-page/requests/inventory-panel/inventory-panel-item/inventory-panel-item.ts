@@ -13,6 +13,7 @@ import {EXPANSION_ANIMATION} from 'app/utility/animations';
     '[class.mat-elevation-z1]': '!expanded',
     '[class.mat-elevation-z10]': 'expanded',
     '[class.expanded]': 'expanded',
+    '[class.theme-background-card]': 'true'
   },
   animations: EXPANSION_ANIMATION,
   changeDetection: ChangeDetectionStrategy.OnPush,

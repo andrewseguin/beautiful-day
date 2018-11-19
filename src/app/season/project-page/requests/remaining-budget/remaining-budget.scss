@@ -3,7 +3,6 @@
 
 :host {
   font-size: 18px;
-  color: #444;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,14 +21,6 @@
   .budget-remaining {
     transition: all 750ms ease-in-out;
     padding: 0 8px;
-  }
-
-  &.negative .budget-remaining {
-    color: red;
-  }
-
-  &.positive .budget-remaining {
-    color: green;
   }
 }
 

@@ -16,7 +16,8 @@
 
 <!-- Group Menu -->
 <mat-menu #groupingMenu="matMenu">
-  <div class="project-requests-menu-title">Group requests by:</div>
+  <div class="project-requests-menu-title theme-text">Group requests by:</div>
+  <mat-divider></mat-divider>
   <button class="grouping-option project-requests-option" mat-menu-item
           *ngFor="let groupId of groupIds"
           [class.selected]="requestsRenderer.options.grouping == groupId"
@@ -30,7 +31,8 @@
 
 <!-- Sort Menu -->
 <mat-menu #sortingMenu="matMenu" x-position="before">
-  <div class="project-requests-menu-title">Sort requests by:</div>
+  <div class="project-requests-menu-title theme-text">Sort requests by:</div>
+  <mat-divider></mat-divider>
   <button class="project-requests-option" mat-menu-item
           *ngFor="let sort of sorts"
           [class.selected]="requestsRenderer.options.sorting == sort"

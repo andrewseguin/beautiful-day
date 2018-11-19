@@ -1,13 +1,13 @@
 <div class="content" *ngIf="userEmail">
   <div class="pic" [style.backgroundImage]="user?.pic ? 'url(' + user?.pic + ')' : ''">
-    <mat-icon *ngIf="!user?.pic">person</mat-icon>
+    <mat-icon class="theme-icon theme-border" *ngIf="!user?.pic">person</mat-icon>
   </div>
   <div class="id">
     <div class="name"> {{user?.name}} </div>
-    <a [href]="'tel:' + user?.phone">
+    <a [href]="'tel:' + user?.phone" class="theme-primary">
       {{user?.phone}}
     </a>
-    <a [href]="'mailto:' + user?.email">
+    <a [href]="'mailto:' + user?.email" class="theme-primary">
       {{user?.email}}
     </a>
   </div>

@@ -1,10 +1,7 @@
 // Import theming functions
-@import '../../../../../node_modules/@angular/material/theming';
-
-// Import your custom theme
+@import '~@angular/material/theming';
 @import '../../../constants';
 @import '../../shared/requests-list/common';
-
 
 :host {
   display: block;
@@ -19,13 +16,13 @@ mat-drawer {
   overflow: hidden;
   width: 100%;
   max-width: 300px;
-  border-left: 1px solid #CCC;
+  border-left-width: 1px;
+  border-left-style: solid;
 }
 
 :host ::ng-deep .mat-drawer-content {
   display: flex;
   flex-direction: column;
-  background: #FAFAFA;
 }
 
 requests-list {
@@ -59,7 +56,6 @@ display-options-header {
   justify-content: center;
   text-align: center;
   font-size: 18px;
-  color: #222;
   font-weight: lighter;
 
   .wide {
@@ -83,32 +79,8 @@ display-options-header {
     margin: 8px;
     display: inline-block;
     font-weight: bold;
-    color: #444;
   }
 }
-
-@keyframes fontbulger {
-  0% {
-    transform: scale(1);
-  }
-  10% {
-    transform: scale(1.3);
-    background-color: #87c7ff;
-  }
-  20% {
-    transform: scale(1);
-  }
-  30% {
-    transform: scale(1.3);
-  }
-  40% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 
 button[mat-fab] {
   position: absolute;
@@ -120,26 +92,10 @@ button[mat-fab] {
   opacity: 1;
   z-index: 1;
 
-  &.attention {
-    animation: fontbulger 5s infinite;
-  }
   &.hide {
     transform: scale(0);
     opacity: 0;
   }
-}
-
-button.active {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.loading {
-  color: #777;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
 }
 
 .print {

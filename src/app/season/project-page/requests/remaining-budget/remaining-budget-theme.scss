@@ -1,0 +1,15 @@
+@import '~@angular/material/theming';
+
+@mixin remaining-budget-theme($theme) {
+  $warn: map-get($theme, warn);
+
+  remaining-budget {
+    &.negative .value {
+      color: mat-color($warn);
+    }
+
+    &.positive .value {
+      color: map-get($theme, positive);
+    }
+  }
+}

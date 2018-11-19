@@ -6,14 +6,13 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import {EditItem} from 'app/season/shared/dialog/edit-item/edit-item';
 import {MatDialog} from '@angular/material';
 import {Item, ItemsDao} from 'app/season/dao';
 import {getCategoryGroup} from 'app/utility/items-categorize';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {getItemsMatchingQuery} from 'app/season/utility/items-search';
-import {ItemDialog} from '../../../../shared/dialog/item/item-dialog';
+import {ItemDialog} from 'app/season/shared/dialog/item/item-dialog';
 
 /** Number of items to load each time. */
 const ITEMS_TO_LOAD = 10;

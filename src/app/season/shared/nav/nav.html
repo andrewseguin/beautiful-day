@@ -11,9 +11,11 @@
     </mat-select>
 </div>
 
+<mat-divider></mat-divider>
+
 <div class="link-list">
   <ng-container *ngFor="let link of links">
-    <div mat-button class="link"
+    <div mat-button class="link theme-text"
          *ngIf="link.permissions ? (link.permissions | async) : true"
          (click)="sidenav.close()"
          routerLinkActive="active"
@@ -26,18 +28,21 @@
 
 <div class="profile" [@userSection]="isUserProfileExpanded"
      *ngIf="user | async; let user">
-  <div class="expansion-header" mat-ripple
+  <mat-divider></mat-divider>
+
+  <div class="expansion-header theme-hover" mat-ripple
        (click)="isUserProfileExpanded = !isUserProfileExpanded">
     <div class="label">
-      <div class="signed-in-as">Signed in as</div>
-      <div class="email">{{user.email}}</div>
+      <div class="signed-in-as theme-secondary-text">Signed in as</div>
+      <div class="email theme-text">{{user.email}}</div>
     </div>
     <mat-icon [@arrow]="isUserProfileExpanded">
       expand_more
     </mat-icon>
   </div>
 
-  <div class="user" (click)="editProfile()" matTooltip="Change profile information">
+  <div class="user theme-hover" (click)="editProfile()"  mat-ripple
+       matTooltip="Change profile information">
     <div class="pic" [style.backgroundImage]="'url(' + user.pic + ')'">
     </div>
     <div class="info">
@@ -51,7 +56,13 @@
     </div>
   </div>
 
-  <button mat-button class="logout" (click)="afAuth.auth.signOut()">
+  <button mat-button class="logout theme-primary"
+          (click)="toggleTheme()">
+    Use {{isDarkTheme ? 'Light' : 'Dark' }} Theme
+  </button>
+
+  <button mat-button class="logout theme-primary"
+          (click)="afAuth.auth.signOut()">
     Logout
   </button>
 </div>

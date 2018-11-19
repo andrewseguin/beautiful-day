@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container theme-background-app-bar">
 
   <div class="categories-container">
     <div class="heading">
@@ -7,7 +7,8 @@
       </button>
       <span class="title">Inventory</span>
 
-      <inventory-search (searchChange)="search = $event">
+      <inventory-search class="theme-background-app-bar"
+                        (searchChange)="search = $event">
       </inventory-search>
     </div>
 
@@ -26,6 +27,7 @@
   </div>
 
   <sliding-panel *ngFor="let category of panelsManager.panels; let index = index"
+                 class="theme-background-app-bar"
                  [category]="category" (closed)="panelsManager.closePanel(index)">
   </sliding-panel>
 </div>

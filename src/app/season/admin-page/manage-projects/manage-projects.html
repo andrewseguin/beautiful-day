@@ -1,15 +1,18 @@
-<button mat-stroked-button color="accent"
+<button mat-stroked-button color="primary"
         class="add-project"
         (click)="addProject()"> Add Project </button>
 
 <div class="project"
      *ngFor="let project of projectsDao.list | async; trackBy: trackByProjectKey"
      [class.expanded]="expandedProjects.isSelected(project.id)">
-  <div class="heading" mat-ripple (click)="expandedProjects.toggle(project.id)">
-    <mat-icon [@expansionIndicator]="expandedProjects.isSelected(project.id)">
-      expand_more
-    </mat-icon>
-    {{project.name}}
+  <div class="heading theme-background" mat-ripple (click)="expandedProjects.toggle(project.id)">
+    <div class="text">
+      <mat-icon [@expansionIndicator]="expandedProjects.isSelected(project.id)">
+        expand_more
+      </mat-icon>
+      {{project.name}}
+    </div>
+    <mat-divider></mat-divider>
   </div>
 
   <div class="content" [@expansionContent]="expandedProjects.isSelected(project.id)">

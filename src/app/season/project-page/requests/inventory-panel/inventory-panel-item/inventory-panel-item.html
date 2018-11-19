@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="top-row" (click)="expanded = !expanded">
+  <div class="top-row theme-hover" mat-ripple (click)="expanded = !expanded">
     <div class="item-name">{{getItemName()}}</div>
     <mat-icon [@expansionIndicator]="expanded">expand_more</mat-icon>
   </div>
@@ -20,7 +20,7 @@
 
       <div *ngIf="item.url">
         <span class="property-title">Website:</span>
-        <a target="_blank" href="{{item.url}}">
+        <a class="theme-accent" target="_blank" href="{{item.url}}">
           {{item.url}}
         </a>
       </div>

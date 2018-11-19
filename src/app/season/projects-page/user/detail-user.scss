@@ -23,9 +23,9 @@ mat-icon {
   height: 44px;
   font-size: 44px;
   width: 44px;
-  border: 1px solid #CCC;
+  border-width: 1px;
+  border-style: solid;
   border-radius: 50%;
-  color: #CCC;
 }
 
 .id {
@@ -37,6 +37,5 @@ mat-icon {
 
   a {
     text-decoration: none;
-    color: #0202ab
   }
 }

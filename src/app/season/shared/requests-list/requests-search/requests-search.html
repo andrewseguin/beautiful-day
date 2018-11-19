@@ -53,7 +53,8 @@
 
 <!-- Filter Types Menu -->
 <mat-menu #filterTypesMenu="matMenu" xPosition="before" class="filter-menu">
-  <div class="project-requests-menu-title">Filter by:</div>
+  <div class="project-requests-menu-title theme-text">Filter by:</div>
+  <mat-divider></mat-divider>
   <button class="project-requests-option" mat-menu-item
           *ngFor="let filterType of displayedFilterTypes"
           (click)="addFilter(filterType)">

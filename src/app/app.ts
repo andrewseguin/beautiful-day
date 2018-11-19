@@ -9,7 +9,7 @@ import {HttpClient} from '@angular/common/http';
 @Component({
   selector: 'app-root',
   template: '<router-outlet></router-outlet>',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
   constructor(private analytics: Analytics,

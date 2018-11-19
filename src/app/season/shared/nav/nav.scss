@@ -33,7 +33,6 @@
 }
 
 .profile {
-  border-top: 1px solid #CCC;
   font-size: 12px;
   overflow: hidden;
 
@@ -47,9 +46,6 @@
     cursor: pointer;
 
     .label {
-      .signed-in-as {
-        color: #444;
-      }
       .email {
         font-weight: bold;
         font-size: 14px;
@@ -62,13 +58,6 @@
     align-items: center;
     padding: 8px;
     cursor: pointer;
-
-    &:hover {
-      background: #F5F5F5;
-    }
-    &:active {
-      background: #EFEFEF;
-    }
   }
 }
 
@@ -87,13 +76,13 @@
 }
 
 .logout {
-  color: #1565c0;
   font-size: 14px;
   padding: 0 8px;
+  width: 100%;
+  text-align: left;
 }
 
 .link-list {
-  border-top: 1px solid #CCC;
   flex: 1;
   overflow: auto;
   padding-top: 4px;
@@ -109,20 +98,13 @@
   display: flex;
   align-items: center;
   outline: none;
-  color: #222;
 
   mat-icon {
-    color: #444;
     margin: 0 16px;
-  }
-
-  &.active, &.active mat-icon {
-    color: black;
   }
 
   &.active:after, &:hover:after {
     content: '';
-    background: #1e88e5;
     opacity: 0.1;
     position: absolute;
     top: 0;
@@ -130,7 +112,6 @@
     right: 8px;
     bottom: 0;
     border-radius: 20px;
-    color: black;
   }
 
   &:not(.active):hover:after {
