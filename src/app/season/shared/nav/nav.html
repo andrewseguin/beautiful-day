@@ -26,43 +26,41 @@
   </ng-container>
 </div>
 
-<div class="profile" [@userSection]="isUserProfileExpanded"
-     *ngIf="user | async; let user">
-  <mat-divider></mat-divider>
+<mat-divider></mat-divider>
 
-  <div class="expansion-header theme-hover" mat-ripple
-       (click)="isUserProfileExpanded = !isUserProfileExpanded">
-    <div class="label">
-      <div class="signed-in-as theme-secondary-text">Signed in as</div>
-      <div class="email theme-text">{{user.email}}</div>
-    </div>
-    <mat-icon [@arrow]="isUserProfileExpanded">
-      expand_more
+<div class="profile" *ngIf="user | async; let user">
+  <div class="pic" [style.backgroundImage]="'url(' + user.pic + ')'">
+  </div>
+  <div class="info">
+    <div> {{user.name}} </div>
+    <div class="user-email"> {{user.email}} </div>
+    <div> {{user.phone}} </div>
+  </div>
+  <button mat-icon-button [mat-menu-trigger-for]="settings">
+    <mat-icon [class.show-badge]="!user.name || !user.phone"
+              matBadge matBadgeSize="small" matBadgeColor="warn">
+      settings
     </mat-icon>
-  </div>
+  </button>
+</div>
 
-  <div class="user theme-hover" (click)="editProfile()"  mat-ripple
-       matTooltip="Change profile information">
-    <div class="pic" [style.backgroundImage]="'url(' + user.pic + ')'">
-    </div>
-    <div class="info">
-      <div [class.missing-info]="!user.name">
-        {{user.name ? user.name : 'Add your name'}}
-      </div>
-      <div class="user-email">{{user.email}}</div>
-      <div [class.missing-info]="!user.phone">
-        {{user.phone ? user.phone : 'Add your phone number'}}
-      </div>
-    </div>
-  </div>
+<mat-menu #settings="matMenu">
+  <button mat-menu-item (click)="editProfile()" *ngIf="user | async; let user">
+    <mat-icon [class.show-badge]="!user.name || !user.phone"
+              matBadge matBadgeSize="small" matBadgeColor="warn">
+      person
+    </mat-icon>
+    Edit Profile
+  </button>
 
-  <button mat-button class="logout theme-primary"
-          (click)="toggleTheme()">
+  <button mat-menu-item (click)="toggleTheme()">
+    <mat-icon> wb_sunny </mat-icon>
     Use {{isDarkTheme ? 'Light' : 'Dark' }} Theme
   </button>
 
-  <button mat-button class="logout theme-primary"
-          (click)="afAuth.auth.signOut()">
+  <button mat-menu-item (click)="afAuth.auth.signOut()">
+    <mat-icon> exit_to_app </mat-icon>
     Logout
   </button>
-</div>
+
+</mat-menu>

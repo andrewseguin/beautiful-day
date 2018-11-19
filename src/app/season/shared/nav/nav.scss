@@ -35,30 +35,9 @@
 .profile {
   font-size: 12px;
   overflow: hidden;
-
-  .expansion-header {
-    height: 64px;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 8px;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-
-    .label {
-      .email {
-        font-weight: bold;
-        font-size: 14px;
-      }
-    }
-  }
-
-  .user {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    cursor: pointer;
-  }
+  display: flex;
+  align-items: center;
+  padding: 16px 4px 16px 8px;
 }
 
 .user-email {
@@ -66,11 +45,11 @@
 }
 
 .pic {
-  width: 48px;
-  min-width: 48px;
-  height: 48px;
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
   background-repeat: no-repeat;
-  background-size: 48px;
+  background-size: 40px;
   border-radius: 50%;
   margin-right: 8px;
 }
@@ -86,6 +65,10 @@
   flex: 1;
   overflow: auto;
   padding-top: 4px;
+}
+
+.info {
+  flex: 1;
 }
 
 .link {

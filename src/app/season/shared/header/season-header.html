@@ -1,6 +1,15 @@
 <mat-toolbar>
   <button mat-button class="left-button" (click)="leftButtonClicked()">
-    <mat-icon> {{header.goBack ? 'arrow_back' : 'menu'}}</mat-icon>
+    <ng-container *ngIf="header.goBack; else menu">
+      <mat-icon> arrow_back </mat-icon>
+    </ng-container>
+
+    <ng-template #menu>
+      <mat-icon [class.show-badge]="needsProfileInfo | async"
+                matBadge matBadgeSize="small" matBadgeColor="warn">
+        menu
+      </mat-icon>
+    </ng-template>
   </button>
 
   <div class="name"> {{header.title | async}}</div>

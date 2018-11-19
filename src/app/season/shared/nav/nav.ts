@@ -2,17 +2,13 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@ang
 import {MatDialog, MatSidenav} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Permissions} from 'app/season/services/permissions';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {EditUserProfile} from '../dialog/user/edit-user-profile/edit-user-profile';
 import {map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {UsersDao} from 'app/service/users-dao';
 import {FormControl} from '@angular/forms';
 import {Observable, of, Subject} from 'rxjs';
 import {SeasonsDao} from 'app/service/seasons-dao';
 import {UserDialog} from 'app/season/shared/dialog/user/user-dialog';
-
-const ANIMATION_DURATION = '250ms cubic-bezier(0.35, 0, 0.25, 1)';
 
 export interface NavLink {
   route: string;
@@ -25,18 +21,6 @@ export interface NavLink {
   selector: 'nav-content',
   templateUrl: 'nav.html',
   styleUrls: ['nav.scss'],
-  animations: [
-    trigger('userSection', [
-      state('void, true', style({ height: '*' })),
-      state('false',   style({ height: '64px' })),
-      transition('* => *', animate(ANIMATION_DURATION)),
-    ]),
-    trigger('arrow', [
-      state('void, true',   style({ transform: 'rotate(0deg)' })),
-      state('false',   style({ transform: 'rotate(180deg)' })),
-      transition('* => *', animate(ANIMATION_DURATION)),
-    ])
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Nav {

@@ -47,6 +47,10 @@
   .theme-primary { color: mat-color($primary); }
   .theme-accent { color: mat-color($accent); }
   .theme-warn { color: mat-color($warn); }
+
+  mat-icon.show-badge.mat-badge-hidden .mat-badge-content {
+    display: inherit;
+  }
 }
 
 @include mat-core();
