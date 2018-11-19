@@ -15,6 +15,7 @@ import {GlobalConfigDao} from 'app/service/global-config-dao';
 import {HttpClientModule} from '@angular/common/http';
 import {SeasonsDao} from 'app/service/seasons-dao';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {Theme} from 'app/season/services/theme';
 
 @NgModule({
   declarations: [App],
@@ -40,6 +41,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
     UsersDao,
     GlobalConfigDao,
     SeasonsDao,
+    Theme,
   ],
   bootstrap: [App]
 })

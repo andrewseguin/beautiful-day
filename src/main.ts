@@ -10,3 +10,8 @@ if (environment.production) {
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule);
+
+if (localStorage.getItem('dark') === 'true') {
+  document.body.classList.remove('light-theme');
+  document.body.classList.add('dark-theme');
+}

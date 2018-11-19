@@ -22,19 +22,6 @@ body {
   }
 }
 
-// Reduces size of form fields
-mat-form-field[slim] {
-  .mat-form-field-infix {
-    border-top: 0;
-  }
-  .mat-form-field-wrapper {
-    padding-bottom: 8px;
-  }
-  .mat-form-field-underline {
-    bottom: 8px;
-  }
-}
-
 /* Wrap button text if the width grows too long */
 .mat-button-wrapper {
   white-space: normal;

@@ -53,9 +53,9 @@
     Edit Profile
   </button>
 
-  <button mat-menu-item (click)="toggleTheme()">
+  <button mat-menu-item (click)="theme.toggle()">
     <mat-icon> wb_sunny </mat-icon>
-    Use {{isDarkTheme ? 'Light' : 'Dark' }} Theme
+    Use {{theme.isDark ? 'Light' : 'Dark' }} Theme
   </button>
 
   <button mat-menu-item (click)="afAuth.auth.signOut()">

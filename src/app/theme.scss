@@ -51,6 +51,13 @@
   mat-icon.show-badge.mat-badge-hidden .mat-badge-content {
     display: inherit;
   }
+
+  .mat-badge-small.mat-badge-overlap.mat-badge-after .mat-badge-content {
+    height: 12px;
+    width: 12px;
+    top: -4px;
+    right: -4px;
+  }
 }
 
 @include mat-core();

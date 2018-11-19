@@ -29,7 +29,7 @@
     </a>
   </div>
 
-  <div class="contacts-trigger theme-secondary-text theme-hover"
+  <div class="contacts-trigger theme-hover"
        *ngIf="project.directors?.length || project.leads?.length || project.acquisitions?.length"
        (mouseover)="loadedContacts.add(project.id)"
        (click)="expandedContacts.toggle(project.id)">

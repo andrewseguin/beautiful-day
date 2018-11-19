@@ -9,6 +9,7 @@ import {FormControl} from '@angular/forms';
 import {Observable, of, Subject} from 'rxjs';
 import {SeasonsDao} from 'app/service/seasons-dao';
 import {UserDialog} from 'app/season/shared/dialog/user/user-dialog';
+import {Theme} from 'app/season/services/theme';
 
 export interface NavLink {
   route: string;
@@ -33,8 +34,6 @@ export class Nav {
 
   seasons = this.seasonsDao.list.pipe(map(v => v ? v.map(s => s.id) : []));
   season = new FormControl('');
-
-  isDarkTheme = false;
 
   links: NavLink[] = [
     {route: 'projects', label: 'Projects', icon: 'domain'},
@@ -62,6 +61,7 @@ export class Nav {
               public activatedRoute: ActivatedRoute,
               public userDialog: UserDialog,
               public cd: ChangeDetectorRef,
+              public theme: Theme,
               public router: Router) {
     this.activatedRoute.params.pipe(
         takeUntil(this.destroyed))
@@ -77,8 +77,6 @@ export class Nav {
         this.cd.markForCheck();
       }
     });
-
-    this.isDarkTheme = document.body.classList.contains('dark-theme');
   }
 
   ngOnDestroy() {
@@ -98,11 +96,5 @@ export class Nav {
         .subscribe(user => {
           this.userDialog.editProfile(user);
         });
-  }
-
-  toggleTheme() {
-    document.body.classList.toggle('light-theme');
-    document.body.classList.toggle('dark-theme');
-    this.isDarkTheme = document.body.classList.contains('dark-theme');
   }
 }
