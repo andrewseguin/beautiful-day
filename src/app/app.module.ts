@@ -12,10 +12,11 @@ import {RouterModule} from '@angular/router';
 import {Login} from 'app/login/login';
 import {UsersDao} from './service/users-dao';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
-import {HttpClientModule} from '@angular/common/http';
 import {SeasonsDao} from 'app/service/seasons-dao';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {Theme} from 'app/season/services/theme';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [App],
@@ -24,7 +25,6 @@ import {Theme} from 'app/season/services/theme';
     AngularFireAuthModule,
     AngularFirestoreModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     LoginModule,
     RouterModule.forRoot([
       {path: 'login', component: Login},
@@ -34,6 +34,7 @@ import {Theme} from 'app/season/services/theme';
       },
       {path: '', redirectTo: 'login', pathMatch: 'full'},
     ]),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     MatIconRegistry,

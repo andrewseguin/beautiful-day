@@ -6,7 +6,7 @@
     <requests-group *ngFor="let requestGroup of renderedRequestGroups; let index = index; trackBy:getRequestGroupKey"
                     [requests]="requestGroup.requests"
                     [title]="requestGroup.title"
-                    (select)="select(index)">
+                    (selectGroup)="selectGroup(index)">
     </requests-group>
   </div>
 

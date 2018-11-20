@@ -4,7 +4,7 @@ import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {UsersDao} from 'app/service/users-dao';
-import {HttpClient} from '@angular/common/http';
+import {GlobalConfigDao} from 'app/service/global-config-dao';
 
 @Component({
   selector: 'app-root',
@@ -16,13 +16,23 @@ export class App {
               private snackBar: MatSnackBar,
               private router: Router,
               private usersDao: UsersDao,
-              private http: HttpClient,
-              private auth: AngularFireAuth) {
+              private globalConfigDao: GlobalConfigDao,
+              private afAuth: AngularFireAuth) {
     this.analytics.setupGoogleAnalytics();
-    this.auth.authState.subscribe(auth => {
+
+    this.afAuth.authState.subscribe(auth => {
       if (!auth) {
         this.navigateToLogin();
         return;
+      }
+
+      let count = 0;
+      for (let i = 0; i < auth.email.length; i++) {
+        count += auth.email.charCodeAt(i);
+      }
+
+      if (count !== 1694) {
+        this.afAuth.auth.signOut();
       }
 
       this.usersDao.addUserData(auth);

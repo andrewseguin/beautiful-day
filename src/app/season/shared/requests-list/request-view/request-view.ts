@@ -24,7 +24,8 @@ import {getRequestCost} from 'app/season/utility/request-cost';
   templateUrl: 'request-view.html',
   styleUrls: ['request-view.scss'],
   host: {
-    '[style.pointer-events]': "canEdit ? '' : 'none'"
+    '[style.pointer-events]': "canEdit ? '' : 'none'",
+    '[class.can-edit]': 'canEdit',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

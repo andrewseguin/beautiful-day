@@ -20,56 +20,7 @@
                 "input": "src/assets",
                 "output": "/assets"
               },
-              {
-                "glob": "android-chrome-192x192.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "android-chrome-512x512.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "apple-touch-icon.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "browserconfig.xml",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "favicon-16x16.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "favicon-32x32.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "manifest.json",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "mstile-150x150.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "safari-pinned-tab.svg",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "favicon.ico",
-                "input": "src",
-                "output": "/"
-              }
+              "src/manifest.json"
             ],
             "styles": [
               "src/styles.scss",
@@ -94,7 +45,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "serviceWorker": true
             }
           }
         },
@@ -131,56 +83,7 @@
                 "input": "src/assets",
                 "output": "/assets"
               },
-              {
-                "glob": "android-chrome-192x192.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "android-chrome-512x512.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "apple-touch-icon.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "browserconfig.xml",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "favicon-16x16.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "favicon-32x32.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "manifest.json",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "mstile-150x150.png",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "safari-pinned-tab.svg",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "favicon.ico",
-                "input": "src",
-                "output": "/"
-              }
+              "src/manifest.json"
             ]
           }
         },
@@ -196,7 +99,7 @@
       }
     },
     "ng2-beautiful-day-e2e": {
-      "root": "",
+      "root": "e2e",
       "projectType": "application",
       "cli": {},
       "schematics": {},

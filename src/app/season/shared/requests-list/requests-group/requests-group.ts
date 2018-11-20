@@ -27,7 +27,7 @@ export class RequestsGroup {
 
   getRequestKey = (_i, request: Request) => request.id;
 
-  @Output() select = new EventEmitter();
+  @Output() selectGroup = new EventEmitter();
 
   private destroyed = new Subject();
 

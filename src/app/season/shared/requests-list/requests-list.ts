@@ -161,7 +161,7 @@ export class RequestsList {
     return requestGroup.id;
   }
 
-  select(index: number) {
+  selectGroup(index: number) {
     this.selection.requests.select(...this.requestGroups[index].requests.map(r => r.id));
   }
 }

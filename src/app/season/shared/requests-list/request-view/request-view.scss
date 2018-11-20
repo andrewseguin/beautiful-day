@@ -143,3 +143,13 @@ mat-checkbox {
     margin-left: 4px;
   }
 }
+
+:host:not(.can-edit) {
+  .name, .details {
+    padding-left: 6px;
+  }
+  
+  mat-checkbox {
+    display: none;
+  }
+}
