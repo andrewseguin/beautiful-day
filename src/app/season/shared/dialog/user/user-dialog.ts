@@ -21,7 +21,7 @@ export class UserDialog {
       phone: user.phone,
     };
 
-    this.dialog.open(EditUserProfile, {data}).afterClosed().pipe(
+    this.dialog.open(EditUserProfile, {data, width: '360px'}).afterClosed().pipe(
         take(1))
         .subscribe((result: EditUserProfileResult) => {
         if (result) {

@@ -8,7 +8,7 @@
 
   <button mat-button [mat-menu-trigger-for]="sortingMenu">
     <div class="button-content">
-      <div class="sort-by"> Sort by: {{requestsRenderer.options.sorting}} </div>
+      <div class="sort-by"> Sort by: {{sorts.get(requestsRenderer.options.sorting)}} </div>
       <mat-icon>arrow_drop_down</mat-icon>
     </div>
   </button>
@@ -18,11 +18,11 @@
 <mat-menu #groupingMenu="matMenu">
   <div class="project-requests-menu-title theme-text">Group requests by:</div>
   <mat-divider></mat-divider>
-  <button class="grouping-option project-requests-option" mat-menu-item
+  <button mat-menu-item
           *ngFor="let groupId of groupIds"
           [class.selected]="requestsRenderer.options.grouping == groupId"
           (click)="requestsRenderer.options.grouping = groupId">
-    <div class="option-content">
+    <div class="button-content">
       <mat-icon>check</mat-icon>
       {{groups.get(groupId)}}
     </div>
@@ -33,14 +33,14 @@
 <mat-menu #sortingMenu="matMenu" x-position="before">
   <div class="project-requests-menu-title theme-text">Sort requests by:</div>
   <mat-divider></mat-divider>
-  <button class="project-requests-option" mat-menu-item
-          *ngFor="let sort of sorts"
+  <button mat-menu-item
+          *ngFor="let sort of sortIds"
           [class.selected]="requestsRenderer.options.sorting == sort"
           (click)="setSort(sort)">
-    <div class="option-content">
+    <div class="button-content">
       <mat-icon *ngIf="!requestsRenderer.options.reverseSort">arrow_downward</mat-icon>
       <mat-icon *ngIf="requestsRenderer.options.reverseSort">arrow_upward</mat-icon>
-      {{sort}}
+      {{sorts.get(sort)}}
     </div>
   </button>
 </mat-menu>

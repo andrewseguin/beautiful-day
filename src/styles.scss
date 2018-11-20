@@ -40,26 +40,14 @@ subcategory-list .mat-button-wrapper {
 }
 
 /* Request header menu options get selected */
-button.project-requests-option {
+button.mat-menu-item {
   font-size: 14px;
   height: 32px;
   line-height: 32px;
-  text-transform: capitalize;
 
-  .option-content {
-    display: flex;
-    align-items: center;
-  }
-
-  mat-icon {
-    visibility: hidden;
-  }
-
-  &.selected {
-    font-weight: bold;
-    mat-icon {
-      visibility: visible;
-    }
+  @media (max-width: $mobile-width - 1) {
+    height: 40px;
+    line-height: 40px;
   }
 }
 

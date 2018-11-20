@@ -5,11 +5,11 @@ import {getItemName} from 'app/season/utility/item-name';
 export class RequestSorter {
   getSortFunction(sort: Sort, itemMap: Map<string, Item>) {
     switch (sort) {
-      case 'request added':
+      case 'requestAdded':
         return (a: Request, b: Request) => {
           return a.dateAdded > b.dateAdded ? -1 : 1;
         };
-      case 'request cost':
+      case 'requestCost':
         return (a: Request, b: Request) => {
           const itemA = itemMap.get(a.item);
           const itemB = itemMap.get(b.item);
@@ -18,29 +18,21 @@ export class RequestSorter {
           const costB = b.quantity * (itemB.cost || 0);
           return costA > costB ? -1 : 1;
         };
-      case 'item cost':
+      case 'itemCost':
         return (a: Request, b: Request) => {
           const costA = itemMap.get(a.item).cost || 0;
           const costB = itemMap.get(b.item).cost || 0;
           return costA > costB ? -1 : 1;
         };
-      case 'item name':
+      case 'itemName':
         return (a: Request, b: Request) => {
           const nameA = getItemName(itemMap.get(a.item));
           const nameB = getItemName(itemMap.get(b.item));
           return nameA < nameB ? -1 : 1;
         };
-      case 'date needed':
+      case 'dropoffDate':
         return (a: Request, b: Request) => {
           return a.date < b.date ? -1 : 1;
-        };
-      case 'purchaser':
-        return (a: Request, b: Request) => {
-          if (!a.purchaser) { return 1; }
-          if (!b.purchaser) { return -1; }
-          if (a.purchaser === b.purchaser) { return 0; }
-
-          return a.purchaser < b.purchaser ? -1 : 1;
         };
     }
   }

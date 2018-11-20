@@ -1,6 +1,7 @@
 <h1 mat-dialog-title> Edit Profile </h1>
 
 <div mat-dialog-content [formGroup]="formGroup">
+
   <mat-form-field appearance="outline">
     <mat-label> Name </mat-label>
     <input matInput formControlName="name">
@@ -10,6 +11,12 @@
     <mat-label> Phone </mat-label>
     <input matInput formControlName="phone">
   </mat-form-field>
+
+  <div class="privacy-policy">
+    Your information will only be visible
+    to other members of the Beautiful Day Management team and will not
+    be shared outside of this site.
+  </div>
 </div>
 
 <div mat-dialog-actions align="end">

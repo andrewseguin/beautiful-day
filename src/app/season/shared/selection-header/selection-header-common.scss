@@ -16,4 +16,9 @@ button.header-button {
 .mat-menu-item {
   height: 32px;
   line-height: 32px;
+
+  @media (max-width: $mobile-width - 1) {
+    height: 40px;
+    line-height: 40px;
+  }
 }

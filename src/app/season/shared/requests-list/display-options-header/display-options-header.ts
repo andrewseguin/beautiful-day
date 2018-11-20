@@ -14,21 +14,22 @@ export class DisplayOptionsHeader {
   groups = new Map<Group, string>([
     ['all', 'None'],
     ['category', 'Category'],
-    ['date', 'Date Needed'],
-    ['dropoff', 'Dropoff Location'],
+    ['date', 'Date needed'],
+    ['dropoff', 'Dropoff location'],
     ['tags', 'Tags'],
     ['item', 'Item'],
   ]);
   groupIds = Array.from(this.groups.keys());
 
-  sorts: Sort[] = [
-    'request added',
-    'request cost',
-    'item cost',
-    'item name',
-    'date needed',
-    'purchaser'
-  ];
+
+  sorts = new Map<Sort, string>([
+    ['requestAdded', 'Date added'],
+    ['requestCost', 'Request cost'],
+    ['itemCost', 'Item cost'],
+    ['itemName', 'Item name'],
+    ['dropoffDate', 'Dropoff date'],
+  ]);
+  sortIds = Array.from(this.sorts.keys());
 
   private destroyed = new Subject();
 

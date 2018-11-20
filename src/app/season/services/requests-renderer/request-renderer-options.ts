@@ -4,8 +4,8 @@ import {Filter} from './filter';
 export type Group = 'all' | 'category' | 'project' | 'date' |
                     'dropoff' | 'tags' | 'item';
 
-export type Sort = 'request added' | 'item cost' | 'item name' |
-                   'request cost' | 'date needed' | 'purchaser';
+export type Sort = 'requestAdded' | 'itemCost' | 'itemName' |
+                   'requestCost' | 'dropoffDate';
 
 export interface RequestRendererOptionsState {
   filters: Filter[];
@@ -47,7 +47,7 @@ export class RequestRendererOptions {
     this.changed.next();
   }
   get sorting(): Sort { return this._sorting; }
-  private _sorting: Sort = 'request added';
+  private _sorting: Sort = 'requestAdded';
 
   set reverseSort(v: boolean) {
     if (this._reverseSort === v) { return; }

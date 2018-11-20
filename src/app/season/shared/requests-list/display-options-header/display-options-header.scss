@@ -21,7 +21,6 @@
 button.mat-button {
   min-width: 0;
   display: block;
-  text-transform: capitalize;
 
   @media (max-width: $mobile-width - 1) {
     padding: 0 8px;
@@ -37,4 +36,17 @@ button.mat-button {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+button.mat-menu-item {
+  mat-icon {
+    visibility: hidden;
+  }
+
+  &.selected {
+    font-weight: bold;
+    mat-icon {
+      visibility: visible;
+    }
+  }
 }

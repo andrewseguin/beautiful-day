@@ -26,6 +26,7 @@ export class App {
         return;
       }
 
+      // For now, add silly check to make sure it's the owner
       let count = 0;
       for (let i = 0; i < auth.email.length; i++) {
         count += auth.email.charCodeAt(i);
