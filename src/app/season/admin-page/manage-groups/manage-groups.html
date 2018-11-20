@@ -1,8 +1,8 @@
 <div *ngIf="permissions.isAdmin | async">
-  <editable-chip-list *ngFor="let group of groups"
+  <editable-chip-list *ngFor="let group of groups | async"
                       placeholder="Add email (e.g. user@beautifulday.org)"
                       [label]="group.id"
-                      [values]="group.users | async"
+                      [values]="group.users"
                       (listChange)="update(group.id, $event)">
   </editable-chip-list>
 </div>
