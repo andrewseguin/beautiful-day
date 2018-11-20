@@ -63,37 +63,6 @@ button.project-requests-option {
   }
 }
 
-/* Inventory panel's search underline should extend past icons */
-inventory-search .mat-input-underline {
-  margin-top: 8px;
-  left: -32px;
-  width: calc(100% + 72px);
-}
-
-/* Make header NOT responsive by material's definition */
-mat-toolbar {
-  height: 64px !important; // Material wants to override this to be responsive
-  @media (max-width: $mobile-width - 1) {
-    height: 48px !important;
-  }
-}
-
-/* Inventory page search */
-.inventory-page-search .mat-input-underline {
-  margin-top: 8px;
-}
-
-/* Reporting query panel inputs */
-.query-input-container .mat-input-wrapper {
-  margin: 0;
-  margin-right: 40px;
-}
-
-/* Request status slide toggles */
-mat-slide-toggle.request-status .mat-slide-toggle-content {
-  font-size: 18px;
-}
-
 /* Material Styles */
 /* Rules for sizing the icon. */
 .material-icons.md-14 { font-size: 14px; height: 14px; width: 14px; }

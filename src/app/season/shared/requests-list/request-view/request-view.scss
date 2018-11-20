@@ -11,7 +11,7 @@
 .request {
   display: flex;
   flex-direction: column;
-  font-size: 13px;
+  font-size: 14px;
   padding: 8px;
   position: relative;
   cursor: pointer;
@@ -119,10 +119,6 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  @media (max-width: $mobile-width - 1) {
-    display: none;
   }
 
   :host:hover & {

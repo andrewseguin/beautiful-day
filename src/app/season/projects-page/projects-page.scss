@@ -33,10 +33,6 @@
   font-size: 14px;
   padding: 8px;
 
-  @media (max-width: $mobile-width - 1) {
-    font-size: 12px;
-  }
-
   .main {
     padding: 8px 8px 0 8px;
   }
@@ -80,6 +76,7 @@
     align-items: center;
     padding: 8px;
     cursor: pointer;
+    height: 48px;
   }
 }
 

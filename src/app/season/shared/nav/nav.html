@@ -1,4 +1,4 @@
-<div class="header" (click)="nagivateToHome()">
+<div class="header">
   <div class="logo"></div>
   <div class="app-title">Management</div>
 </div>
@@ -20,8 +20,11 @@
          (click)="sidenav.close()"
          routerLinkActive="active"
          [routerLink]="link.route">
-      <mat-icon>{{link.icon}}</mat-icon>
-      {{link.label}}
+      <div class="link-highlight"></div>
+      <div class="link-text">
+        <mat-icon>{{link.icon}}</mat-icon>
+        {{link.label}}
+      </div>
     </div>
   </ng-container>
 </div>

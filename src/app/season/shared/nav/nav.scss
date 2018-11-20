@@ -5,28 +5,25 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-width: 250px;
+  width: 250px;
 }
 
-.header {
-  cursor: pointer;
-
-  .logo {
-    background: url(../../../../assets/logo.png) no-repeat center;
-    height: 70px;
-    width: 100%;
-    background-size: contain;
-    margin-top: 16px;
-  }
-
-  .app-title {
-    color: #a4a7aa;
-    font-size: 16px;
-    margin-bottom: 16px;
-    text-align: center;
-    font-weight: bold;
-  }
+.logo {
+  background: url(../../../../assets/logo.png) no-repeat center;
+  height: 70px;
+  width: 100%;
+  background-size: contain;
+  margin-top: 16px;
 }
+
+.app-title {
+  color: #a4a7aa;
+  font-size: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+  font-weight: bold;
+}
+
 
 .season {
   padding: 0 16px 8px 16px;
@@ -72,36 +69,40 @@
 }
 
 .link {
-  font-size: 16px;
   height: 40px;
   width: 100%;
-  text-align: left;
   cursor: pointer;
   position: relative;
+  outline: none;
   display: flex;
   align-items: center;
-  outline: none;
+  opacity: .8;
 
   mat-icon {
     margin: 0 16px;
   }
 
-  &.active:after, &:hover:after {
-    content: '';
-    opacity: 0.1;
-    position: absolute;
-    top: 0;
-    left: -20px;
-    right: 8px;
-    bottom: 0;
-    border-radius: 20px;
-  }
-
-  &:not(.active):hover:after {
-    opacity: 0.05;
+  &.active {
+    opacity: 1;
   }
 }
 
 .missing-info {
   font-weight: bold;
+}
+
+.link-text {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.link-highlight {
+  position: absolute;
+  top: 0;
+  left: -16px;
+  right: 4px;
+  bottom: 0;
+  border-radius: 32px;
 }

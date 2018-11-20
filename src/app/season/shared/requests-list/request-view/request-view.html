@@ -1,4 +1,5 @@
-<div class="request theme-hover" (click)="setSelected(!isSelected())">
+<div class="request theme-hover"
+     (click)="setSelected(!isSelected())">
   <div class="top-row theme-text">
     <mat-checkbox [style.visibility]="canEdit ? 'visible' : 'hidden'"
                   [checked]="isSelected()"

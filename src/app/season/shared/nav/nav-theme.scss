@@ -12,8 +12,14 @@
       color: mat-color($foreground, text);
     }
 
-    .link.active:after, .link:hover:after {
+    .link.active .link-highlight {
       background: mat-color($primary);
+      opacity: .5;
+    }
+
+    .link:hover:not(.active) .link-highlight {
+      background: mat-color($primary);
+      opacity: .1;
     }
 
     .missing-info {

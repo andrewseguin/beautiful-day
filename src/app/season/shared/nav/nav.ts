@@ -69,7 +69,10 @@ export class Nav {
 
     this.season.valueChanges.pipe(
       takeUntil(this.destroyed))
-      .subscribe(value => this.router.navigate([value, this.router.url.split('/')[2]]));
+      .subscribe(value => {
+        this.router.navigate([value, this.router.url.split('/')[2]]);
+        this.sidenav.close();
+      });
 
     this.hasMissingUserProfileInfo.subscribe(value => {
       if (value) {
@@ -82,11 +85,6 @@ export class Nav {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
-  }
-
-  nagivateToHome() {
-    this.router.navigate(['projects'], {relativeTo: this.activatedRoute});
-    this.sidenav.close();
   }
 
   editProfile() {
