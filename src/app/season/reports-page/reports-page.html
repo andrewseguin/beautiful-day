@@ -5,21 +5,28 @@
   <mat-icon>add</mat-icon>
 </button>
 
-<div class="group" *ngFor="let reportGroup of reportGroups | async">
-  <div class="group-title">
-    {{reportGroup.name}}
-  </div>
+<ng-container *ngIf="reportGroups | async; let reportGroups; else loading">
+  <div class="group" *ngFor="let reportGroup of reportGroups">
+    <div class="group-title">
+      {{reportGroup.name}}
+    </div>
 
-  <div class="reports">
-    <ng-container *ngFor="let report of reportGroup.reports; trackBy: reportKeyTrackBy">
-      <div class="report theme-hover" mat-ripple (click)="navigateToReport(report.id)">
-        <div class="name"> {{report.name}} </div>
+    <div class="reports">
+      <ng-container *ngFor="let report of reportGroup.reports; trackBy: reportKeyTrackBy">
+        <div class="report theme-hover" mat-ripple (click)="navigateToReport(report.id)">
+          <div class="name"> {{report.name}} </div>
 
-        <report-menu [report]="report" icon="more_vert"
-                     (click)="$event.stopPropagation()">
-        </report-menu>
-      </div>
-      <mat-divider></mat-divider>
-    </ng-container>
+          <report-menu [report]="report" icon="more_vert"
+                       (click)="$event.stopPropagation()">
+          </report-menu>
+        </div>
+        <mat-divider></mat-divider>
+      </ng-container>
+    </div>
   </div>
-</div>
+</ng-container>
+
+
+<ng-template #loading>
+  <loading label="reports"></loading>
+</ng-template>

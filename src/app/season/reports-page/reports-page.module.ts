@@ -6,6 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {ReportMenuModule} from 'app/season/shared/report-menu/report-menu.module';
 import {RouteGuardModule} from 'app/season/shared/route-guard/route-guard.module';
+import {LoadingModule} from 'app/season/shared/loading/loading.module';
 
 const routes: Routes = [{path: '', component: ReportsPage}];
 
@@ -20,7 +21,8 @@ export class ReportsPageRoutingModule {}
     RouterModule,
     ReportMenuModule,
     RouteGuardModule,
-    ReportsPageRoutingModule
+    ReportsPageRoutingModule,
+    LoadingModule,
   ],
   declarations: [ReportsPage],
   exports: [ReportsPage],

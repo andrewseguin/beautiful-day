@@ -105,4 +105,8 @@ export class ProjectRequests implements OnInit {
       title: this.project.name
     }]);
   }
+
+  navigateToReceiptFolder() {
+    window.open(this.project.receiptsFolder);
+  }
 }

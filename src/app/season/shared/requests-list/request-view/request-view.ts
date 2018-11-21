@@ -19,6 +19,7 @@ import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
 import {getItemName} from 'app/season/utility/item-name';
 import {getRequestCost} from 'app/season/utility/request-cost';
 import {isMobile} from 'app/utility/media-matcher';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'request',
@@ -147,13 +148,22 @@ export class RequestView implements OnInit {
       date: 'Dropoff date',
     };
 
+    const valueToDisplay = {
+      note: v => v,
+      quantity: v => v,
+      dropoff: v => v,
+      date: v => new DatePipe('en-us').transform(v),
+    };
+
     this.previousChangesMsg = '';
     const changes = this.request.previouslyApproved;
     if (changes) {
       const previousChanges = [];
       APPROVAL_NEGATERS.forEach(prop => {
+        const propDisplayName = propToDisplayName[prop];
+        const valueDisplay = valueToDisplay[prop](changes[prop]);
         if (changes[prop]) {
-          const msg = `${propToDisplayName[prop]}: ${changes[prop]}`;
+          const msg = `${propDisplayName}: ${valueDisplay}`;
           previousChanges.push(msg);
         }
       });

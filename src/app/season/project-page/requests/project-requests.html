@@ -50,11 +50,22 @@
   <remaining-budget *ngIf="canEdit"
                     [projectId]="project.id">
   </remaining-budget>
-  <button class="print" mat-icon-button (click)="print()">
-    <mat-icon>print</mat-icon>
+  <button mat-icon-button class="overflow-menu-trigger"
+          [mat-menu-trigger-for]="overflow">
+    <mat-icon> more_vert </mat-icon>
   </button>
 </ng-template>
 
 <ng-template #loading>
   <loading label="requests"></loading>
 </ng-template>
+
+<mat-menu #overflow="matMenu">
+  <button mat-menu-item (click)="print()">
+    <mat-icon> print </mat-icon> Print
+  </button>
+  <button mat-menu-item *ngIf="project.receiptsFolder"
+          (click)="navigateToReceiptFolder()">
+    <mat-icon> cloud_upload </mat-icon> Upload receipts
+  </button>
+</mat-menu>
