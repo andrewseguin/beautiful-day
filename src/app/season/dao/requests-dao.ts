@@ -4,6 +4,9 @@ import {Observable} from 'rxjs';
 import {SeasonCollectionDao} from './season-collection-dao';
 import {ActivatedSeason} from 'app/season/services/activated-season';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {take} from 'rxjs/operators';
+
+export const APPROVAL_NEGATERS = new Set(['note', 'quantity', 'dropoff', 'date']);
 
 export interface Request {
   id?: string;
@@ -24,6 +27,7 @@ export interface Request {
   dateModified?: string;
   costAdjustment?: number;
   costAdjustmentReason?: string;
+  previouslyApproved?: Request;
 }
 
 @Injectable()
@@ -51,8 +55,42 @@ export class RequestsDao extends SeasonCollectionDao<Request> {
   }
 
   update(id: string, obj: Request) {
-    obj.dateModified = new Date().toISOString();
-    super.update(id, obj);
+     this.get(id).pipe(take(1)).subscribe(request => {
+       // Updating a request that has been approved should remove
+       // approval if certain fields are changed and record the previous
+       // value.
+       if (request.isApproved || request.previouslyApproved) {
+         const changedProperties = Object.keys(obj).filter(prop => {
+           const hasNegator = APPROVAL_NEGATERS.has(prop);
+           const isChanged = obj[prop] !== request[prop];
+           const prevNotChanged = !request.previouslyApproved || !request.previouslyApproved[prop];
+           return hasNegator && isChanged && prevNotChanged;
+         });
+         if (changedProperties.length) {
+           obj.isApproved = false;
+           obj.previouslyApproved = {};
+           changedProperties.forEach(prop => {
+             obj.previouslyApproved[prop] = request[prop];
+           });
+         }
+       }
+
+       // If approved, removed the previouslyApproved properties
+       if (obj.isApproved || obj.isPurchased) {
+         // remove changed props
+         obj.previouslyApproved = null;
+       }
+
+       // If purchased, go ahead and set to approved
+       if (obj.isPurchased) {
+         obj.isApproved = true;
+       }
+
+       obj.dateModified = new Date().toISOString();
+       super.update(id, obj);
+     });
   }
+
+
 }
 

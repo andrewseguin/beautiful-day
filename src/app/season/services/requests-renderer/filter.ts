@@ -186,7 +186,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
   /** StateQuery */
 
   ['state', {
-    displayName: 'Request Status',
+    displayName: 'Status',
     queryType: 'state',
     matcher: (c: MatcherContext, q: StateQuery) => {
       return stateMatchesEquality(c.request, q);

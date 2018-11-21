@@ -52,7 +52,7 @@ export class EditDropoff implements OnInit {
   }
 
   save() {
-    if (!this.date.valid && !this.location.valid) {
+    if (!this.date.valid || !this.location.valid) {
       return;
     }
 

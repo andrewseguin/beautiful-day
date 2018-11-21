@@ -27,6 +27,7 @@ export class StateQueryForm implements OnChanges {
     {id: 'approved', label: 'approved'},
     {id: 'purchased', label: 'purchased'},
     {id: 'distributed', label: 'distributed'},
+    {id: 'previouslyApproved', label: 'previously approved'},
   ];
   form = new FormGroup({
     equality: new FormControl('is'),

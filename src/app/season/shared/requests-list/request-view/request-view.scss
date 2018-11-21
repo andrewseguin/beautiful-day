@@ -71,8 +71,14 @@
   padding: 2px 4px;
   border-radius: 2px;
 
-  &.theme-hover {
+  :host.can-edit &.theme-hover {
     cursor: pointer;
+  }
+}
+
+:host .section.theme-hover {
+  @media (max-width: $mobile-width - 1) {
+    pointer-events: none;
   }
 }
 
@@ -135,5 +141,11 @@ mat-checkbox {
   
   mat-checkbox {
     display: none;
+  }
+}
+
+.previously-approved {
+  mat-icon {
+    margin: 0 8px 0 0;
   }
 }

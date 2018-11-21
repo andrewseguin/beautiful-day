@@ -89,18 +89,34 @@
       </span>
     </div>
 
-    <div *ngIf="request.isApproved && !request.isPurchased">
-      <span class="section theme-hover" (click)="edit('status', $event)">
-         Approved <mat-icon class="md-14"> done </mat-icon>
-      </span>
-    </div>
+    <ng-container *ngIf="!request.isPurchased; else isPurchased">
 
-    <div *ngIf="request.isPurchased">
-      <span class="section theme-hover status purchased"
-            (click)="edit('status', $event)">
-        Purchased <mat-icon class="md-14"> attach_money </mat-icon>
+      <div *ngIf="request.isApproved">
+      <span class="section theme-hover status" (click)="edit('status', $event)">
+        Approved <mat-icon class="md-14"> done </mat-icon>
       </span>
-    </div>
+      </div>
+
+      <div *ngIf="previousChangesMsg">
+        <div class="previously-approved" (click)="edit('status', $event)">
+          <div class="section warning status">
+            <mat-icon class="md-14"> warning </mat-icon>
+            <div class="message">
+              The following was changed since it was approved: {{previousChangesMsg}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #isPurchased>
+      <div>
+        <span class="section theme-hover status purchased"
+              (click)="edit('status', $event)">
+          Purchased <mat-icon class="md-14"> attach_money </mat-icon>
+        </span>
+      </div>
+    </ng-template>
 
     <div class="tags">
       <span class="section theme-hover tag"

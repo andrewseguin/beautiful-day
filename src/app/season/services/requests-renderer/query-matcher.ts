@@ -76,6 +76,7 @@ export function stateMatchesEquality(request: Request, query: StateQuery) {
     ['approved', request.isApproved],
     ['purchased', request.isPurchased],
     ['distributed', request.isDistributed],
+    ['previouslyApproved', !!request.previouslyApproved],
   ]);
 
   switch (query.equality) {

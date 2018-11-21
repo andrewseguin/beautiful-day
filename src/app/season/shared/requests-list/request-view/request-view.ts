@@ -13,11 +13,12 @@ import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-r
 import {Permissions} from 'app/season/services/permissions';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {Item, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
+import {APPROVAL_NEGATERS, Item, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {Selection} from 'app/season/services';
 import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
 import {getItemName} from 'app/season/utility/item-name';
 import {getRequestCost} from 'app/season/utility/request-cost';
+import {isMobile} from 'app/utility/media-matcher';
 
 @Component({
   selector: 'request',
@@ -43,6 +44,8 @@ export class RequestView implements OnInit {
   canEdit: boolean;
 
   @ViewChild('quantityInput') quantityInput: ElementRef;
+
+  previousChangesMsg = '';
 
   constructor(private cd: ChangeDetectorRef,
               public requestsRenderer: RequestsRenderer,
@@ -75,6 +78,10 @@ export class RequestView implements OnInit {
     this.destroyed.complete();
   }
 
+  ngOnChanges() {
+    this.updatePreviousChangesMessage();
+  }
+
   changeQuantity(quantity: number) {
     quantity = Math.max(0, quantity);
     this.requestsDao.update(this.request.id, {quantity});
@@ -101,6 +108,10 @@ export class RequestView implements OnInit {
   }
 
   edit(id: string, e: Event) {
+    if (!this.canEdit || isMobile()) {
+      return;
+    }
+
     e.stopPropagation();
 
     switch (id) {
@@ -128,16 +139,26 @@ export class RequestView implements OnInit {
     }
   }
 
-  filterTag(tag: string) {
-    const search = this.requestsRenderer.options.search;
-    if (search.indexOf(tag) != -1) {
-      return;
-    }
+  private updatePreviousChangesMessage() {
+    const propToDisplayName = {
+      note: 'Note',
+      quantity: 'Quantity',
+      dropoff: 'Dropoff location',
+      date: 'Dropoff date',
+    };
 
-    if (!search) {
-      this.requestsRenderer.options.search = tag;
-    } else {
-      this.requestsRenderer.options.search += ' ' + tag;
+    this.previousChangesMsg = '';
+    const changes = this.request.previouslyApproved;
+    if (changes) {
+      const previousChanges = [];
+      APPROVAL_NEGATERS.forEach(prop => {
+        if (changes[prop]) {
+          const msg = `${propToDisplayName[prop]}: ${changes[prop]}`;
+          previousChanges.push(msg);
+        }
+      });
+
+      this.previousChangesMsg = previousChanges.join('; ');
     }
   }
 }
