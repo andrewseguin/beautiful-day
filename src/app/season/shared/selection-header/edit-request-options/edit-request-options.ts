@@ -50,4 +50,8 @@ export class EditRequestOptions {
   editAllocation() {
     this.requestDialog.editAllocation(this.selection.requests.selected);
   }
+
+  editCostAdjustment() {
+    this.requestDialog.editCostAdjustment(this.selection.requests.selected);
+  }
 }

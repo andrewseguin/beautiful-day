@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core'
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {map, mergeMap, takeUntil} from 'rxjs/operators';
-import {FormControl} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import {Observable, of, Subject} from 'rxjs';
 
 export interface EditDropoffData {
@@ -24,8 +24,8 @@ export interface EditDropoffResult {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditDropoff implements OnInit {
-  location = new FormControl('');
-  date = new FormControl('');
+  location = new FormControl('', Validators.required);
+  date = new FormControl('', Validators.required);
   locationOptions: Observable<string[]>;
 
   private project: string;
@@ -39,13 +39,11 @@ export class EditDropoff implements OnInit {
 
   ngOnInit() {
     this.data.requests.pipe(takeUntil(this.destroyed))
-        .subscribe(requests => this.setDropoff(requests));
-
-    this.data.requests.pipe(takeUntil(this.destroyed))
-        .subscribe(requests => this.setDate(requests));
-
-    this.locationOptions = this.data.requests.pipe(takeUntil(this.destroyed))
-        .pipe(mergeMap(requests => this.getLocations(requests)));
+        .subscribe(requests => {
+          this.setDropoff(requests);
+          this.setDate(requests);
+          this.getLocations(requests);
+        });
   }
 
   ngOnDestroy() {
@@ -54,6 +52,10 @@ export class EditDropoff implements OnInit {
   }
 
   save() {
+    if (!this.date.valid && !this.location.valid) {
+      return;
+    }
+
     this.dialogRef.close({
       project: this.project,
       dropoff: this.location.value,

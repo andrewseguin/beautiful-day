@@ -13,6 +13,7 @@ export interface PromptDialogData {
   input?: Observable<string|number>;
   useTextArea?: boolean;
   type?: 'text' | 'number';
+  description?: string;
 }
 
 @Component({
@@ -27,6 +28,7 @@ export class PromptDialog {
   type: 'text' | 'number' = 'text';
   newInput = new FormControl('', Validators.required);
   input: any;
+  description: string;
 
   constructor(private dialogRef: MatDialogRef<PromptDialog, PromptDialogResult>,
               private cd: ChangeDetectorRef,
@@ -34,6 +36,7 @@ export class PromptDialog {
     this.title = data.title;
     this.useTextArea = data.useTextArea;
     this.type = data.type;
+    this.description = data.description;
 
     data.input.pipe(take(1)).subscribe(input => {
       this.newInput.setValue(input);
@@ -42,8 +45,8 @@ export class PromptDialog {
   }
 
   save() {
-    this.dialogRef.close({
-      value: this.newInput.value
-    });
+    const value = this.type === 'number' ?
+        Number(this.newInput.value) : this.newInput.value;
+    this.dialogRef.close({value});
   }
 }

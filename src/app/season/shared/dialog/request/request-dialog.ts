@@ -1,12 +1,18 @@
 import {Injectable} from '@angular/core';
-import {MatDialog, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+  MatSnackBar,
+  MatSnackBarConfig
+} from '@angular/material';
 import {
   PromptDialog,
   PromptDialogData,
   PromptDialogResult
 } from 'app/season/shared/dialog/prompt-dialog/prompt-dialog';
 import {Selection} from 'app/season/services';
-import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
+import {ItemsDao, ProjectsDao, RequestsDao, Request} from 'app/season/dao';
 import {map, mergeMap, take} from 'rxjs/operators';
 import {combineLatest, of} from 'rxjs';
 import {
@@ -23,6 +29,10 @@ import {
   DeleteConfirmation,
   DeleteConfirmationData
 } from 'app/season/shared/dialog/delete-confirmation/delete-confirmation';
+import {
+  EditCostAdjustment,
+  EditCostAdjustmentResult
+} from 'app/season/shared/dialog/request/edit-cost-adjustment/edit-cost-adjustment';
 
 @Injectable()
 export class RequestDialog {
@@ -88,87 +98,61 @@ export class RequestDialog {
     });
   }
 
+  private openPromptDialog(
+      ids: string[], property: string, config: MatDialogConfig) {
+    const dialogRef = this.dialog.open(PromptDialog, config);
+    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
+      this.applyPromptDialogResult(ids, result, property);
+    });
+  }
+
   editNote(ids: string[]) {
-    const data: PromptDialogData = {
-      title: 'Edit Note',
-      useTextArea: true,
-      input: combineLatest(ids.map(id => this.requestsDao.get(id))).pipe(
-          map(requests => {
-            const firstNote = requests[0].note;
-            return requests.every(r => r.note === firstNote) ? firstNote : '';
-          })
-      )
-    };
-
-    const config = {data, width: '400px'};
-    const dialogRef: MatDialogRef<PromptDialog, PromptDialogResult> =
-      this.dialog.open(PromptDialog, config);
-    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
-      if (!result) {
-        return;
+    this.openPromptDialog(ids, 'note', {
+      width: '400px',
+      data: {
+        title: 'Edit Note',
+        useTextArea: true,
+        input: this.getMergedRequestsValue(ids, 'note')
       }
-
-      ids.forEach(id => {
-        this.requestsDao.update(id, {note: result.value as string});
-        this.selection.requests.clear();
-      });
     });
   }
 
-  // TODO: Consider combining with editNote, or any other prompt dialog function
   editPurchaser(ids: string[]) {
-    const data: PromptDialogData = {
-      title: 'Edit Purchaser',
-    };
-
-    if (ids.length === 1) {
-      data.input = this.requestsDao.get(ids[0]).pipe(map(r => r.purchaser));
-    } else {
-      // TODO: If all requests have the same purchaser, use it.
-      data.input = of('');
-    }
-
-    const config = {data, width: '300px'};
-    const dialogRef: MatDialogRef<PromptDialog, PromptDialogResult> =
-      this.dialog.open(PromptDialog, config);
-    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
-      if (!result) {
-        return;
+    this.openPromptDialog(ids, 'purchaser', {
+      width: '300px',
+      data: {
+        title: 'Edit Purchaser',
+        input: this.getMergedRequestsValue(ids, 'purchaser')
       }
-
-      ids.forEach(id => {
-        this.requestsDao.update(id, {purchaser: result.value as string});
-        this.selection.requests.clear();
-      });
     });
   }
 
-  // TODO: Consider combining with editNote, or any other prompt dialog function
   editAllocation(ids: string[]) {
-    const data: PromptDialogData = {
-      title: 'Edit Allocation',
-      type: 'number'
+    this.openPromptDialog(ids, 'allocation', {
+      width: '300px',
+      data: {
+        title: 'Edit Allocation',
+        type: 'number',
+        input: this.getMergedRequestsValue(ids, 'allocation')
+      }
+    });
+  }
+
+  editCostAdjustment(ids: string[]) {
+    const config = {
+      data: {
+        requests: combineLatest(ids.map(id => this.requestsDao.get(id)))
+      },
+      width: '400px',
     };
-
-    if (ids.length === 1) {
-      data.input = this.requestsDao.get(ids[0]).pipe(map(r => r.allocation));
-    } else {
-      // TODO: If all requests have the same purchaser, use it.
-      data.input = of(0);
-    }
-
-    const config = {data, width: '300px'};
-    const dialogRef: MatDialogRef<PromptDialog, PromptDialogResult> =
-      this.dialog.open(PromptDialog, config);
-    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
+    const dialogRef = this.dialog.open(EditCostAdjustment, config);
+    dialogRef.afterClosed().pipe(take(1)).subscribe((result: EditCostAdjustmentResult) => {
       if (!result) {
         return;
       }
 
-      ids.forEach(id => {
-        this.requestsDao.update(id, {allocation: result.value as number});
-        this.selection.requests.clear();
-      });
+      ids.forEach(id => this.requestsDao.update(id, result));
+      this.selection.requests.clear();
     });
   }
 
@@ -217,8 +201,29 @@ export class RequestDialog {
 
             this.selection.requests.clear();
           });
+    });
+  }
+  
+  private getMergedRequestsValue(ids: string[], property: string) {
+    return combineLatest(ids.map(id => this.requestsDao.get(id))).pipe(
+      map(requests => {
+        const firstValue = requests[0][property];
+        return requests.every(r => r[property] === firstValue) ? firstValue : '';
+      }));
+  }
 
+  private applyPromptDialogResult(
+    ids: string[], result: PromptDialogResult, property: string) {
+    if (!result) {
+      return;
+    }
 
+    const update = {};
+    update[property] = result.value;
+
+    ids.forEach(id => {
+      this.requestsDao.update(id, update);
+      this.selection.requests.clear();
     });
   }
 }

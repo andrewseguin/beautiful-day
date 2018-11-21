@@ -23,4 +23,5 @@
           [disabled]="getSelectedRequestsCount() > 1"
           [matTooltip]="getSelectedRequestsCount() > 1 ? 'Cannot allocate for more than one request' : ''"
           *ngIf="permissions.isAcquisitions"> Allocation </button>
+  <button mat-menu-item (click)="editCostAdjustment()" *ngIf="permissions.isApprover"> Cost adjustment </button>
 </mat-menu>

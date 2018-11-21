@@ -1,7 +1,5 @@
 @import '../../../../constants';
-
-// Import theming functions
-@import '../../../../../../node_modules/@angular/material/theming';
+@import '~@angular/material/theming';
 
 :host {
   display: block;
@@ -16,75 +14,65 @@
   position: relative;
   cursor: pointer;
   page-break-inside: avoid;
+}
 
-  .top-row, .details {
-    z-index: 1; // Place above md ripple background to allow clicking
+.top-row {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+
+  .name, .quantity, .cost {
+    margin-right: 8px;
   }
 
-  .top-row {
+  .name {
     display: flex;
     align-items: center;
-    font-size: 15px;
-
-    .name, .quantity, .cost {
-      margin-right: 8px;
-    }
-
-    .name {
-      display: flex;
-      align-items: center;
-      flex-grow: 1;
-    }
-
-    .quantity {
-      min-width: 50px;
-      width: 50px;
-      text-align: right;
-      margin-right: 16px;
-    }
-
-    .cost {
-      min-width: 60px;
-      text-align: right;
-    }
+    flex-grow: 1;
   }
 
-  .details {
-    padding: 0 16px 0 32px;
-    font-size: 13px;
-
-    .tags {
-      display: flex;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      margin-right: -8px;
-      min-height: 8px;
-
-      .tag {
-        word-wrap: normal;
-        word-break: break-all;
-        display: flex;
-        align-items: center;
-        border-radius: 12px;
-        padding: 4px 10px;
-      }
-    }
+  .quantity {
+    min-width: 50px;
+    width: 50px;
+    text-align: right;
+    margin-right: 16px;
   }
 
-  .editable {
-    display: inline-block;
-    padding: 2px 4px;
-    border-radius: 2px;
+  .cost {
+    min-width: 60px;
+    text-align: right;
+  }
+}
 
-    // Default so that if not clickable, the click event will not trigger
-    pointer-events: none;
+.details {
+  padding: 0 16px 0 32px;
+  font-size: 13px;
+}
 
-    &.clickable {
-      cursor: pointer;
-      @media (min-width: $mobile-width) {
-        pointer-events: auto;
-      }
-    }
+.tags {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-right: -8px;
+  min-height: 8px;
+
+  .tag {
+    word-wrap: normal;
+    word-break: break-all;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    padding: 4px 10px;
+  }
+}
+
+.section {
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 2px;
+
+  &.theme-hover {
+    cursor: pointer;
   }
 }
 
@@ -131,10 +119,9 @@ mat-checkbox {
   margin: 8px;
 }
 
-.status-approved, .status-purchased {
-  .editable {
-    display: flex;
-  }
+.status {
+  display: inline-flex;
+  align-items: center;
 
   mat-icon {
     margin-left: 4px;

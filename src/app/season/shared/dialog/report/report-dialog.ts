@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {ReportEdit} from 'app/season/shared/dialog/report/report-edit/report-edit';
 import {take} from 'rxjs/operators';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {RequestRendererOptionsState} from '../../../services/requests-renderer/request-renderer-options';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {Report, ReportsDao} from 'app/season/dao/index';
+import {Report, ReportsDao} from 'app/season/dao';
 import {DeleteConfirmation} from '../delete-confirmation/delete-confirmation';
 import {of} from 'rxjs';
 

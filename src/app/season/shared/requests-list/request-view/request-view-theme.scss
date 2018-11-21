@@ -28,12 +28,7 @@
       }
     }
 
-    .goto-url:hover,
-    .clickable:hover {
-      background: mat-color($background, hover);
-    }
-
-    .status-purchased {
+    .purchased {
       color: map-get($theme, positive);
     }
   }

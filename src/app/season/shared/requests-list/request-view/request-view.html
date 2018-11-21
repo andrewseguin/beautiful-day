@@ -8,27 +8,27 @@
     </mat-checkbox>
 
     <div class="name">
-        <span class="editable">
+        <span class="section">
           {{getItemName(item)}}
         </span>
       <button mat-icon-button *ngIf="canEdit"
-              class="goto-url"
+              class="goto-url theme-hover"
               [matTooltip]="'Open URL: ' + item?.url"
               (click)="$event.stopPropagation(); navigateToUrl(item?.url)">
         <mat-icon> open_in_new </mat-icon>
       </button>
     </div>
 
-    <div class="quantity" (click)="!request?.isPurchased ? $event.stopPropagation() : null">
+    <div class="quantity" (click)="!request.isPurchased ? $event.stopPropagation() : null">
       <input type="number" #quantityInput min="0"
-             *ngIf="canEdit && !request?.isPurchased; else staticQuantity"
-             [value]="request?.quantity"
+             *ngIf="canEdit && !request.isPurchased; else staticQuantity"
+             [value]="request.quantity"
              (keyup)="changeQuantity($event.target.value)"
              (keydown.Enter)="quantityInput.blur()"
              (change)="changeQuantity($event.target.value)">
       <ng-template #staticQuantity>
-        <div [title]="request?.isPurchased ? 'This request has been purchased and quantity cannot be changed' : ''">
-          x {{request?.quantity}}
+        <div [title]="request.isPurchased ? 'This request has been purchased and quantity cannot be changed' : ''">
+          x {{request.quantity}}
         </div>
       </ng-template>
     </div>
@@ -42,71 +42,70 @@
   </div>
 
   <div class="details theme-secondary-text">
-    <div>
-      <span class="editable">
-        Category: {{item.categories[0].split('>')[0]}}
-      </span>
+    <div class="section">
+      Category: {{item.categories[0].split('>')[0]}}
     </div>
 
-    <div *ngIf="requestsRenderer.options.showProjectName">
-      <span class="editable">
-        Project: {{(projectsDao.map | async)?.get(request.project).name}}
-      </span>
+    <div *ngIf="requestsRenderer.options.showProjectName" class="section">
+      Project: {{(projectsDao.map | async)?.get(request.project).name}}
     </div>
 
-    <div *ngIf="request?.purchaser">
-      <span class="editable">
+    <div *ngIf="request.purchaser">
+      <span class="section theme-hover" (click)="edit('ourchaser', $event)">
         Purchaser: {{request.purchaser}}
       </span>
     </div>
 
-    <div *ngIf="request?.allocation">
-      <span class="editable">
-        Allocated from stock: {{request?.allocation}}
+    <div *ngIf="request.allocation">
+      <span class="section theme-hover" (click)="edit('allocation', $event)">
+        Allocated from stock: {{request.allocation}}
       </span>
     </div>
 
-    <div>
-      <span class="editable"
-            [class.clickable]="canEdit"
-            (click)="editDropoff($event)">
-        <span *ngIf="request?.dropoff">
-          Receive @ {{request?.dropoff}}, {{request?.date | date}}
+    <div *ngIf="request.costAdjustment">
+      <span class="section theme-hover" (click)="edit('costAdjustment', $event)">
+        Cost adjustment: {{request.costAdjustment | currency}}
+        <span *ngIf="request.costAdjustmentReason">
+          ({{request.costAdjustmentReason}})
         </span>
       </span>
     </div>
 
-    <div *ngIf="request?.note">
-      <span class="editable"
-            [class.clickable]="canEdit"
-            (click)="editNote($event)">
-        {{request?.note}}
+    <div *ngIf="request.dropoff">
+      <span class="section theme-hover" (click)="edit('dropoff', $event)">
+        Receive @ {{request.dropoff}}, {{request.date | date}}
       </span>
     </div>
 
-    <div *ngIf="request?.isDistributed">
-      <span class="editable">
-        Distributed {{request?.distributionDate | date}}
+    <div *ngIf="request.note">
+      <span class="section theme-hover" (click)="edit('note', $event)">
+        {{request.note}}
       </span>
     </div>
 
-    <div *ngIf="request?.isApproved && !request?.isPurchased" class="status-approved">
-      <span class="editable">
-        Approved
-        <mat-icon class="md-14"> done </mat-icon>
+    <div *ngIf="request.isDistributed">
+      <span class="section theme-hover" (click)="edit('status', $event)">
+        Distributed {{request.distributionDate | date}}
       </span>
     </div>
 
-    <div *ngIf="request?.isPurchased" class="status-purchased">
-      <span class="editable">
-        Purchased
-        <mat-icon class="md-14"> attach_money </mat-icon>
+    <div *ngIf="request.isApproved && !request.isPurchased">
+      <span class="section theme-hover" (click)="edit('status', $event)">
+         Approved <mat-icon class="md-14"> done </mat-icon>
+      </span>
+    </div>
+
+    <div *ngIf="request.isPurchased">
+      <span class="section theme-hover status purchased"
+            (click)="edit('status', $event)">
+        Purchased <mat-icon class="md-14"> attach_money </mat-icon>
       </span>
     </div>
 
     <div class="tags">
-      <span class="editable clickable tag" *ngFor="let tag of request.tags"
-            (click)="$event.stopPropagation(); filterTag(tag)">
+      <span class="section theme-hover tag"
+            *ngFor="let tag of request.tags"
+            (click)="edit('tag', $event)">
         {{tag}}
       </span>
     </div>

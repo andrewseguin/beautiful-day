@@ -90,16 +90,6 @@ export class RequestView implements OnInit {
       this.selection.requests.deselect(this.request.id);
   }
 
-  editNote(e: Event) {
-    e.stopPropagation();
-    this.requestDialog.editNote([this.request.id]);
-  }
-
-  editDropoff(e: Event) {
-    e.stopPropagation();
-    this.requestDialog.editDropoff([this.request.id]);
-  }
-
   navigateToUrl(url: string) {
     window.open(url);
   }
@@ -108,6 +98,34 @@ export class RequestView implements OnInit {
     if (!this.item || !this.request) { return 0; }
 
     return getRequestCost(this.item.cost, this.request);
+  }
+
+  edit(id: string, e: Event) {
+    e.stopPropagation();
+
+    switch (id) {
+      case 'note':
+        this.requestDialog.editNote([this.request.id]);
+        break;
+      case 'dropoff':
+        this.requestDialog.editDropoff([this.request.id]);
+        break;
+      case 'status':
+        this.requestDialog.editStatus([this.request.id]);
+        break;
+      case 'costAdjustment':
+        this.requestDialog.editCostAdjustment([this.request.id]);
+        break;
+      case 'allocation':
+        this.requestDialog.editAllocation([this.request.id]);
+        break;
+      case 'purchaser':
+        this.requestDialog.editPurchaser([this.request.id]);
+        break;
+      case 'tag':
+        this.requestDialog.editTags([this.request.id]);
+        break;
+    }
   }
 
   filterTag(tag: string) {

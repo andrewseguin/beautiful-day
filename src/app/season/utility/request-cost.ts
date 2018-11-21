@@ -10,5 +10,12 @@ export function getRequestCost(itemCost: number, request: Request) {
     quantityToPurchase = Math.max(quantityToPurchase, 0);
   }
 
-  return itemCost ? quantityToPurchase * itemCost : 0;
+  let requestCost = itemCost ? quantityToPurchase * itemCost : 0;
+
+  if (request.costAdjustment) {
+    requestCost += request.costAdjustment;
+  }
+
+  return requestCost;
 }
+

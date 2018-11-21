@@ -22,6 +22,8 @@ export interface Request {
   isDistributed?: boolean;
   dateAdded?: string;
   dateModified?: string;
+  costAdjustment?: number;
+  costAdjustmentReason?: string;
 }
 
 @Injectable()

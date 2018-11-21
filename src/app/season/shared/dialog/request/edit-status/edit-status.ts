@@ -46,7 +46,7 @@ export class EditStatus {
         isApproved: new FormControl(requests.every(r => r.isApproved)),
         isPurchased: new FormControl(requests.every(r => r.isPurchased)),
         isDistributed: new FormControl(requests.every(r => r.isDistributed)),
-        distributionDate: new FormControl(matchingDates ? firstDate : '', Validators.required),
+        distributionDate: new FormControl(matchingDates ? firstDate : new Date(), Validators.required),
       });
 
       this.cd.markForCheck();
