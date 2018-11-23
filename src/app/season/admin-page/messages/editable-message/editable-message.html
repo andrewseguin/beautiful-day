@@ -1,0 +1,54 @@
+<div [formGroup]="form" class="message">
+
+  <textarea mat-autosize placeholder="Add message"
+            class="text" formControlName="text">
+  </textarea>
+
+  <div class="actions">
+    <mat-slide-toggle formControlName="enabled" labelPosition="before">
+      Enabled
+    </mat-slide-toggle>
+
+    <mat-select formControlName="bgColor">
+      <mat-option *ngFor="let bgColor of bgColors" [value]="bgColor">
+        {{bgColor}}
+      </mat-option>
+    </mat-select>
+
+    <button mat-stroked-button class="delete theme-secondary-text" (click)="delete()">
+      Delete <mat-icon> delete </mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="user-stats">
+  <div class="title theme-hover" mat-ripple
+       (click)="expandViewedBy = !expandViewedBy">
+    Viewed by {{sortedViewedBy.length}}
+    {{sortedViewedBy.length === 1 ? 'user' : 'users'}}
+    <mat-icon [@expansionIndicator]="expandViewedBy">expand_more</mat-icon>
+  </div>
+
+  <div class="users" [@expansionContent]="expandViewedBy">
+    <mat-chip-list>
+      <mat-chip *ngFor="let user of sortedViewedBy">
+        {{user}}
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+
+  <div class="title theme-hover" mat-ripple
+       (click)="expandDismissedBy = !expandDismissedBy">
+    Dismissed by {{sortedDismissedBy.length}}
+    {{sortedDismissedBy.length === 1 ? 'user' : 'users'}}
+    <mat-icon [@expansionIndicator]="expandDismissedBy">expand_more</mat-icon>
+  </div>
+
+  <div class="users" [@expansionContent]="expandDismissedBy">
+    <mat-chip-list>
+      <mat-chip *ngFor="let user of sortedDismissedBy">
+        {{user}}
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+</div>

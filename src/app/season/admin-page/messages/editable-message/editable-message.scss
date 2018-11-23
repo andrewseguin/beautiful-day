@@ -1,0 +1,84 @@
+@import '../../../../constants';
+
+textarea {
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  padding: 8px;
+  font-size: 14px;
+  min-width: 50px;
+  color: inherit;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+
+  @media (max-width: $mobile-width - 1) {
+    flex-direction: column;
+    align-items: normal;
+  }
+}
+
+:host {
+  @media (max-width: $mobile-width - 1) {
+    padding: 16px 8px;
+    margin: 16px 0;
+  }
+}
+
+.text {
+  flex: 1;
+}
+
+.delete {
+  min-width: 110px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  justify-content: space-between;
+
+  @media (max-width: $mobile-width - 1) {
+    margin-top: 16px;
+  }
+}
+
+mat-slide-toggle {
+  margin: 0 8px;
+}
+
+mat-select {
+  min-width: 64px;
+  margin: 0 16px;
+}
+
+.user-stats {
+  margin: 8px 0;
+
+  .title {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .users {
+    overflow: hidden;
+  }
+
+  .title, .users {
+    padding: 0 8px;
+  }
+}
+
+mat-chip-list {
+  display: block;
+  margin: 8px 0;
+}

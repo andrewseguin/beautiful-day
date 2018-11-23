@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {ManageGroups} from './manage-groups';
+import {Groups} from './groups';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
@@ -14,7 +14,7 @@ import {
     ReactiveFormsModule,
     EditableChipListModule,
   ],
-  declarations: [ManageGroups],
-  exports: [ManageGroups],
+  declarations: [Groups],
+  exports: [Groups],
 })
-export class ManageGroupsModule { }
+export class GroupsModule { }

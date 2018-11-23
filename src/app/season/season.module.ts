@@ -4,21 +4,22 @@ import {NavModule} from './shared/nav/nav.module';
 import {MaterialModule} from 'app/material.module';
 import {SelectionHeaderModule} from './shared/selection-header/selection-header.module';
 import {RouterModule, Routes} from '@angular/router';
-import {DialogModule} from 'app/season/shared/dialog/dialog.module';
+import {DialogModule} from './shared/dialog/dialog.module';
 import {Accounting, ActivatedSeason, Header, Permissions, Selection} from './services';
 import {
   ConfigDao,
-  DaoModule,
   EventsDao,
   GroupsDao,
   ItemsDao,
+  MessagesDao,
   ProjectsDao,
   ReportsDao,
   RequestsDao
 } from './dao';
 import {SeasonHeaderModule} from './shared/header/season-header.module';
-import {CanActivateAcquisitionsGuard, SEASON_ROUTES} from 'app/season/season.routes';
+import {CanActivateAcquisitionsGuard, SEASON_ROUTES} from './season.routes';
 import {CommonModule} from '@angular/common';
+import {MessagesModule} from './messages/messages.module';
 
 const routes: Routes = [{path: '', component: Season, children: SEASON_ROUTES}];
 
@@ -34,8 +35,8 @@ export class SeasonRoutingModule {}
     SelectionHeaderModule,
     RouterModule,
     DialogModule,
-    DaoModule,
-    SeasonRoutingModule
+    SeasonRoutingModule,
+    MessagesModule,
   ],
   declarations: [Season],
   exports: [Season],
@@ -53,6 +54,7 @@ export class SeasonRoutingModule {}
     ProjectsDao,
     ReportsDao,
     RequestsDao,
+    MessagesDao,
   ]
 })
 export class SeasonModule { }

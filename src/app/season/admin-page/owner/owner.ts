@@ -29,6 +29,27 @@ export class Owner {
               protected db: AngularFireDatabase,
               private afs: AngularFirestore,
               public permissions: Permissions) {
+
+    this.usersDao.list.subscribe(users => {
+      if (!users) {
+        return;
+      }
+
+      const counter = new Map<string, number>();
+      users.forEach(user => {
+        if (!counter.has(user.email)) {
+          counter.set(user.email, 0);
+        }
+
+        counter.set(user.email, counter.get(user.email) + 1);
+      });
+
+      counter.forEach((v, k) => {
+        if (v > 1) {
+          console.log(k);
+        }
+      });
+    });
   }
 
   importItems(): void {

@@ -1,0 +1,43 @@
+.message {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 4px 8px 4px 24px;
+}
+
+button {
+  margin-left: 4px;
+
+  mat-icon {
+    line-height: 18px;
+  }
+}
+
+.text {
+  flex: 1;
+}
+
+::ng-deep .light-theme .message {
+  &.green {
+    background: #aee571;
+  }
+  &.yellow {
+    background: #ffff8b;
+  }
+  &.red {
+    background: #f9683a;
+  }
+}
+
+::ng-deep .dark-theme .message {
+  &.green {
+    background: #4b830d;
+  }
+  &.yellow {
+    background: #c9bc1f;
+    color: black;
+  }
+  &.red {
+    background: #b91400;
+  }
+}

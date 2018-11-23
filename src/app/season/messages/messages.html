@@ -1,0 +1,10 @@
+<div *ngFor="let message of messages | async; trackBy: trackBy" @expand>
+  <div class="message {{message.bgColor}}">
+    <div class="text"> {{message.text}} </div>
+    <button mat-icon-button (click)="dismiss(message)">
+      <mat-icon class="md-18"> close </mat-icon>
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+</div>

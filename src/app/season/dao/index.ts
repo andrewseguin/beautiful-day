@@ -5,4 +5,4 @@ export * from './projects-dao';
 export * from './reports-dao';
 export * from './requests-dao';
 export * from './config-dao';
-export * from './dao.module';
+export * from './messages-dao';

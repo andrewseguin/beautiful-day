@@ -1,17 +1,11 @@
 <route-guard check="admin"></route-guard>
 
-<mat-tab-group [attr.mat-stretch-tabs]="isMobile() ? true : null" mat-align-tabs="center">
-  <mat-tab label="Groups">
-    <manage-groups></manage-groups>
-  </mat-tab>
-
-  <mat-tab label="Projects">
-    <manage-projects></manage-projects>
-  </mat-tab>
-
-  <mat-tab label="Events">
-    <events></events>
-  </mat-tab>
+<mat-tab-group [attr.mat-stretch-tabs]="isMobile() ? true : null"
+               mat-align-tabs="center">
+  <mat-tab label="Messages"> <messages></messages> </mat-tab>
+  <mat-tab label="Groups"> <groups></groups> </mat-tab>
+  <mat-tab label="Projects"> <projects></projects> </mat-tab>
+  <mat-tab label="Events"> <events></events> </mat-tab>
 
   <mat-tab label="Owner" *ngIf="permissions.isOwner | async">
     <owner></owner>

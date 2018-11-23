@@ -4,12 +4,12 @@ import {Permissions} from 'app/season/services/permissions';
 import {map} from 'rxjs/operators';
 
 @Component({
-  selector: 'manage-groups',
-  styleUrls: ['manage-groups.scss'],
-  templateUrl: 'manage-groups.html',
+  selector: 'groups',
+  styleUrls: ['groups.scss'],
+  templateUrl: 'groups.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManageGroups {
+export class Groups {
   groups = this.groupsDao.map.pipe(map(groupsMap => {
     if (!groupsMap) {
       return [];

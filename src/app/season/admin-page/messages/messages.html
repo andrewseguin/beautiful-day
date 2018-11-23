@@ -1,0 +1,12 @@
+<ng-container *ngIf="messages | async; let messages; else loading">
+  <button mat-stroked-button color="primary" (click)="add()"> Add Message </button>
+
+  <editable-message *ngFor="let message of messages; trackBy: trackByFn"
+                   [message]="message">
+  </editable-message>
+
+</ng-container>
+
+<ng-template #loading>
+  <loading label="messages"></loading>
+</ng-template>

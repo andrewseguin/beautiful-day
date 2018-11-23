@@ -7,7 +7,7 @@
 @import './season/shared/requests-list/requests-search/requests-search-theme';
 @import './season/shared/selection-header/selection-header-theme';
 @import './season/admin-page/events/editable-event/editable-event-theme';
-@import './season/admin-page/manage-projects/manage-projects-theme';
+@import './season/admin-page/messages/editable-message/editable-message-theme';
 @import './season/print-page/print-page-theme';
 @import './season/project-page/requests/project-requests-theme';
 @import './season/project-page/requests/remaining-budget/remaining-budget-theme';
@@ -22,7 +22,7 @@
   @include requests-search-theme($theme);
   @include selection-header-theme($theme);
   @include editable-event-theme($theme);
-  @include manage-projects-theme($theme);
+  @include editable-message-theme($theme);
   @include print-page-theme($theme);
   @include project-requests-theme($theme);
   @include remaining-budget-theme($theme);
@@ -40,6 +40,7 @@
   .theme-border { border-color: mat-color($foreground, divider); }
 
   .theme-background { background: mat-color($background, background); }
+  .theme-background-warn { background: mat-color($warn); }
   .theme-background-app-bar { background: mat-color($background, app-bar); }
   .theme-background-card { background: mat-color($background, card); }
   .theme-hover:hover { background: mat-color($background, hover); }

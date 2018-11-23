@@ -4,13 +4,13 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {Project, ProjectsDao} from 'app/season/dao';
 
 @Component({
-  selector: 'manage-projects',
-  styleUrls: ['manage-projects.scss'],
-  templateUrl: 'manage-projects.html',
+  selector: 'projects',
+  styleUrls: ['projects.scss'],
+  templateUrl: 'projects.html',
   animations: EXPANSION_ANIMATION,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ManageProjects {
+export class Projects {
   trackByProjectKey = (_i, p: Project) => p.id;
   hasExpanded = new Set<Project>();
   expandedProjects = new SelectionModel<Project>(true);

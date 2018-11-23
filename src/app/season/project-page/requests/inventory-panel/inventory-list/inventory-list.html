@@ -1,8 +1,8 @@
 <div *ngIf="search">
-  <div class="result-count" *ngIf="filteredItems.length > 0">
+  <div class="result-count theme-secondary-text" *ngIf="filteredItems.length > 0">
     Search found {{filteredItems.length}} {{filteredItems.length > 1 ? 'items' : 'item'}}
   </div>
-  <div class="result-count" *ngIf="filteredItems.length == 0">
+  <div class="result-count theme-secondary-text" *ngIf="filteredItems.length == 0">
     No results for "{{search}}"
   </div>
 </div>
@@ -15,13 +15,15 @@
     </inventory-panel-item>
   </div>
 
-  <div class="show-more" *ngIf="filteredItems.length > itemsToShow && loadingValue === -1">
+  <div class="show-more theme-secondary-text"
+       *ngIf="filteredItems.length > itemsToShow && loadingValue === -1">
     <button mat-button color="primary" (click)="loadMoreItems()">
       Show More
     </button>
   </div>
 
-  <div class="create" *ngIf="filteredItems.length <= itemsToShow">
+  <div class="create theme-secondary-text"
+       *ngIf="filteredItems.length <= itemsToShow">
     <div class="text">Can't find what you're looking for?</div>
     <button mat-button color="primary" class="new" (click)="createItem()">
       Add a new item to the inventory
@@ -34,5 +36,5 @@
   <mat-progress-bar mode="determinate" [value]="loadingValue" color="primary">
   </mat-progress-bar>
 
-  <div class="loading-text">Loading items</div>
+  <div class="loading-text theme-secondary-text">Loading items</div>
 </div>

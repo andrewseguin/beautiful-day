@@ -3,8 +3,8 @@
         (click)="addProject()"> Add Project </button>
 
 <div class="project"
-     *ngFor="let project of projectsDao.list | async; trackBy: trackByProjectKey"
-     [class.expanded]="expandedProjects.isSelected(project.id)">
+     [class.theme-hover]="!expandedProjects.isSelected(project.id)"
+     *ngFor="let project of projectsDao.list | async; trackBy: trackByProjectKey">
   <div class="heading theme-background" mat-ripple (click)="expandedProjects.toggle(project.id)">
     <div class="text">
       <mat-icon [@expansionIndicator]="expandedProjects.isSelected(project.id)">
