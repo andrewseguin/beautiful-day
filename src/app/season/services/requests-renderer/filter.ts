@@ -171,7 +171,7 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
     displayName: 'Request Added',
     queryType: 'date',
     matcher: (c: MatcherContext, q: DateQuery) => {
-      return dateMatchesEquality(c.request.dateAdded, q);
+      return dateMatchesEquality(c.request.dateCreated, q);
     }
   }],
 

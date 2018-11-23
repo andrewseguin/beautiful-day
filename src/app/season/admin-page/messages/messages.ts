@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {MessagesDao, Message} from 'app/season/dao';
-import {map} from 'rxjs/operators';
+import {sortByDateCreated} from 'app/utility/dao-sort-by';
 
 @Component({
   selector: 'messages',
@@ -9,9 +9,7 @@ import {map} from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Messages {
-  messages = this.messagesDao.list.pipe(map(messages => {
-    return messages ? messages.sort((a, b) => a.creationTime > b.creationTime ? -1 : 1) : null;
-  }));
+  messages = this.messagesDao.list.pipe(sortByDateCreated);
 
   trackByFn = (i, message: Message) => message.id;
 

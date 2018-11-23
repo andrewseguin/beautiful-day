@@ -5,6 +5,7 @@ import {SeasonCollectionDao} from './season-collection-dao';
 import {ActivatedSeason} from 'app/season/services/activated-season';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {take} from 'rxjs/operators';
+import {IdentifiedObject} from 'app/utility/list-dao';
 
 export const APPROVAL_NEGATERS = new Set(['note', 'quantity', 'dropoff', 'date']);
 
@@ -23,11 +24,11 @@ export interface Request {
   allocation?: number;
   distributionDate?: string;
   isDistributed?: boolean;
-  dateAdded?: string;
-  dateModified?: string;
   costAdjustment?: number;
   costAdjustmentReason?: string;
   previouslyApproved?: Request;
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()
@@ -42,7 +43,7 @@ export class RequestsDao extends SeasonCollectionDao<Request> {
   }
 
   add(obj: Request) {
-    obj.dateAdded = new Date().toISOString();
+    obj.dateCreated = new Date().toISOString();
     obj.dateModified = new Date().toISOString();
     return super.add(obj).then(id => {
       const request = document.querySelector(`#request-${id}`);

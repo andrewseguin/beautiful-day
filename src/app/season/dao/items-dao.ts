@@ -12,11 +12,13 @@ export interface Item {
   cost?: number;
   isApproved?: boolean;
   isRental?: boolean;
-  addedBy?: string;
+  createdBy?: string;
   dateAdded?: number;
   keywords?: string;
   quantityOwned?: string;
   hidden?: boolean;
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()

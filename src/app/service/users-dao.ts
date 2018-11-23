@@ -13,6 +13,8 @@ export interface User {
   pic?: string;
   phone?: string;
   isOwner?: boolean;
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()

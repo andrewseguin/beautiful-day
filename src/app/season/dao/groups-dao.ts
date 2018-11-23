@@ -9,6 +9,8 @@ export type GroupId = 'owners' | 'admins' | 'acquisitions' | 'approvers';
 export interface Group {
   id?: GroupId;
   users?: string[];
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()

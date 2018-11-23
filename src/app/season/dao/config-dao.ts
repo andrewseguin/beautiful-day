@@ -7,6 +7,8 @@ import {SeasonCollectionDao} from 'app/season/dao/season-collection-dao';
 export interface Config {
   id?: string;
   value?: any;
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()

@@ -7,7 +7,7 @@ export class RequestSorter {
     switch (sort) {
       case 'requestAdded':
         return (a: Request, b: Request) => {
-          return a.dateAdded > b.dateAdded ? -1 : 1;
+          return a.dateCreated > b.dateCreated ? -1 : 1;
         };
       case 'requestCost':
         return (a: Request, b: Request) => {

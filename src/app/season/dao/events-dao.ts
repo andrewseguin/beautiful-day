@@ -9,6 +9,8 @@ export class Event {
   date?: string; // String is the date stored with toISOString()
   time?: string;
   info?: string;
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()

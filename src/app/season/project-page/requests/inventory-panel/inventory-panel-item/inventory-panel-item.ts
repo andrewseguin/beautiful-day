@@ -61,7 +61,6 @@ export class InventoryPanelItem implements OnInit {
         quantity: this.requestQuantity,
         dropoff: project.defaultDropoffLocation,
         date: date.toISOString(),
-        dateAdded: new Date().toISOString()
       };
 
       this.requestsDao.add(request);

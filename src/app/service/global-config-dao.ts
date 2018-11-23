@@ -6,6 +6,8 @@ import {AngularFireAuth} from '@angular/fire/auth';
 export interface GlobalConfig {
   id?: string;
   value?: any;
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()

@@ -5,6 +5,8 @@ import {AngularFireAuth} from '@angular/fire/auth';
 
 export interface IdentifiedObject {
   id?: string;
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 export abstract class ListDao<T extends IdentifiedObject> {
@@ -80,6 +82,9 @@ export abstract class ListDao<T extends IdentifiedObject> {
       obj.id = this.afs.createId();
     }
 
+    obj.dateCreated = new Date().toISOString();
+    obj.dateModified = new Date().toISOString();
+
     return this.collection.doc(obj.id).set(obj).then(() => obj.id);
   }
 
@@ -89,6 +94,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
 
   update(id: string, update: T) {
     // Using set because update will fail if the doc doesn't exist
+    update.dateModified = new Date().toISOString();
     this.collection.doc(id).set(update, {merge: true});
   }
 

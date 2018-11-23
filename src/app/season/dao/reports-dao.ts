@@ -10,11 +10,11 @@ export interface Report {
   name?: string;
   group?: string;
   createdBy?: string;
-  createdDate?: string;
   modifiedBy?: string;
-  modifiedDate?: string;
   season?: string;
   options?: RequestRendererOptionsState;
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()

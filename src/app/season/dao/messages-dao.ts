@@ -11,7 +11,8 @@ export class Message {
   bgColor?: string;
   viewedBy?: string[];
   dismissedBy?: string[];
-  creationTime?: string; // String is the date stored with toISOString()
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()

@@ -6,6 +6,8 @@ import {AngularFireAuth} from '@angular/fire/auth';
 export interface Season {
   id: string;
   name: string;
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()

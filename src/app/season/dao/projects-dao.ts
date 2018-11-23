@@ -18,6 +18,8 @@ export interface Project {
   whitelist?: string[];
   defaultDropoffLocation?: string;
   defaultDropoffDate?: string;
+  dateCreated?: string;
+  dateModified?: string;
 }
 
 @Injectable()
