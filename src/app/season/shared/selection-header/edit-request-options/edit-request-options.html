@@ -5,12 +5,16 @@
   </div>
 </button>
 
-<button mat-button (click)="deleteRequests()" class="header-button">
-  <div class="selection-header-button-content">
-    <mat-icon>delete</mat-icon>
-    <div class="text">Delete</div>
-  </div>
-</button>
+<div [matTooltip]="hasPurchased ? 'Cannot delete requests that have been purchased' : ''">
+  <button mat-button (click)="deleteRequests()"
+          [disabled]="hasPurchased"
+          class="header-button">
+    <div class="selection-header-button-content">
+      <mat-icon>delete</mat-icon>
+      <div class="text">Delete</div>
+    </div>
+  </button>
+</div>
 
 
 <mat-menu #editMenu="matMenu" x-position="before">
