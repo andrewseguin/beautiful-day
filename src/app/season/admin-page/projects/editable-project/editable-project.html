@@ -49,4 +49,10 @@
                       [label]="list.label" [values]="list.values"
                       (listChange)="list.values = $event; updateLists()">
   </editable-chip-list>
+
+  <div class="delete">
+    <button mat-stroked-button color="warn" (click)="deleteProject()">
+      Delete Project
+    </button>
+  </div>
 </form>

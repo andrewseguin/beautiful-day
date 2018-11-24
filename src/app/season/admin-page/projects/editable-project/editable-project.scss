@@ -1,8 +1,13 @@
 :host {
   display: block;
-  margin: 16px 8px 0 8px;
+  margin: 16px 8px 8px 8px;
 }
 
 mat-form-field, editable-chip-list {
   display: block;
+}
+
+.delete {
+  display: flex;
+  justify-content: flex-end;
 }

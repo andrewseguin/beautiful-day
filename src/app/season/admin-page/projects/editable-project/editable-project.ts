@@ -1,8 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {Project, ProjectsDao} from 'app/season/dao';
-import {debounceTime} from 'rxjs/operators';
-import {MatChipInputEvent} from '@angular/material';
+import {Project, ProjectsDao, RequestsDao} from 'app/season/dao';
+import {debounceTime, take} from 'rxjs/operators';
+import {MatChipInputEvent, MatDialog, MatSnackBar} from '@angular/material';
+import {of} from 'rxjs';
+import {DeleteConfirmation} from 'app/season/shared/dialog/delete-confirmation/delete-confirmation';
 
 @Component({
   selector: 'editable-project',
@@ -17,7 +19,10 @@ export class EditableProject {
 
   projectForm: FormGroup;
 
-  constructor(private projectsDao: ProjectsDao) {}
+  constructor(private projectsDao: ProjectsDao,
+              private requestsDao: RequestsDao,
+              private snackbar: MatSnackBar,
+              private dialog: MatDialog) {}
 
   ngOnInit() {
     this.projectForm = new FormGroup({
@@ -98,5 +103,24 @@ export class EditableProject {
       update[list.id] = list.values;
     });
     this.projectsDao.update(this.project.id, update);
+  }
+
+  deleteProject() {
+    const data = {name: of(this.project.name)};
+
+    this.dialog.open(DeleteConfirmation, {data}).afterClosed().pipe(
+      take(1))
+      .subscribe(confirmed => {
+        if (confirmed) {
+          this.projectsDao.remove(this.project.id);
+          this.requestsDao.getByProject(this.project.id).pipe(
+              take(1))
+              .subscribe(requests => {
+                requests.forEach(r => this.requestsDao.remove(r.id));
+              });
+
+          this.snackbar.open(`Project "${this.project.name}" deleted`, null, {duration: 2000});
+        }
+      });
   }
 }
