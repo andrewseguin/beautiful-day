@@ -1,6 +1,4 @@
 <ng-container *ngIf="events | async; let events; else loading">
-  <button mat-stroked-button color="primary" (click)="addEvent()"> Add Event </button>
-
   <editable-event *ngFor="let event of events; trackBy: trackByFn"
                   [id]="event.id"
                   [event]="event">

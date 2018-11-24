@@ -19,14 +19,6 @@
       <a class="theme-text"
          href="https://www.google.com/maps/search/?api=1&query={{project.location}}">{{project.location}}</a>
     </div>
-
-    <a *ngIf="project.receiptsFolder && (permissions.isAcquisitions | async)"
-       [href]="project.receiptsFolder"
-       class="receipts-folder"
-       style="display: none"
-       target="_blank">
-      View Receipts
-    </a>
   </div>
 
   <div class="contacts-trigger theme-hover"

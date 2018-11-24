@@ -1,13 +1,26 @@
 <route-guard check="admin"></route-guard>
 
-<mat-tab-group [attr.mat-stretch-tabs]="isMobile() ? true : null"
-               mat-align-tabs="center">
-  <mat-tab label="Messages"> <messages></messages> </mat-tab>
-  <mat-tab label="Groups"> <groups></groups> </mat-tab>
-  <mat-tab label="Projects"> <projects></projects> </mat-tab>
-  <mat-tab label="Events"> <events></events> </mat-tab>
+{{currentTabIndex}}
 
-  <mat-tab label="Owner" *ngIf="permissions.isOwner | async">
-    <owner></owner>
-  </mat-tab>
+<mat-tab-group [attr.mat-stretch-tabs]="isMobile() ? true : null"
+               (selectedTabChange)="selectedTabIndex = $event.index"
+               mat-align-tabs="center">
+  <ng-container *ngFor="let tab of tabs">
+    <mat-tab [label]="tab.label" *ngIf="!tab.guard || (tab.guard | async)">
+      <ng-container [ngSwitch]="tab.id">
+        <messages *ngSwitchCase="'messages'"></messages>
+        <groups *ngSwitchCase="'groups'"></groups>
+        <projects *ngSwitchCase="'projects'"></projects>
+        <events *ngSwitchCase="'events'"></events>
+        <owner *ngSwitchCase="'owner'"></owner>
+      </ng-container>
+    </mat-tab>
+  </ng-container>
 </mat-tab-group>
+
+<button mat-raised-button
+        color="accent"
+        [class.show]="tabs[selectedTabIndex].create"
+        (click)="tabs[selectedTabIndex].create()">
+  <mat-icon> add </mat-icon> New {{tabs[selectedTabIndex].createObjType}}
+</button>

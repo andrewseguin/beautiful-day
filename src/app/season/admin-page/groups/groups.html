@@ -1,8 +1,52 @@
-<div *ngIf="permissions.isAdmin | async">
-  <editable-chip-list *ngFor="let group of groups | async"
-                      placeholder="Add email (e.g. user@beautifulday.org)"
-                      [label]="group.id"
-                      [values]="group.users"
-                      (listChange)="update(group.id, $event)">
+<div class="group" *ngIf="approvers | async; let users">
+  <h3> Approvers </h3>
+  <div class="description">
+    Members of the approvers team can:
+    <ul>
+      <li> Change a request's status (approval, purchased, distributed) </li>
+    </ul>
+  </div>
+  <editable-chip-list placeholder="Add email (e.g. user@beautifulday.org)"
+                      label="Approvers"
+                      [values]="users"
+                      (listChange)="update('approvers', $event)">
+  </editable-chip-list>
+</div>
+
+<div class="group" *ngIf="acquisitions | async; let users">
+  <h3> Acquisitions </h3>
+  <div class="description">
+    Members of the acquisitions team have the same permissions of the approvers team, plus they can:
+    <ul>
+      <li> Create/view reports </li>
+      <li> Edit any project request </li>
+      <li> Make extra request modifications, e.g. change purchaser, allocation, and cost adjustment </li>
+      <li> View inventory page </li>
+      <li> View allocations page </li>
+    </ul>
+  </div>
+  <editable-chip-list placeholder="Add email (e.g. user@beautifulday.org)"
+                      label="Acquisitions"
+                      [values]="users"
+                      (listChange)="update('acquisitions', $event)">
+  </editable-chip-list>
+</div>
+
+<div class="group" *ngIf="admin | async; let users">
+  <h3> Admin </h3>
+  <div class="description">
+    Members of the admin team have the same permissions of the acquisition team, plus they can:
+    <ul>
+      <li> View the admin page </li>
+      <li> Create new site messages </li>
+      <li> Modify group users </li>
+      <li> Create/modify events </li>
+      <li> Create/modify projects </li>
+    </ul>
+  </div>
+  <editable-chip-list placeholder="Add email (e.g. user@beautifulday.org)"
+                      label="Admin"
+                      [values]="users"
+                      (listChange)="update('admin', $event)">
   </editable-chip-list>
 </div>

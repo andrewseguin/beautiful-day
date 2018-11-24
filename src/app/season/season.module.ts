@@ -17,7 +17,7 @@ import {
   RequestsDao
 } from './dao';
 import {SeasonHeaderModule} from './shared/header/season-header.module';
-import {CanActivateAcquisitionsGuard, SEASON_ROUTES} from './season.routes';
+import {SEASON_ROUTES} from './season.routes';
 import {CommonModule} from '@angular/common';
 import {MessagesModule} from './messages/messages.module';
 
@@ -41,7 +41,6 @@ export class SeasonRoutingModule {}
   declarations: [Season],
   exports: [Season],
   providers: [
-    CanActivateAcquisitionsGuard,
     Accounting,
     Selection,
     Permissions,

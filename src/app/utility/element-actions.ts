@@ -13,7 +13,10 @@ export function scroll(id: string) {
 
 export function highlight(id: string) {
   if (elementExists(id)) {
-    performAction(id, el => el.classList.add('highlight'));
+    performAction(id, el => {
+      el.classList.add('highlight');
+      setTimeout(() => el.classList.remove('highlight'), 5000); // Length of anim
+    });
   }
 }
 

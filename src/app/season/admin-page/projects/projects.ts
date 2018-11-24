@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/co
 import {EXPANSION_ANIMATION} from 'app/utility/animations';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Project, ProjectsDao} from 'app/season/dao';
-import {focusElement, highlight, scroll, SCROLL_ANIMATION_TIME} from 'app/utility/element-actions';
 import {sortByDateCreated} from 'app/utility/dao-sort-by';
 
 @Component({
@@ -22,18 +21,6 @@ export class Projects {
   constructor(public projectsDao: ProjectsDao, private cd: ChangeDetectorRef) {
     this.expandedProjects.changed.subscribe(change => {
       change.added.forEach(p => this.hasExpanded.add(p));
-    });
-  }
-
-  addProject() {
-    this.projectsDao.add({
-      name: 'New project',
-    }).then(id => {
-      highlight(id);
-      this.expandedProjects.select(id);
-      this.cd.markForCheck();
-      scroll(id);
-      setTimeout(() => focusElement(id, 'input'), SCROLL_ANIMATION_TIME);
     });
   }
 }

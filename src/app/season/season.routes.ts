@@ -3,14 +3,6 @@ import {CanActivate} from '@angular/router';
 import {Permissions} from 'app/season/services';
 import {Observable} from 'rxjs';
 
-@Injectable()
-export class CanActivateAcquisitionsGuard implements CanActivate {
-  constructor(private permissions: Permissions) {}
-  canActivate(): Observable<boolean> {
-    return this.permissions.isAcquisitions;
-  }
-}
-
 export const SEASON_ROUTES = [
   {
     path: 'projects',

@@ -1,4 +1,14 @@
+@import '../../../constants';
+
+.group {
+  margin: 32px 0;
+
+  @media (max-width: $mobile-width - 1) {
+    margin: 32px 16px;
+  }
+}
+
 editable-chip-list {
   display: block;
-  margin: 16px;
+  margin: 16px 0;
 }
