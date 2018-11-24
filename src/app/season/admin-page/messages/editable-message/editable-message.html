@@ -22,10 +22,11 @@
 </div>
 
 <div class="user-stats">
-  <div class="title theme-hover" mat-ripple
+  <div class="title theme-secondary-text" mat-ripple
+       [class.theme-hover]="sortedViewedBy.length"
        (click)="expandViewedBy = !expandViewedBy">
     Viewed by {{sortedViewedBy.length}}
-    {{sortedViewedBy.length === 1 ? 'user' : 'users'}}
+    {{sortedViewedBy.length === 1 ? 'person' : 'people'}}
     <mat-icon [@expansionIndicator]="expandViewedBy">expand_more</mat-icon>
   </div>
 
@@ -37,10 +38,11 @@
     </mat-chip-list>
   </div>
 
-  <div class="title theme-hover" mat-ripple
+  <div class="title theme-secondary-text" mat-ripple
+       [class.theme-hover]="sortedViewedBy.length"
        (click)="expandDismissedBy = !expandDismissedBy">
     Dismissed by {{sortedDismissedBy.length}}
-    {{sortedDismissedBy.length === 1 ? 'user' : 'users'}}
+    {{sortedDismissedBy.length === 1 ? 'person' : 'people'}}
     <mat-icon [@expansionIndicator]="expandDismissedBy">expand_more</mat-icon>
   </div>
 

@@ -15,12 +15,12 @@ import {User} from 'firebase';
   animations: [
     trigger('expand', [
       transition(':enter', [
-        style({ minHeight: 0, height: '0', opacity: 0 }),
-        animate(ANIMATION_DURATION, style({ height: '*', opacity: 1 })),
+        style({ minHeight: 0, height: 0 }),
+        animate(ANIMATION_DURATION, style({ height: '*' })),
       ]),
       transition(':leave', [
-        style({ height: '*', opacity: 1 }),
-        animate(ANIMATION_DURATION, style({ minHeight: 0, height: '0', opacity: 0 })),
+        style({ height: '*' }),
+        animate(ANIMATION_DURATION, style({ minHeight: 0, height: 0 })),
       ]),
     ]),
   ]

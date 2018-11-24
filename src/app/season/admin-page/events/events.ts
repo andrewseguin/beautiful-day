@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Event, EventsDao} from 'app/season/dao';
-import {map} from 'rxjs/operators';
+import {focusElement, highlight, scroll, SCROLL_ANIMATION_TIME} from 'app/utility/element-actions';
+import {sortByDateCreated} from 'app/utility/dao-sort-by';
 
 @Component({
   selector: 'events',
@@ -9,16 +10,18 @@ import {map} from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Events {
-  events = this.eventsDao.list.pipe(map(events => {
-    return events ? events.sort((a, b) => a.id > b.id ? -1 : 1) : null;
-  }));
+  events = this.eventsDao.list.pipe(sortByDateCreated);
 
   trackByFn = (i, event: Event) => event.id;
 
   constructor(public eventsDao: EventsDao) { }
 
   addEvent() {
-    this.eventsDao.add({});
+    this.eventsDao.add({}).then(id => {
+      highlight(id);
+      scroll(id);
+      setTimeout(() => focusElement(id, 'input'), SCROLL_ANIMATION_TIME);
+    });
   }
 
   delete(id: string) {

@@ -58,6 +58,19 @@ button.mat-menu-item {
   }
 }
 
+*.highlight {
+  animation: highlight 5s;
+}
+
+@keyframes highlight {
+  0% {
+    background-color: rgba(69, 150, 236, .2);
+  }
+  100% {
+    background-color: inherit;
+  }
+}
+
 /* Material Styles */
 /* Rules for sizing the icon. */
 .material-icons.md-14 { font-size: 14px; height: 14px; width: 14px; }

@@ -23,7 +23,7 @@ export class EditableMessage {
   set message(message: Message) {
     this._message = message;
     this.form.get('text').setValue(message.text || '', {emitEvent: false});
-    this.form.get('enabled').setValue(message.enabled || true, {emitEvent: false});
+    this.form.get('enabled').setValue(message.enabled, {emitEvent: false});
     this.form.get('bgColor').setValue(message.bgColor || this.bgColors[0], {emitEvent: false});
 
     this.sortedViewedBy =

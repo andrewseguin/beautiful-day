@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {take} from 'rxjs/operators';
 import {Item, Project, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {EXPANSION_ANIMATION} from 'app/utility/animations';
+import {highlight} from 'app/utility/element-actions';
 
 @Component({
   selector: 'inventory-panel-item',
@@ -63,7 +64,9 @@ export class InventoryPanelItem implements OnInit {
         date: date.toISOString(),
       };
 
-      this.requestsDao.add(request);
+      this.requestsDao.add(request).then(id => {
+        highlight(id);
+      });
     });
 
     window.setTimeout(() => {

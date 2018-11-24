@@ -42,19 +42,6 @@ export class RequestsDao extends SeasonCollectionDao<Request> {
     return this.afs.collection(this.path, queryFn).valueChanges();
   }
 
-  add(obj: Request) {
-    obj.dateCreated = new Date().toISOString();
-    obj.dateModified = new Date().toISOString();
-    return super.add(obj).then(id => {
-      const request = document.querySelector(`#request-${id}`);
-      if (request) {
-        request.classList.add('added');
-      }
-
-      return id;
-    });
-  }
-
   update(id: string, obj: Request) {
      this.get(id).pipe(take(1)).subscribe(request => {
        // Updating a request that has been approved should remove

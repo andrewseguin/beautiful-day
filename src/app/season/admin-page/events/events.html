@@ -2,6 +2,7 @@
   <button mat-stroked-button color="primary" (click)="addEvent()"> Add Event </button>
 
   <editable-event *ngFor="let event of events; trackBy: trackByFn"
+                  [id]="event.id"
                   [event]="event">
   </editable-event>
 </ng-container>

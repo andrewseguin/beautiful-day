@@ -6,19 +6,6 @@
   $background: map-get($theme, background);
 
   request {
-    .added {
-      animation: request-added 5s;
-    }
-
-    @keyframes request-added {
-      0% {
-        background-color: rgba(69, 150, 236, .1);
-      }
-      100% {
-        background-color: inherit;
-      }
-    }
-
     .quantity input {
       color: inherit;
       border-bottom-color: mat-color($foreground, divider);

@@ -2,6 +2,7 @@
   <div class="date-time">
     <input placeholder="Date" class="date"
            (click)="picker.open()"
+           (focus)="picker.open()"
            formControlName="date"
            [matDatepicker]="picker">
     <mat-datepicker #picker></mat-datepicker>

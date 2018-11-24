@@ -2,9 +2,9 @@
   <button mat-stroked-button color="primary" (click)="add()"> Add Message </button>
 
   <editable-message *ngFor="let message of messages; trackBy: trackByFn"
-                   [message]="message">
+                    [id]="message.id"
+                    [message]="message">
   </editable-message>
-
 </ng-container>
 
 <ng-template #loading>

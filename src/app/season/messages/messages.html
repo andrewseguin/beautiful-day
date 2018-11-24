@@ -1,4 +1,5 @@
-<div *ngFor="let message of messages | async; trackBy: trackBy" @expand>
+<div *ngFor="let message of messages | async; trackBy: trackBy"
+     @expand class="message-container">
   <div class="message {{message.bgColor}}">
     <div class="text"> {{message.text}} </div>
     <button mat-icon-button (click)="dismiss(message)">

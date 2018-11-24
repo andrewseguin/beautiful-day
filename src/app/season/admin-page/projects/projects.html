@@ -4,8 +4,10 @@
 
 <div class="project"
      [class.theme-hover]="!expandedProjects.isSelected(project.id)"
-     *ngFor="let project of projectsDao.list | async; trackBy: trackByProjectKey">
-  <div class="heading theme-background" mat-ripple (click)="expandedProjects.toggle(project.id)">
+     [id]="project.id"
+     *ngFor="let project of projects | async; trackBy: trackById">
+  <div class="heading theme-background"
+       mat-ripple (click)="expandedProjects.toggle(project.id)">
     <div class="text">
       <mat-icon [@expansionIndicator]="expandedProjects.isSelected(project.id)">
         expand_more
