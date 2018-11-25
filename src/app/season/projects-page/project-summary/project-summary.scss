@@ -1,0 +1,72 @@
+@import '../../../constants';
+
+:host {
+  display: block;
+  margin: 16px;
+}
+
+:host mat-expansion-panel {
+  box-shadow: none;
+
+  mat-expansion-panel-header {
+    flex-direction: row-reverse;
+    padding: 8px;
+  }
+}
+
+.project {
+  font-size: 14px;
+  padding: 8px;
+}
+
+.main {
+  padding: 8px 8px 0 8px;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+.name {
+  flex: 1;
+}
+
+.description, .location {
+  display: block;
+  padding: 16px 0;
+
+  @media (max-width: $mobile-width - 1) {
+    padding: 4px 0;
+  }
+}
+
+.contacts {
+  overflow: hidden;
+  margin: 0 8px;
+
+  .contact-group {
+    margin-top: 4px;
+  }
+}
+
+.contacts-trigger {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  height: 48px;
+}
+
+.label {
+  padding-bottom: 4px;
+  font-size: 13px;
+}
+
+detail-user {
+  display: block;
+  margin: 8px 0;
+}

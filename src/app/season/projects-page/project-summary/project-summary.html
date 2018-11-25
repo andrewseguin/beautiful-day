@@ -1,0 +1,51 @@
+
+<div class="main">
+  <div class="heading">
+    <div class="name"> {{project.name}} </div>
+    <button mat-raised-button color="primary"
+            (click)="navigateToProject(project.id)">
+      Requests
+    </button>
+  </div>
+
+  <div class="description" *ngIf="project.description">
+    <div class="label theme-secondary-text"> Description </div>
+    {{project.description}}
+  </div>
+
+  <div class="location" *ngIf="project.location">
+    <div class="label theme-secondary-text"> Location </div>
+    <a class="theme-text"
+       href="https://www.google.com/maps/search/?api=1&query={{project.location}}">{{project.location}}</a>
+  </div>
+</div>
+
+<div class="contacts-trigger theme-hover"
+     *ngIf="project.directors?.length || project.leads?.length || project.acquisitions?.length"
+     (mouseover)="mayExpandContacts = true"
+     (click)="expandContacts = !expandContacts">
+  Contacts
+  <mat-icon [@expansionIndicator]="expandContacts">
+    expand_more
+  </mat-icon>
+</div>
+
+<div class="contacts"
+     [@expansionContent]="expandContacts">
+  <ng-container *ngIf="mayExpandContacts || expandContacts">
+    <div class="contact-group" *ngIf="project.directors?.length"> Directors </div>
+    <detail-user [userEmail]="email" group="director"
+                 *ngFor="let email of project.directors">
+    </detail-user>
+
+    <div class="contact-group" *ngIf="project.leads?.length"> Leads </div>
+    <detail-user [userEmail]="email" group="lead"
+                 *ngFor="let email of project.leads">
+    </detail-user>
+
+    <div class="contact-group" *ngIf="project.acquisitions?.length"> Acquisitions </div>
+    <detail-user [userEmail]="email" group="acquisitions"
+                 *ngFor="let email of project.acquisitions">
+    </detail-user>
+  </ng-container>
+</div>

@@ -1,56 +1,29 @@
-<div class="project theme-text" *ngFor="let project of projects | async">
-  <div class="main">
+<ng-container *ngIf="showAllProjects | async; else otherProjects">
+  <ng-container *ngFor="let project of allProjects | async">
+    <project-summary [project]="project"></project-summary>
+    <mat-divider></mat-divider>
+  </ng-container>
+</ng-container>
 
-    <div class="heading">
-      <div class="name"> {{project.name}} </div>
-      <button mat-raised-button color="primary"
-              (click)="navigateToProject(project.id)">
-        Requests
-      </button>
-    </div>
-
-    <div class="description" *ngIf="project.description">
-      <div class="label theme-secondary-text"> Description </div>
-      {{project.description}}
-    </div>
-
-    <div class="location" *ngIf="project.location">
-      <div class="label theme-secondary-text"> Location </div>
-      <a class="theme-text"
-         href="https://www.google.com/maps/search/?api=1&query={{project.location}}">{{project.location}}</a>
-    </div>
-  </div>
-
-  <div class="contacts-trigger theme-hover"
-       *ngIf="project.directors?.length || project.leads?.length || project.acquisitions?.length"
-       (mouseover)="loadedContacts.add(project.id)"
-       (click)="expandedContacts.toggle(project.id)">
-    Contacts
-    <mat-icon [@expansionIndicator]="expandedContacts.isSelected(project.id)">
-      expand_more
-    </mat-icon>
-  </div>
-  <div class="contacts"
-       [@expansionContent]="expandedContacts.isSelected(project.id)">
-    <ng-container *ngIf="loadedContacts.has(project.id)">
-      <div class="contact-group" *ngIf="project.directors?.length"> Directors </div>
-      <detail-user [userEmail]="email" group="director"
-                   *ngFor="let email of project.directors">
-      </detail-user>
-
-      <div class="contact-group" *ngIf="project.leads?.length"> Leads </div>
-      <detail-user [userEmail]="email" group="lead"
-                   *ngFor="let email of project.leads">
-      </detail-user>
-
-      <div class="contact-group" *ngIf="project.acquisitions?.length"> Acquisitions </div>
-      <detail-user [userEmail]="email" group="acquisitions"
-                   *ngFor="let email of project.acquisitions">
-      </detail-user>
+<ng-template #otherProjects>
+  <ng-container *ngIf="involvedProjects | async; let projects">
+    <h2 *ngIf="projects.involved.length; let length">
+      {{length > 1 ? 'My Projects' : 'My Project'}}
+    </h2>
+    <ng-container *ngFor="let project of projects.involved">
+      <project-summary [project]="project"></project-summary>
+      <mat-divider></mat-divider>
     </ng-container>
-  </div>
 
-  <mat-divider></mat-divider>
-</div>
+    <h2 *ngIf="projects.others.length && projects.involved.length > 0">
+      {{projects.others.length > 1 ? 'Other Projects' : 'Other Project'}}
+    </h2>
+    <ng-container *ngFor="let project of projects.others">
+      <project-summary [project]="project"></project-summary>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </ng-container>
+</ng-template>
 
-<loading label="projects" *ngIf="!(projects | async)"></loading>
+
+<loading label="projects" *ngIf="!(allProjects | async)"></loading>
