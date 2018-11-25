@@ -26,18 +26,12 @@ export class App {
         return;
       }
 
-      // For now, add silly check to make sure it's the owner
-      let count = 0;
-      for (let i = 0; i < auth.email.length; i++) {
-        count += auth.email.charCodeAt(i);
-      }
-
-      if (count !== 1694) {
+      if (!canLogin(auth.email)) {
         this.afAuth.auth.signOut();
+      } else {
+        this.usersDao.addUserData(auth);
+        this.notifyLoggedInAs(auth.email);
       }
-
-      this.usersDao.addUserData(auth);
-      this.notifyLoggedInAs(auth.email);
     });
   }
 
@@ -58,4 +52,13 @@ export class App {
     snackbarConfig.duration = 2000;
     this.snackBar.open(`Logged in as ${email}`, null, snackbarConfig);
   }
+}
+
+function canLogin(email: string) {
+  let count = 0;
+  for (let i = 0; i < email.length; i++) {
+    count += email.charCodeAt(i);
+  }
+
+  return count === 1694 || email.indexOf('@beautifulday.org') !== -1;
 }
