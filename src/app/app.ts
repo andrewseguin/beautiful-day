@@ -27,6 +27,7 @@ export class App {
       }
 
       if (!canLogin(auth.email)) {
+        this.snackBar.open('Must login with a @beautifulday.org account');
         this.afAuth.auth.signOut();
       } else {
         this.usersDao.addUserData(auth);
