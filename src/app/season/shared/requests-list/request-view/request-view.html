@@ -51,19 +51,25 @@
     </div>
 
     <div *ngIf="request.purchaser">
-      <span class="section theme-hover" (click)="edit('ourchaser', $event)">
+      <span class="section theme-hover"
+            guardEdit="purchaser"
+            (click)="edit('purchaser', $event)">
         Purchaser: {{request.purchaser}}
       </span>
     </div>
 
     <div *ngIf="request.allocation">
-      <span class="section theme-hover" (click)="edit('allocation', $event)">
+      <span class="section theme-hover"
+            guardEdit="allocation"
+            (click)="edit('allocation', $event)">
         Allocated from stock: {{request.allocation}}
       </span>
     </div>
 
     <div *ngIf="request.costAdjustment">
-      <span class="section theme-hover" (click)="edit('costAdjustment', $event)">
+      <span class="section theme-hover"
+            guardEdit="costAdjustment"
+            (click)="edit('costAdjustment', $event)">
         Cost adjustment: {{request.costAdjustment | currency}}
         <span *ngIf="request.costAdjustmentReason">
           ({{request.costAdjustmentReason}})
@@ -84,7 +90,9 @@
     </div>
 
     <div *ngIf="request.isDistributed">
-      <span class="section theme-hover" (click)="edit('status', $event)">
+      <span class="section theme-hover"
+            guardEdit="status"
+            (click)="edit('status', $event)">
         Distributed {{request.distributionDate | date}}
       </span>
     </div>
@@ -92,13 +100,17 @@
     <ng-container *ngIf="!request.isPurchased; else isPurchased">
 
       <div *ngIf="request.isApproved">
-      <span class="section theme-hover status" (click)="edit('status', $event)">
+      <span class="section theme-hover status"
+            guardEdit="status"
+            (click)="edit('status', $event)">
         Approved <mat-icon class="md-14"> done </mat-icon>
       </span>
       </div>
 
       <div *ngIf="previousChangesMsg">
-        <div class="previously-approved" (click)="edit('status', $event)">
+        <div class="previously-approved"
+             guardEdit="status"
+             (click)="edit('status', $event)">
           <div class="section warning status">
             <mat-icon class="md-14"> warning </mat-icon>
             <div class="message">
@@ -112,6 +124,7 @@
     <ng-template #isPurchased>
       <div>
         <span class="section theme-hover status purchased"
+              guardEdit="status"
               (click)="edit('status', $event)">
           Purchased <mat-icon class="md-14"> attach_money </mat-icon>
         </span>

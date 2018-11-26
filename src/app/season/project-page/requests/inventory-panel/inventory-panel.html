@@ -1,5 +1,4 @@
 <div class="container theme-background-app-bar">
-
   <div class="categories-container">
     <div class="heading">
       <button mat-icon-button class="back" (click)="closeSidenav.emit()">
@@ -16,10 +15,6 @@
                       [subcategories]="subcategories">
     </subcategory-list>
 
-    <!--
-    Must always be displayed because the inventory list had a firebase
-    database bug where items would come in one by one on the subscription
-    -->
     <div class="search-results"
          [style.display]="search ? '' : 'none'">
       <inventory-list [search]="search"></inventory-list>
@@ -28,6 +23,7 @@
 
   <sliding-panel *ngFor="let category of panelsManager.panels; let index = index"
                  class="theme-background-app-bar"
-                 [category]="category" (closed)="panelsManager.closePanel(index)">
+                 [category]="category"
+                 (closed)="panelsManager.closePanel(index)">
   </sliding-panel>
 </div>

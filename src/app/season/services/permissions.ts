@@ -8,6 +8,12 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
 import {containsEmail} from 'app/season/utility/contains-email';
 
+interface EditableRequestProperties {
+  purchaser: Observable<boolean>;
+  status: Observable<boolean>;
+  allocation: Observable<boolean>;
+  costAdjustment: Observable<boolean>;
+}
 @Injectable()
 export class Permissions {
   permissions: Observable<Set<GroupId>>;
@@ -16,6 +22,8 @@ export class Permissions {
   isAdmin: Observable<boolean>;
   isAcquisitions: Observable<boolean>;
   isApprover: Observable<boolean>;
+
+  editableRequestProperties: EditableRequestProperties;
 
   private destroyed = new Subject();
 
@@ -52,6 +60,13 @@ export class Permissions {
     this.isAdmin = this.permissions.pipe(map(p => p ? p.has('admins') : null));
     this.isAcquisitions = this.permissions.pipe(map(p => p ? p.has('acquisitions') : null));
     this.isApprover = this.permissions.pipe(map(p => p ? p.has('approvers') : null));
+
+    this.editableRequestProperties = {
+      purchaser: this.isAcquisitions,
+      status: this.isApprover,
+      allocation: this.isAcquisitions,
+      costAdjustment: this.isAcquisitions,
+    };
   }
 
   ngOnDestroy() {

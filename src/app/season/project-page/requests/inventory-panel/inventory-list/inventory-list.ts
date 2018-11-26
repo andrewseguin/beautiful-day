@@ -24,9 +24,6 @@ const ITEMS_TO_LOAD = 10;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InventoryList implements OnInit {
-  loadingValue = 0;
-  loadingInterval: number;
-
   itemsToShow: number;
   items: Item[] = [];
   allItems: Item[] = [];
@@ -38,10 +35,7 @@ export class InventoryList implements OnInit {
   _category: string;
   @Input() set category(category: string) {
     this._category = category;
-
-    this.clearLoading();
     this.filterItems();
-    this.beginLoading();
   }
   get category(): string { return this._category; }
 
@@ -49,9 +43,7 @@ export class InventoryList implements OnInit {
   @Input() set search(search: string) {
     this._search = search;
 
-    this.clearLoading();
     this.filterItems();
-    this.beginLoading();
   }
   get search(): string { return this._search; }
 
@@ -76,9 +68,10 @@ export class InventoryList implements OnInit {
       const group = getCategoryGroup(items, this.category);
       this.items = group.items;
       this.subcategories = group.subcategories;
+
       this.filterItems();
-      this.beginLoading();
-      this.cd.markForCheck();
+
+      this.itemsToShow = 10;
     });
   }
 
@@ -98,33 +91,9 @@ export class InventoryList implements OnInit {
     this.filteredItemCount.emit(this.filteredItems.length);
   }
 
-  beginLoading() {
-    // If less than the constant count, just show them without the loading
-    if (this.filteredItems.length < 10) {
-      this.itemsToShow = 10;
-      this.loadingValue = -1;
-      return;
-    }
-
-    this.itemsToShow = 0;
-    this.loadMoreItems();
-  }
-
   loadMoreItems() {
-    this.loadingValue = 0;
-    this.loadingInterval = window.setInterval(() => {
-      this.loadingValue += Math.random() * 50;
-      if (this.loadingValue >= 100) {
-        this.clearLoading();
-        this.itemsToShow += ITEMS_TO_LOAD;
-      }
-      this.cd.markForCheck();
-    }, 150);
-  }
-
-  clearLoading() {
-    window.clearInterval(this.loadingInterval);
-    this.loadingValue = -1;
+    this.itemsToShow += ITEMS_TO_LOAD;
+    this.cd.markForCheck();
   }
 
   createItem() {

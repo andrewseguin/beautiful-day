@@ -36,6 +36,7 @@ export class UsersDao extends ListDao<User> {
       .pipe(take(1))
       .subscribe(val => {
         if (!val) {
+          debugger;
           this.add({
             id: authState.uid,
             email: authState.email,

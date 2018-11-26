@@ -18,14 +18,37 @@
 
 
 <mat-menu #editMenu="matMenu" x-position="before">
-  <button mat-menu-item (click)="editNote()"> Note </button>
-  <button mat-menu-item (click)="editDropoff()"> Dropoff </button>
-  <button mat-menu-item (click)="editTags()"> Tags </button>
-  <button mat-menu-item (click)="editPurchaser()" *ngIf="permissions.isAcquisitions"> Purchaser </button>
-  <button mat-menu-item (click)="editApprovalStatus()" *ngIf="permissions.isApprover"> Status </button>
+  <button mat-menu-item (click)="editNote()">
+    Note
+  </button>
+
+  <button mat-menu-item (click)="editDropoff()">
+    Dropoff
+  </button>
+
+  <button mat-menu-item (click)="editTags()">
+    Tags
+  </button>
+
+  <button mat-menu-item (click)="editPurchaser()"
+          *ngIf="permissions.editableRequestProperties.purchaser | async">
+    Purchaser
+  </button>
+
+  <button mat-menu-item (click)="editStatus()"
+          *ngIf="permissions.editableRequestProperties.status | async">
+    Status
+  </button>
+
   <button mat-menu-item (click)="editAllocation()"
           [disabled]="getSelectedRequestsCount() > 1"
           [matTooltip]="getSelectedRequestsCount() > 1 ? 'Cannot allocate for more than one request' : ''"
-          *ngIf="permissions.isAcquisitions"> Allocation </button>
-  <button mat-menu-item (click)="editCostAdjustment()" *ngIf="permissions.isAcquisitions"> Cost adjustment </button>
+          *ngIf="permissions.editableRequestProperties.allocation | async">
+    Allocation
+  </button>
+
+  <button mat-menu-item (click)="editCostAdjustment()"
+          *ngIf="permissions.editableRequestProperties.costAdjustment | async">
+    Cost adjustment
+  </button>
 </mat-menu>

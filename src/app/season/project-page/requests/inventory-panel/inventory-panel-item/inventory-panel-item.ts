@@ -19,11 +19,11 @@ import {highlight} from 'app/utility/element-actions';
   animations: EXPANSION_ANIMATION,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InventoryPanelItem implements OnInit {
+export class InventoryPanelItem {
   expanded = false;
   requestQuantity = 1;
   requested: boolean;
-  project: Observable<Project>;
+  hasExpanded: boolean;
 
   @Input() item: Item;
 
@@ -33,11 +33,6 @@ export class InventoryPanelItem implements OnInit {
               private cd: ChangeDetectorRef,
               private projectsDao: ProjectsDao,
               private requestsDao: RequestsDao) { }
-
-  ngOnInit() {
-    const projectId = this.activatedRoute.snapshot.params.id;
-    this.project = this.projectsDao.get(projectId);
-  }
 
   getItemName() {
     let name = this.item.name;
@@ -52,7 +47,9 @@ export class InventoryPanelItem implements OnInit {
   request() {
     this.requestQuantity = Math.max(0, this.requestQuantity);
     this.requested = true;
-    this.project.pipe(take(1)).subscribe(project => {
+
+    const projectId = this.activatedRoute.snapshot.params.id;
+    this.projectsDao.get(projectId).pipe(take(1)).subscribe(project => {
       const defaultDate = new Date();
       const date = project.defaultDropoffDate ?
           new Date(project.defaultDropoffDate) : defaultDate;

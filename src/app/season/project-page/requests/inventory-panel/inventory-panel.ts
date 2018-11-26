@@ -6,9 +6,8 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 import {PanelsManager} from './panels-manager';
-import {Item, ItemsDao, Project} from 'app/season/dao';
+import {Item, ItemsDao} from 'app/season/dao';
 import {getCategoryGroup} from 'app/utility/items-categorize';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
@@ -22,10 +21,11 @@ import {Subject} from 'rxjs';
 })
 export class InventoryPanel implements OnInit {
   subcategories: string[];
-  project: Observable<Project>;
   items: Item[];
 
   search = '';
+
+  
 
   @Output('closeSidenav') closeSidenav = new EventEmitter<void>();
 

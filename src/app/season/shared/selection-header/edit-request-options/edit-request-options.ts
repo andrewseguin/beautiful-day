@@ -62,7 +62,7 @@ export class EditRequestOptions {
     this.requestDialog.editPurchaser(this.selection.requests.selected);
   }
 
-  editApprovalStatus() {
+  editStatus() {
     this.requestDialog.editStatus(this.selection.requests.selected);
   }
 

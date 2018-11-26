@@ -57,7 +57,7 @@ export class RequestView implements OnInit {
               private selection: Selection,
               private projectsDao: ProjectsDao,
               private requestDialog: RequestDialog,
-              private permissions: Permissions) { }
+              public permissions: Permissions) { }
 
   ngOnInit() {
     this.selection.requests.changed.pipe(
