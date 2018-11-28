@@ -1,17 +1,20 @@
 import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable()
 export class PanelsManager {
-  panels = [];
+  panels = new BehaviorSubject<string[]>([]);
 
-  openPanel(category: string) {
-    const nextPanelCategory = this.panels.length ?
-      `${this.panels[this.panels.length - 1]} > ${category}` :
-      category;
-    this.panels.push(nextPanelCategory);
+  openPanel(category: string, index: number) {
+    const panels = this.panels.value.slice();
+    panels[index] = index ?
+      `${panels[index - 1]} > ${category}` : category;
+    this.panels.next(panels);
   }
 
   closePanel(index: number) {
-    this.panels.splice(index, 1);
+    const panels = this.panels.value.slice();
+    panels.splice(index, 1);
+    this.panels.next(panels);
   }
 }

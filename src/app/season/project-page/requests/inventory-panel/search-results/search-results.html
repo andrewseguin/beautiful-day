@@ -1,0 +1,24 @@
+<div class="result-count theme-secondary-text"
+     *ngIf="searchResults | async; let result">
+  <ng-container *ngIf="!result.length; else count">
+    No results for "{{search}}"
+  </ng-container>
+  <ng-template #count>
+    Search found {{result.length}}
+    {{result.length === 1 ? 'items' : 'item'}}
+  </ng-template>
+</div>
+
+<inventory-panel-item *ngFor="let item of resultsToDisplay | async; trackBy:itemTrackBy"
+                      [id]="item.id"
+                      [item]="item">
+</inventory-panel-item>
+
+<mat-spinner diameter="24"
+             *ngIf="(searchResults | async)?.length > (lengthToDisplay | async); else addNew">
+</mat-spinner>
+
+<ng-template #addNew>
+  <add-new-item></add-new-item>
+</ng-template>
+

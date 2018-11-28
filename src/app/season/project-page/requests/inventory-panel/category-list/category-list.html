@@ -1,0 +1,6 @@
+<div *ngFor="let category of categories" mat-ripple>
+  <button mat-button (click)="open.next(category)">
+    {{category}}
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+</div>

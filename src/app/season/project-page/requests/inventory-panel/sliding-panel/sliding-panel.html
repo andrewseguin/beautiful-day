@@ -5,4 +5,14 @@
   {{title}}
 </div>
 
-<inventory-list [category]="category"></inventory-list>
+<category-list [categories]="subcategories | async"
+               (open)="openPanel($event)">
+</category-list>
+
+<inventory-panel-item *ngFor="let item of items | async; trackBy:itemTrackBy"
+                      [id]="item.id"
+                      [item]="item">
+</inventory-panel-item>
+
+<add-new-item [category]="category"></add-new-item>
+

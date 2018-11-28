@@ -24,6 +24,13 @@ export class UsersDao extends ListDao<User> {
     this.path = 'users';
   }
 
+  update(id: string, update: User) {
+    if (update.phone !== undefined) {
+      debugger;
+    }
+    super.update(id, update);
+  }
+
   getByEmail(email: string): Observable<User> {
     const queryFn = ref => ref.where('email', '==', email);
     return this.afs.collection(this.path, queryFn).valueChanges()

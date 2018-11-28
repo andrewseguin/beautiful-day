@@ -1,5 +1,5 @@
 <div class="container theme-background-app-bar">
-  <div class="categories-container">
+  <div class="categories-container" cdkScrollable>
     <div class="heading">
       <button mat-icon-button class="back" (click)="closeSidenav.emit()">
         <mat-icon>keyboard_arrow_left</mat-icon>
@@ -7,23 +7,23 @@
       <span class="title">Inventory</span>
 
       <inventory-search class="theme-background-app-bar"
-                        (searchChange)="search = $event">
+                        (searchChange)="search.setValue($event)">
       </inventory-search>
     </div>
 
-    <subcategory-list *ngIf="subcategories?.length && !search"
-                      [subcategories]="subcategories">
-    </subcategory-list>
+    <search-results *ngIf="search.value"
+                    [search]="search.value">
+    </search-results>
 
-    <div class="search-results"
-         [style.display]="search ? '' : 'none'">
-      <inventory-list [search]="search"></inventory-list>
-    </div>
+    <category-list *ngIf="!search.value"
+                   [categories]="categories | async"
+                   (open)="panelsManager.openPanel($event, 0)">
+    </category-list>
   </div>
 
-  <sliding-panel *ngFor="let category of panelsManager.panels; let index = index"
+  <sliding-panel *ngFor="let category of panelsManager.panels | async; let index = index"
                  class="theme-background-app-bar"
                  [category]="category"
-                 (closed)="panelsManager.closePanel(index)">
+                 [depth]="index">
   </sliding-panel>
 </div>

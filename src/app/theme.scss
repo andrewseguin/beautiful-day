@@ -11,7 +11,7 @@
 @import './season/print-page/print-page-theme';
 @import './season/project-page/requests/project-requests-theme';
 @import './season/project-page/requests/remaining-budget/remaining-budget-theme';
-@import './season/project-page/requests/inventory-panel/inventory-search/inventory-search-theme';
+@import 'season/project-page/requests/inventory-panel/inventory-search/inventory-search-theme';
 
 @mixin themed-styles($theme) {
   @include angular-material-theme($theme);

@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {SubcategoryList} from './subcategory-list';
+import {CategoryList} from './category-list';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
 import {
@@ -12,7 +12,7 @@ import {
     MaterialModule,
     InventoryPanelItemModule,
   ],
-  declarations: [SubcategoryList],
-  exports: [SubcategoryList],
+  declarations: [CategoryList],
+  exports: [CategoryList],
 })
-export class SubcategoryListModule { }
+export class CategoryListModule { }
