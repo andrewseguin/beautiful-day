@@ -12,7 +12,7 @@ import {Accounting} from 'app/season/services/accounting';
 import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 import {Permissions} from 'app/season/services/permissions';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {APPROVAL_NEGATERS, Item, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {Selection} from 'app/season/services';
 import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
@@ -20,6 +20,7 @@ import {getItemName} from 'app/season/utility/item-name';
 import {getRequestCost} from 'app/season/utility/request-cost';
 import {isMobile} from 'app/utility/media-matcher';
 import {DatePipe} from '@angular/common';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'request',
@@ -48,6 +49,8 @@ export class RequestView implements OnInit {
 
   previousChangesMsg = '';
 
+  quantity = new FormControl();
+
   constructor(private cd: ChangeDetectorRef,
               public requestsRenderer: RequestsRenderer,
               private mdDialog: MatDialog,
@@ -72,6 +75,14 @@ export class RequestView implements OnInit {
           this.cd.markForCheck();
         }
       });
+
+    this.quantity.valueChanges.pipe(
+        takeUntil(this.destroyed),
+        distinctUntilChanged()) // Input fires twice due to issue/12540
+        .subscribe(quantity => {
+          quantity = Math.max(0, quantity);
+          this.requestsDao.update(this.request.id, {quantity: quantity});
+        });
   }
 
   ngOnDestroy() {
@@ -80,12 +91,8 @@ export class RequestView implements OnInit {
   }
 
   ngOnChanges() {
+    this.quantity.setValue(this.request.quantity, {emitEvent: false});
     this.updatePreviousChangesMessage();
-  }
-
-  changeQuantity(quantity: number) {
-    quantity = Math.max(0, quantity);
-    this.requestsDao.update(this.request.id, {quantity});
   }
 
   isSelected() {
@@ -156,14 +163,14 @@ export class RequestView implements OnInit {
     };
 
     this.previousChangesMsg = '';
-    const changes = this.request.previouslyApproved;
+    const changes = this.request.prevApproved;
     if (changes) {
       const previousChanges = [];
       APPROVAL_NEGATERS.forEach(prop => {
         const propDisplayName = propToDisplayName[prop];
         const valueDisplay = valueToDisplay[prop](changes[prop]);
-        if (changes[prop]) {
-          const msg = `${propDisplayName}: ${valueDisplay}`;
+        if (changes[prop] !== undefined) {
+          const msg = `${propDisplayName}: ${valueDisplay || 'none'}`;
           previousChanges.push(msg);
         }
       });

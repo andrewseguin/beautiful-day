@@ -43,14 +43,21 @@ export class UsersDao extends ListDao<User> {
       .pipe(take(1))
       .subscribe(val => {
         if (!val) {
-          debugger;
-          this.add({
+          const update: User = {
             id: authState.uid,
             email: authState.email,
-            phone: authState.phoneNumber,
             pic: authState.photoURL,
-            name: authState.displayName,
-          });
+          };
+
+          if (authState.phoneNumber) {
+            update.phone = authState.phoneNumber;
+          }
+
+          if (authState.displayName) {
+            update.name = authState.displayName;
+          }
+
+          this.add(update);
         } else {
           this.update(authState.uid, {pic: authState.photoURL});
         }

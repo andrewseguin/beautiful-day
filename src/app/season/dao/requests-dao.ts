@@ -5,9 +5,16 @@ import {SeasonCollectionDao} from './season-collection-dao';
 import {ActivatedSeason} from 'app/season/services/activated-season';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {take} from 'rxjs/operators';
-import {IdentifiedObject} from 'app/utility/list-dao';
+import * as firebase from 'firebase/app';
 
 export const APPROVAL_NEGATERS = new Set(['note', 'quantity', 'dropoff', 'date']);
+
+export interface PrevApproved {
+  note?: string;
+  quantity?: number;
+  dropoff?: string;
+  date?: string;
+}
 
 export interface Request {
   id?: string;
@@ -26,7 +33,7 @@ export interface Request {
   isDistributed?: boolean;
   costAdjustment?: number;
   costAdjustmentReason?: string;
-  previouslyApproved?: Request;
+  prevApproved?: PrevApproved;
   dateCreated?: string;
   dateModified?: string;
 }
@@ -42,43 +49,60 @@ export class RequestsDao extends SeasonCollectionDao<Request> {
     return this.afs.collection(this.path, queryFn).valueChanges();
   }
 
-  update(id: string, obj: Request) {
+  update(id: string, update: Request) {
      this.get(id).pipe(take(1)).subscribe(request => {
-       // Updating a request that has been approved should remove
-       // approval if certain fields are changed and record the previous
-       // value.
-       if (request.isApproved || request.previouslyApproved) {
-         const changedProperties = Object.keys(obj).filter(prop => {
-           const hasNegator = APPROVAL_NEGATERS.has(prop);
-           const isChanged = obj[prop] !== request[prop];
-           const prevNotChanged = !request.previouslyApproved || !request.previouslyApproved[prop];
-           return hasNegator && isChanged && prevNotChanged;
-         });
-         if (changedProperties.length) {
-           obj.isApproved = false;
-           obj.previouslyApproved = {};
-           changedProperties.forEach(prop => {
-             obj.previouslyApproved[prop] = request[prop];
-           });
-         }
-       }
-
-       // If approved, removed the previouslyApproved properties
-       if (obj.isApproved || obj.isPurchased) {
-         // remove changed props
-         obj.previouslyApproved = null;
-       }
-
        // If purchased, go ahead and set to approved
-       if (obj.isPurchased) {
-         obj.isApproved = true;
+       if (update.isPurchased) {
+         update.isApproved = true;
        }
 
-       obj.dateModified = new Date().toISOString();
-       super.update(id, obj);
+       // If it is or was approved, save any previously approved
+       // properties if the update contains changes to them.
+       if (request.isApproved || request.prevApproved) {
+         saveChangedApprovedProperties(update, request);
+       }
+
+       // If approved, removed the prevApproved properties
+       if (update.isApproved) {
+         update.prevApproved = null;
+       }
+
+       super.update(id, update);
      });
   }
-
-
 }
 
+function saveChangedApprovedProperties(update: Request, request: Request) {
+  update.prevApproved = {...request.prevApproved};
+
+  // Capture changes in the update that were approved and not previously changed
+  const changedApprovedProperties = Object.keys(update).filter(prop => {
+    const hasNegator = APPROVAL_NEGATERS.has(prop);
+    const isChanged = update[prop] !== request[prop];
+    const prevNotChanged =
+      !request.prevApproved || !request.prevApproved.hasOwnProperty(prop);
+    return hasNegator && isChanged && prevNotChanged;
+  });
+
+  // Move original properties to prevApproved
+  if (changedApprovedProperties.length) {
+    update.isApproved = false;
+    changedApprovedProperties.forEach(prop => {
+      update.prevApproved[prop] = request[prop] || '';
+    });
+  }
+
+  // Remove any prevApproved properties that match the update
+  // E.g. update has quantity 2 and previously approved quantity was 2
+  APPROVAL_NEGATERS.forEach(prop => {
+    if (update.prevApproved[prop] === update[prop]) {
+      delete update.prevApproved[prop];
+    }
+  });
+
+  // Return request to approved if it matches its values again.
+  if (Object.keys(update.prevApproved).length === 0) {
+    update.isApproved = true;
+    update.prevApproved = null;
+  }
+}

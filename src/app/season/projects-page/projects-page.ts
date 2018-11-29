@@ -30,7 +30,7 @@ export class ProjectsPage {
       }));
 
   allProjects = this.projectsDao.list.pipe(
-      map(projects => (projects || []).sort(sortByName)));
+      map(projects => projects ? projects.sort(sortByName) : null));
 
   involvedProjects = combineLatest([this.projectsDao.list, this.afAuth.authState]).pipe(
       map(result => {

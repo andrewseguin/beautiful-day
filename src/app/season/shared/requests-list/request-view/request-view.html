@@ -20,12 +20,7 @@
     </div>
 
     <div class="quantity" (click)="!request.isPurchased ? $event.stopPropagation() : null">
-      <input type="number" #quantityInput min="0"
-             *ngIf="canEdit && !request.isPurchased; else staticQuantity"
-             [value]="request.quantity"
-             (keyup)="changeQuantity($event.target.value)"
-             (keydown.Enter)="quantityInput.blur()"
-             (change)="changeQuantity($event.target.value)">
+      <input type="number" [formControl]="quantity" min="0">
       <ng-template #staticQuantity>
         <div [title]="request.isPurchased ? 'This request has been purchased and quantity cannot be changed' : ''">
           x {{request.quantity}}
