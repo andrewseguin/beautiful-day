@@ -16,7 +16,7 @@
 
   <mat-form-field appearance="outline" *ngIf="!forceCategory">
     <mat-label> Category </mat-label>
-    <mat-select>
+    <mat-select formControlName="category">
       <mat-option *ngFor="let category of categories" [value]="category">
         {{category}}
       </mat-option>
@@ -45,7 +45,19 @@
 
 <div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close> Cancel </button>
-  <button mat-raised-button color="primary"
-          [disabled]="!formGroup.valid"
-          (click)="save()"> Save </button>
+
+  <ng-container *ngIf="showRequest; else saveOnly">
+    <button mat-button
+            [disabled]="!formGroup.valid"
+            (click)="save()"> Save </button>
+    <button mat-raised-button color="primary"
+            [disabled]="!formGroup.valid"
+            (click)="save(true)"> Save and Request </button>
+  </ng-container>
+
+  <ng-template #saveOnly>
+    <button mat-raised-button color="primary"
+            [disabled]="!formGroup.valid"
+            (click)="save()"> Save </button>
+  </ng-template>
 </div>

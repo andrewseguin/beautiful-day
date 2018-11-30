@@ -10,5 +10,7 @@ import {ItemDialog} from 'app/season/shared/dialog/item/item-dialog';
 export class AddNewItem {
   @Input() category: string;
 
+  @Input() project: string;
+
   constructor(public itemDialog: ItemDialog) {}
 }

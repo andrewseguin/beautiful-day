@@ -1,24 +1,29 @@
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Item} from 'app/season/dao';
-import {map, startWith, takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
 
 export interface CreateItemData {
   category: string;
   categories: string[];
+  showRequest: boolean;
+}
+
+export interface CreateItemResult {
+  item: Item;
+  addRequest: boolean;
 }
 
 @Component({
   styleUrls: ['create-item.scss'],
   templateUrl: 'create-item.html',
   host: {
-    '(keyup.Enter)': 'onEnter()'
+    '(keyup.Enter)': 'save(showRequest)'
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateItem {
+  showRequest: boolean;
   forceCategory = false;
   categories: string[];
 
@@ -37,26 +42,28 @@ export class CreateItem {
       this.forceCategory = true;
     }
 
+    if (data && data.showRequest) {
+      this.showRequest = data.showRequest;
+    }
+
     this.categories = data.categories.sort();
   }
 
-  save() {
+  save(addRequest = false) {
+    if (!this.formGroup.valid) {
+      return;
+    }
+
     this.formGroup.get('category').enable();
 
-    const newItem: Item = {
+    const item: Item = {
       name: this.formGroup.value.name,
       categories: [this.formGroup.value.category],
       cost: this.formGroup.value.cost,
       url: this.formGroup.value.url,
     };
 
-    this.dialogRef.close(newItem);
-  }
-
-  onEnter() {
-    if (this.formGroup.valid) {
-      this.save();
-    }
+    this.dialogRef.close({item, addRequest});
   }
 
   getUrlErrorMessage() {

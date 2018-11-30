@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {take, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
-import {Item, ItemsDao} from 'app/season/dao';
-import {CreateItem} from './create-item/create-item';
+import {Item, ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
+import {CreateItem, CreateItemResult} from './create-item/create-item';
 import {Subject} from 'rxjs';
+import {highlight} from 'app/utility/element-actions';
+import {createRequest} from 'app/season/utility/create-request';
 
 @Injectable()
 export class ItemDialog {
@@ -12,6 +14,8 @@ export class ItemDialog {
   destroyed = new Subject();
 
   constructor(private dialog: MatDialog,
+              private requestsDao: RequestsDao,
+              private projectsDao: ProjectsDao,
               private itemsDao: ItemsDao) {
     this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
       if (!items) {
@@ -36,18 +40,33 @@ export class ItemDialog {
     this.destroyed.complete();
   }
 
-  createItem(category: string) {
+  createItem(category: string, project?: string) {
     const data = {
       category,
-      categories: this.categories
+      categories: this.categories,
+      showRequest: !!project
     };
 
     this.dialog.open(CreateItem, {data, width: '400px'}).afterClosed().pipe(
       take(1))
-      .subscribe((result: Item) => {
+      .subscribe((result: CreateItemResult) => {
         if (result) {
-          this.itemsDao.add(result);
+          this.itemsDao.add(result.item).then(item => {
+            if (result.addRequest) {
+              this.makeRequest(project, item);
+            }
+          });
         }
       });
+  }
+
+  private makeRequest(project: string, item: string) {
+    this.projectsDao.get(project).pipe(take(1)).subscribe(project => {
+      const request = createRequest(project, item, 1);
+      this.requestsDao.add(request).then(id => {
+        highlight(id);
+      });
+    });
+
   }
 }

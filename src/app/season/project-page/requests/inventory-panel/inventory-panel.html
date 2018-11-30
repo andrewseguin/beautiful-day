@@ -12,6 +12,7 @@
     </div>
 
     <search-results *ngIf="search.value"
+                    [project]="project"
                     [search]="search.value">
     </search-results>
 
@@ -24,6 +25,7 @@
   <sliding-panel *ngFor="let category of panelsManager.panels | async; let index = index"
                  class="theme-background-app-bar"
                  [category]="category"
+                 [project]="project"
                  [depth]="index">
   </sliding-panel>
 </div>

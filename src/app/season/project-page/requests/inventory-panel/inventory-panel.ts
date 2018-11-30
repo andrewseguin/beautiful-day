@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {PanelsManager} from './panels-manager';
 import {Item, ItemsDao} from 'app/season/dao';
 import {map} from 'rxjs/operators';
@@ -21,6 +21,8 @@ export class InventoryPanel {
       return getCategoryGroup(items).subcategories;
     }
   }));
+
+  @Input() project: string;
 
   @Output('closeSidenav') closeSidenav = new EventEmitter<void>();
 

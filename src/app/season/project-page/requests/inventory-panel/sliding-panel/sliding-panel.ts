@@ -26,6 +26,8 @@ export class SlidingPanel {
 
   @Input() depth: number;
 
+  @Input() project: string;
+
   constructor(private cd: ChangeDetectorRef,
               private panelsManager: PanelsManager,
               private itemsDao: ItemsDao) { }

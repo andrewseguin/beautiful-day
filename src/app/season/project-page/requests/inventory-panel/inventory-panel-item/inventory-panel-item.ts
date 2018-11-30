@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
 import {take} from 'rxjs/operators';
-import {Item, Project, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
+import {Item, ProjectsDao, RequestsDao} from 'app/season/dao';
 import {EXPANSION_ANIMATION} from 'app/utility/animations';
 import {highlight} from 'app/utility/element-actions';
+import {createRequest} from 'app/season/utility/create-request';
 
 @Component({
   selector: 'inventory-panel-item',
@@ -50,17 +50,7 @@ export class InventoryPanelItem {
 
     const projectId = this.activatedRoute.snapshot.params.id;
     this.projectsDao.get(projectId).pipe(take(1)).subscribe(project => {
-      const defaultDate = new Date();
-      const date = project.defaultDropoffDate ?
-          new Date(project.defaultDropoffDate) : defaultDate;
-      const request: Request = {
-        item: this.item.id,
-        project: project.id,
-        quantity: this.requestQuantity,
-        dropoff: project.defaultDropoffLocation,
-        date: date.toISOString(),
-      };
-
+      const request = createRequest(project, this.item.id, this.requestQuantity);
       this.requestsDao.add(request).then(id => {
         highlight(id);
       });

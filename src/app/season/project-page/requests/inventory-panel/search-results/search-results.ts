@@ -12,6 +12,8 @@ import {CdkScrollable} from '@angular/cdk/overlay';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResults {
+  @Input() project: string;
+
   @Input()
   set search(v: string) { this._search.next(v); }
   get search(): string { return this._search.value; }
