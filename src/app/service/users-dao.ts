@@ -13,6 +13,7 @@ export interface User {
   pic?: string;
   phone?: string;
   isOwner?: boolean;
+  darkTheme?: boolean;
   dateCreated?: string;
   dateModified?: string;
 }
@@ -22,13 +23,6 @@ export class UsersDao extends ListDao<User> {
   constructor(afs: AngularFirestore, afAuth: AngularFireAuth) {
     super(afs, afAuth);
     this.path = 'users';
-  }
-
-  update(id: string, update: User) {
-    if (update.phone !== undefined) {
-      debugger;
-    }
-    super.update(id, update);
   }
 
   getByEmail(email: string): Observable<User> {
@@ -43,21 +37,21 @@ export class UsersDao extends ListDao<User> {
       .pipe(take(1))
       .subscribe(val => {
         if (!val) {
-          const update: User = {
+          const newUser: User = {
             id: authState.uid,
             email: authState.email,
             pic: authState.photoURL,
           };
 
           if (authState.phoneNumber) {
-            update.phone = authState.phoneNumber;
+            newUser.phone = authState.phoneNumber;
           }
 
           if (authState.displayName) {
-            update.name = authState.displayName;
+            newUser.name = authState.displayName;
           }
 
-          this.add(update);
+          this.add(newUser);
         } else {
           this.update(authState.uid, {pic: authState.photoURL});
         }
