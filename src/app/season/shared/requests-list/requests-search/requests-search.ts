@@ -3,12 +3,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnDestroy, OnInit
+  OnDestroy,
+  OnInit
 } from '@angular/core';
 import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
-import {debounceTime, map, takeUntil} from 'rxjs/operators';
+import {debounceTime, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
-import {Observable, pipe, Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ANIMATION_DURATION} from 'app/utility/animations';
 import {Query} from 'app/season/services/requests-renderer/query';

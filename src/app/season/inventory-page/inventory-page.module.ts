@@ -1,6 +1,9 @@
 import {NgModule} from '@angular/core';
 import {InventoryPage} from './inventory-page';
 import {RouterModule, Routes} from '@angular/router';
+import {MaterialModule} from 'app/material.module';
+import {CommonModule} from '@angular/common';
+import {EditableItemPropertyModule} from './editable-item-property/editable-item-property.module';
 
 const routes: Routes = [{path: '', component: InventoryPage}];
 
@@ -9,7 +12,10 @@ export class InventoryPageRoutingModule {}
 
 @NgModule({
   imports: [
-    InventoryPageRoutingModule
+    InventoryPageRoutingModule,
+    EditableItemPropertyModule,
+    MaterialModule,
+    CommonModule,
   ],
   declarations: [InventoryPage],
   exports: [InventoryPage],

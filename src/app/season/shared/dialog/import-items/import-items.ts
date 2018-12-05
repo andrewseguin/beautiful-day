@@ -54,7 +54,7 @@ export class ImportItems {
           +(itemInfo[COLUMNS.COST].replace('$', '').replace(',', '')) :
           0;
       let keywords = itemInfo[COLUMNS.KEYWORDS];
-      let quantityOwned = itemInfo[COLUMNS.QUANTITY];
+      let quantityOwned = Number(itemInfo[COLUMNS.QUANTITY]);
 
       const item = {id, name, categories, url, cost, hidden, keywords, quantityOwned};
 

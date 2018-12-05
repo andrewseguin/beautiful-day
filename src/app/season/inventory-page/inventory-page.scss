@@ -1,0 +1,74 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.table-container {
+  flex: 1;
+  overflow: auto;
+}
+
+table {
+  min-width: 100%;
+}
+
+.mat-row {
+  height: 0;
+}
+
+.mat-header-row {
+  height: 48px;
+}
+
+.mat-column-select { width: 0; }
+.mat-column-name { width: 350px; min-width: 350px; }
+.mat-column-categories { width: 250px; min-width: 250px; }
+.mat-column-cost { width: 100px; min-width: 100px; }
+.mat-column-quantityOwned { width: 80px; min-width: 80px;}
+.mat-column-hidden { width: 60px; min-width: 60px;}
+.mat-column-url { min-width: 300px; }
+
+td.mat-cell.mat-column-select {
+  padding: 12px;
+}
+
+.align-end {
+  text-align: end;
+  padding-right: 24px;
+}
+
+mat-paginator {
+  border-top-width: 1px;
+  border-top-style: solid;
+}
+
+// Last row should not double up with the paginator border
+tr:last-child td {
+  border: none;
+}
+
+.editable-item-property-header, .editable-item-property-cell {
+  padding: 8px;
+}
+
+.editable-item-property-cell {
+  cursor: pointer;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  border: 1px solid #CCC;
+  outline: none;
+  background: white;
+  font-size: 16px;
+  padding: 16px;
+  margin: 16px;
+  flex: 1;
+  border-radius: 32px;
+  max-width: 650px;
+}

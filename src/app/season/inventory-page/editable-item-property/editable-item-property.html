@@ -1,0 +1,10 @@
+<ng-container ngSwitch="property">
+  <ng-container *ngSwitchDefault>
+    <textarea #textarea
+              [style.text-align]="alignEnd ? 'right' : ''"
+              [formControl]="formControl"
+              (blur)="save()"
+              mat-autosize>
+    </textarea>
+  </ng-container>
+</ng-container>
