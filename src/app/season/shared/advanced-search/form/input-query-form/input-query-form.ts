@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
-import {InputEquality, InputQuery} from 'app/season/services/requests-renderer/query';
+import {InputEquality, InputQuery} from 'app/season/utility/search/query';
 import {map, startWith, takeUntil} from 'rxjs/operators';
 
 @Component({

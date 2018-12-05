@@ -2,7 +2,6 @@ export type InputEquality = 'contains' | 'is' | 'notContains' | 'notIs';
 export type NumberEquality = 'greaterThan' | 'lessThan' | 'equalTo';
 export type DateEquality = 'before' | 'after' | 'on';
 export type StateEquality = 'is' | 'notIs';
-export type State = 'approved' | 'purchased' | 'distributed' | 'previouslyApproved';
 
 export interface InputQuery {
   input: string;
@@ -20,7 +19,7 @@ export interface DateQuery {
 }
 
 export interface StateQuery {
-  state: State;
+  state: string;
   equality: StateEquality;
 }
 

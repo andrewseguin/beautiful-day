@@ -1,6 +1,7 @@
 import {Item, Project, Request} from 'app/season/dao';
 import {RequestRendererOptions} from './request-renderer-options';
-import {FilterMetadata, MatcherContext} from 'app/season/services/requests-renderer/filter';
+import {FilterMetadata} from './request-filter-metadata';
+import {MatcherContext} from 'app/season/utility/search/filter';
 
 export class RequestFilterer {
   constructor(private options: RequestRendererOptions,

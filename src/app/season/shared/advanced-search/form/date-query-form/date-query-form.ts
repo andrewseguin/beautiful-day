@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {DateEquality, DateQuery} from 'app/season/services/requests-renderer/query';
+import {DateEquality, DateQuery} from 'app/season/utility/search/query';
 import {takeUntil} from 'rxjs/operators';
 import {isMobile} from 'app/utility/media-matcher';
 

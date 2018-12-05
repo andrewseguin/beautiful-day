@@ -1,35 +1,20 @@
-import {DateQuery, InputQuery, NumberQuery, Query, StateQuery} from './query';
-import {Item, ItemsDao, Project, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
+import {DateQuery, InputQuery, NumberQuery, StateQuery} from '../../utility/search/query';
+import {Project} from 'app/season/dao';
 import {
   dateMatchesEquality,
   numberMatchesEquality,
   stateMatchesEquality,
   stringContainsQuery
-} from './query-matcher';
+} from 'app/season/utility/search/query-matcher';
 import {getRequestCost} from 'app/season/utility/request-cost';
 import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {ListDao} from 'app/utility/list-dao';
 import {getItemName} from 'app/season/utility/item-name';
-
-export interface MatcherContext {
-  request: Request;
-  project: Project;
-  item: Item;
-}
-
-export interface AutocompleteContext {
-  itemsDao: ItemsDao;
-  requestsDao: RequestsDao;
-  projectsDao: ProjectsDao;
-}
-
-export interface IFilterMetadata {
-  displayName?: string;  // If present, will display as an option to the user
-  queryType?: string;
-  matcher?: (c: MatcherContext, q: Query) => boolean;
-  autocomplete?: (c: AutocompleteContext) => Observable<string[]>;
-}
+import {
+  AutocompleteContext,
+  IFilterMetadata,
+  MatcherContext
+} from 'app/season/utility/search/filter';
+import {getValuesFromList} from 'app/season/utility/search/autocomplete';
 
 export const FilterMetadata = new Map<string, IFilterMetadata>([
 
@@ -188,25 +173,17 @@ export const FilterMetadata = new Map<string, IFilterMetadata>([
   ['state', {
     displayName: 'Status',
     queryType: 'state',
+    queryTypeData: {
+      states: ['Approved', 'Purchased', 'Distributed', 'Previously approved']
+    },
     matcher: (c: MatcherContext, q: StateQuery) => {
-      return stateMatchesEquality(c.request, q);
-    }
+      const values = new Map<string, boolean>([
+        ['Approved', c.request.isApproved],
+        ['Purchased', c.request.isPurchased],
+        ['Distributed', c.request.isDistributed],
+        ['Previously approved', !!c.request.prevApproved],
+      ]);
+      return stateMatchesEquality(values[q.state], q);
+    },
   }],
 ]);
-
-export interface Filter {
-  type: string;
-  query?: Query;
-  isImplicit?: boolean;
-}
-
-function getValuesFromList(listDao: ListDao<any>, property: string): Observable<string[]> {
-  return listDao.list.pipe(map((list: any[]) => {
-    if (!list) {
-      return [];
-    }
-
-    const values = list.map(r => r[property]).filter(p => !!p);
-    return Array.from(new Set(values));
-  }));
-}

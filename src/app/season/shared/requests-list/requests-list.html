@@ -1,6 +1,10 @@
 <ng-container *ngIf="(requestsRenderer.requestGroups | async) !== null; else loading">
-  <requests-search>
-  </requests-search>
+  <advanced-search [search]="requestsRenderer.options.search"
+                   [filters]="requestsRenderer.options.filters"
+                   [metadata]="requestFilterMetadata"
+                   (searchChanged)="requestsRenderer.options.search = $event"
+                   (filtersChanged)="requestsRenderer.options.filters = $event">
+  </advanced-search>
   <display-options-header></display-options-header>
 
   <div class="requests-container">

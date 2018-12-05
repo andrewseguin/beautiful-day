@@ -66,7 +66,12 @@ export class InventoryPage {
 
   save(item: Item, property: string, value: string) {
     const update = {};
-    update[property] = value;
+    if (property === 'categories') {
+      update[property] = value.split(',');
+    } else {
+      update[property] = value;
+    }
+
     this.itemsDao.update(item.id, update);
     this.editing = null;
 

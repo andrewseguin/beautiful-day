@@ -6,8 +6,8 @@
   </mat-select>
 
   <mat-select formControlName="state" class="state">
-    <mat-option *ngFor="let state of states" [value]="state.id">
-      {{state.label}}
+    <mat-option *ngFor="let state of states" [value]="state">
+      {{state}}
     </mat-option>
   </mat-select>
 </ng-container>

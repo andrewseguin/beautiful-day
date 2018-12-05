@@ -1,5 +1,5 @@
 import {Subject} from 'rxjs';
-import {Filter} from './filter';
+import {Filter} from 'app/season/utility/search/filter';
 
 export type Group = 'all' | 'category' | 'project' | 'date' |
                     'dropoff' | 'tags' | 'item';

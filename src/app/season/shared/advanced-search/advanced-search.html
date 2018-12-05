@@ -1,7 +1,7 @@
 <div class="top-bar-container">
   <div class="top-bar">
     <div class="input-bar">
-      <input [formControl]="search" placeholder="Search requests">
+      <input [formControl]="searchFormControl" placeholder="Search requests">
       <button mat-icon-button
               [mat-menu-trigger-for]="filterTypesMenu"
               matTooltip="Add request filter"
@@ -12,11 +12,11 @@
 
     <div class="details">
       <div class="filter-container" [@expand]="expandState"
-           *ngFor="let filter of requestsRenderer.options.filters; let index = index; trackBy: trackByIndex">
+           *ngFor="let filter of filters; let index = index; trackBy: trackByIndex">
         <ng-container *ngIf="!filter.isImplicit">
-          <div class="filter-type"> {{filterMetadata.get(filter.type).displayName}}: </div>
+          <div class="filter-type"> {{metadata.get(filter.type).displayName}}: </div>
 
-          <ng-container [ngSwitch]="filterMetadata.get(filter.type).queryType">
+          <ng-container [ngSwitch]="metadata.get(filter.type).queryType">
             <input-query-form *ngSwitchCase="'input'"
                               [query]="filter.query"
                               [options]="autocomplete.get(filter.type) | async"
@@ -37,6 +37,7 @@
 
             <state-query-form *ngSwitchCase="'state'"
                              [query]="filter.query"
+                             [states]="metadata.get(filter.type).queryTypeData.states"
                              (queryChange)="queryChange(index, $event)">
             </state-query-form>
           </ng-container>
@@ -58,6 +59,6 @@
   <button mat-menu-item
           *ngFor="let filterType of displayedFilterTypes"
           (click)="addFilter(filterType)">
-    {{filterMetadata.get(filterType).displayName}}
+    {{metadata.get(filterType).displayName}}
   </button>
 </mat-menu>

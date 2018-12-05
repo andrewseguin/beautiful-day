@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {RequestsGroupModule} from './requests-group/requests-group.module';
 import {DisplayOptionsHeaderModule} from './display-options-header/display-options-header.module';
 import {MaterialModule} from 'app/material.module';
-import {RequestsSearchModule} from './requests-search/requests-search.module';
+import {AdvancedSearchModule} from '../advanced-search/advanced-search.module';
 import {LoadingModule} from '../loading/loading.module';
 
 @NgModule({
@@ -13,7 +13,7 @@ import {LoadingModule} from '../loading/loading.module';
     MaterialModule,
     RequestsGroupModule,
     DisplayOptionsHeaderModule,
-    RequestsSearchModule,
+    AdvancedSearchModule,
     LoadingModule,
   ],
   declarations: [RequestsList],

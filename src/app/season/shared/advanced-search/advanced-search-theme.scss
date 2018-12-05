@@ -1,11 +1,11 @@
-@import '~@angular/material/theming';
+@import '../../../../../node_modules/@angular/material/theming';
 
-@mixin requests-search-theme($theme) {
+@mixin advanced-search-theme($theme) {
   $primary: map-get($theme, primary);
   $foreground: map-get($theme, foreground);
   $background: map-get($theme, background);
 
-  requests-search {
+  advanced-search {
     .top-bar {
       border-color: mat-color($foreground, divider);
       background: mat-color($background, card);

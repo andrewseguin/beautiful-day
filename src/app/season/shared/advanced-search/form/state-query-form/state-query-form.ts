@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {InputEquality, State, StateQuery} from 'app/season/services/requests-renderer/query';
+import {InputEquality, StateQuery} from 'app/season/utility/search/query';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -23,12 +23,6 @@ export class StateQueryForm implements OnChanges {
     {id: 'is', label: 'is'},
     {id: 'notIs', label: 'is not'},
   ];
-  states: {id: State, label: string}[] = [
-    {id: 'approved', label: 'approved'},
-    {id: 'purchased', label: 'purchased'},
-    {id: 'distributed', label: 'distributed'},
-    {id: 'previouslyApproved', label: 'previously approved'},
-  ];
   form = new FormGroup({
     equality: new FormControl('is'),
     state: new FormControl(''),
@@ -36,6 +30,8 @@ export class StateQueryForm implements OnChanges {
   destroyed = new Subject();
 
   @Input() query: StateQuery;
+
+  @Input() states: string[];
 
   @Output() queryChange = new EventEmitter<StateQuery>();
 

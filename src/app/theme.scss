@@ -3,15 +3,15 @@
 @import './season/shared/requests-list/display-options-header/display-options-header-theme';
 @import './season/shared/nav/nav-theme';
 @import './season/shared/requests-list/request-view/request-view-theme';
-@import './season/shared/requests-list/requests-search/form/form-theme';
-@import './season/shared/requests-list/requests-search/requests-search-theme';
+@import './season/shared/advanced-search/form/form-theme';
+@import './season/shared/advanced-search/advanced-search-theme';
 @import './season/shared/selection-header/selection-header-theme';
 @import './season/admin-page/events/editable-event/editable-event-theme';
 @import './season/admin-page/messages/editable-message/editable-message-theme';
 @import './season/print-page/print-page-theme';
 @import './season/project-page/requests/project-requests-theme';
 @import './season/project-page/requests/remaining-budget/remaining-budget-theme';
-@import 'season/project-page/requests/inventory-panel/inventory-search/inventory-search-theme';
+@import './season/project-page/requests/inventory-panel/inventory-search/inventory-search-theme';
 
 @mixin themed-styles($theme) {
   @include angular-material-theme($theme);
@@ -19,7 +19,7 @@
   @include nav-theme($theme);
   @include request-view-theme($theme);
   @include query-form-theme($theme);
-  @include requests-search-theme($theme);
+  @include advanced-search-theme($theme);
   @include selection-header-theme($theme);
   @include editable-event-theme($theme);
   @include editable-message-theme($theme);

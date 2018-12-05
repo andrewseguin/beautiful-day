@@ -1,25 +1,26 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  EventEmitter,
+  Input,
   OnDestroy,
-  OnInit
+  OnInit,
+  Output
 } from '@angular/core';
-import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {Observable, Subject} from 'rxjs';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ANIMATION_DURATION} from 'app/utility/animations';
-import {Query} from 'app/season/services/requests-renderer/query';
-import {FilterMetadata} from 'app/season/services/requests-renderer/filter';
+import {Query} from 'app/season/utility/search/query';
 import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
+import {Filter, IFilterMetadata} from 'app/season/utility/search/filter';
 
 @Component({
-  selector: 'requests-search',
-  templateUrl: 'requests-search.html',
-  styleUrls: ['requests-search.scss'],
+  selector: 'advanced-search',
+  templateUrl: 'advanced-search.html',
+  styleUrls: ['advanced-search.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.has-filters]': 'hasDisplayedFilters()'
@@ -37,14 +38,9 @@ import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
     ]),
   ]
 })
-export class RequestsSearch implements OnInit, AfterViewInit, OnDestroy {
-  search = new FormControl('');
+export class AdvancedSearch implements OnInit, AfterViewInit, OnDestroy {
+  searchFormControl = new FormControl('');
   destroyed = new Subject();
-
-  filterMetadata = FilterMetadata;
-  displayedFilterTypes =
-      Array.from(FilterMetadata.keys())
-          .filter(key => FilterMetadata.get(key).displayName).sort();
 
   autocomplete = new Map<string, Observable<string[]>>();
 
@@ -52,38 +48,48 @@ export class RequestsSearch implements OnInit, AfterViewInit, OnDestroy {
 
   expandState = false;
 
+  displayedFilterTypes: string[];
+
   trackByIndex = i => i;
 
-  constructor (public requestsRenderer: RequestsRenderer,
-               private projectsDao: ProjectsDao,
+  @Input() metadata: Map<string, IFilterMetadata>;
+
+  @Input() filters: Filter[];
+
+  @Input()
+  set search(v: string) { this.searchFormControl.setValue(v, {emitEvent: false}); }
+  get search(): string { return this.searchFormControl.value; }
+
+  @Output() searchChanged = new EventEmitter<string>();
+
+  @Output() filtersChanged = new EventEmitter<Filter[]>();
+
+  constructor (private projectsDao: ProjectsDao,
                private requestsDao: RequestsDao,
-               private itemsDao: ItemsDao,
-               private cd: ChangeDetectorRef) {
-    FilterMetadata.forEach((value, key) => {
+               private itemsDao: ItemsDao) { }
+
+  ngOnInit() {
+    this.metadata.forEach((value, key) => {
       if (value.autocomplete) {
         this.autocomplete.set(key, value.autocomplete({
-          itemsDao, requestsDao, projectsDao
+          itemsDao: this.itemsDao,
+          requestsDao: this.requestsDao,
+          projectsDao: this.projectsDao
         }));
       }
     });
-  }
 
-  ngOnInit() {
-    this.search.valueChanges.pipe(
+    this.searchFormControl.valueChanges.pipe(
       debounceTime(100),
       takeUntil(this.destroyed))
       .subscribe(value => {
-        this.requestsRenderer.options.search = value;
+        this.searchChanged.emit(value);
       });
 
-    this.requestsRenderer.options.changed.pipe(
-      takeUntil(this.destroyed))
-      .subscribe(() => {
-        this.search.setValue(this.requestsRenderer.options.search);
-        this.cd.detectChanges(); // In case filters changed as well
-      });
+    this.displayedFilterTypes =
+      Array.from(this.metadata.keys())
+        .filter(key => this.metadata.get(key).displayName).sort();
 
-    this.search.setValue(this.requestsRenderer.options.search);
   }
 
   ngAfterViewInit() {
@@ -97,24 +103,24 @@ export class RequestsSearch implements OnInit, AfterViewInit, OnDestroy {
 
   addFilter(type: string) {
     this.focusInput = true;
-    const filters = this.requestsRenderer.options.filters.slice();
+    const filters = this.filters.slice();
     filters.push({type, query: null});
-    this.requestsRenderer.options.filters = filters;
+    this.filtersChanged.emit(filters);
   }
 
   removeFilter(index: number) {
-    const filters = this.requestsRenderer.options.filters.slice();
+    const filters = this.filters.slice();
     filters.splice(index, 1);
-    this.requestsRenderer.options.filters = filters;
+    this.filtersChanged.emit(filters);
   }
 
   queryChange(index: number, query: Query) {
-    const filters = this.requestsRenderer.options.filters.slice();
+    const filters = this.filters.slice();
     filters[index] = {...filters[index], query};
-    this.requestsRenderer.options.filters = filters;
+    this.filtersChanged.emit(filters);
   }
 
   hasDisplayedFilters() {
-    return this.requestsRenderer.options.filters.some(filter => !filter.isImplicit);
+    return this.filters.some(filter => !filter.isImplicit);
   }
 }

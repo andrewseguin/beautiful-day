@@ -1,4 +1,4 @@
-import {DateQuery, InputQuery, NumberQuery, State, StateQuery} from './query';
+import {DateQuery, InputQuery, NumberQuery, StateQuery} from './query';
 import {Request} from 'app/season/dao';
 
 export function stringContainsQuery(str: string, query: InputQuery) {
@@ -67,23 +67,16 @@ export function dateMatchesEquality(dateStr: string, query: DateQuery) {
 }
 
 
-export function stateMatchesEquality(request: Request, query: StateQuery) {
+export function stateMatchesEquality(state: boolean, query: StateQuery) {
   if (!query.state) {
     return true;
   }
 
-  const values = new Map<State, boolean>([
-    ['approved', request.isApproved],
-    ['purchased', request.isPurchased],
-    ['distributed', request.isDistributed],
-    ['previouslyApproved', !!request.prevApproved],
-  ]);
-
   switch (query.equality) {
     case 'is':
-      return values.get(query.state);
+      return state;
     case 'notIs':
-      return !values.get(query.state);
+      return !state;
     default:
       throw Error(`Unknown equality: ${query.equality}`);
   }
