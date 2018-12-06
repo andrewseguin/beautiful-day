@@ -1,0 +1,15 @@
+@import '~@angular/material/theming';
+
+@mixin inventory-page-theme($theme) {
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  inventory-page {
+    tbody tr:hover, tbody tr.selected {
+      background: map-get($theme, row-hover);
+    }
+    .editable-item-property-cell:hover {
+      background: map-get($theme, editable-cell-hover);
+    }
+  }
+}

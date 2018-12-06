@@ -4,10 +4,8 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Selection} from 'app/season/services';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
-import {isMobile} from 'app/utility/media-matcher';
 import {ItemFilterMetadata} from 'app/season/inventory-page/item-filter-metadata';
-import {Filter, MatcherContext} from 'app/season/utility/search/filter';
-import {RequestFilterMetadata} from 'app/season/services/requests-renderer/request-filter-metadata';
+import {Filter} from 'app/season/utility/search/filter';
 import {getItemsMatchingQuery} from 'app/season/utility/items-search';
 
 interface EditableProperty {
@@ -15,10 +13,11 @@ interface EditableProperty {
   label: string;
   type?: 'currency';
   alignEnd?: boolean;
-  isSticky?: boolean;
+  isStickyLeft?: boolean;
 }
 
 @Component({
+  selector: 'inventory-page',
   templateUrl: 'inventory-page.html',
   styleUrls: ['inventory-page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,7 +38,7 @@ export class InventoryPage {
   editing: {item: string, prop: string} | null;
 
   editableProperties: EditableProperty[] = [
-    {id: 'name', label: 'Name', isSticky: !isMobile()},
+    {id: 'name', label: 'Name', isStickyLeft: true},
     {id: 'categories', label: 'Categories'},
     {id: 'cost', label: 'Cost', alignEnd: true, type: 'currency'},
     {id: 'quantityOwned', label: 'Stock', alignEnd: true},

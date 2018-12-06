@@ -71,6 +71,17 @@ button.mat-menu-item {
   }
 }
 
+mat-icon.show-badge.mat-badge-hidden .mat-badge-content {
+  display: inherit;
+}
+
+.mat-badge-small.mat-badge-overlap.mat-badge-after .mat-badge-content {
+  height: 12px;
+  width: 12px;
+  top: -4px;
+  right: -4px;
+}
+
 /* Material Styles */
 /* Rules for sizing the icon. */
 .material-icons.md-14 { font-size: 14px; height: 14px; width: 14px; }
