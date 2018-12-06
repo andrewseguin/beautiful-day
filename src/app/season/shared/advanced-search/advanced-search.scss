@@ -3,11 +3,6 @@
 .top-bar-container {
   display: flex;
   justify-content: center;
-  margin: 16px 16px 0 16px;
-
-  @media (max-width: $mobile-width - 1) {
-    margin: 8px 8px 0 8px;
-  }
 
   .top-bar {
     display: flex;

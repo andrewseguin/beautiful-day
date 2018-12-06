@@ -3,8 +3,12 @@ import {Item, ItemsDao} from 'app/season/dao';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Selection} from 'app/season/services';
 import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 import {isMobile} from 'app/utility/media-matcher';
+import {ItemFilterMetadata} from 'app/season/inventory-page/item-filter-metadata';
+import {Filter, MatcherContext} from 'app/season/utility/search/filter';
+import {RequestFilterMetadata} from 'app/season/services/requests-renderer/request-filter-metadata';
+import {getItemsMatchingQuery} from 'app/season/utility/items-search';
 
 interface EditableProperty {
   id: string;
@@ -20,6 +24,16 @@ interface EditableProperty {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InventoryPage {
+  filterMetadata = ItemFilterMetadata;
+
+  set search(v: string) { this._search.next(v); }
+  get search(): string { return this._search.value; }
+  _search = new BehaviorSubject<string>('');
+
+  set filters(v: Filter[]) { this._filters.next(v); }
+  get filters(): Filter[] { return this._filters.value; }
+  _filters = new BehaviorSubject<Filter[]>([]);
+
   trackBy = (_, item: Item) => item.id;
 
   editing: {item: string, prop: string} | null;
@@ -54,9 +68,22 @@ export class InventoryPage {
   ngOnInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.itemsDao.list.subscribe(items => {
-      this.dataSource.data = items || [];
-    });
+
+    const changes = [
+      this.itemsDao.list,
+      this._search,
+      this._filters,
+    ];
+    combineLatest(changes).pipe(
+        takeUntil(this._destroyed))
+        .subscribe(result => {
+          const items = result[0];
+          const search = result[1];
+          const filters = result[2];
+
+          const filteredItems = this.filter(items || [], filters);
+          this.dataSource.data = getItemsMatchingQuery(filteredItems, search);
+        });
   }
 
   ngOnDestroy() {
@@ -84,5 +111,17 @@ export class InventoryPage {
     value ?
       this.selection.items.select(item) :
       this.selection.items.deselect(item);
+  }
+
+  filter(items: Item[], filters: Filter[]) {
+    return items.filter(item => {
+      return filters.every(filter => {
+        if (!filter.query) {
+          return true;
+        }
+
+        return this.filterMetadata.get(filter.type).matcher({item}, filter.query);
+      });
+    });
   }
 }

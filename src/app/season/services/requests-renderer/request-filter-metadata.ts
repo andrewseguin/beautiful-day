@@ -16,7 +16,7 @@ import {
 } from 'app/season/utility/search/filter';
 import {getValuesFromList} from 'app/season/utility/search/autocomplete';
 
-export const FilterMetadata = new Map<string, IFilterMetadata>([
+export const RequestFilterMetadata = new Map<string, IFilterMetadata>([
 
   /** InputQuery Filters */
 

@@ -1,17 +1,17 @@
-import {Item, ItemsDao, Project, ProjectsDao, Request, RequestsDao} from 'app/season/dao/index';
+import {Item, ItemsDao, Project, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {Query} from 'app/season/utility/search/query';
 import {Observable} from 'rxjs';
 
 export interface MatcherContext {
-  request: Request;
-  project: Project;
-  item: Item;
+  request?: Request;
+  project?: Project;
+  item?: Item;
 }
 
 export interface AutocompleteContext {
-  itemsDao: ItemsDao;
-  requestsDao: RequestsDao;
-  projectsDao: ProjectsDao;
+  itemsDao?: ItemsDao;
+  requestsDao?: RequestsDao;
+  projectsDao?: ProjectsDao;
 }
 
 export interface Filter {

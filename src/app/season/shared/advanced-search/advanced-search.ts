@@ -54,7 +54,7 @@ export class AdvancedSearch implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() metadata: Map<string, IFilterMetadata>;
 
-  @Input() filters: Filter[];
+  @Input() filters: Filter[] = [];
 
   @Input()
   set search(v: string) { this.searchFormControl.setValue(v, {emitEvent: false}); }

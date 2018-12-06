@@ -4,6 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {MaterialModule} from 'app/material.module';
 import {CommonModule} from '@angular/common';
 import {EditableItemPropertyModule} from './editable-item-property/editable-item-property.module';
+import {AdvancedSearchModule} from 'app/season/shared/advanced-search/advanced-search.module';
 
 const routes: Routes = [{path: '', component: InventoryPage}];
 
@@ -12,6 +13,7 @@ export class InventoryPageRoutingModule {}
 
 @NgModule({
   imports: [
+    AdvancedSearchModule,
     InventoryPageRoutingModule,
     EditableItemPropertyModule,
     MaterialModule,

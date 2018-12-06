@@ -14,7 +14,7 @@ import {RequestsRenderer} from '../../services/requests-renderer/requests-render
 import {fromEvent, Observable, Observer, Subject} from 'rxjs';
 import {RequestRendererOptionsState} from '../../services/requests-renderer/request-renderer-options';
 import {Selection} from 'app/season/services';
-import {FilterMetadata} from 'app/season/services/requests-renderer/request-filter-metadata';
+import {RequestFilterMetadata} from 'app/season/services/requests-renderer/request-filter-metadata';
 
 @Component({
   selector: 'requests-list',
@@ -37,7 +37,7 @@ export class RequestsList {
   renderedRequestGroups: RequestGroup[];
   requestsToDisplay = 10;
 
-  requestFilterMetadata = FilterMetadata;
+  requestFilterMetadata = RequestFilterMetadata;
 
   @Input() set requestRendererOptionsState(state: RequestRendererOptionsState) {
     this.requestsRenderer.options.setState(state);
