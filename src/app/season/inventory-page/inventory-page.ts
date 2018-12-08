@@ -7,6 +7,11 @@ import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 import {ItemFilterMetadata} from 'app/season/inventory-page/item-filter-metadata';
 import {Filter} from 'app/season/utility/search/filter';
 import {getItemsMatchingQuery} from 'app/season/utility/items-search';
+import {SelectionModel} from '@angular/cdk/collections';
+import {EXPANSION_ANIMATION} from 'app/utility/animations';
+import {ItemDialog} from 'app/season/shared/dialog/item/item-dialog';
+import {DomSanitizer} from '@angular/platform-browser';
+import {CdkScrollable} from '@angular/cdk/overlay';
 
 interface EditableProperty {
   id: string;
@@ -20,9 +25,12 @@ interface EditableProperty {
   selector: 'inventory-page',
   templateUrl: 'inventory-page.html',
   styleUrls: ['inventory-page.scss'],
+  animations: EXPANSION_ANIMATION,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InventoryPage {
+  expanded = new SelectionModel<string>(true);
+  hasExpanded = new Set<string>();
   filterMetadata = ItemFilterMetadata;
 
   set search(v: string) { this._search.next(v); }
@@ -47,21 +55,27 @@ export class InventoryPage {
   ];
 
   displayedColumns =
-      ['select', 'name', 'categories', 'cost', 'quantityOwned', 'hidden', 'url'];
+      ['select', 'name', 'categories', 'cost', 'quantityOwned', 'hidden', 'url', 'showUrl'];
 
   dataSource = new MatTableDataSource<Item>();
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
 
   private _destroyed = new Subject();
 
   constructor (private itemsDao: ItemsDao,
                private cd: ChangeDetectorRef,
+               private sanitizer: DomSanitizer,
                private selection: Selection) {
     this.selection.items.changed.pipe(
         takeUntil(this._destroyed))
         .subscribe(() => this.cd.markForCheck());
+
+    this.expanded.changed.subscribe(change => {
+      change.added.forEach(p => this.hasExpanded.add(p));
+    });
   }
 
   ngOnInit() {
@@ -82,7 +96,20 @@ export class InventoryPage {
 
           const filteredItems = this.filter(items || [], filters);
           this.dataSource.data = getItemsMatchingQuery(filteredItems, search);
+
         });
+
+    combineLatest([
+      this._search,
+      this._filters,
+      this.sort.sortChange,
+      this.paginator.page
+    ]).pipe(takeUntil(this._destroyed))
+        .subscribe(() => this.scrollable.scrollTo({top: 0}));
+
+    this.sort.sortChange.subscribe(() => {
+      this.paginator.firstPage();
+    })
   }
 
   ngOnDestroy() {
@@ -122,5 +149,9 @@ export class InventoryPage {
         return this.filterMetadata.get(filter.type).matcher({item}, filter.query);
       });
     });
+  }
+
+  getSafeUrl(url: string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {take, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
-import {Item, ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
+import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
 import {CreateItem, CreateItemResult} from './create-item/create-item';
 import {Subject} from 'rxjs';
 import {highlight} from 'app/utility/element-actions';
@@ -67,6 +67,5 @@ export class ItemDialog {
         highlight(id);
       });
     });
-
   }
 }

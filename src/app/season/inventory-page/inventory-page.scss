@@ -42,11 +42,12 @@ table {
   width: 64px;
   min-width: 64px;
   box-sizing: border-box;
-  padding: 12px;
 }
 
-td.mat-cell.mat-column-select {
-  padding: 12px 12px 12px 24px;
+.mat-column-showUrl {
+  width: 64px;
+  min-width: 64px;
+  box-sizing: border-box;
 }
 
 .align-end {
