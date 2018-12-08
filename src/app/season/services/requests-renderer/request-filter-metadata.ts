@@ -183,7 +183,7 @@ export const RequestFilterMetadata = new Map<string, IFilterMetadata>([
         ['Distributed', c.request.isDistributed],
         ['Previously approved', !!c.request.prevApproved],
       ]);
-      return stateMatchesEquality(values[q.state], q);
+      return stateMatchesEquality(values.get(q.state), q);
     },
   }],
 ]);

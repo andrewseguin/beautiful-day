@@ -48,6 +48,11 @@
             <ng-container *ngSwitchCase="'currency'">
               {{item[prop.id] | currency}}
             </ng-container>
+            <ng-container *ngSwitchCase="'array'">
+              <div *ngFor="let v of item[prop.id]">
+                {{v}}
+              </div>
+            </ng-container>
             <ng-container *ngSwitchDefault>
               {{item[prop.id]}}
             </ng-container>

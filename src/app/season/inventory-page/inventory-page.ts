@@ -16,7 +16,7 @@ import {CdkScrollable} from '@angular/cdk/overlay';
 interface EditableProperty {
   id: string;
   label: string;
-  type?: 'currency';
+  type?: 'currency' | 'array';
   alignEnd?: boolean;
   isStickyLeft?: boolean;
 }
@@ -47,7 +47,7 @@ export class InventoryPage {
 
   editableProperties: EditableProperty[] = [
     {id: 'name', label: 'Name', isStickyLeft: true},
-    {id: 'categories', label: 'Categories'},
+    {id: 'categories', label: 'Categories', type: 'array'},
     {id: 'cost', label: 'Cost', alignEnd: true, type: 'currency'},
     {id: 'quantityOwned', label: 'Stock', alignEnd: true},
     {id: 'hidden', label: 'Hidden'},

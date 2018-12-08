@@ -88,8 +88,12 @@ export class AdvancedSearch implements OnInit, AfterViewInit, OnDestroy {
 
     this.displayedFilterTypes =
       Array.from(this.metadata.keys())
-        .filter(key => this.metadata.get(key).displayName).sort();
-
+        .filter(key => this.metadata.get(key).displayName)
+        .sort((a, b) => {
+          const nameA = this.metadata.get(a).displayName;
+          const nameB = this.metadata.get(b).displayName;
+          return nameA < nameB ? -1 : 1;
+        });
   }
 
   ngAfterViewInit() {

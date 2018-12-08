@@ -37,7 +37,11 @@ export class InputQueryForm implements AfterViewInit, OnChanges {
 
   @Input() query: InputQuery;
 
-  @Input() options;
+  @Input()
+  set options(o: string[]) {
+    this._options.next(Array.from(new Set(o)));
+  }
+  get options(): string[] { return this._options.value; }
   _options = new BehaviorSubject([]);
 
   @Input() focusInput: boolean;
@@ -62,10 +66,6 @@ export class InputQueryForm implements AfterViewInit, OnChanges {
       if (this.query && this.query.input) {
         this.form.get('input').setValue(this.query.input || '', {emitEvent: false});
       }
-    }
-
-    if (simpleChanges.options) {
-      this._options.next(this.options || []);
     }
   }
 
