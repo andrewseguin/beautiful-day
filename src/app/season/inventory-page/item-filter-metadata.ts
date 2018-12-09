@@ -56,7 +56,7 @@ export const ItemFilterMetadata = new Map<string, IFilterMetadata>([
 
   /** NumberQuery Filters */
 
-  ['itemCost', {
+  ['cost', {
     displayName: 'Cost',
     queryType: 'number',
     matcher: (c: MatcherContext, q: NumberQuery) => {
@@ -66,7 +66,7 @@ export const ItemFilterMetadata = new Map<string, IFilterMetadata>([
 
   /** DateQuery Filters */
 
-  ['itemAdded', {
+  ['added', {
     displayName: 'Date Added',
     queryType: 'date',
     matcher: (c: MatcherContext, q: DateQuery) => {
@@ -74,7 +74,7 @@ export const ItemFilterMetadata = new Map<string, IFilterMetadata>([
     }
   }],
 
-  ['itemModified', {
+  ['modified', {
     displayName: 'Date Modified',
     queryType: 'date',
     matcher: (c: MatcherContext, q: DateQuery) => {
@@ -88,11 +88,11 @@ export const ItemFilterMetadata = new Map<string, IFilterMetadata>([
     displayName: 'State',
     queryType: 'state',
     queryTypeData: {
-      states: ['Hidden']
+      states: ['hidden']
     },
     matcher: (c: MatcherContext, q: StateQuery) => {
       const values = new Map<string, boolean>([
-        ['Hidden', !!c.item.hidden],
+        ['hidden', !!c.item.hidden],
       ]);
       return stateMatchesEquality(values.get(q.state), q);
     },

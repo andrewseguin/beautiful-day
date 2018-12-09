@@ -10,7 +10,8 @@
 <div class="table-container" cdkScrollable>
   <table mat-table [dataSource]="dataSource"
          class="theme-border"
-         [trackBy]="trackBy" matSort>
+         [trackBy]="trackBy"
+         matSort matSortActive="created" matSortDirection="desc">
     <ng-container matColumnDef="select" sticky>
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let item">
@@ -40,16 +41,22 @@
           <editable-item-property [item]="item"
                                   [alignEnd]="prop.alignEnd"
                                   [property]="prop.id"
-                                  (propertyChanged)="save(item, prop.id, $event)">
+                                  (propertyChanged)="save(item, $event)">
           </editable-item-property>
         </ng-container>
         <ng-template #viewing>
-          <ng-container [ngSwitch]="prop.type">
-            <ng-container *ngSwitchCase="'currency'">
-              {{item[prop.id] | currency}}
+          <ng-container [ngSwitch]="prop.id">
+            <ng-container *ngSwitchCase="'cost'">
+              {{item.cost | currency}}
             </ng-container>
-            <ng-container *ngSwitchCase="'array'">
-              <div *ngFor="let v of item[prop.id]">
+            <ng-container *ngSwitchCase="'hidden'">
+              {{item.hidden ? 'Hidden' : ''}}
+            </ng-container>
+            <ng-container *ngSwitchCase="'approved'">
+              {{item.isApproved ? 'Approved' : ''}}
+            </ng-container>
+            <ng-container *ngSwitchCase="'categories'">
+              <div *ngFor="let v of item.categories">
                 {{v}}
               </div>
             </ng-container>
@@ -72,6 +79,16 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="dateCreated">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Created </th>
+      <td mat-cell *matCellDef="let item"> {{item.dateCreated | date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateModified">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Modified </th>
+      <td mat-cell *matCellDef="let item"> {{item.dateModified | date}} </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let item; columns: displayedColumns;"
         [class.selected]="selection.items.isSelected(item.id)">
@@ -83,3 +100,21 @@
                pageSize="25"
                showFirstLastButtons
                class="theme-border"></mat-paginator>
+
+<ng-template cdkPortal>
+  <button mat-stroked-button
+          (click)="addItem()"
+          color="primary">
+    Add item
+  </button>
+  <button mat-icon-button class="overflow-menu-trigger"
+          [mat-menu-trigger-for]="overflow">
+    <mat-icon> more_vert </mat-icon>
+  </button>
+</ng-template>
+
+<mat-menu #overflow="matMenu">
+  <button mat-menu-item>
+    <mat-icon> import </mat-icon> Print
+  </button>
+</mat-menu>

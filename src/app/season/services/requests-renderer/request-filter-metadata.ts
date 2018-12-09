@@ -174,14 +174,14 @@ export const RequestFilterMetadata = new Map<string, IFilterMetadata>([
     displayName: 'Status',
     queryType: 'state',
     queryTypeData: {
-      states: ['Approved', 'Purchased', 'Distributed', 'Previously approved']
+      states: ['approved', 'purchased', 'distributed', 'previously approved']
     },
     matcher: (c: MatcherContext, q: StateQuery) => {
       const values = new Map<string, boolean>([
-        ['Approved', c.request.isApproved],
-        ['Purchased', c.request.isPurchased],
-        ['Distributed', c.request.isDistributed],
-        ['Previously approved', !!c.request.prevApproved],
+        ['approved', c.request.isApproved],
+        ['purchased', c.request.isPurchased],
+        ['distributed', c.request.isDistributed],
+        ['previously approved', !!c.request.prevApproved],
       ]);
       return stateMatchesEquality(values.get(q.state), q);
     },

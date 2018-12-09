@@ -25,12 +25,20 @@ table {
   height: 48px;
 }
 
+@mixin col-width($width) {
+  width: $width;
+  min-width: $width;
+}
+
 @media (min-width: $mobile-width) {
-  .mat-column-name { width: 350px; min-width: 350px; }
-  .mat-column-categories { width: 250px; min-width: 250px; }
-  .mat-column-cost { width: 100px; min-width: 100px; }
-  .mat-column-quantityOwned { width: 80px; min-width: 80px;}
-  .mat-column-hidden { width: 60px; min-width: 60px;}
+  .mat-column-name { @include col-width(350px); }
+  .mat-column-categories { @include col-width(250px); }
+  .mat-column-cost { @include col-width(100px); }
+  .mat-column-quantityOwned { @include col-width(80px); }
+  .mat-column-hidden { @include col-width(60px); }
+  .mat-column-approved { @include col-width(60px); }
+  .mat-column-dateCreated { @include col-width(100px); }
+  .mat-column-dateModified { @include col-width(100px); }
   .mat-column-url { min-width: 300px; }
 }
 
@@ -80,4 +88,8 @@ advanced-search {
   @media (max-width: $mobile-width - 1) {
     margin: 8px;
   }
+}
+
+.overflow-menu-trigger {
+  margin-right: 8px;
 }

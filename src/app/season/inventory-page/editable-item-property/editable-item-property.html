@@ -1,10 +1,13 @@
-<ng-container ngSwitch="property">
-  <ng-container *ngSwitchDefault>
-    <textarea #textarea
-              [style.text-align]="alignEnd ? 'right' : ''"
-              [formControl]="formControl"
-              (blur)="save()"
-              mat-autosize>
-    </textarea>
-  </ng-container>
-</ng-container>
+<textarea #textarea *ngIf="formType === 'textarea'"
+          [style.text-align]="alignEnd ? 'right' : ''"
+          [formControl]="formControl"
+          (blur)="save()"
+          mat-autosize>
+</textarea>
+
+<mat-select *ngIf="formType === 'select'" [formControl]="formControl"
+            (openedChange)="$event ? '' : save()">
+  <mat-option *ngFor="let option of selectOptions" [value]="option.value">
+    {{option.label}}
+  </mat-option>
+</mat-select>

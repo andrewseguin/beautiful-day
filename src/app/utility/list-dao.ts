@@ -93,9 +93,9 @@ export abstract class ListDao<T extends IdentifiedObject> {
   }
 
 
-  update(id: string, update: T) {
+  update(id: string, update: T): Promise<void> {
     update.dateModified = new Date().toISOString();
-    this.collection.doc(id).update(update);
+    return this.collection.doc(id).update(update);
 
     // TODO: If the doc doesn't exist, the update will fail. To mitigate this,
     // you can use `this.collection.doc(id).set(update, {merge: true});`

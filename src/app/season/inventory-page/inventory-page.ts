@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import {Item, ItemsDao} from 'app/season/dao';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {Selection} from 'app/season/services';
+import {Header, Selection} from 'app/season/services';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 import {ItemFilterMetadata} from 'app/season/inventory-page/item-filter-metadata';
@@ -9,9 +9,10 @@ import {Filter} from 'app/season/utility/search/filter';
 import {getItemsMatchingQuery} from 'app/season/utility/items-search';
 import {SelectionModel} from '@angular/cdk/collections';
 import {EXPANSION_ANIMATION} from 'app/utility/animations';
-import {ItemDialog} from 'app/season/shared/dialog/item/item-dialog';
 import {DomSanitizer} from '@angular/platform-browser';
 import {CdkScrollable} from '@angular/cdk/overlay';
+import {CdkPortal} from '@angular/cdk/portal';
+import {ItemDialog} from 'app/season/shared/dialog/item/item-dialog';
 
 interface EditableProperty {
   id: string;
@@ -47,27 +48,33 @@ export class InventoryPage {
 
   editableProperties: EditableProperty[] = [
     {id: 'name', label: 'Name', isStickyLeft: true},
-    {id: 'categories', label: 'Categories', type: 'array'},
-    {id: 'cost', label: 'Cost', alignEnd: true, type: 'currency'},
+    {id: 'categories', label: 'Categories'},
+    {id: 'cost', label: 'Cost', alignEnd: true},
     {id: 'quantityOwned', label: 'Stock', alignEnd: true},
     {id: 'hidden', label: 'Hidden'},
+    {id: 'approved', label: 'Approved'},
     {id: 'url', label: 'URL'},
   ];
 
   displayedColumns =
-      ['select', 'name', 'categories', 'cost', 'quantityOwned', 'hidden', 'url', 'showUrl'];
+      ['select', 'name', 'categories', 'cost',
+       'quantityOwned', 'dateCreated', 'dateModified',
+       'approved', 'hidden', 'url', 'showUrl'];
 
   dataSource = new MatTableDataSource<Item>();
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
+  @ViewChild(CdkPortal) toolbarActions: CdkPortal;
 
   private _destroyed = new Subject();
 
   constructor (private itemsDao: ItemsDao,
+               private itemDialog: ItemDialog,
                private cd: ChangeDetectorRef,
                private sanitizer: DomSanitizer,
+               private header: Header,
                private selection: Selection) {
     this.selection.items.changed.pipe(
         takeUntil(this._destroyed))
@@ -79,6 +86,8 @@ export class InventoryPage {
   }
 
   ngOnInit() {
+    this.header.toolbarOutlet.next(this.toolbarActions);
+
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
 
@@ -96,7 +105,6 @@ export class InventoryPage {
 
           const filteredItems = this.filter(items || [], filters);
           this.dataSource.data = getItemsMatchingQuery(filteredItems, search);
-
         });
 
     combineLatest([
@@ -109,28 +117,24 @@ export class InventoryPage {
 
     this.sort.sortChange.subscribe(() => {
       this.paginator.firstPage();
-    })
+    });
   }
 
   ngOnDestroy() {
+    this.header.toolbarOutlet.next(null);
     this._destroyed.next();
     this._destroyed.complete();
   }
 
-  save(item: Item, property: string, value: string) {
-    const update = {};
-    if (property === 'categories') {
-      update[property] = value.split(',');
-    } else {
-      update[property] = value;
-    }
+  save(item: Item, update: Item) {
+    // Save the value on the item to render immediately.
+    // Prevents a quick jank of showing old value before the update comes thru
+    Object.keys(update).forEach(key => {
+      item[key] = update[key];
+    });
 
     this.itemsDao.update(item.id, update);
     this.editing = null;
-
-    // For UI purposes, save the value on the item to render immediately.
-    // Prevents a quick jank of showing old value before the update comes thru
-    item[property] = value;
   }
 
   setSelected(item: string, value: boolean) {
@@ -153,5 +157,9 @@ export class InventoryPage {
 
   getSafeUrl(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
+
+  addItem() {
+    this.itemDialog.createItem('');
   }
 }

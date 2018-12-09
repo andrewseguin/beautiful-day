@@ -49,26 +49,28 @@ export class RequestsDao extends SeasonCollectionDao<Request> {
     return this.afs.collection(this.path, queryFn).valueChanges();
   }
 
-  update(id: string, update: Request) {
-     this.get(id).pipe(take(1)).subscribe(request => {
-       // If purchased, go ahead and set to approved
-       if (update.isPurchased) {
-         update.isApproved = true;
-       }
+  update(id: string, update: Request): Promise<void> {
+    return new Promise<void>(resolve => {
+      this.get(id).pipe(take(1)).subscribe(request => {
+        // If purchased, go ahead and set to approved
+        if (update.isPurchased) {
+          update.isApproved = true;
+        }
 
-       // If it is or was approved, save any previously approved
-       // properties if the update contains changes to them.
-       if (request.isApproved || request.prevApproved) {
-         saveChangedApprovedProperties(update, request);
-       }
+        // If it is or was approved, save any previously approved
+        // properties if the update contains changes to them.
+        if (request.isApproved || request.prevApproved) {
+          saveChangedApprovedProperties(update, request);
+        }
 
-       // If approved, removed the prevApproved properties
-       if (update.isApproved) {
-         update.prevApproved = null;
-       }
+        // If approved, removed the prevApproved properties
+        if (update.isApproved) {
+          update.prevApproved = null;
+        }
 
-       super.update(id, update);
-     });
+        super.update(id, update).then(() => resolve());
+      });
+    });
   }
 }
 
