@@ -63,6 +63,8 @@ export class InventoryPage {
 
   dataSource = new MatTableDataSource<Item>();
 
+  loading = true;
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
@@ -102,6 +104,10 @@ export class InventoryPage {
           const items = result[0];
           const search = result[1];
           const filters = result[2];
+
+          if (items) {
+            this.loading = false;
+          }
 
           const filteredItems = this.filter(items || [], filters);
           this.dataSource.data = getItemsMatchingQuery(filteredItems, search);
@@ -161,5 +167,16 @@ export class InventoryPage {
 
   addItem() {
     this.itemDialog.createItem('');
+  }
+
+  selectFilteredItems() {
+    this.selection.items.select(...this.dataSource.data.map(i => i.id));
+  }
+
+  allFilteredItemsSelected() {
+    if (!this.dataSource.data.length) {
+      return false;
+    }
+    return this.dataSource.data.every(i => this.selection.items.isSelected(i.id));
   }
 }

@@ -7,6 +7,7 @@ import {EditableItemPropertyModule} from './editable-item-property/editable-item
 import {AdvancedSearchModule} from 'app/season/shared/advanced-search/advanced-search.module';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {ItemDialogModule} from 'app/season/shared/dialog/item/item-dialog.module';
+import {LoadingModule} from 'app/season/shared/loading/loading.module';
 
 const routes: Routes = [{path: '', component: InventoryPage}];
 
@@ -22,6 +23,7 @@ export class InventoryPageRoutingModule {}
     ItemDialogModule,
     ScrollingModule,
     CommonModule,
+    LoadingModule,
   ],
   declarations: [InventoryPage],
   exports: [InventoryPage],

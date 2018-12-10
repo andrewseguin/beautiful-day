@@ -35,7 +35,7 @@ export class EditableItemProperty {
 
   private _destroyed = new Subject();
 
-  formType: 'textarea' | 'select' = 'select';
+  formType: 'textarea' | 'select' = 'textarea';
 
   selectOptions: {value: any, label: string}[] = [];
 
@@ -47,6 +47,7 @@ export class EditableItemProperty {
         value = this.item.categories.join(', ');
         break;
       case 'hidden':
+        this.formType = 'select';
         this.selectOptions = [
           {value: false, label: ''},
           {value: true, label: 'Hidden'}
@@ -54,6 +55,7 @@ export class EditableItemProperty {
         value = !!this.item.hidden;
         break;
       case 'approved':
+        this.formType = 'select';
         this.selectOptions = [
           {value: false, label: ''},
           {value: true, label: 'Approved'}

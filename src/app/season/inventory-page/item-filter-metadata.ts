@@ -64,6 +64,14 @@ export const ItemFilterMetadata = new Map<string, IFilterMetadata>([
     }
   }],
 
+  ['stock', {
+    displayName: 'Stock',
+    queryType: 'number',
+    matcher: (c: MatcherContext, q: NumberQuery) => {
+      return numberMatchesEquality(c.item.quantityOwned || 0, q);
+    }
+  }],
+
   /** DateQuery Filters */
 
   ['added', {
@@ -88,11 +96,12 @@ export const ItemFilterMetadata = new Map<string, IFilterMetadata>([
     displayName: 'State',
     queryType: 'state',
     queryTypeData: {
-      states: ['hidden']
+      states: ['hidden', 'approved']
     },
     matcher: (c: MatcherContext, q: StateQuery) => {
       const values = new Map<string, boolean>([
         ['hidden', !!c.item.hidden],
+        ['approved', !!c.item.isApproved],
       ]);
       return stateMatchesEquality(values.get(q.state), q);
     },

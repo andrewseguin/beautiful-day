@@ -6,7 +6,8 @@
 </button>
 
 <div [matTooltip]="hasPurchased ? 'Cannot delete requests that have been purchased' : ''">
-  <button mat-button (click)="deleteRequests()"
+  <button mat-button
+          (click)="requestDialog.deleteRequests(selected)"
           [disabled]="hasPurchased"
           class="header-button">
     <div class="selection-header-button-content">
@@ -18,36 +19,43 @@
 
 
 <mat-menu #editMenu="matMenu" x-position="before">
-  <button mat-menu-item (click)="editNote()">
+  <button mat-menu-item
+          (click)="requestDialog.editNote(selected)">
     Note
   </button>
 
-  <button mat-menu-item (click)="editDropoff()">
+  <button mat-menu-item
+          (click)="requestDialog.editDropoff(selected)">
     Dropoff
   </button>
 
-  <button mat-menu-item (click)="editTags()">
+  <button mat-menu-item
+          (click)="requestDialog.editTags(selected)">
     Tags
   </button>
 
-  <button mat-menu-item (click)="editPurchaser()"
+  <button mat-menu-item
+          (click)="requestDialog.editPurchaser(selected)"
           *ngIf="permissions.editableRequestProperties.purchaser | async">
     Purchaser
   </button>
 
-  <button mat-menu-item (click)="editStatus()"
+  <button mat-menu-item
+          (click)="requestDialog.editStatus(selected)"
           *ngIf="permissions.editableRequestProperties.status | async">
     Status
   </button>
 
-  <button mat-menu-item (click)="editAllocation()"
+  <button mat-menu-item
+          (click)="requestDialog.editAllocation(selected)"
           [disabled]="getSelectedRequestsCount() > 1"
           [matTooltip]="getSelectedRequestsCount() > 1 ? 'Cannot allocate for more than one request' : ''"
           *ngIf="permissions.editableRequestProperties.allocation | async">
     Allocation
   </button>
 
-  <button mat-menu-item (click)="editCostAdjustment()"
+  <button mat-menu-item
+          (click)="requestDialog.editCostAdjustment(selected)"
           *ngIf="permissions.editableRequestProperties.costAdjustment | async">
     Cost adjustment
   </button>

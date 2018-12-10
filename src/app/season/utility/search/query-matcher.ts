@@ -36,7 +36,8 @@ export function numberMatchesEquality(num: number, query: NumberQuery) {
     case 'lessThan':
       return num < query.value;
     case 'equalTo':
-      return num === query.value;
+      // Double-equals to cast in cases where the number was stored as a string
+      return num == query.value;
     default:
       throw Error(`Unknown equality: ${query.equality}`);
   }

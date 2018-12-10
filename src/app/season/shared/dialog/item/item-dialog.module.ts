@@ -4,6 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {ItemDialog} from './item-dialog';
 import {CreateItemModule} from './create-item/create-item.module';
+import {EditItemStatusModule} from './edit-item-status/edit-item-status.module';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import {CreateItemModule} from './create-item/create-item.module';
     MaterialModule,
     ReactiveFormsModule,
     CreateItemModule,
+    EditItemStatusModule
   ],
   providers: [ItemDialog]
 })

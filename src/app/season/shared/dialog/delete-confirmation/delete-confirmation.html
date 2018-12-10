@@ -2,6 +2,10 @@
 
 <div mat-dialog-content>
   Are you sure you want to delete {{name | async}}?
+
+  <div *ngIf="warning | async; let warningStr" class="warning theme-warn">
+    Warning: {{warningStr}}
+  </div>
 </div>
 
 

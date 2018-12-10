@@ -1,25 +1,23 @@
-<div *ngIf="isMultiSelect()">
-  <button mat-button [mat-menu-trigger-for]="editMenu" class="header-button">
-    <div class="selection-header-button-content">
-      <mat-icon>edit</mat-icon>
-      <div class="text">Edit</div>
-    </div>
-  </button>
-  <mat-menu #editMenu="matMenu" x-position="before">
-    <button mat-menu-item> Category </button>
-  </mat-menu>
-</div>
-
-<button *ngIf="!isMultiSelect()" mat-button class="header-button">
+<button mat-button [mat-menu-trigger-for]="editMenu" class="header-button">
   <div class="selection-header-button-content">
     <mat-icon>edit</mat-icon>
     <div class="text">Edit</div>
   </div>
 </button>
 
-<button *ngIf="!isMultiSelect()" mat-button (click)="deleteItem()" class="header-button">
+<button mat-button
+        (click)="deleteItems()"
+        class="header-button">
   <div class="selection-header-button-content">
     <mat-icon>delete</mat-icon>
     <div class="text">Delete</div>
   </div>
 </button>
+
+<mat-menu #editMenu="matMenu" x-position="before">
+  <button mat-menu-item
+          *ngFor="let o of editOptions"
+          (click)="edit(o.id)">
+    {{o.label}}
+  </button>
+</mat-menu>

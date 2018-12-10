@@ -16,6 +16,8 @@ import {startWith, take, takeUntil} from 'rxjs/operators';
 export class EditRequestOptions {
   hasPurchased = true;
 
+  selected = this.selection.requests.selected;
+
   private destroyed = new Subject();
 
   constructor(private requestsDao: RequestsDao,
@@ -23,7 +25,7 @@ export class EditRequestOptions {
               private mdDialog: MatDialog,
               private selection: Selection,
               private cd: ChangeDetectorRef,
-              private requestDialog: RequestDialog,
+              public requestDialog: RequestDialog,
               public permissions: Permissions) {
     // Cannot delete requests that have already been purchased
     this.selection.requests.changed.pipe(
@@ -40,37 +42,5 @@ export class EditRequestOptions {
 
   getSelectedRequestsCount() {
     return this.selection.requests.selected.length;
-  }
-
-  deleteRequests() {
-    this.requestDialog.deleteRequests(this.selection.requests.selected);
-  }
-
-  editNote() {
-    this.requestDialog.editNote(this.selection.requests.selected);
-  }
-
-  editDropoff() {
-    this.requestDialog.editDropoff(this.selection.requests.selected);
-  }
-
-  editTags() {
-    this.requestDialog.editTags(this.selection.requests.selected);
-  }
-
-  editPurchaser() {
-    this.requestDialog.editPurchaser(this.selection.requests.selected);
-  }
-
-  editStatus() {
-    this.requestDialog.editStatus(this.selection.requests.selected);
-  }
-
-  editAllocation() {
-    this.requestDialog.editAllocation(this.selection.requests.selected);
-  }
-
-  editCostAdjustment() {
-    this.requestDialog.editCostAdjustment(this.selection.requests.selected);
   }
 }

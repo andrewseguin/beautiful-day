@@ -8,11 +8,10 @@ import {
 } from '@angular/material';
 import {
   PromptDialog,
-  PromptDialogData,
   PromptDialogResult
 } from 'app/season/shared/dialog/prompt-dialog/prompt-dialog';
 import {Selection} from 'app/season/services';
-import {ItemsDao, ProjectsDao, RequestsDao, Request} from 'app/season/dao';
+import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
 import {map, mergeMap, take} from 'rxjs/operators';
 import {combineLatest, of} from 'rxjs';
 import {
@@ -33,6 +32,7 @@ import {
   EditCostAdjustment,
   EditCostAdjustmentResult
 } from 'app/season/shared/dialog/request/edit-cost-adjustment/edit-cost-adjustment';
+import {getMergedObjectValue} from 'app/season/utility/merged-obj-value';
 
 @Injectable()
 export class RequestDialog {
@@ -98,42 +98,37 @@ export class RequestDialog {
     });
   }
 
-  private openPromptDialog(
-      ids: string[], property: string, config: MatDialogConfig) {
-    const dialogRef = this.dialog.open(PromptDialog, config);
-    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
-      this.applyPromptDialogResult(ids, result, property);
-    });
-  }
-
   editNote(ids: string[]) {
+    const requests = combineLatest(ids.map(id => this.requestsDao.get(id)));
     this.openPromptDialog(ids, 'note', {
       width: '400px',
       data: {
         title: 'Edit Note',
         useTextArea: true,
-        input: this.getMergedRequestsValue(ids, 'note')
+        input: getMergedObjectValue(requests, 'note')
       }
     });
   }
 
   editPurchaser(ids: string[]) {
+    const requests = combineLatest(ids.map(id => this.requestsDao.get(id)));
     this.openPromptDialog(ids, 'purchaser', {
       width: '300px',
       data: {
         title: 'Edit Purchaser',
-        input: this.getMergedRequestsValue(ids, 'purchaser')
+        input: getMergedObjectValue(requests, 'purchaser')
       }
     });
   }
 
   editAllocation(ids: string[]) {
+    const requests = combineLatest(ids.map(id => this.requestsDao.get(id)));
     this.openPromptDialog(ids, 'allocation', {
       width: '300px',
       data: {
         title: 'Edit Allocation',
         type: 'number',
-        input: this.getMergedRequestsValue(ids, 'allocation')
+        input: getMergedObjectValue(requests, 'allocation')
       }
     });
   }
@@ -203,27 +198,16 @@ export class RequestDialog {
           });
     });
   }
-  
-  private getMergedRequestsValue(ids: string[], property: string) {
-    return combineLatest(ids.map(id => this.requestsDao.get(id))).pipe(
-      map(requests => {
-        const firstValue = requests[0][property];
-        return requests.every(r => r[property] === firstValue) ? firstValue : '';
-      }));
-  }
 
-  private applyPromptDialogResult(
-    ids: string[], result: PromptDialogResult, property: string) {
-    if (!result) {
-      return;
-    }
-
-    const update = {};
-    update[property] = result.value;
-
-    ids.forEach(id => {
-      this.requestsDao.update(id, update);
-      this.selection.requests.clear();
+  private openPromptDialog(ids: string[], property: string, config: MatDialogConfig) {
+    const dialogRef = this.dialog.open(PromptDialog, config);
+    dialogRef.afterClosed().pipe(take(1)).subscribe((result: PromptDialogResult) => {
+      if (result) {
+        const update = {};
+        update[property] = result.value;
+        ids.forEach(id => this.requestsDao.update(id, update));
+        this.selection.requests.clear();
+      }
     });
   }
 }
