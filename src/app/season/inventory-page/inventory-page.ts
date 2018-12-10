@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild} from '@angular/core';
-import {Item, ItemsDao} from 'app/season/dao';
+import {Item, ItemsDao, RequestsDao, Request} from 'app/season/dao';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Header, Selection} from 'app/season/services';
 import {takeUntil} from 'rxjs/operators';
@@ -59,11 +59,13 @@ export class InventoryPage {
   displayedColumns =
       ['select', 'name', 'categories', 'cost',
        'quantityOwned', 'dateCreated', 'dateModified',
-       'approved', 'hidden', 'url', 'showUrl'];
+       'approved', 'hidden', 'requests', 'url', 'showUrl'];
 
   dataSource = new MatTableDataSource<Item>();
 
   loading = true;
+
+  requestCount: Map<string, number>;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -73,6 +75,7 @@ export class InventoryPage {
   private _destroyed = new Subject();
 
   constructor (private itemsDao: ItemsDao,
+               private requestsDao: RequestsDao,
                private itemDialog: ItemDialog,
                private cd: ChangeDetectorRef,
                private sanitizer: DomSanitizer,
@@ -85,6 +88,24 @@ export class InventoryPage {
     this.expanded.changed.subscribe(change => {
       change.added.forEach(p => this.hasExpanded.add(p));
     });
+
+    combineLatest([this.itemsDao.list, this.requestsDao.list]).pipe(
+      takeUntil(this._destroyed))
+      .subscribe(result => {
+        const items: Item[] = result[0];
+        const requests: Request[] = result[1];
+
+        if (!items || !requests) {
+          return;
+        }
+
+        this.requestCount = new Map();
+        items.forEach(item => {
+          this.requestCount.set(item.id, requests.filter(r => r.item === item.id).length);
+          this.cd.markForCheck();
+        });
+      });
+
   }
 
   ngOnInit() {
@@ -92,6 +113,12 @@ export class InventoryPage {
 
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+
+    const defaultAccessor = this.dataSource.sortingDataAccessor;
+    this.dataSource.sortingDataAccessor = (item: Item, id: string) => {
+      return id === 'requests' ?
+          this.requestCount.get(item.id) : defaultAccessor(item, id);
+    };
 
     const changes = [
       this.itemsDao.list,

@@ -39,6 +39,7 @@ table {
   .mat-column-approved { @include col-width(60px); }
   .mat-column-dateCreated { @include col-width(100px); }
   .mat-column-dateModified { @include col-width(100px); }
+  .mat-column-requests { @include col-width(80px); }
   .mat-column-url { min-width: 300px; }
 }
 
