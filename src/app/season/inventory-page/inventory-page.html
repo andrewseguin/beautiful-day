@@ -132,7 +132,10 @@
 </ng-template>
 
 <mat-menu #overflow="matMenu">
-  <button mat-menu-item>
-    <mat-icon> cloud_download </mat-icon> Import
+  <button mat-menu-item (click)="itemDialog.importItemsFromFile()">
+    <mat-icon> file_copy </mat-icon> Import from file
+  </button>
+  <button mat-menu-item (click)="itemDialog.importItemsFromSeason()">
+    <mat-icon> cloud_download </mat-icon> Import from season
   </button>
 </mat-menu>

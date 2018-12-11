@@ -1,0 +1,16 @@
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 16px;
+}
+
+label {
+  padding: 8px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.message {
+  margin-bottom: 32px;
+}

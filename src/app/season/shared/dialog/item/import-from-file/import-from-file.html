@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Import Items from File</h1>
+
+<div mat-dialog-content>
+  <div class="message">
+    Select a TSV file to import items into the inventory.
+  </div>
+
+  <div class="input-container">
+    <input type="file" name="file" id="file"
+           (change)="importFile($event.target.files)"
+           [style.display]="'none'"/>
+    <label for="file" matRipple
+           *ngIf="!items"
+           class="mat-elevation-z4 theme-hover theme-accent">
+      Choose a file
+    </label>
+
+    <div *ngIf="items" class="confirmation">
+      Import {{items.length}} items?
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close> Cancel </button>
+  <button mat-raised-button color="primary"
+          [disabled]="!items"
+          (click)="save()"> Save </button>
+</div>
+

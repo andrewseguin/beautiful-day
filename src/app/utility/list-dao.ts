@@ -2,6 +2,7 @@ import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {takeUntil} from 'rxjs/operators';
 import {AngularFireAuth} from '@angular/fire/auth';
+import * as firebase from 'firebase/app';
 
 export interface IdentifiedObject {
   id?: string;
@@ -78,14 +79,17 @@ export abstract class ListDao<T extends IdentifiedObject> {
   }
 
   add(obj: T): Promise<string> {
+    this.decorateForAdd(obj);
+    return this.collection.doc(obj.id).set(obj).then(() => obj.id);
+  }
+
+  decorateForAdd(obj: T) {
     if (!obj.id) {
       obj.id = this.afs.createId();
     }
 
     obj.dateCreated = new Date().toISOString();
     obj.dateModified = new Date().toISOString();
-
-    return this.collection.doc(obj.id).set(obj).then(() => obj.id);
   }
 
   get(id: string): Observable<T> {
@@ -124,5 +128,36 @@ export abstract class ListDao<T extends IdentifiedObject> {
       this.subscription = null;
       this._list.next(null);
     }
+  }
+
+  public deleteItemsWithBatch(ids: string[]): void {
+    performBatchedOperation(ids, (batch, chunk) => {
+      chunk.forEach(id => {
+        const doc = this.collection.doc(id);
+        batch.delete(doc.ref);
+      });
+    });
+  }
+
+  public addItemsWithBatch(objects: T[]): void {
+    performBatchedOperation(objects, (batch, chunk) => {
+      chunk.forEach(obj => {
+        this.decorateForAdd(obj);
+        const doc = this.collection.doc(obj.id);
+        batch.set(doc.ref, obj);
+      });
+    });
+  }
+}
+
+function performBatchedOperation(list: any[],
+    operation: (batch: firebase.firestore.WriteBatch, chunk: any[]) => void) {
+  const chunkSize = 500;
+  for (let i = 0; i < list.length; i += chunkSize) {
+    const chunk = list.slice(i, i + chunkSize);
+
+    const batch = firebase.firestore().batch();
+    operation(batch, chunk);
+    batch.commit();
   }
 }

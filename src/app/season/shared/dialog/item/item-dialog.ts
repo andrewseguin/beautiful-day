@@ -20,6 +20,7 @@ import {
   DeleteConfirmation,
   DeleteConfirmationData
 } from 'app/season/shared/dialog/delete-confirmation/delete-confirmation';
+import {ImportFromFile} from 'app/season/shared/dialog/item/import-from-file/import-from-file';
 
 @Injectable()
 export class ItemDialog {
@@ -225,7 +226,8 @@ export class ItemDialog {
         const items = result[0];
         const requests = result[1];
 
-        items.forEach(item => this.itemsDao.remove(item.id));
+        this.itemsDao.deleteItemsWithBatch(items.map(item => item.id));
+      //  items.forEach(item => this.itemsDao.remove(item.id));
         requests.forEach(request => this.requestsDao.remove(request.id));
 
         const message = `Removed ${ids.length > 1 ? 'items' : 'item'}`;
@@ -238,6 +240,22 @@ export class ItemDialog {
         this.selection.items.clear();
       });
     });
+  }
+
+  importItemsFromFile() {
+    this.dialog.open(ImportFromFile).afterClosed().pipe(take(1)).subscribe(items => {
+      if (items) {
+        this.snackBar.open('Importing...please wait');
+
+        this.itemsDao.addItemsWithBatch(items);
+
+        this.snackBar.open(`Successfully imported ${items.length} items!`, null, {duration: 2000});
+      }
+    });
+  }
+
+  importItemsFromSeason() {
+
   }
 
   private makeRequest(project: string, item: string) {
