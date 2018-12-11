@@ -40,6 +40,9 @@ export class Messages {
         // Filter out empty messages
         messages = messages.filter(msg => msg.text);
 
+        // Filter out disabled messages
+        messages = messages.filter(msg => msg.enabled);
+
         // Filter out messages that this user has dismissed
         messages = messages.filter(msg => (msg.dismissedBy || []).indexOf(email) === -1);
 
