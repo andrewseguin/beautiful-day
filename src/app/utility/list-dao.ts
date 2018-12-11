@@ -78,36 +78,62 @@ export abstract class ListDao<T extends IdentifiedObject> {
     this.destroyed.complete();
   }
 
-  add(obj: T): Promise<string> {
-    this.decorateForAdd(obj);
-    return this.collection.doc(obj.id).set(obj).then(() => obj.id);
-  }
-
-  decorateForAdd(obj: T) {
-    if (!obj.id) {
-      obj.id = this.afs.createId();
+  add(obj: T): Promise<string>;
+  add(objs: T[]): Promise<any[]>;
+  add(objOrObjs: T | T[]): Promise<string> | Promise<any[]> {
+    if (objOrObjs instanceof Array) {
+      return performBatchedOperation(objOrObjs, (batch, chunk) => {
+        chunk.forEach(obj => {
+          this.decorateForAdd(obj);
+          const doc = this.collection.doc(obj.id);
+          batch.set(doc.ref, obj);
+        });
+      });
+    } else {
+      const obj = objOrObjs;
+      this.decorateForAdd(obj);
+      return this.collection.doc(obj.id).set(obj).then(() => obj.id);
     }
-
-    obj.dateCreated = new Date().toISOString();
-    obj.dateModified = new Date().toISOString();
   }
 
   get(id: string): Observable<T> {
     return this.collection.doc<T>(id).valueChanges().pipe(takeUntil(this.destroyed));
   }
 
-
-  update(id: string, update: T): Promise<void> {
+  update(id: string, update: T): Promise<void>;
+  update(id: string[], update: T): Promise<any[]>;
+  update(idOrIds: string | string[], update: T): Promise<void> | Promise<any[]> {
     update.dateModified = new Date().toISOString();
-    return this.collection.doc(id).update(update);
 
-    // TODO: If the doc doesn't exist, the update will fail. To mitigate this,
+    if (idOrIds instanceof Array) {
+      return performBatchedOperation(idOrIds, (batch, chunk) => {
+        chunk.forEach(id => {
+          const doc = this.collection.doc(id);
+          batch.update(doc.ref, update);
+        });
+      });
+    } else {
+      return this.collection.doc(idOrIds).update(update);
+    }
+
+    // If the doc doesn't exist, the update will fail. To mitigate this,
     // you can use `this.collection.doc(id).set(update, {merge: true});`
-    // However, this has side effects.
+    // However, this has the side effect of always merging any nested objects.
   }
 
-  remove (id: string) {
-    this.collection.doc(id).delete();
+  remove(id: string): Promise<void>;
+  remove(ids: string[]): Promise<any[]>;
+  remove(idOrIds: string | string[]) {
+    if (idOrIds instanceof Array) {
+      return performBatchedOperation(idOrIds, (batch, chunk) => {
+        chunk.forEach(id => {
+          const doc = this.collection.doc(id);
+          batch.delete(doc.ref);
+        });
+      });
+    } else {
+      return this.collection.doc(idOrIds).delete();
+    }
   }
 
   private subscribe() {
@@ -130,34 +156,28 @@ export abstract class ListDao<T extends IdentifiedObject> {
     }
   }
 
-  public deleteItemsWithBatch(ids: string[]): void {
-    performBatchedOperation(ids, (batch, chunk) => {
-      chunk.forEach(id => {
-        const doc = this.collection.doc(id);
-        batch.delete(doc.ref);
-      });
-    });
-  }
+  private decorateForAdd(obj: T) {
+    if (!obj.id) {
+      obj.id = this.afs.createId();
+    }
 
-  public addItemsWithBatch(objects: T[]): void {
-    performBatchedOperation(objects, (batch, chunk) => {
-      chunk.forEach(obj => {
-        this.decorateForAdd(obj);
-        const doc = this.collection.doc(obj.id);
-        batch.set(doc.ref, obj);
-      });
-    });
+    obj.dateCreated = new Date().toISOString();
+    obj.dateModified = new Date().toISOString();
   }
 }
 
 function performBatchedOperation(list: any[],
-    operation: (batch: firebase.firestore.WriteBatch, chunk: any[]) => void) {
+    operation: (batch: firebase.firestore.WriteBatch, chunk: any[]) => void): Promise<any[]> {
+  const promises = [];
   const chunkSize = 500;
   for (let i = 0; i < list.length; i += chunkSize) {
     const chunk = list.slice(i, i + chunkSize);
 
     const batch = firebase.firestore().batch();
     operation(batch, chunk);
-    batch.commit();
+    const promise = batch.commit();
+    promises.push(promise);
   }
+
+  return Promise.all(promises);
 }

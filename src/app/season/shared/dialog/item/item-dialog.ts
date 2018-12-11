@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
+import {Item, ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
 import {CreateItem, CreateItemResult} from './create-item/create-item';
 import {combineLatest, of, Subject} from 'rxjs';
 import {highlight} from 'app/utility/element-actions';
@@ -226,15 +226,15 @@ export class ItemDialog {
         const items = result[0];
         const requests = result[1];
 
-        this.itemsDao.deleteItemsWithBatch(items.map(item => item.id));
-      //  items.forEach(item => this.itemsDao.remove(item.id));
-        requests.forEach(request => this.requestsDao.remove(request.id));
+
+        this.itemsDao.remove(items.map(i => i.id));
+        this.requestsDao.remove(requests.map(r => r.id));
 
         const message = `Removed ${ids.length > 1 ? 'items' : 'item'}`;
         const config: MatSnackBarConfig = {duration: 5000};
         this.snackBar.open(message, 'Undo', config).onAction().subscribe(() => {
-          items.forEach(item => this.itemsDao.add(item));
-          requests.forEach(request => this.requestsDao.add(request));
+          this.itemsDao.add(items);
+          this.requestsDao.add(requests);
         });
 
         this.selection.items.clear();
@@ -243,15 +243,13 @@ export class ItemDialog {
   }
 
   importItemsFromFile() {
-    this.dialog.open(ImportFromFile).afterClosed().pipe(take(1)).subscribe(items => {
-      if (items) {
-        this.snackBar.open('Importing...please wait');
-
-        this.itemsDao.addItemsWithBatch(items);
-
-        this.snackBar.open(`Successfully imported ${items.length} items!`, null, {duration: 2000});
-      }
-    });
+    this.dialog.open(ImportFromFile).afterClosed().pipe(take(1))
+        .subscribe((items: Item[]) => {
+          if (items) {
+            this.itemsDao.add(items);
+            this.snackBar.open(`Imported ${items.length} items`, null, {duration: 2000});
+          }
+        });
   }
 
   importItemsFromSeason() {
