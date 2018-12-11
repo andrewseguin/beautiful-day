@@ -115,7 +115,7 @@ export class ItemDialog {
         const update = {};
         const categoriesStr = result.value as string;
         update['categories'] = categoriesStr.split(',').map(v => v.trim());
-        ids.forEach(id => this.itemsDao.update(id, update));
+        this.itemsDao.update(ids, update);
         this.selection.items.clear();
       }
     });
@@ -159,7 +159,7 @@ export class ItemDialog {
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (result) {
         const update = {isApproved: result.value};
-        ids.forEach(id => this.itemsDao.update(id, update));
+        this.itemsDao.update(ids, update);
         this.selection.items.clear();
       }
     });
@@ -179,7 +179,7 @@ export class ItemDialog {
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (result) {
         const update = {hidden: result.value};
-        ids.forEach(id => this.itemsDao.update(id, update));
+        this.itemsDao.update(ids, update);
         this.selection.items.clear();
       }
     });
@@ -271,7 +271,7 @@ export class ItemDialog {
       if (result) {
         const update = {};
         update[property] = result.value;
-        ids.forEach(id => this.itemsDao.update(id, update));
+        this.itemsDao.update(ids, update);
         this.selection.items.clear();
       }
     });

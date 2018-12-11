@@ -37,12 +37,16 @@
   </div>
 
   <div class="details theme-secondary-text">
-    <div class="section">
-      Category: {{item.categories[0].split('>')[0]}}
+    <div>
+      <span class="section">
+        Category: {{item?.categories[0].split('>')[0] || 'Missing item'}}
+      </span>
     </div>
 
-    <div *ngIf="requestsRenderer.options.showProjectName" class="section">
-      Project: {{(projectsDao.map | async)?.get(request.project).name}}
+    <div *ngIf="requestsRenderer.options.showProjectName">
+      <span class="section">
+        Project: {{(projectsDao.map | async)?.get(request.project).name}}
+      </span>
     </div>
 
     <div *ngIf="request.purchaser">

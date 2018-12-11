@@ -101,7 +101,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
   }
 
   update(id: string, update: T): Promise<void>;
-  update(id: string[], update: T): Promise<any[]>;
+  update(ids: string[], update: T): Promise<any[]>;
   update(idOrIds: string | string[], update: T): Promise<void> | Promise<any[]> {
     update.dateModified = new Date().toISOString();
 

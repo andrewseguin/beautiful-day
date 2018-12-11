@@ -49,7 +49,14 @@ export class RequestsDao extends SeasonCollectionDao<Request> {
     return this.afs.collection(this.path, queryFn).valueChanges();
   }
 
-  update(id: string, update: Request): Promise<void> {
+  update(id: string, update: Request): Promise<void>;
+  update(id: string[], update: Request): Promise<any[]>;
+  update(idOrIds: string | string[], update: Request): Promise<void> | Promise<any[]> {
+    if (idOrIds instanceof Array) {
+      return Promise.all([Promise.reject('Batching requests is not supported yet.')]);
+    }
+
+    const id = idOrIds;
     return new Promise<void>(resolve => {
       this.get(id).pipe(take(1)).subscribe(request => {
         // If purchased, go ahead and set to approved

@@ -17,8 +17,8 @@ export class RequestFilterer {
 
         const context: MatcherContext = {
           request: request,
-          project: this.projectMap.get(request.project),
-          item: this.itemMap.get(request.item),
+          project: this.projectMap.get(request.project) || {},
+          item: this.itemMap.get(request.item) || {},
         };
 
         return RequestFilterMetadata.get(filter.type).matcher(context, filter.query);

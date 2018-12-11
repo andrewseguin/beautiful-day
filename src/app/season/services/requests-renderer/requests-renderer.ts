@@ -61,8 +61,8 @@ export class RequestsRenderer {
       // Search
       const search = this.options.search;
       const searchedRequests = !search ? filteredRequests : filteredRequests.filter(request => {
-        const item = itemMap.get(request.item);
-        const project = projectMap.get(request.project);
+        const item = itemMap.get(request.item) || {};
+        const project = projectMap.get(request.project) || {};
         return this.requestMatchesSearch(request, item, project, search);
       });
 

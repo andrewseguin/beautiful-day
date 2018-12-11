@@ -1,6 +1,10 @@
 import {Item} from 'app/season/dao';
 
-export function getItemName(item: Item) {
+export function getItemName(item: Item | null) {
+  if (!item) {
+    return 'Missing item';
+  }
+
   const categories = item.categories[0].split('>');
   if (categories.length > 1) {
     categories.shift();
