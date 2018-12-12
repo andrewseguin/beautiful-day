@@ -1,16 +1,12 @@
 @import '~@angular/material/theming';
 @import '../../../../constants';
 
-@mixin editable-event-theme($theme) {
+@mixin editable-faq-theme($theme) {
   $foreground: map-get($theme, foreground);
   $background: map-get($theme, background);
 
-  editable-event {
-    input {
-      border-bottom-color: mat-color($foreground, divider);
-    }
-
-    .event {
+  editable-faq {
+    .faq {
       @media (max-width: $mobile-width - 1) {
         border: 1px solid mat-color($foreground, divider);
         background: mat-color($background, card);

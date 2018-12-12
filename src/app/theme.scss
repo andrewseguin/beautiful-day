@@ -7,6 +7,7 @@
 @import './season/shared/advanced-search/advanced-search-theme';
 @import './season/shared/selection-header/selection-header-theme';
 @import './season/admin-page/events/editable-event/editable-event-theme';
+@import './season/admin-page/faqs/editable-faq/editable-faq-theme';
 @import './season/admin-page/messages/editable-message/editable-message-theme';
 @import './season/print-page/print-page-theme';
 @import './season/inventory-page/inventory-page-theme';
@@ -23,6 +24,7 @@
   @include advanced-search-theme($theme);
   @include selection-header-theme($theme);
   @include editable-event-theme($theme);
+  @include editable-faq-theme($theme);
   @include editable-message-theme($theme);
   @include print-page-theme($theme);
   @include project-requests-theme($theme);

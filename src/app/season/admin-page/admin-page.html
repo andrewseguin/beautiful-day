@@ -5,14 +5,16 @@
                mat-align-tabs="center">
   <ng-container *ngFor="let tab of tabs">
     <mat-tab [label]="tab.label" *ngIf="!tab.guard || (tab.guard | async)">
-      <ng-container [ngSwitch]="tab.id">
-        <messages *ngSwitchCase="'messages'"></messages>
-        <groups *ngSwitchCase="'groups'"></groups>
-        <projects *ngSwitchCase="'projects'"></projects>
-        <events *ngSwitchCase="'events'"></events>
-        <faqs *ngSwitchCase="'faqs'"></faqs>
-        <owner *ngSwitchCase="'owner'"></owner>
-      </ng-container>
+      <ng-template matTabContent>
+        <ng-container [ngSwitch]="tab.id">
+          <messages *ngSwitchCase="'messages'"></messages>
+          <groups *ngSwitchCase="'groups'"></groups>
+          <projects *ngSwitchCase="'projects'"></projects>
+          <events *ngSwitchCase="'events'"></events>
+          <faqs *ngSwitchCase="'faqs'"></faqs>
+          <owner *ngSwitchCase="'owner'"></owner>
+        </ng-container>
+      </ng-template>
     </mat-tab>
   </ng-container>
 </mat-tab-group>

@@ -1,6 +1,17 @@
 <div [formGroup]="form" class="faq">
-  <input placeholder="Question" formControlName="question">
-  <input placeholder="Question" formControlName="answer">
+
+  <mat-form-field appearance="outline">
+    <mat-label> Question </mat-label>
+    <textarea matInput formControlName="question" cdkTextareaAutosize>
+    </textarea>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline">
+    <mat-label> Answer </mat-label>
+    <textarea matInput formControlName="answer" cdkTextareaAutosize>
+    </textarea>
+  </mat-form-field>
 
   <button mat-button class="delete theme-secondary-text" (click)="delete()">
     Delete <mat-icon> delete </mat-icon>

@@ -1,6 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, QueryList, ViewChildren} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Faq, FaqsDao} from 'app/season/dao';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 
 @Component({
   selector: 'editable-faq',
@@ -9,6 +10,8 @@ import {Faq, FaqsDao} from 'app/season/dao';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditableFaq {
+  @ViewChildren(CdkTextareaAutosize) textareas: QueryList<CdkTextareaAutosize>;
+
   @Input()
   set faq(faq: Faq) {
     this._faq = faq;
@@ -25,6 +28,12 @@ export class EditableFaq {
 
   constructor(public faqsDao: FaqsDao) {
     this.form.valueChanges.subscribe(() => this.update());
+  }
+
+  ngAfterViewChecked() {
+    if (this.textareas) {
+      this.textareas.forEach(textarea => textarea.resizeToFitContent(true));
+    }
   }
 
   update() {
