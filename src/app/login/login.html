@@ -2,13 +2,13 @@
   <div class="logo"></div>
   <div class="app-title">Management</div>
 
-  <mat-progress-spinner *ngIf="checkingAuth"
-                      mode="indeterminate">
+  <mat-progress-spinner *ngIf="checkingAuth | async; else loginButton"
+                        mode="indeterminate">
   </mat-progress-spinner>
 
-  <button mat-raised-button color="primary"
-          *ngIf="!checkingAuth"
-          (click)="login()">
-    Login with Google
-  </button>
+  <ng-template #loginButton>
+    <button mat-raised-button color="primary" (click)="login()">
+      Login with Google
+    </button>
+  </ng-template>
 </div>

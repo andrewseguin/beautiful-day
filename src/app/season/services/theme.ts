@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {UsersDao} from 'app/service/users-dao';
-import {distinctUntilChanged, map, mergeMap, take, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
 @Injectable()
@@ -14,10 +14,11 @@ export class Theme {
               private afAuth: AngularFireAuth) {
     this.syncState();
     this.afAuth.authState.pipe(
-        takeUntil(this.destroyed),
+        filter(auth => !!auth),
         mergeMap(auth => this.usersDao.getByEmail(auth.email)),
         map(user => user ? user.darkTheme : null),
-        distinctUntilChanged())
+        distinctUntilChanged(),
+        takeUntil(this.destroyed))
         .subscribe(darkTheme => {
           if (darkTheme != null && darkTheme && !this.isDark) {
             this.toggle();

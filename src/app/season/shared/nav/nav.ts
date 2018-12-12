@@ -3,7 +3,7 @@ import {MatDialog, MatSidenav} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Permissions} from 'app/season/services/permissions';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {map, mergeMap, take, takeUntil} from 'rxjs/operators';
+import {filter, map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {UsersDao} from 'app/service/users-dao';
 import {FormControl} from '@angular/forms';
 import {combineLatest, Observable, of, Subject} from 'rxjs';
@@ -27,10 +27,12 @@ export interface NavLink {
 })
 export class Nav {
   user = this.afAuth.authState.pipe(
-      mergeMap(auth => auth ? this.usersDao.get(auth.uid) : of(null)));
+      filter(auth => !!auth),
+      mergeMap(auth => this.usersDao.get(auth.uid)));
   isUserProfileExpanded = false;
   hasMissingUserProfileInfo = this.afAuth.authState.pipe(
-      mergeMap(authState => this.usersDao.get(authState.uid)),
+      filter(auth => !!auth),
+      mergeMap(auth => this.usersDao.get(auth.uid)),
       map(user => user ? (!user.name || !user.phone) : false));
 
   seasons = this.seasonsDao.list.pipe(map(v => v ? v.map(s => s.id) : []));

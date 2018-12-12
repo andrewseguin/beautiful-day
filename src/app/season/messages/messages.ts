@@ -30,12 +30,12 @@ export class Messages {
 
   messages = combineLatest([this.messagesDao.list, this.afAuth.authState]).pipe(
       map((result: any) => {
+        if (!result[0] || !result[1]) {
+          return;
+        }
+
         let messages = result[0] as Message[];
         const email = (result[1] as User).email;
-
-        if (!messages) {
-          return [];
-        }
 
         // Filter out empty messages
         messages = messages.filter(msg => msg.text);

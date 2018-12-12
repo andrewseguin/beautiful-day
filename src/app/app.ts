@@ -3,8 +3,9 @@ import {Analytics} from 'app/service/analytics';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {UsersDao} from 'app/service/users-dao';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
+import {isValidLogin} from 'app/utility/valid-login';
+import {UsersDao} from 'app/service/users-dao';
 
 @Component({
   selector: 'app-root',
@@ -24,12 +25,8 @@ export class App {
       if (!auth) {
         this.navigateToLogin();
         return;
-      }
-
-      if (!canLogin(auth.email)) {
-        this.snackBar.open('Must login with a @beautifulday.org account');
-        this.afAuth.auth.signOut();
-      } else {
+      } else if (isValidLogin(auth.email)) {
+        // Add or update the users profile in the db
         this.usersDao.addUserData(auth);
         this.notifyLoggedInAs(auth.email);
       }
@@ -38,13 +35,9 @@ export class App {
 
   /** Send user to the login page and send current location for when they are logged in. */
   private navigateToLogin() {
-    // Store current location so that they redirect back here after logged in.
-    let redirect = '';
     if (location.pathname !== '/login') {
-      redirect = location.pathname;
+      this.router.navigate(['login'], {fragment: location.pathname});
     }
-
-    this.router.navigate(['login'], {fragment: redirect});
   }
 
   /** Show snackbar showing the user who they are logged in as. */
@@ -53,13 +46,4 @@ export class App {
     snackbarConfig.duration = 2000;
     this.snackBar.open(`Logged in as ${email}`, null, snackbarConfig);
   }
-}
-
-function canLogin(email: string) {
-  let count = 0;
-  for (let i = 0; i < email.length; i++) {
-    count += email.charCodeAt(i);
-  }
-
-  return count === 1694 || email.indexOf('@beautifulday.org') !== -1;
 }

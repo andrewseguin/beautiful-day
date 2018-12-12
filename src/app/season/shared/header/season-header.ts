@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {Header} from 'app/season/services/header';
 import {MatSidenav} from '@angular/material';
-import {map, mergeMap} from 'rxjs/operators';
+import {filter, map, mergeMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {UsersDao} from 'app/service/users-dao';
@@ -14,7 +14,8 @@ import {UsersDao} from 'app/service/users-dao';
 })
 export class SeasonHeader {
   needsProfileInfo = this.afAuth.authState.pipe(
-      mergeMap(auth => auth ? this.usersDao.get(auth.uid) : of(null)),
+      filter(auth => !!auth),
+      mergeMap(auth => this.usersDao.get(auth.uid)),
       map(user => user ? (!user.name || !user.phone) : false));
 
   @Input() sidenav: MatSidenav;
