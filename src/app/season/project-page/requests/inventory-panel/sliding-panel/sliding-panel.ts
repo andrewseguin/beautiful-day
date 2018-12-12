@@ -22,6 +22,8 @@ export class SlidingPanel {
   items: Observable<Item[]>;
   subcategories: Observable<string[]>;
 
+  itemTrackBy = (_i, item: Item) => item.id;
+
   @Input() category: string;
 
   @Input() depth: number;

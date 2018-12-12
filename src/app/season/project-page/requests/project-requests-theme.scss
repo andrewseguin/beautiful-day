@@ -6,10 +6,6 @@
   $background: map-get($theme, background);
 
   project-requests {
-    .mat-drawer {
-      border-left-color: map-get($theme, positive);
-    }
-
     button[mat-fab].attention {
       animation: fontbulger 5s infinite;
     }

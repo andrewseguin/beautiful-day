@@ -16,8 +16,6 @@ mat-drawer {
   overflow: hidden;
   width: 100%;
   max-width: 300px;
-  border-left-width: 1px;
-  border-left-style: solid;
 }
 
 :host ::ng-deep .mat-drawer-content {

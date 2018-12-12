@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, NgZone} from '@angular/core';
 import {Item, ItemsDao} from 'app/season/dao';
 import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
-import {auditTime, debounceTime, map, takeUntil} from 'rxjs/operators';
+import {auditTime, map, takeUntil} from 'rxjs/operators';
 import {getItemsMatchingQuery} from 'app/season/utility/items-search';
 import {CdkScrollable} from '@angular/cdk/overlay';
 
@@ -12,6 +12,8 @@ import {CdkScrollable} from '@angular/cdk/overlay';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResults {
+  itemTrackBy = (_i, item: Item) => item.id;
+
   @Input() project: string;
 
   @Input()

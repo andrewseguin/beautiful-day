@@ -14,7 +14,6 @@ import {getCategoryGroup} from 'app/utility/items-categorize';
 })
 export class InventoryPanel {
   search = new FormControl('');
-  itemTrackBy = (_i, item: Item) => item.id;
 
   categories = this.itemsDao.list.pipe(map(items => {
     if (items) {

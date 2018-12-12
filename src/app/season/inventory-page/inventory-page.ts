@@ -76,7 +76,7 @@ export class InventoryPage {
 
   constructor (private itemsDao: ItemsDao,
                private requestsDao: RequestsDao,
-               private itemDialog: ItemDialog,
+               public itemDialog: ItemDialog,
                private cd: ChangeDetectorRef,
                private sanitizer: DomSanitizer,
                private header: Header,
