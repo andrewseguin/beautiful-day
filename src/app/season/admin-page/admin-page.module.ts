@@ -10,6 +10,7 @@ import {GroupsModule} from './groups/groups.module';
 import {MessagesModule} from './messages/messages.module';
 import {OwnerModule} from './owner/owner.module';
 import {ProjectsModule} from './projects/projects.module';
+import {ContactsModule} from './contacts/contacts.module';
 
 const routes: Routes = [{path: '', component: AdminPage}];
 
@@ -21,6 +22,7 @@ export class AdminPageRoutingModule {}
     CommonModule,
     OwnerModule,
     MaterialModule,
+    ContactsModule,
     MessagesModule,
     ProjectsModule,
     GroupsModule,

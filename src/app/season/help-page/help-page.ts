@@ -1,11 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FaqsDao} from 'app/season/dao';
-
-interface Contact {
-  name: string;
-  title: string;
-  email: string;
-}
+import {ContactsDao, FaqsDao} from 'app/season/dao';
 
 @Component({
   styleUrls: ['help-page.scss'],
@@ -13,11 +7,5 @@ interface Contact {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HelpPage {
-  contacts: Contact[] = [
-    {name: 'Finny Abraham', title: 'Executive Directive', email: 'finny@beautifulday.com'},
-    {name: 'Jen Laity', title: 'Acquisitions Director', email: 'jen@beautifulday.com'},
-    {name: 'Andrew Seguin', title: 'Site Developer', email: 'andrew@beautifulday.com'},
-  ];
-
-  constructor(public faqsDao: FaqsDao) { }
+  constructor(public faqsDao: FaqsDao, public contactsDao: ContactsDao) { }
 }

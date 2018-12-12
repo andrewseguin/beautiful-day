@@ -1,0 +1,36 @@
+@import '../../../../constants';
+
+input {
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  padding: 8px;
+  font-size: 14px;
+  margin: 0 4px;
+  min-width: 50px;
+  color: inherit;
+  flex: 1;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+
+  @media (max-width: $mobile-width - 1) {
+    flex-direction: column;
+    align-items: normal;
+    padding: 16px 8px;
+    margin: 16px 0;
+  }
+}
+
+.delete {
+  text-align: right;
+
+  @media (max-width: $mobile-width - 1) {
+    margin-top: 16px;
+    align-self: flex-end;
+  }
+}

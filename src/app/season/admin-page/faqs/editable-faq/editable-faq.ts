@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, Component, Input, QueryList, ViewChildren} from
 import {FormControl, FormGroup} from '@angular/forms';
 import {Faq, FaqsDao} from 'app/season/dao';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import {debounceTime, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'editable-faq',
@@ -26,8 +28,18 @@ export class EditableFaq {
     answer: new FormControl(''),
   });
 
+  private _destroyed = new Subject();
+
   constructor(public faqsDao: FaqsDao) {
-    this.form.valueChanges.subscribe(() => this.update());
+    this.form.valueChanges.pipe(
+      debounceTime(500),
+      takeUntil(this._destroyed))
+      .subscribe(() => this.update());
+  }
+
+  ngOnDestroy() {
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 
   ngAfterViewChecked() {

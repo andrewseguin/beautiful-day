@@ -6,10 +6,11 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {UsersDao} from 'app/service/users-dao';
 import {FormControl} from '@angular/forms';
-import {Observable, of, Subject} from 'rxjs';
+import {combineLatest, Observable, of, Subject} from 'rxjs';
 import {SeasonsDao} from 'app/service/seasons-dao';
 import {UserDialog} from 'app/season/shared/dialog/user/user-dialog';
 import {Theme} from 'app/season/services/theme';
+import {ContactsDao, EventsDao, FaqsDao} from 'app/season/dao';
 
 export interface NavLink {
   route: string;
@@ -35,9 +36,17 @@ export class Nav {
   seasons = this.seasonsDao.list.pipe(map(v => v ? v.map(s => s.id) : []));
   season = new FormControl('');
 
+  hasHelp = combineLatest([this.faqsDao.list, this.contactsDao.list]).pipe(
+      map(result => {
+        return (result[0] && result[0].length) ||
+               (result[1] && result[1].length);
+      }));
+
   links: NavLink[] = [
     {route: 'projects', label: 'Projects', icon: 'domain'},
-    {route: 'events', label: 'Events', icon: 'event'},
+    {route: 'events', label: 'Events', icon: 'event',
+      permissions: this.eventsDao.list.pipe(map(e => e && e.length))
+    },
     {
       route: 'inventory', label: 'Inventory', icon: 'shopping_cart',
       permissions: this.permissions.isAcquisitions
@@ -46,7 +55,8 @@ export class Nav {
       permissions: this.permissions.isAcquisitions},
     {route: 'admin', label: 'Admin', icon: 'build',
       permissions: this.permissions.isAdmin},
-    {route: 'help', label: 'Help', icon: 'help'},
+    {route: 'help', label: 'Help', icon: 'help',
+      permissions: this.hasHelp},
   ];
 
   @Input() sidenav: MatSidenav;
@@ -61,6 +71,9 @@ export class Nav {
               public activatedRoute: ActivatedRoute,
               public userDialog: UserDialog,
               public cd: ChangeDetectorRef,
+              public faqsDao: FaqsDao,
+              public contactsDao: ContactsDao,
+              public eventsDao: EventsDao,
               public theme: Theme,
               public router: Router) {
     this.activatedRoute.params.pipe(

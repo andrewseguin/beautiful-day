@@ -1,0 +1,9 @@
+<div [formGroup]="form" class="contact">
+  <input placeholder="Name" formControlName="name">
+  <input placeholder="Title" formControlName="title">
+  <input placeholder="Email" formControlName="email">
+
+  <button mat-button class="delete theme-secondary-text" (click)="delete()">
+    Delete <mat-icon> delete </mat-icon>
+  </button>
+</div>

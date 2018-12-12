@@ -1,6 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {EventsDao, Event} from 'app/season/dao';
+import {debounceTime, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'editable-event',
@@ -25,8 +27,18 @@ export class EditableEvent {
     info: new FormControl(''),
   });
 
+  private _destroyed = new Subject();
+
   constructor(public eventsDao: EventsDao) {
-    this.form.valueChanges.subscribe(() => this.update());
+    this.form.valueChanges.pipe(
+      debounceTime(500),
+      takeUntil(this._destroyed))
+      .subscribe(() => this.update());
+  }
+
+  ngOnDestroy() {
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 
   update() {

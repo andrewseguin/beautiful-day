@@ -1,0 +1,10 @@
+<ng-container *ngIf="contacts | async; let contacts; else loading">
+  <editable-contact *ngFor="let contact of contacts; trackBy: trackByFn"
+                  [id]="contact.id"
+                  [contact]="contact">
+  </editable-contact>
+</ng-container>
+
+<ng-template #loading>
+  <loading *ngIf="!(contacts | async)"></loading>
+</ng-template>

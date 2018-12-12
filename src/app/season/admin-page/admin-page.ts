@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Permissions} from 'app/season/services';
 import {isMobile} from 'app/utility/media-matcher';
 import {Observable} from 'rxjs';
-import {EventsDao, MessagesDao, ProjectsDao, FaqsDao} from 'app/season/dao';
+import {EventsDao, MessagesDao, ProjectsDao, FaqsDao, ContactsDao} from 'app/season/dao';
 import {focusElement, highlight, scroll, SCROLL_ANIMATION_TIME} from 'app/utility/element-actions';
 
 interface AdminTab {
@@ -67,6 +67,16 @@ export class AdminPage {
       create: () => this.faqsDao.add({}).then(id => {
         highlight(id);
         scroll(id);
+        setTimeout(() => focusElement(id, 'textarea'), SCROLL_ANIMATION_TIME);
+      }),
+    },
+    {
+      id: 'contacts',
+      label: 'Contacts',
+      createObjType: 'contact',
+      create: () => this.contactsDao.add({}).then(id => {
+        highlight(id);
+        scroll(id);
         setTimeout(() => focusElement(id, 'input'), SCROLL_ANIMATION_TIME);
       }),
     },
@@ -83,5 +93,6 @@ export class AdminPage {
               private eventsDao: EventsDao,
               private projectsDao: ProjectsDao,
               private faqsDao: FaqsDao,
+              private contactsDao: ContactsDao,
               private messagesDao: MessagesDao) {}
 }

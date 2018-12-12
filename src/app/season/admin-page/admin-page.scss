@@ -9,10 +9,12 @@ projects,
 events,
 messages,
 faqs,
+contacts,
 owner {
   display: block;
   max-width: 800px;
   margin: auto;
+  padding-bottom: 116px; // For FAB
 }
 
 button {

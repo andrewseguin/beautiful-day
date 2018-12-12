@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Project, ProjectsDao, RequestsDao} from 'app/season/dao';
-import {debounceTime, take} from 'rxjs/operators';
+import {debounceTime, take, takeUntil} from 'rxjs/operators';
 import {MatChipInputEvent, MatDialog, MatSnackBar} from '@angular/material';
-import {of} from 'rxjs';
+import {of, Subject} from 'rxjs';
 import {DeleteConfirmation} from 'app/season/shared/dialog/delete-confirmation/delete-confirmation';
 
 @Component({
@@ -18,6 +18,8 @@ export class EditableProject {
   @Input() project: Project;
 
   projectForm: FormGroup;
+
+  private _destroyed = new Subject();
 
   constructor(private projectsDao: ProjectsDao,
               private requestsDao: RequestsDao,
@@ -58,8 +60,9 @@ export class EditableProject {
       },
     ];
 
-    this.projectForm.valueChanges
-        .pipe(debounceTime(500))
+    this.projectForm.valueChanges.pipe(
+        debounceTime(500),
+        takeUntil(this._destroyed))
         .subscribe(value => {
           const update: Project = {
             name: value.name,
@@ -73,6 +76,11 @@ export class EditableProject {
 
           this.projectsDao.update(this.project.id, update);
         });
+  }
+
+  ngOnDestroy() {
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 
   add(list: string[], event: MatChipInputEvent): void {

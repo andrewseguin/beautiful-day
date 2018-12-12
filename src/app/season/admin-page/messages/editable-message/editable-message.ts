@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MessagesDao, Message} from 'app/season/dao';
 import {EXPANSION_ANIMATION} from 'app/utility/animations';
+import {Subject} from 'rxjs';
+import {debounceTime, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'editable-message',
@@ -40,8 +42,18 @@ export class EditableMessage {
     bgColor: new FormControl(this.bgColors[0]),
   });
 
+  private _destroyed = new Subject();
+
   constructor(public messagesDao: MessagesDao) {
-    this.form.valueChanges.subscribe(() => this.update());
+    this.form.valueChanges.pipe(
+      debounceTime(500),
+      takeUntil(this._destroyed))
+      .subscribe(() => this.update());
+  }
+
+  ngOnDestroy() {
+    this._destroyed.next();
+    this._destroyed.complete();
   }
 
   update() {

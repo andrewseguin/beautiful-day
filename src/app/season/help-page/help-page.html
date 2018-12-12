@@ -1,22 +1,28 @@
-<div class="section">
-  <h2> Contacts </h2>
-  <mat-card>
-    <div class="contact" *ngFor="let contact of contacts">
-      <div class="name"> {{contact.name}} </div>
-      <div class="title"> {{contact.title}} </div>
-      <a [href]="'mailto:' + contact.email" class="theme-text">
-        {{contact.email}}
-      </a>
-    </div>
-  </mat-card>
+<div class="section" *ngIf="contactsDao.list | async; let contacts">
+  <ng-container *ngIf="contacts.length">
+    <h2> Contacts </h2>
+    <mat-card>
+      <div class="contact" *ngFor="let contact of contacts">
+        <div class="name"> {{contact.name}} </div>
+        <div class="title"> {{contact.title}} </div>
+        <a [href]="'mailto:' + contact.email" class="theme-text">
+          {{contact.email}}
+        </a>
+      </div>
+    </mat-card>
+  </ng-container>
 </div>
 
-<div class="section">
-  <h2> Frequently Asked Questions </h2>
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let faq of faqsDao.list | async">
-      <mat-expansion-panel-header> {{faq.question}} </mat-expansion-panel-header>
-      {{faq.answer}}
-    </mat-expansion-panel>
-  </mat-accordion>
+<div class="section" *ngIf="faqsDao.list | async; let faqs">
+  <ng-container *ngIf="faqs.length">
+    <h2> Frequently Asked Questions </h2>
+    <mat-accordion>
+      <ng-container *ngFor="let faq of faqs">
+        <mat-expansion-panel *ngIf="faq.question && faq.answer">
+          <mat-expansion-panel-header> {{faq.question}} </mat-expansion-panel-header>
+          {{faq.answer}}
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+  </ng-container>
 </div>
