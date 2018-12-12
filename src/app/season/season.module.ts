@@ -14,7 +14,8 @@ import {
   MessagesDao,
   ProjectsDao,
   ReportsDao,
-  RequestsDao
+  RequestsDao,
+  FaqsDao
 } from './dao';
 import {SeasonHeaderModule} from './shared/header/season-header.module';
 import {SEASON_ROUTES} from './season.routes';
@@ -54,6 +55,7 @@ export class SeasonRoutingModule {}
     ReportsDao,
     RequestsDao,
     MessagesDao,
+    FaqsDao,
   ]
 })
 export class SeasonModule { }

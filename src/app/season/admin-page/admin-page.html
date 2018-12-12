@@ -1,7 +1,5 @@
 <route-guard check="admin"></route-guard>
 
-{{currentTabIndex}}
-
 <mat-tab-group [attr.mat-stretch-tabs]="isMobile() ? true : null"
                (selectedTabChange)="selectedTabIndex = $event.index"
                mat-align-tabs="center">
@@ -12,6 +10,7 @@
         <groups *ngSwitchCase="'groups'"></groups>
         <projects *ngSwitchCase="'projects'"></projects>
         <events *ngSwitchCase="'events'"></events>
+        <faqs *ngSwitchCase="'faqs'"></faqs>
         <owner *ngSwitchCase="'owner'"></owner>
       </ng-container>
     </mat-tab>

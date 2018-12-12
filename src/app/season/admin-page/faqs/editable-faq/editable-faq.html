@@ -1,0 +1,8 @@
+<div [formGroup]="form" class="faq">
+  <input placeholder="Question" formControlName="question">
+  <input placeholder="Question" formControlName="answer">
+
+  <button mat-button class="delete theme-secondary-text" (click)="delete()">
+    Delete <mat-icon> delete </mat-icon>
+  </button>
+</div>

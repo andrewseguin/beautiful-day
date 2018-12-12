@@ -1,0 +1,10 @@
+<ng-container *ngIf="faqs | async; let faqs; else loading">
+  <editable-faq *ngFor="let faq of faqs; trackBy: trackByFn"
+                  [id]="faq.id"
+                  [faq]="faq">
+  </editable-faq>
+</ng-container>
+
+<ng-template #loading>
+  <loading *ngIf="!(faqs | async)"></loading>
+</ng-template>

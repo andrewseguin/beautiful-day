@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  margin: 16px;
+}
+
+mat-card {
+  max-width: 450px;
+  margin: 0 auto 64px auto;
+}
+
+h2 {
+  text-align: center;
+}
+
+.contact {
+  text-align: center;
+  line-height: 20px;
+  padding: 16px 0;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+mat-accordion {
+  display: block;
+  max-width: 650px;
+  margin: auto;
+}

@@ -6,3 +6,4 @@ export * from './reports-dao';
 export * from './requests-dao';
 export * from './config-dao';
 export * from './messages-dao';
+export * from './faqs-dao';

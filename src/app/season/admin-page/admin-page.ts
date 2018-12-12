@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Permissions} from 'app/season/services';
 import {isMobile} from 'app/utility/media-matcher';
 import {Observable} from 'rxjs';
-import {EventsDao, MessagesDao, ProjectsDao} from 'app/season/dao';
+import {EventsDao, MessagesDao, ProjectsDao, FaqsDao} from 'app/season/dao';
 import {focusElement, highlight, scroll, SCROLL_ANIMATION_TIME} from 'app/utility/element-actions';
 
 interface AdminTab {
@@ -61,6 +61,16 @@ export class AdminPage {
       }),
     },
     {
+      id: 'faqs',
+      label: 'FAQ',
+      createObjType: 'question',
+      create: () => this.faqsDao.add({}).then(id => {
+        highlight(id);
+        scroll(id);
+        setTimeout(() => focusElement(id, 'input'), SCROLL_ANIMATION_TIME);
+      }),
+    },
+    {
       id: 'owner',
       label: 'Owner',
       guard: this.permissions.isOwner
@@ -72,5 +82,6 @@ export class AdminPage {
   constructor(private permissions: Permissions,
               private eventsDao: EventsDao,
               private projectsDao: ProjectsDao,
+              private faqsDao: FaqsDao,
               private messagesDao: MessagesDao) {}
 }

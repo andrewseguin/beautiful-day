@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
-import {HelpPage} from './help-page';
 import {RouterModule, Routes} from '@angular/router';
+import {MaterialModule} from 'app/material.module';
+import {HelpPage} from './help-page';
+import {CommonModule} from '@angular/common';
 
 const routes: Routes = [{path: '', component: HelpPage}];
 
@@ -8,7 +10,11 @@ const routes: Routes = [{path: '', component: HelpPage}];
 export class HelpPageRoutingModule {}
 
 @NgModule({
-  imports: [HelpPageRoutingModule],
+  imports: [
+    CommonModule,
+    HelpPageRoutingModule,
+    MaterialModule
+  ],
   declarations: [HelpPage],
   exports: [HelpPage],
 })
