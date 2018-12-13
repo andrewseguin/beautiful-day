@@ -12,7 +12,7 @@ import {map} from 'rxjs/operators';
 export class Groups {
   acquisitions = this.groupsDao.map.pipe(getGroup('acquisitions'));
   approvers = this.groupsDao.map.pipe(getGroup('approvers'));
-  admin = this.groupsDao.map.pipe(getGroup('admin'));
+  admins = this.groupsDao.map.pipe(getGroup('admins'));
 
 
   constructor(public groupsDao: GroupsDao,

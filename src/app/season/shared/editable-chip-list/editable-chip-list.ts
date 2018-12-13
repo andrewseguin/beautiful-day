@@ -1,6 +1,16 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output, ViewChild
+} from '@angular/core';
 import {MatChipInputEvent} from '@angular/material';
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
+import {FormControl} from '@angular/forms';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'editable-chip-list',
@@ -9,7 +19,7 @@ import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditableChipList {
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
+  formControl = new FormControl();
 
   @Input() label: string;
 
@@ -24,16 +34,37 @@ export class EditableChipList {
 
   @Input() placeholder = '';
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value) {
-      this.values.push(this.transform(value));
+  @ViewChild('chipInput') chipInput: ElementRef;
+
+  private _destroyed = new Subject();
+
+  ngOnInit() {
+    this.formControl.valueChanges.pipe(
+        takeUntil(this._destroyed))
+        .subscribe((value: string) => {
+          // Doing this manually rather than providing separator key codes
+          // to the chip input since it does not handle the keypresses of comma
+          // or spaces on mobile
+          const lastChar = value.charAt(value.length - 1);
+          if (lastChar === ',' || lastChar === ' ') {
+            this.add(value.slice(0, -1));  // Remove last character
+          }
+        });
+  }
+
+  ngOnDestroy() {
+    this._destroyed.next();
+    this._destroyed.complete();
+  }
+
+  add(value: string): void {
+    value = (value || '').trim();
+    if (!value) {
+      return;
     }
 
-    if (event.input) {
-      event.input.value = '';
-    }
-
+    this.values.push(this.transform(value));
+    this.chipInput.nativeElement.value = '';
     this.listChange.emit(this.values);
   }
 
@@ -44,5 +75,9 @@ export class EditableChipList {
     }
 
     this.listChange.emit(this.values);
+  }
+
+  addFromTextInput(e: Event) {
+    console.log(e);
   }
 }

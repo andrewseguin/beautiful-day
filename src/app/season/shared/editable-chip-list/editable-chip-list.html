@@ -5,11 +5,11 @@
       {{value}}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
-    <input [placeholder]="placeholder"
+    <input [placeholder]="placeholder" #chipInput
+           [formControl]="formControl"
            [matChipInputFor]="chipList"
-           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
            matChipInputAddOnBlur
-           (matChipInputTokenEnd)="add($event)">
+           (matChipInputTokenEnd)="add($event.value)">
   </mat-chip-list>
 </mat-form-field>
 

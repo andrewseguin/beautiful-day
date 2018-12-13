@@ -32,8 +32,8 @@
   </editable-chip-list>
 </div>
 
-<div class="group" *ngIf="admin | async; let users">
-  <h3> Admin </h3>
+<div class="group" *ngIf="admins | async; let users">
+  <h3> Admins </h3>
   <div class="description">
     Members of the admin team have the same permissions of the acquisition team, plus they can:
     <ul>
@@ -45,8 +45,8 @@
     </ul>
   </div>
   <editable-chip-list placeholder="Add email (e.g. user@beautifulday.org)"
-                      label="Admin"
+                      label="Admins"
                       [values]="users"
-                      (listChange)="update('admin', $event)">
+                      (listChange)="update('admins', $event)">
   </editable-chip-list>
 </div>
