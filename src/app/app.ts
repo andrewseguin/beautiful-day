@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {Analytics} from 'app/service/analytics';
+import {AngularFireAuth} from '@angular/fire/auth';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {Router} from '@angular/router';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {GlobalConfigDao} from 'app/service/global-config-dao';
-import {isValidLogin} from 'app/utility/valid-login';
+import {Analytics} from 'app/service/analytics';
 import {UsersDao} from 'app/service/users-dao';
+import {isValidLogin} from 'app/utility/valid-login';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-root',
@@ -17,8 +17,9 @@ export class App {
               private snackBar: MatSnackBar,
               private router: Router,
               private usersDao: UsersDao,
-              private globalConfigDao: GlobalConfigDao,
               private afAuth: AngularFireAuth) {
+    firebase.firestore().enablePersistence();
+
     this.analytics.setupGoogleAnalytics();
 
     this.afAuth.authState.subscribe(auth => {
