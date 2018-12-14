@@ -23,7 +23,7 @@ import { environment } from '../environments/environment';
   imports: [
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     BrowserAnimationsModule,
     LoginModule,
     RouterModule.forRoot([

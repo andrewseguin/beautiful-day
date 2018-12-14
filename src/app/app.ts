@@ -5,7 +5,6 @@ import {Router} from '@angular/router';
 import {Analytics} from 'app/service/analytics';
 import {UsersDao} from 'app/service/users-dao';
 import {isValidLogin} from 'app/utility/valid-login';
-import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +17,6 @@ export class App {
               private router: Router,
               private usersDao: UsersDao,
               private afAuth: AngularFireAuth) {
-    firebase.firestore().enablePersistence();
 
     this.analytics.setupGoogleAnalytics();
 
