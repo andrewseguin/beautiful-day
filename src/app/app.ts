@@ -1,10 +1,11 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {Router} from '@angular/router';
-import {Analytics} from 'app/service/analytics';
+import {Router, NavigationEnd} from '@angular/router';
 import {UsersDao} from 'app/service/users-dao';
 import {isValidLogin} from 'app/utility/valid-login';
+import {distinctUntilChanged} from 'rxjs/operators';
+import {sendPageview} from './utility/analytics';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,16 @@ import {isValidLogin} from 'app/utility/valid-login';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  constructor(private analytics: Analytics,
-              private snackBar: MatSnackBar,
+  constructor (private snackBar: MatSnackBar,
               private router: Router,
               private usersDao: UsersDao,
               private afAuth: AngularFireAuth) {
-
-    this.analytics.setupGoogleAnalytics();
+    this.router.events.pipe(distinctUntilChanged((prev: any, curr: any) => {
+      if (curr instanceof NavigationEnd) {
+        return prev.urlAfterRedirects === curr.urlAfterRedirects;
+      }
+      return true;
+    })).subscribe(x => sendPageview(x.urlAfterRedirects));
 
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {

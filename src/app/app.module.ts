@@ -1,22 +1,21 @@
 import {NgModule} from '@angular/core';
 import {AngularFireModule} from '@angular/fire';
-import 'hammerjs';
-import {FIREBASE_CONFIG} from './firebase.config';
-import {App} from './app';
-import {Analytics} from './service/analytics';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {MatIconRegistry} from '@angular/material';
-import {LoginModule} from 'app/login/login.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
+import {ServiceWorkerModule} from '@angular/service-worker';
 import {Login} from 'app/login/login';
-import {UsersDao} from './service/users-dao';
+import {LoginModule} from 'app/login/login.module';
+import {Theme} from 'app/season/services/theme';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
 import {SeasonsDao} from 'app/service/seasons-dao';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {Theme} from 'app/season/services/theme';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import 'hammerjs';
+import {environment} from '../environments/environment';
+import {App} from './app';
+import {FIREBASE_CONFIG} from './firebase.config';
+import {UsersDao} from './service/users-dao';
 
 @NgModule({
   declarations: [App],
@@ -38,7 +37,6 @@ import { environment } from '../environments/environment';
   ],
   providers: [
     MatIconRegistry,
-    Analytics,
     UsersDao,
     GlobalConfigDao,
     SeasonsDao,

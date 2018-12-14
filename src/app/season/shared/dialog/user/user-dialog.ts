@@ -8,6 +8,7 @@ import {
   EditUserProfileData,
   EditUserProfileResult
 } from './edit-user-profile/edit-user-profile';
+import {sendEvent} from 'app/utility/analytics';
 
 @Injectable()
 export class UserDialog {
@@ -25,6 +26,7 @@ export class UserDialog {
         take(1))
         .subscribe((result: EditUserProfileResult) => {
         if (result) {
+          sendEvent('user_profile', 'updated');
           this.usersDao.update(user.id, {
             name: result.name,
             phone: result.phone

@@ -7,6 +7,7 @@ import {isValidLogin} from 'app/utility/valid-login';
 import {auth} from 'firebase/app';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {sendEvent} from 'app/utility/analytics';
 
 @Component({
   selector: 'login',
@@ -14,7 +15,7 @@ import {takeUntil} from 'rxjs/operators';
   styleUrls: ['login.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'theme-background', 
+    'class': 'theme-background',
   }
 })
 export class Login implements OnDestroy {
@@ -33,12 +34,14 @@ export class Login implements OnDestroy {
       }
 
       if (auth && !isValidLogin(auth.email)) {
+        sendEvent('login', 'invalid');
         this.snackBar.open('Must login with a @beautifulday.org account');
         this.afAuth.auth.signOut();
         this.checkingAuth.next(false);
         return;
       }
 
+      sendEvent('login', 'valid');
       let hash = window.location.hash.substr(1);
       if (hash) {
         this.route.navigate([hash]);

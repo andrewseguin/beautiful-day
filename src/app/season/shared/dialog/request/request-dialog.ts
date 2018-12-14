@@ -186,12 +186,12 @@ export class RequestDialog {
       combineLatest(ids.map(id => this.requestsDao.get(id))).pipe(
           take(1))
           .subscribe(requests => {
-            ids.forEach(id => this.requestsDao.remove(id));
+            this.requestsDao.remove(ids);
 
             const message = `Removed ${ids.length > 1 ? 'requests' : 'request'}`;
             const config: MatSnackBarConfig = {duration: 5000};
             this.snackBar.open(message, 'Undo', config).onAction().subscribe(() => {
-              requests.forEach(request => this.requestsDao.add(request));
+              this.requestsDao.add(requests);
             });
 
             this.selection.requests.clear();

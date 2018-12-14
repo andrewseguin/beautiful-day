@@ -3,6 +3,7 @@ import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firest
 import {takeUntil} from 'rxjs/operators';
 import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
+import {sendEvent} from './analytics';
 
 export interface IdentifiedObject {
   id?: string;
@@ -82,6 +83,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
   add(objs: T[]): Promise<any[]>;
   add(objOrObjs: T | T[]): Promise<string> | Promise<any[]> {
     if (objOrObjs instanceof Array) {
+      objOrObjs.forEach(() => this.sendDaoEvent('add'));
       return performBatchedOperation(objOrObjs, (batch, chunk) => {
         chunk.forEach(obj => {
           this.decorateForAdd(obj);
@@ -92,6 +94,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
     } else {
       const obj = objOrObjs;
       this.decorateForAdd(obj);
+      this.sendDaoEvent('add');
       return this.collection.doc(obj.id).set(obj).then(() => obj.id);
     }
   }
@@ -106,6 +109,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
     update.dateModified = new Date().toISOString();
 
     if (idOrIds instanceof Array) {
+      idOrIds.forEach(() => this.sendDaoEvent('update'));
       return performBatchedOperation(idOrIds, (batch, chunk) => {
         chunk.forEach(id => {
           const doc = this.collection.doc(id);
@@ -113,6 +117,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
         });
       });
     } else {
+      this.sendDaoEvent('update');
       return this.collection.doc(idOrIds).update(update);
     }
 
@@ -125,6 +130,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
   remove(ids: string[]): Promise<any[]>;
   remove(idOrIds: string | string[]) {
     if (idOrIds instanceof Array) {
+      idOrIds.forEach(() => this.sendDaoEvent('remove'));
       return performBatchedOperation(idOrIds, (batch, chunk) => {
         chunk.forEach(id => {
           const doc = this.collection.doc(id);
@@ -132,6 +138,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
         });
       });
     } else {
+      this.sendDaoEvent('remove');
       return this.collection.doc(idOrIds).delete();
     }
   }
@@ -163,6 +170,10 @@ export abstract class ListDao<T extends IdentifiedObject> {
 
     obj.dateCreated = new Date().toISOString();
     obj.dateModified = new Date().toISOString();
+  }
+
+  private sendDaoEvent(action: 'add' | 'update' | 'remove') {
+    sendEvent(this.path, `db_${action}`);
   }
 }
 

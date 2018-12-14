@@ -11,6 +11,7 @@ import {SeasonsDao} from 'app/service/seasons-dao';
 import {UserDialog} from 'app/season/shared/dialog/user/user-dialog';
 import {Theme} from 'app/season/services/theme';
 import {ContactsDao, EventsDao, FaqsDao} from 'app/season/dao';
+import {sendEvent} from 'app/utility/analytics';
 
 export interface NavLink {
   route: string;
