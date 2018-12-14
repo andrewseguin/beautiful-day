@@ -13,7 +13,7 @@ export interface User {
   pic?: string;
   phone?: string;
   isOwner?: boolean;
-  darkTheme?: boolean;
+  lightTheme?: boolean;
   dateCreated?: string;
   dateModified?: string;
 }

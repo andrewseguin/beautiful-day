@@ -1,19 +1,21 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
-import {Router} from '@angular/router';
+import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {MatSnackBar} from '@angular/material';
+import {Router} from '@angular/router';
+import {SeasonsDao} from 'app/service/seasons-dao';
+import {isValidLogin} from 'app/utility/valid-login';
 import {auth} from 'firebase/app';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {SeasonsDao} from 'app/service/seasons-dao';
-import {MatSnackBar} from '@angular/material';
-import {UsersDao} from 'app/service/users-dao';
-import {isValidLogin} from 'app/utility/valid-login';
 
 @Component({
   selector: 'login',
   templateUrl: 'login.html',
   styleUrls: ['login.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'theme-background', 
+  }
 })
 export class Login implements OnDestroy {
   checkingAuth = new BehaviorSubject<boolean>(true);
@@ -21,9 +23,7 @@ export class Login implements OnDestroy {
   private destroyed = new Subject();
 
   constructor(private afAuth: AngularFireAuth,
-              private cd: ChangeDetectorRef,
               private seasonsDao: SeasonsDao,
-              private usersDao: UsersDao,
               private snackBar: MatSnackBar,
               private route: Router) {
     this.afAuth.authState.pipe(takeUntil(this.destroyed)).subscribe(auth => {

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {UsersDao} from 'app/service/users-dao';
+import {UsersDao, User} from 'app/service/users-dao';
 import {distinctUntilChanged, filter, map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
 @Injectable()
 export class Theme {
-  isDark: boolean;
+  isLight: boolean;
 
   private destroyed = new Subject();
 
@@ -16,11 +16,11 @@ export class Theme {
     this.afAuth.authState.pipe(
         filter(auth => !!auth),
         mergeMap(auth => this.usersDao.getByEmail(auth.email)),
-        map(user => user ? user.darkTheme : null),
+        map(user => user ? user.lightTheme : null),
         distinctUntilChanged(),
         takeUntil(this.destroyed))
-        .subscribe(darkTheme => {
-          if (darkTheme != null && darkTheme && !this.isDark) {
+        .subscribe(lightTheme => {
+          if (lightTheme != null && lightTheme && !this.isLight) {
             this.toggle();
           }
         });
@@ -31,14 +31,14 @@ export class Theme {
     document.body.classList.toggle('dark-theme');
     this.syncState();
 
-    localStorage.setItem('dark', String(this.isDark));
+    localStorage.setItem('light', String(this.isLight));
 
     this.afAuth.authState.pipe(take(1)).subscribe(auth => {
-      this.usersDao.update(auth.uid, {darkTheme: this.isDark});
+      this.usersDao.update(auth.uid, {lightTheme: this.isLight});
     });
   }
 
   private syncState() {
-    this.isDark = document.body.classList.contains('dark-theme');
+    this.isLight = document.body.classList.contains('light-theme');
   }
 }

@@ -10,9 +10,9 @@ if (environment.production) {
   enableProdMode();
 }
 
-if (localStorage.getItem('dark') === 'true') {
-  document.body.classList.remove('light-theme');
-  document.body.classList.add('dark-theme');
+if (localStorage.getItem('light') === 'true') {
+  document.body.classList.remove('dark-theme');
+  document.body.classList.add('light-theme');
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule);
