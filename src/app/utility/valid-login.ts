@@ -4,6 +4,5 @@ export function isValidLogin(email: string) {
     count += email.charCodeAt(i);
   }
 
-  return count === 1694;
-  // || email.indexOf('@beautifulday.org') !== -1;
+  return count === 1694 || email.indexOf('@beautifulday.org') !== -1;
 }
