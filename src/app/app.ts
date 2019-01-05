@@ -7,6 +7,8 @@ import {isValidLogin} from 'app/utility/valid-login';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {sendPageview} from './utility/analytics';
 
+export const APP_VERSION = 1;
+
 @Component({
   selector: 'app-root',
   template: '<router-outlet></router-outlet>',
@@ -17,6 +19,8 @@ export class App {
               private router: Router,
               private usersDao: UsersDao,
               private afAuth: AngularFireAuth) {
+    console.log(`v.${APP_VERSION}`);
+
     this.router.events.pipe(distinctUntilChanged((prev: any, curr: any) => {
       if (curr instanceof NavigationEnd) {
         return prev.urlAfterRedirects === curr.urlAfterRedirects;

@@ -6,12 +6,12 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {filter, map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {UsersDao} from 'app/service/users-dao';
 import {FormControl} from '@angular/forms';
-import {combineLatest, Observable, of, Subject} from 'rxjs';
+import {combineLatest, Observable, Subject} from 'rxjs';
 import {SeasonsDao} from 'app/service/seasons-dao';
 import {UserDialog} from 'app/season/shared/dialog/user/user-dialog';
 import {Theme} from 'app/season/services/theme';
 import {ContactsDao, EventsDao, FaqsDao} from 'app/season/dao';
-import {sendEvent} from 'app/utility/analytics';
+import {APP_VERSION} from 'app/app';
 
 export interface NavLink {
   route: string;
@@ -27,6 +27,8 @@ export interface NavLink {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Nav {
+  version = APP_VERSION;
+
   user = this.afAuth.authState.pipe(
       filter(auth => !!auth),
       mergeMap(auth => this.usersDao.get(auth.uid)));

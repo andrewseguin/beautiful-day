@@ -35,7 +35,8 @@ export class Login implements OnDestroy {
 
       if (auth && !isValidLogin(auth.email)) {
         sendEvent('login', 'invalid');
-        this.snackBar.open('Must login with a @beautifulday.org account');
+        this.snackBar.open(
+            `Cannot log in as ${auth.email}, must login with a @beautifulday.org account`);
         this.afAuth.auth.signOut();
         this.checkingAuth.next(false);
         return;
