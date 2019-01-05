@@ -22,7 +22,7 @@ import {UsersDao} from './service/users-dao';
   imports: [
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
-    AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule,
     BrowserAnimationsModule,
     LoginModule,
     RouterModule.forRoot([

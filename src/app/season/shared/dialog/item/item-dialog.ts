@@ -204,7 +204,9 @@ export class ItemDialog {
     const warning = this.requestsDao.list.pipe(map(requests => {
       if (requests) {
         const numRequests = requests.filter(r => ids.indexOf(r.item) !== -1).length;
-        return `This will also delete ${numRequests} ${numRequests > 1 ? 'requests' : 'request'}`;
+        if (numRequests) {
+          return `This will also delete ${numRequests} ${numRequests > 1 ? 'requests' : 'request'}`;
+        }
       }
     }));
     const config = {data: {name, warning}};

@@ -6,6 +6,8 @@ import {UsersDao} from 'app/service/users-dao';
 import {isValidLogin} from 'app/utility/valid-login';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {sendPageview} from './utility/analytics';
+import {ConfigDao} from 'app/season/dao';
+import {GlobalConfigDao} from 'app/service/global-config-dao';
 
 export const APP_VERSION = 1;
 
@@ -18,8 +20,21 @@ export class App {
   constructor (private snackBar: MatSnackBar,
               private router: Router,
               private usersDao: UsersDao,
+              private globalConfigDao: GlobalConfigDao,
               private afAuth: AngularFireAuth) {
     console.log(`v.${APP_VERSION}`);
+
+    this.globalConfigDao.map.subscribe(map => {
+      if (map) {
+        const dbAppVersion = map.get('appVersion').value;
+        if (dbAppVersion > APP_VERSION) {
+          navigator.serviceWorker.getRegistrations().then(registrations => {
+            registrations.forEach(r => r.unregister());
+            location.reload();
+          });
+        }
+      }
+    });
 
     this.router.events.pipe(distinctUntilChanged((prev: any, curr: any) => {
       if (curr instanceof NavigationEnd) {
