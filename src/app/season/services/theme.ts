@@ -21,13 +21,16 @@ export class Theme {
         distinctUntilChanged(),
         takeUntil(this.destroyed))
         .subscribe(lightTheme => {
-          if (lightTheme != null && lightTheme && !this.isLight) {
-            this.toggle();
+          if (lightTheme != null) {
+            if ((lightTheme && !this.isLight) ||
+                (!lightTheme && this.isLight)) {
+              this.toggle();
+            }
           }
         });
   }
 
-  toggle(userToggled = false) {
+  toggle() {
     document.body.classList.toggle('light-theme');
     document.body.classList.toggle('dark-theme');
     this.syncState();
