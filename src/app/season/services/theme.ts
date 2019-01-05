@@ -30,14 +30,16 @@ export class Theme {
         });
   }
 
-  toggle() {
+  toggle(userToggled = false) {
     document.body.classList.toggle('light-theme');
     document.body.classList.toggle('dark-theme');
     this.syncState();
 
     localStorage.setItem('light', String(this.isLight));
 
-    sendEvent('theme_toggled', this.isLight ? 'light' : 'dark');
+    if (userToggled) {
+      sendEvent('theme_toggled', this.isLight ? 'light' : 'dark');
+    }
 
     this.afAuth.authState.pipe(take(1)).subscribe(auth => {
       this.usersDao.update(auth.uid, {lightTheme: this.isLight});
