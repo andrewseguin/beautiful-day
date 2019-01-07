@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {Item, ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
+import {Item, ItemsDao, ProjectsDao, RequestsDao, Project} from 'app/season/dao';
 import {CreateItem, CreateItemResult} from './create-item/create-item';
 import {combineLatest, of, Subject} from 'rxjs';
 import {highlight} from 'app/utility/element-actions';
@@ -21,6 +21,8 @@ import {
   DeleteConfirmationData
 } from 'app/season/shared/dialog/delete-confirmation/delete-confirmation';
 import {ImportFromFile} from 'app/season/shared/dialog/item/import-from-file/import-from-file';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {User} from 'firebase';
 
 @Injectable()
 export class ItemDialog {
@@ -32,6 +34,7 @@ export class ItemDialog {
               private selection: Selection,
               private requestsDao: RequestsDao,
               private projectsDao: ProjectsDao,
+              private afAuth: AngularFireAuth,
               private snackBar: MatSnackBar,
               private itemsDao: ItemsDao) {
     this.itemsDao.list.pipe(takeUntil(this.destroyed)).subscribe(items => {
@@ -258,13 +261,18 @@ export class ItemDialog {
 
   }
 
-  private makeRequest(project: string, item: string) {
-    this.projectsDao.get(project).pipe(take(1)).subscribe(project => {
-      const request = createRequest(project, item, 1);
-      this.requestsDao.add(request).then(id => {
-        highlight(id);
-      });
-    });
+  private makeRequest(projectId: string, item: string) {
+    combineLatest([this.projectsDao.get(projectId), this.afAuth.authState])
+        .pipe(take(1))
+        .subscribe(result => {
+          const project = result[0] as Project;
+          const user = result[1] as User;
+
+          const request = createRequest(project, item, 1, user.email);
+          this.requestsDao.add(request).then(id => {
+            highlight(id);
+          });
+        });
   }
 
   private openPromptDialog(ids: string[], property: string, config: MatDialogConfig) {

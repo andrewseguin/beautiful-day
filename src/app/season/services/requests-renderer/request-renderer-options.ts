@@ -14,6 +14,7 @@ export interface RequestRendererOptionsState {
   sorting: Sort;
   reverseSort: boolean;
   showProjectName: boolean;
+  showRequester: boolean;
 }
 
 export class RequestRendererOptions {
@@ -65,6 +66,14 @@ export class RequestRendererOptions {
   get showProjectName(): boolean { return this._showProjectName; }
   private _showProjectName = false;
 
+  set showRequester(v: boolean) {
+    if (this._showRequester === v) { return; }
+    this._showRequester = v;
+    this.changed.next();
+  }
+  get showRequester(): boolean { return this._showRequester; }
+  private _showRequester = false;
+
   changed = new Subject<void>();
 
   setState(options: RequestRendererOptionsState) {
@@ -74,6 +83,7 @@ export class RequestRendererOptions {
     this._sorting = options.sorting;
     this._reverseSort = options.reverseSort;
     this._showProjectName = options.showProjectName;
+    this._showRequester = options.showRequester;
     this.changed.next();
   }
 
@@ -85,6 +95,7 @@ export class RequestRendererOptions {
       sorting: this.sorting,
       reverseSort: this.reverseSort,
       showProjectName: this.showProjectName,
+      showRequester: this.showRequester,
     };
   }
 }
@@ -95,6 +106,7 @@ export function areOptionStatesEqual(o1: RequestRendererOptionsState,
     o1.reverseSort === o2.reverseSort &&
     o1.sorting === o2.sorting &&
     o1.showProjectName === o2.showProjectName &&
+    o1.showRequester === o2.showRequester &&
     o1.search === o2.search &&
     JSON.stringify(o1.filters.sort()) === JSON.stringify(o2.filters.sort());
 }

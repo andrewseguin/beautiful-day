@@ -76,6 +76,17 @@ export const RequestFilterMetadata = new Map<string, IFilterMetadata>([
     }
   }],
 
+  ['requester', {
+    displayName: 'Requester',
+    queryType: 'input',
+    matcher: (c: MatcherContext, q: InputQuery) => {
+      return stringContainsQuery(c.request.requester, q);
+    },
+    autocomplete: (c: AutocompleteContext) => {
+      return getValuesFromList(c.requestsDao, 'requester');
+    }
+  }],
+
   ['itemName', {
     displayName: 'Item Name',
     queryType: 'input',

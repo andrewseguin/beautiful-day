@@ -111,5 +111,6 @@ export class ReportPage implements OnInit {
 function createNewReport() {
   const options = new RequestRendererOptions();
   options.showProjectName = true;
+  options.showRequester = true;
   return {name: 'New Report', options: options.getState()};
 }

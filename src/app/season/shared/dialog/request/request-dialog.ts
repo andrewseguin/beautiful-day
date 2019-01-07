@@ -121,6 +121,18 @@ export class RequestDialog {
     });
   }
 
+
+  editRequester(ids: string[]) {
+    const requests = combineLatest(ids.map(id => this.requestsDao.get(id)));
+    this.openPromptDialog(ids, 'requester', {
+      width: '300px',
+      data: {
+        title: 'Edit Requester',
+        input: getMergedObjectValue(requests, 'requester')
+      }
+    });
+  }
+
   editAllocation(ids: string[]) {
     const requests = combineLatest(ids.map(id => this.requestsDao.get(id)));
     this.openPromptDialog(ids, 'allocation', {

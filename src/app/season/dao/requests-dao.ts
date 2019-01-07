@@ -26,6 +26,7 @@ export interface Request {
   date?: string;
   tags?: string[];
   purchaser?: string;
+  requester?: string;
   isPurchased?: boolean;
   isApproved?: boolean;
   allocation?: number;

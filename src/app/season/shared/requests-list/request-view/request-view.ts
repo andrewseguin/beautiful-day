@@ -141,6 +141,9 @@ export class RequestView implements OnInit {
       case 'purchaser':
         this.requestDialog.editPurchaser([this.request.id]);
         break;
+      case 'requester':
+        this.requestDialog.editRequester([this.request.id]);
+        break;
       case 'tag':
         this.requestDialog.editTags([this.request.id]);
         break;

@@ -41,6 +41,12 @@
   </button>
 
   <button mat-menu-item
+          (click)="requestDialog.editRequester(selected)"
+          *ngIf="permissions.editableRequestProperties.requester | async">
+    Requester
+  </button>
+
+  <button mat-menu-item
           (click)="requestDialog.editStatus(selected)"
           *ngIf="permissions.editableRequestProperties.status | async">
     Status

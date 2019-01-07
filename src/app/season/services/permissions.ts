@@ -13,6 +13,7 @@ interface EditableRequestProperties {
   status: Observable<boolean>;
   allocation: Observable<boolean>;
   costAdjustment: Observable<boolean>;
+  requester: Observable<boolean>;
 }
 @Injectable()
 export class Permissions {
@@ -66,6 +67,7 @@ export class Permissions {
       status: this.isApprover,
       allocation: this.isAcquisitions,
       costAdjustment: this.isAcquisitions,
+      requester: this.isAdmin,
     };
   }
 
