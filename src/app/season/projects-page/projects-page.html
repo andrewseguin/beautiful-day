@@ -15,7 +15,8 @@
       <mat-divider></mat-divider>
     </ng-container>
 
-    <h2 *ngIf="projects.others.length && projects.involved.length > 0">
+    <h2 *ngIf="projects.others.length && projects.involved.length > 0"
+        class="other-projects">
       {{projects.others.length > 1 ? 'Other Projects' : 'Other Project'}}
     </h2>
     <ng-container *ngFor="let project of projects.others">
