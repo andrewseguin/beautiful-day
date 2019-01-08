@@ -31,7 +31,7 @@ export class EditableItemProperty {
   @ViewChild('textarea') textarea: ElementRef;
   @ViewChild(MatSelect) select: MatSelect;
 
-  private formControl = new FormControl();
+  formControl = new FormControl();
 
   private _destroyed = new Subject();
 

@@ -1,4 +1,5 @@
 <textarea #textarea *ngIf="formType === 'textarea'"
+          class="theme-text"
           [style.text-align]="alignEnd ? 'right' : ''"
           [formControl]="formControl"
           (blur)="save()"
