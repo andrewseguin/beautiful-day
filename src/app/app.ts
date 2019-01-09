@@ -9,7 +9,7 @@ import {sendPageview} from './utility/analytics';
 import {ConfigDao} from 'app/season/dao';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
 
-export const APP_VERSION = 3;
+export const APP_VERSION = 4;
 
 @Component({
   selector: 'app-root',
