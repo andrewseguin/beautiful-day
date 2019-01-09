@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import {Request, Item} from 'app/season/dao';
 import {ItemsDao} from 'app/season/dao';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, take} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {Selection} from 'app/season/services';
+import {Selection, Permissions} from 'app/season/services';
 
 
 @Component({
@@ -20,6 +20,8 @@ import {Selection} from 'app/season/services';
 })
 export class RequestsGroup {
   items = new Map<string, Item>();
+
+  canEdit: boolean;
 
   @Input() requests: Request[];
 
@@ -32,7 +34,8 @@ export class RequestsGroup {
   private destroyed = new Subject();
 
   constructor(private itemsDao: ItemsDao,
-              private selection: Selection,
+              public selection: Selection,
+              private permissions: Permissions,
               private cd: ChangeDetectorRef) {
     this.itemsDao.map.pipe(takeUntil(this.destroyed)).subscribe(itemsMap => {
       this.items = itemsMap;
@@ -40,8 +43,27 @@ export class RequestsGroup {
     });
   }
 
+  ngOnChanges() {
+    if (this.requests) {
+      this.permissions.editableProjects.pipe(
+        take(1))
+        .subscribe(editableProjects => {
+          if (editableProjects) {
+            this.canEdit = this.requests.every(r => editableProjects.has(r.project));
+            this.cd.markForCheck();
+          }
+        });
+    }
+  }
+
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  selectAll() {
+    if (this.canEdit) {
+      this.selectGroup.emit();
+    }
   }
 }

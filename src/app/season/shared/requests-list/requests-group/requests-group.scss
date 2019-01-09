@@ -14,5 +14,8 @@
   font-size: 18px;
   page-break-inside: avoid;
   padding: 16px;
-  cursor: pointer;
+
+  &.can-edit {
+    cursor: pointer;
+  }
 }

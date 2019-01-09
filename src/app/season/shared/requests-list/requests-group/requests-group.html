@@ -1,5 +1,5 @@
-<div class="title" (click)="selectGroup.emit()">
-  <span matTooltip="Click to select these requests">{{title}}</span>
+<div class="title" [class.can-edit]="canEdit" (click)="selectAll()">
+  <span [matTooltip]="canEdit ? 'Click to select these requests' : ''">{{title}}</span>
 </div>
 <ng-container *ngIf="items.size">
   <ng-container *ngFor="let request of requests; trackBy:getRequestKey">
