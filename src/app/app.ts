@@ -1,15 +1,14 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {Router, NavigationEnd} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
+import {GlobalConfigDao} from 'app/service/global-config-dao';
 import {UsersDao} from 'app/service/users-dao';
 import {isValidLogin} from 'app/utility/valid-login';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {sendPageview} from './utility/analytics';
-import {ConfigDao} from 'app/season/dao';
-import {GlobalConfigDao} from 'app/service/global-config-dao';
 
-export const APP_VERSION = 4;
+export const APP_VERSION = 5;
 
 @Component({
   selector: 'app-root',
