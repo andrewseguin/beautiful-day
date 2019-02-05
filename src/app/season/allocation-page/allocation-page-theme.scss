@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+
+@mixin inventory-page-theme($theme) {
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  allocations-page {
+    
+  }
+}

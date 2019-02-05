@@ -11,6 +11,7 @@ import {Subject} from 'rxjs';
 const SECTIONS = new Map<string, string>([
   ['projects', 'Projects'],
   ['inventory', 'Inventory'],
+  ['allocation', 'Allocation'],
   ['login', 'Login to BD365 Management'],
   ['reports', 'Reports'],
   ['events', 'Events'],

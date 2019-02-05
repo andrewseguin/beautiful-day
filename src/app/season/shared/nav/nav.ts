@@ -56,6 +56,10 @@ export class Nav {
       route: 'inventory', label: 'Inventory', icon: 'shopping_cart',
       permissions: this.permissions.isAcquisitions
     },
+    {
+      route: 'allocation', label: 'Allocation', icon: 'ballot',
+      permissions: this.permissions.isAcquisitions
+    },
     {route: 'reports', label: 'Reports', icon: 'assignment',
       permissions: this.permissions.isAcquisitions},
     {route: 'admin', label: 'Admin', icon: 'build',

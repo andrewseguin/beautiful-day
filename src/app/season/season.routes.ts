@@ -29,6 +29,10 @@ export const SEASON_ROUTES = [
     loadChildren: 'app/season/inventory-page/inventory-page.module#InventoryPageModule'
   },
   {
+    path: 'allocation',
+    loadChildren: 'app/season/allocation-page/allocation-page.module#AllocationPageModule'
+  },
+  {
     path: 'reports',
     loadChildren: 'app/season/reports-page/reports-page.module#ReportsPageModule'
   },
