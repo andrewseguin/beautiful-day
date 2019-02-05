@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {MatDialog} from '@angular/material';
-import {Permissions} from 'app/season/services/permissions';
-import {ItemsDao, RequestsDao} from 'app/season/dao';
+import {RequestsDao} from 'app/season/dao';
 import {Selection} from 'app/season/services';
+import {Permissions} from 'app/season/services/permissions';
 import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
 import {combineLatest, Subject} from 'rxjs';
 import {startWith, take, takeUntil} from 'rxjs/operators';
@@ -16,14 +15,10 @@ import {startWith, take, takeUntil} from 'rxjs/operators';
 export class EditRequestOptions {
   hasPurchased = true;
 
-  selected = this.selection.requests.selected;
-
   private destroyed = new Subject();
 
   constructor(private requestsDao: RequestsDao,
-              private itemsDao: ItemsDao,
-              private mdDialog: MatDialog,
-              private selection: Selection,
+              public selection: Selection,
               private cd: ChangeDetectorRef,
               public requestDialog: RequestDialog,
               public permissions: Permissions) {

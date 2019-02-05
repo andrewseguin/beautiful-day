@@ -7,7 +7,7 @@
 
 <div [matTooltip]="hasPurchased ? 'Cannot delete requests that have been purchased' : ''">
   <button mat-button
-          (click)="requestDialog.deleteRequests(selected)"
+          (click)="requestDialog.deleteRequests(selection.requests.selected)"
           [disabled]="hasPurchased"
           class="header-button">
     <div class="selection-header-button-content">
@@ -20,40 +20,40 @@
 
 <mat-menu #editMenu="matMenu" x-position="before">
   <button mat-menu-item
-          (click)="requestDialog.editNote(selected)">
+          (click)="requestDialog.editNote(selection.requests.selected)">
     Note
   </button>
 
   <button mat-menu-item
-          (click)="requestDialog.editDropoff(selected)">
+          (click)="requestDialog.editDropoff(selection.requests.selected)">
     Dropoff
   </button>
 
   <button mat-menu-item
-          (click)="requestDialog.editTags(selected)">
+          (click)="requestDialog.editTags(selection.requests.selected)">
     Tags
   </button>
 
   <button mat-menu-item
-          (click)="requestDialog.editPurchaser(selected)"
+          (click)="requestDialog.editPurchaser(selection.requests.selected)"
           *ngIf="permissions.editableRequestProperties.purchaser | async">
     Purchaser
   </button>
 
   <button mat-menu-item
-          (click)="requestDialog.editRequester(selected)"
+          (click)="requestDialog.editRequester(selection.requests.selected)"
           *ngIf="permissions.editableRequestProperties.requester | async">
     Requester
   </button>
 
   <button mat-menu-item
-          (click)="requestDialog.editStatus(selected)"
+          (click)="requestDialog.editStatus(selection.requests.selected)"
           *ngIf="permissions.editableRequestProperties.status | async">
     Status
   </button>
 
   <button mat-menu-item
-          (click)="requestDialog.editAllocation(selected)"
+          (click)="requestDialog.editAllocation(selection.requests.selected)"
           [disabled]="getSelectedRequestsCount() > 1"
           [matTooltip]="getSelectedRequestsCount() > 1 ? 'Cannot allocate for more than one request' : ''"
           *ngIf="permissions.editableRequestProperties.allocation | async">
@@ -61,7 +61,7 @@
   </button>
 
   <button mat-menu-item
-          (click)="requestDialog.editCostAdjustment(selected)"
+          (click)="requestDialog.editCostAdjustment(selection.requests.selected)"
           *ngIf="permissions.editableRequestProperties.costAdjustment | async">
     Cost adjustment
   </button>
