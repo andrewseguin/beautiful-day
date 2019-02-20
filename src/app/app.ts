@@ -8,7 +8,7 @@ import {isValidLogin} from 'app/utility/valid-login';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {sendPageview} from './utility/analytics';
 
-export const APP_VERSION = 5;
+export const APP_VERSION = 6;
 
 @Component({
   selector: 'app-root',
@@ -16,11 +16,10 @@ export const APP_VERSION = 5;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  constructor (private snackBar: MatSnackBar,
-              private router: Router,
-              private usersDao: UsersDao,
-              private globalConfigDao: GlobalConfigDao,
-              private afAuth: AngularFireAuth) {
+  constructor(
+      private snackBar: MatSnackBar, private router: Router,
+      private usersDao: UsersDao, private globalConfigDao: GlobalConfigDao,
+      private afAuth: AngularFireAuth) {
     console.log(`v.${APP_VERSION}`);
 
     this.globalConfigDao.map.subscribe(map => {
@@ -35,12 +34,14 @@ export class App {
       }
     });
 
-    this.router.events.pipe(distinctUntilChanged((prev: any, curr: any) => {
-      if (curr instanceof NavigationEnd) {
-        return prev.urlAfterRedirects === curr.urlAfterRedirects;
-      }
-      return true;
-    })).subscribe(x => sendPageview(x.urlAfterRedirects));
+    this.router.events
+        .pipe(distinctUntilChanged((prev: any, curr: any) => {
+          if (curr instanceof NavigationEnd) {
+            return prev.urlAfterRedirects === curr.urlAfterRedirects;
+          }
+          return true;
+        }))
+        .subscribe(x => sendPageview(x.urlAfterRedirects));
 
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
@@ -54,7 +55,10 @@ export class App {
     });
   }
 
-  /** Send user to the login page and send current location for when they are logged in. */
+  /**
+   * Send user to the login page and send current location for when they are
+   * logged in.
+   */
   private navigateToLogin() {
     if (location.pathname !== '/login') {
       this.router.navigate(['login'], {fragment: location.pathname});
