@@ -6,6 +6,7 @@ interface RequestAllocation {
   id: string;
   allocation: number;
   project: string;
+  requested: number;
 }
 
 interface ItemAllocations {
@@ -80,7 +81,8 @@ export class AllocationPage {
       map.get(request.item).requestAllocations.push({
         id: request.id,
         allocation: request.allocation,
-        project: projects.get(request.project).name
+        project: projects.get(request.project).name,
+        requested: request.quantity,
       });
     });
 

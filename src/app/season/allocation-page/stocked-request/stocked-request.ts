@@ -18,6 +18,7 @@ export class StockedRequest {
 
   @Input() requestId: string;
   @Input() project: string;
+  @Input() requested: number;
 
   @Input()
   set allocation(allocation: number) {

@@ -1,7 +1,7 @@
-<div *ngFor="let itemAllocations of itemAllocationsList; trackBy: trackByItemAllocations" class="stocked-item-container">
-  <stocked-item [itemName]="itemAllocations.itemName" [quantityOwned]="itemAllocations.quantityOwned" [remaining]="itemAllocations.remaining">
-    <stocked-request *ngFor="let requestAllocation of itemAllocations.requestAllocations; trackBy: trackByRequestAllocation"
-      [requestId]="requestAllocation.id" [allocation]="requestAllocation.allocation" [project]="requestAllocation.project">
+<div *ngFor="let i of itemAllocationsList; trackBy: trackByItemAllocations" class="stocked-item-container">
+  <stocked-item [itemName]="i.itemName" [quantityOwned]="i.quantityOwned" [remaining]="i.remaining">
+    <stocked-request *ngFor="let r of i.requestAllocations; trackBy: trackByRequestAllocation" [requestId]="r.id"
+      [allocation]="r.allocation" [project]="r.project" [requested]="r.requested">
     </stocked-request>
   </stocked-item>
   <mat-divider></mat-divider>
