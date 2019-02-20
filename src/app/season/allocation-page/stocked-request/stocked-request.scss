@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.project {
+  display: flex;
+  align-items: center;
+}
+
+input {
+  width: 48px;
+  background: transparent;
+  color: inherit;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid;
+  padding: 4px;
+  text-align: right;
+}

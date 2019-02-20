@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.item-name {
+  display: flex;
+  align-items: center;
+}
+
+mat-icon {
+  padding-right: 16px;
+}
+
+.requests {
+  overflow: hidden;
+  padding-right: 16px;
+  padding-left: 56px;
+}
+
+.stock {
+  width: 80px;
+  text-align: right;
+}

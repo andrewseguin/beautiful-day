@@ -1,13 +1,8 @@
-<div *ngFor="let stockedItemRequests of stockedItemRequestsList">
-  <div class="item">
-    <div class="item-name">
-      {{stockedItemRequests.item.name}}
-    </div>
-  </div>
-
-  <div class="requests">
-    <div class="request" *ngFor="let request of stockedItemRequests.requests">
-      {{request.name}}
-    </div>
-  </div>
+<div *ngFor="let itemAllocations of itemAllocationsList; trackBy: trackByItemAllocations" class="stocked-item-container">
+  <stocked-item [itemName]="itemAllocations.itemName" [quantityOwned]="itemAllocations.quantityOwned" [remaining]="itemAllocations.remaining">
+    <stocked-request *ngFor="let requestAllocation of itemAllocations.requestAllocations; trackBy: trackByRequestAllocation"
+      [requestId]="requestAllocation.id" [allocation]="requestAllocation.allocation" [project]="requestAllocation.project">
+    </stocked-request>
+  </stocked-item>
+  <mat-divider></mat-divider>
 </div>

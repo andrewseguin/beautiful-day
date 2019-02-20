@@ -54,6 +54,7 @@
   .theme-primary { color: mat-color($primary); }
   .theme-accent { color: mat-color($accent); }
   .theme-warn { color: mat-color($warn); }
+  .theme-positive { color: map-get($theme, positive); }
 }
 
 @include mat-core();

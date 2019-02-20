@@ -2,14 +2,18 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/co
 import {Item, ItemsDao, Project, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {combineLatest, Subject} from 'rxjs';
 
-interface StockedRequest {
-  request: Request;
-  name: string;
+interface RequestAllocation {
+  id: string;
+  allocation: number;
+  project: string;
 }
 
-interface StockedItemRequests {
-  item: Item;
-  requests: StockedRequest[];
+interface ItemAllocations {
+  id: string;
+  itemName: string;
+  quantityOwned: number;
+  remaining: number;
+  requestAllocations: RequestAllocation[];
 }
 
 @Component({
@@ -19,27 +23,28 @@ interface StockedItemRequests {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AllocationPage {
-  stockedItemRequestsList: StockedItemRequests[] = [];
+  itemAllocationsList: ItemAllocations[] = [];
   private _destroyed = new Subject();
-  private projects: Map<string, Project>;
+
+  trackByItemAllocations = (_i: number, o: ItemAllocations) => o.id;
+  trackByRequestAllocation = (_i: number, o: RequestAllocation) => o.id;
 
   constructor(
       itemsDao: ItemsDao, requestsDao: RequestsDao, projectsDao: ProjectsDao,
       cd: ChangeDetectorRef) {
-    combineLatest(itemsDao.list, requestsDao.list, projectsDao.map)
-        .subscribe(result => {
-          const items = result[0];
-          const requests = result[1];
-          this.projects = result[2];
+    const changes = [itemsDao.list, requestsDao.list, projectsDao.map];
+    combineLatest(...changes).subscribe(result => {
+      const items = result[0];
+      const requests = result[1];
+      const projects = result[2];
 
-          if (!items || !requests || !this.projects) {
-            return;
-          }
+      if (!items || !requests || !projects) {
+        return;
+      }
 
-          this.stockedItemRequestsList =
-              this.getStockedItemRequestsList(result[0] || [], result[1] || []);
-          cd.markForCheck();
-        });
+      this.itemAllocationsList = this.getAllocations(items, requests, projects);
+      cd.markForCheck();
+    });
   }
 
   ngOnDestroy() {
@@ -47,32 +52,42 @@ export class AllocationPage {
     this._destroyed.complete();
   }
 
-  getStockedItemRequestsList(items: Item[], requests: Request[]):
-      StockedItemRequests[] {
+  getAllocations(
+      items: Item[], requests: Request[],
+      projects: Map<string, Project>): ItemAllocations[] {
     const stockedItems = this.getStockedItems(items);
+    const map = new Map<string, ItemAllocations>();
 
-    const stockedItemRequestsMap = new Map<string, StockedItemRequests>();
     requests.forEach(request => {
       const item = stockedItems.get(request.item);
       if (!item) {
         return;
       }
 
-      if (!stockedItemRequestsMap.get(request.item)) {
-        stockedItemRequestsMap.set(request.item, {item, requests: []});
+      if (!map.get(request.item)) {
+        map.set(request.item, {
+          id: item.id,
+          itemName: item.categories.join(' > ') + ' > ' + item.name,
+          quantityOwned: item.quantityOwned,
+          remaining: item.quantityOwned,
+          requestAllocations: []
+        });
       }
 
-      stockedItemRequestsMap.get(request.item).requests.push({
-        request,
-        name: this.projects.get(request.project).name});
+      const itemAllocations = map.get(request.item);
+      itemAllocations.remaining =
+          itemAllocations.remaining - (request.allocation || 0);
+      map.get(request.item).requestAllocations.push({
+        id: request.id,
+        allocation: request.allocation,
+        project: projects.get(request.project).name
+      });
     });
 
-    const stockedItemRequestsList = [];
-    stockedItemRequestsMap.forEach(value => {
-      stockedItemRequestsList.push(value);
-    });
-
-    return stockedItemRequestsList;
+    const list: ItemAllocations[] = [];
+    map.forEach(value => list.push(value));
+    list.sort((a, b) => a.itemName < b.itemName ? -1 : 1);
+    return list;
   }
 
   getStockedItems(items): Map<string, Item> {

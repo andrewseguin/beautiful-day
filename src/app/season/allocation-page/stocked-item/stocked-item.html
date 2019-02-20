@@ -1,0 +1,17 @@
+<div class="item" mat-ripple (click)="expanded = !expanded">
+
+  <div class="item-name">
+    <mat-icon [@expansionIndicator]="expanded">
+      expand_more
+    </mat-icon>
+    {{ itemName }}
+  </div>
+
+  <div class="stock" [class.theme-warn]="remaining < 0" [class.theme-positive]="remaining === 0">
+    {{ remaining }} / {{ quantityOwned }}
+  </div>
+</div>
+
+<div class="requests" [@expansionContent]="expanded">
+  <ng-content></ng-content>
+</div>
