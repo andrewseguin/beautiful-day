@@ -1,33 +1,25 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import {DatePipe} from '@angular/common';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {FormControl} from '@angular/forms';
 import {MatDialog} from '@angular/material';
-import {Accounting} from 'app/season/services/accounting';
-import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
-import {Permissions} from 'app/season/services/permissions';
-import {Subject} from 'rxjs';
-import {distinctUntilChanged, takeUntil} from 'rxjs/operators';
 import {APPROVAL_NEGATERS, Item, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {Selection} from 'app/season/services';
+import {Accounting} from 'app/season/services/accounting';
+import {Permissions} from 'app/season/services/permissions';
+import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
 import {getItemName} from 'app/season/utility/item-name';
 import {getRequestCost} from 'app/season/utility/request-cost';
 import {isMobile} from 'app/utility/media-matcher';
-import {DatePipe} from '@angular/common';
-import {FormControl} from '@angular/forms';
+import {Subject} from 'rxjs';
+import {distinctUntilChanged, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'request',
   templateUrl: 'request-view.html',
   styleUrls: ['request-view.scss'],
   host: {
-    '[style.pointer-events]': "canEdit ? '' : 'none'",
+    '[style.pointer-events]': 'canEdit ? \'\' : \'none\'',
     '[class.can-edit]': 'canEdit',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,34 +43,29 @@ export class RequestView implements OnInit {
 
   quantity = new FormControl();
 
-  constructor(private cd: ChangeDetectorRef,
-              public requestsRenderer: RequestsRenderer,
-              private mdDialog: MatDialog,
-              private elementRef: ElementRef,
-              private accounting: Accounting,
-              private requestsDao: RequestsDao,
-              private selection: Selection,
-              private projectsDao: ProjectsDao,
-              private requestDialog: RequestDialog,
-              public permissions: Permissions) { }
+  constructor(
+      private cd: ChangeDetectorRef, public requestsRenderer: RequestsRenderer,
+      private mdDialog: MatDialog, private elementRef: ElementRef,
+      private accounting: Accounting, private requestsDao: RequestsDao,
+      private selection: Selection, private projectsDao: ProjectsDao,
+      private requestDialog: RequestDialog, public permissions: Permissions) {}
 
   ngOnInit() {
-    this.selection.requests.changed.pipe(
-      takeUntil(this.destroyed))
-      .subscribe(() => this.cd.markForCheck());
+    this.selection.requests.changed.pipe(takeUntil(this.destroyed))
+        .subscribe(() => this.cd.markForCheck());
 
-    this.permissions.editableProjects.pipe(
-      takeUntil(this.destroyed))
-      .subscribe(editableProjects => {
-        if (editableProjects) {
-          this.canEdit = editableProjects.has(this.request.project);
-          this.cd.markForCheck();
-        }
-      });
+    this.permissions.editableProjects.pipe(takeUntil(this.destroyed))
+        .subscribe(editableProjects => {
+          if (editableProjects) {
+            this.canEdit = editableProjects.has(this.request.project);
+            this.cd.markForCheck();
+          }
+        });
 
-    this.quantity.valueChanges.pipe(
-        takeUntil(this.destroyed),
-        distinctUntilChanged()) // Input fires twice due to issue/12540
+    this.quantity.valueChanges
+        .pipe(
+            takeUntil(this.destroyed),
+            distinctUntilChanged())  // Input fires twice due to issue/12540
         .subscribe(quantity => {
           quantity = Math.max(0, quantity);
           this.requestsDao.update(this.request.id, {quantity: quantity});
@@ -100,9 +87,8 @@ export class RequestView implements OnInit {
   }
 
   setSelected(value: boolean) {
-    value ?
-      this.selection.requests.select(this.request.id) :
-      this.selection.requests.deselect(this.request.id);
+    value ? this.selection.requests.select(this.request.id) :
+            this.selection.requests.deselect(this.request.id);
   }
 
   navigateToUrl(url: string) {
@@ -110,7 +96,9 @@ export class RequestView implements OnInit {
   }
 
   getRequestCost() {
-    if (!this.item || !this.request) { return 0; }
+    if (!this.item || !this.request) {
+      return 0;
+    }
 
     return getRequestCost(this.item.cost, this.request);
   }

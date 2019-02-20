@@ -7,7 +7,7 @@
     {{ itemName }}
   </div>
 
-  <div class="stock" [class.theme-warn]="remaining < 0" [class.theme-positive]="remaining === 0">
+  <div class="stock" [class.theme-warn]="remaining < 0 || remaining > quantityOwned" [class.theme-positive]="remaining === 0">
     {{ remaining }} / {{ quantityOwned }}
   </div>
 </div>

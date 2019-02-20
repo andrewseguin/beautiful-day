@@ -1,53 +1,27 @@
 import {Injectable} from '@angular/core';
-import {
-  MatDialog,
-  MatDialogConfig,
-  MatDialogRef,
-  MatSnackBar,
-  MatSnackBarConfig
-} from '@angular/material';
-import {
-  PromptDialog,
-  PromptDialogResult
-} from 'app/season/shared/dialog/prompt-dialog/prompt-dialog';
-import {Selection} from 'app/season/services';
+import {MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
-import {map, mergeMap, take} from 'rxjs/operators';
-import {combineLatest, of} from 'rxjs';
-import {
-  EditDropoff,
-  EditDropoffResult
-} from 'app/season/shared/dialog/request/edit-dropoff/edit-dropoff';
+import {Selection} from 'app/season/services';
+import {DeleteConfirmation, DeleteConfirmationData} from 'app/season/shared/dialog/delete-confirmation/delete-confirmation';
+import {PromptDialog, PromptDialogResult} from 'app/season/shared/dialog/prompt-dialog/prompt-dialog';
+import {EditCostAdjustment, EditCostAdjustmentResult} from 'app/season/shared/dialog/request/edit-cost-adjustment/edit-cost-adjustment';
+import {EditDropoff, EditDropoffResult} from 'app/season/shared/dialog/request/edit-dropoff/edit-dropoff';
+import {EditStatus, EditStatusData, EditStatusResult} from 'app/season/shared/dialog/request/edit-status/edit-status';
 import {EditTags, EditTagsResult} from 'app/season/shared/dialog/request/edit-tags/edit-tags';
-import {
-  EditStatus,
-  EditStatusData,
-  EditStatusResult
-} from 'app/season/shared/dialog/request/edit-status/edit-status';
-import {
-  DeleteConfirmation,
-  DeleteConfirmationData
-} from 'app/season/shared/dialog/delete-confirmation/delete-confirmation';
-import {
-  EditCostAdjustment,
-  EditCostAdjustmentResult
-} from 'app/season/shared/dialog/request/edit-cost-adjustment/edit-cost-adjustment';
 import {getMergedObjectValue} from 'app/season/utility/merged-obj-value';
+import {combineLatest, of} from 'rxjs';
+import {map, mergeMap, take} from 'rxjs/operators';
 
 @Injectable()
 export class RequestDialog {
-  constructor(private dialog: MatDialog,
-              private requestsDao: RequestsDao,
-              private projectsDao: ProjectsDao,
-              private itemsDao: ItemsDao,
-              private snackBar: MatSnackBar,
-              private selection: Selection) {}
+  constructor(
+      private dialog: MatDialog, private requestsDao: RequestsDao,
+      private projectsDao: ProjectsDao, private itemsDao: ItemsDao,
+      private snackBar: MatSnackBar, private selection: Selection) {}
 
   editDropoff(ids: string[]) {
     const config = {
-      data: {
-        requests: combineLatest(ids.map(id => this.requestsDao.get(id)))
-      },
+      data: {requests: combineLatest(ids.map(id => this.requestsDao.get(id)))},
       autoFocus: false,
       width: '400px',
     };
@@ -59,10 +33,8 @@ export class RequestDialog {
       }
 
       ids.forEach(id => {
-        this.requestsDao.update(id, {
-          dropoff: result.dropoff,
-          date: result.date.toISOString()
-        });
+        this.requestsDao.update(
+            id, {dropoff: result.dropoff, date: result.date.toISOString()});
       });
 
       this.projectsDao.update(result.project, {
@@ -76,14 +48,12 @@ export class RequestDialog {
 
   editTags(ids: string[]) {
     const config = {
-      data: {
-        requests: combineLatest(ids.map(id => this.requestsDao.get(id)))
-      },
+      data: {requests: combineLatest(ids.map(id => this.requestsDao.get(id)))},
       width: '400px',
     };
 
     const dialogRef: MatDialogRef<EditTags, EditTagsResult> =
-      this.dialog.open(EditTags, config);
+        this.dialog.open(EditTags, config);
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (!result) {
         return;
@@ -147,31 +117,29 @@ export class RequestDialog {
 
   editCostAdjustment(ids: string[]) {
     const config = {
-      data: {
-        requests: combineLatest(ids.map(id => this.requestsDao.get(id)))
-      },
+      data: {requests: combineLatest(ids.map(id => this.requestsDao.get(id)))},
       width: '400px',
     };
     const dialogRef = this.dialog.open(EditCostAdjustment, config);
-    dialogRef.afterClosed().pipe(take(1)).subscribe((result: EditCostAdjustmentResult) => {
-      if (!result) {
-        return;
-      }
+    dialogRef.afterClosed().pipe(take(1)).subscribe(
+        (result: EditCostAdjustmentResult) => {
+          if (!result) {
+            return;
+          }
 
-      ids.forEach(id => this.requestsDao.update(id, result));
-      this.selection.requests.clear();
-    });
+          ids.forEach(id => this.requestsDao.update(id, result));
+          this.selection.requests.clear();
+        });
   }
 
   editStatus(ids: string[]) {
     const config = {
-      data: {
-        requests: combineLatest(ids.map(id => this.requestsDao.get(id)))
-      },
+      data: {requests: combineLatest(ids.map(id => this.requestsDao.get(id)))},
       width: '400px',
     };
-    const dialogRef = this.dialog
-        .open<EditStatus, EditStatusData, EditStatusResult>(EditStatus, config);
+    const dialogRef =
+        this.dialog.open<EditStatus, EditStatusData, EditStatusResult>(
+            EditStatus, config);
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (!result) {
         return;
@@ -184,42 +152,48 @@ export class RequestDialog {
 
   deleteRequests(ids: string[]) {
     const name = ids.length > 1 ? of('these requests') :
-        this.requestsDao.get(ids[0]).pipe(
-          mergeMap(r => this.itemsDao.get(r.item)),
-          map(item => `request for ${item.name}`));
+                                  this.requestsDao.get(ids[0]).pipe(
+                                      mergeMap(r => this.itemsDao.get(r.item)),
+                                      map(item => `request for ${item.name}`));
     const config = {data: {name}};
-    const dialogRef = this.dialog
-        .open<DeleteConfirmation, DeleteConfirmationData, boolean>(DeleteConfirmation, config);
+    const dialogRef =
+        this.dialog.open<DeleteConfirmation, DeleteConfirmationData, boolean>(
+            DeleteConfirmation, config);
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (!result) {
         return;
       }
 
-      combineLatest(ids.map(id => this.requestsDao.get(id))).pipe(
-          take(1))
+      combineLatest(ids.map(id => this.requestsDao.get(id)))
+          .pipe(take(1))
           .subscribe(requests => {
             this.requestsDao.remove(ids);
 
-            const message = `Removed ${ids.length > 1 ? 'requests' : 'request'}`;
+            const message =
+                `Removed ${ids.length > 1 ? 'requests' : 'request'}`;
             const config: MatSnackBarConfig = {duration: 5000};
-            this.snackBar.open(message, 'Undo', config).onAction().subscribe(() => {
-              this.requestsDao.add(requests);
-            });
+            this.snackBar.open(message, 'Undo', config)
+                .onAction()
+                .subscribe(() => {
+                  this.requestsDao.add(requests);
+                });
 
             this.selection.requests.clear();
           });
     });
   }
 
-  private openPromptDialog(ids: string[], property: string, config: MatDialogConfig) {
+  private openPromptDialog(
+      ids: string[], property: string, config: MatDialogConfig) {
     const dialogRef = this.dialog.open(PromptDialog, config);
-    dialogRef.afterClosed().pipe(take(1)).subscribe((result: PromptDialogResult) => {
-      if (result) {
-        const update = {};
-        update[property] = result.value;
-        ids.forEach(id => this.requestsDao.update(id, update));
-        this.selection.requests.clear();
-      }
-    });
+    dialogRef.afterClosed().pipe(take(1)).subscribe(
+        (result: PromptDialogResult) => {
+          if (result) {
+            const update = {};
+            update[property] = result.value;
+            ids.forEach(id => this.requestsDao.update(id, update));
+            this.selection.requests.clear();
+          }
+        });
   }
 }

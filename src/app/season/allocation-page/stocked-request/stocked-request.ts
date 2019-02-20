@@ -1,8 +1,11 @@
 import {ChangeDetectionStrategy, Component, Input, SimpleChanges} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {RequestsDao} from 'app/season/dao';
+import {MatDialog} from '@angular/material';
+import {ItemsDao, Request, RequestsDao} from 'app/season/dao';
+import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
+import {ViewRequest, ViewRequestData} from 'app/season/shared/dialog/request/view-request/view-request';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {mergeMap, take, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'stocked-request',
@@ -25,7 +28,9 @@ export class StockedRequest {
 
   formControl = new FormControl(0);
 
-  constructor(private requestsDao: RequestsDao) {
+  constructor(
+      private requestsDao: RequestsDao, private itemsDao: ItemsDao,
+      private dialog: MatDialog) {
     this.formControl.valueChanges.pipe(takeUntil(this.destroyed))
         .subscribe(allocation => {
           this.requestsDao.update(this.requestId, {allocation});
@@ -35,5 +40,20 @@ export class StockedRequest {
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  showRequest() {
+    const data: ViewRequestData = {};
+    this.requestsDao.get(this.requestId)
+        .pipe(
+            mergeMap((request: Request) => {
+              data.request = request;
+              return this.itemsDao.get(request.item);
+            }),
+            take(1))
+        .subscribe(item => {
+          data.item = item;
+          this.dialog.open(ViewRequest, {width: '650px', data});
+        });
   }
 }

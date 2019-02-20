@@ -1,7 +1,7 @@
-<div class="project theme-secondary-text">
+<div class="project theme-secondary-text theme-hover" mat-ripple (click)="showRequest()">
   {{ project }}
 </div>
 
 <div class="allocation">
-  <input type="number" [formControl]="formControl">
+  <input type="number" (click)="$event.target.select()" [formControl]="formControl">
 </div>
