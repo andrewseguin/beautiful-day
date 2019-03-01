@@ -18,6 +18,8 @@ export class DisplayOptionsHeader {
     ['dropoff', 'Dropoff location'],
     ['tags', 'Tags'],
     ['item', 'Item'],
+    ['project', 'Project'],
+    ['purchaser', 'Purchaser'],
   ]);
   groupIds = Array.from(this.groups.keys());
 
@@ -34,12 +36,12 @@ export class DisplayOptionsHeader {
   private destroyed = new Subject();
 
   constructor(public requestsRenderer: RequestsRenderer,
-              private cd: ChangeDetectorRef) {
+    private cd: ChangeDetectorRef) {
     this.requestsRenderer.options.changed
-        .pipe(takeUntil(this.destroyed))
-        .subscribe(() => {
-          this.cd.markForCheck();
-        });
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(() => {
+        this.cd.markForCheck();
+      });
   }
 
   ngOnDestroy() {

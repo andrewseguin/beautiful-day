@@ -1,4 +1,4 @@
-import {Item, Request} from 'app/season/dao/index';
+import {Item, Request, Project} from 'app/season/dao/index';
 import {Group} from 'app/season/services/requests-renderer/request-renderer-options';
 import {DatePipe} from '@angular/common';
 import {LOCALE_ID} from '@angular/core';
@@ -11,7 +11,7 @@ export class RequestGroup {
 }
 
 export class RequestGrouping {
-  constructor(private items: Item[], private requests: Request[]) { }
+  constructor(private items: Item[], private requests: Request[], private projects: Project[]) {}
 
   getGroup(group: Group) {
     switch (group) {
@@ -25,8 +25,10 @@ export class RequestGrouping {
         return this.getGroupDropoffLocation();
       case 'tags':
         return this.getGroupTags();
-      case 'item':
-        return this.getGroupItem();
+      case 'project':
+        return this.getGroupProject();
+      case 'purchaser':
+        return this.getGroupPurchaser();
     }
   }
 
@@ -119,7 +121,7 @@ export class RequestGrouping {
     this.requests.forEach(request => {
       const tags = request.tags ? request.tags : ['No Tag Set'];
       tags.forEach(tag => {
-        if (!tagMap.get(tag)) { tagMap.set(tag, []); }
+        if (!tagMap.get(tag)) {tagMap.set(tag, []);}
         tagMap.get(tag).push(request);
       });
     });
@@ -138,7 +140,7 @@ export class RequestGrouping {
 
   getGroupItem(): RequestGroup[] {
     // Cannot build out this group if items is not populated yet
-    if (!this.items) { return; }
+    if (!this.items) {return;}
 
     const itemMap: Map<string, Item> = new Map();
     this.items.forEach(item => itemMap.set(item.id, item));
@@ -158,6 +160,57 @@ export class RequestGrouping {
     itemGroups.forEach((requests, itemKey) => {
       const item = itemMap.get(itemKey);
       requestGroups.push({id: itemKey, title: getItemName(item), requests});
+    });
+
+    return requestGroups;
+  }
+
+  getGroupProject(): RequestGroup[] {
+    const projectGroups: Map<string, Request[]> = new Map();
+    const projectMap: Map<string, Item> = new Map();
+    this.projects.forEach(project => projectMap.set(project.id, project));
+
+    // Create map of all requests keyed by project
+    this.requests.forEach(request => {
+      if (!projectGroups.has(request.project)) {
+        projectGroups.set(request.project, []);
+      }
+
+      projectGroups.get(request.project).push(request);
+    });
+
+    const requestGroups = [];
+    projectGroups.forEach((requests, project) => {
+      requestGroups.push({
+        id: project,
+        title: projectMap.get(project).name,
+        requests: requests
+      });
+    });
+
+    return requestGroups;
+  }
+
+  getGroupPurchaser(): RequestGroup[] {
+    const purchaserGroups: Map<string, Request[]> = new Map();
+
+    // Create map of all requests keyed by purchaser
+    this.requests.forEach(request => {
+      if (!purchaserGroups.has(request.purchaser)) {
+        purchaserGroups.set(request.purchaser, []);
+      }
+
+      purchaserGroups.get(request.purchaser).push(request);
+    });
+
+    const requestGroups = [];
+    purchaserGroups.forEach((requests, purchaser) => {
+      purchaser = purchaser || 'No purchaser assigned';
+      requestGroups.push({
+        id: purchaser,
+        title: purchaser,
+        requests: requests
+      });
     });
 
     return requestGroups;

@@ -2,10 +2,10 @@ import {Subject} from 'rxjs';
 import {Filter} from 'app/season/utility/search/filter';
 
 export type Group = 'all' | 'category' | 'project' | 'date' |
-                    'dropoff' | 'tags' | 'item';
+  'dropoff' | 'tags' | 'item' | 'purchaser';
 
 export type Sort = 'requestAdded' | 'itemCost' | 'itemName' |
-                   'requestCost' | 'dropoffDate';
+  'requestCost' | 'dropoffDate';
 
 export interface RequestRendererOptionsState {
   filters: Filter[];
@@ -19,59 +19,59 @@ export interface RequestRendererOptionsState {
 
 export class RequestRendererOptions {
   set filters(v: Filter[]) {
-    if (this._filters === v) { return; }
+    if (this._filters === v) {return;}
     this._filters = v;
     this.changed.next();
   }
-  get filters(): Filter[] { return this._filters; }
+  get filters(): Filter[] {return this._filters;}
   private _filters: Filter[] = [];
 
   set search(v: string) {
-    if (this._search === v) { return; }
+    if (this._search === v) {return;}
     this._search = v;
     this.changed.next();
   }
-  get search(): string { return this._search; }
+  get search(): string {return this._search;}
   private _search = '';
 
   set grouping(v: Group) {
-    if (this._grouping === v) { return; }
+    if (this._grouping === v) {return;}
     this._grouping = v;
     this.changed.next();
   }
-  get grouping(): Group { return this._grouping; }
+  get grouping(): Group {return this._grouping;}
   private _grouping: Group = 'all';
 
   set sorting(v: Sort) {
-    if (this._sorting === v) { return; }
+    if (this._sorting === v) {return;}
     this._sorting = v;
     this.changed.next();
   }
-  get sorting(): Sort { return this._sorting; }
+  get sorting(): Sort {return this._sorting;}
   private _sorting: Sort = 'requestAdded';
 
   set reverseSort(v: boolean) {
-    if (this._reverseSort === v) { return; }
+    if (this._reverseSort === v) {return;}
     this._reverseSort = v;
     this.changed.next();
   }
-  get reverseSort(): boolean { return this._reverseSort; }
+  get reverseSort(): boolean {return this._reverseSort;}
   private _reverseSort = false;
 
   set showProjectName(v: boolean) {
-    if (this._showProjectName === v) { return; }
+    if (this._showProjectName === v) {return;}
     this._showProjectName = v;
     this.changed.next();
   }
-  get showProjectName(): boolean { return this._showProjectName; }
+  get showProjectName(): boolean {return this._showProjectName;}
   private _showProjectName = false;
 
   set showRequester(v: boolean) {
-    if (this._showRequester === v) { return; }
+    if (this._showRequester === v) {return;}
     this._showRequester = v;
     this.changed.next();
   }
-  get showRequester(): boolean { return this._showRequester; }
+  get showRequester(): boolean {return this._showRequester;}
   private _showRequester = false;
 
   changed = new Subject<void>();
@@ -101,7 +101,7 @@ export class RequestRendererOptions {
 }
 
 export function areOptionStatesEqual(o1: RequestRendererOptionsState,
-                                     o2: RequestRendererOptionsState) {
+  o2: RequestRendererOptionsState) {
   return o1.grouping === o2.grouping &&
     o1.reverseSort === o2.reverseSort &&
     o1.sorting === o2.sorting &&

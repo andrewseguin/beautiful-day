@@ -67,7 +67,7 @@ export class RequestsRenderer {
       });
 
       // Group
-      const grouper = new RequestGrouping(items, searchedRequests);
+      const grouper = new RequestGrouping(items, searchedRequests, projects);
       let requestGroups = grouper.getGroup(this.options.grouping);
       requestGroups = requestGroups.sort((a, b) => a.title < b.title ? -1 : 1);
 
