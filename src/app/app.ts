@@ -8,7 +8,7 @@ import {isValidLogin} from 'app/utility/valid-login';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {sendPageview} from './utility/analytics';
 
-export const APP_VERSION = 6;
+export const APP_VERSION = 7;
 
 @Component({
   selector: 'app-root',
