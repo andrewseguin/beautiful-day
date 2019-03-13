@@ -1,4 +1,4 @@
-import {Request} from 'app/season/dao';
+import { Request } from 'app/season/dao';
 
 
 /** Returns the cost of a request (quantity * item cost). */
@@ -17,13 +17,13 @@ export function getRequestCost(itemCost: number, request: Request) {
     requestCost += (itemCost / 5) * request.allocation;
   }
 
+  // Add sales tax of 9.5%
+  requestCost = requestCost * 1.095;
+
   // Adjust with manual cost adjustment
   if (request.costAdjustment) {
     requestCost += request.costAdjustment;
   }
-
-  // Add sales tax of 9.5%
-  requestCost = requestCost * 1.095;
 
   return requestCost;
 }
