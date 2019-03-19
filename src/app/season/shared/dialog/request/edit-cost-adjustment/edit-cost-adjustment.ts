@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Request} from 'app/season/dao';
-import {takeUntil} from 'rxjs/operators';
-import {FormControl} from '@angular/forms';
-import {Observable, Subject} from 'rxjs';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Request } from 'app/season/dao';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export interface EditCostAdjustmentData {
   requests: Observable<Request[]>;
@@ -45,9 +45,10 @@ export class EditCostAdjustment implements OnInit {
   }
 
   save() {
+    const reason = this.costAdjustmentReason.value || '';
     this.dialogRef.close({
       costAdjustment: this.costAdjustment.value,
-      costAdjustmentReason: this.costAdjustmentReason.value.trim(),
+      costAdjustmentReason: reason.trim(),
     });
   }
 

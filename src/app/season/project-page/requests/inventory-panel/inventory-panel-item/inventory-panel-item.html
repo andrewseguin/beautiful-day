@@ -1,5 +1,6 @@
 <div class="container">
-  <div class="top-row theme-hover" mat-ripple (click)="expanded = !expanded; hasExpanded = true">
+  <div class="top-row theme-hover" mat-ripple
+       (click)="expanded = !expanded; hasExpanded = true">
     <div class="item-name">{{getItemName()}}</div>
     <mat-icon [@expansionIndicator]="expanded">expand_more</mat-icon>
   </div>
@@ -17,6 +18,9 @@
         <div>
           <span class="property-title">Cost:</span>
           {{item.cost ? (item.cost  | currency) : '--'}}
+          <span *ngIf="item.cost">
+            (plus {{(item.cost * 0.095)  | currency}} tax)
+          </span>
         </div>
 
         <div *ngIf="item.url">
@@ -29,15 +33,12 @@
 
       <div class="request-row">
         <mat-form-field>
-          <input matInput type="number" min="0"
-                 [(ngModel)]="requestQuantity"
-                 [disabled]="requested"
-                 (keyup.Enter)="request()"
-                 placeholder="quantity"/>
+          <input matInput type="number" min="0" [(ngModel)]="requestQuantity"
+                 [disabled]="requested" (keyup.Enter)="request()"
+                 placeholder="quantity" />
         </mat-form-field>
 
-        <button mat-raised-button
-                color="accent"
+        <button mat-raised-button color="accent"
                 [disabled]="requestQuantity <= 0 || requested"
                 (click)="request()">
           <span *ngIf="requested">Requested</span>
