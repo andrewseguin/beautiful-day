@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {ConfigDao, Group, GroupId, GroupsDao, Project, ProjectsDao} from 'app/season/dao';
-import {map, takeUntil} from 'rxjs/operators';
-import {combineLatest} from 'rxjs/observable/combineLatest';
-import {BehaviorSubject, Subject} from 'rxjs';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {GlobalConfigDao} from 'app/service/global-config-dao';
-import {containsEmail} from 'app/season/utility/contains-email';
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { ConfigDao, Group, GroupId, GroupsDao, Project, ProjectsDao } from 'app/season/dao';
+import { containsEmail } from 'app/season/utility/contains-email';
+import { GlobalConfigDao } from 'app/service/global-config-dao';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { combineLatest } from 'rxjs/observable/combineLatest';
+import { map, takeUntil } from 'rxjs/operators';
 
 interface EditableRequestProperties {
   purchaser: Observable<boolean>;
@@ -106,7 +106,7 @@ export class Permissions {
         const isDirector = containsEmail(project.directors, email);
 
         let canEditRequests = isLead || isDirector;
-        if (editsDisabled) {
+        if (editsDisabled && isLead) {
           canEditRequests = containsEmail(project.whitelist, email);
         }
 
