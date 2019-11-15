@@ -43,14 +43,14 @@ export class Nav {
 
   hasHelp = combineLatest([this.faqsDao.list, this.contactsDao.list]).pipe(
       map(result => {
-        return (result[0] && result[0].length) ||
-               (result[1] && result[1].length);
+        return !!(result[0] && result[0].length) ||
+               !!(result[1] && result[1].length);
       }));
 
   links: NavLink[] = [
     {route: 'projects', label: 'Projects', icon: 'domain'},
     {route: 'events', label: 'Events', icon: 'event',
-      permissions: this.eventsDao.list.pipe(map(e => e && e.length))
+      permissions: this.eventsDao.list.pipe(map(e => !!e && !!e.length))
     },
     {
       route: 'inventory', label: 'Inventory', icon: 'shopping_cart',
