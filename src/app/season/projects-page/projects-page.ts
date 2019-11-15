@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ItemsDao, Project, ProjectsDao} from 'app/season/dao';
-import {map} from 'rxjs/operators';
+import {Project, ProjectsDao} from 'app/season/dao';
 import {ActivatedSeason, Permissions} from 'app/season/services';
 import {EXPANSION_ANIMATION} from 'app/utility/animations';
 import {combineLatest, Subject} from 'rxjs';
 import {User} from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {containsEmail} from 'app/season/utility/contains-email';
+import {map} from 'rxjs/operators';
 
 
 @Component({

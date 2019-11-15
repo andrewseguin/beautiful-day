@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {filter, take, takeUntil} from 'rxjs/operators';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {Title as WindowTitle} from '@angular/platform-browser';
 import {CdkPortal} from '@angular/cdk/portal';
 import {ProjectsDao, ReportsDao} from 'app/season/dao';
 import {ActivatedSeason} from './activated-season';
-import {Subject} from 'rxjs';
 
 const SECTIONS = new Map<string, string>([
   ['projects', 'Projects'],

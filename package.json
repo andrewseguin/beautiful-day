@@ -32,7 +32,6 @@
     "firebase": "^5.5.8",
     "hammerjs": "^2.0.8",
     "rxjs": "^6.3.3",
-    "rxjs-compat": "^6.3.3",
     "scroll-into-view": "^1.9.3",
     "ts-helpers": "^1.1.1",
     "typescript": "3.1.6",

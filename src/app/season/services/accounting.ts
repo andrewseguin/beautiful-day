@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {combineLatest} from 'rxjs/observable/combineLatest';
+import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Item, ItemsDao, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {getRequestCost} from 'app/season/utility/request-cost';

@@ -3,9 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { ConfigDao, Group, GroupId, GroupsDao, Project, ProjectsDao } from 'app/season/dao';
 import { containsEmail } from 'app/season/utility/contains-email';
 import { GlobalConfigDao } from 'app/service/global-config-dao';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
-import { combineLatest } from 'rxjs/observable/combineLatest';
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 interface EditableRequestProperties {
