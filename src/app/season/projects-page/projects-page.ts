@@ -24,9 +24,7 @@ export class ProjectsPage {
         }
 
         return p.has('owners') ||
-          p.has('admins') ||
-          p.has('acquisitions') ||
-          p.has('approvers');
+          p.has('admins');
       }));
 
   allProjects = this.projectsDao.list.pipe(
