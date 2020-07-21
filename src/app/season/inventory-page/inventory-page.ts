@@ -49,6 +49,7 @@ export class InventoryPage {
   editableProperties: EditableProperty[] = [
     {id: 'name', label: 'Name', isStickyLeft: true},
     {id: 'categories', label: 'Categories'},
+    {id: 'keywords', label: 'Keywords'},
     {id: 'cost', label: 'Cost', alignEnd: true},
     {id: 'quantityOwned', label: 'Stock', alignEnd: true},
     {id: 'hidden', label: 'Hidden'},
@@ -57,7 +58,7 @@ export class InventoryPage {
   ];
 
   displayedColumns =
-      ['select', 'name', 'categories', 'cost',
+      ['select', 'name', 'categories', 'keywords', 'cost',
        'quantityOwned', 'dateCreated', 'dateModified',
        'approved', 'hidden', 'requests', 'url', 'showUrl'];
 
@@ -80,7 +81,7 @@ export class InventoryPage {
                private cd: ChangeDetectorRef,
                private sanitizer: DomSanitizer,
                private header: Header,
-               private selection: Selection) {
+               public selection: Selection) {
     this.selection.items.changed.pipe(
         takeUntil(this._destroyed))
         .subscribe(() => this.cd.markForCheck());
