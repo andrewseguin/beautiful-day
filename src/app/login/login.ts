@@ -3,7 +3,6 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
 import {SeasonsDao} from 'app/service/seasons-dao';
-import {isValidLogin} from 'app/utility/valid-login';
 import {auth} from 'firebase/app';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -29,15 +28,6 @@ export class Login implements OnDestroy {
               private route: Router) {
     this.afAuth.authState.pipe(takeUntil(this.destroyed)).subscribe(auth => {
       if (!auth) {
-        this.checkingAuth.next(false);
-        return;
-      }
-
-      if (auth && !isValidLogin(auth.email)) {
-        sendEvent('login', 'invalid');
-        this.snackBar.open(
-            `Cannot log in as ${auth.email}, must login with a @beautifulday.org account`);
-        this.afAuth.auth.signOut();
         this.checkingAuth.next(false);
         return;
       }

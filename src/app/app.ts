@@ -4,7 +4,6 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { NavigationEnd, Router } from '@angular/router';
 import { GlobalConfigDao } from 'app/service/global-config-dao';
 import { UsersDao } from 'app/service/users-dao';
-import { isValidLogin } from 'app/utility/valid-login';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { sendPageview } from './utility/analytics';
 
@@ -47,7 +46,7 @@ export class App {
       if (!auth) {
         this.navigateToLogin();
         return;
-      } else if (isValidLogin(auth.email)) {
+      } else {
         // Add or update the users profile in the db
         this.usersDao.addUserData(auth);
         this.notifyLoggedInAs(auth.email);
