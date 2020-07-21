@@ -57,6 +57,8 @@
     "protractor": "^5.4.1",
     "source-map-explorer": "^1.6.0",
     "ts-node": "^7.0.1",
-    "tslint": "^5.11.0"
+    "tslint": "^5.11.0",
+    "node-sass": "^4.14.1",
+    "node-pre-gyp": "0.12.0"
   }
 }

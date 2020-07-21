@@ -71,8 +71,8 @@ export class ProjectRequests implements OnInit {
 
     this.isLoading = true;
     combineLatest(changes).pipe(takeUntil(this.destroyed)).subscribe(result => {
-      const requests: Request[] = result[0];
-      const editableProjects: Set<string> = result[1];
+      const requests = result[0] as Request[];
+      const editableProjects = result[1] as Set<string>;
 
       if (!requests || !editableProjects) {
         return;

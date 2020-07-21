@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Project, ProjectsDao} from 'app/season/dao';
+import {ItemsDao, Project, ProjectsDao} from 'app/season/dao';
 import {map} from 'rxjs/operators';
 import {ActivatedSeason, Permissions} from 'app/season/services';
 import {EXPANSION_ANIMATION} from 'app/utility/animations';

@@ -128,9 +128,9 @@ export class InventoryPage {
     combineLatest(changes).pipe(
         takeUntil(this._destroyed))
         .subscribe(result => {
-          const items = result[0];
-          const search = result[1];
-          const filters = result[2];
+          const items = result[0] as Item[];
+          const search = result[1] as string;
+          const filters = result[2] as Filter[];
 
           if (items) {
             this.loading = false;

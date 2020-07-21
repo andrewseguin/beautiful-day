@@ -177,6 +177,15 @@ export class Owner {
     const seasons = ['2017', '2018'];
     const paths = ['config', 'events', 'groups', 'items', 'projects', 'reports', 'requests'];
 
+    this.afs.collection('seasons/2019/items').snapshotChanges().pipe(take(1)).subscribe(values => {
+      const items = values.map(v => v.payload.doc.data()) as Item[];
+      items.forEach((item, i) => {
+        item.id = this.afs.createId();
+        this.afs.collection(`seasons/2020/items`).doc(item.id).set(item);
+        console.log(i);
+      });
+
+    });
     seasons.forEach(season => {
       paths.forEach(path => {
         const originalCollection = this.afs.collection(path);
@@ -184,7 +193,7 @@ export class Owner {
           values.forEach(value => {
             const id = value.payload.doc.id;
             const data = value.payload.doc.data();
-            this.afs.collection(`seasons/${season}/${path}`).doc(id).set(data);
+            //this.afs.collection(`seasons/${season}/${path}`).doc(id).set(data);
           });
         });
       });
