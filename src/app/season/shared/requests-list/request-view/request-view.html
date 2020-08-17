@@ -71,8 +71,8 @@
       </span>
     </div>
 
-    <div *ngIf="requestsRenderer.options.showRequester">
-      <span class="section theme-hover" (click)="edit('requester', $event)">
+    <div>
+      <span class="section theme-hover" guardEdit="requester"  (click)="edit('requester', $event)">
         Requester: {{request.requester}}
       </span>
     </div>
