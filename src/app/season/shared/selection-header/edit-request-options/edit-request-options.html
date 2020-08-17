@@ -19,6 +19,11 @@
 
 
 <mat-menu #editMenu="matMenu" x-position="before">
+  <button mat-menu-item *ngIf="selection.requests.selected.length === 1"
+          (click)="requestDialog.editItem(selection.requests.selected[0])">
+    Item
+  </button>
+
   <button mat-menu-item
           (click)="requestDialog.editNote(selection.requests.selected)">
     Note

@@ -4,6 +4,7 @@ import {EditCostAdjustmentModule} from 'app/season/shared/dialog/request/edit-co
 import {DeleteConfirmationModule} from '../delete-confirmation/delete-confirmation.module';
 import {PromptDialogModule} from '../prompt-dialog/prompt-dialog.module';
 
+import {EditItemModule} from './edit-item/edit-item.module';
 import {EditDropoffModule} from './edit-dropoff/edit-dropoff.module';
 import {EditStatusModule} from './edit-status/edit-status.module';
 import {EditTagsModule} from './edit-tags/edit-tags.module';
@@ -17,8 +18,10 @@ import {RequestDialog} from './request-dialog';
     EditCostAdjustmentModule,
     EditTagsModule,
     PromptDialogModule,
+    EditItemModule,
   ],
   providers: [RequestDialog]
 })
 export class RequestDialogModule {
 }
+

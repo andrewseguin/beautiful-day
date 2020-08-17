@@ -11,6 +11,7 @@ import {EditTags, EditTagsResult} from 'app/season/shared/dialog/request/edit-ta
 import {getMergedObjectValue} from 'app/season/utility/merged-obj-value';
 import {combineLatest, of} from 'rxjs';
 import {map, mergeMap, take} from 'rxjs/operators';
+import {EditItem, EditItemResult} from './edit-item/edit-item';
 
 @Injectable()
 export class RequestDialog {
@@ -78,6 +79,23 @@ export class RequestDialog {
         input: getMergedObjectValue(requests, 'note')
       }
     });
+  }
+
+  editItem(id: string) {
+    const config = {
+      data: {request: this.requestsDao.get(id)},
+      width: '400px',
+    };
+    const dialogRef = this.dialog.open(EditItem, config);
+    dialogRef.afterClosed().pipe(take(1)).subscribe(
+      (result: EditItemResult) => {
+        if (!result) {
+          return;
+        }
+
+        this.requestsDao.update(id, result);
+        this.selection.requests.clear();
+      });
   }
 
   editPurchaser(ids: string[]) {

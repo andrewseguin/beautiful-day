@@ -1,0 +1,48 @@
+<h1 mat-dialog-title> Edit Item </h1>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label> Item </mat-label>
+    <input type="text" #input
+           matInput
+           [formControl]="item"
+           [matAutocomplete]="auto">
+  </mat-form-field>
+
+  <div class="selection" *ngIf="item.value && item.value.name">
+    <div class="prompt">
+      Swap request item for:
+    </div>
+
+    <div class="selected-item mat-elevation-z6">
+      <div class="category">
+        {{item.value.categories[0]}}
+      </div>
+      <div class="name">
+        {{item.value.name}}
+        <a [href]="getSafeUrl(item.value.url)"
+           *ngIf="item.value.url.indexOf('http') !== -1"
+           target="_blank" mat-icon-button>
+          <mat-icon> open_in_browser </mat-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close> Cancel </button>
+  <button mat-raised-button color="primary"
+          (click)="save()"
+          [disabled]="!item.value || (item.value && !item.value.id)"> Save </button>
+</div>
+
+<mat-autocomplete #auto="matAutocomplete" [displayWith]="getItemName">
+  <mat-optgroup *ngFor="let group of options | async" [label]="group.name">
+    <mat-option *ngFor="let option of group.items"
+                [value]="option">
+      {{option.name}}
+    </mat-option>
+  </mat-optgroup>
+</mat-autocomplete>

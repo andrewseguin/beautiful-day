@@ -1,0 +1,22 @@
+mat-form-field {
+  display: block;
+}
+
+.prompt {
+  margin: 16px 8px;
+}
+
+.selected-item {
+  margin: 8px 0;
+  padding: 16px;
+
+  .category {
+    font-size: 14px;
+    padding-bottom: 8px;
+  }
+
+  .name {
+    display: flex;
+    align-items: center;
+  }
+}

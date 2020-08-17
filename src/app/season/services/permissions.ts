@@ -65,7 +65,7 @@ export class Permissions {
       status: this.isApprover,
       allocation: this.isAcquisitions,
       costAdjustment: this.isAcquisitions,
-      requester: this.isAdmin,
+      requester: this.isAcquisitions,
     };
   }
 
