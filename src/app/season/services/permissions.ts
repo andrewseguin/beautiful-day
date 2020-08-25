@@ -102,8 +102,9 @@ export class Permissions {
       const editableProjects = projects.filter(project => {
         const isLead = containsEmail(project.leads, email) || allLeads;
         const isDirector = containsEmail(project.directors, email);
+        const isAcquisitions = containsEmail(project.acquisitions, email);
 
-        let canEditRequests = isLead || isDirector;
+        let canEditRequests = isLead || isDirector || isAcquisitions;
         if (editsDisabled && isLead) {
           canEditRequests = containsEmail(project.whitelist, email);
         }
