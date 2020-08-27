@@ -20,7 +20,9 @@
       <ng-container *ngFor="let faq of faqs">
         <mat-expansion-panel *ngIf="faq.question && faq.answer">
           <mat-expansion-panel-header> {{faq.question}} </mat-expansion-panel-header>
-          {{faq.answer}}
+          <div class="answer">
+            {{faq.answer}}
+          </div>
         </mat-expansion-panel>
       </ng-container>
     </mat-accordion>
