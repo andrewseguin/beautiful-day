@@ -110,9 +110,8 @@ function saveChangedApprovedProperties(update: Request, request: Request) {
     }
   });
 
-  // Return request to approved if it matches its values again and we are not
-  // explicitly setting isApproved to false.
-  if (Object.keys(update.prevApproved).length === 0 && update.isApproved !== false) {
+  // Return request to approved if it matches its values again.
+  if (Object.keys(update.prevApproved).length === 0) {
     update.isApproved = true;
     update.prevApproved = null;
   }
