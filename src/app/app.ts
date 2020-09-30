@@ -7,7 +7,7 @@ import { UsersDao } from 'app/service/users-dao';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { sendPageview } from './utility/analytics';
 
-export const APP_VERSION = 8;
+export const APP_VERSION = 9;
 
 @Component({
   selector: 'app-root',
