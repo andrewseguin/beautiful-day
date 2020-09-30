@@ -49,7 +49,7 @@
 </mat-drawer-container>
 
 <ng-template cdkPortal>
-  <remaining-budget *ngIf="canEdit"
+  <remaining-budget *ngIf="canEdit || (isDirector | async)"
                     [projectId]="project.id">
   </remaining-budget>
   <button mat-icon-button class="overflow-menu-trigger"

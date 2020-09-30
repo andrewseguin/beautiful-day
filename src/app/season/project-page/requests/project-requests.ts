@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/auth';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Permissions} from 'app/season/services/permissions';
 import {RequestsList} from 'app/season/shared/requests-list/requests-list';
@@ -17,9 +18,10 @@ import {isMobile} from 'app/utility/media-matcher';
 import {Header} from 'app/season/services/header';
 import {CdkPortal} from '@angular/cdk/portal';
 import {combineLatest, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {ActivatedSeason, Selection} from 'app/season/services';
-import {Project, Request, RequestsDao} from 'app/season/dao';
+import {Project, Request, RequestsDao, ProjectsDao} from 'app/season/dao';
+import {containsEmail} from '../../utility/contains-email';
 
 @Component({
   selector: 'project-requests',
@@ -36,6 +38,13 @@ export class ProjectRequests implements OnInit {
   hasRequests: boolean;
   canEdit: boolean;
 
+  isDirector = combineLatest(
+    [this.projectsDao.list.pipe(map(list => list ? list : [])),
+    this.afAuth.user.pipe(map(user => user ? user.email : ''))],
+  ).pipe(map(result => {
+    return result[0].some(p => containsEmail(p.directors, result[1]));
+  }));
+
   @Input() project: Project;
 
   @ViewChild(RequestsList) requestsListComponent: RequestsList;
@@ -48,9 +57,11 @@ export class ProjectRequests implements OnInit {
               private router: Router,
               private header: Header,
               private requestsDao: RequestsDao,
+              private projectsDao: ProjectsDao,
               private selection: Selection,
               private cd: ChangeDetectorRef,
-              private permissions: Permissions) {}
+              private permissions: Permissions,
+              private afAuth: AngularFireAuth) {}
 
   ngOnInit() {
     this.header.toolbarOutlet.next(this.toolbarActions);
