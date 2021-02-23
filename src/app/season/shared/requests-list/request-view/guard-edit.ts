@@ -5,7 +5,8 @@ import {Observable} from 'rxjs';
 @Directive({
   selector: '[guardEdit]',
   host: {
-    '[style.pointer-events]': `(canAccess | async) ? '' : 'none'`,
+    // TODO: Fix this, it broke with Ivy
+    // '[style.pointer-events]': `(canAccess | async) ? '' : 'none'`,
   },
 })
 export class GuardEdit {
