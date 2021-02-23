@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {Permissions} from 'app/season/services/permissions';
 import {ImportItems} from 'app/season/shared/dialog/import-items/import-items';
 import {ExportItems} from 'app/season/shared/dialog/export-items/export-items';

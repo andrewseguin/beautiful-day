@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {take} from 'rxjs/operators';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {User, UsersDao} from 'app/service/users-dao';
 import {

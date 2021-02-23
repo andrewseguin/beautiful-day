@@ -2,7 +2,9 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Project, ProjectsDao, RequestsDao} from 'app/season/dao';
 import {debounceTime, take, takeUntil} from 'rxjs/operators';
-import {MatChipInputEvent, MatDialog, MatSnackBar} from '@angular/material';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {of, Subject} from 'rxjs';
 import {DeleteConfirmation} from 'app/season/shared/dialog/delete-confirmation/delete-confirmation';
 

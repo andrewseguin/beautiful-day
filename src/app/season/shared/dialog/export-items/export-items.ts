@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {MatDialogRef} from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import {Item, ItemsDao, RequestsDao} from 'app/season/dao';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';

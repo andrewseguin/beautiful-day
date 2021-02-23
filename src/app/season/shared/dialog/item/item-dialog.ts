@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {map, mergeMap, take, takeUntil} from 'rxjs/operators';
-import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import {Item, ItemsDao, ProjectsDao, RequestsDao, Project} from 'app/season/dao';
 import {CreateItem, CreateItemResult} from './create-item/create-item';
 import {combineLatest, of, Subject} from 'rxjs';

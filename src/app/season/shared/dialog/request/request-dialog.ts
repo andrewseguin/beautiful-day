@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import {ItemsDao, ProjectsDao, RequestsDao} from 'app/season/dao';
 import {Selection} from 'app/season/services';
 import {DeleteConfirmation, DeleteConfirmationData} from 'app/season/shared/dialog/delete-confirmation/delete-confirmation';

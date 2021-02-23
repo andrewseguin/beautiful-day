@@ -10,7 +10,7 @@ import {
 import {FormControl} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {Item, ItemsDao} from 'app/season/dao';
-import {MatSelect} from '@angular/material';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'editable-item-property',

@@ -7,7 +7,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {Item} from 'app/season/dao';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';

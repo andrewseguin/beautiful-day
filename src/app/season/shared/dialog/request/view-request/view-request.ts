@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {Item, Request} from 'app/season/dao';
 import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
 

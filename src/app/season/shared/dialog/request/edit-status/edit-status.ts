@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Observable, Subject} from 'rxjs';
 import {Request} from 'app/season/dao';
 import {FormControl, FormGroup, Validators} from '@angular/forms';

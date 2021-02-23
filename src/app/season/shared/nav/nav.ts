@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
-import {MatDialog, MatSidenav} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Permissions} from 'app/season/services/permissions';
 import {AngularFireAuth} from '@angular/fire/auth';

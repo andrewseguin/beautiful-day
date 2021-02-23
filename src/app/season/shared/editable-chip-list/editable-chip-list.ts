@@ -6,7 +6,7 @@ import {
   Input,
   Output, ViewChild
 } from '@angular/core';
-import {MatChipInputEvent} from '@angular/material';
+import { MatChipInputEvent } from '@angular/material/chips';
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
 import {FormControl} from '@angular/forms';
 import {takeUntil} from 'rxjs/operators';

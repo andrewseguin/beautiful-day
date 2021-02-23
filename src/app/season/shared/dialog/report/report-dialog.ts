@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ReportEdit} from 'app/season/shared/dialog/report/report-edit/report-edit';
 import {take} from 'rxjs/operators';
-import {MatDialog, MatSnackBar} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {RequestRendererOptionsState} from '../../../services/requests-renderer/request-renderer-options';
 import {AngularFireAuth} from '@angular/fire/auth';

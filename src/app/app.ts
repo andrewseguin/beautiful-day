@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { NavigationEnd, Router } from '@angular/router';
 import { GlobalConfigDao } from 'app/service/global-config-dao';
 import { UsersDao } from 'app/service/users-dao';

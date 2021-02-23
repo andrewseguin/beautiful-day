@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Header} from 'app/season/services/header';
 import {CdkPortal} from '@angular/cdk/portal';

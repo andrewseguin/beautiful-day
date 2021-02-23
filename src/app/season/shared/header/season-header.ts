@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {Header} from 'app/season/services/header';
-import {MatSidenav} from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import {filter, map, mergeMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {AngularFireAuth} from '@angular/fire/auth';

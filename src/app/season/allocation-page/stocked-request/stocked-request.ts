@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, SimpleChanges} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {ItemsDao, Request, RequestsDao} from 'app/season/dao';
 import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
 import {ViewRequest, ViewRequestData} from 'app/season/shared/dialog/request/view-request/view-request';
