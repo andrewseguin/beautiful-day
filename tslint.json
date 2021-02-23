@@ -3,6 +3,9 @@
     "max-line-length": [true, 100],
     "no-inferrable-types": true,
     "class-name": true,
+    "deprecation": {
+      "severity": "warning"
+    },
     "comment-format": [
       true,
       "check-space"

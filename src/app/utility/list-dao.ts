@@ -11,6 +11,7 @@ export interface IdentifiedObject {
   dateModified?: string;
 }
 
+// TODO: Add Angular decorator.
 export abstract class ListDao<T extends IdentifiedObject> {
   private needsSubscription = false;
 
