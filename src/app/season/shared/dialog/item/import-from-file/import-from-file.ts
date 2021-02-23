@@ -39,7 +39,7 @@ export class ImportFromFile {
 
     const reader = new FileReader();
     reader.onload = e => {
-      this.items = this.extractItems(e.target['result']);
+      this.items = this.extractItems(e.target['result'] as string);
       this.cd.markForCheck();
     };
     reader.readAsText(file);
