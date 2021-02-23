@@ -68,10 +68,10 @@ export class InventoryPage {
 
   requestCount: Map<string, number>;
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
-  @ViewChild(CdkPortal) toolbarActions: CdkPortal;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(CdkScrollable, { static: true }) scrollable: CdkScrollable;
+  @ViewChild(CdkPortal, { static: true }) toolbarActions: CdkPortal;
 
   private _destroyed = new Subject();
 

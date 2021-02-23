@@ -13,7 +13,7 @@ import {SeasonsDao} from 'app/service/seasons-dao';
 export class Season {
   season: number;
 
-  @ViewChild('routerContent') routerContent: ElementRef;
+  @ViewChild('routerContent', { static: false }) routerContent: ElementRef;
 
   seasonExists = combineLatest([this.seasonsDao.map, this.activatedRoute.params])
     .pipe(map(result => {

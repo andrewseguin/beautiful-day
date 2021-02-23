@@ -37,7 +37,7 @@ export class RequestView implements OnInit {
 
   canEdit: boolean;
 
-  @ViewChild('quantityInput') quantityInput: ElementRef;
+  @ViewChild('quantityInput', { static: false }) quantityInput: ElementRef;
 
   previousChangesMsg = '';
 

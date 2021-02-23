@@ -34,7 +34,7 @@ export class EditableChipList {
 
   @Input() placeholder = '';
 
-  @ViewChild('chipInput') chipInput: ElementRef;
+  @ViewChild('chipInput', { static: true }) chipInput: ElementRef;
 
   private _destroyed = new Subject();
 

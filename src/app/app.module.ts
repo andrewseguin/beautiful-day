@@ -29,7 +29,7 @@ import {UsersDao} from './service/users-dao';
       {path: 'login', component: Login},
       {
         path: ':season',
-        loadChildren: 'app/season/season.module#SeasonModule'
+        loadChildren: () => import('app/season/season.module').then(m => m.SeasonModule)
       },
       {path: '', redirectTo: 'login', pathMatch: 'full'},
     ]),

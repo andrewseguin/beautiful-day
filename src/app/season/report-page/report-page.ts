@@ -51,7 +51,7 @@ export class ReportPage implements OnInit {
   private destroyed = new Subject();
   private reportGetSubscription: Subscription;
 
-  @ViewChild(CdkPortal) toolbarActions: CdkPortal;
+  @ViewChild(CdkPortal, { static: true }) toolbarActions: CdkPortal;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,

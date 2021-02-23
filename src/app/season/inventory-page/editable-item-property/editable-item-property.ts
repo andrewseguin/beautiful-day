@@ -28,8 +28,8 @@ export class EditableItemProperty {
 
   @Output() propertyChanged = new EventEmitter<Item>();
 
-  @ViewChild('textarea') textarea: ElementRef;
-  @ViewChild(MatSelect) select: MatSelect;
+  @ViewChild('textarea', { static: false }) textarea: ElementRef;
+  @ViewChild(MatSelect, { static: false }) select: MatSelect;
 
   formControl = new FormControl();
 

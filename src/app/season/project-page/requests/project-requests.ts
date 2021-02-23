@@ -47,8 +47,8 @@ export class ProjectRequests implements OnInit {
 
   @Input() project: Project;
 
-  @ViewChild(RequestsList) requestsListComponent: RequestsList;
-  @ViewChild(CdkPortal) toolbarActions: CdkPortal;
+  @ViewChild(RequestsList, { static: false }) requestsListComponent: RequestsList;
+  @ViewChild(CdkPortal, { static: true }) toolbarActions: CdkPortal;
 
   private destroyed = new Subject();
 

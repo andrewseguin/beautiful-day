@@ -27,7 +27,7 @@ enum COLUMNS {
 export class ImportFromFile {
   items;
 
-  @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
   constructor(public dialogRef: MatDialogRef<ImportFromFile>,
               private cd: ChangeDetectorRef,

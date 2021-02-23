@@ -22,7 +22,7 @@ import {Subject} from 'rxjs';
 export class InventorySearch  {
   showSearch = false;
 
-  @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
 
   @Output() searchChange = new EventEmitter<string>();
 

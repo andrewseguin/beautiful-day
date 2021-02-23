@@ -26,7 +26,7 @@ export class EditItem {
 
   getItemName = (item: Item) => item && item.name;
 
-  @ViewChild('input') input: ElementRef;
+  @ViewChild('input', { static: true }) input: ElementRef;
 
   options = combineLatest([this.itemsDao.list, this.item.valueChanges]).pipe(
     debounceTime(200),

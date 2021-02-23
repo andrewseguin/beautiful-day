@@ -81,7 +81,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
 
   add(obj: T): Promise<string>;
   add(objs: T[]): Promise<any[]>;
-  add(objOrObjs: T | T[]): Promise<string> | Promise<any[]> {
+  add(objOrObjs: T | T[]): Promise<string|any[]> {
     if (objOrObjs instanceof Array) {
       objOrObjs.forEach(() => this.sendDaoEvent('add'));
       return performBatchedOperation(objOrObjs, (batch, chunk) => {
