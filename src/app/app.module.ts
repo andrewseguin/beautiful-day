@@ -25,13 +25,13 @@ import {UsersDao} from './service/users-dao';
     BrowserAnimationsModule,
     LoginModule,
     RouterModule.forRoot([
-      {path: 'login', component: Login},
-      {
+    { path: 'login', component: Login },
+    {
         path: ':season',
         loadChildren: () => import('app/season/season.module').then(m => m.SeasonModule)
-      },
-      {path: '', redirectTo: 'login', pathMatch: 'full'},
-    ]),
+    },
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+], { relativeLinkResolution: 'legacy' }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
