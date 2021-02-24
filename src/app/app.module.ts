@@ -11,7 +11,6 @@ import {LoginModule} from 'app/login/login.module';
 import {Theme} from 'app/season/services/theme';
 import {GlobalConfigDao} from 'app/service/global-config-dao';
 import {SeasonsDao} from 'app/service/seasons-dao';
-import 'hammerjs';
 import {environment} from '../environments/environment';
 import {App} from './app';
 import {FIREBASE_CONFIG} from './firebase.config';

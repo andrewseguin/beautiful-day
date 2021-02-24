@@ -11,7 +11,6 @@ export interface IdentifiedObject {
   dateModified?: string;
 }
 
-// TODO: Add Angular decorator.
 export abstract class ListDao<T extends IdentifiedObject> {
   private needsSubscription = false;
 
@@ -74,11 +73,12 @@ export abstract class ListDao<T extends IdentifiedObject> {
     });
   }
 
-  ngOnDestroy() {
-    this.unsubscribe();
-    this.destroyed.next();
-    this.destroyed.complete();
-  }
+  // TODO: Is this used?
+  //ngOnDestroy() {
+  //  this.unsubscribe();
+  //  this.destroyed.next();
+  //  this.destroyed.complete();
+  //}
 
   add(obj: T): Promise<string>;
   add(objs: T[]): Promise<any[]>;
