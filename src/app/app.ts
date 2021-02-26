@@ -21,18 +21,6 @@ export class App {
       private afAuth: AngularFireAuth) {
     console.log(`v.${APP_VERSION}`);
 
-    this.globalConfigDao.map.subscribe(map => {
-      if (map) {
-        const dbAppVersion = map.get('appVersion').value;
-        if (dbAppVersion > APP_VERSION) {
-          navigator.serviceWorker.getRegistrations().then(registrations => {
-            registrations.forEach(r => r.unregister());
-            location.reload();
-          });
-        }
-      }
-    });
-
     this.router.events
         .pipe(distinctUntilChanged((prev: any, curr: any) => {
           if (curr instanceof NavigationEnd) {
@@ -50,6 +38,21 @@ export class App {
         // Add or update the users profile in the db
         this.usersDao.addUserData(auth);
         this.notifyLoggedInAs(auth.email);
+        this.checkServiceWorker();
+      }
+    });
+  }
+
+  private checkServiceWorker() {
+    this.globalConfigDao.map.subscribe(map => {
+      if (map) {
+        const dbAppVersion = map.get('appVersion').value;
+        if (dbAppVersion > APP_VERSION) {
+          navigator.serviceWorker.getRegistrations().then(registrations => {
+            registrations.forEach(r => r.unregister());
+            location.reload();
+          });
+        }
       }
     });
   }
