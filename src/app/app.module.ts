@@ -13,13 +13,13 @@ import {GlobalConfigDao} from 'app/service/global-config-dao';
 import {SeasonsDao} from 'app/service/seasons-dao';
 import {environment} from '../environments/environment';
 import {App} from './app';
-import {FIREBASE_CONFIG} from './firebase.config';
+import {FIREBASE_CONFIG, FIREBASE_CONFIG_DEV} from './firebase.config';
 import {UsersDao} from './service/users-dao';
 
 @NgModule({
   declarations: [App],
   imports: [
-    AngularFireModule.initializeApp(FIREBASE_CONFIG),
+    AngularFireModule.initializeApp(environment.production ? FIREBASE_CONFIG : FIREBASE_CONFIG_DEV),
     AngularFireAuthModule,
     AngularFirestoreModule,
     BrowserAnimationsModule,
