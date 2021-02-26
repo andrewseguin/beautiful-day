@@ -3,7 +3,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {ListDao} from 'app/utility/list-dao';
 import {Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
-import {User as FirebaseUser} from 'firebase';
+import firebase from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
 
 export interface User {
@@ -32,7 +32,7 @@ export class UsersDao extends ListDao<User> {
   }
 
   /** Checks if the user is in the DB and if not, add their info. */
-  addUserData(authState: FirebaseUser) {
+  addUserData(authState: firebase.User) {
     this.get(authState.uid)
       .pipe(take(1))
       .subscribe(val => {

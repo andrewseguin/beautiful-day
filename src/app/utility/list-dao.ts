@@ -2,7 +2,7 @@ import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {takeUntil} from 'rxjs/operators';
 import {AngularFireAuth} from '@angular/fire/auth';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import {sendEvent} from './analytics';
 
 export interface IdentifiedObject {

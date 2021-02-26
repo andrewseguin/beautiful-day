@@ -4,7 +4,7 @@ import {Project, ProjectsDao} from 'app/season/dao';
 import {ActivatedSeason, Permissions} from 'app/season/services';
 import {EXPANSION_ANIMATION} from 'app/utility/animations';
 import {combineLatest, Subject} from 'rxjs';
-import {User} from 'firebase';
+import firebase from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {containsEmail} from 'app/season/utility/contains-email';
 import {map} from 'rxjs/operators';
@@ -33,7 +33,7 @@ export class ProjectsPage {
   involvedProjects = combineLatest([this.projectsDao.list, this.afAuth.authState]).pipe(
       map(result => {
         let projects = result[0] as Project[];
-        const authState = result[1] as User;
+        const authState = result[1] as firebase.User;
 
         if (!authState || !projects) {
           return null;

@@ -7,7 +7,7 @@ import {EXPANSION_ANIMATION} from 'app/utility/animations';
 import {highlight} from 'app/utility/element-actions';
 import {combineLatest} from 'rxjs';
 import {take} from 'rxjs/operators';
-import {User} from 'firebase';
+import firebase from 'firebase';
 
 @Component({
   selector: 'inventory-panel-item',
@@ -57,7 +57,7 @@ export class InventoryPanelItem {
         .pipe(take(1))
         .subscribe(result => {
           const project = result[0] as Project;
-          const user = result[1] as User;
+          const user = result[1] as firebase.User;
 
           const request = createRequest(project, this.item.id, this.requestQuantity, user.email);
           this.requestsDao.add(request).then(id => {

@@ -5,7 +5,7 @@ import {animate, style, transition, trigger} from '@angular/animations';
 import {ANIMATION_DURATION} from 'app/utility/animations';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {combineLatest} from 'rxjs';
-import {User} from 'firebase';
+import firebase from 'firebase';
 
 @Component({
   selector: 'messages',
@@ -35,7 +35,7 @@ export class Messages {
         }
 
         let messages = result[0] as Message[];
-        const email = (result[1] as User).email;
+        const email = (result[1] as firebase.User).email;
 
         // Filter out empty messages
         messages = messages.filter(msg => msg.text);

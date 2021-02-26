@@ -3,7 +3,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {SeasonsDao} from 'app/service/seasons-dao';
-import {auth} from 'firebase/app';
+import firebase from 'firebase/app';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {sendEvent} from 'app/utility/analytics';
@@ -55,10 +55,10 @@ export class Login implements OnDestroy {
 
   login() {
     this.checkingAuth.next(true);
-    const googleAuthProvider = new auth.GoogleAuthProvider();
+    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
     googleAuthProvider.setCustomParameters({
       prompt: 'select_account'
     });
-    this.afAuth.auth.signInWithPopup(googleAuthProvider);
+    this.afAuth.signInWithPopup(googleAuthProvider);
   }
 }

@@ -23,7 +23,7 @@ import {
 } from 'app/season/shared/dialog/delete-confirmation/delete-confirmation';
 import {ImportFromFile} from 'app/season/shared/dialog/item/import-from-file/import-from-file';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {User} from 'firebase';
+import firebase from 'firebase';
 
 @Injectable()
 export class ItemDialog {
@@ -267,7 +267,7 @@ export class ItemDialog {
         .pipe(take(1))
         .subscribe(result => {
           const project = result[0] as Project;
-          const user = result[1] as User;
+          const user = result[1] as firebase.User;
 
           const request = createRequest(project, item, 1, user.email);
           this.requestsDao.add(request).then(id => {

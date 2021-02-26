@@ -5,6 +5,7 @@ import { containsEmail } from 'app/season/utility/contains-email';
 import { GlobalConfigDao } from 'app/service/global-config-dao';
 import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import firebase from 'firebase';
 
 interface EditableRequestProperties {
   purchaser: Observable<boolean>;
