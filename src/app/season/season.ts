@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, ElementRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {ActivatedSeason, Header, Permissions} from './services';
-import {map, takeUntil} from 'rxjs/operators';
-import {combineLatest, Subject} from 'rxjs';
+import {map, switchMap, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 import {SeasonsDao} from 'app/service/seasons-dao';
 
 @Component({
@@ -11,16 +11,13 @@ import {SeasonsDao} from 'app/service/seasons-dao';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Season {
-  season: number;
+  season = this.activatedSeason.season;
+
+  seasonExists = this.season.pipe(
+    switchMap(season => this.seasonsDao.get(season)),
+    map(d => !!d));
 
   @ViewChild('routerContent', { static: false }) routerContent: ElementRef;
-
-  seasonExists = combineLatest([this.seasonsDao.map, this.activatedRoute.params])
-    .pipe(map(result => {
-      const seasonsMap = result[0];
-      const params = result[1];
-      return seasonsMap && seasonsMap.has(params['season']);
-    }));
 
   private destroyed = new Subject();
 
@@ -31,7 +28,6 @@ export class Season {
               private seasonsDao: SeasonsDao,
               private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.pipe(takeUntil(this.destroyed)).subscribe(params => {
-      this.season = +params['season'];
       this.activatedSeason.season.next(params['season']);
     });
     this.router.events.pipe(takeUntil(this.destroyed)).subscribe(event => {

@@ -1,8 +1,3 @@
-import {Injectable} from '@angular/core';
-import {CanActivate} from '@angular/router';
-import {Permissions} from 'app/season/services';
-import {Observable} from 'rxjs';
-
 export const SEASON_ROUTES = [
   {
     path: 'projects',

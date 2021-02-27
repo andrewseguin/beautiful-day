@@ -4,6 +4,7 @@ import {takeUntil} from 'rxjs/operators';
 import {AngularFireAuth} from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import {sendEvent} from './analytics';
+import {Injectable} from '@angular/core';
 
 export interface IdentifiedObject {
   id?: string;
@@ -11,6 +12,7 @@ export interface IdentifiedObject {
   dateModified?: string;
 }
 
+@Injectable()
 export abstract class ListDao<T extends IdentifiedObject> {
   private needsSubscription = false;
 
@@ -73,12 +75,11 @@ export abstract class ListDao<T extends IdentifiedObject> {
     });
   }
 
-  // TODO: Is this used?
-  //ngOnDestroy() {
-  //  this.unsubscribe();
-  //  this.destroyed.next();
-  //  this.destroyed.complete();
-  //}
+  ngOnDestroy() {
+    this.unsubscribe();
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
 
   add(obj: T): Promise<string>;
   add(objs: T[]): Promise<any[]>;
