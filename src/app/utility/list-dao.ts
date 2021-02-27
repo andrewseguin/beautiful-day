@@ -1,10 +1,11 @@
-import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
-import {takeUntil} from 'rxjs/operators';
+import {filter, map, switchMap, take, tap} from 'rxjs/operators';
 import {AngularFireAuth} from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import {sendEvent} from './analytics';
 import {Injectable} from '@angular/core';
+import {fromPromise} from 'rxjs/internal-compatibility';
 
 export interface IdentifiedObject {
   id?: string;
@@ -14,114 +15,82 @@ export interface IdentifiedObject {
 
 @Injectable()
 export abstract class ListDao<T extends IdentifiedObject> {
-  private needsSubscription = false;
+  collection: Observable<AngularFirestoreCollection<T>>;
+  list: Observable<T[]>;
+  map: Observable<Map<string, T>>;
 
   protected destroyed = new Subject();
 
-  private subscription: Subscription;
-
-  get list(): BehaviorSubject<T[]|null> {
-    if (!this.subscription) {
-      this.subscribe();
-    }
-    return this._list;
-  }
-  _list = new BehaviorSubject<T[]>(null);
-
-  get map(): BehaviorSubject<Map<string, T>> {
-    if (!this.subscription) {
-      this.subscribe();
-    }
-
-    if (!this._map) {
-      this._map = new BehaviorSubject<Map<string, T>>(new Map());
-      this.list.subscribe(list => {
-        if (list) {
-          const map = new Map<string, T>();
-          list.forEach(obj => map.set(obj.id, obj));
-          this._map.next(map);
-        } else {
-          this._map.next(null);
-        }
-      });
-    }
-
-    return this._map;
-  }
-  _map: BehaviorSubject<Map<string, T>>;
-
-  set path(path: string) {
-    this._path = path;
-    this.collection = this.afs.collection<T>(path);
-
-    // If a list has already been accessed, unsubscribe from the previous collection and
-    // get values from the new collection
-    if (this.subscription || this.needsSubscription) {
-      this.subscribe();
-      this.needsSubscription = false;
-    }
-  }
-  get path(): string { return this._path; }
-  _path: string;
-
-  protected collection: AngularFirestoreCollection<T>;
-
   protected constructor(protected afs: AngularFirestore,
-                        protected afAuth: AngularFireAuth) {
-    afAuth.authState.subscribe(auth => {
-      if (!auth) {
-        this.unsubscribe();
-      }
-    });
-  }
+                        protected afAuth: AngularFireAuth,
+                        protected path: Observable<string>) {
+    this.collection = path.pipe(
+      filter(p => !!p),
+      map(path => this.afs.collection<T>(path)));
 
-  ngOnDestroy() {
-    this.unsubscribe();
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.list = this.afAuth.authState.pipe(
+      filter(authState => !!authState),
+      switchMap(() => this.collection),
+      switchMap(collection => collection.valueChanges()),
+    );
+
+    this.map = this.list.pipe(map(values => {
+      const map = new Map<string, T>();
+      values.forEach(obj => map.set(obj.id, obj));
+      return map;
+    }));
   }
 
   add(obj: T): Promise<string>;
   add(objs: T[]): Promise<any[]>;
   add(objOrObjs: T | T[]): Promise<string|any[]> {
-    if (objOrObjs instanceof Array) {
-      objOrObjs.forEach(() => this.sendDaoEvent('add'));
-      return performBatchedOperation(objOrObjs, (batch, chunk) => {
-        chunk.forEach(obj => {
+    return this.collection.pipe(
+      take(1),
+      switchMap(collection => {
+        if (objOrObjs instanceof Array) {
+          objOrObjs.forEach(() => this.sendDaoEvent('add'));
+          return fromPromise(performBatchedOperation(objOrObjs, (batch, chunk) => {
+            chunk.forEach(obj => {
+              this.decorateForAdd(obj);
+              const doc = collection.doc(obj.id);
+              batch.set(doc.ref, obj);
+            });
+          }));
+        } else {
+          const obj = objOrObjs;
           this.decorateForAdd(obj);
-          const doc = this.collection.doc(obj.id);
-          batch.set(doc.ref, obj);
-        });
-      });
-    } else {
-      const obj = objOrObjs;
-      this.decorateForAdd(obj);
-      this.sendDaoEvent('add');
-      return this.collection.doc(obj.id).set(obj).then(() => obj.id);
-    }
+          this.sendDaoEvent('add');
+          return fromPromise(collection.doc(obj.id).set(obj).then(() => obj.id));
+        }
+      })).toPromise();
   }
 
   get(id: string): Observable<T> {
-    return this.collection.doc<T>(id).valueChanges().pipe(takeUntil(this.destroyed));
+    return this.collection.pipe(
+      switchMap(collection => collection.doc<T>(id).valueChanges()));
   }
 
   update(id: string, update: T): Promise<void>;
   update(ids: string[], update: T): Promise<any[]>;
-  update(idOrIds: string | string[], update: T): Promise<void> | Promise<any[]> {
-    update.dateModified = new Date().toISOString();
+  update(idOrIds: string | string[], update: T): Promise<void|any[]> {
+    return this.collection.pipe(
+      take(1),
+      switchMap(collection => {
+        update.dateModified = new Date().toISOString();
 
-    if (idOrIds instanceof Array) {
-      idOrIds.forEach(() => this.sendDaoEvent('update'));
-      return performBatchedOperation(idOrIds, (batch, chunk) => {
-        chunk.forEach(id => {
-          const doc = this.collection.doc(id);
-          batch.update(doc.ref, update);
-        });
-      });
-    } else {
-      this.sendDaoEvent('update');
-      return this.collection.doc(idOrIds).update(update);
-    }
+        if (idOrIds instanceof Array) {
+          idOrIds.forEach(() => this.sendDaoEvent('update'));
+          return performBatchedOperation(idOrIds, (batch, chunk) => {
+            chunk.forEach(id => {
+              const doc = collection.doc(id);
+              batch.update(doc.ref, update);
+            });
+          });
+        } else {
+          this.sendDaoEvent('update');
+          return collection.doc(idOrIds).update(update);
+        }
+      })).toPromise();
 
     // If the doc doesn't exist, the update will fail. To mitigate this,
     // you can use `this.collection.doc(id).set(update, {merge: true});`
@@ -131,38 +100,22 @@ export abstract class ListDao<T extends IdentifiedObject> {
   remove(id: string): Promise<void>;
   remove(ids: string[]): Promise<any[]>;
   remove(idOrIds: string | string[]) {
-    if (idOrIds instanceof Array) {
-      idOrIds.forEach(() => this.sendDaoEvent('remove'));
-      return performBatchedOperation(idOrIds, (batch, chunk) => {
-        chunk.forEach(id => {
-          const doc = this.collection.doc(id);
-          batch.delete(doc.ref);
-        });
-      });
-    } else {
-      this.sendDaoEvent('remove');
-      return this.collection.doc(idOrIds).delete();
-    }
-  }
-
-  private subscribe() {
-    // Unsubscribe from the current collection
-    this.unsubscribe();
-
-    if (!this.collection) {
-      this.needsSubscription = true;
-    } else {
-      this.subscription = this.collection.valueChanges()
-          .subscribe(v => this._list.next(v));
-    }
-  }
-
-  unsubscribe() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-      this.subscription = null;
-      this._list.next(null);
-    }
+    return this.collection.pipe(
+      take(1),
+      switchMap(collection => {
+        if (idOrIds instanceof Array) {
+          idOrIds.forEach(() => this.sendDaoEvent('remove'));
+          return performBatchedOperation(idOrIds, (batch, chunk) => {
+            chunk.forEach(id => {
+              const doc = collection.doc(id);
+              batch.delete(doc.ref);
+            });
+          });
+        } else {
+          this.sendDaoEvent('remove');
+          return collection.doc(idOrIds).delete();
+        }
+      })).toPromise();
   }
 
   private decorateForAdd(obj: T) {
@@ -175,7 +128,7 @@ export abstract class ListDao<T extends IdentifiedObject> {
   }
 
   private sendDaoEvent(action: 'add' | 'update' | 'remove') {
-    sendEvent(this.path, `db_${action}`);
+    this.path.pipe(take(1)).subscribe(path => sendEvent(path, `db_${action}`));
   }
 }
 

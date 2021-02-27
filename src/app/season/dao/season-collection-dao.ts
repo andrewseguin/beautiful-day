@@ -1,7 +1,7 @@
 import {IdentifiedObject, ListDao} from 'app/utility/list-dao';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {ActivatedSeason} from '../services';
-import {takeUntil} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {AngularFireAuth} from '@angular/fire/auth';
 
 export class SeasonCollectionDao<T extends IdentifiedObject> extends ListDao<T> {
@@ -9,13 +9,8 @@ export class SeasonCollectionDao<T extends IdentifiedObject> extends ListDao<T> 
               afAuth: AngularFireAuth,
               activatedSeason: ActivatedSeason,
               subPath: string) {
-    super(afs, afAuth);
+    const path = activatedSeason.season.pipe(filter(season => !!season), map(season => `seasons/${season}/${subPath}`));
+    super(afs, afAuth, path);
 
-    activatedSeason.season.pipe(takeUntil(this.destroyed))
-        .subscribe(season => {
-          if (season) {
-            this.path = `seasons/${season}/${subPath}`;
-          }
-        });
   }
 }

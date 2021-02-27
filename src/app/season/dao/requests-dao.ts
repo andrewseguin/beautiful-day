@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {SeasonCollectionDao} from './season-collection-dao';
 import {ActivatedSeason} from 'app/season/services/activated-season';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {take} from 'rxjs/operators';
+import {switchMap, take} from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 
 export const APPROVAL_NEGATERS = new Set(['note', 'quantity', 'dropoff', 'date']);
@@ -47,7 +47,7 @@ export class RequestsDao extends SeasonCollectionDao<Request> {
 
   getByProject(projectId: string): Observable<Request[]> {
     const queryFn = ref => ref.where('project', '==', projectId);
-    return this.afs.collection(this.path, queryFn).valueChanges();
+    return this.path.pipe(switchMap(path => this.afs.collection(path, queryFn).valueChanges()));
   }
 
   update(id: string, update: Request): Promise<void>;

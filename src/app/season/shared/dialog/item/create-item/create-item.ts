@@ -46,6 +46,8 @@ export class CreateItem {
       this.showRequest = data.showRequest;
     }
 
+    data.categories.push('Misc');
+
     this.categories = data.categories.sort();
   }
 
