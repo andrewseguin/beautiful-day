@@ -1,11 +1,11 @@
 <mat-drawer-container *ngIf="!isLoading; else loading">
-  <requests-list *ngIf="hasRequests"
+  <requests-list *ngIf="(hasRequests | async)"
                  [requestRendererOptionsState]="initialOptionsState"
                  (requestRendererOptionsChanged)="currentOptionsState = $event">
   </requests-list>
 
-  <div *ngIf="!hasRequests" class="empty-requests">
-    <div *ngIf="canEdit">
+  <div *ngIf="!(hasRequests | async)" class="empty-requests">
+    <div *ngIf="canEdit | async">
       <div class="wide">
         <div class="getting-started">
           Getting Started
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="!canEdit">
+    <div *ngIf="!(canEdit | async)">
       <div class="getting-started">
         No requests have been made.
       </div>
@@ -32,14 +32,13 @@
 
 
   <button mat-fab color="primary"
-          [class.attention]="!hasRequests"
-          [class.hide]="sidenav.opened || hasSelectedRequests() || !canEdit"
+          [class.attention]="!(hasRequests | async)"
+          [class.hide]="sidenav.opened || hasSelectedRequests() || !(canEdit | async)"
           (click)="sidenav.open()"><mat-icon>add</mat-icon></button>
 
   <mat-drawer #sidenav [autoFocus]="false"
-              [opened]="!hideInventory()"
-              [mode]="hideInventory() ? 'over' : 'side'"
-              (close)="inventoryPanel.reset()"
+              [opened]="!(isMobile | async).matches && (canEdit | async)"
+              [mode]="(isMobile | async).matches ? 'over' : 'side'"
               position="end">
     <inventory-panel #inventoryPanel
                      [project]="project.id"
@@ -49,7 +48,7 @@
 </mat-drawer-container>
 
 <ng-template cdkPortal>
-  <remaining-budget *ngIf="canEdit || (isDirector | async)"
+  <remaining-budget *ngIf="(canEdit | async) || (isDirector | async)"
                     [projectId]="project.id">
   </remaining-budget>
   <button mat-icon-button class="overflow-menu-trigger"

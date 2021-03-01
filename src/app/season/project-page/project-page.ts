@@ -1,37 +1,26 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Project, ProjectsDao} from 'app/season/dao';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
+import {ProjectsDao} from 'app/season/dao';
+import {map, switchMap, tap} from 'rxjs/operators';
+import {Project} from '../dao';
 
 @Component({
   templateUrl: 'project-page.html',
   styleUrls: ['project-page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectPage implements OnInit {
-  project: Project;
+export class ProjectPage {
   isLoading = true;
 
-  private destroyed = new Subject();
+  fetchedProjectData = this.activatedRoute.params.pipe(
+    tap(() => this.isLoading = true),
+    map(params => params.id),
+    switchMap(id => this.projectsDao.get(id)),
+    map(project => ({project} as {project: Project})),
+    tap(() => this.isLoading = false),
+  );
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private cd: ChangeDetectorRef,
     private projectsDao: ProjectsDao) {}
-
-  ngOnInit() {
-    const projectId = this.activatedRoute.snapshot.params.id;
-    this.projectsDao.get(projectId).pipe(takeUntil(this.destroyed))
-        .subscribe(project => {
-          this.isLoading = false;
-          this.project = project;
-          this.cd.markForCheck();
-        });
-  }
-
-  ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
-  }
 }

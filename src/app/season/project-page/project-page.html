@@ -1,7 +1,14 @@
-<div *ngIf="!isLoading && !project">
-  This project does not exist.
-</div>
-
-<project-requests *ngIf="project" [project]="project"></project-requests>
-
 <loading *ngIf="isLoading" label="project"></loading>
+
+<ng-container *ngIf="fetchedProjectData | async as projectData">
+  <ng-container *ngIf="projectData.project; else notExist">
+    <project-requests [project]="projectData.project"></project-requests>
+  </ng-container>
+</ng-container>
+
+<ng-template #notExist>
+  <div>
+    This project does not exist.
+  </div>
+</ng-template>
+

@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Permissions} from 'app/season/services/permissions';
@@ -14,14 +7,15 @@ import {
   RequestRendererOptions,
   RequestRendererOptionsState
 } from 'app/season/services/requests-renderer/request-renderer-options';
-import {isMobile} from 'app/utility/media-matcher';
+import {mobileMatch} from 'app/utility/media-matcher';
 import {Header} from 'app/season/services/header';
 import {CdkPortal} from '@angular/cdk/portal';
-import {combineLatest, Subject} from 'rxjs';
-import {map, takeUntil} from 'rxjs/operators';
+import {combineLatest, Observable} from 'rxjs';
+import {filter, map, tap} from 'rxjs/operators';
 import {ActivatedSeason, Selection} from 'app/season/services';
-import {Project, Request, RequestsDao, ProjectsDao} from 'app/season/dao';
+import {Project, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
 import {containsEmail} from '../../utility/contains-email';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 @Component({
   selector: 'project-requests',
@@ -35,14 +29,14 @@ export class ProjectRequests implements OnInit {
   currentOptionsState: RequestRendererOptionsState;
 
   isLoading: boolean;
-  hasRequests: boolean;
-  canEdit: boolean;
+  hasRequests: Observable<boolean>;
+  canEdit: Observable<boolean>;
 
   isDirector = combineLatest(
     [this.projectsDao.list.pipe(map(list => list ? list : [])),
     this.afAuth.user.pipe(map(user => user ? user.email : ''))],
-  ).pipe(map(result => {
-    return result[0].some(p => containsEmail(p.directors, result[1]));
+  ).pipe(map(([projects, email]) => {
+    return projects.some(p => containsEmail(p.directors, email));
   }));
 
   @Input() project: Project;
@@ -50,7 +44,7 @@ export class ProjectRequests implements OnInit {
   @ViewChild(RequestsList, { static: false }) requestsListComponent: RequestsList;
   @ViewChild(CdkPortal, { static: true }) toolbarActions: CdkPortal;
 
-  private destroyed = new Subject();
+  isMobile = this.breakpointObserver.observe(mobileMatch);
 
   constructor(private activatedRoute: ActivatedRoute,
               private activatedSeason: ActivatedSeason,
@@ -59,11 +53,21 @@ export class ProjectRequests implements OnInit {
               private requestsDao: RequestsDao,
               private projectsDao: ProjectsDao,
               private selection: Selection,
+              private breakpointObserver: BreakpointObserver,
               private cd: ChangeDetectorRef,
               private permissions: Permissions,
               private afAuth: AngularFireAuth) {}
 
   ngOnInit() {
+    this.hasRequests = this.requestsDao.list.pipe(
+      tap(() => this.isLoading = true),
+      map(requests => requests.some(r => r.project === this.project.id)),
+      tap(() => this.isLoading = false));
+
+    this.canEdit = this.permissions.editableProjects.pipe(
+      filter(e => !!e),
+      map(e => e.has(this.project.id)));
+
     this.header.toolbarOutlet.next(this.toolbarActions);
 
     const renderRequestsOptions = new RequestRendererOptions();
@@ -74,36 +78,10 @@ export class ProjectRequests implements OnInit {
     }];
     this.initialOptionsState = renderRequestsOptions.getState();
     this.currentOptionsState = this.initialOptionsState;
-
-    const changes = [
-      this.requestsDao.list,
-      this.permissions.editableProjects,
-    ];
-
-    this.isLoading = true;
-    combineLatest(changes).pipe(takeUntil(this.destroyed)).subscribe(result => {
-      const requests = result[0] as Request[];
-      const editableProjects = result[1] as Set<string>;
-
-      if (!requests || !editableProjects) {
-        return;
-      }
-
-      this.hasRequests = requests.some(r => r.project === this.project.id);
-      this.canEdit = editableProjects.has(this.project.id);
-      this.isLoading = false;
-      this.cd.markForCheck();
-    });
   }
 
   ngOnDestroy() {
     this.header.toolbarOutlet.next(null);
-    this.destroyed.next();
-    this.destroyed.complete();
-  }
-
-  hideInventory(): boolean {
-    return isMobile() || !this.canEdit;
   }
 
   hasSelectedRequests(): boolean {
