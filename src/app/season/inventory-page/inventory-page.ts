@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {Header, Selection} from 'app/season/services';
-import {takeUntil} from 'rxjs/operators';
+import {take, takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 import {ItemFilterMetadata} from 'app/season/inventory-page/item-filter-metadata';
 import {Filter} from 'app/season/utility/search/filter';
@@ -15,6 +15,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {CdkScrollable} from '@angular/cdk/overlay';
 import {CdkPortal} from '@angular/cdk/portal';
 import {ItemDialog} from 'app/season/shared/dialog/item/item-dialog';
+import {getItemsAsTsv} from '../utility/inventory-conversion';
 
 interface EditableProperty {
   id: string;
@@ -208,5 +209,22 @@ export class InventoryPage {
       return false;
     }
     return this.dataSource.data.every(i => this.selection.items.isSelected(i.id));
+  }
+
+  exportToTsvFile() {
+    this.itemsDao.list.pipe(take(1)).subscribe(items => {
+      const filename = 'inventory';
+
+      const text = getItemsAsTsv(items);
+
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    });
   }
 }

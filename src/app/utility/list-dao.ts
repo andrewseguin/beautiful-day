@@ -123,7 +123,9 @@ export abstract class ListDao<T extends IdentifiedObject> {
       obj.id = this.afs.createId();
     }
 
-    obj.dateCreated = new Date().toISOString();
+    if (!obj.dateCreated) {
+      obj.dateCreated = new Date().toISOString();
+    }
     obj.dateModified = new Date().toISOString();
   }
 

@@ -12,10 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {Item} from 'app/season/dao';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-
-enum COLUMNS {
-  NAME, CATEGORIES, URL, COST, HIDDEN, KEYWORDS, QUANTITY
-}
+import {importItemsFromTsv} from '../../../../utility/inventory-conversion';
 
 @Component({
   styleUrls: ['import-from-file.scss'],
@@ -46,30 +43,14 @@ export class ImportFromFile {
   }
 
   extractItems(tsvFileData: string): Item[] | null {
-    const itemRows = tsvFileData.split('\n');
-
-    const headerRow = itemRows.shift();
-    const error = areColumnsInvalid(headerRow.split('\t'));
-    if (error) {
-      this.snackBar.open(error, null, {duration: 2000});
-      return null;
+    try {
+      return importItemsFromTsv(tsvFileData);
+    } catch (error: any) {
+      if (error as Error) {
+        this.snackBar.open(error, null, {duration: 2000});
+        return null;
+      }
     }
-
-    return itemRows.map(itemRow => {
-      const itemInfo = itemRow.split('\t');
-
-      let categories = itemInfo[COLUMNS.CATEGORIES].split(',');
-      let name = itemInfo[COLUMNS.NAME];
-      let hidden = !!itemInfo[COLUMNS.HIDDEN];
-      let url = itemInfo[COLUMNS.URL] || '';
-      let cost: number = itemInfo[COLUMNS.COST] ?
-        +(itemInfo[COLUMNS.COST].replace('$', '').replace(',', '')) :
-        0;
-      let keywords = itemInfo[COLUMNS.KEYWORDS] || '';
-      let quantityOwned = Number(itemInfo[COLUMNS.QUANTITY] || 0);
-
-      return {name, categories, url, cost, hidden, keywords, quantityOwned};
-    });
   }
 
   save() {
@@ -79,27 +60,4 @@ export class ImportFromFile {
 
     this.dialogRef.close(this.items);
   }
-}
-
-function areColumnsInvalid(row: string[]): string | null {
-  const checks = [
-    {column: COLUMNS.NAME, expected: 'Name'},
-    {column: COLUMNS.CATEGORIES, expected: 'Categories'},
-    {column: COLUMNS.URL, expected: 'Url'},
-    {column: COLUMNS.COST, expected: 'Cost'},
-    {column: COLUMNS.HIDDEN, expected: 'Hidden'},
-    {column: COLUMNS.KEYWORDS, expected: 'Keywords'},
-    {column: COLUMNS.QUANTITY, expected: 'Quantity'},
-  ];
-
-  let error = null;
-  checks.some(check => {
-    const actual = row[check.column];
-    if (actual.toLowerCase() !== check.expected.toLowerCase()) {
-      error = `Column was "${actual}" but expected "${check.expected}"`;
-    }
-    return !!error;
-  });
-
-  return error;
 }

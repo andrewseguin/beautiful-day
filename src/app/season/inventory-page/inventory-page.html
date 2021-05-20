@@ -132,6 +132,9 @@
 </ng-template>
 
 <mat-menu #overflow="matMenu">
+  <button mat-menu-item (click)="exportToTsvFile()">
+    <mat-icon> file_copy </mat-icon> Export to TSV file
+  </button>
   <button mat-menu-item (click)="itemDialog.importItemsFromFile()">
     <mat-icon> file_copy </mat-icon> Import from file
   </button>
