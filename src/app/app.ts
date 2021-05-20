@@ -6,6 +6,7 @@ import { GlobalConfigDao } from 'app/service/global-config-dao';
 import { UsersDao } from 'app/service/users-dao';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { sendPageview } from './utility/analytics';
+import {SwUpdate} from '@angular/service-worker';
 
 export const APP_VERSION = 9;
 
@@ -18,7 +19,11 @@ export class App {
   constructor(
       private snackBar: MatSnackBar, private router: Router,
       private usersDao: UsersDao, private globalConfigDao: GlobalConfigDao,
-      private afAuth: AngularFireAuth) {
+      private afAuth: AngularFireAuth, private swUpdate: SwUpdate) {
+    this.swUpdate.available.subscribe(() => {
+      window.location.reload();
+    });
+
     console.log(`v.${APP_VERSION}`);
 
     this.router.events
