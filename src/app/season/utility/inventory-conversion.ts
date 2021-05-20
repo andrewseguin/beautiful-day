@@ -38,7 +38,7 @@ const columns: Column[] = [
     title: 'Hidden',
     dataAccessor: (item: Item) => String(!!item.hidden),
     setItemProperty: (data: string, item: Item) =>
-      (item.hidden = data === 'true'),
+      (item.hidden = data.toLowerCase() === 'true'),
   },
   {
     title: 'Keywords',
@@ -94,7 +94,6 @@ export function importItemsFromTsv(tsvData: string): Item[] {
       columns[i].setItemProperty(itemInfo[i], item);
     }
 
-    console.log(item);
     return item;
   });
 }
@@ -103,7 +102,7 @@ function areColumnsInvalid(row: string[]): string | null {
   let error = null;
   for (let i = 0; i < columns.length; i++) {
     const actual = row[i];
-    if (actual.toLowerCase() !== columns[i].title.toLowerCase()) {
+    if (actual.trim().toLowerCase() !== columns[i].title.toLowerCase()) {
       error = `Column was "${actual}" but expected "${columns[i].title}"`;
       break;
     }

@@ -48,6 +48,7 @@ export class ImportFromFile {
     } catch (error: any) {
       if (error as Error) {
         this.snackBar.open(error, null, {duration: 2000});
+        this.dialogRef.close();
         return null;
       }
     }
