@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {ActivatedSeason, Header, Permissions} from './services';
-import {map, switchMap, takeUntil} from 'rxjs/operators';
+import {filter, map, switchMap, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {SeasonsDao} from 'app/service/seasons-dao';
 
@@ -14,6 +14,7 @@ export class Season {
   season = this.activatedSeason.season;
 
   seasonExists = this.season.pipe(
+    filter(d => !!d),
     switchMap(season => this.seasonsDao.get(season)),
     map(d => !!d));
 
@@ -27,6 +28,13 @@ export class Season {
               private activatedSeason: ActivatedSeason,
               private seasonsDao: SeasonsDao,
               private activatedRoute: ActivatedRoute) {
+    this.seasonExists.pipe(takeUntil(this.destroyed))
+      .subscribe(seasonExists => {
+        if (!seasonExists) {
+          this.router.navigate(['/']);
+        }
+      });
+
     this.activatedRoute.params.pipe(takeUntil(this.destroyed)).subscribe(params => {
       this.activatedSeason.season.next(params['season']);
     });

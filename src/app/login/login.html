@@ -2,13 +2,25 @@
   <div class="logo"></div>
   <div class="app-title">Management</div>
 
-  <mat-progress-spinner *ngIf="checkingAuth | async; else loginButton"
+  <mat-progress-spinner *ngIf="checkingAuth | async; else showAuthState"
                         mode="indeterminate">
   </mat-progress-spinner>
 
-  <ng-template #loginButton>
-    <button mat-raised-button color="primary" (click)="login()">
-      Login with Google
-    </button>
+  <ng-template #showAuthState>
+    <ng-container *ngIf="signedIn | async as email; else loginButton">
+      <div class="signed-in-as">
+        Signed in as {{email}}
+      </div>
+
+      <button mat-raised-button color="primary" (click)="logout()">
+        Sign out
+      </button>
+    </ng-container>
+
+    <ng-template #loginButton>
+      <button mat-raised-button color="primary" (click)="login()">
+        Login with Google
+      </button>
+    </ng-template>
   </ng-template>
 </div>

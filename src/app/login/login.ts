@@ -20,6 +20,8 @@ import {sendEvent} from 'app/utility/analytics';
 export class Login implements OnDestroy {
   checkingAuth = new BehaviorSubject<boolean>(true);
 
+  signedIn = new BehaviorSubject<string|null>(null);
+
   private destroyed = new Subject();
 
   constructor(private afAuth: AngularFireAuth,
@@ -27,23 +29,17 @@ export class Login implements OnDestroy {
               private snackBar: MatSnackBar,
               private route: Router) {
     this.afAuth.authState.pipe(takeUntil(this.destroyed)).subscribe(auth => {
+      this.checkingAuth.next(false);
+
       if (!auth) {
-        this.checkingAuth.next(false);
         return;
       }
 
       sendEvent('login', 'valid');
+      this.signedIn.next(auth.email);
       let hash = window.location.hash.substr(1);
       if (hash) {
         this.route.navigate([hash]);
-      } else {
-        this.seasonsDao.list.pipe(
-            takeUntil(this.destroyed))
-            .subscribe(seasons => {
-              if (seasons) {
-                this.route.navigate([seasons[seasons.length - 1].id]);
-              }
-            });
       }
     });
   }
@@ -60,5 +56,10 @@ export class Login implements OnDestroy {
       prompt: 'select_account'
     });
     this.afAuth.signInWithPopup(googleAuthProvider);
+  }
+
+  logout() {
+    this.afAuth.signOut();
+    window.location.reload();
   }
 }
