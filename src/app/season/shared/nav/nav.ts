@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Permissions} from 'app/season/services/permissions';
@@ -7,12 +7,15 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {filter, map, mergeMap, take, takeUntil} from 'rxjs/operators';
 import {UsersDao} from 'app/service/users-dao';
 import {FormControl} from '@angular/forms';
-import {combineLatest, Observable, Subject} from 'rxjs';
-import {SeasonsDao} from 'app/service/seasons-dao';
+import {combineLatest, Observable, of, Subject} from 'rxjs';
+import {Season, SeasonsDao} from 'app/service/seasons-dao';
 import {UserDialog} from 'app/season/shared/dialog/user/user-dialog';
 import {Theme} from 'app/season/services/theme';
 import {ContactsDao, EventsDao, FaqsDao} from 'app/season/dao';
 import {APP_VERSION} from 'app/app';
+import {PromptDialog, PromptDialogResult} from '../dialog/prompt-dialog/prompt-dialog';
+import {getMergedObjectValue} from '../../utility/merged-obj-value';
+import {Group, GroupsDao} from '../../dao';
 
 export interface NavLink {
   route: string;
@@ -83,6 +86,7 @@ export class Nav {
               public cd: ChangeDetectorRef,
               public faqsDao: FaqsDao,
               public contactsDao: ContactsDao,
+              public groupsDao: GroupsDao,
               public eventsDao: EventsDao,
               public theme: Theme,
               public router: Router) {
@@ -93,6 +97,11 @@ export class Nav {
     this.season.valueChanges.pipe(
       takeUntil(this.destroyed))
       .subscribe(value => {
+        if (value === 'new') {
+          this.openNewSeasonDialog();
+          return;
+        }
+
         this.router.navigate([value, this.router.url.split('/')[2]]);
         this.sidenav.close();
       });
@@ -117,5 +126,33 @@ export class Nav {
         .subscribe(user => {
           this.userDialog.editProfile(user);
         });
+  }
+
+  private openNewSeasonDialog() {
+    const dialogRef = this.dialog.open(PromptDialog, {
+      width: '400px',
+      data: {
+        title: 'New Season',
+        input: of(),
+      }
+    });
+    dialogRef.afterClosed().pipe(take(1)).subscribe(async (result: PromptDialogResult) => {
+      const id = result && `${result.value}`.trim();
+      if (id) {
+        await this.seasonsDao.add({
+          id,
+          name: id,
+        });
+        await this.router.navigate([`/${result.value}`]);
+        await this.groupsDao.add({
+          id: 'admins',
+          users: [(await this.afAuth.currentUser).email]
+        });
+        await this.router.navigate([`/${result.value}/admin`]);
+        this.sidenav.close();
+      } else {
+        window.location.reload();
+      }
+    });
   }
 }

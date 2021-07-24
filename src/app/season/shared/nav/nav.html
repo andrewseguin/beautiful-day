@@ -9,6 +9,9 @@
       <mat-option *ngFor="let value of seasons | async" [value]="value">
         {{value}}
       </mat-option>
+      <mat-option value="new">
+        + New Season
+      </mat-option>
     </mat-select>
   </ng-container>
 </div>

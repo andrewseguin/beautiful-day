@@ -31,8 +31,7 @@ export class Season {
     this.seasonExists.pipe(takeUntil(this.destroyed))
       .subscribe(seasonExists => {
         if (!seasonExists) {
-          // For now allow people to go to any project
-          // this.router.navigate(['/']);
+          this.router.navigate(['/']);
         }
       });
 
