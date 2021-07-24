@@ -46,9 +46,8 @@ export class CreateItem {
       this.showRequest = data.showRequest;
     }
 
-    data.categories.push('Misc');
-
-    this.categories = data.categories.sort();
+    this.categories =
+      data.categories.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
   }
 
   save(addRequest = false) {

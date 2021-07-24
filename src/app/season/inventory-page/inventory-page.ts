@@ -213,7 +213,7 @@ export class InventoryPage {
 
   exportToTsvFile() {
     this.itemsDao.list.pipe(take(1)).subscribe(items => {
-      const filename = 'inventory';
+      const filename = 'inventory.tsv';
 
       const text = getItemsAsTsv(items);
 

@@ -25,6 +25,23 @@ import {ImportFromFile} from 'app/season/shared/dialog/item/import-from-file/imp
 import {AngularFireAuth} from '@angular/fire/auth';
 import firebase from 'firebase';
 
+const categoriesBaseSet = [
+  'Cleaning Supplies',
+  'Construction',
+  'Construction',
+  'Hardware',
+  'Landscaping',
+  'Lumber',
+  'Misc',
+  'Paint',
+  'Paint Supplies',
+  'Plumbing',
+  'Rentals',
+  'Special Projects',
+  'Tools',
+  'Volunteer Care',
+];
+
 @Injectable()
 export class ItemDialog {
   categories = [];
@@ -43,11 +60,11 @@ export class ItemDialog {
         return;
       }
 
-      const categories = new Set();
+      const categories = new Set(categoriesBaseSet);
       items.forEach(item => {
         item.categories.forEach(c => {
           if (!c.includes('>')) {
-            categories.add(c);
+            categories.add(c.trim());
           }
         });
       });
