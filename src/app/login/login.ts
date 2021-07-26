@@ -45,7 +45,7 @@ export class Login implements OnDestroy {
           takeUntil(this.destroyed))
           .subscribe(seasons => {
             if (seasons) {
-              seasons = seasons.filter(s => s.name.includes('20')).sort();
+              seasons = seasons.filter(s => s.name.startsWith('20')).sort();
               this.route.navigate([seasons[seasons.length - 1].id]);
             }
           });
