@@ -42,7 +42,7 @@ export class Nav {
       mergeMap(auth => this.usersDao.get(auth.uid)),
       map(user => user ? (!user.name || !user.phone) : false));
 
-  seasons = this.seasonsDao.list.pipe(map(v => v ? v.map(s => s.id) : []));
+  seasons = this.seasonsDao.list;
   season = new FormControl('');
 
   hasHelp = combineLatest([this.faqsDao.list, this.contactsDao.list]).pipe(
@@ -137,18 +137,16 @@ export class Nav {
       }
     });
     dialogRef.afterClosed().pipe(take(1)).subscribe(async (result: PromptDialogResult) => {
-      const id = result && `${result.value}`.trim();
-      if (id) {
-        await this.seasonsDao.add({
-          id,
-          name: id,
-        });
-        await this.router.navigate([`/${result.value}`]);
+      const name = result && `${result.value}`.trim();
+      if (name) {
+        const id = name.replace(/\s/g, '-').toLowerCase();
+        await this.seasonsDao.add({id, name});
+        await this.router.navigate([`/${id}`]);
         await this.groupsDao.add({
           id: 'admins',
           users: [(await this.afAuth.currentUser).email]
         });
-        await this.router.navigate([`/${result.value}/admin`]);
+        await this.router.navigate([`/${id}/admin`]);
         this.sidenav.close();
       } else {
         window.location.reload();

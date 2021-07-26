@@ -6,8 +6,8 @@
 <div class="season">
   <ng-container *ngIf="permissions.isAdmin | async">
     <mat-select [formControl]="season">
-      <mat-option *ngFor="let value of seasons | async" [value]="value">
-        {{value}}
+      <mat-option *ngFor="let value of seasons | async" [value]="value.id">
+        {{value.name}}
       </mat-option>
       <mat-option value="new">
         + New Season
