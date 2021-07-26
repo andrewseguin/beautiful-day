@@ -40,11 +40,12 @@ export class Login implements OnDestroy {
       let hash = window.location.hash.substr(1);
       if (hash) {
         this.route.navigate([hash]);
-      } else if (auth.email.includes('beautifulday')){
+      } else {
         this.seasonsDao.list.pipe(
           takeUntil(this.destroyed))
           .subscribe(seasons => {
             if (seasons) {
+              seasons = seasons.filter(s => s.name.includes('20')).sort();
               this.route.navigate([seasons[seasons.length - 1].id]);
             }
           });
