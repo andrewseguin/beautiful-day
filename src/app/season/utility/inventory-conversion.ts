@@ -48,7 +48,7 @@ const columns: Column[] = [
   {
     title: 'Quantity',
     dataAccessor: (item: Item) => String(item.quantityOwned || 0),
-    setItemProperty: (data: string, item: Item) => (item.quantityOwned = +data),
+    setItemProperty: (data: string, item: Item) => (item.quantityOwned = +(data || 0)),
   },
   {
     title: 'Date Created',
@@ -91,7 +91,7 @@ export function importItemsFromTsv(tsvData: string): Item[] {
 
     const item: Item = {};
     for (let i = 0; i < columns.length; i++) {
-      columns[i].setItemProperty(itemInfo[i], item);
+      columns[i].setItemProperty(itemInfo[i] || '', item);
     }
 
     return item;
