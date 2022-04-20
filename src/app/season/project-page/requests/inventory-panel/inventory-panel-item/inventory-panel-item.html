@@ -1,7 +1,12 @@
 <div class="container">
   <div class="top-row theme-hover" mat-ripple
        (click)="expanded = !expanded; hasExpanded = true">
-    <div class="item-name">{{getItemName()}}</div>
+    <div class="item-name">
+      <span>{{getItemName()}}</span>
+      <ng-container *ngIf="stockAvailable | async">
+        <span class="in-stock">In stock</span>
+      </ng-container>
+    </div>
     <mat-icon [@expansionIndicator]="expanded">expand_more</mat-icon>
   </div>
 
@@ -21,6 +26,11 @@
           <span *ngIf="item.cost">
             (plus {{(item.cost * 0.095)  | currency}} tax)
           </span>
+        </div>
+
+        <div>
+          <span class="property-title">In stock:</span>
+          {{stockAvailable | async}}
         </div>
 
         <div *ngIf="item.url">

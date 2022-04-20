@@ -21,6 +21,7 @@ import {SeasonHeaderModule} from './shared/header/season-header.module';
 import {SEASON_ROUTES} from './season.routes';
 import {CommonModule} from '@angular/common';
 import {MessagesModule} from './messages/messages.module';
+import { Allocations } from './services/allocations';
 
 const routes: Routes = [{path: '', component: Season, children: SEASON_ROUTES}];
 
@@ -43,6 +44,7 @@ export class SeasonRoutingModule {}
   exports: [Season],
   providers: [
     Accounting,
+    Allocations,
     Selection,
     Permissions,
     Header,

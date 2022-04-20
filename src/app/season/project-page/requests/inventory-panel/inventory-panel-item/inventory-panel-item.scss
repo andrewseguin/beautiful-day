@@ -24,6 +24,7 @@ $transitionDuration: 250ms cubic-bezier(0.35, 0, 0.25, 1);
 
   .item-name {
     padding: 8px 8px 8px 0;
+    line-height: 20px;
   }
 }
 
@@ -62,4 +63,14 @@ $transitionDuration: 250ms cubic-bezier(0.35, 0, 0.25, 1);
 // Quantity input should inherit its width to fit the card
 :host ::ng-deep .mat-form-field-infix {
   width: inherit;
+}
+
+.in-stock {
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin-left: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: .8;
 }

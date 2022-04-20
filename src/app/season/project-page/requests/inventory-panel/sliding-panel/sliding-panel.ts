@@ -1,10 +1,16 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
-import {map, takeUntil} from 'rxjs/operators';
-import {getCategoryGroup} from 'app/utility/items-categorize';
-import {Item, ItemsDao} from 'app/season/dao';
-import {Observable, Subject} from 'rxjs';
-import {PanelsManager} from 'app/season/project-page/requests/inventory-panel/panels-manager';
-import {CdkScrollable} from '@angular/cdk/overlay';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+} from '@angular/core';
+import { map, takeUntil } from 'rxjs/operators';
+import { getCategoryGroup } from 'app/utility/items-categorize';
+import { Item, ItemsDao } from 'app/season/dao';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { PanelsManager } from 'app/season/project-page/requests/inventory-panel/panels-manager';
+import { CdkScrollable } from '@angular/cdk/overlay';
+import { Allocations } from '../../../../services/allocations';
 
 @Component({
   selector: 'sliding-panel',
@@ -30,22 +36,44 @@ export class SlidingPanel {
 
   @Input() project: string;
 
-  constructor(private cd: ChangeDetectorRef,
-              private panelsManager: PanelsManager,
-              private itemsDao: ItemsDao) { }
+  constructor(
+    private cd: ChangeDetectorRef,
+    private panelsManager: PanelsManager,
+    private allocations: Allocations,
+    private itemsDao: ItemsDao,
+  ) {}
 
   ngOnInit() {
-    this.items = this.itemsDao.list.pipe(map(items => {
-      if (items) {
-        return getCategoryGroup(items, this.category).items;
-      }
-    }));
+    this.items = combineLatest([
+      this.itemsDao.list,
+      this.allocations.itemAllocations,
+    ]).pipe(
+      map(([items, itemAllocations]) => {
+        if (items) {
+          let categoryItems = getCategoryGroup(items, this.category).items;
+          categoryItems = categoryItems.sort((a, b) => {
+            const aRemaining = Math.max(
+              itemAllocations.get(a.id)?.remaining || 0,
+              0,
+            );
+            const bRemaining = Math.max(
+              itemAllocations.get(b.id)?.remaining || 0,
+              0,
+            );
+            return bRemaining - aRemaining;
+          });
+          return categoryItems;
+        }
+      }),
+    );
 
-    this.subcategories = this.itemsDao.list.pipe(map(items => {
-      if (items) {
-        return getCategoryGroup(items, this.category).subcategories;
-      }
-    }));
+    this.subcategories = this.itemsDao.list.pipe(
+      map((items) => {
+        if (items) {
+          return getCategoryGroup(items, this.category).subcategories;
+        }
+      }),
+    );
 
     // Make microtask so that after initialized, the state changes and slides in
     setTimeout(() => {
