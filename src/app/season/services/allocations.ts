@@ -51,20 +51,22 @@ export class Allocations {
     const stockedItems = this.getStockedItems(items);
     const map = new Map<string, ItemAllocations>();
 
-    requests.forEach((request) => {
-      const item = stockedItems.get(request.item);
-      if (!item) {
-        return [];
-      }
-
-      if (!map.get(request.item)) {
-        map.set(request.item, {
+    items.forEach((item) => {
+      if (!map.get(item.id)) {
+        map.set(item.id, {
           id: item.id,
           itemName: item.categories.join(' > ') + ' > ' + item.name,
           quantityOwned: item.quantityOwned,
           remaining: item.quantityOwned,
           requestAllocations: [],
         });
+      }
+    });
+
+    requests.forEach((request) => {
+      const item = stockedItems.get(request.item);
+      if (!item) {
+        return [];
       }
 
       const itemAllocations = map.get(request.item);
