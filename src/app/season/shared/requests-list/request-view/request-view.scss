@@ -139,7 +139,7 @@ mat-checkbox {
   .name, .details {
     padding-left: 6px;
   }
-  
+
   mat-checkbox {
     display: none;
   }
@@ -149,4 +149,8 @@ mat-checkbox {
   mat-icon {
     margin: 0 8px 0 0;
   }
+}
+
+.over-allocation {
+  color: red;
 }

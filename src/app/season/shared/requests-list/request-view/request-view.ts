@@ -1,25 +1,40 @@
-import {DatePipe} from '@angular/common';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import {APPROVAL_NEGATERS, Item, ProjectsDao, Request, RequestsDao} from 'app/season/dao';
-import {Selection} from 'app/season/services';
-import {Accounting} from 'app/season/services/accounting';
-import {Permissions} from 'app/season/services/permissions';
-import {RequestsRenderer} from 'app/season/services/requests-renderer/requests-renderer';
-import {RequestDialog} from 'app/season/shared/dialog/request/request-dialog';
-import {getItemName} from 'app/season/utility/item-name';
-import {getRequestCost} from 'app/season/utility/request-cost';
-import {isMobile} from 'app/utility/media-matcher';
-import {Subject} from 'rxjs';
-import {distinctUntilChanged, takeUntil} from 'rxjs/operators';
+import {
+  APPROVAL_NEGATERS,
+  Item,
+  ProjectsDao,
+  Request,
+  RequestsDao,
+} from 'app/season/dao';
+import { Selection } from 'app/season/services';
+import { Accounting } from 'app/season/services/accounting';
+import { Permissions } from 'app/season/services/permissions';
+import { RequestsRenderer } from 'app/season/services/requests-renderer/requests-renderer';
+import { RequestDialog } from 'app/season/shared/dialog/request/request-dialog';
+import { getItemName } from 'app/season/utility/item-name';
+import { getRequestCost } from 'app/season/utility/request-cost';
+import { isMobile } from 'app/utility/media-matcher';
+import { Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { Allocations } from '../../../services/allocations';
 
 @Component({
   selector: 'request',
   templateUrl: 'request-view.html',
   styleUrls: ['request-view.scss'],
   host: {
-    '[style.pointer-events]': 'canEdit ? \'\' : \'none\'',
+    '[style.pointer-events]': "canEdit ? '' : 'none'",
     '[class.can-edit]': 'canEdit',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,33 +58,49 @@ export class RequestView implements OnInit {
 
   quantity = new FormControl();
 
+  stockAvailable: Observable<number>;
+
   constructor(
-      private cd: ChangeDetectorRef, public requestsRenderer: RequestsRenderer,
-      private mdDialog: MatDialog, private elementRef: ElementRef,
-      private accounting: Accounting, private requestsDao: RequestsDao,
-      private selection: Selection, private projectsDao: ProjectsDao,
-      private requestDialog: RequestDialog, public permissions: Permissions) {}
+    private cd: ChangeDetectorRef,
+    public requestsRenderer: RequestsRenderer,
+    private mdDialog: MatDialog,
+    private elementRef: ElementRef,
+    private accounting: Accounting,
+    private requestsDao: RequestsDao,
+    private selection: Selection,
+    private projectsDao: ProjectsDao,
+    private allocations: Allocations,
+    private requestDialog: RequestDialog,
+    public permissions: Permissions,
+  ) {}
 
   ngOnInit() {
-    this.selection.requests.changed.pipe(takeUntil(this.destroyed))
-        .subscribe(() => this.cd.markForCheck());
+    this.selection.requests.changed
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(() => this.cd.markForCheck());
 
-    this.permissions.editableProjects.pipe(takeUntil(this.destroyed))
-        .subscribe(editableProjects => {
-          if (editableProjects) {
-            this.canEdit = editableProjects.has(this.request.project);
-            this.cd.markForCheck();
-          }
-        });
+    this.permissions.editableProjects
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((editableProjects) => {
+        if (editableProjects) {
+          this.canEdit = editableProjects.has(this.request.project);
+          this.cd.markForCheck();
+        }
+      });
 
     this.quantity.valueChanges
-        .pipe(
-            takeUntil(this.destroyed),
-            distinctUntilChanged())  // Input fires twice due to issue/12540
-        .subscribe(quantity => {
-          quantity = Math.max(0, quantity);
-          this.requestsDao.update(this.request.id, {quantity: quantity});
-        });
+      .pipe(takeUntil(this.destroyed), distinctUntilChanged()) // Input fires twice due to issue/12540
+      .subscribe((quantity) => {
+        quantity = Math.max(0, quantity);
+        this.requestsDao.update(this.request.id, { quantity: quantity });
+      });
+
+    this.stockAvailable = this.allocations.itemAllocations.pipe(
+      map((itemAllocations) => {
+        const allocations = itemAllocations.get(this.item.id);
+        return allocations?.remaining;
+      }),
+    );
   }
 
   ngOnDestroy() {
@@ -78,7 +109,7 @@ export class RequestView implements OnInit {
   }
 
   ngOnChanges() {
-    this.quantity.setValue(this.request.quantity, {emitEvent: false});
+    this.quantity.setValue(this.request.quantity, { emitEvent: false });
     this.updatePreviousChangesMessage();
   }
 
@@ -87,8 +118,9 @@ export class RequestView implements OnInit {
   }
 
   setSelected(value: boolean) {
-    value ? this.selection.requests.select(this.request.id) :
-            this.selection.requests.deselect(this.request.id);
+    value
+      ? this.selection.requests.select(this.request.id)
+      : this.selection.requests.deselect(this.request.id);
   }
 
   navigateToUrl(url: string) {
@@ -147,17 +179,17 @@ export class RequestView implements OnInit {
     };
 
     const valueToDisplay = {
-      note: v => v,
-      quantity: v => v,
-      dropoff: v => v,
-      date: v => new DatePipe('en-us').transform(v),
+      note: (v) => v,
+      quantity: (v) => v,
+      dropoff: (v) => v,
+      date: (v) => new DatePipe('en-us').transform(v),
     };
 
     this.previousChangesMsg = '';
     const changes = this.request.prevApproved;
     if (changes) {
       const previousChanges = [];
-      APPROVAL_NEGATERS.forEach(prop => {
+      APPROVAL_NEGATERS.forEach((prop) => {
         const propDisplayName = propToDisplayName[prop];
         const valueDisplay = valueToDisplay[prop](changes[prop]);
         if (changes[prop] !== undefined) {

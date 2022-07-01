@@ -50,9 +50,18 @@
       </span>
     </div>
 
+    <div *ngIf="!request.allocation && (stockAvailable | async)">
+      <span class="section theme-hover" guardEdit="allocation"
+            (click)="edit('allocation', $event)">
+        Allocated from stock: 0 ({{stockAvailable | async}} remaining in stock)
+      </span>
+    </div>
+
     <div *ngIf="request.allocation">
-      <span class="section theme-hover" guardEdit="allocation" (click)="edit('allocation', $event)">
-        Allocated from stock: {{request.allocation}}
+      <span class="section theme-hover" guardEdit="allocation"
+            [class.over-allocation]="(stockAvailable | async) < 0"
+            (click)="edit('allocation', $event)">
+        Allocated from stock: {{request.allocation}} ({{stockAvailable | async}} remaining in stock)
       </span>
     </div>
 
